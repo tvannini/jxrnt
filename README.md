@@ -11,6 +11,6 @@ projects, like management applications, CRM and production components.
 Portability capabilities, development-maintenance cycle and modularity
 make Janox the best tool for concurrent development and partnership.
 
-Janox is free and open source software.
+Janox is **free** and **open source** software.
 
 For more informations please visit [Janox site](http://www.janox.it)
