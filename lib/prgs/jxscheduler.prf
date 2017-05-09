@@ -1,0 +1,248 @@
+<?php
+function jxscheduler§§jxscheduler_1_form_def(&$form_jxscheduler_1) {
+	$form_jxscheduler_1->x(300);
+	$form_jxscheduler_1->y(100);
+	$form_jxscheduler_1->larghezza(600);
+	$form_jxscheduler_1->altezza(460);
+	$form_jxscheduler_1->titolo("Scheduler");
+	$form_jxscheduler_1->css_doc("sys_sched_doc");
+	$form_jxscheduler_1->align_o("Center");
+	$ctrl_o2label2 = &$form_jxscheduler_1->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(20);
+		$ctrl_o2label2->y(16);
+		$ctrl_o2label2->larghezza(560);
+		$ctrl_o2label2->altezza(28);
+		$ctrl_o2label2->expand("H");
+		$ctrl_o2label2->label("");
+		$ctrl_o2label2->css(jxscheduler_exp_3());
+	$ctrl_o2label3 = &$form_jxscheduler_1->ctrldef("o2label3", "label", "", "", "");
+		$ctrl_o2label3->x(170);
+		$ctrl_o2label3->y(20);
+		$ctrl_o2label3->larghezza(240);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->expand("H");
+		$ctrl_o2label3->label(jxscheduler_exp_20());
+	$ctrl_o2htmlarea2 = &$form_jxscheduler_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(20);
+		$ctrl_o2htmlarea2->y(50);
+		$ctrl_o2htmlarea2->larghezza(560);
+		$ctrl_o2htmlarea2->altezza(360);
+		$ctrl_o2htmlarea2->expand("B");
+		$ctrl_o2htmlarea2->html(jxscheduler_exp_1());
+		$ctrl_o2htmlarea2->css(jxscheduler_exp_7());
+	$ctrl_o2image2 = &$form_jxscheduler_1->ctrldef("o2image2", "img", "", "", "");
+		$ctrl_o2image2->x(471);
+		$ctrl_o2image2->y(18);
+		$ctrl_o2image2->larghezza(24);
+		$ctrl_o2image2->altezza(24);
+		$ctrl_o2image2->visibile(jxscheduler_exp_17());
+		$ctrl_o2image2->azione("cron");
+		$ctrl_o2image2->label("Host activation");
+		$ctrl_o2image2->css(jxscheduler_exp_4());
+		$ctrl_o2image2->imgexp(jxscheduler_exp_8());
+	$ctrl_o2image3 = &$form_jxscheduler_1->ctrldef("o2image3", "img", "", "", "");
+		$ctrl_o2image3->x(57);
+		$ctrl_o2image3->y(18);
+		$ctrl_o2image3->larghezza(24);
+		$ctrl_o2image3->altezza(24);
+		$ctrl_o2image3->azione("create_new");
+		$ctrl_o2image3->label("Add schedule");
+		$ctrl_o2image3->css(jxscheduler_exp_4());
+		$ctrl_o2image3->imgexp(jxscheduler_exp_9());
+	$ctrl_o2image5 = &$form_jxscheduler_1->ctrldef("o2image5", "img", "", "", "");
+		$ctrl_o2image5->x(498);
+		$ctrl_o2image5->y(18);
+		$ctrl_o2image5->larghezza(24);
+		$ctrl_o2image5->altezza(24);
+		$ctrl_o2image5->visibile(jxscheduler_exp_17());
+		$ctrl_o2image5->azione("goto_services");
+		$ctrl_o2image5->label("Go to services");
+		$ctrl_o2image5->css(jxscheduler_exp_4());
+		$ctrl_o2image5->imgexp(jxscheduler_exp_21());
+	$ctrl_o2image9 = &$form_jxscheduler_1->ctrldef("o2image9", "img", "", "", "");
+		$ctrl_o2image9->x(546);
+		$ctrl_o2image9->y(18);
+		$ctrl_o2image9->larghezza(24);
+		$ctrl_o2image9->altezza(24);
+		$ctrl_o2image9->visibile(jxscheduler_exp_17());
+		$ctrl_o2image9->azione("goto_processes");
+		$ctrl_o2image9->label("Go to processes");
+		$ctrl_o2image9->css(jxscheduler_exp_4());
+		$ctrl_o2image9->imgexp(jxscheduler_exp_10());
+	$ctrl_o2image7 = &$form_jxscheduler_1->ctrldef("o2image7", "img", "", "", "");
+		$ctrl_o2image7->x(495);
+		$ctrl_o2image7->y(21);
+		$ctrl_o2image7->larghezza(3);
+		$ctrl_o2image7->altezza(17);
+		$ctrl_o2image7->visibile(jxscheduler_exp_17());
+		$ctrl_o2image7->imgexp(jxscheduler_exp_6());
+	$ctrl_o2image4 = &$form_jxscheduler_1->ctrldef("o2image4", "img", "", "", "");
+		$ctrl_o2image4->x(30);
+		$ctrl_o2image4->y(18);
+		$ctrl_o2image4->larghezza(24);
+		$ctrl_o2image4->altezza(24);
+		$ctrl_o2image4->azione("refresh");
+		$ctrl_o2image4->label("Refresh");
+		$ctrl_o2image4->css(jxscheduler_exp_4());
+		$ctrl_o2image4->imgexp(jxscheduler_exp_5());
+	$ctrl_o2image27 = &$form_jxscheduler_1->ctrldef("o2image27", "img", "", "", "");
+		$ctrl_o2image27->x(54);
+		$ctrl_o2image27->y(21);
+		$ctrl_o2image27->larghezza(3);
+		$ctrl_o2image27->altezza(17);
+		$ctrl_o2image27->imgexp(jxscheduler_exp_6());
+	$ctrl_o2image10 = &$form_jxscheduler_1->ctrldef("o2image10", "img", "", "", "");
+		$ctrl_o2image10->x(522);
+		$ctrl_o2image10->y(18);
+		$ctrl_o2image10->larghezza(24);
+		$ctrl_o2image10->altezza(24);
+		$ctrl_o2image10->visibile(jxscheduler_exp_17());
+		$ctrl_o2image10->azione("goto_jobs");
+		$ctrl_o2image10->label("Go to jobs");
+		$ctrl_o2image10->css(jxscheduler_exp_4());
+		$ctrl_o2image10->imgexp(jxscheduler_exp_11());
+		}
+
+function jxscheduler§§create_new_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxscheduler_exp_12(), False, jxscheduler_exp_18(), jxscheduler_exp_19()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxscheduler§§cron_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxscheduler_exp_13(), False) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxscheduler§§goto_jobs_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::gotoprg(jxscheduler_exp_14(), false) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxscheduler§§goto_processes_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::gotoprg(jxscheduler_exp_15(), false) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxscheduler§§goto_services_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::gotoprg(jxscheduler_exp_22(), false) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxscheduler§§refresh_act(&$o2exe) {
+	} //|o2_fine_act|
+
+function jxscheduler§§task_detail_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxscheduler_exp_16(), False, jxscheduler_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxscheduler_exp_1() {
+	
+return (o2_scheduler::get_monitor("task_detail", o2par(1)));
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_2() {
+	
+return (o2_reqpar(2));
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_3() {
+	
+return ("jxtoolbar");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_4() {
+	
+return ("jximgbtn");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_5() {
+	
+return ("<jx>/img/jobs/refresh.png");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_6() {
+	
+return ("<jx>/img/jobs/separator.png");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_7() {
+	
+return ("jxtree");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_8() {
+	$img = "<jx>/img/jobs/";
+if (o2_cron::is_registered()) {
+   $img.= "cron_on24.png";
+   }
+else {
+   $img.= "cron_off24.png";
+   }
+return ($img);
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_9() {
+	
+return ("<jx>/img/jobs/sched_add.png");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_10() {
+	
+return ("<jx>/img/jobs/run_job.png");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_11() {
+	
+return ("<jx>/img/jobs/jobs24.png");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_12() {
+	
+return ("tools/jxtask");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_13() {
+	
+return ("tools/jxcron");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_14() {
+	
+return ("tools/jxjobs");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_15() {
+	
+return ("tools/jxprocesses");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_16() {
+	
+return ("tools/jxtask");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_17() {
+	
+return (!o2par(1));
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_18() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_19() {
+	$job_id = o2_job::get_by_name(o2par(1))->id;
+return ($job_id);
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_20() {
+	$code = 'Host: '.o2_str_nice($_SESSION['o2_app']->host);
+return ($code);
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_21() {
+	
+return ("<jx>/img/jobs/services.png");
+	} //|o2_fine_exp|
+
+function jxscheduler_exp_22() {
+	
+return ('tools/jxservices');
+	} //|o2_fine_exp|
+?>

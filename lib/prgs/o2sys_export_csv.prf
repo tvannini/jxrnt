@@ -1,0 +1,808 @@
+<?php
+
+function o2sys_export_csv§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("col_excluded", "_o2logical");
+	$task_prg§_§var->definisci("col_name", "_o2alpha");
+	$task_prg§_§var->definisci("columns_idx", "_o2number");
+	$task_prg§_§var->definisci("columns_total", "_o2number");
+	$task_prg§_§var->definisci("date_format", "_o2alpha");
+	$task_prg§_§var->definisci("date_sep", "_o2alpha");
+	$task_prg§_§var->definisci("decimal_point", "_o2alpha");
+	$task_prg§_§var->definisci("excluded_cols", "_o2structure");
+	$task_prg§_§var->definisci("fields_sep", "_o2alpha");
+	$task_prg§_§var->definisci("file_name", "o2sys_long_str");
+	$task_prg§_§var->definisci("option_code", "_o2alpha");
+	$task_prg§_§var->definisci("prg_name", "_o2alpha");
+	$task_prg§_§var->definisci("show_cols_sele", "_o2logical");
+	$task_prg§_§var->definisci("text_del", "_o2alpha");
+	$task_prg§_§var->definisci("time_sep", "_o2alpha");
+	$task_prg§_§var->definisci("view_columns", "_o2structure");
+	$task_prg§_§var->definisci("with_seconds", "_o2logical");
+		}
+
+function o2sys_export_csv§§user_options_def(&$task_user_options, $_o2viewalias = "") {
+	$task_user_options->righe_vis = 1;
+
+	$task_user_options->usa_file("o2_options","o2_options","id",null,null);
+
+	$task_user_options->usa("o2user","o2_options","o2user","o2sys_export_csv_exp_6()","o2sys_export_csv_exp_6()",null,null);
+	$task_user_options->usa("code","o2_options","code","o2sys_export_csv_exp_7()","o2sys_export_csv_exp_7()",null,null);
+	$task_user_options->usa("value","o2_options","value",null,null,null,null);
+}
+
+function o2sys_export_csv§§custom_cols_def(&$task_custom_cols, $_o2viewalias = "") {
+	$task_custom_cols->righe_vis = 50;
+
+	$task_custom_cols->usa_file("o2_custom_export","o2_custom_export","p_col",null,null);
+
+	$task_custom_cols->usa("o2user","o2_custom_export","o2user","o2sys_export_csv_exp_6()","o2sys_export_csv_exp_6()",null,null);
+	$task_custom_cols->usa("prg","o2_custom_export","prg","o2sys_export_csv_exp_33()","o2sys_export_csv_exp_33()",null,null);
+	$task_custom_cols->usa("obj","o2_custom_export","obj","o2sys_export_csv_exp_34()","o2sys_export_csv_exp_34()",null,null);
+	$task_custom_cols->usa("p_type","o2_custom_export","p_type","o2sys_export_csv_exp_35()","o2sys_export_csv_exp_35()",null,null);
+	$task_custom_cols->usa("p_col","o2_custom_export","p_col","o2sys_export_csv_exp_40()","o2sys_export_csv_exp_40()",null,null);
+}
+
+function o2sys_export_csv§§tmp_def(&$task_tmp, $_o2viewalias = "") {
+	$task_tmp->righe_vis = 100;
+
+	$task_tmp->usa_file("o2_tmp_where","o2_tmp_where","id",null,null);
+
+	$task_tmp->usa("session_profile","o2_tmp_where","session_profile","o2sys_export_csv_exp_53()","o2sys_export_csv_exp_53()",null,null);
+	$task_tmp->usa("pos_id","o2_tmp_where","pos_id",null,null,null,null);
+	$task_tmp->usa("field_name","o2_tmp_where","field_name","o2sys_export_csv_exp_40()","o2sys_export_csv_exp_40()",null,null);
+	$task_tmp->usa("field_title","o2_tmp_where","field_title",null,null,null,null);
+	$task_tmp->calcola("col_selection", "o2sys_export_csv_exp_47()",null,null,null,null);
+}
+function o2sys_export_csv§§o2sys_export_csv_form_def(&$form_o2sys_export_csv) {
+	$form_o2sys_export_csv->x(140);
+	$form_o2sys_export_csv->y(60);
+	$form_o2sys_export_csv->larghezza(280);
+	$form_o2sys_export_csv->altezza(380);
+	$form_o2sys_export_csv->titolo("Export data in CSV format");
+	$form_o2sys_export_csv->align_o("Center");
+	$form_o2sys_export_csv->frm_status(o2sys_export_csv_exp_14());
+	$ctrl_wait_txt = &$form_o2sys_export_csv->ctrldef("wait_txt", "label", "", "", "");
+		$ctrl_wait_txt->x(60);
+		$ctrl_wait_txt->y(270);
+		$ctrl_wait_txt->larghezza(190);
+		$ctrl_wait_txt->altezza(20);
+		$ctrl_wait_txt->visibile(o2sys_export_csv_exp_14());
+		$ctrl_wait_txt->label("Exporting data... Please wait");
+	$ctrl_o2label9 = &$form_o2sys_export_csv->ctrldef("o2label9", "label", "", "", "");
+		$ctrl_o2label9->x(30);
+		$ctrl_o2label9->y(20);
+		$ctrl_o2label9->larghezza(120);
+		$ctrl_o2label9->altezza(20);
+		$ctrl_o2label9->label("File name:");
+	$ctrl_o2htmlarea2 = &$form_o2sys_export_csv->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(160);
+		$ctrl_o2htmlarea2->y(300);
+		$ctrl_o2htmlarea2->larghezza(90);
+		$ctrl_o2htmlarea2->altezza(30);
+		$ctrl_o2htmlarea2->html(o2sys_export_csv_exp_13());
+	$ctrl_wait_img = &$form_o2sys_export_csv->ctrldef("wait_img", "img", "", "", "");
+		$ctrl_wait_img->x(30);
+		$ctrl_wait_img->y(270);
+		$ctrl_wait_img->larghezza(16);
+		$ctrl_wait_img->altezza(16);
+		$ctrl_wait_img->visibile(o2sys_export_csv_exp_14());
+		$ctrl_wait_img->imgexp(o2sys_export_csv_exp_12());
+	$ctrl_o2edit2 = &$form_o2sys_export_csv->ctrldef("o2edit2", "edit", "", "prg§_§var", "file_name");
+		$ctrl_o2edit2->x(100);
+		$ctrl_o2edit2->y(20);
+		$ctrl_o2edit2->larghezza(150);
+		$ctrl_o2edit2->altezza(20);
+	$ctrl_o2multipage2 = &$form_o2sys_export_csv->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(30);
+		$ctrl_o2multipage2->y(50);
+		$ctrl_o2multipage2->larghezza(220);
+		$ctrl_o2multipage2->altezza(210);
+		$ctrl_o2multipage2->label(array("Export options"));
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2button3 = &$form_o2sys_export_csv->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(60);
+		$ctrl_o2button3->y(300);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("cancel");
+		$ctrl_o2button3->label("Cancel");
+	$ctrl_o2label2 = &$form_o2sys_export_csv->ctrldef("o2label2", "label", "o2multipage2", "", "");
+		$ctrl_o2label2->x(15);
+		$ctrl_o2label2->y(30);
+		$ctrl_o2label2->larghezza(105);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->info_padre(array(0));
+		$ctrl_o2label2->label("Fields separator:");
+	$ctrl_o2label10 = &$form_o2sys_export_csv->ctrldef("o2label10", "label", "o2multipage2", "", "");
+		$ctrl_o2label10->x(15);
+		$ctrl_o2label10->y(175);
+		$ctrl_o2label10->larghezza(105);
+		$ctrl_o2label10->altezza(20);
+		$ctrl_o2label10->info_padre(array(0));
+		$ctrl_o2label10->label("Columns:");
+	$ctrl_o2label3 = &$form_o2sys_export_csv->ctrldef("o2label3", "label", "o2multipage2", "", "");
+		$ctrl_o2label3->x(15);
+		$ctrl_o2label3->y(50);
+		$ctrl_o2label3->larghezza(105);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->info_padre(array(0));
+		$ctrl_o2label3->label("Text delimiter:");
+	$ctrl_o2label8 = &$form_o2sys_export_csv->ctrldef("o2label8", "label", "o2multipage2", "", "");
+		$ctrl_o2label8->x(15);
+		$ctrl_o2label8->y(150);
+		$ctrl_o2label8->larghezza(105);
+		$ctrl_o2label8->altezza(20);
+		$ctrl_o2label8->info_padre(array(0));
+		$ctrl_o2label8->label("Time with seconds:");
+	$ctrl_o2label5 = &$form_o2sys_export_csv->ctrldef("o2label5", "label", "o2multipage2", "", "");
+		$ctrl_o2label5->x(15);
+		$ctrl_o2label5->y(90);
+		$ctrl_o2label5->larghezza(105);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->info_padre(array(0));
+		$ctrl_o2label5->label("Date separator:");
+	$ctrl_o2label4 = &$form_o2sys_export_csv->ctrldef("o2label4", "label", "o2multipage2", "", "");
+		$ctrl_o2label4->x(15);
+		$ctrl_o2label4->y(70);
+		$ctrl_o2label4->larghezza(105);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->info_padre(array(0));
+		$ctrl_o2label4->label("Decimal separator:");
+	$ctrl_o2label7 = &$form_o2sys_export_csv->ctrldef("o2label7", "label", "o2multipage2", "", "");
+		$ctrl_o2label7->x(15);
+		$ctrl_o2label7->y(130);
+		$ctrl_o2label7->larghezza(105);
+		$ctrl_o2label7->altezza(20);
+		$ctrl_o2label7->info_padre(array(0));
+		$ctrl_o2label7->label("Time separator:");
+	$ctrl_o2label6 = &$form_o2sys_export_csv->ctrldef("o2label6", "label", "o2multipage2", "", "");
+		$ctrl_o2label6->x(15);
+		$ctrl_o2label6->y(110);
+		$ctrl_o2label6->larghezza(105);
+		$ctrl_o2label6->altezza(20);
+		$ctrl_o2label6->info_padre(array(0));
+		$ctrl_o2label6->label("Date format:");
+	$ctrl_o2ListBox2 = &$form_o2sys_export_csv->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "fields_sep");
+		$ctrl_o2ListBox2->x(120);
+		$ctrl_o2ListBox2->y(30);
+		$ctrl_o2ListBox2->larghezza(90);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->info_padre(array(0));
+		$ctrl_o2ListBox2->valori(o2sys_export_csv_exp_1());
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2ListBox3 = &$form_o2sys_export_csv->ctrldef("o2ListBox3", "listcombo", "o2multipage2", "prg§_§var", "text_del");
+		$ctrl_o2ListBox3->x(120);
+		$ctrl_o2ListBox3->y(50);
+		$ctrl_o2ListBox3->larghezza(90);
+		$ctrl_o2ListBox3->altezza(20);
+		$ctrl_o2ListBox3->info_padre(array(0));
+		$ctrl_o2ListBox3->valori(o2sys_export_csv_exp_2());
+		$ctrl_o2ListBox3->righe(1);
+	$ctrl_o2ListBox4 = &$form_o2sys_export_csv->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "decimal_point");
+		$ctrl_o2ListBox4->x(120);
+		$ctrl_o2ListBox4->y(70);
+		$ctrl_o2ListBox4->larghezza(90);
+		$ctrl_o2ListBox4->altezza(20);
+		$ctrl_o2ListBox4->info_padre(array(0));
+		$ctrl_o2ListBox4->valori(o2sys_export_csv_exp_3());
+		$ctrl_o2ListBox4->righe(1);
+	$ctrl_o2ListBox5 = &$form_o2sys_export_csv->ctrldef("o2ListBox5", "listcombo", "o2multipage2", "prg§_§var", "date_sep");
+		$ctrl_o2ListBox5->x(120);
+		$ctrl_o2ListBox5->y(90);
+		$ctrl_o2ListBox5->larghezza(90);
+		$ctrl_o2ListBox5->altezza(20);
+		$ctrl_o2ListBox5->on_change(o2sys_export_csv_exp_10());
+		$ctrl_o2ListBox5->info_padre(array(0));
+		$ctrl_o2ListBox5->valori(o2sys_export_csv_exp_4());
+		$ctrl_o2ListBox5->righe(1);
+	$ctrl_o2ListBox6 = &$form_o2sys_export_csv->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "date_format");
+		$ctrl_o2ListBox6->x(120);
+		$ctrl_o2ListBox6->y(110);
+		$ctrl_o2ListBox6->larghezza(90);
+		$ctrl_o2ListBox6->altezza(20);
+		$ctrl_o2ListBox6->info_padre(array(0));
+		$ctrl_o2ListBox6->valori(o2sys_export_csv_exp_9());
+		$ctrl_o2ListBox6->righe(1);
+	$ctrl_o2ListBox7 = &$form_o2sys_export_csv->ctrldef("o2ListBox7", "listcombo", "o2multipage2", "prg§_§var", "time_sep");
+		$ctrl_o2ListBox7->x(120);
+		$ctrl_o2ListBox7->y(130);
+		$ctrl_o2ListBox7->larghezza(90);
+		$ctrl_o2ListBox7->altezza(20);
+		$ctrl_o2ListBox7->info_padre(array(0));
+		$ctrl_o2ListBox7->valori(o2sys_export_csv_exp_5());
+		$ctrl_o2ListBox7->righe(1);
+	$ctrl_o2checkbox2 = &$form_o2sys_export_csv->ctrldef("o2checkbox2", "check", "o2multipage2", "prg§_§var", "with_seconds");
+		$ctrl_o2checkbox2->x(120);
+		$ctrl_o2checkbox2->y(150);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(20);
+		$ctrl_o2checkbox2->info_padre(array(0));
+	$ctrl_o2button2 = &$form_o2sys_export_csv->ctrldef("o2button2", "button", "o2multipage2", "", "");
+		$ctrl_o2button2->x(120);
+		$ctrl_o2button2->y(170);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("select_columns");
+		$ctrl_o2button2->info_padre(array(0));
+		$ctrl_o2button2->label("&Select");
+		}
+function o2sys_export_csv§§o2sys_export_csv_2_form_def(&$form_o2sys_export_csv_2) {
+	$form_o2sys_export_csv_2->x(40);
+	$form_o2sys_export_csv_2->y(130);
+	$form_o2sys_export_csv_2->larghezza(350);
+	$form_o2sys_export_csv_2->altezza(463);
+	$form_o2sys_export_csv_2->titolo("Select columns to export");
+	$form_o2sys_export_csv_2->close_action("close_sele_cols");
+	$form_o2sys_export_csv_2->align_o("Center");
+	$form_o2sys_export_csv_2->frm_status(o2sys_export_csv_exp_14());
+	$ctrl_o2table2 = &$form_o2sys_export_csv_2->ctrldef("o2table2", "tab", "", "tmp", "");
+		$ctrl_o2table2->x(20);
+		$ctrl_o2table2->y(20);
+		$ctrl_o2table2->larghezza(310);
+		$ctrl_o2table2->altezza(360);
+		$ctrl_o2table2->modificabile(o2sys_export_csv_exp_14());
+	$ctrl_o2button4 = &$form_o2sys_export_csv_2->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(240);
+		$ctrl_o2button4->y(390);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->azione("close_sele_cols");
+		$ctrl_o2button4->label("&Done");
+	$ctrl_o2dbnavigator2 = &$form_o2sys_export_csv_2->ctrldef("o2dbnavigator2", "navigator", "o2table2", "tmp", "");
+		$ctrl_o2dbnavigator2->x(280);
+		$ctrl_o2dbnavigator2->y(40);
+		$ctrl_o2dbnavigator2->larghezza(18);
+		$ctrl_o2dbnavigator2->altezza(200);
+		$ctrl_o2dbnavigator2->vertical();
+		$ctrl_o2dbnavigator2->visible_new(o2sys_export_csv_exp_9999());
+		$ctrl_o2dbnavigator2->visible_save(o2sys_export_csv_exp_9999());
+		$ctrl_o2dbnavigator2->visible_del(o2sys_export_csv_exp_9999());
+		$ctrl_o2dbnavigator2->visible_undo(o2sys_export_csv_exp_9999());
+		$ctrl_o2dbnavigator2->visible_detail(o2sys_export_csv_exp_9999());
+		$ctrl_o2dbnavigator2->visible_select(o2sys_export_csv_exp_9999());
+	$ctrl_o2checkbox3 = &$form_o2sys_export_csv_2->ctrldef("o2checkbox3", "check", "o2table2", "tmp", "col_selection");
+		$ctrl_o2checkbox3->x(20);
+		$ctrl_o2checkbox3->y(10);
+		$ctrl_o2checkbox3->larghezza(20);
+		$ctrl_o2checkbox3->altezza(20);
+		$ctrl_o2checkbox3->info_padre(array("01" ,"01" ,"01"));
+	$ctrl_o2edit3 = &$form_o2sys_export_csv_2->ctrldef("o2edit3", "edit", "o2table2", "tmp", "field_title");
+		$ctrl_o2edit3->x(70);
+		$ctrl_o2edit3->y(10);
+		$ctrl_o2edit3->larghezza(200);
+		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->info_padre(array("01" ,"02" ,"02" ,"Column" ,True ,"" ,False ,"" ,"" ,"" ,""));
+		}
+
+function o2sys_export_csv§§add_column_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "col_name", o2sys_export_csv_exp_39()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "col_excluded", o2sys_export_csv_exp_41()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("tmp", "I", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("tmp", "session_profile", o2sys_export_csv_exp_53()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("tmp", "pos_id", o2sys_export_csv_exp_55()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("tmp", "field_name", o2sys_export_csv_exp_42()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("tmp", "field_title", o2sys_export_csv_exp_56()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::view("tmp", "S", "") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "columns_idx", o2sys_export_csv_exp_38()) && $o2exe->e();
+	$o2exe->s(10) && (o2sys_export_csv_exp_48() || $o2exe->e()) && o2act::script(o2sys_export_csv_exp_46()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§cancel_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§check_custom_col_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_export_csv_exp_51() || $o2exe->e()) && o2act::exe("write_custom_col", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§close_sele_cols_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_cols_sele", o2sys_export_csv_exp_14()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§export_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("write_options", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("write_custom_cols", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::script(o2sys_export_csv_exp_11()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§load_columns_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Clear work set") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "col_name", o2sys_export_csv_exp_45()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("tmp", "D", "") && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("Fill work set") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "view_columns", o2sys_export_csv_exp_31()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "columns_total", o2sys_export_csv_exp_36()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "columns_idx", o2sys_export_csv_exp_54()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::exe("add_column", "o2sys_export_csv_exp_37()", "") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "col_name", o2sys_export_csv_exp_45()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::view("tmp", "1", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§read_options_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Read field separator") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_8()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "fields_sep", o2sys_export_csv_exp_21()) && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("Read text delimiter") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_15()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "text_del", o2sys_export_csv_exp_21()) && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Read decimal separator") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_16()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "decimal_point", o2sys_export_csv_exp_21()) && $o2exe->e();
+//	$o2exe->s(10) && True && o2act::remark("Read date separator") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_17()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::set("prg§_§var", "date_sep", o2sys_export_csv_exp_21()) && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("Read date format") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_18()) && $o2exe->e();
+	$o2exe->s(15) && True && o2act::set("prg§_§var", "date_format", o2sys_export_csv_exp_21()) && $o2exe->e();
+//	$o2exe->s(16) && True && o2act::remark("Read time separator") && $o2exe->e();
+	$o2exe->s(17) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_19()) && $o2exe->e();
+	$o2exe->s(18) && True && o2act::set("prg§_§var", "time_sep", o2sys_export_csv_exp_21()) && $o2exe->e();
+//	$o2exe->s(19) && True && o2act::remark("Read time with seconds") && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_20()) && $o2exe->e();
+	$o2exe->s(21) && True && o2act::set("prg§_§var", "with_seconds", o2sys_export_csv_exp_21()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§select_columns_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_cols_sele", o2sys_export_csv_exp_10()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "prg_name", o2sys_export_csv_exp_32()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("read_options", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("load_columns", True, "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "show_cols_sele", o2sys_export_csv_exp_14()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "file_name", o2sys_export_csv_exp_30()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§write_custom_col_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "excluded_cols", o2sys_export_csv_exp_50()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("custom_cols", "I", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("custom_cols", "o2user", o2sys_export_csv_exp_6()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("custom_cols", "prg", o2sys_export_csv_exp_33()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("custom_cols", "obj", o2sys_export_csv_exp_34()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("custom_cols", "p_type", o2sys_export_csv_exp_35()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("custom_cols", "p_col", o2sys_export_csv_exp_43()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::view("custom_cols", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§write_custom_cols_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "excluded_cols", o2sys_export_csv_exp_49()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "col_name", o2sys_export_csv_exp_45()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("custom_cols", "D", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("check_custom_col", False, "tmp") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::view("tmp", "D", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§write_options_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Write fields separator") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_8()) && $o2exe->e();
+	$o2exe->s(3) && (o2sys_export_csv_exp_22() || $o2exe->e()) && o2act::view("user_options", "I", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("user_options", "o2user", o2sys_export_csv_exp_6()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("user_options", "code", o2sys_export_csv_exp_7()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("user_options", "value", o2sys_export_csv_exp_23()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::view("user_options", "S", "") && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("Write text delimiter") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_15()) && $o2exe->e();
+	$o2exe->s(10) && (o2sys_export_csv_exp_22() || $o2exe->e()) && o2act::view("user_options", "I", "") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("user_options", "o2user", o2sys_export_csv_exp_6()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::set("user_options", "code", o2sys_export_csv_exp_7()) && $o2exe->e();
+	$o2exe->s(13) && True && o2act::set("user_options", "value", o2sys_export_csv_exp_24()) && $o2exe->e();
+	$o2exe->s(14) && True && o2act::view("user_options", "S", "") && $o2exe->e();
+//	$o2exe->s(15) && True && o2act::remark("Write decimal separator") && $o2exe->e();
+	$o2exe->s(16) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_16()) && $o2exe->e();
+	$o2exe->s(17) && (o2sys_export_csv_exp_22() || $o2exe->e()) && o2act::view("user_options", "I", "") && $o2exe->e();
+	$o2exe->s(18) && True && o2act::set("user_options", "o2user", o2sys_export_csv_exp_6()) && $o2exe->e();
+	$o2exe->s(19) && True && o2act::set("user_options", "code", o2sys_export_csv_exp_7()) && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("user_options", "value", o2sys_export_csv_exp_25()) && $o2exe->e();
+	$o2exe->s(21) && True && o2act::view("user_options", "S", "") && $o2exe->e();
+//	$o2exe->s(22) && True && o2act::remark("Write date separator") && $o2exe->e();
+	$o2exe->s(23) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_17()) && $o2exe->e();
+	$o2exe->s(24) && (o2sys_export_csv_exp_22() || $o2exe->e()) && o2act::view("user_options", "I", "") && $o2exe->e();
+	$o2exe->s(25) && True && o2act::set("user_options", "o2user", o2sys_export_csv_exp_6()) && $o2exe->e();
+	$o2exe->s(26) && True && o2act::set("user_options", "code", o2sys_export_csv_exp_7()) && $o2exe->e();
+	$o2exe->s(27) && True && o2act::set("user_options", "value", o2sys_export_csv_exp_26()) && $o2exe->e();
+	$o2exe->s(28) && True && o2act::view("user_options", "S", "") && $o2exe->e();
+//	$o2exe->s(29) && True && o2act::remark("Write date format") && $o2exe->e();
+	$o2exe->s(30) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_18()) && $o2exe->e();
+	$o2exe->s(31) && (o2sys_export_csv_exp_22() || $o2exe->e()) && o2act::view("user_options", "I", "") && $o2exe->e();
+	$o2exe->s(32) && True && o2act::set("user_options", "o2user", o2sys_export_csv_exp_6()) && $o2exe->e();
+	$o2exe->s(33) && True && o2act::set("user_options", "code", o2sys_export_csv_exp_7()) && $o2exe->e();
+	$o2exe->s(34) && True && o2act::set("user_options", "value", o2sys_export_csv_exp_27()) && $o2exe->e();
+	$o2exe->s(35) && True && o2act::view("user_options", "S", "") && $o2exe->e();
+//	$o2exe->s(36) && True && o2act::remark("Write time separator") && $o2exe->e();
+	$o2exe->s(37) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_19()) && $o2exe->e();
+	$o2exe->s(38) && (o2sys_export_csv_exp_22() || $o2exe->e()) && o2act::view("user_options", "I", "") && $o2exe->e();
+	$o2exe->s(39) && True && o2act::set("user_options", "o2user", o2sys_export_csv_exp_6()) && $o2exe->e();
+	$o2exe->s(40) && True && o2act::set("user_options", "code", o2sys_export_csv_exp_7()) && $o2exe->e();
+	$o2exe->s(41) && True && o2act::set("user_options", "value", o2sys_export_csv_exp_28()) && $o2exe->e();
+	$o2exe->s(42) && True && o2act::view("user_options", "S", "") && $o2exe->e();
+//	$o2exe->s(43) && True && o2act::remark("Write time with seconds") && $o2exe->e();
+	$o2exe->s(44) && True && o2act::set("prg§_§var", "option_code", o2sys_export_csv_exp_20()) && $o2exe->e();
+	$o2exe->s(45) && (o2sys_export_csv_exp_22() || $o2exe->e()) && o2act::view("user_options", "I", "") && $o2exe->e();
+	$o2exe->s(46) && True && o2act::set("user_options", "o2user", o2sys_export_csv_exp_6()) && $o2exe->e();
+	$o2exe->s(47) && True && o2act::set("user_options", "code", o2sys_export_csv_exp_7()) && $o2exe->e();
+	$o2exe->s(48) && True && o2act::set("user_options", "value", o2sys_export_csv_exp_29()) && $o2exe->e();
+	$o2exe->s(49) && True && o2act::view("user_options", "S", "") && $o2exe->e();
+//	$o2exe->s(50) && True && o2act::remark("Set options in sessions arrays") && $o2exe->e();
+	$o2exe->s(51) && True && o2act::script(o2sys_export_csv_exp_57()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv_exp_1() {
+	
+return (array("," => ",", ";" => ";"));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_2() {
+	
+return (array('D' => '"', "S" => "'"));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_3() {
+	
+return (array("." => ".", "," => ","));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_4() {
+	
+return (array("" => "None", "/" => "/", "-" => "-", "." => "."));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_5() {
+	
+return (array("" => "None", ":" => ":"));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_6() {
+	
+return (o2app_user());
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_7() {
+	
+return (o2val('prg§_§var','option_code'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_8() {
+	
+return ("csv_field_sep");
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_9() {
+	$d    = date("d");
+$m    = date("m");
+$y    = date("Y");
+$sep  = o2val('prg§_§var','date_sep');
+$list = array("Y".$sep."m".$sep."d" => $y.$sep.$m.$sep.$d,
+              "d".$sep."m".$sep."Y" => $d.$sep.$m.$sep.$y,
+              "m".$sep."d".$sep."Y" => $m.$sep.$d.$sep.$y);
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_10() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_11() {
+	$app         = $_SESSION['o2_app'];
+$view_name   = o2par(1);
+$file_name   = o2val('prg§_§var','file_name');
+$txt_sep     = (o2val('prg§_§var','text_del') != "S" ? '"' : "'");
+$fields_sep  = o2val('prg§_§var','fields_sep');
+$dec_point   = o2val('prg§_§var','decimal_point');
+$date_format = o2val('prg§_§var','date_format');
+$time_sep    = o2val('prg§_§var','time_sep');
+$time_format = "H".$time_sep."i".(o2val('prg§_§var','with_seconds') ? $time_sep."s" : "");
+$excluded    = o2val('prg§_§var','excluded_cols');
+o2act::close();
+$app->termina_prg();
+$prg = $app->istanze_prg[$app->progressivo_istanze];
+/* Export data to ZIP file */
+$zip = $prg->export_data($view_name,
+                         $file_name,
+                         true,
+                         $fields_sep,
+                         $txt_sep,
+                         $dec_point,
+                         $date_format,
+                         $time_format,
+                         true,
+                         $excluded);
+/* Dispose ZIP file for download */
+o2html::send_file(o2_path($zip, 1));
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_12() {
+	
+return ("<jx>/img/wait.gif");
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_13() {
+	$exeid = $_SESSION['o2_app']->progressivo_istanze;
+$ctrl  = "exp_btn".$exeid;
+$click = "document.getElementsByName('wait_img".$exeid."')[0].style.display='block'; ".
+         "document.getElementById('wait_txt".$exeid."').style.display='block'; ".
+         "o2jse.ctrl.btnExe(this);";
+$html  = '<div id="'.$ctrl.'" class="o2_ctrl_button" '.
+         'style="width:90px;height:30px;line-height:30px;" o2="e:'.$exeid.',c:\'exp_btn\','.
+         'cT:\'button\',f:\'o2sys_export_csv_form\',pT:\'form\','.
+         'fret:true,cssc:\'o2_ctrl_button\',msg:\'\',action:\'export\'" '.
+         'onclick="'.$click.'">Export</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_14() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_15() {
+	
+return ("csv_text_delimiter");
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_16() {
+	
+return ("csv_decimal_sep");
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_17() {
+	
+return ("csv_date_sep");
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_18() {
+	
+return ("csv_date_format");
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_19() {
+	
+return ("csv_time_sep");
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_20() {
+	
+return ("csv_time_seconds");
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_21() {
+	
+return (o2val('user_options','value'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_22() {
+	
+return (!o2view_rec("user_options"));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_23() {
+	
+return (o2val('prg§_§var','fields_sep'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_24() {
+	
+return (o2val('prg§_§var','text_del'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_25() {
+	
+return (o2val('prg§_§var','decimal_point'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_26() {
+	
+return (o2val('prg§_§var','date_sep'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_27() {
+	
+return (o2val('prg§_§var','date_format'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_28() {
+	
+return (o2val('prg§_§var','time_sep'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_29() {
+	
+return (o2val('prg§_§var','with_seconds'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_30() {
+	
+return (trim(o2par(1))."_".date("Ymd_Hms"));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_31() {
+	$app       = $_SESSION['o2_app'];
+$prg       = $app->istanze_prg[$app->progressivo_istanze - 1];
+$view_name = o2par(1);
+$cols      = array();
+$titles    = array();
+foreach ($prg->form as $form) {
+   if ($form->visible) {
+      foreach ($form->controlli as $ctrl) {
+         if ($ctrl->campo_in_ctrl &&
+             $ctrl->task == $view_name &&
+             $ctrl->is_visible()) {
+            $title = false;
+            if ($ctrl->padre &&
+                $form->controlli[$ctrl->padre]->tipo_ctrl == "tab") {
+               if ($ctrl->info_padre[3]) {
+                  $titles[] = array('F' => $ctrl->campo_in_ctrl,
+                                    'T' => $ctrl->info_padre[3]);
+                  }
+               }
+            else {
+               $cols[] = array('F' => $ctrl->campo_in_ctrl,
+                               'T' => ucfirst(strtolower(strtr($ctrl->campo_in_ctrl, '_', ' '))));
+               }
+            }
+         }
+      }
+   }
+$cols = array_merge($titles, $cols);
+return ($cols);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_32() {
+	$prgs = o2app_prg();
+$prg  = $prgs[count($prgs) - 2];
+return ($prg);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_33() {
+	
+return (o2val('prg§_§var','prg_name'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_34() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_35() {
+	
+return ('E');
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_36() {
+	
+return (count(o2val('prg§_§var','view_columns')));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_37() {
+	
+return (o2val('prg§_§var','columns_idx') >= o2val('prg§_§var','columns_total'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_38() {
+	
+return (o2val('prg§_§var','columns_idx') + 1);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_39() {
+	
+return (o2val('prg§_§var','view_columns', o2val('prg§_§var','columns_idx'), 'F'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_40() {
+	
+return ((o2zero('prg§_§var','col_name') ? null : o2val('prg§_§var','col_name')));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_41() {
+	
+return (o2view_rec("custom_cols"));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_42() {
+	
+return (o2val('prg§_§var','col_name'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_43() {
+	
+return (o2val('tmp','field_name'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_44() {
+	
+return (o2val('prg§_§var','show_cols_sele'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_45() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_46() {
+	o2view_selector_set('tmp');
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_47() {
+	
+return (o2view_selector('tmp'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_48() {
+	
+return (!o2val('prg§_§var','col_excluded'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_49() {
+	
+return (array());
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_50() {
+	$list   = o2val('prg§_§var','excluded_cols');
+$list[] = strtoupper(o2val('tmp','field_name'));
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_51() {
+	
+return (!o2val('tmp','col_selection'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_52() {
+	
+return ('W');
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_53() {
+	
+return (o2app_sid());
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_54() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_55() {
+	
+return (o2val('prg§_§var','columns_idx') + 1);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_56() {
+	
+return (o2val('prg§_§var','view_columns', o2val('prg§_§var','columns_idx'), 'T'));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_57() {
+	$app = $_SESSION['o2_app'];
+if ($app->user == 'root') {
+   $app->app_options['csv_date_format']    = o2val('prg§_§var','date_format');
+   $app->app_options['csv_date_sep']       = o2val('prg§_§var','date_sep'); 
+   $app->app_options['csv_decimal_sep']    = o2val('prg§_§var','decimal_point');
+   $app->app_options['csv_field_sep']      = o2val('prg§_§var','fields_sep');
+   $app->app_options['csv_text_delimiter'] = o2val('prg§_§var','text_del');
+   $app->app_options['csv_time_sep']       = o2val('prg§_§var','time_sep');
+   $app->app_options['csv_time_seconds']   = o2val('prg§_§var','with_seconds');
+   }
+else {
+   $app->user_options['csv_date_format']    = o2val('prg§_§var','date_format');
+   $app->user_options['csv_date_sep']       = o2val('prg§_§var','date_sep'); 
+   $app->user_options['csv_decimal_sep']    = o2val('prg§_§var','decimal_point');
+   $app->user_options['csv_field_sep']      = o2val('prg§_§var','fields_sep');
+   $app->user_options['csv_text_delimiter'] = o2val('prg§_§var','text_del');
+   $app->user_options['csv_time_sep']       = o2val('prg§_§var','time_sep');
+   $app->user_options['csv_time_seconds']   = o2val('prg§_§var','with_seconds');
+   }
+
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_9999() {
+	
+return (false);
+	} //|o2_fine_exp|
+?>

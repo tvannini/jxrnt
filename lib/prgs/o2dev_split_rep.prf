@@ -1,0 +1,56 @@
+<?php
+
+function o2dev_split_rep§§split_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_split_rep_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_split_rep_exp_1() {
+	$app      = $_SESSION['o2_app'];
+$rep_file = o2app_dir_prgs().$app->file_tabelle;
+$tab_text = "";
+$tab_name = "";
+$rep_dir  = o2app_dir_prgs().DIRECTORY_SEPARATOR."jx_tables".DIRECTORY_SEPARATOR;
+o2dir_delete($rep_dir);
+o2dir_create($rep_dir);
+$custom_map = false;
+$map        = false;
+// ___________________________________________________ Custom tables remapping ___
+if ($app->run_level == "DEV" && $app->dir_cvs_progs->exists('tables_map.ini')) {
+   $custom_map = $app->dir_cvs_progs.'tables_map.ini';
+   }
+elseif ($app->dir_progs->exists('tables_map.ini')) {
+   $custom_map = $app->dir_progs.'tables_map.ini';
+   }
+if ($custom_map) {
+   $map = @parse_ini_file($custom_map);
+   }
+foreach (file($rep_file) as $single_line) {
+   switch (substr($single_line, 0, 10)) {
+      case "o2def::tab":
+         if ($tab_name) {
+            $tab_text = "<?php\n".$tab_text."?>";
+            file_put_contents($rep_dir.$tab_name.".tab", $tab_text);
+            }
+         $tab_text = "";
+         $parts    = array();
+         preg_match_all('/o2def::tab\(["\'](\w*)["\']\s*,/', $single_line, $parts);
+         $tab_name = $parts[1][0];
+         if (isset($map[$tab_name]) && isset($app->db[$map[$tab_name]])) {
+            $single_line = preg_replace('/o2def::tab\(["\'](\w*)["\']\s*,\s*["\'](\w*)["\']\s*,/', 
+                           'o2def::tab("$1", "'.$map[$tab_name].'",', $single_line);
+            }
+         break;
+      case "o2def::fie":
+         break;
+      case "o2def::ind":
+         break;
+      }
+   if (strpos($single_line, "?".">") === false) {
+      $tab_text.= ltrim($single_line);
+      }
+   }
+$tab_text = "<?php\n".$tab_text."?>";
+file_put_contents($rep_dir.$tab_name.".tab", $tab_text);
+return (true);
+	} //|o2_fine_exp|
+?>

@@ -1,0 +1,624 @@
+<?php
+
+function jxtask§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("sched_aspid", "_o2alpha");
+	$task_prg§_§var->definisci("sched_date", "_o2date");
+	$task_prg§_§var->definisci("sched_id", "jxscheduler_id");
+	$task_prg§_§var->definisci("sched_interval", "_o2number");
+	$task_prg§_§var->definisci("sched_job", "jxjob_id");
+	$task_prg§_§var->definisci("sched_month_day", "jxsched_month_day");
+	$task_prg§_§var->definisci("sched_next_run", "_o2text");
+	$task_prg§_§var->definisci("sched_obj", "_o2structure");
+	$task_prg§_§var->definisci("sched_paused", "_o2logical");
+	$task_prg§_§var->definisci("sched_recurrence", "jxsched_recurrence");
+	$task_prg§_§var->definisci("sched_time", "_o2time");
+	$task_prg§_§var->definisci("sched_type", "jxscheduler_type");
+	$task_prg§_§var->definisci("sched_user", "_o2alpha");
+	$task_prg§_§var->definisci("sched_week_day", "jxsched_week_day");
+	$task_prg§_§var->definisci("task_desc", "_o2text");
+		}
+
+function jxtask§§jobs_combo_def(&$task_jobs_combo, $_o2viewalias = "") {
+	$task_jobs_combo->righe_vis = 10;
+
+	$task_jobs_combo->usa_file("jx_jobs","jx_jobs","job_name",null,null);
+
+	$task_jobs_combo->usa("job_id","jx_jobs","job_id",null,null,null,null);
+	$task_jobs_combo->usa("job_name","jx_jobs","job_name",null,null,null,null);
+	$task_jobs_combo->usa("job_prg","jx_jobs","job_prg",null,null,null,null);
+	$task_jobs_combo->calcola("job_desc", "jxtask_exp_3()",null,null,null,null);
+}
+function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
+	$form_jxtask_1->x(280);
+	$form_jxtask_1->y(50);
+	$form_jxtask_1->larghezza(450);
+	$form_jxtask_1->altezza(500);
+	$form_jxtask_1->titolo("Scheduled task");
+	$form_jxtask_1->css_doc("sys_sched_doc");
+	$form_jxtask_1->align_o("Center");
+	$ctrl_o2label14 = &$form_jxtask_1->ctrldef("o2label14", "label", "", "", "");
+		$ctrl_o2label14->x(150);
+		$ctrl_o2label14->y(370);
+		$ctrl_o2label14->larghezza(270);
+		$ctrl_o2label14->altezza(20);
+		$ctrl_o2label14->label(jxtask_exp_22());
+	$ctrl_o2label15 = &$form_jxtask_1->ctrldef("o2label15", "label", "", "", "");
+		$ctrl_o2label15->x(50);
+		$ctrl_o2label15->y(350);
+		$ctrl_o2label15->larghezza(100);
+		$ctrl_o2label15->altezza(20);
+		$ctrl_o2label15->label("Scheduled:");
+	$ctrl_o2label16 = &$form_jxtask_1->ctrldef("o2label16", "label", "", "", "");
+		$ctrl_o2label16->x(50);
+		$ctrl_o2label16->y(370);
+		$ctrl_o2label16->larghezza(100);
+		$ctrl_o2label16->altezza(20);
+		$ctrl_o2label16->label("Next run:");
+	$ctrl_o2label13 = &$form_jxtask_1->ctrldef("o2label13", "label", "", "", "");
+		$ctrl_o2label13->x(150);
+		$ctrl_o2label13->y(350);
+		$ctrl_o2label13->larghezza(270);
+		$ctrl_o2label13->altezza(20);
+		$ctrl_o2label13->label(jxtask_exp_25());
+	$ctrl_o2separator2 = &$form_jxtask_1->ctrldef("o2separator2", "line", "", "", "");
+		$ctrl_o2separator2->x(30);
+		$ctrl_o2separator2->y(400);
+		$ctrl_o2separator2->larghezza(390);
+		$ctrl_o2separator2->altezza(2);
+	$ctrl_o2multipage5 = &$form_jxtask_1->ctrldef("o2multipage5", "multipage", "", "", "");
+		$ctrl_o2multipage5->x(30);
+		$ctrl_o2multipage5->y(30);
+		$ctrl_o2multipage5->larghezza(390);
+		$ctrl_o2multipage5->altezza(150);
+		$ctrl_o2multipage5->label(array("Task"));
+		$ctrl_o2multipage5->buttons("T");
+	$ctrl_o2multipage2 = &$form_jxtask_1->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(30);
+		$ctrl_o2multipage2->y(200);
+		$ctrl_o2multipage2->larghezza(390);
+		$ctrl_o2multipage2->altezza(130);
+		$ctrl_o2multipage2->visibile(jxtask_exp_10());
+		$ctrl_o2multipage2->label(array("Run once"));
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2multipage3 = &$form_jxtask_1->ctrldef("o2multipage3", "multipage", "", "", "");
+		$ctrl_o2multipage3->x(30);
+		$ctrl_o2multipage3->y(200);
+		$ctrl_o2multipage3->larghezza(390);
+		$ctrl_o2multipage3->altezza(130);
+		$ctrl_o2multipage3->visibile(jxtask_exp_11());
+		$ctrl_o2multipage3->label(array("Interval"));
+		$ctrl_o2multipage3->buttons("T");
+	$ctrl_o2multipage4 = &$form_jxtask_1->ctrldef("o2multipage4", "multipage", "", "", "");
+		$ctrl_o2multipage4->x(30);
+		$ctrl_o2multipage4->y(200);
+		$ctrl_o2multipage4->larghezza(390);
+		$ctrl_o2multipage4->altezza(130);
+		$ctrl_o2multipage4->visibile(jxtask_exp_12());
+		$ctrl_o2multipage4->label(array("Recurrence"));
+		$ctrl_o2multipage4->buttons("T");
+	$ctrl_o2button2 = &$form_jxtask_1->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(330);
+		$ctrl_o2button2->y(420);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("save");
+		$ctrl_o2button2->label("&Save");
+	$ctrl_o2label5 = &$form_jxtask_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
+		$ctrl_o2label5->x(20);
+		$ctrl_o2label5->y(40);
+		$ctrl_o2label5->larghezza(100);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->info_padre(array(0));
+		$ctrl_o2label5->label("Date:");
+	$ctrl_o2label6 = &$form_jxtask_1->ctrldef("o2label6", "label", "o2multipage2", "", "");
+		$ctrl_o2label6->x(20);
+		$ctrl_o2label6->y(60);
+		$ctrl_o2label6->larghezza(100);
+		$ctrl_o2label6->altezza(20);
+		$ctrl_o2label6->info_padre(array(0));
+		$ctrl_o2label6->label("Time:");
+	$ctrl_o2edit3 = &$form_jxtask_1->ctrldef("o2edit3", "edit", "o2multipage2", "prg§_§var", "sched_date");
+		$ctrl_o2edit3->x(120);
+		$ctrl_o2edit3->y(40);
+		$ctrl_o2edit3->larghezza(100);
+		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->azione("change_desc");
+		$ctrl_o2edit3->on_change(jxtask_exp_5());
+		$ctrl_o2edit3->info_padre(array(0));
+	$ctrl_o2edit4 = &$form_jxtask_1->ctrldef("o2edit4", "edit", "o2multipage2", "prg§_§var", "sched_time");
+		$ctrl_o2edit4->x(120);
+		$ctrl_o2edit4->y(60);
+		$ctrl_o2edit4->larghezza(100);
+		$ctrl_o2edit4->altezza(20);
+		$ctrl_o2edit4->azione("change_desc");
+		$ctrl_o2edit4->on_change(jxtask_exp_5());
+		$ctrl_o2edit4->info_padre(array(0));
+	$ctrl_o2label7 = &$form_jxtask_1->ctrldef("o2label7", "label", "o2multipage3", "", "");
+		$ctrl_o2label7->x(20);
+		$ctrl_o2label7->y(40);
+		$ctrl_o2label7->larghezza(100);
+		$ctrl_o2label7->altezza(20);
+		$ctrl_o2label7->info_padre(array(0));
+		$ctrl_o2label7->label("Minutes:");
+	$ctrl_o2edit5 = &$form_jxtask_1->ctrldef("o2edit5", "edit", "o2multipage3", "prg§_§var", "sched_interval");
+		$ctrl_o2edit5->x(120);
+		$ctrl_o2edit5->y(40);
+		$ctrl_o2edit5->larghezza(100);
+		$ctrl_o2edit5->altezza(20);
+		$ctrl_o2edit5->azione("change_desc");
+		$ctrl_o2edit5->on_change(jxtask_exp_5());
+		$ctrl_o2edit5->info_padre(array(0));
+	$ctrl_o2label10 = &$form_jxtask_1->ctrldef("o2label10", "label", "o2multipage4", "", "");
+		$ctrl_o2label10->x(20);
+		$ctrl_o2label10->y(80);
+		$ctrl_o2label10->larghezza(100);
+		$ctrl_o2label10->altezza(20);
+		$ctrl_o2label10->visibile(jxtask_exp_13());
+		$ctrl_o2label10->info_padre(array(0));
+		$ctrl_o2label10->label("Day of week:");
+	$ctrl_o2label8 = &$form_jxtask_1->ctrldef("o2label8", "label", "o2multipage4", "", "");
+		$ctrl_o2label8->x(20);
+		$ctrl_o2label8->y(40);
+		$ctrl_o2label8->larghezza(60);
+		$ctrl_o2label8->altezza(20);
+		$ctrl_o2label8->info_padre(array(0));
+		$ctrl_o2label8->label("Frequency:");
+	$ctrl_o2label11 = &$form_jxtask_1->ctrldef("o2label11", "label", "o2multipage4", "", "");
+		$ctrl_o2label11->x(20);
+		$ctrl_o2label11->y(100);
+		$ctrl_o2label11->larghezza(100);
+		$ctrl_o2label11->altezza(20);
+		$ctrl_o2label11->visibile(jxtask_exp_14());
+		$ctrl_o2label11->info_padre(array(0));
+		$ctrl_o2label11->label("Day of month:");
+	$ctrl_o2label9 = &$form_jxtask_1->ctrldef("o2label9", "label", "o2multipage4", "", "");
+		$ctrl_o2label9->x(20);
+		$ctrl_o2label9->y(60);
+		$ctrl_o2label9->larghezza(60);
+		$ctrl_o2label9->altezza(20);
+		$ctrl_o2label9->info_padre(array(0));
+		$ctrl_o2label9->label("Time:");
+	$ctrl_o2ListBox4 = &$form_jxtask_1->ctrldef("o2ListBox4", "listcombo", "o2multipage4", "prg§_§var", "sched_recurrence");
+		$ctrl_o2ListBox4->x(120);
+		$ctrl_o2ListBox4->y(40);
+		$ctrl_o2ListBox4->larghezza(100);
+		$ctrl_o2ListBox4->altezza(20);
+		$ctrl_o2ListBox4->azione("change_desc");
+		$ctrl_o2ListBox4->on_change(jxtask_exp_5());
+		$ctrl_o2ListBox4->info_padre(array(0));
+		$ctrl_o2ListBox4->valori(array());
+		$ctrl_o2ListBox4->righe(1);
+	$ctrl_o2edit6 = &$form_jxtask_1->ctrldef("o2edit6", "edit", "o2multipage4", "prg§_§var", "sched_time");
+		$ctrl_o2edit6->x(120);
+		$ctrl_o2edit6->y(60);
+		$ctrl_o2edit6->larghezza(100);
+		$ctrl_o2edit6->altezza(20);
+		$ctrl_o2edit6->azione("change_desc");
+		$ctrl_o2edit6->on_change(jxtask_exp_5());
+		$ctrl_o2edit6->info_padre(array(0));
+	$ctrl_o2ListBox5 = &$form_jxtask_1->ctrldef("o2ListBox5", "listcombo", "o2multipage4", "prg§_§var", "sched_week_day");
+		$ctrl_o2ListBox5->x(120);
+		$ctrl_o2ListBox5->y(80);
+		$ctrl_o2ListBox5->larghezza(100);
+		$ctrl_o2ListBox5->altezza(20);
+		$ctrl_o2ListBox5->visibile(jxtask_exp_13());
+		$ctrl_o2ListBox5->azione("change_desc");
+		$ctrl_o2ListBox5->on_change(jxtask_exp_5());
+		$ctrl_o2ListBox5->info_padre(array(0));
+		$ctrl_o2ListBox5->valori(array());
+		$ctrl_o2ListBox5->righe(1);
+	$ctrl_o2edit7 = &$form_jxtask_1->ctrldef("o2edit7", "edit", "o2multipage4", "prg§_§var", "sched_month_day");
+		$ctrl_o2edit7->x(120);
+		$ctrl_o2edit7->y(100);
+		$ctrl_o2edit7->larghezza(100);
+		$ctrl_o2edit7->altezza(20);
+		$ctrl_o2edit7->visibile(jxtask_exp_14());
+		$ctrl_o2edit7->azione("change_desc");
+		$ctrl_o2edit7->on_change(jxtask_exp_5());
+		$ctrl_o2edit7->info_padre(array(0));
+	$ctrl_o2label2 = &$form_jxtask_1->ctrldef("o2label2", "label", "o2multipage5", "", "");
+		$ctrl_o2label2->x(20);
+		$ctrl_o2label2->y(40);
+		$ctrl_o2label2->larghezza(100);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->info_padre(array(0));
+		$ctrl_o2label2->label("ID:");
+	$ctrl_o2label12 = &$form_jxtask_1->ctrldef("o2label12", "label", "o2multipage5", "", "");
+		$ctrl_o2label12->x(20);
+		$ctrl_o2label12->y(100);
+		$ctrl_o2label12->larghezza(100);
+		$ctrl_o2label12->altezza(20);
+		$ctrl_o2label12->info_padre(array(0));
+		$ctrl_o2label12->label("ASP-ID:");
+	$ctrl_o2label3 = &$form_jxtask_1->ctrldef("o2label3", "label", "o2multipage5", "", "");
+		$ctrl_o2label3->x(20);
+		$ctrl_o2label3->y(60);
+		$ctrl_o2label3->larghezza(100);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->info_padre(array(0));
+		$ctrl_o2label3->label("Job:");
+	$ctrl_o2label4 = &$form_jxtask_1->ctrldef("o2label4", "label", "o2multipage5", "", "");
+		$ctrl_o2label4->x(20);
+		$ctrl_o2label4->y(80);
+		$ctrl_o2label4->larghezza(100);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->info_padre(array(0));
+		$ctrl_o2label4->label("Repeat:");
+	$ctrl_o2label17 = &$form_jxtask_1->ctrldef("o2label17", "label", "o2multipage5", "", "");
+		$ctrl_o2label17->x(20);
+		$ctrl_o2label17->y(120);
+		$ctrl_o2label17->larghezza(100);
+		$ctrl_o2label17->altezza(20);
+		$ctrl_o2label17->info_padre(array(0));
+		$ctrl_o2label17->label("Pause:");
+	$ctrl_o2edit2 = &$form_jxtask_1->ctrldef("o2edit2", "edit", "o2multipage5", "prg§_§var", "sched_id");
+		$ctrl_o2edit2->x(120);
+		$ctrl_o2edit2->y(40);
+		$ctrl_o2edit2->larghezza(50);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->modificabile(jxtask_exp_4());
+		$ctrl_o2edit2->info_padre(array(0));
+	$ctrl_o2ListBox2 = &$form_jxtask_1->ctrldef("o2ListBox2", "listcombo", "o2multipage5", "prg§_§var", "sched_job");
+		$ctrl_o2ListBox2->x(120);
+		$ctrl_o2ListBox2->y(60);
+		$ctrl_o2ListBox2->larghezza(250);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->modificabile(jxtask_exp_41());
+		$ctrl_o2ListBox2->on_change(jxtask_exp_5());
+		$ctrl_o2ListBox2->info_padre(array(0));
+		$ctrl_o2ListBox2->valori(o2_view2list("jobs_combo", "job_id", "job_desc"));
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2ListBox3 = &$form_jxtask_1->ctrldef("o2ListBox3", "listcombo", "o2multipage5", "prg§_§var", "sched_type");
+		$ctrl_o2ListBox3->x(120);
+		$ctrl_o2ListBox3->y(80);
+		$ctrl_o2ListBox3->larghezza(250);
+		$ctrl_o2ListBox3->altezza(20);
+		$ctrl_o2ListBox3->azione("type_change");
+		$ctrl_o2ListBox3->on_change(jxtask_exp_5());
+		$ctrl_o2ListBox3->info_padre(array(0));
+		$ctrl_o2ListBox3->valori(array());
+		$ctrl_o2ListBox3->righe(1);
+	$ctrl_o2checkbox3 = &$form_jxtask_1->ctrldef("o2checkbox3", "check", "o2multipage5", "prg§_§var", "sched_paused");
+		$ctrl_o2checkbox3->x(120);
+		$ctrl_o2checkbox3->y(120);
+		$ctrl_o2checkbox3->larghezza(20);
+		$ctrl_o2checkbox3->altezza(20);
+		$ctrl_o2checkbox3->info_padre(array(0));
+	$ctrl_o2ListBox6 = &$form_jxtask_1->ctrldef("o2ListBox6", "listcombo", "o2multipage5", "prg§_§var", "sched_aspid");
+		$ctrl_o2ListBox6->x(120);
+		$ctrl_o2ListBox6->y(100);
+		$ctrl_o2ListBox6->larghezza(250);
+		$ctrl_o2ListBox6->altezza(20);
+		$ctrl_o2ListBox6->modificabile(jxtask_exp_39());
+		$ctrl_o2ListBox6->info_padre(array(0));
+		$ctrl_o2ListBox6->valori(jxtask_exp_38());
+		$ctrl_o2ListBox6->righe(1);
+		}
+
+function jxtask§§change_desc_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "task_desc", jxtask_exp_26()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "sched_next_run", jxtask_exp_21()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§clear_interval_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "sched_interval", jxtask_exp_19()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§clear_once_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "sched_date", jxtask_exp_18()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§clear_recurrence_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "sched_recurrence", jxtask_exp_20()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "sched_week_day", jxtask_exp_20()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "sched_month_day", jxtask_exp_20()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§create_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "sched_aspid", jxtask_exp_40()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§read_task_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "sched_obj", jxtask_exp_6()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "sched_id", jxtask_exp_7()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "sched_job", jxtask_exp_8()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "sched_user", jxtask_exp_27()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "sched_type", jxtask_exp_28()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "sched_interval", jxtask_exp_29()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "sched_date", jxtask_exp_30()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "sched_time", jxtask_exp_31()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "sched_recurrence", jxtask_exp_32()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "sched_week_day", jxtask_exp_33()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "sched_month_day", jxtask_exp_34()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::set("prg§_§var", "sched_paused", jxtask_exp_35()) && $o2exe->e();
+	$o2exe->s(13) && True && o2act::set("prg§_§var", "sched_aspid", jxtask_exp_37()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§save_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxtask_exp_36()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§start_act(&$o2exe) {
+	$o2exe->s(1) && (jxtask_exp_24() || $o2exe->e()) && o2act::set("prg§_§var", "sched_job", jxtask_exp_23()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "sched_type", jxtask_exp_9()) && $o2exe->e();
+	$o2exe->s(3) && (jxtask_exp_1() || $o2exe->e()) && o2act::exe("create", True, "") && $o2exe->e();
+	$o2exe->s(4) && (jxtask_exp_2() || $o2exe->e()) && o2act::exe("read_task", True, "") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("change_desc", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§type_change_act(&$o2exe) {
+	$o2exe->s(1) && (jxtask_exp_15() || $o2exe->e()) && o2act::exe("clear_once", True, "") && $o2exe->e();
+	$o2exe->s(2) && (jxtask_exp_16() || $o2exe->e()) && o2act::exe("clear_interval", True, "") && $o2exe->e();
+	$o2exe->s(3) && (jxtask_exp_17() || $o2exe->e()) && o2act::exe("clear_recurrence", True, "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("change_desc", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask_exp_1() {
+	
+return (!o2par(1));
+	} //|o2_fine_exp|
+
+function jxtask_exp_2() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function jxtask_exp_3() {
+	
+return (o2val('jobs_combo','job_name')." (".o2val('jobs_combo','job_prg').")");
+	} //|o2_fine_exp|
+
+function jxtask_exp_4() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function jxtask_exp_5() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function jxtask_exp_6() {
+	
+return (o2_scheduler::get_task_by_id(o2par(1)));
+	} //|o2_fine_exp|
+
+function jxtask_exp_7() {
+	$task = o2val('prg§_§var','sched_obj');
+$id   = $task->id;
+return ($id);
+	} //|o2_fine_exp|
+
+function jxtask_exp_8() {
+	$task = o2val('prg§_§var','sched_obj');
+$job  = $task->job;
+return ($job);
+	} //|o2_fine_exp|
+
+function jxtask_exp_9() {
+	
+return ("O");
+	} //|o2_fine_exp|
+
+function jxtask_exp_10() {
+	
+return (o2val('prg§_§var','sched_type') == "O");
+	} //|o2_fine_exp|
+
+function jxtask_exp_11() {
+	
+return (o2val('prg§_§var','sched_type') == "I");
+	} //|o2_fine_exp|
+
+function jxtask_exp_12() {
+	
+return (o2val('prg§_§var','sched_type') == "R");
+	} //|o2_fine_exp|
+
+function jxtask_exp_13() {
+	
+return (o2val('prg§_§var','sched_recurrence') == "W");
+	} //|o2_fine_exp|
+
+function jxtask_exp_14() {
+	
+return (o2val('prg§_§var','sched_recurrence') == "M");
+	} //|o2_fine_exp|
+
+function jxtask_exp_15() {
+	
+return (o2val('prg§_§var','sched_type') != "O");
+	} //|o2_fine_exp|
+
+function jxtask_exp_16() {
+	
+return (o2val('prg§_§var','sched_type') != "I");
+	} //|o2_fine_exp|
+
+function jxtask_exp_17() {
+	
+return (o2val('prg§_§var','sched_type') != "R");
+	} //|o2_fine_exp|
+
+function jxtask_exp_18() {
+	
+return ("00000000");
+	} //|o2_fine_exp|
+
+function jxtask_exp_19() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function jxtask_exp_20() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function jxtask_exp_21() {
+	$task = new o2_task(0,
+                    0,
+                    "",
+                    o2val('prg§_§var','sched_type'),
+                    o2val('prg§_§var','sched_interval'),
+                    o2val('prg§_§var','sched_date'),
+                    o2val('prg§_§var','sched_time'),
+                    o2val('prg§_§var','sched_recurrence'),
+                    o2val('prg§_§var','sched_week_day'),
+                    o2val('prg§_§var','sched_month_day'));
+$next = $task->get_next_run_desc();
+return ($next);
+	} //|o2_fine_exp|
+
+function jxtask_exp_22() {
+	
+return (o2val('prg§_§var','sched_next_run'));
+	} //|o2_fine_exp|
+
+function jxtask_exp_23() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function jxtask_exp_24() {
+	
+return (!o2par(1) && o2par(2));
+	} //|o2_fine_exp|
+
+function jxtask_exp_25() {
+	
+return (o2val('prg§_§var','task_desc'));
+	} //|o2_fine_exp|
+
+function jxtask_exp_26() {
+	$task = new o2_task(0,
+                    0,
+                    "",
+                    o2val('prg§_§var','sched_type'),
+                    o2val('prg§_§var','sched_interval'),
+                    o2val('prg§_§var','sched_date'),
+                    o2val('prg§_§var','sched_time'),
+                    o2val('prg§_§var','sched_recurrence'),
+                    o2val('prg§_§var','sched_week_day'),
+                    o2val('prg§_§var','sched_month_day'));
+$desc = $task->get_description();
+return ($desc);
+	} //|o2_fine_exp|
+
+function jxtask_exp_27() {
+	$task = o2val('prg§_§var','sched_obj');
+$user = $task->user;
+return ($user);
+	} //|o2_fine_exp|
+
+function jxtask_exp_28() {
+	$task = o2val('prg§_§var','sched_obj');
+$type = $task->type;
+return ($type);
+	} //|o2_fine_exp|
+
+function jxtask_exp_29() {
+	$task = o2val('prg§_§var','sched_obj');
+$int  = $task->interval;
+return ($int);
+	} //|o2_fine_exp|
+
+function jxtask_exp_30() {
+	$task = o2val('prg§_§var','sched_obj');
+$date = $task->date;
+return ($date);
+	} //|o2_fine_exp|
+
+function jxtask_exp_31() {
+	$task = o2val('prg§_§var','sched_obj');
+$time = $task->time;
+return ($time);
+	} //|o2_fine_exp|
+
+function jxtask_exp_32() {
+	$task = o2val('prg§_§var','sched_obj');
+$rec  = $task->recurrence;
+return ($rec);
+	} //|o2_fine_exp|
+
+function jxtask_exp_33() {
+	$task = o2val('prg§_§var','sched_obj');
+$wday = $task->week_day;
+return ($wday);
+	} //|o2_fine_exp|
+
+function jxtask_exp_34() {
+	$task = o2val('prg§_§var','sched_obj');
+$mday = $task->month_day;
+return ($mday);
+	} //|o2_fine_exp|
+
+function jxtask_exp_35() {
+	$task   = o2val('prg§_§var','sched_obj');
+$paused = $task->paused;
+return ($paused);
+	} //|o2_fine_exp|
+
+function jxtask_exp_36() {
+	$id   = o2val('prg§_§var','sched_id');
+$task = new o2_task($id,
+                    o2val('prg§_§var','sched_job'),
+                    o2val('prg§_§var','sched_user'),
+                    o2val('prg§_§var','sched_type'),
+                    o2val('prg§_§var','sched_interval'),
+                    o2val('prg§_§var','sched_date'),
+                    o2val('prg§_§var','sched_time'),
+                    o2val('prg§_§var','sched_recurrence'),
+                    o2val('prg§_§var','sched_week_day'),
+                    o2val('prg§_§var','sched_month_day'),
+                    o2val('prg§_§var','sched_aspid'),
+                    o2val('prg§_§var','sched_paused'));
+if ($id) {                    
+   $task->save();
+   }
+else {
+   $task->create();
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxtask_exp_37() {
+	$task  = o2val('prg§_§var','sched_obj');
+$aspid = $task->aspid;
+return ($aspid);
+	} //|o2_fine_exp|
+
+function jxtask_exp_38() {
+	$aspids = o2asp_codes();
+$list   = array();
+if (!count($aspids) || (count($aspids) === 1 && !$aspids[0])) {
+   $list = array("" => "[No ASP-ID]");
+   }
+else {
+   $list = array(""      => "[All registered ASP-IDs]", 
+                 "NOASP" => "[No ASP-ID]");
+   foreach ($aspids as $aspid) {
+      $list[$aspid] = $aspid;
+      }
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function jxtask_exp_39() {
+	$aspids = o2asp_codes();
+$cnd    = count($aspids) && $aspids[0];
+return ($cnd);
+	} //|o2_fine_exp|
+
+function jxtask_exp_40() {
+	
+return (o2asp_code_get());
+	} //|o2_fine_exp|
+
+function jxtask_exp_41() {
+	
+return (!o2par(2));
+	} //|o2_fine_exp|
+?>

@@ -1,0 +1,267 @@
+<html><head><title>Select, calculated, criteri di range e variabili</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_40.html'>Un programma di interazione con i dati di una tabella</a></td>
+       <td id='nav_next' align='right'><a href='node_64.html'>Relazione <em>uno-a-uno</em> - le link</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.8 &nbsp; Select, calculated, criteri di range e variabili</h2><br /><fieldset>CAMPI CALCOLATI (CALCULATED), EXPRESSION, LINK, RANGE</fieldset>
+<p>Questo capitolo approfondisce le conoscenze del programmatore
+circa la costruzione delle view che è stata solamente accennata nei
+precedenti capitoli.</p>
+<br /><h4>Obiettivi</h4>
+<p>Al termine di questo capitolo il programmatore sarà in grado di:</p>
+<ul>
+<li>Definire le tabelle implicate nella query</li>
+<li>Creare campi calcolati attribuendo expression di valorizzazione</li>
+<li>Filtrare il recordset in base ai parametri di range</li>
+<li>Utilizzare le funzioni di aggregazione (<i>SUM</i>, <i>MAX</i>,
+       <i>MIN</i>, <i>AVG</i>)</li>
+<li>Utilizzare gli eventi della view</li>
+</ul>
+
+<br /><h4>Introduzione</h4>
+<p>La creazione di una view in o2architect ha come unico scopo
+quello di definire un <em>dataview</em> con il quale il programma
+(tramite le action) o l’utente finale (tramite le form) potranno
+interagire per raggiungere l’obiettivo funzionale.</p>
+
+<p>Ogni programma o2 può contenere una o più view.</p>
+
+<p>Ogni view può essere composta da campi di tabelle diverse e
+residenti su database anche fra loro eterogenei.</p>
+
+<p>Per affrontare in modo efficace gli argomenti di questo capitolo ci
+poniamo come obiettivo quello di realizzare un programma di
+consultazione e ricerca dei clienti, definendo un’ interfaccia di tipo
+<em>line</em> e una serie di campi che l’utente potrà utilizzare per
+ricercare alcuni valori all’interno della view.</p>
+<br />
+<h3>0.8.1<a name='node_58'> &nbsp; </a><i>Tables in view</i></h3></br /><blockquote><p>Creiamo un nuovo programma denominato “customers” e al suo interno
+una view denominata appunto “customers”.</p>
+
+<p>Definiamo adesso le tabelle delle view.</p>
+
+Nell'area della view indicata come <i>Tables in view</i> vengono dichiarate
+le tabelle necessarie per la costruzione della query.</p>
+
+<p>Nel nostro caso dobbiamo costruire una query che riporti i valori dalla
+tabella “customers”, quindi dobbiamo aggiungere la tabella “customers” e
+dichiararla <i>Main table</i> della view.</p>
+
+<blockquote><b>Ogni view o2 richiede sempre una e solo una tabella
+dichiarata come <i>Main table</i> o come <i>View</i></b>. (Per quanto
+riguarda il level <i>View</i> tratteremo l'argomento più avanti nel corso).
+</blockquote>
+
+<p>Le altre tabelle che eventualmente servano alla definizione della view
+devono obbligatoriamente essere dichiarate di level <i>Link</i>.</p>
+
+<p>Le link consentono di estendere il recordset nel numero di colonne,
+agganciando al recordset principale anche le select derivanti da altre tabelle,
+ma non estendono mai il recordset nel numero di record ritornati. Possono
+tuttavia ridurlo se applicati dei criteri di range.</p>
+
+<p>Vedremo meglio le link più avanti nel corso.</p>
+
+<p>Aggiungiamo al corpo della view le select necessarie (tutte) in modo da
+ottenere il seguente risultato:</p>
+
+<img src='img/image094.gif'>
+</blockquote><br />
+<h3>0.8.2<a name='node_59'> &nbsp; </a>I campi calcolati (calculated)</h3></br /><blockquote><p>Supponiamo di voler definire una colonna nel recordset contenente
+la concatenazione di stringa dei campi che compongono l’indirizzo, per
+visualizzarli come fossero un unico campo sul database.</p>
+<ol>
+<li>Aggiungere alle nostre select una nuova riga (<kbd>F4</kbd>)</li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Type</i> e scegliamo
+       <i>Calculated</i></li>
+<li>Digitare il nome del campo nella colonna <i>Alias</i> (stringa senza spazi
+       e di contenuto univoco all’interno della view)</li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Init</i> per selezionare
+       l’espressione di calcolo (dal repository delle expression)</li>
+</ol></blockquote><br />
+<h3>0.8.3<a name='node_60'> &nbsp; </a>Le espressioni (expression)</h3></br /><blockquote><p>E’ doveroso, arrivati a questo punto del corso, prima di proseguire,
+esprimere per la prima volta il concetto di expression del programma.</p>
+
+<p>All’interno di ogni programma è possibile definire infinite espressioni
+(simili alle funzioni di qualsiasi linguaggio di programmazione). Ogni espressione
+è composta da:</p>
+<ol>
+<li>Un indice univoco (<i>id</i>) con il quale sarà indicata e utilizzata</li>
+<li>Un campo testo (illimitato nel numero di caratteri) denominato <i>Script</i>
+       (facoltativo)</li>
+<li>Un campo testo (limitato a 255 caratteri) denominato <i>Return</i> e che
+       esprime il valore che l'espressione dovrà ritornare</li>
+</ol>
+
+<p>Il <i>Return</i> di una espressione può essere una costante o il risultato di
+espressioni valorizzate nello <i>Script</i>, utilizzando funzioni e i valori delle
+variabili del programma. Ovviamente tali valori saranno determinati durante
+l’esecuzione del programma dal modulo o2Runtime.</p>
+
+<p>Ecco alcuni esempi di expression:</p>
+
+<img src='img/image096.gif'>
+<ol>
+<li>La prima ritornerà sempre la stringa “Costante alfanumerica”</li>
+<li>La seconda ritornerà sempre il valore 100</li>
+<li>La terza ritornerà il valore del campo “address” all’interno della view
+       “customers” del record selezionato in quel momento</li>
+</ol>
+
+<p>Fatta questa premessa dobbiamo creare una nuova expression che riporti la
+concatenazione di stringa tra i campi che compongono l’indirizzo del cliente. Per
+fare questo:</p>
+<ol>
+<li>Dalla scelta <i>Expression</i> creare una nuova riga (<kbd>F4</kbd>)</li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Return</i> per accedere
+       all’area di <i>Script</i></li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dallo script per accedere agli oggetti o2
+       disponibili (campi, proprietà dell’applicazione, ecc.)</li>
+<li>Scrivere un’espressione come quella sottostante per farsi ritornare il valore
+       dei campi "address" e "city" concatenati</li>
+</ol>
+
+<img src='img/image098.gif'>
+
+<blockquote><b>Attenzione. Lo <i>Script</i> e il <i>Return</i> delle espressioni
+o2 deve essere sintassi <em>PHP</em> (per informazioni sul linguaggio <em>
+PHP</em> visitare il sito <a href='http://www.php.net'>www.php.net</a>). Questo significa che all’interno delle espressioni o2 possono essere utilizzate liberamente
+le funzioni che il linguaggio <em>PHP</em> mette a disposizione.</b></blockquote>
+
+<p>Dopo la definizione della suddetta expression la nostra view si presenterà nel
+seguente formato:</p>
+
+<img src='img/image100.gif'>
+
+<p>Il riferimento “1” nella colonna <i>Init</i> richiama l’expression con id “1”
+appena creata.</p>
+</blockquote><br />
+<h3>0.8.4<a name='node_61'> &nbsp; </a>Criteri di range (<i>Min</i>, <i>Max</i>, <i>Not</i>, <i>Like</i>)</h3></br /><blockquote><p>Il programmatore può definire una espressione per ogni criterio di range
+su ognuno dei campi selezionati all’interno della view al fine di filtrare il
+recordset.</p>
+
+<p>Le espressioni di range nelle colonne di <i>Range</i> sono l’unico modo
+per definire i criteri di filtro all’interno del dataview completo. Le colonne di
+<i>Range</i> sono quattro:</p>
+<ol>
+<li><i>Min</i> - valore minimo accettato per il campo</li>
+<li><i>Max</i> - valore massimo accettato campo</li>
+<li><i>Not</i> - valore che NON deve essere accettato per il campo</li>
+<li><i>Like</i> - valori che deve essere contenuto nel campo</li>
+</ol>
+
+<p>Ogni riga di select all’interno della View permette l’inserimento nelle celle
+<i>Min</i>, <i>Max</i>, <i>Not</i> e <i>Like</i>, posizionandosi sulla riga,
+quindi sul campo, che vogliamo filtrare e premendo <kbd>F5</kbd>
+(<i>zoom</i>) dalla colonna <i>Min</i> per selezionare l’espressione di filtro.
+</p>
+
+<p>Se, a titolo di esempio, volessimo che il nostro programma lavorasse solamente
+con clienti che abbiano un codice ("id") compreso tra il valore "10" e il valore "30"
+dovremmo:</p>
+<ol>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Min</i> della riga dell’"id"</li>
+<li>Creare una nuova expression (<kbd>F4</kbd>)</li>
+<li>Digitare "10" nella colonna <i>Result</i> e selezionare l’expression</li>
+<li>Spostarsi nella colonna <i>Max</i></li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Max</i> della riga dell’"id"</li>
+<li>Creare una nuova expression (<kbd>F4</kbd>)</li>
+<li>Digitare "30" nella colonna <i>Result</i> e selezionare l’expression</li>
+</ol>
+
+<img src='img/image102.gif'></blockquote><br />
+<h3>0.8.5<a name='node_62'> &nbsp; </a>Variabili del programma</h3></br /><blockquote><p>Appare evidente che i filtri visti fino ad ora risolvano solo una parte del
+problema, cioé quella dei filtri definiti dal programmatore. In molti casi, però,
+il programmatore non può definire a priori i valori di range, ma può definire dei
+criteri utilizzando le variabili del programma (<i>variables</i>) che, in fase
+esecutiva, assumeranno dei valori (sia impostati dall’utente finale che dalle
+action stesse del programma).</p>
+
+<p>Ecco un esempio del risultato da ottenere:</p>
+
+<img src='img/image104.gif'>
+
+<p>Oltre ai campi delle view, il programmatore può definire, all’interno di ogni
+programma, tutte le variabili locali che ritiene necessarie. Queste variabili sono
+utilizzabili solo all’interno del programma in cui vengono definite.</p>
+
+<p>Dal <i>Navigator</i> selezionare <i>Variables</i></p>
+
+<img src='img/image106.gif'>
+
+<p>Per definire una nuova variabile:</p>
+<ol>
+<li>Accedere alla tabella e creare una nuova riga (<kbd>F4</kbd>)</li>
+<li>Digitare il nome nella colonna <i>Alias</i></li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Model</i> per selezionare
+       il modello</li>
+</ol>
+
+<p>Procedere adesso autonomamente a definire le variabili che metteremo a
+disposizione dell’utente finale per la ricerca dei clienti, ad esempio:</p>
+
+<img src='img/image108.gif'>
+
+<p>Una volta definito le variabili procedere con la creazione delle espressioni da
+utilizzare nelle colonne di range della view. Al termine, la nostra view su "customers"
+si presenterà nel seguente modo:</p>
+
+<img src='img/image110.gif'>
+
+<p>E questo sarà l’elenco delle expression:</p>
+
+<img src='img/image112.gif'>
+</blockquote><br />
+<h3>0.8.6<a name='node_63'> &nbsp; </a>Creazione della form (di tipo <em>line</em>)</h3></br /><blockquote><p>Creiamo adesso l’interfaccia utente. Come già precedentemente visto,
+accedere all’area <i>Forms</i> dal <i>Navigator</i>.</p>
+<ol>
+<li>Creare una nuova riga nella tabella delle form (<kbd>F4</kbd>)</li>
+<li>Digitare il titolo nella colonna <i>Title</i></li>
+<li>Premere il pulsante <i>Design</i> per accedere all'interfaccia di
+       <i>Design form</i></li>
+</ol>
+
+<p>Posizionare i controlli sulla form, in particolare utilizzare il controllo
+<img src='img/image114.gif'> (<i>Table control</i>)  per impostare i record
+in forma tabellare. Inserendo il controllo <i>table</i> la procedura richiederà
+a quale view associarlo (proprietà obbligatoria).</p>
+
+<p>Il controllo <i>table</i> è un controllo in grado di contenere altri controlli,
+quindi aggiungere i controlli <i>edit</i> all’interno della tabella e associarli ai
+rispettivi campi della view.</p>
+
+<img src='img/image116.gif'>
+
+<p>Porre attenzione ai campi all’interno del controllo <i>table</i>. Oltre alla
+proprietà <i>Field</i> è necessario impostare anche la proprietà <i>Parent
+Options</i> che in questo caso raccoglie le proprietà della colonna della tabella.
+</p>
+
+<img src='img/image118.gif'>
+
+<p>Per ogni campo all’interno della tabella è necessario definire, attraverso la
+proprietà <i>Parent options</i>:</p>
+<ol>
+<li>La riga in cui verrà visualizzato (<i>Line</i>)</li>
+<li>Da quale colonna a quale colonna (<i>From column</i> – <i>To column</i>)
+       </li>
+<li>L’intestazione di colonna (<i>Label</i>)</li>
+</ol>
+
+<p>Gli altri campi sono facoltativi e saranno trattati nei capitoli successivi.</p>
+
+
+
+</blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_40.html'>Un programma di interazione con i dati di una tabella</a></td>
+       <td id='nav_next' align='right'><a href='node_64.html'>Relazione <em>uno-a-uno</em> - le link</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

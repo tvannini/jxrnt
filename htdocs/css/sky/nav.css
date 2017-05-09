@@ -1,0 +1,664 @@
+/* =============================== NAVIGATORE ================================== */
+.o2_ctrl_nav_space {
+    height: 17px;
+    border: 1px solid #a7bde4;
+    }
+
+.o2_ctrl_nav_space_int {
+    border-top: 1px solid #a7bde4;
+    }
+
+.o2_ctrl_nav_i {
+    display: none;
+    }
+
+.o2_ctrl_nav_e {
+    display: none;
+    }
+
+.o2_ctrl_nav_sep {
+    width: 100%;
+    }
+
+.o2_ctrl_nav_new {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/new.png) no-repeat top center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_new:hover {
+    background: url(nav/oriz/new_on.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_del {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/del.png) no-repeat top center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_del:hover {
+    background: url(nav/oriz/del_on.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_save {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/save.png) no-repeat top center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_save:hover {
+    background: url(nav/oriz/save_on.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_undo {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/undo.png) no-repeat top center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_undo:hover {
+    background: url(nav/oriz/undo_on.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_sele {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/sele.png) no-repeat top center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_sele:hover {
+    background: url(nav/oriz/sele_on.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_det {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/det.png) no-repeat top center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_det:hover {
+    background: url(nav/oriz/det_on.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_new_dis {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/new_dis.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_del_dis {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/del_dis.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_save_dis {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/save_dis.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_undo_dis {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/undo_dis.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_sele_dis {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/sele_dis.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_det_dis {
+    width: 24px;
+    height: 17px;
+    background: url(nav/oriz/det_dis.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_first {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/first.png) no-repeat top center;
+    border-left: 1px solid #a7bde4;
+    border-right: 1px solid #a7bde4;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_first:hover {
+    background: url(nav/oriz/first_on.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_prevpg {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/prevpg.png) no-repeat top center;
+    border-right: 1px solid #a7bde4;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_prevpg:hover {
+    background: url(nav/oriz/prevpg_on.png) no-repeat top center;
+    }
+
+.o2_ctrl_nav_prev {
+    display: none;
+    }
+
+.o2_ctrl_nav_next {
+    display: none;
+    }
+
+.o2_ctrl_nav_nextpg {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/nextpg.png) no-repeat top center;
+    border-right: 1px solid #a7bde4;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_nextpg:hover {
+	background: url(nav/oriz/nextpg_on.png) no-repeat top center;
+	}
+
+.o2_ctrl_nav_last {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/last.png) no-repeat top center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_nav_last:hover {
+	background: url(nav/oriz/last_on.png) no-repeat top center;
+	}
+
+.o2_ctrl_nav_first.dis {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/first_dis.png) no-repeat top center;
+    border-left: 1px solid #a7bde4;
+    border-right: 1px solid #a7bde4;
+    cursor: default;
+    }
+
+.o2_ctrl_nav_prevpg.dis {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/prevpg_dis.png) no-repeat top center;
+    border-right: 1px solid #a7bde4;
+    cursor: default;
+    }
+
+.o2_ctrl_nav_prev.dis {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/prev_dis.png) no-repeat top center;
+    cursor: default;
+    }
+
+.o2_ctrl_nav_next.dis {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/next_dis.png) no-repeat top center;
+    cursor: default;
+    }
+
+.o2_ctrl_nav_nextpg.dis {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/nextpg_dis.png) no-repeat top center;
+    border-right: 1px solid #a7bde4;
+    cursor: default;
+    }
+
+.o2_ctrl_nav_last.dis {
+    width: 17px;
+    height: 17px;
+    background: url(nav/oriz/last_dis.png) no-repeat top center;
+    cursor: default;
+    }
+
+/* ====================== NAVIGATORE VERTICALE ============================ */
+.o2_ctrl_navv_space {
+    width: 20px;
+    border-bottom: 1px solid #a7bde4;
+    border-top: 1px solid #a7bde4;
+    border-left: 1px solid #a7bde4;
+    border-right: 1px solid #a7bde4;
+    }
+
+.o2_ctrl_navv_space_int {
+    border-left: 1px solid #a7bde4;
+    width: 18px;
+    max-height: 100%;
+    }
+
+.o2_ctrl_navv_i {
+    display: none;
+    }
+
+.o2_ctrl_navv_e {
+    display: none;
+    }
+
+.o2_ctrl_navv_sep {
+    height: 100%;
+    }
+
+.o2_ctrl_navv_new {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/new.png) no-repeat center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_new:hover {
+    background: url(nav/vert/new_on.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_del {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/del.png) no-repeat center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_del:hover {
+    background: url(nav/vert/del_on.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_save {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/save.png) no-repeat center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_save:hover {
+    background: url(nav/vert/save_on.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_undo {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/undo.png) no-repeat center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_undo:hover {
+    background: url(nav/vert/undo_on.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_sele {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/sele.png) no-repeat center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_sele:hover {
+    background: url(nav/vert/sele_on.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_det {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/det.png) no-repeat center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_det:hover {
+    background: url(nav/vert/det_on.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_new_dis {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/new_dis.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_del_dis {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/del_dis.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_save_dis {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/save_dis.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_undo_dis {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/undo_dis.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_sele_dis {
+    background: url(nav/vert/sele_dis.png) no-repeat center;
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    }
+
+.o2_ctrl_navv_det_dis {
+    width: 100%;
+    min-width: 18px;
+    height: 24px;
+    background: url(nav/vert/det_dis.png) no-repeat center;
+    }
+
+.o2_ctrl_navv_first {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/first.png) no-repeat top center;
+    border-top: 1px solid #a7bde4;
+    border-bottom: 1px solid #a7bde4;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_first:hover {
+    background: url(nav/vert/first_on.png) no-repeat top;
+    }
+
+.o2_ctrl_navv_prevpg {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/prevpg.png) no-repeat top center;
+    border-bottom: 1px solid #a7bde4;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_prevpg:hover {
+    background: url(nav/vert/prevpg_on.png) no-repeat top;
+    }
+
+.o2_ctrl_navv_prev {
+    display: none;
+    }
+
+.o2_ctrl_navv_next {
+    display: none;
+    }
+
+.o2_ctrl_navv_nextpg {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/nextpg.png) no-repeat top center;
+    border-bottom: 1px solid #a7bde4;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_nextpg:hover {
+    background: url(nav/vert/nextpg_on.png) no-repeat top;
+    }
+
+.o2_ctrl_navv_last {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/last.png) no-repeat top center;
+    cursor: pointer;
+    }
+
+.o2_ctrl_navv_last:hover {
+    background: url(nav/vert/last_on.png) no-repeat top;
+    }
+
+.o2_ctrl_navv_first.dis {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/first_dis.png) no-repeat top center;
+    border-top: 1px solid #a7bde4;
+    border-bottom: 1px solid #a7bde4;
+    cursor: default;
+    }
+
+.o2_ctrl_navv_prevpg.dis {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/prevpg_dis.png) no-repeat top center;
+    border-bottom: 1px solid #a7bde4;
+    cursor: default;
+    }
+
+.o2_ctrl_navv_prev.dis {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/prev_dis.png) no-repeat top center;
+    cursor: default;
+    }
+
+.o2_ctrl_navv_next.dis {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/next_dis.png) no-repeat top center;
+    cursor: default;
+    }
+
+.o2_ctrl_navv_nextpg.dis {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/nextpg_dis.png) no-repeat top center;
+    border-bottom: 1px solid #a7bde4;
+    cursor: default;
+    }
+
+.o2_ctrl_navv_last.dis {
+    width: 100%;
+    height: 18px;
+    background: url(nav/vert/last_dis.png) no-repeat top center;
+    cursor: default;
+    }
+
+
+/* ============================ BIG NAVIGATOR (SCREEN FORM) ============================== */
+/* NOTE: nav_big class is defined in sky2.css module, so to be selectable from interface  */
+
+.nav_big .o2_ctrl_nav_e {
+    display: none;
+    }
+
+.nav_big .o2_ctrl_nav_i {
+    display: none;
+    }
+
+.nav_big .o2_ctrl_nav_first {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/first.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_first.dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/first_dis.png) no-repeat top;
+    }
+
+.nav_big .o2_ctrl_nav_prevpg {
+    display: none;
+    }
+
+.nav_big .o2_ctrl_nav_prev {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/prev.png) no-repeat top;
+    cursor: pointer;
+    display: block;
+    }
+
+.nav_big .o2_ctrl_nav_prev.dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/prev_dis.png) no-repeat top;
+    display: block;
+    }
+
+.nav_big .o2_ctrl_nav_last {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/last.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_last.dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/last_dis.png) no-repeat top;
+    }
+
+.nav_big .o2_ctrl_nav_nextpg {
+    display: none;
+    }
+
+.nav_big .o2_ctrl_nav_next {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/next.png) no-repeat top;
+    cursor: pointer;
+    display: block;
+    }
+
+.nav_big .o2_ctrl_nav_next.dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/next_dis.png) no-repeat top;
+    }
+
+.nav_big .o2_ctrl_nav_new {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/new.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_new:hover {
+    background: url(nav/big/new_on.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_new_dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/new_dis.png) no-repeat top;
+    }
+
+.nav_big .o2_ctrl_nav_save {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/save.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_save:hover {
+    background: url(nav/big/save_on.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_save_dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/save_dis.png) no-repeat top;
+    }
+
+.nav_big .o2_ctrl_nav_del {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/del.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_del:hover {
+    background: url(nav/big/del_on.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_del_dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/del_dis.png) no-repeat top;
+    }
+
+.nav_big .o2_ctrl_nav_det {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/det.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_det:hover {
+    background: url(nav/big/det_on.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_det_dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/det_dis.png) no-repeat top;
+    }
+
+.nav_big .o2_ctrl_nav_sele {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/sele.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_sele:hover {
+    background: url(nav/big/sele_on.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_sele_dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/sele_dis.png) no-repeat top;
+    }
+
+.nav_big .o2_ctrl_nav_undo {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/undo.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_undo:hover {
+    background: url(nav/big/undo_on.png) no-repeat top;
+    cursor: pointer;
+    }
+
+.nav_big .o2_ctrl_nav_undo_dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/undo_dis.png) no-repeat top;
+    }
+
+/* ========================== BUTTONS EFFECT ON MOUSE OVER ============================ */
+.ctrl_nav_effect, .ctrl_nav_effect:hover {
+    width: 18px;
+    height: 20px;
+    background-color: #ffffff;
+    border: 1px solid #a7bde4;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px 1px #dbdad8;
+    -webkit-transform:scale(1.9);
+    -moz-transform:scale(2);
+    transform:scale(2);
+    }

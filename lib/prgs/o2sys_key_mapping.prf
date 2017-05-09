@@ -1,0 +1,1632 @@
+<?php
+
+function o2sys_key_mapping§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("dele_alt", "_o2alpha");
+	$task_prg§_§var->definisci("dele_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("dele_key", "_o2number");
+	$task_prg§_§var->definisci("dele_shift", "_o2alpha");
+	$task_prg§_§var->definisci("detail_alt", "_o2alpha");
+	$task_prg§_§var->definisci("detail_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("detail_key", "_o2number");
+	$task_prg§_§var->definisci("detail_shift", "_o2alpha");
+	$task_prg§_§var->definisci("exit_alt", "_o2alpha");
+	$task_prg§_§var->definisci("exit_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("exit_key", "_o2number");
+	$task_prg§_§var->definisci("exit_shift", "_o2alpha");
+	$task_prg§_§var->definisci("field4keys", "_o2logical");
+	$task_prg§_§var->definisci("first_alt", "_o2alpha");
+	$task_prg§_§var->definisci("first_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("first_key", "_o2number");
+	$task_prg§_§var->definisci("first_shift", "_o2alpha");
+	$task_prg§_§var->definisci("last_alt", "_o2alpha");
+	$task_prg§_§var->definisci("last_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("last_key", "_o2number");
+	$task_prg§_§var->definisci("last_shift", "_o2alpha");
+	$task_prg§_§var->definisci("new_alt", "_o2alpha");
+	$task_prg§_§var->definisci("new_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("new_key", "_o2number");
+	$task_prg§_§var->definisci("new_shift", "_o2alpha");
+	$task_prg§_§var->definisci("next_alt", "_o2alpha");
+	$task_prg§_§var->definisci("next_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("next_key", "_o2number");
+	$task_prg§_§var->definisci("next_shift", "_o2alpha");
+	$task_prg§_§var->definisci("nextpg_alt", "_o2alpha");
+	$task_prg§_§var->definisci("nextpg_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("nextpg_key", "_o2number");
+	$task_prg§_§var->definisci("nextpg_shift", "_o2alpha");
+	$task_prg§_§var->definisci("option_code", "_o2alpha");
+	$task_prg§_§var->definisci("prev_alt", "_o2alpha");
+	$task_prg§_§var->definisci("prev_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("prev_key", "_o2number");
+	$task_prg§_§var->definisci("prev_shift", "_o2alpha");
+	$task_prg§_§var->definisci("prevpg_alt", "_o2alpha");
+	$task_prg§_§var->definisci("prevpg_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("prevpg_key", "_o2number");
+	$task_prg§_§var->definisci("prevpg_shift", "_o2alpha");
+	$task_prg§_§var->definisci("refresh_alt", "_o2alpha");
+	$task_prg§_§var->definisci("refresh_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("refresh_key", "_o2number");
+	$task_prg§_§var->definisci("refresh_shift", "_o2alpha");
+	$task_prg§_§var->definisci("save_alt", "_o2alpha");
+	$task_prg§_§var->definisci("save_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("save_key", "_o2number");
+	$task_prg§_§var->definisci("save_shift", "_o2alpha");
+	$task_prg§_§var->definisci("sele_alt", "_o2alpha");
+	$task_prg§_§var->definisci("sele_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("sele_key", "_o2number");
+	$task_prg§_§var->definisci("sele_shift", "_o2alpha");
+	$task_prg§_§var->definisci("undo_alt", "_o2alpha");
+	$task_prg§_§var->definisci("undo_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("undo_key", "_o2number");
+	$task_prg§_§var->definisci("undo_shift", "_o2alpha");
+	$task_prg§_§var->definisci("user_code", "_o2alpha");
+	$task_prg§_§var->definisci("zoom_alt", "_o2alpha");
+	$task_prg§_§var->definisci("zoom_ctrl", "_o2alpha");
+	$task_prg§_§var->definisci("zoom_key", "_o2number");
+	$task_prg§_§var->definisci("zoom_shift", "_o2alpha");
+		}
+
+function o2sys_key_mapping§§options_def(&$task_options, $_o2viewalias = "") {
+	$task_options->righe_vis = 1;
+
+	$task_options->usa_file("o2_options","options","id",null,null);
+
+	$task_options->usa("o2user","options","o2user","o2sys_key_mapping_exp_14()","o2sys_key_mapping_exp_14()",null,null);
+	$task_options->usa("code","options","code","o2sys_key_mapping_exp_15()","o2sys_key_mapping_exp_15()",null,null);
+	$task_options->usa("value","options","value",null,null,null,null);
+}
+function o2sys_key_mapping§§o2sys_key_mapping_1_form_def(&$form_o2sys_key_mapping_1) {
+	$form_o2sys_key_mapping_1->x(239);
+	$form_o2sys_key_mapping_1->y(47);
+	$form_o2sys_key_mapping_1->larghezza(492);
+	$form_o2sys_key_mapping_1->altezza(457);
+	$form_o2sys_key_mapping_1->titolo("Keyboard mapping");
+	$form_o2sys_key_mapping_1->css_doc("sys_keyb_doc");
+	$form_o2sys_key_mapping_1->align_o("Center");
+	$form_o2sys_key_mapping_1->frm_status(o2sys_key_mapping_exp_1());
+	$ctrl_o2label12 = &$form_o2sys_key_mapping_1->ctrldef("o2label12", "label", "", "", "");
+		$ctrl_o2label12->x(30);
+		$ctrl_o2label12->y(25);
+		$ctrl_o2label12->larghezza(341);
+		$ctrl_o2label12->altezza(20);
+		$ctrl_o2label12->label("Position on icons and press desired keys combination");
+	$ctrl_jxscript = &$form_o2sys_key_mapping_1->ctrldef("jxscript", "htmlarea", "", "", "");
+		$ctrl_jxscript->x(380);
+		$ctrl_jxscript->y(20);
+		$ctrl_jxscript->larghezza(80);
+		$ctrl_jxscript->altezza(20);
+		$ctrl_jxscript->html(o2sys_key_mapping_exp_2());
+	$ctrl_o2multipage4 = &$form_o2sys_key_mapping_1->ctrldef("o2multipage4", "multipage", "", "", "");
+		$ctrl_o2multipage4->x(30);
+		$ctrl_o2multipage4->y(60);
+		$ctrl_o2multipage4->larghezza(430);
+		$ctrl_o2multipage4->altezza(90);
+		$ctrl_o2multipage4->label(array("Form controls"));
+		$ctrl_o2multipage4->buttons("T");
+	$ctrl_o2multipage2 = &$form_o2sys_key_mapping_1->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(30);
+		$ctrl_o2multipage2->y(160);
+		$ctrl_o2multipage2->larghezza(210);
+		$ctrl_o2multipage2->altezza(210);
+		$ctrl_o2multipage2->label(array("Navigation controls"));
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2multipage3 = &$form_o2sys_key_mapping_1->ctrldef("o2multipage3", "multipage", "", "", "");
+		$ctrl_o2multipage3->x(250);
+		$ctrl_o2multipage3->y(160);
+		$ctrl_o2multipage3->larghezza(210);
+		$ctrl_o2multipage3->altezza(210);
+		$ctrl_o2multipage3->label(array("Editing controls"));
+		$ctrl_o2multipage3->buttons("T");
+	$ctrl_o2button3 = &$form_o2sys_key_mapping_1->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(300);
+		$ctrl_o2button3->y(385);
+		$ctrl_o2button3->larghezza(80);
+		$ctrl_o2button3->altezza(25);
+		$ctrl_o2button3->azione("set_html_default");
+		$ctrl_o2button3->label("&Default");
+	$ctrl_o2button2 = &$form_o2sys_key_mapping_1->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(380);
+		$ctrl_o2button2->y(385);
+		$ctrl_o2button2->larghezza(80);
+		$ctrl_o2button2->altezza(25);
+		$ctrl_o2button2->azione("save_options");
+		$ctrl_o2button2->label("&Set");
+	$ctrl_o2htmlarea7 = &$form_o2sys_key_mapping_1->ctrldef("o2htmlarea7", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea7->x(22);
+		$ctrl_o2htmlarea7->y(152);
+		$ctrl_o2htmlarea7->larghezza(18);
+		$ctrl_o2htmlarea7->altezza(18);
+		$ctrl_o2htmlarea7->info_padre(array(0));
+		$ctrl_o2htmlarea7->html(o2sys_key_mapping_exp_13());
+		$ctrl_o2htmlarea7->expand("B");
+	$ctrl_o2label8 = &$form_o2sys_key_mapping_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
+		$ctrl_o2label8->x(60);
+		$ctrl_o2label8->y(32);
+		$ctrl_o2label8->larghezza(55);
+		$ctrl_o2label8->altezza(18);
+		$ctrl_o2label8->info_padre(array(0));
+		$ctrl_o2label8->label("Key code");
+	$ctrl_o2label9 = &$form_o2sys_key_mapping_1->ctrldef("o2label9", "label", "o2multipage2", "", "");
+		$ctrl_o2label9->x(120);
+		$ctrl_o2label9->y(32);
+		$ctrl_o2label9->larghezza(31);
+		$ctrl_o2label9->altezza(18);
+		$ctrl_o2label9->info_padre(array(0));
+		$ctrl_o2label9->label("Shift");
+	$ctrl_o2label10 = &$form_o2sys_key_mapping_1->ctrldef("o2label10", "label", "o2multipage2", "", "");
+		$ctrl_o2label10->x(150);
+		$ctrl_o2label10->y(32);
+		$ctrl_o2label10->larghezza(21);
+		$ctrl_o2label10->altezza(18);
+		$ctrl_o2label10->info_padre(array(0));
+		$ctrl_o2label10->label("Ctrl");
+	$ctrl_o2htmlarea6 = &$form_o2sys_key_mapping_1->ctrldef("o2htmlarea6", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea6->x(22);
+		$ctrl_o2htmlarea6->y(132);
+		$ctrl_o2htmlarea6->larghezza(18);
+		$ctrl_o2htmlarea6->altezza(18);
+		$ctrl_o2htmlarea6->info_padre(array(0));
+		$ctrl_o2htmlarea6->html(o2sys_key_mapping_exp_12());
+		$ctrl_o2htmlarea6->expand("B");
+	$ctrl_o2label11 = &$form_o2sys_key_mapping_1->ctrldef("o2label11", "label", "o2multipage2", "", "");
+		$ctrl_o2label11->x(180);
+		$ctrl_o2label11->y(32);
+		$ctrl_o2label11->larghezza(21);
+		$ctrl_o2label11->altezza(18);
+		$ctrl_o2label11->info_padre(array(0));
+		$ctrl_o2label11->label("Alt");
+	$ctrl_o2htmlarea3 = &$form_o2sys_key_mapping_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea3->x(22);
+		$ctrl_o2htmlarea3->y(72);
+		$ctrl_o2htmlarea3->larghezza(18);
+		$ctrl_o2htmlarea3->altezza(18);
+		$ctrl_o2htmlarea3->info_padre(array(0));
+		$ctrl_o2htmlarea3->html(o2sys_key_mapping_exp_9());
+		$ctrl_o2htmlarea3->expand("B");
+	$ctrl_o2label7 = &$form_o2sys_key_mapping_1->ctrldef("o2label7", "label", "o2multipage2", "", "");
+		$ctrl_o2label7->x(9);
+		$ctrl_o2label7->y(32);
+		$ctrl_o2label7->larghezza(51);
+		$ctrl_o2label7->altezza(18);
+		$ctrl_o2label7->info_padre(array(0));
+		$ctrl_o2label7->label("Function");
+	$ctrl_o2htmlarea2 = &$form_o2sys_key_mapping_1->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea2->x(22);
+		$ctrl_o2htmlarea2->y(52);
+		$ctrl_o2htmlarea2->larghezza(18);
+		$ctrl_o2htmlarea2->altezza(18);
+		$ctrl_o2htmlarea2->info_padre(array(0));
+		$ctrl_o2htmlarea2->html(o2sys_key_mapping_exp_8());
+		$ctrl_o2htmlarea2->expand("B");
+	$ctrl_o2htmlarea4 = &$form_o2sys_key_mapping_1->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea4->x(22);
+		$ctrl_o2htmlarea4->y(92);
+		$ctrl_o2htmlarea4->larghezza(18);
+		$ctrl_o2htmlarea4->altezza(18);
+		$ctrl_o2htmlarea4->info_padre(array(0));
+		$ctrl_o2htmlarea4->html(o2sys_key_mapping_exp_10());
+		$ctrl_o2htmlarea4->expand("B");
+	$ctrl_o2htmlarea5 = &$form_o2sys_key_mapping_1->ctrldef("o2htmlarea5", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea5->x(22);
+		$ctrl_o2htmlarea5->y(112);
+		$ctrl_o2htmlarea5->larghezza(18);
+		$ctrl_o2htmlarea5->altezza(18);
+		$ctrl_o2htmlarea5->info_padre(array(0));
+		$ctrl_o2htmlarea5->html(o2sys_key_mapping_exp_11());
+		$ctrl_o2htmlarea5->expand("B");
+	$ctrl_first_key = &$form_o2sys_key_mapping_1->ctrldef("first_key", "edit", "o2multipage2", "prg§_§var", "first_key");
+		$ctrl_first_key->x(60);
+		$ctrl_first_key->y(52);
+		$ctrl_first_key->larghezza(50);
+		$ctrl_first_key->altezza(18);
+		$ctrl_first_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_first_key->info_padre(array(0));
+	$ctrl_prevpg_key = &$form_o2sys_key_mapping_1->ctrldef("prevpg_key", "edit", "o2multipage2", "prg§_§var", "prevpg_key");
+		$ctrl_prevpg_key->x(60);
+		$ctrl_prevpg_key->y(72);
+		$ctrl_prevpg_key->larghezza(50);
+		$ctrl_prevpg_key->altezza(18);
+		$ctrl_prevpg_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_prevpg_key->info_padre(array(0));
+	$ctrl_prev_key = &$form_o2sys_key_mapping_1->ctrldef("prev_key", "edit", "o2multipage2", "prg§_§var", "prev_key");
+		$ctrl_prev_key->x(60);
+		$ctrl_prev_key->y(92);
+		$ctrl_prev_key->larghezza(50);
+		$ctrl_prev_key->altezza(18);
+		$ctrl_prev_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_prev_key->info_padre(array(0));
+	$ctrl_next_key = &$form_o2sys_key_mapping_1->ctrldef("next_key", "edit", "o2multipage2", "prg§_§var", "next_key");
+		$ctrl_next_key->x(60);
+		$ctrl_next_key->y(112);
+		$ctrl_next_key->larghezza(50);
+		$ctrl_next_key->altezza(18);
+		$ctrl_next_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_next_key->info_padre(array(0));
+	$ctrl_nextpg_key = &$form_o2sys_key_mapping_1->ctrldef("nextpg_key", "edit", "o2multipage2", "prg§_§var", "nextpg_key");
+		$ctrl_nextpg_key->x(60);
+		$ctrl_nextpg_key->y(132);
+		$ctrl_nextpg_key->larghezza(50);
+		$ctrl_nextpg_key->altezza(18);
+		$ctrl_nextpg_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_nextpg_key->info_padre(array(0));
+	$ctrl_first_shift = &$form_o2sys_key_mapping_1->ctrldef("first_shift", "edit", "o2multipage2", "prg§_§var", "first_shift");
+		$ctrl_first_shift->x(122);
+		$ctrl_first_shift->y(52);
+		$ctrl_first_shift->larghezza(18);
+		$ctrl_first_shift->altezza(18);
+		$ctrl_first_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_first_shift->info_padre(array(0));
+	$ctrl_prevpg_shift = &$form_o2sys_key_mapping_1->ctrldef("prevpg_shift", "edit", "o2multipage2", "prg§_§var", "prevpg_shift");
+		$ctrl_prevpg_shift->x(122);
+		$ctrl_prevpg_shift->y(72);
+		$ctrl_prevpg_shift->larghezza(18);
+		$ctrl_prevpg_shift->altezza(18);
+		$ctrl_prevpg_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_prevpg_shift->info_padre(array(0));
+	$ctrl_prev_shift = &$form_o2sys_key_mapping_1->ctrldef("prev_shift", "edit", "o2multipage2", "prg§_§var", "prev_shift");
+		$ctrl_prev_shift->x(122);
+		$ctrl_prev_shift->y(92);
+		$ctrl_prev_shift->larghezza(18);
+		$ctrl_prev_shift->altezza(18);
+		$ctrl_prev_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_prev_shift->info_padre(array(0));
+	$ctrl_next_shift = &$form_o2sys_key_mapping_1->ctrldef("next_shift", "edit", "o2multipage2", "prg§_§var", "next_shift");
+		$ctrl_next_shift->x(122);
+		$ctrl_next_shift->y(112);
+		$ctrl_next_shift->larghezza(18);
+		$ctrl_next_shift->altezza(18);
+		$ctrl_next_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_next_shift->info_padre(array(0));
+	$ctrl_nextpg_shift = &$form_o2sys_key_mapping_1->ctrldef("nextpg_shift", "edit", "o2multipage2", "prg§_§var", "nextpg_shift");
+		$ctrl_nextpg_shift->x(122);
+		$ctrl_nextpg_shift->y(132);
+		$ctrl_nextpg_shift->larghezza(18);
+		$ctrl_nextpg_shift->altezza(18);
+		$ctrl_nextpg_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_nextpg_shift->info_padre(array(0));
+	$ctrl_nextpg_ctrl = &$form_o2sys_key_mapping_1->ctrldef("nextpg_ctrl", "edit", "o2multipage2", "prg§_§var", "nextpg_ctrl");
+		$ctrl_nextpg_ctrl->x(152);
+		$ctrl_nextpg_ctrl->y(132);
+		$ctrl_nextpg_ctrl->larghezza(18);
+		$ctrl_nextpg_ctrl->altezza(18);
+		$ctrl_nextpg_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_nextpg_ctrl->info_padre(array(0));
+	$ctrl_next_ctrl = &$form_o2sys_key_mapping_1->ctrldef("next_ctrl", "edit", "o2multipage2", "prg§_§var", "next_ctrl");
+		$ctrl_next_ctrl->x(152);
+		$ctrl_next_ctrl->y(112);
+		$ctrl_next_ctrl->larghezza(18);
+		$ctrl_next_ctrl->altezza(18);
+		$ctrl_next_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_next_ctrl->info_padre(array(0));
+	$ctrl_prev_ctrl = &$form_o2sys_key_mapping_1->ctrldef("prev_ctrl", "edit", "o2multipage2", "prg§_§var", "prev_ctrl");
+		$ctrl_prev_ctrl->x(152);
+		$ctrl_prev_ctrl->y(92);
+		$ctrl_prev_ctrl->larghezza(18);
+		$ctrl_prev_ctrl->altezza(18);
+		$ctrl_prev_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_prev_ctrl->info_padre(array(0));
+	$ctrl_prevpg_ctrl = &$form_o2sys_key_mapping_1->ctrldef("prevpg_ctrl", "edit", "o2multipage2", "prg§_§var", "prevpg_ctrl");
+		$ctrl_prevpg_ctrl->x(152);
+		$ctrl_prevpg_ctrl->y(72);
+		$ctrl_prevpg_ctrl->larghezza(18);
+		$ctrl_prevpg_ctrl->altezza(18);
+		$ctrl_prevpg_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_prevpg_ctrl->info_padre(array(0));
+	$ctrl_first_ctrl = &$form_o2sys_key_mapping_1->ctrldef("first_ctrl", "edit", "o2multipage2", "prg§_§var", "first_ctrl");
+		$ctrl_first_ctrl->x(152);
+		$ctrl_first_ctrl->y(52);
+		$ctrl_first_ctrl->larghezza(18);
+		$ctrl_first_ctrl->altezza(18);
+		$ctrl_first_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_first_ctrl->info_padre(array(0));
+	$ctrl_first_alt = &$form_o2sys_key_mapping_1->ctrldef("first_alt", "edit", "o2multipage2", "prg§_§var", "first_alt");
+		$ctrl_first_alt->x(182);
+		$ctrl_first_alt->y(52);
+		$ctrl_first_alt->larghezza(18);
+		$ctrl_first_alt->altezza(18);
+		$ctrl_first_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_first_alt->info_padre(array(0));
+	$ctrl_prevpg_alt = &$form_o2sys_key_mapping_1->ctrldef("prevpg_alt", "edit", "o2multipage2", "prg§_§var", "prevpg_alt");
+		$ctrl_prevpg_alt->x(182);
+		$ctrl_prevpg_alt->y(72);
+		$ctrl_prevpg_alt->larghezza(18);
+		$ctrl_prevpg_alt->altezza(18);
+		$ctrl_prevpg_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_prevpg_alt->info_padre(array(0));
+	$ctrl_prev_alt = &$form_o2sys_key_mapping_1->ctrldef("prev_alt", "edit", "o2multipage2", "prg§_§var", "prev_alt");
+		$ctrl_prev_alt->x(182);
+		$ctrl_prev_alt->y(92);
+		$ctrl_prev_alt->larghezza(18);
+		$ctrl_prev_alt->altezza(18);
+		$ctrl_prev_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_prev_alt->info_padre(array(0));
+	$ctrl_next_alt = &$form_o2sys_key_mapping_1->ctrldef("next_alt", "edit", "o2multipage2", "prg§_§var", "next_alt");
+		$ctrl_next_alt->x(182);
+		$ctrl_next_alt->y(112);
+		$ctrl_next_alt->larghezza(18);
+		$ctrl_next_alt->altezza(18);
+		$ctrl_next_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_next_alt->info_padre(array(0));
+	$ctrl_nextpg_alt = &$form_o2sys_key_mapping_1->ctrldef("nextpg_alt", "edit", "o2multipage2", "prg§_§var", "nextpg_alt");
+		$ctrl_nextpg_alt->x(182);
+		$ctrl_nextpg_alt->y(132);
+		$ctrl_nextpg_alt->larghezza(18);
+		$ctrl_nextpg_alt->altezza(18);
+		$ctrl_nextpg_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_nextpg_alt->info_padre(array(0));
+	$ctrl_last_alt = &$form_o2sys_key_mapping_1->ctrldef("last_alt", "edit", "o2multipage2", "prg§_§var", "last_alt");
+		$ctrl_last_alt->x(182);
+		$ctrl_last_alt->y(152);
+		$ctrl_last_alt->larghezza(18);
+		$ctrl_last_alt->altezza(18);
+		$ctrl_last_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_last_alt->info_padre(array(0));
+	$ctrl_last_key = &$form_o2sys_key_mapping_1->ctrldef("last_key", "edit", "o2multipage2", "prg§_§var", "last_key");
+		$ctrl_last_key->x(60);
+		$ctrl_last_key->y(152);
+		$ctrl_last_key->larghezza(50);
+		$ctrl_last_key->altezza(18);
+		$ctrl_last_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_last_key->info_padre(array(0));
+	$ctrl_last_shift = &$form_o2sys_key_mapping_1->ctrldef("last_shift", "edit", "o2multipage2", "prg§_§var", "last_shift");
+		$ctrl_last_shift->x(122);
+		$ctrl_last_shift->y(152);
+		$ctrl_last_shift->larghezza(18);
+		$ctrl_last_shift->altezza(18);
+		$ctrl_last_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_last_shift->info_padre(array(0));
+	$ctrl_last_ctrl = &$form_o2sys_key_mapping_1->ctrldef("last_ctrl", "edit", "o2multipage2", "prg§_§var", "last_ctrl");
+		$ctrl_last_ctrl->x(152);
+		$ctrl_last_ctrl->y(152);
+		$ctrl_last_ctrl->larghezza(18);
+		$ctrl_last_ctrl->altezza(18);
+		$ctrl_last_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_last_ctrl->info_padre(array(0));
+	$ctrl_o2label6 = &$form_o2sys_key_mapping_1->ctrldef("o2label6", "label", "o2multipage3", "", "");
+		$ctrl_o2label6->x(180);
+		$ctrl_o2label6->y(32);
+		$ctrl_o2label6->larghezza(21);
+		$ctrl_o2label6->altezza(18);
+		$ctrl_o2label6->info_padre(array(0));
+		$ctrl_o2label6->label("Alt");
+	$ctrl_btn_save = &$form_o2sys_key_mapping_1->ctrldef("btn_save", "htmlarea", "o2multipage3", "", "");
+		$ctrl_btn_save->x(22);
+		$ctrl_btn_save->y(112);
+		$ctrl_btn_save->larghezza(18);
+		$ctrl_btn_save->altezza(18);
+		$ctrl_btn_save->info_padre(array(0));
+		$ctrl_btn_save->html(o2sys_key_mapping_exp_6());
+		$ctrl_btn_save->expand("B");
+	$ctrl_btn_undo = &$form_o2sys_key_mapping_1->ctrldef("btn_undo", "htmlarea", "o2multipage3", "", "");
+		$ctrl_btn_undo->x(22);
+		$ctrl_btn_undo->y(132);
+		$ctrl_btn_undo->larghezza(18);
+		$ctrl_btn_undo->altezza(18);
+		$ctrl_btn_undo->info_padre(array(0));
+		$ctrl_btn_undo->html(o2sys_key_mapping_exp_7());
+		$ctrl_btn_undo->expand("B");
+	$ctrl_o2label3 = &$form_o2sys_key_mapping_1->ctrldef("o2label3", "label", "o2multipage3", "", "");
+		$ctrl_o2label3->x(60);
+		$ctrl_o2label3->y(32);
+		$ctrl_o2label3->larghezza(55);
+		$ctrl_o2label3->altezza(18);
+		$ctrl_o2label3->info_padre(array(0));
+		$ctrl_o2label3->label("Key code");
+	$ctrl_o2label2 = &$form_o2sys_key_mapping_1->ctrldef("o2label2", "label", "o2multipage3", "", "");
+		$ctrl_o2label2->x(9);
+		$ctrl_o2label2->y(32);
+		$ctrl_o2label2->larghezza(51);
+		$ctrl_o2label2->altezza(18);
+		$ctrl_o2label2->info_padre(array(0));
+		$ctrl_o2label2->label("Function");
+	$ctrl_btn_del = &$form_o2sys_key_mapping_1->ctrldef("btn_del", "htmlarea", "o2multipage3", "", "");
+		$ctrl_btn_del->x(22);
+		$ctrl_btn_del->y(92);
+		$ctrl_btn_del->larghezza(18);
+		$ctrl_btn_del->altezza(18);
+		$ctrl_btn_del->info_padre(array(0));
+		$ctrl_btn_del->html(o2sys_key_mapping_exp_5());
+		$ctrl_btn_del->expand("B");
+	$ctrl_o2label4 = &$form_o2sys_key_mapping_1->ctrldef("o2label4", "label", "o2multipage3", "", "");
+		$ctrl_o2label4->x(120);
+		$ctrl_o2label4->y(32);
+		$ctrl_o2label4->larghezza(31);
+		$ctrl_o2label4->altezza(18);
+		$ctrl_o2label4->info_padre(array(0));
+		$ctrl_o2label4->label("Shift");
+	$ctrl_o2label5 = &$form_o2sys_key_mapping_1->ctrldef("o2label5", "label", "o2multipage3", "", "");
+		$ctrl_o2label5->x(150);
+		$ctrl_o2label5->y(32);
+		$ctrl_o2label5->larghezza(21);
+		$ctrl_o2label5->altezza(18);
+		$ctrl_o2label5->info_padre(array(0));
+		$ctrl_o2label5->label("Ctrl");
+	$ctrl_btn_sele = &$form_o2sys_key_mapping_1->ctrldef("btn_sele", "htmlarea", "o2multipage3", "", "");
+		$ctrl_btn_sele->x(22);
+		$ctrl_btn_sele->y(52);
+		$ctrl_btn_sele->larghezza(18);
+		$ctrl_btn_sele->altezza(18);
+		$ctrl_btn_sele->info_padre(array(0));
+		$ctrl_btn_sele->html(o2sys_key_mapping_exp_3());
+		$ctrl_btn_sele->expand("B");
+	$ctrl_btn_new = &$form_o2sys_key_mapping_1->ctrldef("btn_new", "htmlarea", "o2multipage3", "", "");
+		$ctrl_btn_new->x(22);
+		$ctrl_btn_new->y(72);
+		$ctrl_btn_new->larghezza(18);
+		$ctrl_btn_new->altezza(18);
+		$ctrl_btn_new->info_padre(array(0));
+		$ctrl_btn_new->html(o2sys_key_mapping_exp_4());
+		$ctrl_btn_new->expand("B");
+	$ctrl_btn_detail = &$form_o2sys_key_mapping_1->ctrldef("btn_detail", "htmlarea", "o2multipage3", "", "");
+		$ctrl_btn_detail->x(22);
+		$ctrl_btn_detail->y(152);
+		$ctrl_btn_detail->larghezza(18);
+		$ctrl_btn_detail->altezza(18);
+		$ctrl_btn_detail->info_padre(array(0));
+		$ctrl_btn_detail->html(o2sys_key_mapping_exp_61());
+		$ctrl_btn_detail->expand("B");
+	$ctrl_o2htmlarea8 = &$form_o2sys_key_mapping_1->ctrldef("o2htmlarea8", "htmlarea", "o2multipage3", "", "");
+		$ctrl_o2htmlarea8->x(22);
+		$ctrl_o2htmlarea8->y(172);
+		$ctrl_o2htmlarea8->larghezza(18);
+		$ctrl_o2htmlarea8->altezza(18);
+		$ctrl_o2htmlarea8->info_padre(array(0));
+		$ctrl_o2htmlarea8->html(o2sys_key_mapping_exp_102());
+		$ctrl_o2htmlarea8->expand("B");
+	$ctrl_sele_key = &$form_o2sys_key_mapping_1->ctrldef("sele_key", "edit", "o2multipage3", "prg§_§var", "sele_key");
+		$ctrl_sele_key->x(60);
+		$ctrl_sele_key->y(52);
+		$ctrl_sele_key->larghezza(50);
+		$ctrl_sele_key->altezza(18);
+		$ctrl_sele_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_sele_key->info_padre(array(0));
+	$ctrl_new_key = &$form_o2sys_key_mapping_1->ctrldef("new_key", "edit", "o2multipage3", "prg§_§var", "new_key");
+		$ctrl_new_key->x(60);
+		$ctrl_new_key->y(72);
+		$ctrl_new_key->larghezza(50);
+		$ctrl_new_key->altezza(18);
+		$ctrl_new_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_new_key->info_padre(array(0));
+	$ctrl_del_key = &$form_o2sys_key_mapping_1->ctrldef("del_key", "edit", "o2multipage3", "prg§_§var", "dele_key");
+		$ctrl_del_key->x(60);
+		$ctrl_del_key->y(92);
+		$ctrl_del_key->larghezza(50);
+		$ctrl_del_key->altezza(18);
+		$ctrl_del_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_del_key->info_padre(array(0));
+	$ctrl_save_key = &$form_o2sys_key_mapping_1->ctrldef("save_key", "edit", "o2multipage3", "prg§_§var", "save_key");
+		$ctrl_save_key->x(60);
+		$ctrl_save_key->y(112);
+		$ctrl_save_key->larghezza(50);
+		$ctrl_save_key->altezza(18);
+		$ctrl_save_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_save_key->info_padre(array(0));
+	$ctrl_undo_key = &$form_o2sys_key_mapping_1->ctrldef("undo_key", "edit", "o2multipage3", "prg§_§var", "undo_key");
+		$ctrl_undo_key->x(60);
+		$ctrl_undo_key->y(132);
+		$ctrl_undo_key->larghezza(50);
+		$ctrl_undo_key->altezza(18);
+		$ctrl_undo_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_undo_key->info_padre(array(0));
+	$ctrl_sele_shift = &$form_o2sys_key_mapping_1->ctrldef("sele_shift", "edit", "o2multipage3", "prg§_§var", "sele_shift");
+		$ctrl_sele_shift->x(122);
+		$ctrl_sele_shift->y(52);
+		$ctrl_sele_shift->larghezza(18);
+		$ctrl_sele_shift->altezza(18);
+		$ctrl_sele_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_sele_shift->info_padre(array(0));
+	$ctrl_sele_ctrl = &$form_o2sys_key_mapping_1->ctrldef("sele_ctrl", "edit", "o2multipage3", "prg§_§var", "sele_ctrl");
+		$ctrl_sele_ctrl->x(152);
+		$ctrl_sele_ctrl->y(52);
+		$ctrl_sele_ctrl->larghezza(18);
+		$ctrl_sele_ctrl->altezza(18);
+		$ctrl_sele_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_sele_ctrl->info_padre(array(0));
+	$ctrl_sele_alt = &$form_o2sys_key_mapping_1->ctrldef("sele_alt", "edit", "o2multipage3", "prg§_§var", "sele_alt");
+		$ctrl_sele_alt->x(182);
+		$ctrl_sele_alt->y(52);
+		$ctrl_sele_alt->larghezza(18);
+		$ctrl_sele_alt->altezza(18);
+		$ctrl_sele_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_sele_alt->info_padre(array(0));
+	$ctrl_new_shift = &$form_o2sys_key_mapping_1->ctrldef("new_shift", "edit", "o2multipage3", "prg§_§var", "new_shift");
+		$ctrl_new_shift->x(122);
+		$ctrl_new_shift->y(72);
+		$ctrl_new_shift->larghezza(18);
+		$ctrl_new_shift->altezza(18);
+		$ctrl_new_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_new_shift->info_padre(array(0));
+	$ctrl_new_ctrl = &$form_o2sys_key_mapping_1->ctrldef("new_ctrl", "edit", "o2multipage3", "prg§_§var", "new_ctrl");
+		$ctrl_new_ctrl->x(152);
+		$ctrl_new_ctrl->y(72);
+		$ctrl_new_ctrl->larghezza(18);
+		$ctrl_new_ctrl->altezza(18);
+		$ctrl_new_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_new_ctrl->info_padre(array(0));
+	$ctrl_new_alt = &$form_o2sys_key_mapping_1->ctrldef("new_alt", "edit", "o2multipage3", "prg§_§var", "new_alt");
+		$ctrl_new_alt->x(182);
+		$ctrl_new_alt->y(72);
+		$ctrl_new_alt->larghezza(18);
+		$ctrl_new_alt->altezza(18);
+		$ctrl_new_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_new_alt->info_padre(array(0));
+	$ctrl_del_shift = &$form_o2sys_key_mapping_1->ctrldef("del_shift", "edit", "o2multipage3", "prg§_§var", "dele_shift");
+		$ctrl_del_shift->x(122);
+		$ctrl_del_shift->y(92);
+		$ctrl_del_shift->larghezza(18);
+		$ctrl_del_shift->altezza(18);
+		$ctrl_del_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_del_shift->info_padre(array(0));
+	$ctrl_del_ctrl = &$form_o2sys_key_mapping_1->ctrldef("del_ctrl", "edit", "o2multipage3", "prg§_§var", "dele_ctrl");
+		$ctrl_del_ctrl->x(152);
+		$ctrl_del_ctrl->y(92);
+		$ctrl_del_ctrl->larghezza(18);
+		$ctrl_del_ctrl->altezza(18);
+		$ctrl_del_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_del_ctrl->info_padre(array(0));
+	$ctrl_del_alt = &$form_o2sys_key_mapping_1->ctrldef("del_alt", "edit", "o2multipage3", "prg§_§var", "dele_alt");
+		$ctrl_del_alt->x(182);
+		$ctrl_del_alt->y(92);
+		$ctrl_del_alt->larghezza(18);
+		$ctrl_del_alt->altezza(18);
+		$ctrl_del_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_del_alt->info_padre(array(0));
+	$ctrl_save_shift = &$form_o2sys_key_mapping_1->ctrldef("save_shift", "edit", "o2multipage3", "prg§_§var", "save_shift");
+		$ctrl_save_shift->x(122);
+		$ctrl_save_shift->y(112);
+		$ctrl_save_shift->larghezza(18);
+		$ctrl_save_shift->altezza(18);
+		$ctrl_save_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_save_shift->info_padre(array(0));
+	$ctrl_save_ctrl = &$form_o2sys_key_mapping_1->ctrldef("save_ctrl", "edit", "o2multipage3", "prg§_§var", "save_ctrl");
+		$ctrl_save_ctrl->x(152);
+		$ctrl_save_ctrl->y(112);
+		$ctrl_save_ctrl->larghezza(18);
+		$ctrl_save_ctrl->altezza(18);
+		$ctrl_save_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_save_ctrl->info_padre(array(0));
+	$ctrl_save_alt = &$form_o2sys_key_mapping_1->ctrldef("save_alt", "edit", "o2multipage3", "prg§_§var", "save_alt");
+		$ctrl_save_alt->x(182);
+		$ctrl_save_alt->y(112);
+		$ctrl_save_alt->larghezza(18);
+		$ctrl_save_alt->altezza(18);
+		$ctrl_save_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_save_alt->info_padre(array(0));
+	$ctrl_undo_shift = &$form_o2sys_key_mapping_1->ctrldef("undo_shift", "edit", "o2multipage3", "prg§_§var", "undo_shift");
+		$ctrl_undo_shift->x(122);
+		$ctrl_undo_shift->y(132);
+		$ctrl_undo_shift->larghezza(18);
+		$ctrl_undo_shift->altezza(18);
+		$ctrl_undo_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_undo_shift->info_padre(array(0));
+	$ctrl_undo_ctrl = &$form_o2sys_key_mapping_1->ctrldef("undo_ctrl", "edit", "o2multipage3", "prg§_§var", "undo_ctrl");
+		$ctrl_undo_ctrl->x(152);
+		$ctrl_undo_ctrl->y(132);
+		$ctrl_undo_ctrl->larghezza(18);
+		$ctrl_undo_ctrl->altezza(18);
+		$ctrl_undo_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_undo_ctrl->info_padre(array(0));
+	$ctrl_undo_alt = &$form_o2sys_key_mapping_1->ctrldef("undo_alt", "edit", "o2multipage3", "prg§_§var", "undo_alt");
+		$ctrl_undo_alt->x(182);
+		$ctrl_undo_alt->y(132);
+		$ctrl_undo_alt->larghezza(18);
+		$ctrl_undo_alt->altezza(18);
+		$ctrl_undo_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_undo_alt->info_padre(array(0));
+	$ctrl_detail_key = &$form_o2sys_key_mapping_1->ctrldef("detail_key", "edit", "o2multipage3", "prg§_§var", "detail_key");
+		$ctrl_detail_key->x(60);
+		$ctrl_detail_key->y(152);
+		$ctrl_detail_key->larghezza(50);
+		$ctrl_detail_key->altezza(18);
+		$ctrl_detail_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_detail_key->info_padre(array(0));
+	$ctrl_detail_shift = &$form_o2sys_key_mapping_1->ctrldef("detail_shift", "edit", "o2multipage3", "prg§_§var", "detail_shift");
+		$ctrl_detail_shift->x(122);
+		$ctrl_detail_shift->y(152);
+		$ctrl_detail_shift->larghezza(18);
+		$ctrl_detail_shift->altezza(18);
+		$ctrl_detail_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_detail_shift->info_padre(array(0));
+	$ctrl_detail_ctrl = &$form_o2sys_key_mapping_1->ctrldef("detail_ctrl", "edit", "o2multipage3", "prg§_§var", "detail_ctrl");
+		$ctrl_detail_ctrl->x(152);
+		$ctrl_detail_ctrl->y(152);
+		$ctrl_detail_ctrl->larghezza(18);
+		$ctrl_detail_ctrl->altezza(18);
+		$ctrl_detail_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_detail_ctrl->info_padre(array(0));
+	$ctrl_detail_alt = &$form_o2sys_key_mapping_1->ctrldef("detail_alt", "edit", "o2multipage3", "prg§_§var", "detail_alt");
+		$ctrl_detail_alt->x(182);
+		$ctrl_detail_alt->y(152);
+		$ctrl_detail_alt->larghezza(18);
+		$ctrl_detail_alt->altezza(18);
+		$ctrl_detail_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_detail_alt->info_padre(array(0));
+	$ctrl_zoom_key = &$form_o2sys_key_mapping_1->ctrldef("zoom_key", "edit", "o2multipage3", "prg§_§var", "zoom_key");
+		$ctrl_zoom_key->x(60);
+		$ctrl_zoom_key->y(172);
+		$ctrl_zoom_key->larghezza(50);
+		$ctrl_zoom_key->altezza(18);
+		$ctrl_zoom_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_zoom_key->info_padre(array(0));
+	$ctrl_zoom_shift = &$form_o2sys_key_mapping_1->ctrldef("zoom_shift", "edit", "o2multipage3", "prg§_§var", "zoom_shift");
+		$ctrl_zoom_shift->x(122);
+		$ctrl_zoom_shift->y(172);
+		$ctrl_zoom_shift->larghezza(18);
+		$ctrl_zoom_shift->altezza(18);
+		$ctrl_zoom_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_zoom_shift->info_padre(array(0));
+	$ctrl_zoom_ctrl = &$form_o2sys_key_mapping_1->ctrldef("zoom_ctrl", "edit", "o2multipage3", "prg§_§var", "zoom_ctrl");
+		$ctrl_zoom_ctrl->x(152);
+		$ctrl_zoom_ctrl->y(172);
+		$ctrl_zoom_ctrl->larghezza(18);
+		$ctrl_zoom_ctrl->altezza(18);
+		$ctrl_zoom_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_zoom_ctrl->info_padre(array(0));
+	$ctrl_zoom_alt = &$form_o2sys_key_mapping_1->ctrldef("zoom_alt", "edit", "o2multipage3", "prg§_§var", "zoom_alt");
+		$ctrl_zoom_alt->x(182);
+		$ctrl_zoom_alt->y(172);
+		$ctrl_zoom_alt->larghezza(18);
+		$ctrl_zoom_alt->altezza(18);
+		$ctrl_zoom_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_zoom_alt->info_padre(array(0));
+	$ctrl_o2label21 = &$form_o2sys_key_mapping_1->ctrldef("o2label21", "label", "o2multipage4", "", "");
+		$ctrl_o2label21->x(150);
+		$ctrl_o2label21->y(32);
+		$ctrl_o2label21->larghezza(21);
+		$ctrl_o2label21->altezza(18);
+		$ctrl_o2label21->info_padre(array(0));
+		$ctrl_o2label21->label("Ctrl");
+	$ctrl_o2label18 = &$form_o2sys_key_mapping_1->ctrldef("o2label18", "label", "o2multipage4", "", "");
+		$ctrl_o2label18->x(9);
+		$ctrl_o2label18->y(32);
+		$ctrl_o2label18->larghezza(51);
+		$ctrl_o2label18->altezza(18);
+		$ctrl_o2label18->info_padre(array(0));
+		$ctrl_o2label18->label("Function");
+	$ctrl_btn_exit = &$form_o2sys_key_mapping_1->ctrldef("btn_exit", "htmlarea", "o2multipage4", "", "");
+		$ctrl_btn_exit->x(242);
+		$ctrl_btn_exit->y(52);
+		$ctrl_btn_exit->larghezza(18);
+		$ctrl_btn_exit->altezza(18);
+		$ctrl_btn_exit->info_padre(array(0));
+		$ctrl_btn_exit->html(o2sys_key_mapping_exp_62());
+		$ctrl_btn_exit->expand("B");
+	$ctrl_btn_refresh = &$form_o2sys_key_mapping_1->ctrldef("btn_refresh", "htmlarea", "o2multipage4", "", "");
+		$ctrl_btn_refresh->x(22);
+		$ctrl_btn_refresh->y(52);
+		$ctrl_btn_refresh->larghezza(18);
+		$ctrl_btn_refresh->altezza(18);
+		$ctrl_btn_refresh->info_padre(array(0));
+		$ctrl_btn_refresh->html(o2sys_key_mapping_exp_69());
+		$ctrl_btn_refresh->expand("B");
+	$ctrl_o2label13 = &$form_o2sys_key_mapping_1->ctrldef("o2label13", "label", "o2multipage4", "", "");
+		$ctrl_o2label13->x(229);
+		$ctrl_o2label13->y(32);
+		$ctrl_o2label13->larghezza(51);
+		$ctrl_o2label13->altezza(18);
+		$ctrl_o2label13->info_padre(array(0));
+		$ctrl_o2label13->label("Function");
+	$ctrl_o2label14 = &$form_o2sys_key_mapping_1->ctrldef("o2label14", "label", "o2multipage4", "", "");
+		$ctrl_o2label14->x(280);
+		$ctrl_o2label14->y(32);
+		$ctrl_o2label14->larghezza(55);
+		$ctrl_o2label14->altezza(18);
+		$ctrl_o2label14->info_padre(array(0));
+		$ctrl_o2label14->label("Key code");
+	$ctrl_o2label20 = &$form_o2sys_key_mapping_1->ctrldef("o2label20", "label", "o2multipage4", "", "");
+		$ctrl_o2label20->x(120);
+		$ctrl_o2label20->y(32);
+		$ctrl_o2label20->larghezza(31);
+		$ctrl_o2label20->altezza(18);
+		$ctrl_o2label20->info_padre(array(0));
+		$ctrl_o2label20->label("Shift");
+	$ctrl_o2label16 = &$form_o2sys_key_mapping_1->ctrldef("o2label16", "label", "o2multipage4", "", "");
+		$ctrl_o2label16->x(370);
+		$ctrl_o2label16->y(32);
+		$ctrl_o2label16->larghezza(21);
+		$ctrl_o2label16->altezza(18);
+		$ctrl_o2label16->info_padre(array(0));
+		$ctrl_o2label16->label("Ctrl");
+	$ctrl_o2label19 = &$form_o2sys_key_mapping_1->ctrldef("o2label19", "label", "o2multipage4", "", "");
+		$ctrl_o2label19->x(60);
+		$ctrl_o2label19->y(32);
+		$ctrl_o2label19->larghezza(55);
+		$ctrl_o2label19->altezza(18);
+		$ctrl_o2label19->info_padre(array(0));
+		$ctrl_o2label19->label("Key code");
+	$ctrl_o2label22 = &$form_o2sys_key_mapping_1->ctrldef("o2label22", "label", "o2multipage4", "", "");
+		$ctrl_o2label22->x(180);
+		$ctrl_o2label22->y(32);
+		$ctrl_o2label22->larghezza(21);
+		$ctrl_o2label22->altezza(18);
+		$ctrl_o2label22->info_padre(array(0));
+		$ctrl_o2label22->label("Alt");
+	$ctrl_o2label15 = &$form_o2sys_key_mapping_1->ctrldef("o2label15", "label", "o2multipage4", "", "");
+		$ctrl_o2label15->x(340);
+		$ctrl_o2label15->y(32);
+		$ctrl_o2label15->larghezza(31);
+		$ctrl_o2label15->altezza(18);
+		$ctrl_o2label15->info_padre(array(0));
+		$ctrl_o2label15->label("Shift");
+	$ctrl_o2label17 = &$form_o2sys_key_mapping_1->ctrldef("o2label17", "label", "o2multipage4", "", "");
+		$ctrl_o2label17->x(400);
+		$ctrl_o2label17->y(32);
+		$ctrl_o2label17->larghezza(21);
+		$ctrl_o2label17->altezza(18);
+		$ctrl_o2label17->info_padre(array(0));
+		$ctrl_o2label17->label("Alt");
+	$ctrl_exit_key = &$form_o2sys_key_mapping_1->ctrldef("exit_key", "edit", "o2multipage4", "prg§_§var", "exit_key");
+		$ctrl_exit_key->x(280);
+		$ctrl_exit_key->y(52);
+		$ctrl_exit_key->larghezza(50);
+		$ctrl_exit_key->altezza(18);
+		$ctrl_exit_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_exit_key->info_padre(array(0));
+	$ctrl_exit_shift = &$form_o2sys_key_mapping_1->ctrldef("exit_shift", "edit", "o2multipage4", "prg§_§var", "exit_shift");
+		$ctrl_exit_shift->x(342);
+		$ctrl_exit_shift->y(52);
+		$ctrl_exit_shift->larghezza(18);
+		$ctrl_exit_shift->altezza(18);
+		$ctrl_exit_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_exit_shift->info_padre(array(0));
+	$ctrl_exit_ctrl = &$form_o2sys_key_mapping_1->ctrldef("exit_ctrl", "edit", "o2multipage4", "prg§_§var", "exit_ctrl");
+		$ctrl_exit_ctrl->x(372);
+		$ctrl_exit_ctrl->y(52);
+		$ctrl_exit_ctrl->larghezza(18);
+		$ctrl_exit_ctrl->altezza(18);
+		$ctrl_exit_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_exit_ctrl->info_padre(array(0));
+	$ctrl_exit_alt = &$form_o2sys_key_mapping_1->ctrldef("exit_alt", "edit", "o2multipage4", "prg§_§var", "exit_alt");
+		$ctrl_exit_alt->x(402);
+		$ctrl_exit_alt->y(52);
+		$ctrl_exit_alt->larghezza(18);
+		$ctrl_exit_alt->altezza(18);
+		$ctrl_exit_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_exit_alt->info_padre(array(0));
+	$ctrl_refresh_key = &$form_o2sys_key_mapping_1->ctrldef("refresh_key", "edit", "o2multipage4", "prg§_§var", "refresh_key");
+		$ctrl_refresh_key->x(60);
+		$ctrl_refresh_key->y(52);
+		$ctrl_refresh_key->larghezza(50);
+		$ctrl_refresh_key->altezza(18);
+		$ctrl_refresh_key->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_refresh_key->info_padre(array(0));
+	$ctrl_refresh_shift = &$form_o2sys_key_mapping_1->ctrldef("refresh_shift", "edit", "o2multipage4", "prg§_§var", "prevpg_shift");
+		$ctrl_refresh_shift->x(122);
+		$ctrl_refresh_shift->y(52);
+		$ctrl_refresh_shift->larghezza(18);
+		$ctrl_refresh_shift->altezza(18);
+		$ctrl_refresh_shift->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_refresh_shift->info_padre(array(0));
+	$ctrl_refresh_ctrl = &$form_o2sys_key_mapping_1->ctrldef("refresh_ctrl", "edit", "o2multipage4", "prg§_§var", "refresh_ctrl");
+		$ctrl_refresh_ctrl->x(152);
+		$ctrl_refresh_ctrl->y(52);
+		$ctrl_refresh_ctrl->larghezza(18);
+		$ctrl_refresh_ctrl->altezza(18);
+		$ctrl_refresh_ctrl->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_refresh_ctrl->info_padre(array(0));
+	$ctrl_refresh_alt = &$form_o2sys_key_mapping_1->ctrldef("refresh_alt", "edit", "o2multipage4", "prg§_§var", "refresh_alt");
+		$ctrl_refresh_alt->x(182);
+		$ctrl_refresh_alt->y(52);
+		$ctrl_refresh_alt->larghezza(18);
+		$ctrl_refresh_alt->altezza(18);
+		$ctrl_refresh_alt->modificabile(o2sys_key_mapping_exp_1());
+		$ctrl_refresh_alt->info_padre(array(0));
+		}
+
+function o2sys_key_mapping§§load_options_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("First") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_16()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "first_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "first_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "first_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "first_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Prev page") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_17()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "prevpg_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "prevpg_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "prevpg_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::set("prg§_§var", "prevpg_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("prev") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_18()) && $o2exe->e();
+	$o2exe->s(15) && True && o2act::set("prg§_§var", "prev_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(16) && True && o2act::set("prg§_§var", "prev_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(17) && True && o2act::set("prg§_§var", "prev_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(18) && True && o2act::set("prg§_§var", "prev_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(19) && True && o2act::remark("next") && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_19()) && $o2exe->e();
+	$o2exe->s(21) && True && o2act::set("prg§_§var", "next_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(22) && True && o2act::set("prg§_§var", "next_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(23) && True && o2act::set("prg§_§var", "next_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(24) && True && o2act::set("prg§_§var", "next_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(25) && True && o2act::remark("next page") && $o2exe->e();
+	$o2exe->s(26) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_20()) && $o2exe->e();
+	$o2exe->s(27) && True && o2act::set("prg§_§var", "nextpg_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(28) && True && o2act::set("prg§_§var", "nextpg_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(29) && True && o2act::set("prg§_§var", "nextpg_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(30) && True && o2act::set("prg§_§var", "nextpg_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(31) && True && o2act::remark("last") && $o2exe->e();
+	$o2exe->s(32) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_21()) && $o2exe->e();
+	$o2exe->s(33) && True && o2act::set("prg§_§var", "last_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(34) && True && o2act::set("prg§_§var", "last_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(35) && True && o2act::set("prg§_§var", "last_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(36) && True && o2act::set("prg§_§var", "last_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(37) && True && o2act::remark("select") && $o2exe->e();
+	$o2exe->s(38) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_22()) && $o2exe->e();
+	$o2exe->s(39) && True && o2act::set("prg§_§var", "sele_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(40) && True && o2act::set("prg§_§var", "sele_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(41) && True && o2act::set("prg§_§var", "sele_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(42) && True && o2act::set("prg§_§var", "sele_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(43) && True && o2act::remark("new") && $o2exe->e();
+	$o2exe->s(44) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_23()) && $o2exe->e();
+	$o2exe->s(45) && True && o2act::set("prg§_§var", "new_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(46) && True && o2act::set("prg§_§var", "new_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(47) && True && o2act::set("prg§_§var", "new_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(48) && True && o2act::set("prg§_§var", "new_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(49) && True && o2act::remark("delete") && $o2exe->e();
+	$o2exe->s(50) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_24()) && $o2exe->e();
+	$o2exe->s(51) && True && o2act::set("prg§_§var", "dele_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(52) && True && o2act::set("prg§_§var", "dele_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(53) && True && o2act::set("prg§_§var", "dele_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(54) && True && o2act::set("prg§_§var", "dele_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(55) && True && o2act::remark("save") && $o2exe->e();
+	$o2exe->s(56) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_25()) && $o2exe->e();
+	$o2exe->s(57) && True && o2act::set("prg§_§var", "save_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(58) && True && o2act::set("prg§_§var", "save_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(59) && True && o2act::set("prg§_§var", "save_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(60) && True && o2act::set("prg§_§var", "save_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(61) && True && o2act::remark("undo") && $o2exe->e();
+	$o2exe->s(62) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_26()) && $o2exe->e();
+	$o2exe->s(63) && True && o2act::set("prg§_§var", "undo_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(64) && True && o2act::set("prg§_§var", "undo_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(65) && True && o2act::set("prg§_§var", "undo_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(66) && True && o2act::set("prg§_§var", "undo_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(67) && True && o2act::remark("detail") && $o2exe->e();
+	$o2exe->s(68) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_58()) && $o2exe->e();
+	$o2exe->s(69) && True && o2act::set("prg§_§var", "detail_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(70) && True && o2act::set("prg§_§var", "detail_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(71) && True && o2act::set("prg§_§var", "detail_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(72) && True && o2act::set("prg§_§var", "detail_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(73) && True && o2act::remark("exit") && $o2exe->e();
+	$o2exe->s(74) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_63()) && $o2exe->e();
+	$o2exe->s(75) && True && o2act::set("prg§_§var", "exit_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(76) && True && o2act::set("prg§_§var", "exit_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(77) && True && o2act::set("prg§_§var", "exit_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(78) && True && o2act::set("prg§_§var", "exit_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(79) && True && o2act::remark("refresh") && $o2exe->e();
+	$o2exe->s(80) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_66()) && $o2exe->e();
+	$o2exe->s(81) && True && o2act::set("prg§_§var", "refresh_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(82) && True && o2act::set("prg§_§var", "refresh_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(83) && True && o2act::set("prg§_§var", "refresh_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(84) && True && o2act::set("prg§_§var", "refresh_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+//	$o2exe->s(85) && True && o2act::remark("Zoom") && $o2exe->e();
+	$o2exe->s(86) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_103()) && $o2exe->e();
+	$o2exe->s(87) && True && o2act::set("prg§_§var", "zoom_key", o2sys_key_mapping_exp_27()) && $o2exe->e();
+	$o2exe->s(88) && True && o2act::set("prg§_§var", "zoom_shift", o2sys_key_mapping_exp_28()) && $o2exe->e();
+	$o2exe->s(89) && True && o2act::set("prg§_§var", "zoom_ctrl", o2sys_key_mapping_exp_29()) && $o2exe->e();
+	$o2exe->s(90) && True && o2act::set("prg§_§var", "zoom_alt", o2sys_key_mapping_exp_30()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_key_mapping§§save_options_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("first") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_16()) && $o2exe->e();
+	$o2exe->s(3) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("options", "code", o2sys_key_mapping_exp_16()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("options", "value", o2sys_key_mapping_exp_33()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("prev page") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_17()) && $o2exe->e();
+	$o2exe->s(10) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::set("options", "code", o2sys_key_mapping_exp_17()) && $o2exe->e();
+	$o2exe->s(13) && True && o2act::set("options", "value", o2sys_key_mapping_exp_34()) && $o2exe->e();
+	$o2exe->s(14) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(15) && True && o2act::remark("prev") && $o2exe->e();
+	$o2exe->s(16) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_18()) && $o2exe->e();
+	$o2exe->s(17) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(18) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(19) && True && o2act::set("options", "code", o2sys_key_mapping_exp_18()) && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("options", "value", o2sys_key_mapping_exp_35()) && $o2exe->e();
+	$o2exe->s(21) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(22) && True && o2act::remark("next") && $o2exe->e();
+	$o2exe->s(23) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_19()) && $o2exe->e();
+	$o2exe->s(24) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(25) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(26) && True && o2act::set("options", "code", o2sys_key_mapping_exp_19()) && $o2exe->e();
+	$o2exe->s(27) && True && o2act::set("options", "value", o2sys_key_mapping_exp_36()) && $o2exe->e();
+	$o2exe->s(28) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(29) && True && o2act::remark("next page") && $o2exe->e();
+	$o2exe->s(30) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_20()) && $o2exe->e();
+	$o2exe->s(31) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(32) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(33) && True && o2act::set("options", "code", o2sys_key_mapping_exp_20()) && $o2exe->e();
+	$o2exe->s(34) && True && o2act::set("options", "value", o2sys_key_mapping_exp_37()) && $o2exe->e();
+	$o2exe->s(35) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(36) && True && o2act::remark("last") && $o2exe->e();
+	$o2exe->s(37) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_21()) && $o2exe->e();
+	$o2exe->s(38) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(39) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(40) && True && o2act::set("options", "code", o2sys_key_mapping_exp_21()) && $o2exe->e();
+	$o2exe->s(41) && True && o2act::set("options", "value", o2sys_key_mapping_exp_38()) && $o2exe->e();
+	$o2exe->s(42) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(43) && True && o2act::remark("select") && $o2exe->e();
+	$o2exe->s(44) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_22()) && $o2exe->e();
+	$o2exe->s(45) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(46) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(47) && True && o2act::set("options", "code", o2sys_key_mapping_exp_22()) && $o2exe->e();
+	$o2exe->s(48) && True && o2act::set("options", "value", o2sys_key_mapping_exp_39()) && $o2exe->e();
+	$o2exe->s(49) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(50) && True && o2act::remark("new") && $o2exe->e();
+	$o2exe->s(51) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_23()) && $o2exe->e();
+	$o2exe->s(52) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(53) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(54) && True && o2act::set("options", "code", o2sys_key_mapping_exp_23()) && $o2exe->e();
+	$o2exe->s(55) && True && o2act::set("options", "value", o2sys_key_mapping_exp_40()) && $o2exe->e();
+	$o2exe->s(56) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(57) && True && o2act::remark("delete") && $o2exe->e();
+	$o2exe->s(58) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_24()) && $o2exe->e();
+	$o2exe->s(59) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(60) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(61) && True && o2act::set("options", "code", o2sys_key_mapping_exp_24()) && $o2exe->e();
+	$o2exe->s(62) && True && o2act::set("options", "value", o2sys_key_mapping_exp_41()) && $o2exe->e();
+	$o2exe->s(63) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(64) && True && o2act::remark("save") && $o2exe->e();
+	$o2exe->s(65) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_25()) && $o2exe->e();
+	$o2exe->s(66) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(67) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(68) && True && o2act::set("options", "code", o2sys_key_mapping_exp_25()) && $o2exe->e();
+	$o2exe->s(69) && True && o2act::set("options", "value", o2sys_key_mapping_exp_42()) && $o2exe->e();
+	$o2exe->s(70) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(71) && True && o2act::remark("undo") && $o2exe->e();
+	$o2exe->s(72) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_26()) && $o2exe->e();
+	$o2exe->s(73) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(74) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(75) && True && o2act::set("options", "code", o2sys_key_mapping_exp_26()) && $o2exe->e();
+	$o2exe->s(76) && True && o2act::set("options", "value", o2sys_key_mapping_exp_43()) && $o2exe->e();
+	$o2exe->s(77) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(78) && True && o2act::remark("detail") && $o2exe->e();
+	$o2exe->s(79) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_58()) && $o2exe->e();
+	$o2exe->s(80) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(81) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(82) && True && o2act::set("options", "code", o2sys_key_mapping_exp_58()) && $o2exe->e();
+	$o2exe->s(83) && True && o2act::set("options", "value", o2sys_key_mapping_exp_59()) && $o2exe->e();
+	$o2exe->s(84) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(85) && True && o2act::remark("exit") && $o2exe->e();
+	$o2exe->s(86) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_63()) && $o2exe->e();
+	$o2exe->s(87) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(88) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(89) && True && o2act::set("options", "code", o2sys_key_mapping_exp_63()) && $o2exe->e();
+	$o2exe->s(90) && True && o2act::set("options", "value", o2sys_key_mapping_exp_64()) && $o2exe->e();
+	$o2exe->s(91) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(92) && True && o2act::remark("refresh") && $o2exe->e();
+	$o2exe->s(93) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_66()) && $o2exe->e();
+	$o2exe->s(94) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(95) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(96) && True && o2act::set("options", "code", o2sys_key_mapping_exp_66()) && $o2exe->e();
+	$o2exe->s(97) && True && o2act::set("options", "value", o2sys_key_mapping_exp_67()) && $o2exe->e();
+	$o2exe->s(98) && True && o2act::view("options", "S", "") && $o2exe->e();
+//	$o2exe->s(99) && True && o2act::remark("zoom") && $o2exe->e();
+	$o2exe->s(100) && True && o2act::set("prg§_§var", "option_code", o2sys_key_mapping_exp_103()) && $o2exe->e();
+	$o2exe->s(101) && (o2sys_key_mapping_exp_32() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(102) && True && o2act::set("options", "o2user", o2sys_key_mapping_exp_31()) && $o2exe->e();
+	$o2exe->s(103) && True && o2act::set("options", "code", o2sys_key_mapping_exp_103()) && $o2exe->e();
+	$o2exe->s(104) && True && o2act::set("options", "value", o2sys_key_mapping_exp_105()) && $o2exe->e();
+	$o2exe->s(105) && True && o2act::view("options", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_key_mapping§§set_html_default_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("First") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "first_key", o2sys_key_mapping_exp_44()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "first_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "first_ctrl", o2sys_key_mapping_exp_56()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "first_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(6) && True && o2act::remark("Prev page") && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "prevpg_key", o2sys_key_mapping_exp_46()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "prevpg_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "prevpg_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "prevpg_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(11) && True && o2act::remark("prev") && $o2exe->e();
+	$o2exe->s(12) && True && o2act::set("prg§_§var", "prev_key", o2sys_key_mapping_exp_47()) && $o2exe->e();
+	$o2exe->s(13) && True && o2act::set("prg§_§var", "prev_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "prev_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(15) && True && o2act::set("prg§_§var", "prev_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(16) && True && o2act::remark("next") && $o2exe->e();
+	$o2exe->s(17) && True && o2act::set("prg§_§var", "next_key", o2sys_key_mapping_exp_48()) && $o2exe->e();
+	$o2exe->s(18) && True && o2act::set("prg§_§var", "next_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(19) && True && o2act::set("prg§_§var", "next_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("prg§_§var", "next_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(21) && True && o2act::remark("next page") && $o2exe->e();
+	$o2exe->s(22) && True && o2act::set("prg§_§var", "nextpg_key", o2sys_key_mapping_exp_49()) && $o2exe->e();
+	$o2exe->s(23) && True && o2act::set("prg§_§var", "nextpg_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(24) && True && o2act::set("prg§_§var", "nextpg_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(25) && True && o2act::set("prg§_§var", "nextpg_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(26) && True && o2act::remark("last") && $o2exe->e();
+	$o2exe->s(27) && True && o2act::set("prg§_§var", "last_key", o2sys_key_mapping_exp_50()) && $o2exe->e();
+	$o2exe->s(28) && True && o2act::set("prg§_§var", "last_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(29) && True && o2act::set("prg§_§var", "last_ctrl", o2sys_key_mapping_exp_56()) && $o2exe->e();
+	$o2exe->s(30) && True && o2act::set("prg§_§var", "last_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(31) && True && o2act::remark("select") && $o2exe->e();
+	$o2exe->s(32) && True && o2act::set("prg§_§var", "sele_key", o2sys_key_mapping_exp_51()) && $o2exe->e();
+	$o2exe->s(33) && True && o2act::set("prg§_§var", "sele_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(34) && True && o2act::set("prg§_§var", "sele_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(35) && True && o2act::set("prg§_§var", "sele_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(36) && True && o2act::remark("new") && $o2exe->e();
+	$o2exe->s(37) && True && o2act::set("prg§_§var", "new_key", o2sys_key_mapping_exp_52()) && $o2exe->e();
+	$o2exe->s(38) && True && o2act::set("prg§_§var", "new_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(39) && True && o2act::set("prg§_§var", "new_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(40) && True && o2act::set("prg§_§var", "new_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(41) && True && o2act::remark("delete") && $o2exe->e();
+	$o2exe->s(42) && True && o2act::set("prg§_§var", "dele_key", o2sys_key_mapping_exp_53()) && $o2exe->e();
+	$o2exe->s(43) && True && o2act::set("prg§_§var", "dele_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(44) && True && o2act::set("prg§_§var", "dele_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(45) && True && o2act::set("prg§_§var", "dele_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(46) && True && o2act::remark("save") && $o2exe->e();
+	$o2exe->s(47) && True && o2act::set("prg§_§var", "save_key", o2sys_key_mapping_exp_54()) && $o2exe->e();
+	$o2exe->s(48) && True && o2act::set("prg§_§var", "save_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(49) && True && o2act::set("prg§_§var", "save_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(50) && True && o2act::set("prg§_§var", "save_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(51) && True && o2act::remark("undo") && $o2exe->e();
+	$o2exe->s(52) && True && o2act::set("prg§_§var", "undo_key", o2sys_key_mapping_exp_55()) && $o2exe->e();
+	$o2exe->s(53) && True && o2act::set("prg§_§var", "undo_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(54) && True && o2act::set("prg§_§var", "undo_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(55) && True && o2act::set("prg§_§var", "undo_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(56) && True && o2act::remark("detail") && $o2exe->e();
+	$o2exe->s(57) && True && o2act::set("prg§_§var", "detail_key", o2sys_key_mapping_exp_60()) && $o2exe->e();
+	$o2exe->s(58) && True && o2act::set("prg§_§var", "detail_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(59) && True && o2act::set("prg§_§var", "detail_ctrl", o2sys_key_mapping_exp_56()) && $o2exe->e();
+	$o2exe->s(60) && True && o2act::set("prg§_§var", "detail_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(61) && True && o2act::remark("exit") && $o2exe->e();
+	$o2exe->s(62) && True && o2act::set("prg§_§var", "exit_key", o2sys_key_mapping_exp_65()) && $o2exe->e();
+	$o2exe->s(63) && True && o2act::set("prg§_§var", "exit_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(64) && True && o2act::set("prg§_§var", "exit_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(65) && True && o2act::set("prg§_§var", "exit_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+//	$o2exe->s(66) && True && o2act::remark("refresh") && $o2exe->e();
+	$o2exe->s(67) && True && o2act::set("prg§_§var", "refresh_key", o2sys_key_mapping_exp_68()) && $o2exe->e();
+	$o2exe->s(68) && True && o2act::set("prg§_§var", "refresh_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(69) && True && o2act::set("prg§_§var", "refresh_ctrl", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(70) && True && o2act::set("prg§_§var", "refresh_alt", o2sys_key_mapping_exp_56()) && $o2exe->e();
+//	$o2exe->s(71) && True && o2act::remark("Zoom") && $o2exe->e();
+	$o2exe->s(72) && True && o2act::set("prg§_§var", "zoom_key", o2sys_key_mapping_exp_104()) && $o2exe->e();
+	$o2exe->s(73) && True && o2act::set("prg§_§var", "zoom_shift", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	$o2exe->s(74) && True && o2act::set("prg§_§var", "zoom_ctrl", o2sys_key_mapping_exp_56()) && $o2exe->e();
+	$o2exe->s(75) && True && o2act::set("prg§_§var", "zoom_alt", o2sys_key_mapping_exp_45()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_key_mapping§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_code", o2sys_key_mapping_exp_57()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("load_options", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_key_mapping_exp_1() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_2() {
+	$id   = count(o2app_prg());
+$html = '<script>
+        function o2_keyb_map(eventObj){
+                if (!window.ie) {
+                   jxkm_type     = eventObj.type;
+                   jxkm_target   = eventObj.target;
+                   jxkm_key      = eventObj.keyCode;
+                   jxkm_ctrlKey  = eventObj.ctrlKey;
+                   jxkm_shiftKey = eventObj.shiftKey;
+                   jxkm_altKey   = eventObj.altKey;
+                   }
+                else {
+                   jxkm_type     = window.event.type;
+                   jxkm_target   = window.event.srcElement;
+                   jxkm_key      = window.event.keyCode;
+                   jxkm_ctrlKey  = window.event.ctrlKey;
+                   jxkm_shiftKey = window.event.shiftKey;
+                   jxkm_altKey   = window.event.altKey;
+                   }
+              o2jse.ctrl.init(jxkm_target);
+              var baseName          = jxkm_target.id;              
+              var exeId             = '.$id.';         
+              var elementKey        = o2jse.infoForm[baseName + "_key"   + exeId];
+              var elementShift      = o2jse.infoForm[baseName + "_shift" + exeId];
+              var elementCtrl       = o2jse.infoForm[baseName + "_ctrl"  + exeId];
+              var elementAlt        = o2jse.infoForm[baseName + "_alt"   + exeId];              
+              elementKey.disabled   = false;
+              elementKey.readonly   = true;
+              elementShift.disabled = false;
+              elementShift.readonly = true;
+              elementCtrl.disabled  = false;
+              elementCtrl.readonly  = true;
+              elementAlt.disabled   = false;
+              elementAlt.readonly   = true;                            
+              elementKey.value   = jxkm_key;
+              elementShift.value = (jxkm_shiftKey ? "X" : "");
+              elementCtrl.value  = (jxkm_ctrlKey  ? "X" : "");
+              elementAlt.value   = (jxkm_altKey   ? "X" : "");
+              jxkm_target.blur();
+              elementKey.o2       = {};
+              elementKey.o2.msg   = "";
+              elementKey.o2.c     = baseName + "_key";
+              elementShift.o2     = {};
+              elementShift.o2.msg = "";
+              elementShift.o2.c   = baseName + "_shift";
+              elementCtrl.o2      = {};
+              elementCtrl.o2.msg  = "";
+              elementCtrl.o2.c    = baseName + "_ctrl";
+              elementAlt.o2       = {};
+              elementAlt.o2.msg   = "";
+              elementAlt.o2.c     = baseName + "_alt";
+              o2jse.cmd.ctrlUpd(elementKey);
+              o2jse.cmd.ctrlUpd(elementShift);
+              o2jse.cmd.ctrlUpd(elementCtrl);
+              o2jse.cmd.ctrlUpd(elementAlt);
+              return false;
+              }
+        </script>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_3() {
+	$html = '<div id="sele"
+              title="Select current record"
+              class="o2_ctrl_nav_sele"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_4() {
+	$html = '<div id="new"
+              title="Create new record"
+              class="o2_ctrl_nav_new"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_5() {
+	$html = '<div id="del"
+              title="Delete current record"
+              class="o2_ctrl_nav_del"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_6() {
+	$html = '<div id="save"
+              title="Save current record"
+              class="o2_ctrl_nav_save"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_7() {
+	$html = '<div id="undo"
+              title="Undo changes to record"
+              class="o2_ctrl_nav_undo"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_8() {
+	$html = '<div id="first"
+              title="Goto first record"
+              class="o2_ctrl_nav_first"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_9() {
+	$html = '<div id="prevpg"
+              title="Goto previous page"
+              class="o2_ctrl_nav_prevpg"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_10() {
+	$html = '<div id="prev"
+              title="Goto previous record"
+              class="o2_ctrl_nav_prev"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_11() {
+	$html = '<div id="next"
+              title="Goto next record"
+              class="o2_ctrl_nav_next"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_12() {
+	$html = '<div id="nextpg"
+              title="Goto next page"
+              class="o2_ctrl_nav_nextpg"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_13() {
+	$html = '<div id="last"
+              title="Goto last record"
+              class="o2_ctrl_nav_last"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_14() {
+	
+return (o2val('prg§_§var','user_code'));
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_15() {
+	
+return (o2val('prg§_§var','option_code'));
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_16() {
+	
+return ("keyb_nav_first");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_17() {
+	
+return ("keyb_nav_prevpg");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_18() {
+	
+return ("keyb_nav_prev");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_19() {
+	
+return ("keyb_nav_next");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_20() {
+	
+return ("keyb_nav_nextpg");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_21() {
+	
+return ("keyb_nav_last");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_22() {
+	
+return ("keyb_nav_sele");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_23() {
+	
+return ("keyb_nav_new");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_24() {
+	
+return ("keyb_nav_del");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_25() {
+	
+return ("keyb_nav_save");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_26() {
+	
+return ("keyb_nav_undo");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_27() {
+	$arr_local = explode(";", o2val('options','value'));
+$key = $arr_local[0];
+return ($key);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_28() {
+	$arr_local = explode(";", o2val('options','value'));
+$key = $arr_local[1];
+return ($key);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_29() {
+	$arr_local = explode(";", o2val('options','value'));
+$key = $arr_local[2];
+return ($key);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_30() {
+	$arr_local = explode(";", o2val('options','value'));
+$key = $arr_local[3];
+return ($key);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_31() {
+	
+return (o2val('prg§_§var','user_code'));
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_32() {
+	
+return (!o2view_rec("options"));
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_33() {
+	$value = o2val('prg§_§var','first_key').";".
+         o2val('prg§_§var','first_shift').";".
+         o2val('prg§_§var','first_ctrl').";".
+         o2val('prg§_§var','first_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_34() {
+	$value = o2val('prg§_§var','prevpg_key').";".
+         o2val('prg§_§var','prevpg_shift').";".
+         o2val('prg§_§var','prevpg_ctrl').";".
+         o2val('prg§_§var','prevpg_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_35() {
+	$value = o2val('prg§_§var','prev_key').";".
+         o2val('prg§_§var','prev_shift').";".
+         o2val('prg§_§var','prev_ctrl').";".
+         o2val('prg§_§var','prev_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_36() {
+	$value = o2val('prg§_§var','next_key').";".
+         o2val('prg§_§var','next_shift').";".
+         o2val('prg§_§var','next_ctrl').";".
+         o2val('prg§_§var','next_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_37() {
+	$value = o2val('prg§_§var','nextpg_key').";".
+         o2val('prg§_§var','nextpg_shift').";".
+         o2val('prg§_§var','nextpg_ctrl').";".
+         o2val('prg§_§var','nextpg_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_38() {
+	$value = o2val('prg§_§var','last_key').";".
+         o2val('prg§_§var','last_shift').";".
+         o2val('prg§_§var','last_ctrl').";".
+         o2val('prg§_§var','last_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_39() {
+	$value = o2val('prg§_§var','sele_key').";".
+         o2val('prg§_§var','sele_shift').";".
+         o2val('prg§_§var','sele_ctrl').";".
+         o2val('prg§_§var','sele_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_40() {
+	$value = o2val('prg§_§var','new_key').";".
+         o2val('prg§_§var','new_shift').";".
+         o2val('prg§_§var','new_ctrl').";".
+         o2val('prg§_§var','new_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_41() {
+	$value = o2val('prg§_§var','dele_key').";".
+         o2val('prg§_§var','dele_shift').";".
+         o2val('prg§_§var','dele_ctrl').";".
+         o2val('prg§_§var','dele_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_42() {
+	$value = o2val('prg§_§var','save_key').";".
+         o2val('prg§_§var','save_shift').";".
+         o2val('prg§_§var','save_ctrl').";".
+         o2val('prg§_§var','save_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_43() {
+	$value = o2val('prg§_§var','undo_key').";".
+         o2val('prg§_§var','undo_shift').";".
+         o2val('prg§_§var','undo_ctrl').";".
+         o2val('prg§_§var','undo_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_44() {
+	
+return (36);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_45() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_46() {
+	
+return (33);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_47() {
+	
+return (38);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_48() {
+	
+return (40);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_49() {
+	
+return (34);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_50() {
+	
+return (35);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_51() {
+	
+return (13);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_52() {
+	
+return (115);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_53() {
+	
+return (119);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_54() {
+	
+return (123);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_55() {
+	
+return (113);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_56() {
+	
+return ("X");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_57() {
+	
+return ((o2app_user() != "" ? (o2app_user() != "root" ? o2app_user() : "") : "default"));
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_58() {
+	
+return ("keyb_nav_detail");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_59() {
+	$value = o2val('prg§_§var','detail_key').";".
+         o2val('prg§_§var','detail_shift').";".
+         o2val('prg§_§var','detail_ctrl').";".
+         o2val('prg§_§var','detail_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_60() {
+	
+return (32);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_61() {
+	$html = '<div id="detail"
+              title="Show record details"
+              class="o2_ctrl_nav_det"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_62() {
+	$html = '<div id="exit" 
+              title="Close window"
+              class="o2_form_exit"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_63() {
+	
+return ("keyb_form_exit");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_64() {
+	$value = o2val('prg§_§var','exit_key').";".
+         o2val('prg§_§var','exit_shift').";".
+         o2val('prg§_§var','exit_ctrl').";".
+         o2val('prg§_§var','exit_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_65() {
+	
+return (27);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_66() {
+	
+return ("keyb_form_refresh");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_67() {
+	$value = o2val('prg§_§var','refresh_key').";".
+         o2val('prg§_§var','refresh_shift').";".
+         o2val('prg§_§var','refresh_ctrl').";".
+         o2val('prg§_§var','refresh_alt');
+return ($value);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_68() {
+	
+return (116);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_69() {
+	$html = '<div id="refresh"
+              title="Refresh window"
+              class="o2_form_doc"
+              tabindex="0"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_102() {
+	$html = '<div id="zoom"
+              title="Activate control"
+              class="o2_ctrl_edit jxzoom"
+              tabindex="0"
+              style="min-width:18px"
+              onkeyup="o2_keyb_map(event);">&nbsp;</div>';
+return ($html);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_103() {
+	
+return ("keyb_ctrl_zoom");
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_104() {
+	
+return (90);
+	} //|o2_fine_exp|
+
+function o2sys_key_mapping_exp_105() {
+	$value = o2val('prg§_§var','zoom_key').";".
+         o2val('prg§_§var','zoom_shift').";".
+         o2val('prg§_§var','zoom_ctrl').";".
+         o2val('prg§_§var','zoom_alt');
+return ($value);
+	} //|o2_fine_exp|
+?>

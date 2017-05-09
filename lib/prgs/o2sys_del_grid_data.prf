@@ -1,0 +1,55 @@
+<?php
+
+function o2sys_del_grid_data§§delete_all_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2sys_del_grid_data_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_del_grid_data_exp_1() {
+	$app      = $_SESSION['o2_app'];
+$nav_name = o2par(1);
+/* ----- Work on previous program ----- */
+o2act::close();
+$app->termina_prg();
+$prg = $app->istanze_prg[$app->progressivo_istanze];
+/* ----- Look for navigator ----- */
+foreach ($prg->form as $single_form) {
+   if (isset($single_form->controlli[$nav_name])) {
+      $nav_ctrl = $single_form->controlli[$nav_name];
+      break;
+      }
+   }
+$act_del = $nav_ctrl->act_del;
+$view    = $prg->contesto[$nav_ctrl->task];
+$tot     = 0;
+$done    = 0;
+$view->record_primo();
+/* ----- Loops until end of dataset ----- */
+do {
+   $end    = true;
+   $curkey = $view->chiave_corrente($view->file);   
+   $single_form->read_def();
+   if ($nav_ctrl->enable_del) {
+      $done++;
+      if (!$app->esecuzione_inizio($prg->nome,
+                                   $prg->id,
+                                   $act_del,
+                                   false,
+                                   $done)) {
+         $end = false;
+         break;                          
+         }
+      }
+   $tot++;   
+   } while (($view->chiave_corrente($view->file) != $curkey) || 
+            $view->record_avanti());
+$view->record_primo();
+if ($end) {
+   $msg = $done." rows deleted on ".$tot." checked rows"; 
+   }
+else {
+   $msg = "Action stopped after ".$tot." rows: ".$done." deleted";
+   }
+o2act::alert($msg, 2);
+return (true);
+	} //|o2_fine_exp|
+?>

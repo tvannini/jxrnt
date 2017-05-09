@@ -1,0 +1,306 @@
+<html><head><title>Le azioni</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_77.html'>Gli eventi</a></td>
+       <td id='nav_next' align='right'><a href='node_103.html'>L'editor delle form</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.13 &nbsp; Le azioni</h2><br /><fieldset>CONDIZIONI, ISTRUZIONI, LOOP ON VIEW, OPERAZIONI</fieldset>
+<p>Questo capitolo completa il meccanismo di sviluppo ad eventi.</p>
+<p>Vedremo come o2runtime verifichi gli eventi e scateni le azioni.</p>
+<br /><h4>Obiettivi</h4>
+<p>Al termine del capitolo il programmatore sarà in grado di:</p>
+<ul>
+<li>Definire un’azione</li>
+<li>Conoscere il significato di tutti gli operatori o2</li>
+<li>Condizionare l’esecuzione delle operazioni</li>
+<li>Eseguire azioni per tutti i record di una view</li>
+</ul>
+
+
+ <br /><h4>Introduzione</h4>
+<p>Le azioni costituiscono la base del modello esecutivo di o2architecture.</p>
+<p>Un’azione è costituita da un numero arbitrario di istruzioni (operations).</p>
+<p>Le azioni possono invocare l’esecuzione di altre azioni o di programmi e legarsi 
+fra loro in catene esecutive che, con la presenza di programmi dotati di interfaccia,
+possono estendersi a più interazioni client-server.</p>
+
+<p><b>Ogni catena esecutiva inizia con il verificarsi di un evento</b> (vedi capitolo
+relativo).</p>
+
+<p>Il programmatore non deve preoccuparsi della natura degli eventi e delle azioni 
+che andrà a mettere in relazione, poiché l’o2runtime si occuperà di creare le condizioni
+necessarie all’eseguibilità di ogni istruzione richiesta, rendendo disponibili viste sui 
+dati e informazioni provenienti dal client in un unico contesto.</p>
+<br />
+<h3>0.13.1<a name='node_87'> &nbsp; </a>Le istruzioni</h3></br /><blockquote><p>Ogni azione è costituita da un numero variabile di istruzioni, righe della tabella
+<i>Operations</i>.</p>
+
+<p>Nella tabella <i>Operations</i> usare i seguenti comandi:</p>
+
+<ul>
+<li><kbd>F4</kbd> per creare una nuova riga</li>
+<li><kbd>F3</kbd> per cancellare una riga</li>
+<li><kbd>F5</kbd> per accedere alle interfacce specifiche nelle celle 
+       <i>Object</i>, <i>Arguments</i> e <i>Condition</i></li>
+<li><img src='img/image146.gif' /> Il pulsante <i>Move</i> per spostare il blocco 
+       di righe da <i>From row</i>
+       a <i>To row</i>, dalla loro posizione nell’elenco delle istruzioni alla posizione 
+      del cursore.</li>
+</ul>
+
+<p>Ogni istruzione inizia con l’indicazione di un operatore esecutivo: premere 
+<kbd>SPACE</kbd> o una lettera sulla cella <i>Operator</i> per aprire il combo 
+box di scelta dell’operatore.</p>
+
+<p>Si accede alle interfacce specifiche di ogni istruzione premendo <kbd>F5</kbd>
+sulle celle <i>Object</i> e <i>Arguments</i>: al momento della creazione di una 
+nuova istruzione le interfacce vengono presentate automaticamente allo sviluppatore.
+Vedere, di seguito, il dettaglio degli operatori.</p>
+
+<p>Se verrà indicata un’espressione nella cella <i>Condizion</i> (<kbd>F5</kbd> 
+per inserire o selezionare dalla lista delle espressioni) per un’istruzione, tale istruzione
+verrà eseguita solo se l’espressione sarà valutata a "true". La valutazione
+dell’espressione verrà fatta al momento dell’esecuzione dell’istruzione e nel contesto
+derivante dalle altre istruzioni. Questo significa che non necessariamente blocchi di
+istruzioni con la stessa espressione di <i>Condition</i> verranno eseguiti in blocco.
+</p></blockquote><br />
+<h3>0.13.2<a name='node_88'> &nbsp; </a>Gli operatori</h3></br /><blockquote><p>Gli operatori costituiscono i verbi o metodi dei processi esecutivi. La 
+complessità e la portata delle operazioni svolte da ogni istruzione, così come 
+l’interfaccia presentata al programmatore, variano a seconda dell’operatore 
+selezionato. Vediamo, quindi, i singoli operatori nel dettaglio:</p>
+
+<img src='img/image148.gif' />
+
+<br />
+<h3>0.13.2.1<a name='node_89'> &nbsp; </a><i>Call program</i></h3></br /><blockquote><p>L’operatore <i>Call program</i> sospende l’attuale catena esecutiva per 
+passare il controllo ad un altro programma: l’esecuzione dell’azione corrente 
+verrà ripresa al termine dell’esecuzione del programma chiamato.</p>
+
+<p>Se il programma chiamato è di tipo <em>batch</em> (cioè privo di interfacce 
+che richiedano l’interattività dell’operatore) l’esecuzione dell’azione corrente verrà
+ripresa prima di ritornare al client, dopo aver esaurito la catena esecutiva scatenata
+dalla sua <i>Initial action</i>.</p>
+
+<p>Se, invece, il programma chiamato è dotato di interfaccia, eseguita e conclusa 
+la <i>Initial action</i>, la catena esecutiva si arresterà sulla presentazione client
+dell’interfaccia e l’esecuzione dell’azione corrente riprenderà solo dopo che 
+l’operatore avrà chiuso il programma chiamato.</p>
+
+<p>L’istruzione <i>Call program</i> presenterà due interfacce: la prima è l’elenco 
+dei programmi disponibili nell’applicazione da cui scegliere il programma da chiamare; 
+la seconda è l’interfaccia di definizione dei paratetri.</p>
+
+<p>Per ulteriori dettagli su questo operatore e sulle tecniche di passaggio di parametri
+vedi sezione su <i>Call program</i> e passaggio dei parametri.</p>
+
+</blockquote><br />
+<h3>0.13.2.2<a name='node_90'> &nbsp; </a><i>Close program</i></h3></br /><blockquote><p>L’operatore <i>Close program</i> non richiede parametri e serve a terminare
+l’esecuzione del programma corrente, interrompendo l’attuale catena esecutiva e
+chiudendo tutte le finestre eventualmente aperte.</p>
+
+<p><b>Nota bene</b>: le istruzioni eventualmente presenti nell’azione, successive
+all’istruzione di <i>Close program</i>, qualora la <i>condition</i> per questa 
+istruzione venga valutata a "true", non saranno eseguite!</p>
+</blockquote><br />
+<h3>0.13.2.3<a name='node_91'> &nbsp; </a><i>Debugger</i></h3></br /><blockquote><p>L’operatore <i>Debugger</i> non richiede parametri e serve ad eseguire il
+programma di <em>debugging</em>. Questo operatore si comporta come una 
+normale istruzione di <i>Call program</i> al programma "debugger", il quale 
+mostrerà all’operatore/sviluppatore una complessa interfaccia, dalla quale sarà 
+possibile recuperare informazioni su ogni elemento dell’applicazione, delle viste e 
+dei programmi coinvolti nell’attuale catena esecutiva.</p>
+
+<p><b>Nota bene</b>: l’operatore <i>Debugger</i> sarà eseguito solo se l’utente 
+è loggato con credenziali di sviluppatore, altrimenti l’istruzione non avrà alcun 
+effetto.</p></blockquote><br />
+<h3>0.13.2.4<a name='node_92'> &nbsp; </a><i>Execute action</i></h3></br /><blockquote><p>Questo operatore consente di trasferire il controllo ad un’altra azione del 
+programma in esecuzione, sospendendo l’esecuzione dell’azione corrente fino 
+al termine dell’azione chiamata. L’operatore <i>Execute action</i>, in oltre, 
+consente di reiterare l’esecuzione di un’azione in base a due diversi criterî:</p>
+<ol>
+<li>per ogni record di una vista fino all’esaurimento di tutto il recordset</li>
+<li>fino alla valutazione a "true" di un’espressione</li>
+</ol>
+
+<img src='img/image150.gif' />
+
+<p>I parametri richiesti sono:</p>
+<ul>
+<li>L’azione da eseguire, da selezionere dall’elenco delle azioni definite per il
+       programma.</li>
+<li>La condizione di fine loop (<i>End action</i>), un’espressione che, valutata 
+       ad ogni giro del loop, interrompe l’esecuzione se ritorna un valore "true".
+       <b>Attenzione</b>: se nessuna condizione di fine viene inserita la condizione 
+       è automaticamente impostata a "true", il che significa che l’azione verrà 
+       eseguita una sola volta!</li>
+<li>La vista su cui eseguire il loop (<i>Loop on view</i>) e la direzione 
+       (<i>Direction</i>).</li>
+</ul>
+<p>Quando una vista viene specificata (premendo <kbd>F5</kbd> sul campo 
+<i>Loop on view</i> si accede all’elenco e alla selezione delle viste disponibili)
+o2runtime svolgerà le seguenti operazioni:</p>
+<ol>
+<li>La vista selezionata verrà posizionata sul primo (<i>Direction</i> = 
+       "ascending") o sull’ultimo (<i>Direction</i> = "Descending") record del 
+       recordset.</li>
+<li>Ad ogni giro del loop verrà valutata la condizione di fine e, fino al suo verificarsi, 
+       il puntatore di selezione della vista verrà fatto avanzare (o retrocedere) fino 
+       al totale esaurimento del recordset.</li>
+<li>Ad ogni giro del loop verrà eseguita l’azione indicata.</li>
+</ol>
+
+<p>Al verificarsi della condizione di <i>End action</i> o all’esaurirsi del recordset
+l’istruzione di <i>Execute action</i> sarà terminata.</p>
+
+<p><b>Nota bene</b>: è importante che le condizioni indicate si risolvano sempre 
+in un esito, cioè non creino loop infiniti. Ad esempio: un’istruzione di <i>Execute 
+action</i> senza indicazione di view e con condizione di fine che valuti sempre a 
+"false" creerà un loop infinito, così come un’azione che, reiterata su una vista fino 
+al suo esaurimento, ogni volta ne ripristini il puntatore di selezione.</p>
+</blockquote><br />
+<h3>0.13.2.5<a name='node_93'> &nbsp; </a><i>Goto</i></h3></br /><blockquote><p>L’istruzione <i>Goto</i> termina in maniera irreversibile l’attuale catena 
+esecutiva e chiude tutti i programmi eventualmente aperti. Il controllo viene 
+passato ad un nuovo programma (dalla cui <i>Initial action</i> partirà la nuova 
+catena esecutiva) o ad un indirizzo web (url) che solitamente condurrà l’operatore 
+fuori dalla sessione o2.</p>
+
+<p>L’interfaccia chiederà di selezionare tra i due possibili esiti (<i>Program</i> 
+o <i>Url</i>).</p>
+
+<p>Nel caso di <i>Url</i> sarà possibile inserire nella cella <i>Arguments</i>
+un’espressione il cui risultato sarà usato come indirizzo web, così come lo si 
+scriverebbe nella barra degli indirizzi di un browser.</p>
+
+<p>Nel caso di <i>Program</i> sarà possibile scegliere il programma fra quelli 
+definiti nell’applicazione o inserire un’espressione, il cui risultato sarà interpretato 
+come nome del programma da eseguire. Sarà possibile passare parametri al 
+programma chiamato ma senza attenderne ritorno.</p>
+</blockquote><br />
+<h3>0.13.2.6<a name='node_94'> &nbsp; </a><i>Input/output</i></h3></br /><blockquote><p>L’istruzione <i>Input/Output</i> permette di produrre file <em>XML</em> 
+a partire dai dati delle viste.</p>
+</blockquote><br />
+<h3>0.13.2.7<a name='node_95'> &nbsp; </a><i>Message</i></h3></br /><blockquote><p>L’operatore <i>Message</i> permette di visualizzare un messaggio al client. 
+Il messaggio può essere di due tipi, fra cui l’interfaccia chiederà di scegliere:</p>
+<ol>
+<li><i>Message box</i>: il messaggio sarà comunicato al client come 
+       <code>alert</code> di <em>javascript</em>, cioè una finestra modale con 
+       un solo pulsante di <i>Ok</i> e con il testo del messaggio. Se più messaggi 
+       verranno inviati al client in una stessa sessione esecutiva del server, verranno
+       visualizzati uno di seguito all’altro, nell’ordine in cui sono stati invocati.</li>
+<li><i>Status bar</i>: il testo del messaggio comparirà nella barra di stato (se 
+       visibile) della form attiva. Nel caso che più messaggi di questo tipo vengano 
+       inviati al client, soltanto l’ultimo sarà visibile all’operatore.</li>
+</ol>
+<p>Il messaggio è la stringa risultante dall’espressione indicata in 
+<i>Arguments</i>.</p>
+</blockquote><br />
+<h3>0.13.2.8<a name='node_96'> &nbsp; </a><i>Print</i></h3></br /><blockquote><p>Produce un file <em>PDF</em>, a partire da una serie di file <em>XML</em>
+prodotti dalle istruzioni di <i>Input/output</i>.</p>
+</blockquote><br />
+<h3>0.13.2.9<a name='node_97'> &nbsp; </a><i>Recordset</i></h3></br /><blockquote><p>L’operatore <i>Recordset</i> rende disponibili una serie di funzionalità sulle 
+viste del programma.</p>
+<img src='img/image152.gif' />
+
+<p>Vediamole in dettaglio:</p>
+<ul>
+<li><i>First</i>: posiziona la vista sul primo record del recordset e con il
+                  puntatore di selezione a zero (primo record della vista).</li>
+<li><i>Previous page</i>: mantiene il puntatore di selezione inalterato e sposta 
+                          la vista indietro, di un numero di record uguale alle
+                          righe richieste per la vista o, se non ci sono, si 
+                          comporta come <i>First</i>.</li>
+<li><i>Previous row</i>: sposta il puntatore di selezione della vista sul record
+                         precedente oppure, se quello attuale è il primo della
+                         vista, si comporta come <i>Previous page</i> e poi sposta
+                         il puntatore di selezione all’ultimo record della 
+                         vista.</li>
+<li><i>Next row</i>: sposta il puntatore di selezione della vista sul record
+                     successivo oppure, se quello attuale è l’ultimo della vista,
+                     si comporta come <i>Next page</i> e poi sposta il puntatore 
+                     di selezione al primo record della vista.</li>
+<li><i>Next page</i>: mantiene il puntatore di selezione inalterato e sposta la
+                      vista avanti, di un numero di record uguale alle righe 
+                      richieste per la vista o, se non ci sono, si comporta come
+                      <i>Last</i>.</li>
+<li><i>Last</i>: posiziona la vista sull’ultimo record del recordset e con il
+                 puntatore di selezione uguale al numero di righe richieste per 
+                 la vista – 1 (ultimo record della vista).</li>
+<li><i>Locate</i>: posiziona la vista sul primo record che soddisfi i criteri.</li>
+<li><i>Prepare insert</i>: pone la vista in stato di inserimento, cioè su un 
+                           record puramente virtuale, con i campi tutti 
+                           valorizzati al proprio default; nel caso che a questa
+                           operazione non segua un’operazione di <i>Postrow</i>, 
+                           il record virtuale andrà perduto al primo spostamento
+                           del puntatore di selezione della vista.</li>
+<li><i>Post row</i>: se il record corrente ha subito modifiche, scrive tali 
+                     modifiche su database. Prima di eseguire la scrittura viene 
+                     fatto il seguente controllo sui valori dei segmenti di chiave:
+    <ul>
+        <li>Se viene modificata la chiave e la nuova chiave non esiste, al record
+            viene modificata la chiave.</li>
+        <li>Se viene modificata la chiave e la nuova chiave già esiste, si risolve
+            in errore di <i>chiave duplicata</i>.</li>
+        <li>Se si è in inserimento e la nuova chiave non esiste, il record viene
+            inserito.</li>
+        <li>Se si è inserimento e la nuova chiave già esiste, si risolve
+            in errore di <i>chiave duplicata</i>.</li>
+    </ul></li>
+<li><i>Delete row</i>: cancella fisicamente il record corrente dal database.</li>
+<li><i>Undo</i>: annulla le eventuali modifiche apportate al record corrente e
+                 valorizza ogni campo all’ultimo valore letto dal database.</li>
+<li><i>Refresh</i>: rilegge la vista attuale dal database, caricandone le 
+                    eventuali modifiche apportate da altri programmi o 
+                    operatori.</li>
+</ul></blockquote><br />
+<h3>0.13.2.10<a name='node_98'> &nbsp; </a><i>Remark</i></h3></br /><blockquote><p>L’operatore <i>Remark</i> consente di inserire un commento fra le varie 
+istruzioni di un’azione, al fine di inserire note per la manutenzione, ottenere aspetti 
+grafici che aiutino la lettura e quant’altro serva allo sviluppatore: questa istruzione 
+non ha alcun effetto di runtime. Per accedere al testo della nota premere 
+<kbd>F5</kbd> sulla cella <i>Object</i>.</p>
+</blockquote><br />
+<h3>0.13.2.11<a name='node_99'> &nbsp; </a><i>Return parameter</i></h3></br /><blockquote><p>Valorizza un parametro del programma, in modo da restituire un valore al 
+programma chiamante: a tal fine il parametro deve essere passato <em>by 
+reference</em> (vedi sezione sul passaggio di parametri).</p>
+
+<p><kbd>F5</kbd> sulla cella <i>Object</i> per selezionare il parametro dall’elenco 
+dei parametri definiti e <kbd>F5</kbd> sulla cella <i>Arguments</i> per impostare
+l’espressione di valore.</p>
+</blockquote><br />
+<h3>0.13.2.12<a name='node_100'> &nbsp; </a><i>Set menu</i></h3></br /><blockquote><p>Imposta il menu selezionato dall’elenco (<kbd>F5</kbd> sulla cella <i>Object</i>)
+come menu di applicazione, ovvero lo rende visibile come barra dei menu, mentre ogni 
+suo sottomenu sarà accessibile come menu a tendina.</p>
+</blockquote><br />
+<h3>0.13.2.13<a name='node_101'> &nbsp; </a><i>Update</i></h3></br /><blockquote><p>Le istruzioni di <i>Update</i> costituiscono in o2 il modo di assegnare un 
+valore ad un campo o ad una variabile. A seguito di un’istruzione <i>Update</i> 
+il campo indicato (<kbd>F5</kbd> sulla cella <i>Object</i>) prenderà il valore 
+ritornato dall’espressione di valore (<kbd>F5</kbd> sulla cella <i>Arguments</i>).
+</p>
+
+<p><b>Nota bene</b>: non lasciarsi ingannare dal nome dell’operatore. Se si 
+esegue un’istruzione di <i>Update</i> sul campo di una vista, la modifica non sarà
+comunicata al database (e quindi non sarà scritta in effettiva su disco) fino alla 
+successiva istruzione di <i>Recordset Postrow</i>. Prima di allora l’esecuzione si 
+può interrompere (<i>Close program</i> o <i>Goto</i>) oppure può cambiare il
+puntatore di selezione della vista o intervenire azioni di <i>Recordset Undo</i>: in
+ognuno di questi, e in altri casi, le modifiche apportate ai campi con le istruzioni 
+<i>Update</i> non verranno riportate su database.</p>
+</blockquote><br />
+<h3>0.13.2.14<a name='node_102'> &nbsp; </a><i>Execute script</i></h3></br /><blockquote><p>L’istruzione <i>Execute script</i> accetta come solo parametro 
+(<kbd>F5</kbd> sulla cella <i>Arguments</i>) un’espressione da valutare. 
+Il valore di ritorno dell’espressione viene ignorato ma la sua valutazione 
+costituisce il metodo di base per l’esecuzione di <em>script PHP</em>.</p>
+
+<p>Quindi, solitamente, l’espressione avrà una forma del tipo:</p>
+
+<img src='img/image154.gif' />
+</blockquote></blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_77.html'>Gli eventi</a></td>
+       <td id='nav_next' align='right'><a href='node_103.html'>L'editor delle form</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<?php
+
+function prepare_navigation§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("filter_node", "node_id");
+	$task_prg§_§var->definisci("prev_node", "node_id");
+		}
+
+function prepare_navigation§§links_def(&$task_links, $_o2viewalias = "") {
+	$task_links->righe_vis = 1;
+
+	$task_links->usa_file("jxdoc_navigation_links","navigation_links","id",null,null);
+
+	$task_links->usa("node_id","navigation_links","node_id","prepare_navigation_exp_18()","prepare_navigation_exp_18()",null,null);
+	$task_links->usa("node_parent","navigation_links","node_parent",null,null,null,null);
+	$task_links->usa("node_prev","navigation_links","node_prev",null,null,null,null);
+	$task_links->usa("node_next","navigation_links","node_next",null,null,null,null);
+}
+
+function prepare_navigation§§sub_nodes_def(&$task_sub_nodes, $_o2viewalias = "") {
+	$task_sub_nodes->righe_vis = 10;
+
+	$task_sub_nodes->usa_file("jxdoc_sub_nodes","sub_nodes","position",null,null);
+	$task_sub_nodes->usa_file_link("jxdoc_uses","uses","id",null,null);
+
+	$task_sub_nodes->unisci("uses_id_join_","uses","id","prepare_navigation_exp_9()","prepare_navigation_exp_9()",null,null);
+
+	$task_sub_nodes->usa("parent","sub_nodes","parent","prepare_navigation_exp_3()","prepare_navigation_exp_3()",null,null);
+	$task_sub_nodes->usa("position","sub_nodes","position",null,null,null,null);
+	$task_sub_nodes->usa("child","sub_nodes","child",null,null,null,null);
+	$task_sub_nodes->usa("use","sub_nodes","use",null,null,null,null);
+	$task_sub_nodes->usa("incremental","uses","incremental",null,null,null,null);
+}
+
+function prepare_navigation§§nodes_ref_def(&$task_nodes_ref, $_o2viewalias = "") {
+	$task_nodes_ref->righe_vis = 1;
+
+	$task_nodes_ref->usa_file("jxdoc_nodes_ref","nodes_ref","id",null,null);
+
+	$task_nodes_ref->usa("node_id","nodes_ref","node_id","prepare_navigation_exp_18()","prepare_navigation_exp_18()",null,null);
+	$task_nodes_ref->usa("node_ref","nodes_ref","node_ref",null,null,null,null);
+}
+
+function prepare_navigation§§this_def(&$task_this, $_o2viewalias = "") {
+	$task_this->righe_vis = 1;
+
+	$task_this->usa_file("jxdoc_sub_nodes","sub_nodes","child",null,null);
+	$task_this->usa_file_link("jxdoc_uses","uses","id",null,null);
+
+	$task_this->unisci("uses_id_join_","uses","id","prepare_navigation_exp_16()","prepare_navigation_exp_16()",null,null);
+
+	$task_this->usa("child","sub_nodes","child","prepare_navigation_exp_3()","prepare_navigation_exp_3()",null,null);
+	$task_this->usa("use","sub_nodes","use",null,null,null,null);
+	$task_this->usa("incremental","uses","incremental",null,null,null,null);
+}
+
+function prepare_navigation§§add_subnode_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(prepare_navigation_exp_20(), False, prepare_navigation_exp_5(), prepare_navigation_exp_6(), prepare_navigation_exp_3(), prepare_navigation_exp_8(), prepare_navigation_exp_12(), prepare_navigation_exp_14()) && $o2exe->e();
+	$o2exe->s(2) && (prepare_navigation_exp_10() || $o2exe->e()) && o2act::set("prg§_§var", "prev_node", prepare_navigation_exp_5()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function prepare_navigation§§loop_subnodes_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "prev_node", prepare_navigation_exp_7()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("add_subnode", False, "sub_nodes") && $o2exe->e();
+	} //|o2_fine_act|
+
+function prepare_navigation§§prepare_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("loop_subnodes", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("write_links", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("write_ref", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function prepare_navigation§§write_links_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "filter_node", prepare_navigation_exp_3()) && $o2exe->e();
+	$o2exe->s(2) && (prepare_navigation_exp_17() || $o2exe->e()) && o2act::view("links", "I", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("links", "node_id", prepare_navigation_exp_3()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("links", "node_parent", prepare_navigation_exp_2()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("links", "node_prev", prepare_navigation_exp_11()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::view("links", "S", "") && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "filter_node", prepare_navigation_exp_11()) && $o2exe->e();
+	$o2exe->s(8) && (prepare_navigation_exp_17() || $o2exe->e()) && o2act::view("links", "I", "") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("links", "node_id", prepare_navigation_exp_11()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("links", "node_next", prepare_navigation_exp_3()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::view("links", "S", "") && $o2exe->e();
+	$o2exe->s(12) && True && o2act::set("prg§_§var", "filter_node", prepare_navigation_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function prepare_navigation§§write_ref_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "filter_node", prepare_navigation_exp_3()) && $o2exe->e();
+	$o2exe->s(2) && (prepare_navigation_exp_19() || $o2exe->e()) && o2act::view("nodes_ref", "I", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("nodes_ref", "node_id", prepare_navigation_exp_3()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("nodes_ref", "node_ref", prepare_navigation_exp_15()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::view("nodes_ref", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function prepare_navigation_exp_1() {
+	
+return (o2val('sub_nodes','use'));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_2() {
+	
+return (o2par(3));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_3() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_4() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_5() {
+	
+return (o2val('sub_nodes','child'));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_6() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_7() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_8() {
+	
+return (o2val('prg§_§var','prev_node'));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_9() {
+	
+return (o2val('sub_nodes','use'));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_10() {
+	
+return (o2val('sub_nodes','incremental'));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_11() {
+	
+return (o2par(4));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_12() {
+	
+return (o2par(5) + 1);
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_13() {
+	
+return (o2par(5) <= o2par(2));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_14() {
+	$val = (o2exp(13) && o2val('sub_nodes','incremental') ?
+        "node_".o2par(1).".html" :
+        o2par(6));
+return ($val);
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_15() {
+	$ref = ((o2par(5) <= o2par(2)) && o2val('this','incremental') ?
+        "node_".o2par(1).".html" :
+        o2par(6)."#node_".o2par(1));
+return ($ref);
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_16() {
+	
+return (o2val('this','use'));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_17() {
+	
+return (!o2view_rec("links"));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_18() {
+	
+return (o2val('prg§_§var','filter_node'));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_19() {
+	
+return (!o2view_total("nodes_ref"));
+	} //|o2_fine_exp|
+
+function prepare_navigation_exp_20() {
+	
+return ((o2app_name() == "jxdoc" ? "prepare_navigation" : "doc/prepare_navigation"));
+	} //|o2_fine_exp|
+?>

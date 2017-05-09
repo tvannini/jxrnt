@@ -1,0 +1,136 @@
+<?php
+
+function o2sys_filter_ctrl§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("cached_prof", "_o2logical");
+	$task_prg§_§var->definisci("prg_name", "_o2alpha");
+		}
+
+function o2sys_filter_ctrl§§objs_rights_def(&$task_objs_rights, $_o2viewalias = "") {
+	$task_objs_rights->righe_vis = 10;
+
+	$task_objs_rights->usa_file("o2_profiling","o2_profiling","obj",null,null);
+
+	$task_objs_rights->usa("obj_type","o2_profiling","obj_type","o2sys_filter_ctrl_exp_1()","o2sys_filter_ctrl_exp_1()",null,null);
+	$task_objs_rights->usa("obj_module","o2_profiling","obj_module","o2sys_filter_ctrl_exp_12()","o2sys_filter_ctrl_exp_12()",null,null);
+	$task_objs_rights->usa("obj_name","o2_profiling","obj_name",null,null,null,null);
+	$task_objs_rights->usa("right_vis","o2_profiling","right_vis",null,null,null,null);
+	$task_objs_rights->usa("right_enable","o2_profiling","right_enable",null,null,null,null);
+}
+
+function o2sys_filter_ctrl§§check_from_cache_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Removes/disable controls from list if conteined cache") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_filter_ctrl_exp_5()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_ctrl§§check_from_view_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Removes/disable controls from list if user doesn't own the right") && $o2exe->e();
+	$o2exe->s(2) && (o2sys_filter_ctrl_exp_2() || $o2exe->e()) && o2act::script(o2sys_filter_ctrl_exp_3()) && $o2exe->e();
+	$o2exe->s(3) && (o2sys_filter_ctrl_exp_6() || $o2exe->e()) && o2act::script(o2sys_filter_ctrl_exp_7()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_ctrl§§exit_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_ctrl§§start_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_filter_ctrl_exp_4() || $o2exe->e()) && o2act::exe("exit", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "prg_name", o2sys_filter_ctrl_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "cached_prof", o2sys_filter_ctrl_exp_8()) && $o2exe->e();
+	$o2exe->s(4) && (o2sys_filter_ctrl_exp_9() || $o2exe->e()) && o2act::exe("check_from_view", False, "objs_rights") && $o2exe->e();
+	$o2exe->s(5) && (o2sys_filter_ctrl_exp_10() || $o2exe->e()) && o2act::exe("check_from_cache", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_ctrl_exp_1() {
+	
+return ("C");
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_2() {
+	
+return (!o2zero('objs_rights','right_vis') && !o2user_has(o2val('objs_rights','right_vis')));
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_3() {
+	$ctrl_local = o2val('objs_rights','obj_name');
+$app        = $_SESSION['o2_app'];
+$prg        = $app->istanze_prg[$app->progressivo_istanze - 1];
+foreach ($prg->form as &$single_form) {
+   if (isset($single_form->controlli[$ctrl_local])) {
+      $single_form->controlli[$ctrl_local]->visibile = false;
+      break;
+      }
+   }
+$prg->profiling[$single_form->nome][$ctrl_local]["V"] = true;
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_4() {
+	
+return (o2app_user() == "root");
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_5() {
+	$ctrl_local = o2val('objs_rights','obj_name');
+$app        = $_SESSION['o2_app'];
+$prg        = $app->istanze_prg[$app->progressivo_istanze];
+foreach ($prg->profiling[o2par(1)] as $ctrl_name => $ctrl_prof) {
+   if ($ctrl_prof["V"]) {
+      $prg->form[o2par(1)]->controlli[$ctrl_name]->visibile = false;
+      }
+   if ($ctrl_prof["E"]) {
+      $prg->form[o2par(1)]->controlli[$ctrl_name]->modificabile = false;
+      }
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_6() {
+	
+return (!o2zero('objs_rights','right_enable') && !o2user_has(o2val('objs_rights','right_enable')));
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_7() {
+	$ctrl_local = o2val('objs_rights','obj_name');
+$app        = $_SESSION['o2_app'];
+$prg        = $app->istanze_prg[$app->progressivo_istanze - 1];
+foreach ($prg->form as &$single_form) {
+   if (isset($single_form->controlli[$ctrl_local])) {
+      $single_form->controlli[$ctrl_local]->modificabile = false;
+      break;
+      }
+   }
+$prg->profiling[$single_form->nome][$ctrl_local]["E"] = true;
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_8() {
+	$app    = $_SESSION['o2_app'];
+$cached = ($app->istanze_prg[$app->progressivo_istanze - 1]->profiling[o2par(1)] ? 
+           true : 
+           false);
+return ($cached);
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_9() {
+	
+return (!o2val('prg§_§var','cached_prof'));
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_10() {
+	
+return (o2val('prg§_§var','cached_prof'));
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_11() {
+	$app  = $_SESSION['o2_app'];
+$name = $app->istanze_prg[$app->progressivo_istanze - 1]->nome;
+
+return ($name);
+	} //|o2_fine_exp|
+
+function o2sys_filter_ctrl_exp_12() {
+	
+return (o2val('prg§_§var','prg_name'));
+	} //|o2_fine_exp|
+?>

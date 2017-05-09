@@ -1,0 +1,192 @@
+<?php
+
+function o2sys_table_set_log§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("action_done", "_o2logical");
+		}
+
+function o2sys_table_set_log§§log_tables_def(&$task_log_tables, $_o2viewalias = "") {
+	$task_log_tables->righe_vis = 10;
+
+	$task_log_tables->usa_file("o2_tabslog","o2_tabslog","log_tabname",null,null);
+
+	$task_log_tables->usa("log_tabname","o2_tabslog","log_tabname","o2sys_table_set_log_exp_1()","o2sys_table_set_log_exp_1()",null,null);
+	$task_log_tables->usa("log_level","o2_tabslog","log_level",null,null,null,null);
+	$task_log_tables->usa("log_operations","o2_tabslog","log_operations",null,null,null,null);
+}
+
+function o2sys_table_set_log§§create_logtab_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2sys_table_set_log_exp_21()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§create_record_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_table_set_log_exp_8() || $o2exe->e()) && o2act::view("log_tables", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("log_tables", "log_tabname", o2sys_table_set_log_exp_1()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("log_tables", "log_operations", o2sys_table_set_log_exp_9()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§set_level_change_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("create_record", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("log_tables", "log_level", o2sys_table_set_log_exp_16()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("log_tables", "S", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "action_done", o2sys_table_set_log_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§set_level_delete_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("create_record", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("log_tables", "log_level", o2sys_table_set_log_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("log_tables", "S", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "action_done", o2sys_table_set_log_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§set_level_existence_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("create_record", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("log_tables", "log_level", o2sys_table_set_log_exp_18()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("log_tables", "S", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "action_done", o2sys_table_set_log_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§set_level_insert_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("create_record", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("log_tables", "log_level", o2sys_table_set_log_exp_12()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("log_tables", "S", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "action_done", o2sys_table_set_log_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§set_level_modify_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("create_record", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("log_tables", "log_level", o2sys_table_set_log_exp_20()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("log_tables", "S", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "action_done", o2sys_table_set_log_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§set_level_record_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("create_record", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("log_tables", "log_level", o2sys_table_set_log_exp_10()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("log_tables", "S", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "action_done", o2sys_table_set_log_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "action_done", o2sys_table_set_log_exp_13()) && $o2exe->e();
+	$o2exe->s(2) && (o2sys_table_set_log_exp_3() || $o2exe->e()) && o2act::exe("set_level_record", True, "") && $o2exe->e();
+	$o2exe->s(3) && (o2sys_table_set_log_exp_4() || $o2exe->e()) && o2act::exe("set_level_delete", True, "") && $o2exe->e();
+	$o2exe->s(4) && (o2sys_table_set_log_exp_5() || $o2exe->e()) && o2act::exe("set_level_insert", True, "") && $o2exe->e();
+	$o2exe->s(5) && (o2sys_table_set_log_exp_15() || $o2exe->e()) && o2act::exe("set_level_change", True, "") && $o2exe->e();
+	$o2exe->s(6) && (o2sys_table_set_log_exp_17() || $o2exe->e()) && o2act::exe("set_level_existence", True, "") && $o2exe->e();
+	$o2exe->s(7) && (o2sys_table_set_log_exp_19() || $o2exe->e()) && o2act::exe("set_level_modify", True, "") && $o2exe->e();
+	$o2exe->s(8) && (o2sys_table_set_log_exp_6() || $o2exe->e()) && o2act::exe("create_logtab", True, "") && $o2exe->e();
+	$o2exe->s(9) && (o2sys_table_set_log_exp_7() || $o2exe->e()) && o2act::exe("unset_log", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log§§unset_log_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_table_set_log_exp_14() || $o2exe->e()) && o2act::view("log_tables", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_set_log_exp_1() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_2() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_3() {
+	
+return (strtolower(o2par(2)) === "r");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_4() {
+	
+return (strtolower(o2par(2)) === "d");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_5() {
+	
+return (strtolower(o2par(2)) === "i");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_6() {
+	
+return (o2val('prg§_§var','action_done'));
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_7() {
+	
+return (!o2val('prg§_§var','action_done'));
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_8() {
+	
+return (!o2view_rec("log_tables"));
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_9() {
+	
+return (1000);
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_10() {
+	
+return ("R");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_11() {
+	
+return ("D");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_12() {
+	
+return ("I");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_13() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_14() {
+	
+return (o2view_rec("log_tables"));
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_15() {
+	
+return (strtolower(o2par(2)) === "c");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_16() {
+	
+return ("C");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_17() {
+	
+return (strtolower(o2par(2)) === "e");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_18() {
+	
+return ("E");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_19() {
+	
+return (strtolower(o2par(2)) === "m");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_20() {
+	
+return ("M");
+	} //|o2_fine_exp|
+
+function o2sys_table_set_log_exp_21() {
+	if ($table = $_SESSION['o2_app']->get_table(o2par(1))) {
+   $table->create_logtable(true);
+   }
+return (true);
+	} //|o2_fine_exp|
+?>

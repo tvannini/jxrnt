@@ -1,0 +1,32 @@
+<?php
+
+function o2sys_tables_admin§§start_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_tables_admin_exp_2() || $o2exe->e()) && o2act::script(o2sys_tables_admin_exp_1()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::call(o2sys_tables_admin_exp_4(), False) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_tables_admin_exp_1() {
+	$app = $_SESSION['o2_app'];
+if ($app->run_level == "DEV" && $app->dir_cvs_progs->exists($app->file_tabelle)) {
+   $file2inc = $app->dir_cvs_progs->element($app->file_tabelle);
+   }
+else {
+   $file2inc = $app->dir_progs->element($app->file_tabelle);
+   }
+include($file2inc);
+// ___________________________________________________ Custom tables remapping ___
+$app->remap_tables_on_db();
+$app->create_logtabs();
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_tables_admin_exp_2() {
+	
+return ($_SESSION['o2_app']->split_tab_repos);
+	} //|o2_fine_exp|
+
+function o2sys_tables_admin_exp_4() {
+	
+return ("tools/jxconnectivity");
+	} //|o2_fine_exp|
+?>

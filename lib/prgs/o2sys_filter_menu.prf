@@ -1,0 +1,135 @@
+<?php
+
+function o2sys_filter_menu§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("exclude_list", "_o2structure");
+	$task_prg§_§var->definisci("right_vis", "_o2logical");
+	$task_prg§_§var->definisci("user_has_right", "_o2logical");
+		}
+
+function o2sys_filter_menu§§objs_rights_def(&$task_objs_rights, $_o2viewalias = "") {
+	$task_objs_rights->righe_vis = 10;
+
+	$task_objs_rights->usa_file("o2_profiling","o2_profiling","obj",null,null);
+
+	$task_objs_rights->usa("obj_type","o2_profiling","obj_type","o2sys_filter_menu_exp_1()","o2sys_filter_menu_exp_1()",null,null);
+	$task_objs_rights->usa("obj_module","o2_profiling","obj_module","o2sys_filter_menu_exp_5()","o2sys_filter_menu_exp_5()",null,null);
+	$task_objs_rights->usa("obj_name","o2_profiling","obj_name",null,null,null,null);
+	$task_objs_rights->usa("right_vis","o2_profiling","right_vis",null,null,null,null);
+	$task_objs_rights->usa("right_enable","o2_profiling","right_enable",null,null,null,null);
+}
+
+function o2sys_filter_menu§§add_to_excluded_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Right for visibility is set") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "right_vis", o2sys_filter_menu_exp_11()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("User has that right") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "user_has_right", o2sys_filter_menu_exp_12()) && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("If user does NOT have the right") && $o2exe->e();
+	$o2exe->s(6) && (o2sys_filter_menu_exp_2() || $o2exe->e()) && o2act::set("prg§_§var", "exclude_list", o2sys_filter_menu_exp_6()) && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("If user has the right") && $o2exe->e();
+	$o2exe->s(8) && (o2sys_filter_menu_exp_7() || $o2exe->e()) && o2act::set("prg§_§var", "exclude_list", o2sys_filter_menu_exp_8()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_menu§§check_item_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Removes item from list if user don't own the right") && $o2exe->e();
+	$o2exe->s(2) && (o2sys_filter_menu_exp_2() || $o2exe->e()) && o2act::script(o2sys_filter_menu_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_menu§§exit_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_menu§§remove_excluded_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_filter_menu_exp_10() || $o2exe->e()) && o2act::script(o2sys_filter_menu_exp_9()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_menu§§start_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_filter_menu_exp_4() || $o2exe->e()) && o2act::exe("exit", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("add_to_excluded", False, "objs_rights") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("remove_excluded", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_filter_menu_exp_1() {
+	
+return ("M");
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_2() {
+	
+return (o2val('prg§_§var','right_vis') && !o2val('prg§_§var','user_has_right'));
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_3() {
+	$menu_local = o2val('objs_rights','obj_name');
+if ($_SESSION["o2_app"]->menu[$menu_local]) {
+   unset($_SESSION["o2_app"]->menu[$menu_local]);
+   }
+foreach ($_SESSION["o2_app"]->menu as &$single_menu) {
+   if ($single_menu->voci[$menu_local]) {
+      unset($single_menu->voci[$menu_local]);
+      }
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_4() {
+	
+return (o2app_user() == "root");
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_5() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_6() {
+	$l = o2val('prg§_§var','exclude_list');
+if (!isset($l[o2val('objs_rights','obj_name')])) {
+   $l[o2val('objs_rights','obj_name')] = true;
+   }
+return ($l);
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_7() {
+	
+return (o2val('prg§_§var','right_vis') && o2val('prg§_§var','user_has_right'));
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_8() {
+	$l = o2val('prg§_§var','exclude_list');
+$l[o2val('objs_rights','obj_name')] = false;
+return ($l);
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_9() {
+	$app_menu = &$_SESSION["o2_app"]->menu;
+foreach (o2val('prg§_§var','exclude_list') as $menu_name => $excluded) {
+   if ($excluded) {
+      if ($app_menu[$menu_name]) {
+         unset($app_menu[$menu_name]);
+         }
+      foreach ($app_menu as &$single_menu) {
+         if ($single_menu->voci[$menu_name]) {
+            unset($single_menu->voci[$menu_name]);
+            }
+         }
+      }
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_10() {
+	
+return (count(o2val('prg§_§var','exclude_list')));
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_11() {
+	
+return (!o2zero('objs_rights','right_vis'));
+	} //|o2_fine_exp|
+
+function o2sys_filter_menu_exp_12() {
+	
+return (o2user_has(o2val('objs_rights','right_vis')));
+	} //|o2_fine_exp|
+?>

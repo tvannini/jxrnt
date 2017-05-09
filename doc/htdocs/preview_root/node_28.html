@@ -1,0 +1,183 @@
+<html><head><title>Il repository delle tabelle</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_22.html'>Il repository dei <i>datatypes</i></a></td>
+       <td id='nav_next' align='right'><a href='node_40.html'>Un programma di interazione con i dati di una tabella</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.6 &nbsp; Il repository delle tabelle</h2><br /><fieldset>COLUMN, INDEX, INDEX SEGMENT, TABLE REPOSITORY, UNIQUE INDEX</fieldset>
+<p>Questo capitolo espone la definizione e l’uso del repository delle tabelle.</p><br /><h4>Obiettivi</h4>
+<p>Al termine di questo capitolo il programmatore sarà in grado di:</p>
+<ul>
+<li>Definire tabelle nel <i>table repository</i>.</li>
+<li>Definire colonne nella tabella utilizzando i modelli.</li>
+<li>Definire indici nella tabella.</li>
+</ul>
+
+<br /><h4>Introduzione</h4>
+<p>Questo capitolo passa oltre la prima fase dello sviluppo dell’applicazione (definizione dei 
+modelli), illustrando la definizione delle tabelle nel <i>table repository</i>.</p>
+<p>Per definire una Tabella nel repository devi specificare i seguenti parametri:</p>
+<ul>
+<li>Nome logico della tabella</li>
+<li>Nome fisico della tabella nel database</li>
+<li>Nome del database in cui la tabella è contenuta</li>
+<li>Campi della tabella (columns)</li>
+<li>Indici della tabella (indexes)</li>
+<li>Segmenti di ogni indice</li>
+<li>Indice principale della tabella (primary key)</li>
+</ul>
+<p>In riferimento al diagramma del database relativo all’applicazione “Il mio negozio online”  precedentemente visto, il  programmatore al termine di questo modulo avrà creato tutte le 
+tabelle richieste dall’applicazione.</p>
+<br />
+<h3>0.6.1<a name='node_31'> &nbsp; </a>Definizione delle tabelle nel repository</h3></br /><blockquote><p>Il repository delle tabelle consiste in una lista di definizioni di tabella.</p>
+<p>La definizione di una tabella in o2architect è molto simile a quella nel database, 
+ma non necessariamente identica.</p>
+<p>Il <i>table repository</i> in o2architect è usato per definire la struttura delle tabelle, 
+e non per crearle nel database. Sarà o2runtime, nel momento in cui un programma viene eseguito 
+ed utilizza tabelle che non esistono ancora nel database, in base alla struttura definita, a creare la
+tabella nel database.</p>
+<p>Ogni tabella è definita in modo completo per le sue colonne, per i suoi indici, e per tutte le proprietà
+della tabella stessa (nome, database, indice primario).</p>
+<img src='img/image020.gif'>
+<ol>
+<li>Checkout dell’oggetto <i>tables</i> (<kbd>F11</kbd>)<li>
+<li>Creare una nuova riga nel <i>table repository</i> (<kbd>F4</kbd>).</li>
+<li>Digitare il nome logico della tabella nella colonna <i>Table</i> (stringa senza spazi)</li>
+<li>Digitare il nome fisico della tabella nella colonna <i>Physical name</i> (stringa senza spazi)</li>
+<li>Nella colonna <i>Database</i> premere <kbd>F5</kbd> (<i>zoom</i>) e selezionare il 
+       database dal repository dei database</li>
+</ol>
+<p>Questa è la situazione in cui ti dovrai trovare prima di accedere alla definzione delle colonne:</p>
+<img src='img/image022.gif'>
+</blockquote><br />
+<h3>0.6.2<a name='node_32'> &nbsp; </a>Definizione dei campi della tabella</h3></br /><blockquote><p>Adesso dobbiamo definire i campi della tabella accedendo all’area destra del repository:</p>
+<img src='img/image024.gif'>
+<ol>
+<li>Creare una nuova riga del <i>columns repository</i> (<kbd>F4</kbd>).</li>
+<li>Digitare il nome del campo nella colonna <i>Field</i> (stringa senza spazi).</li>
+<li>Digitare il nome del campo nel database nella colonna <i>Physical name</i> (stringa 
+       senza spazi).</li>
+<li><kbd>F5</kbd> (<i>zoom</i>) e selezionare il modello dalla colonna <i>Model</i>.</li>
+</ol>
+<p>Ripetere queste operazioni per tutti i campi della tabella.</p>
+<p>A lavoro completato il <i>columns repository</i> per la tabella "Customers" dovrebbe 
+presentarsi così:</p>
+<img src='img/image026.gif'>
+</blockquote><br />
+<h3>0.6.3<a name='node_33'> &nbsp; </a>Definizione degli indici della tabella</h3></br /><blockquote><p>Gli indici sono chiavi che il programmatore dichiara per definire i possibili ordinamenti dei 
+record all’interno della tabella, in modo da presentare i valori secondo un certo orinamento e 
+per favorire le ricerche su tabelle con molti record.</p>
+<p>Definire gli indici come univoci (unique), rende più affidabile l’integrità dei dati. In o2architect 
+ogni tabella deve avere almeno un indice e tutti gli indici dichiarati devono essere  univoci. Questo 
+è facilmente ottenibile aggiungendo i segmenti della chiave primaria anche agli indici che per 
+definizione non sarebbero univoci.</p>
+<h4>Vantaggi nell’uso degli indici</h4>
+<p>Ricerche veloci:  utilizzando un indice sarà più veloce la ricerca di dati tramite query basata 
+sui segmenti dell’indice.</p>
+<p>Ordinamento dei dati: utilizzare un indice significa altresì ordinare i dati in base ai segmenti
+dell’indice, quindi il programmatore tramite l’uso di questi indici potrà riordinare i dati a seconda 
+delle situazioni che gli si presentano.</p>
+
+<p>Adesso dobbiamo definire gli indici della tabella accedendo all’area sottostante del 
+repository:</p>
+<img src='img/image028.gif'>
+<p>Questo elenco contiene le informazione di tutti gli indici della tabella selezionata.</p>
+<p>Nella parte sinistra la lista degli indici contenente il nome fisico dell’indice. Nella parte destra
+invece abbiamo i segmenti dell’indice selezionato, quindi i campi della tabella che determinano
+l’ordinamento.</p>
+<p>Per creare un nuovo indice per la tabella seleziona procedere come segue:</p>
+<ol>
+<li>Creare una nuova riga (<kbd>F4</kbd>).</li>
+<li>Digitare il nome dell’indice (stringa senza spazi).</li>
+<li>Accedere all’area destra (<i>segments</i>).</li>
+<li>Creare una nuova riga (<kbd>F4</kbd>).</li>
+<li><kbd>F5</kbd> (<i>zoom</i>) per selezionare il campo della tabella dalla colonna <i>Index segment</i>.</li>
+<li>Definire il tipo di ordinamento (<i>Ascending</i> o <i>Descending</i>).</li>
+<li>Ripetere i punti 4-5-6 per tutti i segmenti dell’indice selezionato</li>
+</ol>
+</blockquote><br />
+<h3>0.6.4<a name='node_34'> &nbsp; </a>Utility per la conversione delle tabelle</h3></br /><blockquote><p>Qualora il programmatore modifichi la struttura di una tabella, sia aggiungendo campi o indici, 
+che modificando la tipologia dei campi o i segmenti di un indice, potrebbe essere necessario un 
+intervento anche alla struttura della tabella fisica nel database (se la tabella è già stata creata).</p>
+<p>Accedendo all’applicazione a runtime come utente "root" (amministratore di runtime) si avrà
+disponibile il menu "root": tramite la voce di menu "tables" si avvia un utility di manutenzione delle
+tabelle.</p>
+<img src='img/image030.gif'><br />
+<img src='img/image032.gif'>
+<br />
+<h3>0.6.4.1<a name='node_35'> &nbsp; </a>Controllo (check) di tutte le tabelle</h3></br /><blockquote><p>Al fine di verificare che la struttura delle tabelle definita in o2architect sia compatibile con la struttura fisica nel database, procedere premendo il pulsante <i>Check</i> sotto il gruppo <i>Tables repository</i>.</p>
+<img src='img/image034.gif'>
+<p>Dopo l’analisi comparirà l’esito nell’area di <i>log</i>:</p>
+<img src='img/image036.gif'>
+<p>La procedura avverte il programmatore che la tabella "items" presenta colonne nuove in o2architect che non esistono fisicamente nel database.</p>
+<p>Adesso sarà opportuno procedere con la verifica della singola tabella "items".</p>
+
+</blockquote><br />
+<h3>0.6.4.2<a name='node_36'> &nbsp; </a>Controllo (check) della singola tabella</h3></br /><blockquote><p>Una volta verificato che alcune tabelle presentano delle differenze tra la definizione o2 e 
+la definizione fisica nel database è necessario procedere con il check della singola tabella.</p>
+<p>Selezionare la tabella da analizzare tramite il listbox in alto a sinistra e procedere premendo
+il pulsante <i>Check</i> sotto il gruppo <i>Single table</i>.</p>
+<img src='img/image038.gif'>
+<p>Al termine dell’analisi o2runtime produce l’elenco delle differenze come segue:</p>
+<img src='img/image040.gif'>
+
+</blockquote><br />
+<h3>0.6.4.3<a name='node_37'> &nbsp; </a>Azioni disponibili sulla tabella</h3></br /><blockquote><p>A seguito dell’analisi prodotta da o2runtime circa la compatibilità tra la 
+struttura delle tabelle definita in o2architect e quella definita fisicamente nel 
+database in uso, il programmatore ha tutti gli strumenti per decidere quale 
+azione compiere.</p>
+<ol>
+<li><i>Drop</i> della tabella</li>
+<li><i>Rebuild</i> della tabella</li>
+<li><i>Match</i> dei campi e <i>rebuild</i> della tabella</li>
+</ol>
+
+<h4><i>Drop</i> della tabella</h4>
+<p>Il programmatore premendo il pulsante <i>Drop</i> elimina la tabella dal
+database.  In questo modo un successivo accesso ad una funzione dell’applicazione 
+da parte dell’utente finale che richieda l’utilizzo di questa tabella provocherà una 
+creazione automatica della tabella, sulla base della struttura definita in 2architect.
+</p>
+<p>E’ evidente che così facendo le eventuali differenze sparirebbero, però utilizzare
+questa opzione con cautela e solamente se non esistono record nella tabella, oppure 
+se ritenete che i dati in essa contenuti non siano importanti.</p>
+
+<h4><i>Rebuild</i> della tabella</h4>
+<p>Premendo il pulsante <i>Rebuild</i> o2runtime modifica la struttura fisica della
+tabella, rendendola compatibile con quella o2 e mantenendo integri i dati in essa
+contenuti.</p>
+
+<h4><i>Match</i> dei campi e <i>rebuild</i></h4>
+<p>Qualora un campo abbia variato il nome fisico è possibile associare le colonne 
+prima selezionandole dai listbox in basso a sinistra, poi premendo il pulsante 
+<i>Match</i>. Dopo l’associazione procedere con l’operazione <i>Rebuild</i>.
+</p>
+
+<img src='img/image042.gif'>
+</blockquote></blockquote><br /><h4>Esercitazione</h4>
+<fieldset><p>E’ arrivato il momento di creare le tabelle di cui avremo bisogno per completare 
+l’applicazione “Il mio negozio online” (usa il diagramma precedentemente illustrato).</p>
+</fieldset><br /><h4>Riepilogo</h4>
+<p>Questo capitolo ha conferito al programmatore gli strumenti necessari per completare 
+la seconda fase dello sviluppo di un’applicazione o2: definire tabelle nel <i>tables repository
+</i>.</p>
+<p>Il <i>tables repository</i> elenca tutte le tabelle dell’applicazione, i rispettivi campi e i 
+rispettivi indici.</p>
+<p>E’ importante dare un nome significativo alle tabelle e ai campi anche in contraddizione 
+con il nome fisico dell’oggetto.</p>
+<p>Dopo aver definito i campi procedere con la definizione degli indici.</p>
+<p>Definire indici permette rapide ricerche di dati e il riordino degli stessi.</p>
+<p>Un indice deve avere uno o più segmenti.</p>
+<p>Dopo aver definito gli indici indicare quale è indice primario per la tabella.</p>
+<br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_22.html'>Il repository dei <i>datatypes</i></a></td>
+       <td id='nav_next' align='right'><a href='node_40.html'>Un programma di interazione con i dati di una tabella</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

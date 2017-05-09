@@ -1,0 +1,75 @@
+<?php
+
+function jxdoc_setwinpos§§winpos_def(&$task_winpos, $_o2viewalias = "") {
+	$task_winpos->righe_vis = 1;
+
+	$task_winpos->usa_file("jxdoc_winpos","jxdoc_winpos","id",null,null);
+
+	$task_winpos->usa("user_name","jxdoc_winpos","user_name","jxdoc_setwinpos_exp_1()","jxdoc_setwinpos_exp_1()",null,null);
+	$task_winpos->usa("prg_name","jxdoc_winpos","prg_name","jxdoc_setwinpos_exp_2()","jxdoc_setwinpos_exp_2()",null,null);
+	$task_winpos->usa("form_name","jxdoc_winpos","form_name","jxdoc_setwinpos_exp_3()","jxdoc_setwinpos_exp_3()",null,null);
+	$task_winpos->usa("is_open","jxdoc_winpos","is_open",null,null,null,null);
+	$task_winpos->usa("value_x","jxdoc_winpos","value_x",null,null,null,null);
+	$task_winpos->usa("value_y","jxdoc_winpos","value_y",null,null,null,null);
+	$task_winpos->usa("value_w","jxdoc_winpos","value_w",null,null,null,null);
+	$task_winpos->usa("value_h","jxdoc_winpos","value_h",null,null,null,null);
+}
+
+function jxdoc_setwinpos§§start_act(&$o2exe) {
+	$o2exe->s(1) && (jxdoc_setwinpos_exp_4() || $o2exe->e()) && o2act::view("winpos", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("winpos", "user_name", jxdoc_setwinpos_exp_1()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("winpos", "prg_name", jxdoc_setwinpos_exp_2()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("winpos", "form_name", jxdoc_setwinpos_exp_3()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("winpos", "is_open", jxdoc_setwinpos_exp_5()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("winpos", "value_x", jxdoc_setwinpos_exp_6()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("winpos", "value_y", jxdoc_setwinpos_exp_7()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("winpos", "value_w", jxdoc_setwinpos_exp_8()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("winpos", "value_h", jxdoc_setwinpos_exp_9()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::view("winpos", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_setwinpos_exp_1() {
+	
+return (o2app_user());
+	} //|o2_fine_exp|
+
+function jxdoc_setwinpos_exp_2() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function jxdoc_setwinpos_exp_3() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function jxdoc_setwinpos_exp_4() {
+	
+return (!o2view_rec("winpos"));
+	} //|o2_fine_exp|
+
+function jxdoc_setwinpos_exp_5() {
+	
+return (o2par(3));
+	} //|o2_fine_exp|
+
+function jxdoc_setwinpos_exp_6() {
+	
+return (o2par(4));
+	} //|o2_fine_exp|
+
+function jxdoc_setwinpos_exp_7() {
+	
+return (o2par(5));
+	} //|o2_fine_exp|
+
+function jxdoc_setwinpos_exp_8() {
+	
+return (o2par(6));
+	} //|o2_fine_exp|
+
+function jxdoc_setwinpos_exp_9() {
+	
+return (o2par(7));
+	} //|o2_fine_exp|
+?>

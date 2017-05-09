@@ -1,0 +1,36 @@
+.jximglist {
+    background-color: #ffffff;
+    border: 1px solid #BDB5AE;
+    padding: 5px;
+    overflow: auto;
+    }
+
+.jximglist * {
+    font-size: 9px;
+    }
+
+.jximglist_frame {
+    position: relative;
+    float: left;
+    margin: 2px;
+    border: 1px solid #000000;
+    text-align: center;
+    padding: 2px;
+    background-color: #ffffff;
+    overflow: hidden;
+    }
+
+.jximglist_text {
+    color: #666666;
+    display: block;
+    white-space: normal;
+    }
+
+.jximglist_del {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    cursor: pointer;
+    background-color: #ffffff;
+    border: 1px solid #BDB5AE;
+    }

@@ -1,0 +1,88 @@
+/**
+ * Janox documentation style sheet
+ * CSS Level 2
+ *
+ * This script contains the whole styling informations for HTML produced documentation.
+ *
+ * Tags uses - IS STRONGLY RECOMENDED TO USE ONLY TAGS FROM THIS LIST:
+ *  > Avoid titling: use documentation sections instead. If needed use <H5> and <H6>.
+ *  > Use <P> to delimiter paragraph
+ *  > Use <TABLE>, <TR>, <TH> and <TD> for tables
+ *  > Use <IMG> for images
+ *  > Use <KBD> for referencing keyboard keys or combinations
+ *  > Use <i> to reference texts reported from interface o2Architect (labels,
+ *    menu names, ...)
+ *  > Use <VAR> for filesystem paths and URL addresses
+ *  > Use <CODE> for scripting text (PHP, SQL, JavaScript, ...)
+ *  > Use "" to surround value texts (values for variables, fields, parameters, ...)
+ *  > Use <EM> for generic emphasis (names like PHP or MySQL)
+ *  > Use <OL> and <LI> for ordered lists
+ *  > Use <UL> and <LI> for unordered lists
+ *  > Use <DT> and <DFN> list definition lists (<DT> for defined expression and <DFN>
+ *    for deefining paragraph)
+ *  > Use <BLOCKQUOTE> to generic indenting a paragraph
+ *  > Use <BR> for line feeding
+ *
+ * @name      jxman
+ * @package   jxrnt/doc/htdocs/css/jxman.css
+ * @version   2.1
+ * @copyright www.o2gen.net 2007
+ */
+
+body {color: #666666; background-color: #fefefe; font: medium Arial, sans-serif; text-align: justify; margin-left: 10px; margin-right: 20px;}
+
+/* Document navigator */
+#nav {background-color: #eeeeee; border-collapse: collapse; padding: 0 0 0 0;}
+#nav_top {border: none; font: small Arial, sans-serif; text-align: center; padding: 5px 10px 2px 10px;}
+#nav_prev {border: none; font: small Arial, sans-serif; text-align: left; padding: 2px 10px 5px 10px;}
+#nav_next {border: none; font: small Arial, sans-serif; text-align: right; padding: 2px 10px 5px 10px;}
+#nav_frame {border: none; padding: 0 0 0 0; margin: 0 0 0 0;}
+
+/* Titles */
+h1 {}
+h2 {}
+h3 {}
+h4 {}
+h5 {}
+h6 {}
+
+/* Hyperlink */
+a {text-decoration: none; color: #993300;}
+a:hover {background-color: #993300; color: #fefefe;}
+a:focus {background-color: #993300;	color: #fefefe;}
+
+/* Tables */
+table {border-collapse: collapse; margin-top: 10px; margin-bottom: 20px;}
+th {background-color: #eeeeee; border: 1px solid #eeeeee; font: bold medium Arial, sans-serif; text-align: center; padding: 3px 10px 3px 10px;}
+td {border: 1px solid #eeeeee; font: medium Arial, sans-serif; text-align: justify; padding: 3px 10px 3px 10px;}
+
+/* Paragraph */
+p {margin-top: 10px; margin-bottom: 20px;}
+
+/* Images */
+img {margin-top: 10px; margin-bottom: 20px;}
+
+/* ________________________ Coded types ___________________________*/
+/* Keyboard keys */
+kbd {font: bold large "Times New Roman", serif; font-variant: small-caps;}
+/* Text from interface */
+i {font-family: "Times New Roman", serif; font-size: larger;}
+/* Values "___" */
+/* URL & path */
+var {font-family: Terminal, sans-erif;}
+/* Scripting code (PHP, SQL, JavaScript, ...) */
+code {font-family: "Courier New";}
+/* Generic emphasis */
+em {font-family: "Times New Roman", serif; font-size: larger;}
+
+dt {
+	font-size: medium;
+	font-weight: bold;
+	margin-top: 10px;
+	}
+
+dfn {
+	font-family: "Times New Roman", serif;
+	font-size: larger;
+	}
+

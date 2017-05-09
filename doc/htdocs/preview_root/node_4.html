@@ -1,0 +1,45 @@
+<html><head><title>Janox Runtime - Utilizzare l'applicazione "demo"</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_6.html'>Introduzione al corso</a></td>
+       <td id='nav_next' align='right'><a href='node_9.html'>"Il mio negozio online" -  L’applicazione di studio</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.2 &nbsp; Janox Runtime - Utilizzare l'applicazione "demo"</h2><br /><fieldset>BARRA DEI MENU, BARRA DEL TITOLO, MODO LINE, MODO SCREEN, SDI, STATO DELLA VIEW, STATUS BAR</fieldset>
+<p>Questo modulo introduce il funzionamento di Janox Runtime, le modalità 
+   dell'interfaccia "GUI-like" e gli strumenti di accesso e amministrazione.</p><br /><h4>Obiettivi</h4>
+<ul>
+ <li>Eseguire una applicazione Janox.</li>
+ <li>Eseguire un programma tramite il menù dell'applicazione.</li>
+ <li>Saper distinguere un'interfaccia in modalità <em>screen</em> da una in 
+     modalità <em>line</em> (o tabella)</li>
+ <li>Navigare sui dati utilizzando i controlli Janox (tabelle, combobox, pulsanti, 
+     ecc.)</li>
+ <li>Utilizzare il menù "root" per amministrare l'applicazione e la relativa base
+     dati.</li>
+</ul><br /><h4>Introduzione</h4>
+<p>Ci sono due modalità di accesso all'applicazione a runtime:</p>
+<ol>
+ <li>Da developer (sviluppatore)</li>
+ <li>Da utente finale</li>
+</ol>
+<p>Effettuando in login con il campo "Developer" valorizzato si indica alla runtime di Janox che vogliamo attivare anche i servizi di controllo e si fornisce il nome del programmatore.</p>
+
+<p>Il nome del programmatore viene utilizzato da Janox per eseguire i 
+programmi modificati dal programmatore stesso ma non ancora confermati 
+per tutti.</p>
+<p>Questo comportamento è decisamente interessante per testare le modifiche
+in un ambiente di sviluppo in team sul progetto, e di confermarle solo dopo averle
+verificate.</p>
+<img src="img/image003.gif" />
+<p>Premere il pulsante <i>Enter</i> per accedere</p><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_6.html'>Introduzione al corso</a></td>
+       <td id='nav_next' align='right'><a href='node_9.html'>"Il mio negozio online" -  L’applicazione di studio</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<?php
+
+function o2sys_collect_labels§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2sys_collect_labels_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_collect_labels_exp_1() {
+	$_SESSION['o2_app']->labels_collection();
+return (true);
+	} //|o2_fine_exp|
+?>

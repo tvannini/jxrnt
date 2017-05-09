@@ -1,0 +1,261 @@
+<?php
+
+function o2sys_table_browser§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("preset_done", "_o2logical");
+	$task_prg§_§var->definisci("tot_recs", "_o2alpha");
+		}
+
+function o2sys_table_browser§§browser_def(&$task_browser, $_o2viewalias = "") {
+	$task_browser->righe_vis = o2sys_table_browser_exp_14();
+
+	$task_browser->usa_file("".o2par(1)."","o2table_browser","".o2par(2)."",null,null);
+
+}
+function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
+	$form_table_browser->x(410);
+	$form_table_browser->y(10);
+	$form_table_browser->larghezza(800);
+	$form_table_browser->altezza(600);
+	$form_table_browser->titolo(o2sys_table_browser_exp_1());
+	$form_table_browser->css_doc("sys_tables_doc");
+	$form_table_browser->align_o("Center");
+	$ctrl_bar = &$form_table_browser->ctrldef("bar", "navigator", "", "browser", "");
+		$ctrl_bar->x(0);
+		$ctrl_bar->y(0);
+		$ctrl_bar->larghezza(800);
+		$ctrl_bar->altezza(32);
+		$ctrl_bar->expand("H");
+		$ctrl_bar->css_prevpg(o2sys_table_browser_exp_21());
+		$ctrl_bar->css_prev(o2sys_table_browser_exp_23());
+		$ctrl_bar->css_next(o2sys_table_browser_exp_23());
+		$ctrl_bar->css_nextpg(o2sys_table_browser_exp_22());
+		$ctrl_bar->css_space(o2sys_table_browser_exp_15());
+		$ctrl_bar->visible_detail(o2sys_table_browser_exp_9999());
+		$ctrl_bar->visible_select(o2sys_table_browser_exp_9999());
+		$ctrl_bar->act_new("browser_insert");
+		$ctrl_bar->act_save("browser_post");
+		$ctrl_bar->act_del("browser_delete");
+		$ctrl_bar->act_undo("browser_undo");
+	$ctrl_btn_refresh = &$form_table_browser->ctrldef("btn_refresh", "img", "", "", "");
+		$ctrl_btn_refresh->x(150);
+		$ctrl_btn_refresh->y(3);
+		$ctrl_btn_refresh->larghezza(32);
+		$ctrl_btn_refresh->altezza(25);
+		$ctrl_btn_refresh->azione("refresh");
+		$ctrl_btn_refresh->label("Refresh");
+		$ctrl_btn_refresh->css(o2sys_table_browser_exp_4());
+		$ctrl_btn_refresh->imgexp(o2sys_table_browser_exp_17());
+	$ctrl_btn_search = &$form_table_browser->ctrldef("btn_search", "img", "", "", "");
+		$ctrl_btn_search->x(182);
+		$ctrl_btn_search->y(3);
+		$ctrl_btn_search->larghezza(32);
+		$ctrl_btn_search->altezza(25);
+		$ctrl_btn_search->azione("filter");
+		$ctrl_btn_search->label("Search");
+		$ctrl_btn_search->css(o2sys_table_browser_exp_16());
+		$ctrl_btn_search->imgexp(o2sys_table_browser_exp_17());
+	$ctrl_o2image2 = &$form_table_browser->ctrldef("o2image2", "img", "", "", "");
+		$ctrl_o2image2->x(144);
+		$ctrl_o2image2->y(7);
+		$ctrl_o2image2->larghezza(3);
+		$ctrl_o2image2->altezza(17);
+		$ctrl_o2image2->imgexp(o2sys_table_browser_exp_18());
+	$ctrl_o2image3 = &$form_table_browser->ctrldef("o2image3", "img", "", "", "");
+		$ctrl_o2image3->x(217);
+		$ctrl_o2image3->y(7);
+		$ctrl_o2image3->larghezza(3);
+		$ctrl_o2image3->altezza(17);
+		$ctrl_o2image3->imgexp(o2sys_table_browser_exp_18());
+	$ctrl_o2image4 = &$form_table_browser->ctrldef("o2image4", "img", "", "", "");
+		$ctrl_o2image4->x(223);
+		$ctrl_o2image4->y(3);
+		$ctrl_o2image4->larghezza(32);
+		$ctrl_o2image4->altezza(25);
+		$ctrl_o2image4->azione("close");
+		$ctrl_o2image4->label("Close");
+		$ctrl_o2image4->css(o2sys_table_browser_exp_19());
+		$ctrl_o2image4->imgexp(o2sys_table_browser_exp_17());
+	$ctrl_data_browser_tab = &$form_table_browser->ctrldef("data_browser_tab", "tab", "", "browser", "");
+		$ctrl_data_browser_tab->x(0);
+		$ctrl_data_browser_tab->y(32);
+		$ctrl_data_browser_tab->larghezza(800);
+		$ctrl_data_browser_tab->altezza(540);
+		$ctrl_data_browser_tab->expand("B");
+	$ctrl_o2edit2 = &$form_table_browser->ctrldef("o2edit2", "edit", "", "prg§_§var", "tot_recs");
+		$ctrl_o2edit2->x(300);
+		$ctrl_o2edit2->y(6);
+		$ctrl_o2edit2->larghezza(200);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->css(o2sys_table_browser_exp_20());
+		}
+
+function o2sys_table_browser§§browser_delete_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "C", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "tot_recs", o2sys_table_browser_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§browser_insert_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "I", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§browser_post_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "S", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "tot_recs", o2sys_table_browser_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§browser_undo_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "A", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§delete_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§filter_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(o2sys_table_browser_exp_2(), False, o2sys_table_browser_exp_7(), o2sys_table_browser_exp_5(), o2sys_table_browser_exp_6()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "tot_recs", o2sys_table_browser_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§new_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "I", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§refresh_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "0", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "tot_recs", o2sys_table_browser_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§save_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2sys_table_browser_exp_8()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser§§undo_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("browser", "A", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_table_browser_exp_1() {
+	
+return ("Table [".o2par(1)."]");
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_2() {
+	
+return ("tools/o2sys_table_filter");
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_3() {
+	
+return ('Total records: '. o2format(o2view_total("browser"), 'o2sys_full_number'));
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_4() {
+	
+return ('tool_btn_refresh');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_5() {
+	
+return ("table_browser");
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_6() {
+	
+return ("data_browser_tab");
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_7() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_8() {
+	unset($_SESSION['jxview_lastfilter']);
+o2form_maximize('table_browser');
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_9() {
+	
+return (o2client_width() - 20);
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_10() {
+	
+return (o2client_height() - 60);
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_11() {
+	
+return ((o2client_width() - 20) / 2);
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_13() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_14() {
+	$n    = count(o2tab_fields(o2par(1)));
+$rows = (int) min(100, max(20, (100 - $n)));
+return ($rows);
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_15() {
+	
+return ('nav_big');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_16() {
+	
+return ('tool_btn_search');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_17() {
+	
+return ('<jx>/img/tools/blank.png');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_18() {
+	
+return ('<jx>/img/tabadmin/separator.png');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_19() {
+	
+return ('tool_btn_exit');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_20() {
+	
+return ('nowindow');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_21() {
+	
+return ('o2_ctrl_nav_prev');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_22() {
+	
+return ('o2_ctrl_nav_next');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_23() {
+	
+return ('hidden');
+	} //|o2_fine_exp|
+
+function o2sys_table_browser_exp_9999() {
+	
+return (false);
+	} //|o2_fine_exp|
+?>

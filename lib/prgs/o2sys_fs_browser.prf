@@ -1,0 +1,894 @@
+<?php
+
+function o2sys_fs_browser§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("action_path", "o2sys_long_str");
+	$task_prg§_§var->definisci("action_result", "_o2logical");
+	$task_prg§_§var->definisci("allow_get", "_o2logical");
+	$task_prg§_§var->definisci("allow_mod", "_o2logical");
+	$task_prg§_§var->definisci("allow_upload", "_o2logical");
+	$task_prg§_§var->definisci("current_dir_save", "o2sys_long_str");
+	$task_prg§_§var->definisci("del_result", "_o2logical");
+	$task_prg§_§var->definisci("dialog_confirm", "_o2logical");
+	$task_prg§_§var->definisci("dir_list", "_o2structure");
+	$task_prg§_§var->definisci("dir_list_index", "o2sys_long_str");
+	$task_prg§_§var->definisci("file_list", "_o2structure");
+	$task_prg§_§var->definisci("file_list_index", "o2sys_long_str");
+	$task_prg§_§var->definisci("file_name", "o2sys_long_str");
+	$task_prg§_§var->definisci("files_filter", "o2sys_long_str");
+	$task_prg§_§var->definisci("folder_limit", "o2sys_long_str");
+	$task_prg§_§var->definisci("folder_list", "_o2structure");
+	$task_prg§_§var->definisci("folder_path", "o2sys_long_str");
+	$task_prg§_§var->definisci("folder_start", "o2sys_long_str");
+	$task_prg§_§var->definisci("form_fileget", "_o2logical");
+	$task_prg§_§var->definisci("form_fileupload", "_o2logical");
+	$task_prg§_§var->definisci("form_newdir", "_o2logical");
+	$task_prg§_§var->definisci("name_error", "_o2number");
+	$task_prg§_§var->definisci("newdir_name", "o2sys_long_str");
+	$task_prg§_§var->definisci("size_preset_done", "_o2logical");
+	$task_prg§_§var->definisci("sort_by", "_o2alpha");
+	$task_prg§_§var->definisci("status_str", "_o2text");
+	$task_prg§_§var->definisci("uploaded_file", "_o2structure");
+		}
+function o2sys_fs_browser§§browser_form_def(&$form_browser) {
+	$form_browser->x(300);
+	$form_browser->y(100);
+	$form_browser->larghezza(600);
+	$form_browser->altezza(480);
+	$form_browser->titolo(o2sys_fs_browser_exp_40());
+	$form_browser->css_doc("sys_fs_doc");
+	$form_browser->align_o("Center");
+	$form_browser->altezza_exp(o2sys_fs_browser_exp_67());
+	$form_browser->larghezza_exp(o2sys_fs_browser_exp_66());
+	$ctrl_bottom_bar = &$form_browser->ctrldef("bottom_bar", "label", "", "", "");
+		$ctrl_bottom_bar->x(20);
+		$ctrl_bottom_bar->y(406);
+		$ctrl_bottom_bar->larghezza(560);
+		$ctrl_bottom_bar->altezza(28);
+		$ctrl_bottom_bar->expand("H");
+		$ctrl_bottom_bar->label("");
+		$ctrl_bottom_bar->css(o2sys_fs_browser_exp_41());
+	$ctrl_status = &$form_browser->ctrldef("status", "label", "", "", "");
+		$ctrl_status->x(30);
+		$ctrl_status->y(410);
+		$ctrl_status->larghezza(540);
+		$ctrl_status->altezza(20);
+		$ctrl_status->label(o2sys_fs_browser_exp_49());
+	$ctrl_o2htmlarea3 = &$form_browser->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea3->x(20);
+		$ctrl_o2htmlarea3->y(50);
+		$ctrl_o2htmlarea3->larghezza(250);
+		$ctrl_o2htmlarea3->altezza(350);
+		$ctrl_o2htmlarea3->expand("V");
+		$ctrl_o2htmlarea3->html(o2sys_fs_browser_exp_42());
+		$ctrl_o2htmlarea3->css(o2sys_fs_browser_exp_45());
+	$ctrl_o2htmlarea2 = &$form_browser->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(280);
+		$ctrl_o2htmlarea2->y(50);
+		$ctrl_o2htmlarea2->larghezza(300);
+		$ctrl_o2htmlarea2->altezza(350);
+		$ctrl_o2htmlarea2->expand("B");
+		$ctrl_o2htmlarea2->html(o2sys_fs_browser_exp_6());
+		$ctrl_o2htmlarea2->css(o2sys_fs_browser_exp_63());
+	$ctrl_o2multipage2 = &$form_browser->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(20);
+		$ctrl_o2multipage2->y(16);
+		$ctrl_o2multipage2->larghezza(560);
+		$ctrl_o2multipage2->altezza(28);
+		$ctrl_o2multipage2->expand("H");
+		$ctrl_o2multipage2->label(array("Page1"));
+		$ctrl_o2multipage2->css_space_out(o2sys_fs_browser_exp_41());
+		$ctrl_o2multipage2->css_space_in(o2sys_fs_browser_exp_73());
+		$ctrl_o2multipage2->css_label_on(o2sys_fs_browser_exp_74());
+		$ctrl_o2multipage2->css_label_off(o2sys_fs_browser_exp_74());
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2label4 = &$form_browser->ctrldef("o2label4", "label", "o2multipage2", "", "");
+		$ctrl_o2label4->x(30);
+		$ctrl_o2label4->y(4);
+		$ctrl_o2label4->larghezza(70);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->info_padre(array(0));
+		$ctrl_o2label4->label("Filter files:");
+	$ctrl_o2edit2 = &$form_browser->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "files_filter");
+		$ctrl_o2edit2->x(100);
+		$ctrl_o2edit2->y(4);
+		$ctrl_o2edit2->larghezza(100);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->azione("load_file_list");
+		$ctrl_o2edit2->on_change(o2sys_fs_browser_exp_3());
+		$ctrl_o2edit2->info_padre(array(0));
+	$ctrl_o2image2 = &$form_browser->ctrldef("o2image2", "img", "o2multipage2", "", "");
+		$ctrl_o2image2->x(330);
+		$ctrl_o2image2->y(2);
+		$ctrl_o2image2->larghezza(24);
+		$ctrl_o2image2->altezza(24);
+		$ctrl_o2image2->modificabile(o2sys_fs_browser_exp_52());
+		$ctrl_o2image2->azione("folder_up");
+		$ctrl_o2image2->info_padre(array(0));
+		$ctrl_o2image2->label("Go to parent folder");
+		$ctrl_o2image2->css(o2sys_fs_browser_exp_51());
+		$ctrl_o2image2->imgexp(o2sys_fs_browser_exp_50());
+	$ctrl_o2image3 = &$form_browser->ctrldef("o2image3", "img", "o2multipage2", "", "");
+		$ctrl_o2image3->x(354);
+		$ctrl_o2image3->y(2);
+		$ctrl_o2image3->larghezza(24);
+		$ctrl_o2image3->altezza(24);
+		$ctrl_o2image3->visibile(o2sys_fs_browser_exp_13());
+		$ctrl_o2image3->azione("file_add");
+		$ctrl_o2image3->info_padre(array(0));
+		$ctrl_o2image3->label("Add a file (upload)");
+		$ctrl_o2image3->css(o2sys_fs_browser_exp_56());
+		$ctrl_o2image3->imgexp(o2sys_fs_browser_exp_54());
+	$ctrl_o2image4 = &$form_browser->ctrldef("o2image4", "img", "o2multipage2", "", "");
+		$ctrl_o2image4->x(378);
+		$ctrl_o2image4->y(2);
+		$ctrl_o2image4->larghezza(24);
+		$ctrl_o2image4->altezza(24);
+		$ctrl_o2image4->visibile(o2sys_fs_browser_exp_12());
+		$ctrl_o2image4->azione("req_newdir_name");
+		$ctrl_o2image4->info_padre(array(0));
+		$ctrl_o2image4->label("Create new folder");
+		$ctrl_o2image4->css(o2sys_fs_browser_exp_56());
+		$ctrl_o2image4->imgexp(o2sys_fs_browser_exp_55());
+		}
+function o2sys_fs_browser§§add_folder_form_def(&$form_add_folder) {
+	$form_add_folder->x(262);
+	$form_add_folder->y(231);
+	$form_add_folder->larghezza(388);
+	$form_add_folder->altezza(71);
+	$form_add_folder->titolo("Create new folder");
+	$form_add_folder->css_doc("sys_fs_doc");
+	$form_add_folder->close_action("close_form_newdir");
+	$form_add_folder->align_o("Center");
+	$form_add_folder->frm_status(o2sys_fs_browser_exp_9999());
+	$ctrl_new_folder = &$form_add_folder->ctrldef("new_folder", "edit", "", "prg§_§var", "newdir_name");
+		$ctrl_new_folder->x(10);
+		$ctrl_new_folder->y(10);
+		$ctrl_new_folder->larghezza(230);
+		$ctrl_new_folder->altezza(20);
+	$ctrl_o2button3 = &$form_add_folder->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(270);
+		$ctrl_o2button3->y(10);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(20);
+		$ctrl_o2button3->azione("create_dir");
+		$ctrl_o2button3->label("Create");
+		}
+function o2sys_fs_browser§§add_file_form_def(&$form_add_file) {
+	$form_add_file->x(261);
+	$form_add_file->y(163);
+	$form_add_file->larghezza(479);
+	$form_add_file->altezza(70);
+	$form_add_file->titolo("Add file to folder");
+	$form_add_file->css_doc("sys_fs_doc");
+	$form_add_file->close_action("close_form_fileupload");
+	$form_add_file->align_o("Center");
+	$form_add_file->frm_status(o2sys_fs_browser_exp_9999());
+	$ctrl_o2file2 = &$form_add_file->ctrldef("o2file2", "file", "", "prg§_§var", "uploaded_file");
+		$ctrl_o2file2->x(10);
+		$ctrl_o2file2->y(10);
+		$ctrl_o2file2->larghezza(250);
+		$ctrl_o2file2->altezza(20);
+	$ctrl_o2button4 = &$form_add_file->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(370);
+		$ctrl_o2button4->y(10);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(20);
+		$ctrl_o2button4->azione("send_file");
+		$ctrl_o2button4->label("Send");
+		}
+function o2sys_fs_browser§§visor_form_def(&$form_visor) {
+	$form_visor->x(305);
+	$form_visor->y(100);
+	$form_visor->larghezza(610);
+	$form_visor->altezza(500);
+	$form_visor->titolo("Retrieve file");
+	$form_visor->css_doc("sys_fs_doc");
+	$form_visor->close_action("close_form_fileget");
+	$form_visor->align_o("Center");
+		}
+
+function o2sys_fs_browser§§close_form_fileget_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_fileget", o2sys_fs_browser_exp_9999()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§close_form_fileupload_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_fileupload", o2sys_fs_browser_exp_9999()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§close_form_newdir_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_newdir", o2sys_fs_browser_exp_9999()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§create_dir_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "name_error", o2sys_fs_browser_exp_15()) && $o2exe->e();
+	$o2exe->s(2) && (o2sys_fs_browser_exp_17() || $o2exe->e()) && o2act::alert(o2sys_fs_browser_exp_16(), 0) && $o2exe->e();
+	$o2exe->s(3) && (o2sys_fs_browser_exp_21() || $o2exe->e()) && o2act::alert(o2sys_fs_browser_exp_20(), 0) && $o2exe->e();
+	$o2exe->s(4) && (o2sys_fs_browser_exp_19() || $o2exe->e()) && o2act::exe("close_form_newdir", True, "") && $o2exe->e();
+	$o2exe->s(5) && (o2sys_fs_browser_exp_19() || $o2exe->e()) && o2act::script(o2sys_fs_browser_exp_18()) && $o2exe->e();
+	$o2exe->s(6) && (o2sys_fs_browser_exp_19() || $o2exe->e()) && o2act::exe("load_folder_list", True, "") && $o2exe->e();
+	$o2exe->s(7) && (o2sys_fs_browser_exp_19() || $o2exe->e()) && o2act::exe("load_file_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§file_add_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_fileupload", o2sys_fs_browser_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§file_del_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "action_path", o2sys_fs_browser_exp_71()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::confirm("prg§_§var", "dialog_confirm", o2sys_fs_browser_exp_70()) && $o2exe->e();
+	$o2exe->s(3) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::alert(o2sys_fs_browser_exp_10(), 0) && $o2exe->e();
+	$o2exe->s(4) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::exe("load_file_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§file_get_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "file_name", o2sys_fs_browser_exp_2()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "form_fileget", o2sys_fs_browser_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§file_ren_act(&$o2exe) {
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§file_select_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(1, o2sys_fs_browser_exp_2()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§folder_del_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "action_path", o2sys_fs_browser_exp_39()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::confirm("prg§_§var", "dialog_confirm", o2sys_fs_browser_exp_38()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "del_result", o2sys_fs_browser_exp_3()) && $o2exe->e();
+	$o2exe->s(4) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::set("prg§_§var", "del_result", o2sys_fs_browser_exp_22()) && $o2exe->e();
+	$o2exe->s(5) && (o2sys_fs_browser_exp_35() || $o2exe->e()) && o2act::alert(o2sys_fs_browser_exp_34(), 0) && $o2exe->e();
+	$o2exe->s(6) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::exe("load_folder_list", True, "") && $o2exe->e();
+	$o2exe->s(7) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::exe("load_file_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§folder_up_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_7()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_fs_browser_exp_47()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§load_file_list_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_fs_browser_exp_26() || $o2exe->e()) && o2act::set("prg§_§var", "files_filter", o2sys_fs_browser_exp_25()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "file_list", o2sys_fs_browser_exp_1()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "status_str", o2sys_fs_browser_exp_9()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "file_name", o2sys_fs_browser_exp_72()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§load_folder_list_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_list", o2sys_fs_browser_exp_44()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§load_from_folder_limit_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_start", o2sys_fs_browser_exp_60()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_58()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("loop_from_folder_limit", "o2sys_fs_browser_exp_61()", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_65()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§loop_from_folder_limit_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("load_folder_list", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_62()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§order_by_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "sort_by", o2sys_fs_browser_exp_43()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("load_file_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§req_newdir_name_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_newdir", o2sys_fs_browser_exp_3()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_fs_browser_exp_37()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§send_file_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_fs_browser_exp_24() || $o2exe->e()) && o2act::script(o2sys_fs_browser_exp_27()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("close_form_fileupload", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("load_file_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§set_folder_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_2()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_fs_browser_exp_47()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§set_folder_by_tree_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_48()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("load_folder_list", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("load_file_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser§§start_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Setting start and limit browsable folders") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_5()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "folder_limit", o2sys_fs_browser_exp_8()) && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("Folder limit must be an ancestor of folder path") && $o2exe->e();
+	$o2exe->s(5) && (o2sys_fs_browser_exp_59() || $o2exe->e()) && o2act::set("prg§_§var", "folder_limit", o2sys_fs_browser_exp_60()) && $o2exe->e();
+	$o2exe->s(6) && (o2sys_fs_browser_exp_57() || $o2exe->e()) && o2act::exe("load_from_folder_limit", True, "") && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "files_filter", o2sys_fs_browser_exp_4()) && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("Setting permissions") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "allow_get", o2sys_fs_browser_exp_11()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "allow_mod", o2sys_fs_browser_exp_12()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "allow_upload", o2sys_fs_browser_exp_13()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::exe("load_folder_list", True, "") && $o2exe->e();
+	$o2exe->s(13) && True && o2act::exe("load_file_list", True, "") && $o2exe->e();
+//	$o2exe->s(14) && True && o2act::remark("Initialize treeview") && $o2exe->e();
+	$o2exe->s(15) && True && o2act::script(o2sys_fs_browser_exp_53()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_fs_browser_exp_1() {
+	$row_list = o2dir_list(o2val('prg§_§var','folder_path'),
+                       o2val('prg§_§var','files_filter'));
+$counter = -1;
+$list    = array();
+foreach ($row_list as $s_file) {
+   $counter++;
+   $list[$counter]   = array('fullname' => $s_file,
+                             'name'     => o2file_basename($s_file).
+                                           (!o2file_ext($s_file) ?
+                                            "" :
+                                            ".".o2file_ext($s_file)),
+                             'type'     => o2file_type($s_file),
+                             'dim'      => o2file_size($s_file),
+                             'date'     => o2file_date($s_file),
+                             'time'     => o2file_time($s_file));
+   $bytype[$counter] = $list[$counter]['type'];
+   $byname[$counter] = strtolower($list[$counter]['name']);
+   $bysize[$counter] = $list[$counter]['dim'];
+   $bydate[$counter] = $list[$counter]['date'];
+   $bytime[$counter] = $list[$counter]['time'];
+   }
+if ($counter > -1) {
+   switch (o2val('prg§_§var','sort_by')) {
+      case "size":
+         array_multisort($bytype, SORT_ASC, SORT_STRING,
+                         $bysize, SORT_ASC, SORT_NUMERIC,
+                         $list);
+         break;
+      case "sizedesc":
+         array_multisort($bytype, SORT_ASC, SORT_STRING,
+                         $bysize, SORT_DESC, SORT_NUMERIC,
+                         $list);
+         break;
+      case "time":
+         array_multisort($bytype, SORT_ASC, SORT_STRING,
+                         $bydate, SORT_ASC, SORT_NUMERIC,
+                         $bytime, SORT_ASC, SORT_NUMERIC,
+                         $list);
+         break;
+      case "timedesc":
+         array_multisort($bytype, SORT_ASC, SORT_STRING,
+                         $bydate, SORT_DESC, SORT_NUMERIC,
+                         $bytime, SORT_DESC, SORT_NUMERIC,
+                         $list);
+         break;
+      case "namedesc":
+         array_multisort($bytype, SORT_ASC, SORT_STRING,
+                         $byname, SORT_DESC, SORT_STRING,
+                         $list);
+         break;
+      default:
+         array_multisort($bytype, SORT_ASC, SORT_STRING,
+                         $byname, SORT_ASC, SORT_STRING,
+                         $list);
+         break;
+      }
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_2() {
+	
+return (urldecode($_REQUEST['extp_1']));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_3() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_4() {
+	
+return ((!o2par(2) ? "*" : o2par(2)));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_5() {
+	if (o2par(1) != "") {
+   if (is_dir(o2par(1))) {
+      $folder = o2par(1);
+      }
+   else {
+      $folder = dirname(o2par(1));
+      }
+   }
+elseif (o2app_runlevel() == "DEV") {
+   $folder = o2app_dir_home();
+   }
+elseif (o2app_user() != "root") {
+   $folder = o2app_dir_user();
+   }
+else {
+   $folder = o2app_dir_home();
+   }
+return ($folder);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_6() {
+	$text = '<table cellspacing="0" cellpadding="0" class="fsb_tab"><tr><th class="fsb_header">&nbsp;</th>'.
+         '<th class="fsb_header" title="Click to sort by name" onClick="'.o2_act4js(0, "order_by", "name").'">Name</th>'.
+         '<th class="fsb_header" title="Click to sort by size" onClick="'.o2_act4js(0, "order_by", "size").'">Size</th>'.
+         '<th class="fsb_header" title="Click to sort by date and time" onClick="'.o2_act4js(0, "order_by", "time").'">Last modified</th><th class="fsb_header">&nbsp</th></tr>';
+
+if (is_array(o2val('prg§_§var','file_list'))) {
+   foreach (o2val('prg§_§var','file_list') as $file) {
+      $selection  = o2val('prg§_§var','file_name') == $file['fullname'];
+      $select_btn = '';
+      $ren_btn    = '';
+      $del_btn    = '';
+      /* ___________________ If interface is for file or folder selection ___ */
+      if ((o2par(4) && $file['type'] != 'D') || (o2par(5) && $file['type'] == 'D')) {
+         $select_btn = '<input type="image"'.
+                             ' src="'.$GLOBALS['o2_runtime']->alias.'img/ctrl_select.png"'.
+                             ' title="Select '.($file['type'] != "D" ? 'file' : 'folder').'"'.
+                             ' onClick="'.o2_act4js(0,
+                                                    'file_select',
+                                                    $file['fullname']).'">';
+         }
+      /* ______________________________________________ If item is a file ___ */
+      if (o2par(6)) {
+         $del_btn =    '<input type="image"'.
+                             ' src="'.$GLOBALS['o2_runtime']->alias.
+                                    'img/ctrl_delete.png"'.
+                             ' title="Delete '.($file['type'] != "D" ?
+                                                'file' :
+                                                'folder').'"'.
+                             ' onClick="'.o2_act4js(0,
+                                                    ($file['type'] != "D" ?
+                                                     'file_del' :
+                                                     'folder_del'),
+                                                    $file['fullname']).'return true;">';
+         }
+      $text.= '<tr style="position:relative;cursor:pointer;" class="'.
+                 ($selection ? 'fsb_sel' : 'fsb_row').
+                 '" title="'.$file['name'].'"'.
+                 ($file['type'] != "D" ?
+                  (o2par(7) ? ' onClick="'.o2_act4js(0, "file_get", $file['fullname']).'"' : "") :
+                  ' onClick="'.o2_act4js(0, "set_folder", $file['fullname']).'"'
+                 ).
+                 '><td class="fsb_icon"><input type="image" src="'.
+                                           o2file_ico($file['fullname']).
+                                           '"></td><td class="fsb_body">'.
+                 $file['name'].'</td><td class="fsb_body" style="text-align:right;">'.
+                 ($file['dim'] ?
+                  o2format($file['dim'], "o2sys_full_number") :
+                  '&nbsp;').'</td><td class="fsb_body">'.
+                  o2format($file['date'], "_o2date").'&nbsp;'.
+                  o2format($file['time'], "_o2time").
+                 '</td><td class="fsb_tools">'.
+                 ($select_btn.$ren_btn.$del_btn ?
+                  $select_btn.
+                  $ren_btn.
+                  $del_btn :
+                  "&nbsp;").
+                 '</td></tr>';
+      }
+   }
+$text.= "</table>";
+return ($text);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_7() {
+	
+return (o2file_dir(o2val('prg§_§var','folder_path')));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_8() {
+	
+return ((!o2par(3) ? o2val('prg§_§var','folder_path') : o2par(3)));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_9() {
+	$str = "> ".
+       str_replace(o2file_dir(o2val('prg§_§var','folder_limit')), "", o2val('prg§_§var','folder_path')).
+       " &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ".count(o2val('prg§_§var','file_list'))." items listed";
+return ($str);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_10() {
+	$url = o2val('prg§_§var','action_path');
+$msg = (@unlink($url) ?
+       "File ".o2file_basename($url).(!o2file_ext($url) ? "" : ".".o2file_ext($url))." deleted" :
+       "Cannot delete file ".o2file_basename($url).(!o2file_ext($url) ? "" : ".".o2file_ext($url)));
+return ($msg);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_11() {
+	
+return (o2par(7));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_12() {
+	
+return (o2par(6));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_13() {
+	
+return (o2par(8));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_14() {
+	
+return (o2val('prg§_§var','form_newdir'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_15() {
+	if (!o2val('prg§_§var','newdir_name')) {
+   $error = 1;
+   }
+else {
+   $error = (strcspn(trim(o2val('prg§_§var','newdir_name')), '\/:*?"<>|') == strlen(trim(o2val('prg§_§var','newdir_name'))) ? 0 : 1);
+   }
+if (!$error) {
+   foreach (o2val('prg§_§var','file_list') as $s_file) {
+      if ($s_file['name'] == o2val('prg§_§var','newdir_name')) {
+         $error = 2;
+         }
+      }
+   }
+return ($error);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_16() {
+	
+return ("Cannot create directory!\\nPlease insert a valid folder name.");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_17() {
+	
+return (o2val('prg§_§var','name_error') === 1);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_18() {
+	mkdir(o2val('prg§_§var','folder_path').DIRECTORY_SEPARATOR.o2val('prg§_§var','newdir_name'));
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_19() {
+	
+return (!o2val('prg§_§var','name_error'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_20() {
+	
+return ("Cannot create directory!\\nA file named [".o2val('prg§_§var','newdir_name')."] already exists in the path.");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_21() {
+	
+return (o2val('prg§_§var','name_error') === 2);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_22() {
+	
+return (o2dir_delete(o2val('prg§_§var','action_path')));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_23() {
+	
+return (o2val('prg§_§var','form_fileupload'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_24() {
+	
+return (o2val('prg§_§var','uploaded_file') != array());
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_25() {
+	
+return ("*");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_26() {
+	
+return (o2zero('prg§_§var','files_filter'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_27() {
+	if (file_exists(o2val('prg§_§var','uploaded_file','nome_completo'))) {
+   rename(o2val('prg§_§var','uploaded_file','nome_completo'),
+          o2val('prg§_§var','folder_path').DIRECTORY_SEPARATOR.o2val('prg§_§var','uploaded_file','nome_originale'));
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_28() {
+	
+return (o2val('prg§_§var','form_fileget'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_29() {
+	$text = '<a href="'.o2_path(o2val('prg§_§var','file_name')).'">'.o2val('prg§_§var','file_name').'</a>';
+return ($text);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_30() {
+	
+return (o2_path(urldecode($_REQUEST['extp_1'])));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_31() {
+	
+return ("fsb_addfile");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_32() {
+	
+return ("fsb_addfolder");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_33() {
+	
+return ("tools/o2sys_confirm");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_34() {
+	$full_path   = o2val('prg§_§var','action_path');
+$folder_name = o2file_basename($full_path).
+               (!o2file_ext($full_path) ? "" : ".".o2file_ext($full_path));
+$msg = "Cannot delete folder ".$folder_name;
+return ($msg);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_35() {
+	
+return (!o2val('prg§_§var','del_result'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_36() {
+	
+return (o2val('prg§_§var','dialog_confirm'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_37() {
+	
+return (o2ctrl_focus("add_folder", "new_folder"));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_38() {
+	$full_path   = o2val('prg§_§var','action_path');
+$folder_name = o2file_basename($full_path).
+               (!o2file_ext($full_path) ? "" : ".".o2file_ext($full_path));
+$msg = "Delete folder ".$folder_name."?";
+return ($msg);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_39() {
+	
+return (urldecode($_REQUEST['extp_1']));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_40() {
+	
+return ((o2par(9) ? o2par(9) : "Resources browser"));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_41() {
+	
+return ("jxtoolbar");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_42() {
+	
+return (o2tree_get_code("jxfsbrowser"));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_43() {
+	$setto = urldecode($_REQUEST['extp_1']);
+$sort = $setto.(o2val('prg§_§var','sort_by') !== $setto ? "" : "desc");
+return ($sort);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_44() {
+	$list = o2val('prg§_§var','folder_list');
+$root = o2val('prg§_§var','folder_path');
+if (isset($list["jxfsroot"])) {
+   if ($root == $list["jxfsroot"][1]) {
+      $root_node = "jxfsroot";
+      }
+   else {
+      $root_node = $root;
+      }
+   }
+else {
+   $list             = array();
+   $root_node        = "jxfsroot";
+   $list[$root_node] = array(0, $root, o2file_ico($root, false, true));    
+   }      
+$raw_list = o2dir_list($root, o2val('prg§_§var','files_filter'));
+foreach ($raw_list as $s_file) {
+   if (o2file_type($s_file) == "D") {
+      $f_name        = o2file_basename($s_file).(!o2file_ext($s_file) ? "" :
+                                                 ".".o2file_ext($s_file));
+      $f_name        = str_replace('\\', '/', $f_name);                                                                                                   
+      $s_file        = str_replace('\\', '/', $s_file);                                                                                                   
+      $list[$s_file] = array($root_node, $f_name, o2file_ico($s_file, false, true));
+      }
+   }   
+o2tree_def("jxfsbrowser", $list, 1, "set_folder_by_tree");
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_45() {
+	
+return ("jxtree");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_46() {
+	
+return (isset($_REQUEST['extp_1']));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_47() {
+	$dir  = o2val('prg§_§var','folder_path');
+$list = o2val('prg§_§var','folder_list');
+if ($dir == $list["jxfsroot"][1]) {
+   $dir = "jxfsroot";
+   }
+o2tree_node_select("jxfsbrowser", $dir);
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_48() {
+	$dir  = o2tree_get_selection("jxfsbrowser");
+$list = o2val('prg§_§var','folder_list');
+if ($dir == "jxfsroot") {
+   $dir = $list["jxfsroot"][1];
+   }
+return ($dir);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_49() {
+	
+return (o2val('prg§_§var','status_str'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_50() {
+	
+return ("<jx>/img/fs/folder_up_btn".(o2exp(52) ? "" : "_dis").".png");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_51() {
+	
+return ((o2exp(52) ? "jximgbtn" : "o2_ctrl_img"));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_52() {
+	$limit  = o2val('prg§_§var','folder_limit');
+$path   = o2val('prg§_§var','folder_path');
+$enable = $path != $limit && $path.DIRECTORY_SEPARATOR != $limit;
+return ($enable);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_53() {
+	o2tree_fold("jxfsbrowser", 1);
+$list = o2val('prg§_§var','folder_list');
+$dir  = o2val('prg§_§var','folder_path');
+if ($list["jxfsroot"][1] == $dir) {
+   o2tree_node_select("jxfsbrowser", "jxfsroot");
+   }
+else {
+   o2tree_node_select("jxfsbrowser", $dir);
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_54() {
+	
+return ("<jx>/img/fs/file_add_btn.png");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_55() {
+	
+return ("<jx>/img/fs/folder_add_btn.png");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_56() {
+	
+return ("jximgbtn");
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_57() {
+	
+return (o2val('prg§_§var','folder_limit') != o2val('prg§_§var','folder_path'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_58() {
+	
+return (o2val('prg§_§var','folder_limit'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_59() {
+	
+return (strpos(o2val('prg§_§var','folder_limit'), o2val('prg§_§var','folder_path')) !== false);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_60() {
+	
+return (o2val('prg§_§var','folder_path'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_61() {
+	
+return (o2val('prg§_§var','folder_limit') == o2val('prg§_§var','folder_path'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_62() {
+	$start = o2val('prg§_§var','folder_start');
+$curr  = o2val('prg§_§var','folder_path');
+$dir = substr($start, 0, strpos($start, DIRECTORY_SEPARATOR, strlen($curr)) + 1);
+return ($dir);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_63() {
+	
+return ('disp_area');
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_64() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_65() {
+	
+return (o2val('prg§_§var','folder_start'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_66() {
+	
+return (max(600, o2client_width() / 2));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_67() {
+	
+return (max(480, o2client_height() / 2));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_69() {
+	
+return (!(o2val('prg§_§var','form_fileupload') || o2val('prg§_§var','form_newdir')));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_70() {
+	$url = o2val('prg§_§var','action_path');
+$msg = 'Delete file '.o2file_basename($url).(!o2file_ext($url) ? "" : ".".o2file_ext($url)).'?';
+return ($msg);
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_71() {
+	
+return (urldecode($_REQUEST['extp_1']));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_72() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_73() {
+	
+return ('nowindow');
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_74() {
+	
+return ('hidden');
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_9999() {
+	
+return (false);
+	} //|o2_fine_exp|
+?>

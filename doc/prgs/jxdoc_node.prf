@@ -1,0 +1,1239 @@
+<?php
+
+function jxdoc_node§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("css_text", "node_text");
+	$task_prg§_§var->definisci("edit_open", "_o2logical");
+	$task_prg§_§var->definisci("edit_x", "_o2number");
+	$task_prg§_§var->definisci("edit_y", "_o2number");
+	$task_prg§_§var->definisci("navigator_text", "node_text");
+	$task_prg§_§var->definisci("node_id_filter", "node_id");
+	$task_prg§_§var->definisci("node_text", "node_text");
+	$task_prg§_§var->definisci("page", "_o2number");
+	$task_prg§_§var->definisci("parent_desc", "node_desc");
+	$task_prg§_§var->definisci("parent_title", "node_title");
+	$task_prg§_§var->definisci("smart_edit", "_o2logical");
+	$task_prg§_§var->definisci("visor_h", "_o2number");
+	$task_prg§_§var->definisci("visor_open", "_o2logical");
+	$task_prg§_§var->definisci("visor_w", "_o2number");
+	$task_prg§_§var->definisci("visor_x", "_o2number");
+	$task_prg§_§var->definisci("visor_y", "_o2number");
+		}
+
+function jxdoc_node§§nodes_def(&$task_nodes, $_o2viewalias = "") {
+	$task_nodes->righe_vis = 1;
+
+	$task_nodes->usa_file("jxdoc_nodes","nodes","description",null,null);
+
+	$task_nodes->usa("id","nodes","id","jxdoc_node_exp_38()","jxdoc_node_exp_38()",null,null);
+	$task_nodes->usa("description","nodes","description",null,null,null,null);
+	$task_nodes->usa("title","nodes","title",null,null,null,null);
+	$task_nodes->usa("node_text","nodes","node_text",null,null,null,null);
+}
+
+function jxdoc_node§§nodes_id_def(&$task_nodes_id, $_o2viewalias = "") {
+	$task_nodes_id->righe_vis = 1;
+
+	$task_nodes_id->usa_file("jxdoc_nodes","nodes","id",null,null);
+
+	$task_nodes_id->usa("id","nodes","id",null,null,null,null);
+}
+
+function jxdoc_node§§sections_def(&$task_sections, $_o2viewalias = "") {
+	$task_sections->righe_vis = 15;
+
+	$task_sections->usa_file("jxdoc_sub_nodes","sub_nodes","position",null,null);
+	$task_sections->usa_file_link("jxdoc_uses","uses","id",null,null);
+
+	$task_sections->unisci("uses_id_join_","uses","id","jxdoc_node_exp_2()","jxdoc_node_exp_2()",null,null);
+	$task_sections->usa_file_link("jxdoc_nodes","nodes","id",null,null);
+
+	$task_sections->unisci("nodes_id_join_","nodes","id","jxdoc_node_exp_5()","jxdoc_node_exp_5()",null,null);
+
+	$task_sections->usa("parent","sub_nodes","parent","jxdoc_node_exp_4()","jxdoc_node_exp_4()",null,null);
+	$task_sections->usa("position","sub_nodes","position",null,null,null,null);
+	$task_sections->usa("use","sub_nodes","use",null,null,null,null);
+	$task_sections->usa("child","sub_nodes","child",null,null,null,null);
+	$task_sections->usa("use_desc","uses","description",null,null,null,null);
+	$task_sections->usa("description","nodes","description",null,null,null,null);
+	$task_sections->usa("title","nodes","title",null,null,null,null);
+}
+
+function jxdoc_node§§key_words_def(&$task_key_words, $_o2viewalias = "") {
+	$task_key_words->righe_vis = 20;
+
+	$task_key_words->usa_file("jxdoc_key_words","key_words","node",null,null);
+
+	$task_key_words->usa("node","key_words","node","jxdoc_node_exp_4()","jxdoc_node_exp_4()",null,null);
+	$task_key_words->usa("key_word","key_words","key_word",null,null,null,null);
+}
+
+function jxdoc_node§§links_def(&$task_links, $_o2viewalias = "") {
+	$task_links->righe_vis = 20;
+
+	$task_links->usa_file("jxdoc_links","links","node",null,null);
+	$task_links->usa_file_link("jxdoc_nodes","nodes","id",null,null);
+
+	$task_links->unisci("nodes_id_join_","nodes","id","jxdoc_node_exp_9()","jxdoc_node_exp_9()",null,null);
+
+	$task_links->usa("node","links","node","jxdoc_node_exp_4()","jxdoc_node_exp_4()",null,null);
+	$task_links->usa("link","links","link",null,null,null,null);
+	$task_links->usa("description","nodes","description",null,null,null,null);
+}
+
+function jxdoc_node§§sections_order_def(&$task_sections_order, $_o2viewalias = "") {
+	$task_sections_order->righe_vis = 10;
+
+	$task_sections_order->usa_file("jxdoc_sub_nodes","sub_nodes","position",null,null);
+
+	$task_sections_order->usa("parent","sub_nodes","parent","jxdoc_node_exp_4()","jxdoc_node_exp_4()",null,null);
+	$task_sections_order->usa("position","sub_nodes","position",null,null,null,null);
+}
+
+function jxdoc_node§§ancestors_def(&$task_ancestors, $_o2viewalias = "") {
+	$task_ancestors->righe_vis = 1;
+
+	$task_ancestors->usa_file("jxdoc_sub_nodes","sub_nodes","child",null,null);
+	$task_ancestors->usa_file_link("jxdoc_uses","uses","id",null,null);
+
+	$task_ancestors->unisci("uses_id_join_","uses","id","jxdoc_node_exp_23()","jxdoc_node_exp_23()",null,null);
+	$task_ancestors->usa_file_link("jxdoc_nodes","nodes","id",null,null);
+
+	$task_ancestors->unisci("nodes_id_join_","nodes","id","jxdoc_node_exp_24()","jxdoc_node_exp_24()",null,null);
+
+	$task_ancestors->usa("child","sub_nodes","child","jxdoc_node_exp_4()","jxdoc_node_exp_4()",null,null);
+	$task_ancestors->usa("parent","sub_nodes","parent",null,null,null,null);
+	$task_ancestors->usa("use","sub_nodes","use",null,null,null,null);
+	$task_ancestors->usa("using_nodes","uses","description",null,null,null,null);
+	$task_ancestors->usa("description","nodes","description",null,null,null,null);
+	$task_ancestors->usa("title","nodes","title",null,null,null,null);
+}
+
+function jxdoc_node§§app_links_def(&$task_app_links, $_o2viewalias = "") {
+	$task_app_links->righe_vis = 10;
+
+	$task_app_links->usa_file("jxdoc_app_links","jxdoc_app_links","node_id",null,null);
+
+	$task_app_links->usa("node_id","jxdoc_app_links","node_id","jxdoc_node_exp_38()","jxdoc_node_exp_38()",null,null);
+	$task_app_links->usa("prg_name","jxdoc_app_links","prg_name",null,null,null,null);
+	$task_app_links->usa("form_name","jxdoc_app_links","form_name",null,null,null,null);
+	$task_app_links->usa("ctrl_name","jxdoc_app_links","ctrl_name",null,null,null,null);
+	$task_app_links->calcola("app_link_type", "jxdoc_node_exp_49()",null,null,null,null);
+}
+
+function jxdoc_node§§program_node_def(&$task_program_node, $_o2viewalias = "") {
+	$task_program_node->righe_vis = 1;
+
+	$task_program_node->usa_file("jxdoc_app_links","jxdoc_app_links","app_link",null,null);
+
+	$task_program_node->usa("prg_name","jxdoc_app_links","prg_name","jxdoc_node_exp_57()","jxdoc_node_exp_57()",null,null);
+	$task_program_node->usa("form_name","jxdoc_app_links","form_name","jxdoc_node_exp_44()","jxdoc_node_exp_44()",null,null);
+	$task_program_node->usa("ctrl_name","jxdoc_app_links","ctrl_name","jxdoc_node_exp_44()","jxdoc_node_exp_44()",null,null);
+	$task_program_node->usa("node_id","jxdoc_app_links","node_id",null,null,null,null);
+}
+
+function jxdoc_node§§form_node_def(&$task_form_node, $_o2viewalias = "") {
+	$task_form_node->righe_vis = 1;
+
+	$task_form_node->usa_file("jxdoc_app_links","jxdoc_app_links","app_link",null,null);
+
+	$task_form_node->usa("prg_name","jxdoc_app_links","prg_name","jxdoc_node_exp_57()","jxdoc_node_exp_57()",null,null);
+	$task_form_node->usa("form_name","jxdoc_app_links","form_name","jxdoc_node_exp_58()","jxdoc_node_exp_58()",null,null);
+	$task_form_node->usa("ctrl_name","jxdoc_app_links","ctrl_name","jxdoc_node_exp_44()","jxdoc_node_exp_44()",null,null);
+	$task_form_node->usa("node_id","jxdoc_app_links","node_id",null,null,null,null);
+}
+function jxdoc_node§§edit_form_def(&$form_edit) {
+	$form_edit->x(290);
+	$form_edit->y(50);
+	$form_edit->larghezza(670);
+	$form_edit->altezza(610);
+	$form_edit->titolo("Nodes management");
+	$form_edit->css_doc("sys_jxdoc_doc");
+	$form_edit->close_action("close_all");
+	$form_edit->y_exp(jxdoc_node_exp_69());
+	$form_edit->x_exp(jxdoc_node_exp_70());
+	$form_edit->frm_status(jxdoc_node_exp_9999());
+	$ctrl_o2edit2 = &$form_edit->ctrldef("o2edit2", "edit", "", "nodes", "id");
+		$ctrl_o2edit2->x(20);
+		$ctrl_o2edit2->y(50);
+		$ctrl_o2edit2->larghezza(50);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->modificabile(jxdoc_node_exp_1());
+	$ctrl_o2edit3 = &$form_edit->ctrldef("o2edit3", "edit", "", "nodes", "description");
+		$ctrl_o2edit3->x(80);
+		$ctrl_o2edit3->y(50);
+		$ctrl_o2edit3->larghezza(450);
+		$ctrl_o2edit3->altezza(20);
+	$ctrl_o2multipage2 = &$form_edit->ctrldef("o2multipage2", "multipage", "", "prg§_§var", "page");
+		$ctrl_o2multipage2->x(20);
+		$ctrl_o2multipage2->y(80);
+		$ctrl_o2multipage2->larghezza(630);
+		$ctrl_o2multipage2->altezza(480);
+		$ctrl_o2multipage2->label(array("Text","Sections","Key words & links"));
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2dbnavigator2 = &$form_edit->ctrldef("o2dbnavigator2", "navigator", "", "nodes", "");
+		$ctrl_o2dbnavigator2->x(0);
+		$ctrl_o2dbnavigator2->y(0);
+		$ctrl_o2dbnavigator2->larghezza(700);
+		$ctrl_o2dbnavigator2->altezza(32);
+		$ctrl_o2dbnavigator2->css_space(jxdoc_node_exp_36());
+		$ctrl_o2dbnavigator2->visible_nav(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator2->visible_detail(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator2->visible_select(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator2->act_new("new");
+		$ctrl_o2dbnavigator2->act_save("save");
+		$ctrl_o2dbnavigator2->act_del("delete");
+		$ctrl_o2dbnavigator2->act_undo("undo");
+	$ctrl_o2ListBox2 = &$form_edit->ctrldef("o2ListBox2", "listcombo", "", "app_links", "app_link_type");
+		$ctrl_o2ListBox2->x(540);
+		$ctrl_o2ListBox2->y(50);
+		$ctrl_o2ListBox2->larghezza(110);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->valori(array("" => "Unlinked","C" => "Control","F" => "Form","P" => "Program"));
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2button2 = &$form_edit->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(540);
+		$ctrl_o2button2->y(3);
+		$ctrl_o2button2->larghezza(110);
+		$ctrl_o2button2->altezza(24);
+		$ctrl_o2button2->azione("index_by_menu");
+		$ctrl_o2button2->label("Index by menu");
+	$ctrl_o2label2 = &$form_edit->ctrldef("o2label2", "label", "o2multipage2", "", "");
+		$ctrl_o2label2->x(20);
+		$ctrl_o2label2->y(35);
+		$ctrl_o2label2->larghezza(43);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->info_padre(array(0));
+		$ctrl_o2label2->label("Title:");
+	$ctrl_o2label6 = &$form_edit->ctrldef("o2label6", "label", "o2multipage2", "", "");
+		$ctrl_o2label6->x(520);
+		$ctrl_o2label6->y(35);
+		$ctrl_o2label6->larghezza(67);
+		$ctrl_o2label6->altezza(20);
+		$ctrl_o2label6->info_padre(array(0));
+		$ctrl_o2label6->label("Smart edit");
+	$ctrl_o2edit4 = &$form_edit->ctrldef("o2edit4", "edit", "o2multipage2", "nodes", "title");
+		$ctrl_o2edit4->x(60);
+		$ctrl_o2edit4->y(35);
+		$ctrl_o2edit4->larghezza(450);
+		$ctrl_o2edit4->altezza(20);
+		$ctrl_o2edit4->info_padre(array(0));
+	$ctrl_text_smart = &$form_edit->ctrldef("text_smart", "text", "o2multipage2", "nodes", "node_text");
+		$ctrl_text_smart->x(20);
+		$ctrl_text_smart->y(60);
+		$ctrl_text_smart->larghezza(590);
+		$ctrl_text_smart->altezza(400);
+		$ctrl_text_smart->visibile(jxdoc_node_exp_37());
+		$ctrl_text_smart->info_padre(array(0));
+		$ctrl_text_smart->htmlarea(True);
+	$ctrl_o2checkbox2 = &$form_edit->ctrldef("o2checkbox2", "check", "o2multipage2", "prg§_§var", "smart_edit");
+		$ctrl_o2checkbox2->x(590);
+		$ctrl_o2checkbox2->y(35);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(20);
+		$ctrl_o2checkbox2->on_change(jxdoc_node_exp_18());
+		$ctrl_o2checkbox2->info_padre(array(0));
+	$ctrl_text_code = &$form_edit->ctrldef("text_code", "text", "o2multipage2", "nodes", "node_text");
+		$ctrl_text_code->x(20);
+		$ctrl_text_code->y(60);
+		$ctrl_text_code->larghezza(590);
+		$ctrl_text_code->altezza(400);
+		$ctrl_text_code->visibile(jxdoc_node_exp_34());
+		$ctrl_text_code->info_padre(array(0));
+	$ctrl_o2label4 = &$form_edit->ctrldef("o2label4", "label", "o2multipage2", "", "");
+		$ctrl_o2label4->x(20);
+		$ctrl_o2label4->y(40);
+		$ctrl_o2label4->larghezza(68);
+		$ctrl_o2label4->altezza(17);
+		$ctrl_o2label4->info_padre(array(1));
+		$ctrl_o2label4->label("Child nodes:");
+	$ctrl_o2label5 = &$form_edit->ctrldef("o2label5", "label", "o2multipage2", "", "");
+		$ctrl_o2label5->x(20);
+		$ctrl_o2label5->y(420);
+		$ctrl_o2label5->larghezza(59);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->visibile(jxdoc_node_exp_92());
+		$ctrl_o2label5->info_padre(array(1));
+		$ctrl_o2label5->label("Used as");
+	$ctrl_o2label3 = &$form_edit->ctrldef("o2label3", "label", "o2multipage2", "", "");
+		$ctrl_o2label3->x(170);
+		$ctrl_o2label3->y(420);
+		$ctrl_o2label3->larghezza(92);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->visibile(jxdoc_node_exp_92());
+		$ctrl_o2label3->info_padre(array(1));
+		$ctrl_o2label3->label("In parent node:");
+	$ctrl_o2table2 = &$form_edit->ctrldef("o2table2", "tab", "o2multipage2", "sections", "");
+		$ctrl_o2table2->x(20);
+		$ctrl_o2table2->y(60);
+		$ctrl_o2table2->larghezza(590);
+		$ctrl_o2table2->altezza(350);
+		$ctrl_o2table2->info_padre(array(1));
+		$ctrl_o2table2->norec_msg("No subsessions");
+	$ctrl_o2edit10 = &$form_edit->ctrldef("o2edit10", "edit", "o2multipage2", "ancestors", "using_nodes");
+		$ctrl_o2edit10->x(20);
+		$ctrl_o2edit10->y(440);
+		$ctrl_o2edit10->larghezza(140);
+		$ctrl_o2edit10->altezza(20);
+		$ctrl_o2edit10->visibile(jxdoc_node_exp_92());
+		$ctrl_o2edit10->info_padre(array(1));
+	$ctrl_o2button6 = &$form_edit->ctrldef("o2button6", "button", "o2multipage2", "", "");
+		$ctrl_o2button6->x(170);
+		$ctrl_o2button6->y(440);
+		$ctrl_o2button6->larghezza(440);
+		$ctrl_o2button6->altezza(20);
+		$ctrl_o2button6->visibile(jxdoc_node_exp_92());
+		$ctrl_o2button6->azione("goto_ancestor");
+		$ctrl_o2button6->info_padre(array(1));
+		$ctrl_o2button6->label(jxdoc_node_exp_95());
+		$ctrl_o2button6->style(1);
+	$ctrl_o2button3 = &$form_edit->ctrldef("o2button3", "button", "o2multipage2", "", "");
+		$ctrl_o2button3->x(460);
+		$ctrl_o2button3->y(30);
+		$ctrl_o2button3->larghezza(150);
+		$ctrl_o2button3->altezza(24);
+		$ctrl_o2button3->azione("create_subsection");
+		$ctrl_o2button3->info_padre(array(1));
+		$ctrl_o2button3->label("Create &new subsection");
+	$ctrl_o2table4 = &$form_edit->ctrldef("o2table4", "tab", "o2multipage2", "key_words", "");
+		$ctrl_o2table4->x(20);
+		$ctrl_o2table4->y(60);
+		$ctrl_o2table4->larghezza(210);
+		$ctrl_o2table4->altezza(400);
+		$ctrl_o2table4->info_padre(array(2));
+		$ctrl_o2table4->norec_msg("No key words");
+	$ctrl_o2table5 = &$form_edit->ctrldef("o2table5", "tab", "o2multipage2", "links", "");
+		$ctrl_o2table5->x(240);
+		$ctrl_o2table5->y(60);
+		$ctrl_o2table5->larghezza(380);
+		$ctrl_o2table5->altezza(400);
+		$ctrl_o2table5->modificabile(jxdoc_node_exp_1());
+		$ctrl_o2table5->info_padre(array(2));
+		$ctrl_o2table5->norec_msg("No linked nodes");
+	$ctrl_o2dbnavigator3 = &$form_edit->ctrldef("o2dbnavigator3", "navigator", "o2table2", "sections", "");
+		$ctrl_o2dbnavigator3->x(552);
+		$ctrl_o2dbnavigator3->y(60);
+		$ctrl_o2dbnavigator3->larghezza(18);
+		$ctrl_o2dbnavigator3->altezza(219);
+		$ctrl_o2dbnavigator3->vertical();
+		$ctrl_o2dbnavigator3->visible_save(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator3->visible_undo(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator3->visible_detail(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator3->visible_select(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator3->act_new("new_section");
+		$ctrl_o2dbnavigator3->act_del("delete_section");
+	$ctrl_o2edit8 = &$form_edit->ctrldef("o2edit8", "edit", "o2table2", "sections", "position");
+		$ctrl_o2edit8->x(0);
+		$ctrl_o2edit8->y(20);
+		$ctrl_o2edit8->larghezza(30);
+		$ctrl_o2edit8->altezza(20);
+		$ctrl_o2edit8->azione("save_section");
+		$ctrl_o2edit8->on_change(jxdoc_node_exp_18());
+		$ctrl_o2edit8->info_padre(array("01" ,"01" ,"01" ,"#" ,True ,"" ,False ,""));
+	$ctrl_o2edit5 = &$form_edit->ctrldef("o2edit5", "edit", "o2table2", "sections", "use_desc");
+		$ctrl_o2edit5->x(30);
+		$ctrl_o2edit5->y(20);
+		$ctrl_o2edit5->larghezza(120);
+		$ctrl_o2edit5->altezza(20);
+		$ctrl_o2edit5->info_padre(array("01" ,"02" ,"02" ,"Using as" ,True ,"" ,False ,""));
+	$ctrl_o2button13 = &$form_edit->ctrldef("o2button13", "button", "o2table2", "", "");
+		$ctrl_o2button13->x(150);
+		$ctrl_o2button13->y(20);
+		$ctrl_o2button13->larghezza(380);
+		$ctrl_o2button13->altezza(20);
+		$ctrl_o2button13->azione("goto_child");
+		$ctrl_o2button13->info_padre(array("01" ,"03" ,"03" ,"Node" ,True ,"" ,False ,""));
+		$ctrl_o2button13->label(jxdoc_node_exp_94());
+		$ctrl_o2button13->style(1);
+	$ctrl_o2dbnavigator4 = &$form_edit->ctrldef("o2dbnavigator4", "navigator", "o2table4", "key_words", "");
+		$ctrl_o2dbnavigator4->x(172);
+		$ctrl_o2dbnavigator4->y(70);
+		$ctrl_o2dbnavigator4->larghezza(18);
+		$ctrl_o2dbnavigator4->altezza(244);
+		$ctrl_o2dbnavigator4->vertical();
+		$ctrl_o2dbnavigator4->visible_undo(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator4->visible_detail(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator4->visible_select(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator4->act_new("new_word");
+		$ctrl_o2dbnavigator4->act_save("save_word");
+		$ctrl_o2dbnavigator4->act_del("delete_word");
+	$ctrl_o2edit9 = &$form_edit->ctrldef("o2edit9", "edit", "o2table4", "key_words", "key_word");
+		$ctrl_o2edit9->x(10);
+		$ctrl_o2edit9->y(20);
+		$ctrl_o2edit9->larghezza(150);
+		$ctrl_o2edit9->altezza(20);
+		$ctrl_o2edit9->azione("save_word");
+		$ctrl_o2edit9->on_change(jxdoc_node_exp_18());
+		$ctrl_o2edit9->info_padre(array("01" ,"01" ,"01" ,"Key word" ,True ,"" ,False ,""));
+	$ctrl_o2dbnavigator5 = &$form_edit->ctrldef("o2dbnavigator5", "navigator", "o2table5", "links", "");
+		$ctrl_o2dbnavigator5->x(342);
+		$ctrl_o2dbnavigator5->y(60);
+		$ctrl_o2dbnavigator5->larghezza(18);
+		$ctrl_o2dbnavigator5->altezza(244);
+		$ctrl_o2dbnavigator5->vertical();
+		$ctrl_o2dbnavigator5->visible_save(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator5->visible_undo(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator5->visible_detail(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator5->visible_select(jxdoc_node_exp_9999());
+		$ctrl_o2dbnavigator5->act_new("new_link");
+		$ctrl_o2dbnavigator5->act_del("delete_link");
+	$ctrl_o2edit6 = &$form_edit->ctrldef("o2edit6", "edit", "o2table5", "links", "description");
+		$ctrl_o2edit6->x(0);
+		$ctrl_o2edit6->y(20);
+		$ctrl_o2edit6->larghezza(330);
+		$ctrl_o2edit6->altezza(20);
+		$ctrl_o2edit6->info_padre(array("01" ,"01" ,"01" ,"Linked node" ,False ,"" ,False ,""));
+		}
+function jxdoc_node§§visor_form_def(&$form_visor) {
+	$form_visor->x(50);
+	$form_visor->y(50);
+	$form_visor->larghezza(500);
+	$form_visor->altezza(500);
+	$form_visor->titolo(jxdoc_node_exp_96());
+	$form_visor->css_body(jxdoc_node_exp_48());
+	$form_visor->css_doc("sys_jxdoc_doc");
+	$form_visor->close_action("close_all");
+	$form_visor->y_exp(jxdoc_node_exp_66());
+	$form_visor->x_exp(jxdoc_node_exp_65());
+	$form_visor->altezza_exp(jxdoc_node_exp_67());
+	$form_visor->larghezza_exp(jxdoc_node_exp_68());
+	$ctrl_o2htmlarea2 = &$form_visor->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(0);
+		$ctrl_o2htmlarea2->y(0);
+		$ctrl_o2htmlarea2->larghezza(500);
+		$ctrl_o2htmlarea2->altezza(500);
+		$ctrl_o2htmlarea2->html(jxdoc_node_exp_46());
+		$ctrl_o2htmlarea2->wide("3");
+		$ctrl_o2htmlarea2->css(jxdoc_node_exp_45());
+		}
+
+function jxdoc_node§§close_all_act(&$o2exe) {
+	$o2exe->s(1) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§create_subnode_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "parent_desc", jxdoc_node_exp_105()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "parent_title", jxdoc_node_exp_106()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("new", True, "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::view("nodes_id", "4", "") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("nodes", "id", jxdoc_node_exp_6()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("nodes", "description", jxdoc_node_exp_107()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("nodes", "title", jxdoc_node_exp_108()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::view("nodes", "S", "") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("sections", "child", jxdoc_node_exp_4()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§create_subsection_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("sections", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("sections_order", "4", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("sections", "parent", jxdoc_node_exp_4()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("sections", "position", jxdoc_node_exp_12()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("select_use", True, "") && $o2exe->e();
+	$o2exe->s(6) && (jxdoc_node_exp_15() || $o2exe->e()) && o2act::exe("create_subnode", True, "") && $o2exe->e();
+	$o2exe->s(7) && (jxdoc_node_exp_16() || $o2exe->e()) && o2act::view("sections", "S", "") && $o2exe->e();
+	$o2exe->s(8) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	$o2exe->s(9) && (jxdoc_node_exp_16() || $o2exe->e()) && o2act::gotoprg(jxdoc_node_exp_104(), false, jxdoc_node_exp_4()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::view("sections", "A", "") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§delete_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("delete_link", False, "links") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("delete_section", False, "sections") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("delete_word", False, "key_words") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("delete_ancestor", False, "ancestors") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("delete_applink", False, "app_links") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::view("nodes", "C", "") && $o2exe->e();
+	$o2exe->s(7) && True && o2act::exe("close_all", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§delete_ancestor_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("ancestors", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§delete_applink_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("app_links", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§delete_link_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("links", "C", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§delete_section_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("sections", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§delete_word_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("key_words", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§edit_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxdoc_node_exp_78(), False, jxdoc_node_exp_44(), "prg§_§var§§css_text") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::call(jxdoc_node_exp_79(), False, jxdoc_node_exp_4(), "prg§_§var§§node_text", jxdoc_node_exp_35(), jxdoc_node_exp_18(), jxdoc_node_exp_22(), jxdoc_node_exp_41(), jxdoc_node_exp_41(), jxdoc_node_exp_22(), jxdoc_node_exp_41(), jxdoc_node_exp_42()) && $o2exe->e();
+	$o2exe->s(3) && (jxdoc_node_exp_93() || $o2exe->e()) && o2act::set("prg§_§var", "navigator_text", jxdoc_node_exp_54()) && $o2exe->e();
+	$o2exe->s(4) && (jxdoc_node_exp_100() || $o2exe->e()) && o2act::script(jxdoc_node_exp_101()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§editor_vis_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "edit_open", jxdoc_node_exp_72()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§get_winpos_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Get Visor position and visibility") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::call(jxdoc_node_exp_91(), False, jxdoc_node_exp_61(), jxdoc_node_exp_62(), "prg§_§var§§visor_open", "prg§_§var§§visor_x", "prg§_§var§§visor_y", "prg§_§var§§visor_w", "prg§_§var§§visor_h") && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Get EditWin position and visisbility (only "root" or developer)") && $o2exe->e();
+	$o2exe->s(4) && (jxdoc_node_exp_93() || $o2exe->e()) && o2act::call(jxdoc_node_exp_91(), False, jxdoc_node_exp_61(), jxdoc_node_exp_63(), "prg§_§var§§edit_open", "prg§_§var§§edit_x", "prg§_§var§§edit_y") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§goto_ancestor_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_24()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	$o2exe->s(3) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§goto_child_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_5()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	$o2exe->s(3) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§goto_form_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_60()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§goto_index_act(&$o2exe) {
+	} //|o2_fine_act|
+
+function jxdoc_node§§goto_link_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_109()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	$o2exe->s(3) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§goto_prg_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_59()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§index_by_menu_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxdoc_node_exp_97(), False, jxdoc_node_exp_103()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§new_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("nodes", "I", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§new_link_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("links", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("links", "node", jxdoc_node_exp_4()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::call(jxdoc_node_exp_88(), False, "links§§link") && $o2exe->e();
+	$o2exe->s(4) && (jxdoc_node_exp_10() || $o2exe->e()) && o2act::view("links", "A", "") && $o2exe->e();
+	$o2exe->s(5) && (jxdoc_node_exp_9() || $o2exe->e()) && o2act::view("links", "S", "") && $o2exe->e();
+	$o2exe->s(6) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	$o2exe->s(7) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§new_section_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("sections", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("sections_order", "4", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("sections", "parent", jxdoc_node_exp_4()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("sections", "position", jxdoc_node_exp_12()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("select_use", True, "") && $o2exe->e();
+	$o2exe->s(6) && (jxdoc_node_exp_15() || $o2exe->e()) && o2act::exe("select_node", True, "") && $o2exe->e();
+	$o2exe->s(7) && (jxdoc_node_exp_16() || $o2exe->e()) && o2act::view("sections", "S", "") && $o2exe->e();
+	$o2exe->s(8) && (jxdoc_node_exp_16() || $o2exe->e()) && o2act::view("sections", "4", "") && $o2exe->e();
+	$o2exe->s(9) && (jxdoc_node_exp_17() || $o2exe->e()) && o2act::view("sections", "A", "") && $o2exe->e();
+	$o2exe->s(10) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§new_word_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("key_words", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("key_words", "node", jxdoc_node_exp_4()) && $o2exe->e();
+	$o2exe->s(3) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§node_text_act(&$o2exe) {
+	$o2exe->s(1) && (jxdoc_node_exp_19() || $o2exe->e()) && o2act::call(jxdoc_node_exp_79(), False, jxdoc_node_exp_4(), "prg§_§var§§node_text", jxdoc_node_exp_22(), jxdoc_node_exp_1(), jxdoc_node_exp_18()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§produce_html_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::gotoprg(jxdoc_node_exp_29(), false, jxdoc_node_exp_53()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§save_act(&$o2exe) {
+	$o2exe->s(1) && (jxdoc_node_exp_7() || $o2exe->e()) && o2act::exe("save_new", True, "") && $o2exe->e();
+	$o2exe->s(2) && (jxdoc_node_exp_4() || $o2exe->e()) && o2act::view("nodes", "S", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::ret(1, jxdoc_node_exp_4()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::view("key_words", "S", "") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	$o2exe->s(6) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§save_new_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("nodes_id", "4", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("nodes", "id", jxdoc_node_exp_6()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("nodes", "S", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_4()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§save_section_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("sections", "S", "") && $o2exe->e();
+	$o2exe->s(2) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§save_word_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("key_words", "S", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	$o2exe->s(3) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§select_node_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxdoc_node_exp_88(), False, "sections§§child", jxdoc_node_exp_18()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§select_use_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxdoc_node_exp_89(), False, "sections§§use") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§sendto_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("This action is called by JavaScript") && $o2exe->e();
+//	$o2exe->s(2) && True && o2act::remark("composed in prg "node_text"") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_28()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("edit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§set_winpos_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "visor_x", jxdoc_node_exp_80()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "visor_y", jxdoc_node_exp_81()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "visor_w", jxdoc_node_exp_82()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "visor_h", jxdoc_node_exp_83()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::call(jxdoc_node_exp_77(), False, jxdoc_node_exp_61(), jxdoc_node_exp_62(), jxdoc_node_exp_18(), jxdoc_node_exp_27(), jxdoc_node_exp_52(), jxdoc_node_exp_73(), jxdoc_node_exp_74()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "edit_x", jxdoc_node_exp_86()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "edit_y", jxdoc_node_exp_87()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::call(jxdoc_node_exp_77(), False, jxdoc_node_exp_61(), jxdoc_node_exp_63(), jxdoc_node_exp_71(), jxdoc_node_exp_75(), jxdoc_node_exp_76()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§start_act(&$o2exe) {
+	$o2exe->s(1) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("get_winpos", True, "") && $o2exe->e();
+	$o2exe->s(2) && (jxdoc_node_exp_98() || $o2exe->e()) && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && (jxdoc_node_exp_99() || $o2exe->e()) && o2act::set("prg§_§var", "node_id_filter", jxdoc_node_exp_99()) && $o2exe->e();
+	$o2exe->s(4) && (jxdoc_node_exp_11() || $o2exe->e()) && o2act::exe("edit", True, "") && $o2exe->e();
+	$o2exe->s(5) && (jxdoc_node_exp_40() || $o2exe->e()) && o2act::exe("new", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node§§undo_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("nodes", "A", "") && $o2exe->e();
+	$o2exe->s(2) && (jxdoc_node_exp_64() || $o2exe->e()) && o2act::exe("set_winpos", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_node_exp_1() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_2() {
+	
+return (o2val('sections','use'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_3() {
+	
+return (o2val('links','node'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_4() {
+	
+return (o2val('nodes','id'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_5() {
+	
+return (o2val('sections','child'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_6() {
+	
+return (o2val('nodes_id','id') + 1);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_7() {
+	
+return (!o2val('nodes','id'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_8() {
+	$html = "<h1>".o2val('nodes','title')."</h1>".o2val('prg§_§var','node_text');
+return ($html);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_9() {
+	
+return (o2val('links','link'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_10() {
+	
+return (!o2val('links','link'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_11() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_12() {
+	
+return (o2val('sections_order','position') + 1);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_13() {
+	
+return (!o2val('sections','position'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_14() {
+	
+return (o2val('sections','position'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_15() {
+	
+return (o2val('sections','use'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_16() {
+	
+return (o2val('sections','position') && o2val('sections','use') && o2val('sections','child'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_17() {
+	
+return (o2zero('sections','use') || o2zero('sections','child'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_18() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_19() {
+	
+return (o2val('prg§_§var','page') == 4);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_20() {
+	
+return (o2val('sections','use_desc'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_21() {
+	
+return (o2val('sections','description'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_22() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_23() {
+	
+return (o2val('ancestors','use'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_24() {
+	
+return (o2val('ancestors','parent'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_25() {
+	
+return (o2val('ancestors','description'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_26() {
+	
+return (o2val('ancestors','parent'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_27() {
+	
+return (o2val('prg§_§var','visor_x'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_28() {
+	
+return ($_REQUEST['extp_1']);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_29() {
+	
+return ((o2app_name() == "jxdoc" ? "produce_html" : "doc/produce_html"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_30() {
+	
+return (o2val('prg§_§var','page'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_31() {
+	
+return ((o2app_name() == "jxdoc" ? "jxdoc_node" : "doc/jxdoc_node"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_32() {
+	
+return (o2val('ancestors','parent'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_33() {
+	
+return ("provaprova");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_34() {
+	
+return (!o2val('prg§_§var','smart_edit'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_35() {
+	
+return ("0");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_36() {
+	
+return ("nav_big");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_37() {
+	
+return (o2val('prg§_§var','smart_edit'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_38() {
+	
+return ((o2zero('prg§_§var','node_id_filter') ? null : o2val('prg§_§var','node_id_filter')));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_39() {
+	$id_from_post = intval($_REQUEST['extp_1']);
+return ($id_from_post);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_40() {
+	
+return (!o2par(1));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_41() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_42() {
+	
+return (count(o2app_prg()));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_43() {
+	
+return ("doc_visorbg");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_44() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_45() {
+	
+return ("doc_visorarea");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_46() {
+	
+return (o2val('prg§_§var','css_text').o2val('prg§_§var','navigator_text').o2val('prg§_§var','node_text'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_47() {
+	
+return ($nav_text);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_48() {
+	
+return ("doc_visorbg");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_49() {
+	$type = ((!o2zero('app_links','ctrl_name') &&
+          !o2zero('app_links','form_name') &&
+          !o2zero('app_links','prg_name')) ?
+             "C" :
+             ((!o2zero('app_links','form_name') &&
+               !o2zero('app_links','prg_name')) ?
+                  "F" :
+                  (!o2zero('app_links','prg_name') ?
+                      "P" :
+                      "")));
+return ($type);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_50() {
+	
+return (o2val('app_links','app_link_type') == "F" || o2val('app_links','app_link_type') == "C");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_51() {
+	
+return (o2val('app_links','app_link_type') == "C");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_52() {
+	
+return (o2val('prg§_§var','visor_y'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_53() {
+	
+return (o2val('nodes','id'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_54() {
+	switch (o2val('app_links','app_link_type')) {
+       case "C":
+            $label = "Up to form";
+            $parent_js = o2_act4js(0, "goto_form");
+            break;
+       case "F";
+            $label = "Up to program";
+            $parent_js = o2_act4js(0, "goto_prg");
+            break;
+       case "P";
+            $label = "Up to index";
+            $parent_js = o2_act4js(0, "goto_index");
+            break;
+       default;
+            $label = "Up to ".o2val('ancestors','description');
+            $parent_js = o2_act4js(0, "goto_ancestor");
+            break;
+       }
+$editor_label = (o2val('prg§_§var','edit_open') ?
+                 "Hide editor" :
+                 "Show editor");
+$editor_js    = o2_act4js(0, "editor_vis");
+$html_js      = o2_act4js(0, "produce_html");
+$nav_text     = "<table class='doc_navigator'><tr>".
+                 "<td align='left' width='100px'>".
+                  "<input type='button' ".
+                               "value='".$editor_label."' ".
+                               "class='o2_ctrl_button' ".
+                               "onMouseOver='this.style.cursor=\"pointer\"' ".
+                               "onClick=\"".$editor_js."\">".
+                 "</td>".
+                 "<td align='left' width='100px'>".
+                  "<input type='button' ".
+                               "value='Produce' ".
+                               "class='o2_ctrl_button' ".
+                               "onMouseOver='this.style.cursor=\"pointer\"' ".
+                               "onClick=\"".$html_js."\">".
+                 "</td>".
+                 "<td align='center'>".
+                  "<a href='#' onClick=\"".$parent_js."\">".$label."</a>".
+                 "</td>".
+                "</tr></table>\n";
+return ($nav_text);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_55() {
+	
+return (o2val('program_node','prg_name'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_56() {
+	
+return (o2val('program_node','form_name'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_57() {
+	
+return (o2val('app_links','prg_name'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_58() {
+	
+return (o2val('app_links','form_name'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_59() {
+	
+return (o2val('program_node','node_id'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_60() {
+	
+return (o2val('form_node','node_id'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_61() {
+	$list = o2app_prg();
+$prg = array_pop($list);
+return ($prg);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_62() {
+	
+return ("visor");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_63() {
+	
+return ("edit");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_64() {
+	
+return (o2app_user() != "default");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_65() {
+	
+return ((o2zero('prg§_§var','visor_x') ? 50 : o2val('prg§_§var','visor_x')));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_66() {
+	
+return ((o2zero('prg§_§var','visor_y') ? 50 : o2val('prg§_§var','visor_y')));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_67() {
+	
+return ((o2zero('prg§_§var','visor_h') ? 500 : o2val('prg§_§var','visor_h')));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_68() {
+	
+return ((o2zero('prg§_§var','visor_w') ? 500 : o2val('prg§_§var','visor_w')));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_69() {
+	
+return ((o2zero('prg§_§var','edit_y') ? 50 : o2val('prg§_§var','edit_y')));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_70() {
+	
+return ((o2zero('prg§_§var','edit_x') ? 290 : o2val('prg§_§var','edit_x')));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_71() {
+	
+return (o2val('prg§_§var','edit_open'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_72() {
+	
+return (!o2val('prg§_§var','edit_open'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_73() {
+	
+return (o2val('prg§_§var','visor_w'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_74() {
+	
+return (o2val('prg§_§var','visor_h'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_75() {
+	
+return (o2val('prg§_§var','edit_x'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_76() {
+	
+return (o2val('prg§_§var','edit_y'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_77() {
+	
+return ((o2app_name() == "jxdoc" ? "jxdoc_setwinpos" : "doc/jxdoc_setwinpos"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_78() {
+	
+return ((o2app_name() == "jxdoc" ? "jxdoc_css4embedding" : "doc/jxdoc_css4embedding"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_79() {
+	
+return ((o2app_name() == "jxdoc" ? "node_text" : "doc/node_text"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_80() {
+	
+return (o2form_x("visor"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_81() {
+	
+return (o2form_y("visor"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_82() {
+	
+return (o2form_width("visor"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_83() {
+	
+return (o2form_height("visor"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_84() {
+	print "<h2>x:".o2val('prg§_§var','visor_x')." y:".o2val('prg§_§var','visor_y')." w:".o2val('prg§_§var','visor_w')." h:".o2val('prg§_§var','visor_h');
+return (true);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_85() {
+	
+return ($_REQUEST['win_list'] && o2app_user() && (o2app_user() != "default"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_86() {
+	
+return (o2form_x("edit"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_87() {
+	
+return (o2form_y("edit"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_88() {
+	
+return ((o2app_name() == "jxdoc" ? "nodes_select" : "doc/nodes_select"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_89() {
+	
+return ((o2app_name() == "jxdoc" ? "uses_select" : "doc/uses_select"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_90() {
+	
+return ((o2app_name() == "jxdoc" ? "settings_admin" : "doc/settings_admin"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_91() {
+	
+return ((o2app_name() == "jxdoc" ? "jxdoc_getwinpos" : "doc/jxdoc_getwinpos"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_92() {
+	
+return (!o2zero('ancestors','description'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_93() {
+	
+return (o2app_developer() || o2app_user() == "root");
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_94() {
+	
+return ("(".o2val('sections','description').") ".o2val('sections','title'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_95() {
+	
+return ("(".o2val('ancestors','description').") ".o2val('ancestors','title'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_96() {
+	if (o2app_developer() || o2app_user() == "root") {
+   $title = "Visor";
+   }
+else {
+   $title = o2app_name()." documentation";
+   }
+return ($title);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_97() {
+	
+return ((o2app_name() == "jxdoc" ? "jxdoc_indexbymenu" : "doc/jxdoc_indexbymenu"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_98() {
+	
+return (!o2par(2));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_99() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_100() {
+	
+return (!o2exp(93));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_101() {
+	$js = "es=document.getElementsByName('node_".o2par(1)."'); ".
+      "if (es[0] && es[0].scrollIntoView){es[0].scrollIntoView(true)};";
+o2js_doc_ready($js);
+return (true);
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_103() {
+	
+return (o2app_menu());
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_104() {
+	
+return ((o2app_name() == "jxdoc" ? "jxdoc_node" : "doc/jxdoc_node"));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_105() {
+	
+return (rtrim(o2val('nodes','description'))."::".o2val('sections','use_desc'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_106() {
+	
+return (rtrim(o2val('nodes','title'))." - ".o2val('sections','use_desc'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_107() {
+	
+return (o2val('prg§_§var','parent_desc'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_108() {
+	
+return (o2val('prg§_§var','parent_title'));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_109() {
+	
+return (o2_reqpar(1));
+	} //|o2_fine_exp|
+
+function jxdoc_node_exp_9999() {
+	
+return (false);
+	} //|o2_fine_exp|
+?>

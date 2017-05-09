@@ -1,0 +1,109 @@
+<?php
+
+function uses_create_default§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("check_key", "use_id");
+		}
+
+function uses_create_default§§uses_def(&$task_uses, $_o2viewalias = "") {
+	$task_uses->righe_vis = 10;
+
+	$task_uses->usa_file("jxdoc_uses","jxdoc_uses","id",null,null);
+
+	$task_uses->usa("id","jxdoc_uses","id","uses_create_default_exp_1()","uses_create_default_exp_1()",null,null);
+	$task_uses->usa("description","jxdoc_uses","description",null,null,null,null);
+}
+
+function uses_create_default§§start_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Program") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "check_key", uses_create_default_exp_2()) && $o2exe->e();
+	$o2exe->s(3) && (uses_create_default_exp_5() || $o2exe->e()) && o2act::view("uses", "I", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("uses", "id", uses_create_default_exp_2()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("uses", "description", uses_create_default_exp_6()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::view("uses", "S", "") && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Form") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "check_key", uses_create_default_exp_3()) && $o2exe->e();
+	$o2exe->s(9) && (uses_create_default_exp_5() || $o2exe->e()) && o2act::view("uses", "I", "") && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("uses", "id", uses_create_default_exp_3()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("uses", "description", uses_create_default_exp_7()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::view("uses", "S", "") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("Control") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "check_key", uses_create_default_exp_4()) && $o2exe->e();
+	$o2exe->s(15) && (uses_create_default_exp_5() || $o2exe->e()) && o2act::view("uses", "I", "") && $o2exe->e();
+	$o2exe->s(16) && True && o2act::set("uses", "id", uses_create_default_exp_4()) && $o2exe->e();
+	$o2exe->s(17) && True && o2act::set("uses", "description", uses_create_default_exp_8()) && $o2exe->e();
+	$o2exe->s(18) && True && o2act::view("uses", "S", "") && $o2exe->e();
+//	$o2exe->s(19) && True && o2act::remark("Menu") && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("prg§_§var", "check_key", uses_create_default_exp_10()) && $o2exe->e();
+	$o2exe->s(21) && (uses_create_default_exp_5() || $o2exe->e()) && o2act::view("uses", "I", "") && $o2exe->e();
+	$o2exe->s(22) && True && o2act::set("uses", "id", uses_create_default_exp_10()) && $o2exe->e();
+	$o2exe->s(23) && True && o2act::set("uses", "description", uses_create_default_exp_9()) && $o2exe->e();
+	$o2exe->s(24) && True && o2act::view("uses", "S", "") && $o2exe->e();
+//	$o2exe->s(25) && True && o2act::remark("Container control") && $o2exe->e();
+	$o2exe->s(26) && True && o2act::set("prg§_§var", "check_key", uses_create_default_exp_11()) && $o2exe->e();
+	$o2exe->s(27) && (uses_create_default_exp_5() || $o2exe->e()) && o2act::view("uses", "I", "") && $o2exe->e();
+	$o2exe->s(28) && True && o2act::set("uses", "id", uses_create_default_exp_11()) && $o2exe->e();
+	$o2exe->s(29) && True && o2act::set("uses", "description", uses_create_default_exp_12()) && $o2exe->e();
+	$o2exe->s(30) && True && o2act::view("uses", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function uses_create_default_exp_1() {
+	
+return (o2val('prg§_§var','check_key'));
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_2() {
+	
+return (999);
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_3() {
+	
+return (998);
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_4() {
+	
+return (997);
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_5() {
+	
+return (!o2view_rec("uses"));
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_6() {
+	
+return ("Program (internal)");
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_7() {
+	
+return ("Form (internal)");
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_8() {
+	
+return ("Control (internal)");
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_9() {
+	
+return ("Menu (internal)");
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_10() {
+	
+return (996);
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_11() {
+	
+return (995);
+	} //|o2_fine_exp|
+
+function uses_create_default_exp_12() {
+	
+return ("Container (internal)");
+	} //|o2_fine_exp|
+?>

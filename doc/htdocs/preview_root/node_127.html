@@ -1,0 +1,560 @@
+<html><head><title>Functions reference</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_124.html'>Distribuire l’applicazione</a></td>
+       <td id='nav_next' align='right'><a href='node_126.html'></a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.19 &nbsp; Functions reference</h2><br /><p>Le funzioni di o2 sono di varia natura e possono essere usate per differenti scopi:</p>
+<ol>
+<li><i>Informative</i>
+    <p>Ritornano informazioni riguardo ad oggetti e strutture di sistema, come, 
+       ad esempio, il contenuto dei <i>repository</i>, il <i>menu</i> impostato,
+       informazioni di <i>filesystem</i> o le posizioni delle form. Le informazioni
+       sono spesso riportate in forma di <i>array</i>.</p></li>
+<li><i>Esecutive</i>
+    <p>Agiscono sulle caratteristiche dell'applicazione, modificandone il
+       comportamento, oppure eseguono comandi di sistema. Possono essere usate per
+       creare o eliminare tabelle di database, per agire sul <i>filesystem</i>,
+       oppure per inviare un messaggio di posta elettronica.</p></li>
+<li><i>Per la manipolazione dei dati</i>
+    <p>Ritornano forme specifiche dei valori passati: ad esempio, <i>script
+       javascript</i> per l'esecuzione di comandi, valori formattati secondo un
+       certo <i>data model</i>, oppure valori futuri o passati di data e ora.
+       </p></li>
+</ol>
+<p>Le funzioni possono essere usate all'interno di qualuque <i>expression</i> e
+   verranno eseguite al momento della valutazione dell'espressione in cui sono
+   contenute.</p>
+<p>L'elenco delle funzioni è qui suddiviso secondo l'<i>oggetto</i> a cui tali
+   funzioni si riferiscono.</p><br />
+<h3>0.19.1<a name='node_130'> &nbsp; </a>Funzioni di runtime</h3></br /><blockquote><p>Questo gruppo di funzioni si riferisce all'o2runtime in uso per l'applicazione e ritorna informative dipendenti dalla modalità di installazione della runtime e dalle
+impostazioni contenute nel file di configurazione <var>o2/o2.ini</var>.</p><br />
+<h3>0.19.1.1<a name='node_139'> &nbsp; </a>o2rnt_alias()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2rnt_alias()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il <i>virtual host</i> di o2runtime, così come configurato per il
+   webserver, ovvero l'indirizzo HTTP della webroot di runtime, cioé della directory
+   <code>/o2/htdocs/</code>.</p>
+<p>La stringa ritornata sarà della forma <code>http://www.someweb.com/o2/</code></p>
+
+
+<fieldset><a href='node_130.html#node_140'>o2rnt_root()</a></fieldset></blockquote><br />
+<h3>0.19.1.2<a name='node_140'> &nbsp; </a>o2rnt_root()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2rnt_root()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna la directory root di o2runtime, ovvero il path completo della directory
+   <code>/o2/</code>.</p>
+<p>La stringa ritornata sarà della forma <code>/somepath/o2/</code></p><fieldset><a href='node_130.html#node_139'>o2rnt_alias()</a>, <a href='node_130.html#node_141'>o2rnt_dirthreads()</a>, <a href='node_130.html#node_142'>o2rnt_dircss()</a></fieldset></blockquote><br />
+<h3>0.19.1.3<a name='node_141'> &nbsp; </a>o2rnt_dirthreads()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2rnt_dirthreads()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna la directory in cui vengono salvati i file di processo per le runtime in esecuzione, ovvero il path completo della directory <code>/o2/threads/</code>.</p>
+<p>La stringa ritornata sarà della forma <code>/somepath/o2/threads/</code></p><fieldset><a href='node_130.html#node_140'>o2rnt_root()</a></fieldset></blockquote><br />
+<h3>0.19.1.4<a name='node_142'> &nbsp; </a>o2rnt_dircss()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2rnt_dircss()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna la directory in cui sono contenuti i css della runtime, ovvero il path
+   completo della directory <code>/o2/htdocs/css/</code>.</p>
+<p>La stringa ritornata sarà della forma <code>/somepath/o2/htdocs/css/</code></p><fieldset><a href='node_130.html#node_139'>o2rnt_alias()</a>, <a href='node_130.html#node_140'>o2rnt_root()</a></fieldset></blockquote></blockquote><br />
+<h3>0.19.2<a name='node_128'> &nbsp; </a>Funzioni di applicazione</h3></br /><blockquote><p>Questo gruppo di funzioni si riferisce all'applicazione e ritorna informative
+   dipendenti dalla modalità di installazione, dal contenuto dei repository e dalle
+   impostazioni contenute nel file di configurazione <var>[app]/[app].ini</var>.</p><br />
+<h3>0.19.2.1<a name='node_143'> &nbsp; </a>o2app_alias()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2app_alias()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il <i>virtual host</i> di applicazione, così come configurato per il
+   webserver, ovvero l'indirizzo HTTP della webroot di applicazione, cioé della
+   directory <code>/[app]/htdocs/</code>.</p>
+<p>La stringa ritornata sarà della forma <code>http://www.someweb.com/app/</code></p>
+</blockquote><br />
+<h3>0.19.2.2<a name='node_144'> &nbsp; </a>o2app_createtables()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2app_createtables()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>void</code></p>
+<p>Crea tute le tabelle di database definite per la l'applicazione, cioé nel 
+   <i>tables repository</i>, che già non esistano.</p>
+<p>La creazione delle tabelle viene automaticamente eseguita ad ogni accesso di un
+   utente all'applicazione</p>
+</blockquote><br />
+<h3>0.19.2.3<a name='node_145'> &nbsp; </a>o2app_css()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2app_css()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il nome del file di CSS (<em>Cascading Style Sheet</em>) attualmente in
+   uso per l'applicazione.</p>
+</blockquote><br />
+<h3>0.19.2.4<a name='node_146'> &nbsp; </a>o2app_databases()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2app_databases()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>array</code></p>
+<p>Ritorna l'elenco dei nomi dei database definiti per l'applicazione, ovvero
+   contenuti nel <i>servers & databases repository</i> (default 
+   <var>[app_root]/prgs/db_repository.inc</var>), in forma di array con indici
+   numerici.</p>
+<p><h4>Sample</h4>
+   <code>Array<br/>
+(<br />
+&nbsp; [0] => default<br/>
+&nbsp; [1] => mysql_local<br/>
+&nbsp; [2] => mydata<br/>
+)</code></p></blockquote><br />
+<h3>0.19.2.5<a name='node_147'> &nbsp; </a>o2app_developer()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2app_developer()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il nome del developer attualmente loggato all'applicazione oppure "" se
+   nessuno sviluppatore è stato indicato.</p></blockquote><br />
+<h3>0.19.2.6<a name='node_185'> &nbsp; </a>o2app_dir_css()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2app_dir_css()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il path completo alla cartella contenente i CSS (<em>Cascading Style Sheet</em>) dell'applicazione.</p><fieldset><a href='node_131.html#node_170'>o2dir_list()</a></fieldset></blockquote><br />
+<h3>0.19.2.7<a name='node_186'> &nbsp; </a>o2app_dir_cvsprgs()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2app_dir_cvsprgs()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il path completo all'attuale cartella di CVS (<i>Team development</i>), contenente i programmi e i <i>repository</i> attualmente in <i>check out</i> per lo sviluppatore indicato alla runtime.</p><fieldset><a href='node_128.html#node_147'>o2app_developer()</a>, <a href='node_131.html#node_170'>o2dir_list()</a></fieldset></blockquote></blockquote><br />
+<h3>0.19.3<a name='node_129'> &nbsp; </a>Funzioni di utente</h3></br /><blockquote><p>Questo gruppo di funzioni si riferisce alle credenziali possedute dall'utente
+   attualmente loggato, cioé passato come parametro <code>o2user</code> alla prima
+   request all'applicazione. Se nessun utente è stato indicato o se l'utente 
+   richiesto non è stato validato, le credenziali adottate dal sistema saranno 
+   quelle dell'utente "default".</p><br />
+<h3>0.19.3.1<a name='node_154'> &nbsp; </a>o2user_has()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2user_has($right_code)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$right_code</i> nome del <i>right</i> di cui si 
+                             vuole controllare il possesso</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Ritorna "true" se l'utente correntemente loggato possiede il diritto
+   <i>$right_code</i>, altrimenti "false".</p>
+<p>La funzione <code>o2user_has()</code> può risultare particolarmente utile per
+   condizionare l'esecuzione di comandi o per condizionare visibilità e 
+   modificabilità di controlli, in modo da limiterne l'uso ai soli possessori di 
+   un certo diritto.</p>
+<fieldset><a href='node_129.html#node_156'>o2user_rights()</a></fieldset></blockquote><br />
+<h3>0.19.3.2<a name='node_155'> &nbsp; </a>o2user_is()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2user_is($role_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$role_name</i> nome del <i>role</i> a cui si 
+                             vuole controllare l'appartenenza</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Ritorna "true" se l'utente correntemente loggato riveste il ruolo (appartiene 
+   al gruppo) <i>$role_name</i>, altrimenti "false".</p>
+<p>La funzione <code>o2user_is()</code> può risultare particolarmente utile per
+   condizionare l'esecuzione di comandi o per condizionare visibilità e 
+   modificabilità di controlli, in modo da limiterne l'uso ai soli appertenenti ad 
+   un certo ruolo (gruppo).</p>
+<fieldset><a href='node_129.html#node_157'>o2user_roles()</a></fieldset></blockquote><br />
+<h3>0.19.3.3<a name='node_156'> &nbsp; </a>o2user_rights()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2user_rights()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>array</code></p>
+<p>Ritorna, in forma di <i>array</i> con indici numerici, l'elenco dei <i>rights</i>
+   posseduti dall'utente loggato.</p><fieldset><a href='node_129.html#node_154'>o2user_has()</a></fieldset></blockquote><br />
+<h3>0.19.3.4<a name='node_157'> &nbsp; </a>o2user_roles()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2user_roles()</code></p>
+<p><i>Parameters:</i> La funzione non prevede parametri</p>
+<p><i>Returns:</i> <code>array</code></p>
+<p>Ritorna, in forma di <i>array</i> con indici numerici, l'elenco dei <i>roles</i>
+   rivestiti dall'utente loggato, ovvero dei gruppi a cui appartiene.</p><fieldset><a href='node_129.html#node_157'>o2user_roles()</a></fieldset></blockquote></blockquote><br />
+<h3>0.19.4<a name='node_131'> &nbsp; </a>Funzioni di filesystem</h3></br /><blockquote><br />
+<h3>0.19.4.1<a name='node_168'> &nbsp; </a>o2dir_create()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2dir_create($dir_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$dir_path</i> path della directory (comprensivo di 
+                             "/" oppure "\" finale) che si vuole creare</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Crea la directory <i>$dir_path</i> su filesystem, se l'application server possiede le credenziali necessarie. Ritorna "true" se la creazione ha esito positivo.</p>
+<p><h4>ATTENZIONE!</h4>
+   Deve esistere la directory <var>[<i>$dir_path</i>]/..</var>.</p>
+<fieldset><a href='node_131.html#node_169'>o2dir_delete()</a>, <a href='node_131.html#node_176'>o2file_exists()</a></fieldset></blockquote><br />
+<h3>0.19.4.2<a name='node_169'> &nbsp; </a>o2dir_delete()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2dir_delete($dir_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$dir_path</i> path della directory (comprensivo di 
+                             "/" oppure "\" finale) che si vuole eliminare</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Elimina la directory <i>$dir_path</i> su filesystem, tutti i file eventualmente
+   contenuti e tutte le sottocartelle, se l'application server possiede le 
+   credenziali necessarie. Ritorna "true" se l'eliminazione ha esito positivo.</p><fieldset><a href='node_131.html#node_168'>o2dir_create()</a>, <a href='node_131.html#node_170'>o2dir_list()</a>, <a href='node_131.html#node_176'>o2file_exists()</a></fieldset></blockquote><br />
+<h3>0.19.4.3<a name='node_170'> &nbsp; </a>o2dir_list()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2dir_list($dir_path, [$file_match="*"])</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$dir_path</i> path della directory (comprensivo di 
+                             "/" oppure "\" finale) di cui si richiede il
+                             contenuto</li>
+                         <li><i>$file_match</i> (optional) espressione regolare di
+                             filesystem (<em>CMD</em> o <em>SHELL</em> wild-card
+                             expression) per il filtraggio dei file (default "*",
+                             <i>tutti i file</i>)</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>array</code></p>
+<p>Ritorna il contenuto della directory <i>$dir_path</i> su filesystem, in accordo 
+   con l'espressione <i>$file_match</i> eventualmente passata, come array con
+   indice numerico. I valori contenuti nei singoli elementi dell'array 
+   corrispondono al path completo dei file e delle cartelle contenute.</p>
+<p><h4>Sample</h4>
+   <code>$list_local = o2dir_list(o2app_dir_home());</code><br>
+   Assumendo che la home dell'applicazione sia la directory 
+   <var>/o2app/myapp/</var>, <i>$list_local</i> potrebbe avere la seguente
+   forma:<br>
+   <code>Array</code><br>
+   <code>(</code><br>
+   &nbsp; <code>[0] => /o2app/myapp/data</code><br>
+   &nbsp; <code>[1] => /o2app/myapp/doc</code><br>
+   &nbsp; <code>[2] => /o2app/myapp/htdocs</code><br>
+   &nbsp; <code>[3] => /o2app/myapp/logs</code><br>
+   &nbsp; <code>[4] => /o2app/myapp/models</code><br>
+   &nbsp; <code>[5] => /o2app/myapp/myapp.ini</code><br>
+   &nbsp; <code>[6] => /o2app/myapp/prgs</code><br>
+   &nbsp; <code>[7] => /o2app/myapp/users</code><br>
+   <code>)</code><br></p>
+<fieldset><a href='node_131.html#node_169'>o2dir_delete()</a>, <a href='node_131.html#node_176'>o2file_exists()</a></fieldset></blockquote><br />
+<h3>0.19.4.4<a name='node_171'> &nbsp; </a>o2file_basename()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_basename($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si richiede
+                             l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il solo nome, privo di path ed estensione, del file <i>$file_path</i>.</p>
+<p><h4>Sample</h4>
+   <code>$name_local = o2file_basename("c:\programmi\php5\php.exe");</code><br>
+   <i>$name_local</i> conterrà la stringa "php".</p><fieldset><a href='node_131.html#node_175'>o2file_dir()</a>, <a href='node_131.html#node_177'>o2file_ext()</a>, <a href='node_131.html#node_178'>o2file_fullname()</a>, <a href='node_131.html#node_180'>o2file_rename()</a></fieldset></blockquote><br />
+<h3>0.19.4.5<a name='node_172'> &nbsp; </a>o2file_copy()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_copy($file_path, $new_file)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file sorgente che si 
+                             intende copiare</li>
+                         <li><i>$new_file</i> path del file destinazione su cui si 
+                             intende copiare</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Copia il file <i>$file_path</i> sul file <i>$new_file</i>, sovrascrivendolo se 
+   già esistente.</p>
+<p><h4>ATTENZIONE!</h4>
+   Il file <i>$file_path</i> e la directory <var>[<i>$new_file</i>]/..</var> 
+   devono esistere.</p><fieldset><a href='node_131.html#node_174'>o2file_delete()</a>, <a href='node_131.html#node_176'>o2file_exists()</a>, <a href='node_131.html#node_180'>o2file_rename()</a></fieldset></blockquote><br />
+<h3>0.19.4.6<a name='node_173'> &nbsp; </a>o2file_date()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_date($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si richiede
+                             l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna la data di ultima modifica del file <i>$file_path</i> nella forma
+   <code>YYYYMMDD</code>.</p>
+<p><h4>Sample</h4>
+   <code>$date_local = o2file_date("c:\programmi\php5\php.exe");</code><br>
+   <i>$date_local</i> conterrà la stringa "20060816".</p><fieldset><a href='node_131.html#node_176'>o2file_exists()</a>, <a href='node_131.html#node_181'>o2file_size()</a>, <a href='node_131.html#node_182'>o2file_time()</a></fieldset></blockquote><br />
+<h3>0.19.4.7<a name='node_174'> &nbsp; </a>o2file_delete()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_delete($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file che si vuole
+                             eliminare</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Elimina il file <i>$file_path</i> su filesystem, se l'application server possiede
+   le credenziali necessarie. Ritorna "true" se l'eliminazione ha esito positivo.</p><fieldset><a href='node_131.html#node_172'>o2file_copy()</a>, <a href='node_131.html#node_176'>o2file_exists()</a>, <a href='node_131.html#node_180'>o2file_rename()</a></fieldset></blockquote><br />
+<h3>0.19.4.8<a name='node_175'> &nbsp; </a>o2file_dir()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_dir($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si richiede
+                             l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il solo path del file <i>$file_path</i>.</p>
+<p><h4>Sample</h4>
+   <code>$dir_local = o2file_dir("c:\programmi\php5\php.exe");</code><br>
+   <i>$dir_local</i> conterrà la stringa "c:\programmi\php5\".</p><fieldset><a href='node_131.html#node_169'>o2dir_delete()</a>, <a href='node_131.html#node_170'>o2dir_list()</a>, <a href='node_131.html#node_171'>o2file_basename()</a>, <a href='node_131.html#node_177'>o2file_ext()</a>, <a href='node_131.html#node_178'>o2file_fullname()</a></fieldset></blockquote><br />
+<h3>0.19.4.9<a name='node_176'> &nbsp; </a>o2file_exists()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_exists($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si vuole
+                             controllare l'esistenza</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Verifica se esiste il file <i>$file_path</i> su filesystem e ritorna "true" se
+   esiste, altrimenti "false".</p><fieldset><a href='node_131.html#node_168'>o2dir_create()</a>, <a href='node_131.html#node_170'>o2dir_list()</a>, <a href='node_131.html#node_172'>o2file_copy()</a>, <a href='node_131.html#node_174'>o2file_delete()</a></fieldset></blockquote><br />
+<h3>0.19.4.10<a name='node_177'> &nbsp; </a>o2file_ext()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_ext($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si richiede
+                             l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna la sola estensione (la stringa a destra dell'ultimo "." contenuto nel 
+   nome) del file <i>$file_path</i>.</p>
+<p><h4>Sample</h4>
+   <code>$ext_local = o2file_ext("c:\programmi\php5\php.exe");</code><br>
+   <i>$ext_local</i> conterrà la stringa "exe".</p><fieldset><a href='node_131.html#node_171'>o2file_basename()</a>, <a href='node_131.html#node_175'>o2file_dir()</a>, <a href='node_131.html#node_178'>o2file_fullname()</a>, <a href='node_131.html#node_179'>o2file_ico()</a></fieldset></blockquote><br />
+<h3>0.19.4.11<a name='node_178'> &nbsp; </a>o2file_fullname()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_fullname($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si richiede
+                             l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il nome completo, con path esplicito e ben formato, del file
+   <i>$file_path</i>.</p>
+<p><h4>Sample</h4>
+   <code>$file_local = o2file_fullname("c:\programmi\php5\php.exe");</code><br>
+   <i>$file_local</i> conterrà la stringa "c:\programmi\php5\php.exe".</p><fieldset><a href='node_131.html#node_171'>o2file_basename()</a>, <a href='node_131.html#node_175'>o2file_dir()</a>, <a href='node_131.html#node_176'>o2file_exists()</a>, <a href='node_131.html#node_177'>o2file_ext()</a></fieldset></blockquote><br />
+<h3>0.19.4.12<a name='node_179'> &nbsp; </a>o2file_ico()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_ico($file_path, [$large=false])</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file per il quale si 
+                             richiede l'icona</li>
+                         <li><i>$large</i> (optional) valore logico (default "false")
+                             usato per richiedere icone in formato 256x256 px anziché
+                             16x16 px</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il puntamento web all'immagine icona appropriata per la tipologia di 
+   file di <i>$file_path</i>, cercando di ricavare la tipologia dal MIME-TYPE del
+   file (quando possibile) o dalla sua estensione. Se viene passato a "true" il
+   secondo parametro <i>$large</i> verrà ritornato il puntamento all'icona in 
+   formato <em>PNG</em> 256x256 px, altrimenti il puntamento all'icona <em>PNG</em>
+   16x16 px.</p>
+<p><h4>Sample</h4>
+   <code>$ico_local = o2file_ico("c:\programmi\php5\php.exe");</code><br>
+   <i>$ico_local</i> conterrà la stringa "/o2/img/fs/exe.png".</p><fieldset><a href='node_131.html#node_177'>o2file_ext()</a>, <a href='node_131.html#node_183'>o2file_type()</a></fieldset></blockquote><br />
+<h3>0.19.4.13<a name='node_180'> &nbsp; </a>o2file_rename()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_rename($file_path, $new_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file sorgente che si 
+                             intende rinomiare</li>
+                         <li><i>$new_name</i> path del file destinazione con cui 
+                             si intende rinominare</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Rinomina il file <i>$file_path</i> col nome file <i>$new_name</i>, 
+   sovrascrivendolo se già esistente.</p>
+<p><h4>ATTENZIONE!</h4>
+   Il file <i>$file_path</i> e la directory <var>[<i>$new_name</i>]/..</var> 
+   devono esistere.</p><fieldset><a href='node_131.html#node_172'>o2file_copy()</a>, <a href='node_131.html#node_176'>o2file_exists()</a>, <a href='node_131.html#node_180'>o2file_rename()</a></fieldset></blockquote><br />
+<h3>0.19.4.14<a name='node_181'> &nbsp; </a>o2file_size()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_size($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si richiede
+                             l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>integer</code></p>
+<p>Ritorna la dimensione in byte del file <i>$file_path</i>.</p>
+<p><h4>Sample</h4>
+   <code>$size_local = o2file_size("c:\programmi\php5\php.exe");</code><br>
+   <i>$size_local</i> conterrà il valore "28725".</p><fieldset><a href='node_131.html#node_173'>o2file_date()</a>, <a href='node_131.html#node_176'>o2file_exists()</a>, <a href='node_131.html#node_182'>o2file_time()</a></fieldset></blockquote><br />
+<h3>0.19.4.15<a name='node_182'> &nbsp; </a>o2file_time()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_time($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si richiede
+                             l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna l'ora di ultima modifica del file <i>$file_path</i> nella forma
+   <code>HHMMSS</code>.</p>
+<p><h4>Sample</h4>
+   <code>$time_local = o2file_time("c:\programmi\php5\php.exe");</code><br>
+   <i>$time_local</i> conterrà la stringa "003422".</p><fieldset><a href='node_131.html#node_173'>o2file_date()</a>, <a href='node_131.html#node_176'>o2file_exists()</a>, <a href='node_131.html#node_181'>o2file_size()</a></fieldset></blockquote><br />
+<h3>0.19.4.16<a name='node_183'> &nbsp; </a>o2file_type()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2file_type($file_path)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$file_path</i> path del file di cui si richiede
+                             l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna "D" se il file <i>$file_path</i> è una directory, altrimenti "F".</p>
+<p><h4>Sample</h4>
+   <code>$ype_local = o2file_type("c:\programmi\php5\php.exe");</code><br>
+   <i>$type_local</i> conterrà la stringa "F".</p><fieldset><a href='node_131.html#node_169'>o2dir_delete()</a>, <a href='node_131.html#node_174'>o2file_delete()</a>, <a href='node_131.html#node_176'>o2file_exists()</a>, <a href='node_131.html#node_177'>o2file_ext()</a></fieldset></blockquote></blockquote><br />
+<h3>0.19.5<a name='node_132'> &nbsp; </a>Funzioni di database server</h3></br /><blockquote><p>Questo gruppo di funzioni riguarda i due elementi di base della connettività:
+   i server e i database su essi definiti, come definiti dal contenuto del 
+   <i>servers & databases repository</i> (default  
+   <var>[app_root]/prgs/db_repository.inc</var>).</p>
+<br />
+<h3>0.19.5.1<a name='node_167'> &nbsp; </a>o2dbs_commit()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2db_commit($server_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$server_name</i> nome del server su cui si sta 
+                             eseguendo il COMMIT</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Esegue il COMMIT <em>SQL</em> delle transazioni avviate sul server
+   <i>$server_name</i>. Una nuova transazione verrà automaticamente avviata alla
+   prossima richiesta di esecuzione per il server. Ritorna "true" se il COMMIT è 
+   stato eseguito con successo.</p><fieldset><a href='node_132.html#node_159'>o2dbs_exe()</a>, <a href='node_132.html#node_165'>o2db_server()</a></fieldset></blockquote><br />
+<h3>0.19.5.2<a name='node_158'> &nbsp; </a>o2dbs_engine()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2dbs_engine($server_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$server_name</i> nome del database server di cui si 
+                             sta richiedendo l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il tipo di motore <em>SQL</em> ("sqlite", "mysql", "mssql", "postgres", "oracle", ...) per il server <i>$server_name</i>, così come definito alla voce <i>Engine</i> della definizione dei <i>Server</i>.</p>
+<fieldset><a href='node_132.html#node_160'>o2dbs_name()</a>, <a href='node_132.html#node_161'>o2dbs_password()</a>, <a href='node_132.html#node_162'>o2dbs_user()</a></fieldset></blockquote><br />
+<h3>0.19.5.3<a name='node_159'> &nbsp; </a>o2dbs_exe()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2dbs_exe($server_name, $sql_cmd)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$server_name</i> nome del database server su cui si 
+                             sta richiedendo l'esecuzione</li>
+                         <li><i>$sql_cmd</i> comando <em>SQL</em> da eseguire sul
+                             server</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>boolean</code></p>
+<p>Esegue il comando <em>SQL</em> <i>$sql_cmd</i> direttamente sul server 
+   <i>$server_name</i> e ritorna "true" se eseguito correttamente.</p>
+<p><h4>ATTENZIONE!</h4>
+   Questa funzione può compromettere la portabilità dell'applicazione, in quanto la
+   sintassi del comando <i>$sql_cmd</i> può variare da una tipologia di server ad
+   un'altra. Si sconsiglia l'uso di questa funzione, a favore delle normali tecniche
+   o2 di accesso e gestione delle connettività.</p>
+<fieldset><a href='node_132.html#node_158'>o2dbs_engine()</a>, <a href='node_132.html#node_165'>o2db_server()</a>, <a href='node_132.html#node_167'>o2dbs_commit()</a></fieldset></blockquote><br />
+<h3>0.19.5.4<a name='node_160'> &nbsp; </a>o2dbs_name()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2dbs_name($server_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$server_name</i> nome del database server di cui si 
+                             sta richiedendo l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il nome host o l'indirizzo IP del server <i>$server_name</i>, così come
+   definito alla voce <i>Physical name</i> della definizione dei <i>Server</i>.</p>
+<fieldset><a href='node_132.html#node_158'>o2dbs_engine()</a>, <a href='node_132.html#node_161'>o2dbs_password()</a>, <a href='node_132.html#node_162'>o2dbs_user()</a></fieldset></blockquote><br />
+<h3>0.19.5.5<a name='node_161'> &nbsp; </a>o2dbs_password()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2dbs_password($server_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$server_name</i> nome del database server di cui si 
+                             sta richiedendo l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna la password indicata per l'utente di accesso al server 
+   <i>$server_name</i>, così come definita alla voce <i>Password</i> della 
+   definizione dei <i>Server</i>.</p><fieldset><a href='node_132.html#node_158'>o2dbs_engine()</a>, <a href='node_132.html#node_160'>o2dbs_name()</a>, <a href='node_132.html#node_162'>o2dbs_user()</a></fieldset></blockquote><br />
+<h3>0.19.5.6<a name='node_162'> &nbsp; </a>o2dbs_user()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2dbs_user($server_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$server_name</i> nome del database server di cui si 
+                             sta richiedendo l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il nome dell'utente di accesso al server <i>$server_name</i>, così come definito alla voce <i>User</i> della definizione dei <i>Server</i>.</p><fieldset><a href='node_132.html#node_158'>o2dbs_engine()</a>, <a href='node_132.html#node_160'>o2dbs_name()</a>, <a href='node_132.html#node_161'>o2dbs_password()</a></fieldset></blockquote><br />
+<h3>0.19.5.7<a name='node_163'> &nbsp; </a>o2db_name()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2db_name($db_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$db_name</i> nome del database di cui si sta 
+                             richiedendo l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il nome fisico del database $db_name, come definito alla colonna 
+   <i>Physical name</i> della definizione dei <i>Database</i>.</p>
+<fieldset><a href='node_132.html#node_164'>o2db_schema()</a>, <a href='node_132.html#node_165'>o2db_server()</a></fieldset></blockquote><br />
+<h3>0.19.5.8<a name='node_164'> &nbsp; </a>o2db_schema()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2db_schema($db_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$db_name</i> nome del database di cui si sta 
+                             richiedendo l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna lo <i>schema</i> utilizzato per l'accesso al database $db_name, come
+   definito alla colonna <i>Schema</i> della definizione dei <i>Database</i>.</p>
+<fieldset><a href='node_132.html#node_163'>o2db_name()</a>, <a href='node_132.html#node_165'>o2db_server()</a></fieldset></blockquote><br />
+<h3>0.19.5.9<a name='node_165'> &nbsp; </a>o2db_server()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2db_server($db_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$db_name</i> nome del database di cui si sta 
+                             richiedendo l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>string</code></p>
+<p>Ritorna il nome logico (o2) del server su cui è definito il database
+   <i>$db_name</i>, come indicato nella colonna <i>Server</i> della definizione 
+   dei <i>Database</i>.</p>
+<p>Il nome logico di server ritornato da questa funzione può essere passato come 
+   primo parametro alle funzioni <i>o2dbs_*()</i>.</p>
+<fieldset><a href='node_132.html#node_158'>o2dbs_engine()</a>, <a href='node_132.html#node_160'>o2dbs_name()</a>, <a href='node_132.html#node_163'>o2db_name()</a>, <a href='node_132.html#node_164'>o2db_schema()</a></fieldset></blockquote><br />
+<h3>0.19.5.10<a name='node_166'> &nbsp; </a>o2db_tables()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2db_tables($db_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$db_name</i> nome del database di cui si sta 
+                             richiedendo l'informativa</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>array</code></p>
+<p>Ritorna l'elenco delle tabelle fisicamente esistenti sul database <i>$db_name</i>
+   in forma di array con indici numerici.</p>
+
+<fieldset><a href='node_132.html#node_158'>o2dbs_engine()</a>, <a href='node_132.html#node_163'>o2db_name()</a>, <a href='node_132.html#node_164'>o2db_schema()</a>, <a href='node_132.html#node_165'>o2db_server()</a></fieldset></blockquote></blockquote>
+<h3>0.19.6<a name='node_184'> &nbsp; </a>Funzioni di datamodel</h3><blockquote></blockquote>
+<h3>0.19.7<a name='node_133'> &nbsp; </a>Funzioni di tabelle e campi</h3><blockquote></blockquote>
+<h3>0.19.8<a name='node_134'> &nbsp; </a>Funzioni di view</h3><blockquote></blockquote><br />
+<h3>0.19.9<a name='node_135'> &nbsp; </a>Funzioni di form</h3></br /><blockquote>Le funzioni contenute in questa sezione riguardano informative ed esecuzioni relative a form definite per un programma.<br />
+<h3>0.19.9.1<a name='node_153'> &nbsp; </a>o2ctrl_focus()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2form_focus($form_name, $ctrl_name)</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$form_name</i> nome della form a cui appartiene il
+                             controllo a cui si vuole dare il focus</li>
+                         <li><i>$ctrl_name</i> nome del controllo a cui si vuole 
+                             dare il focus</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>void</code></p>
+<p>Imposta il focus per il controllo <i>$ctrl_name</i> della form <i>$form_name</i>.
+   Per poter ricevere il focus il controllo deve essere visibile, altrimenti si
+   risolverà in un errore di <i>javascript</i>.</p>
+</blockquote><br />
+<h3>0.19.9.2<a name='node_149'> &nbsp; </a>o2form_height()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2form_height($form_name, [$level=0])</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$form_name</i> nome della form di cui si sta
+                             richiedendo l'informativa</li>
+                         <li><i>$level</i> (optional) il numero del livello di
+                             esecuzione (indice di programma in esecuzione) del
+                             programma a cui appartiene la form richiesta - se omesso
+                             o passato a "0" verrà utilizzato il livello di 
+                             esecuzione del programma corrente</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>integer</code></p>
+<p>Ritorna il valore dell'altezza in px della form <i>$form_name</i>.</p>
+<p><h4>Sample</h4>
+   <code>$h_local = o2form_height("main_win");</code><br>
+   Ritorna l'altezza della form <i>main_win</i> definita nel programma 
+   corrente.<br><br>
+   <code>$h_local = o2form_height("detail", count(o2app_prg()) - 1);</code><br>
+   Ritorna l'altezza della form <i>detail</i> definita nel programma che ha chiamato
+   il programma corrente.</p><fieldset><a href='node_135.html#node_150'>o2form_width()</a>, <a href='node_135.html#node_151'>o2form_x()</a>, <a href='node_135.html#node_152'>o2form_y()</a></fieldset></blockquote><br />
+<h3>0.19.9.3<a name='node_150'> &nbsp; </a>o2form_width()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2form_width($form_name, [$level=0])</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$form_name</i> nome della form di cui si sta
+                             richiedendo l'informativa</li>
+                         <li><i>$level</i> (optional) il numero del livello di
+                             esecuzione (indice di programma in esecuzione) del
+                             programma a cui appartiene la form richiesta - se omesso
+                             o passato a "0" verrà utilizzato il livello di 
+                             esecuzione del programma corrente</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>integer</code></p>
+<p>Ritorna il valore della larghezza in px della form <i>$form_name</i>.</p>
+<p><h4>Sample</h4>
+   <code>$w_local = o2form_width("main_win");</code><br>
+   Ritorna la larghezza della form <i>main_win</i> definita nel programma 
+   corrente.<br><br>
+   <code>$w_local = o2form_width("detail", count(o2app_prg()) - 1);</code><br>
+   Ritorna la larghezza della form <i>detail</i> definita nel programma che ha
+   chiamato il programma corrente.</p><fieldset><a href='node_135.html#node_149'>o2form_height()</a>, <a href='node_135.html#node_151'>o2form_x()</a>, <a href='node_135.html#node_152'>o2form_y()</a></fieldset></blockquote><br />
+<h3>0.19.9.4<a name='node_151'> &nbsp; </a>o2form_x()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2form_x($form_name, [$level=0])</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$form_name</i> nome della form di cui si sta
+                             richiedendo l'informativa</li>
+                         <li><i>$level</i> (optional) il numero del livello di
+                             esecuzione (indice di programma in esecuzione) del
+                             programma a cui appartiene la form richiesta - se omesso
+                             o passato a "0" verrà utilizzato il livello di 
+                             esecuzione del programma corrente</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>integer</code></p>
+<p>Ritorna il valore in px della coordinata orizzontale dell'angolo superiore 
+   sinistro della form <i>$form_name</i>.</p>
+<p><h4>Sample</h4>
+   <code>$x_local = o2form_x("main_win");</code><br>
+   Ritorna la coordinata orizzontale della form <i>main_win</i> definita nel 
+   programma corrente.<br><br>
+   <code>$x_local = o2form_x("detail", count(o2app_prg()) - 1);</code><br>
+   Ritorna la coordinata orizzontale della form <i>detail</i> definita nel 
+   programma che ha chiamato il programma corrente.</p><fieldset><a href='node_135.html#node_149'>o2form_height()</a>, <a href='node_135.html#node_150'>o2form_width()</a>, <a href='node_135.html#node_152'>o2form_y()</a></fieldset></blockquote><br />
+<h3>0.19.9.5<a name='node_152'> &nbsp; </a>o2form_y()</h3></br /><blockquote><p><i>Sintassi:</i> <code>o2form_y($form_name, [$level=0])</code></p>
+<p><i>Parameters:</i><ul>
+                         <li><i>$form_name</i> nome della form di cui si sta
+                             richiedendo l'informativa</li>
+                         <li><i>$level</i> (optional) il numero del livello di
+                             esecuzione (indice di programma in esecuzione) del
+                             programma a cui appartiene la form richiesta - se omesso
+                             o passato a "0" verrà utilizzato il livello di 
+                             esecuzione del programma corrente</li>
+                     </ul></p>
+<p><i>Returns:</i> <code>integer</code></p>
+<p>Ritorna il valore in px della coordinata verticale dell'angolo superiore 
+   sinistro della form <i>$form_name</i>.</p>
+<p><h4>Sample</h4>
+   <code>$y_local = o2form_y("main_win");</code><br>
+   Ritorna la coordinata verticale della form <i>main_win</i> definita nel 
+   programma corrente.<br><br>
+   <code>$y_local = o2form_y("detail", count(o2app_prg()) - 1);</code><br>
+   Ritorna la coordinata verticale della form <i>detail</i> definita nel 
+   programma che ha chiamato il programma corrente.</p><fieldset><a href='node_135.html#node_149'>o2form_height()</a>, <a href='node_135.html#node_150'>o2form_width()</a>, <a href='node_135.html#node_151'>o2form_x()</a></fieldset></blockquote></blockquote>
+<h3>0.19.10<a name='node_136'> &nbsp; </a>Funzioni di client browser</h3><blockquote></blockquote>
+<h3>0.19.11<a name='node_137'> &nbsp; </a>Funzioni di programma</h3><blockquote></blockquote>
+<h3>0.19.12<a name='node_148'> &nbsp; </a>Funzioni di menu</h3><blockquote></blockquote>
+<h3>0.19.13<a name='node_138'> &nbsp; </a>Funzioni miscellanee</h3><blockquote></blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_124.html'>Distribuire l’applicazione</a></td>
+       <td id='nav_next' align='right'><a href='node_126.html'></a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

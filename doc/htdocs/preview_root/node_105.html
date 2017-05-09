@@ -1,0 +1,133 @@
+<html><head><title>Export verso XML</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_103.html'>L'editor delle form</a></td>
+       <td id='nav_next' align='right'><a href='node_111.html'>Generazione di report <em>PDF</em> da file <em>XML</em></a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.15 &nbsp; Export verso <em>XML</em></h2><br /><fieldset>I/O FILE, I/O OPERATOR, PROTOCOL</fieldset>
+<p>Questo capitolo pone le basi per la generazione di report in o2architect.
+Infatti il primo step per una generazione di un report <em>PDF</em> in 
+o2architect consiste nella produzione di archivi di tipo <em>XML</em>.</p>
+
+<p>Questi archivi verranno successivamente confezionati tramite l’istruzione 
+<i>Print</i> e inviati all’applicazione o2reporter (argomento trattato 
+successivamente).</p>
+<br /><h4>Obiettivi</h4>
+<p>Al termine del capitolo il programmatore sarà in grado di:</p>
+<ul>
+<li>Definire i file nel repository </i>I/O</i></li>
+<li>Definire i protocolli di trasmissione <em>XML</em></li>
+<li>Utilizzare l’operatore <i>I/O</i> per esportare il set di dati</li>
+</ul>
+
+
+
+<br /><h4>Introduzione</h4>
+<p>Il linguaggio <em>XML</em> (<em>eXtensible Markup Language</em>)  
+è un linguaggio di markup aperto e basato su testo che fornisce informazioni di 
+tipo strutturale e semantico relative ai dati veri e propri. Questi "dati sui dati", 
+o metadati, offrono un contesto aggiuntivo all’applicazione che utilizza i dati e 
+consentono un nuovo livello di gestione e manipolazione delle informazioni basate 
+su web.</p>
+
+<p>Attualmente è considerato lo strumento ideale per lo scambio di informazioni 
+fra sistemi informativi eterogenei. I dati memorizzati in un file <em>XML</em>
+rispettano una struttura definita all’interno del file stesso e di semplice interpretazione.
+In questo capitolo vedremo come esportare i dati disponibili in un programma o2 
+verso uno o più file <em>XML</em>.</p>
+
+<p>Per produrre un file <em>XML</em> con o2architect è opportuno seguire 3 
+fasi:</p>
+<ol>
+<li>Definire nell’area <i>I/O</i> del programma i file <em>XML</em> che saranno
+       generati, indicandone un alias e un’espressione che ne definisca il nome fisico di
+       memorizzazione</li>
+<li>Definire i <i>Protocols</i> e per ogni <i>protocol</i> l’elenco dei campi che si
+       intende esportare sotto lo stesso nome di protocollo.</li>
+<li>Utilizzare l’operatore <i>I/O</i> all’interno delle action al fine di esportare i 
+       valori correnti del set di dati definito nel <i>Protocol</i> accodandoli al file 
+       <em>XML</em> specificato come <i>I/O</i></li>
+</ol>
+
+<p>In questo capitolo vedremo come realizzare un programma che generi un file 
+<em>XML</em> contenente l’anagrafica dei clienti.</p>
+<br />
+<h3>0.15.1<a name='node_108'> &nbsp; </a>Definizione di <i>I/O</i></h3></br /><blockquote><p>Dopo aver definito la view e i relativi campi necessari allo scopo passiamo 
+alla definizione della risorsa <i>I/O</i>.</p>
+<p>Dal menu di navigazione all’interno del programma scegliere la voce <i>I/O 
+Files</i> per accedere all’elenco delle risorse <em>input/output</em> disponibili 
+per il programma.</p>
+
+<img src='img/image156.gif' />
+
+<ol>
+<li>Creare una nuova voce in elenco (<kbd>F4</kbd>)</li>
+<li>Digitare il nome della risorsa (testo senza spazi o caratteri speciali)</li>
+<li>Selezionare l’espressione che ne definisce il nome fisico (nel nostro caso
+       "customers.xml")</li>
+</ol>
+<p>Il file sarà prodotto a partire dalla directory <var>tmp</var> dell’utente 
+corrente: <var>[app_root]/users/[user_name]/tmp/</var></p>
+</blockquote><br />
+<h3>0.15.2<a name='node_109'> &nbsp; </a>Definizione del <i>Protocol</i></h3></br /><blockquote><p>Definire un protocollo significa raggruppare sotto lo stesso nome un elenco di 
+campi che intendiamo esportare.</p>
+<p>Dal menu di navigazione accedere alla voce <i>Protocols</i> e premere <kbd>ENTER</kbd>. Si accede all’area <i>Protocols</i> del programma: nella parte 
+alta una griglia con i nomi dei protocolli; in basso, per ogni protocollo, l’elenco dei 
+campi con il relativo alias <em>XML</em> che saranno oggetto di esportazione.
+La colonna <i>Models</i> permette di definire un modello di dato per l'esportazione
+diverso dal modello definito per il campo; è necessario solo in caso di esportazione di un campo di tipo <i>calculated</i>, che come forse il lettore avrà notato è l’unica 
+variabile che non comporta una definizione di <i>model</i>.</p>
+
+<img src='img/image158.gif' /></blockquote><br />
+<h3>0.15.3<a name='node_110'> &nbsp; </a>Utilizzo dell’operatore <i>I/O</i></h3></br /><blockquote><p>Dopo aver definito <i>I/O files</i> e <i>Protocols</i> l’accodamento dei 
+valori nel file <em>XML</em> viene eseguito da o2runtime quando incontra 
+un’istruzione di <i>I/O</i> definita all’interno di una action.</p>
+
+<p>Definiamo una action ("esporta_riga") che esporterà i valori correnti del 
+protocollo e all’interno inseriamo un’istruzione di <i>I/O</i>.</p>
+
+<img src='img/image160.gif' />
+
+<p>L’istruzione di <i>I/O</i> presenta 3 opzioni:</p>
+<ol>
+<li><i>Type</i>: identifica il tipo di esportazione e può assumere due valori: 
+       <ol>
+       <li><i>Definition</i>: saranno accodati al file <em>XML</em> i dati di 
+              definizione del protocollo, quindi nome dei campi e tipologia</li>
+       <li><i>Line</i>: saranno accodati i valori dei campi del protocollo (in questo 
+              caso la prima volta o2runtime esporta anche la definizione della struttura)
+              </li>
+       </ol></li>
+<li><i>Output protocol</i>: selezionare dall’elenco dei <i>Protocols</i> del 
+       programma il protocollo che si intende esportare</li>
+<li><i>I/O file</i>: selezionare dall’elenco degli <i>I/O files</i> del programma 
+       la risorsa di <em>output</em> su cui si intende accodare i dati</li>
+</ol>
+
+<p>Adesso non rimane altro che invocare l’esecuzione della action "esporta_riga" 
+per ogni record della view "customers". Per fare questo è necessario creare un’altra
+action (ad esempio "esporta") che richiami la action "esporta_riga" tramite 
+l’istruzione <i>Execute action</i>, utilizzando l’opzione <i>Loop on View</i></p>
+
+<img src='img/image162.gif' />
+
+<p>In o2architect l’istruzione <i>Execute action</i> è l’unico metodo che il
+programmatore ha per invocare l’esecuzione di un’azione in modo ciclico (loop). 
+Ricordarsi di inserire una expression = "false" come espressione di fine azione 
+(<i>End action</i>) in modo che l’azione "esporta_riga" venga ripetuta per tutti 
+i record della view "customers".</p>
+<p>Mandare in esecuzione l’azione “esporta” utilizzando un qualsiasi evento 
+preposto e il file <em>XML</em> “customers.xml” sarà generato nella directory
+temporanea dell’utente loggato.</p>
+</blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_103.html'>L'editor delle form</a></td>
+       <td id='nav_next' align='right'><a href='node_111.html'>Generazione di report <em>PDF</em> da file <em>XML</em></a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

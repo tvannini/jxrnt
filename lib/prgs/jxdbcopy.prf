@@ -1,0 +1,515 @@
+<?php
+
+function jxdbcopy§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("action", "_o2alpha");
+	$task_prg§_§var->definisci("asp_index", "_o2number");
+	$task_prg§_§var->definisci("asp_list", "_o2structure");
+	$task_prg§_§var->definisci("asp_save", "_o2alpha");
+	$task_prg§_§var->definisci("asp_total", "_o2number");
+	$task_prg§_§var->definisci("aspid_export_all", "_o2logical");
+	$task_prg§_§var->definisci("jxdb", "_o2alpha");
+	$task_prg§_§var->definisci("jxdb_asp", "_o2alpha");
+	$task_prg§_§var->definisci("result", "_o2text");
+	$task_prg§_§var->definisci("row_count", "_o2number");
+	$task_prg§_§var->definisci("src_tab_exists", "_o2logical");
+	$task_prg§_§var->definisci("start_time", "_o2sid");
+	$task_prg§_§var->definisci("tab_index", "_o2number");
+	$task_prg§_§var->definisci("tab_total", "_o2number");
+	$task_prg§_§var->definisci("tables_list", "_o2structure");
+	$task_prg§_§var->definisci("tables_log_save", "_o2logical");
+	$task_prg§_§var->definisci("tables_trace_save", "_o2logical");
+		}
+
+function jxdbcopy§§source_def(&$task_source, $_o2viewalias = "") {
+	$task_source->righe_vis = 1000;
+
+	$task_source->usa_file("o2_users","s_tab","o2user",null,null);
+
+}
+
+function jxdbcopy§§target_def(&$task_target, $_o2viewalias = "") {
+	$task_target->righe_vis = 1000;
+
+	$task_target->usa_file("o2_users","t_tab","o2user",null,null);
+
+}
+
+function jxdbcopy§§execute_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Override log and tracing options") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "tables_log_save", jxdbcopy_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "tables_trace_save", jxdbcopy_exp_12()) && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("Save original ASPID") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "asp_save", jxdbcopy_exp_46()) && $o2exe->e();
+//	$o2exe->s(6) && True && o2act::remark("Set "_area" to ASPID parameter for cmd") && $o2exe->e();
+	$o2exe->s(7) && (jxdbcopy_exp_5() || $o2exe->e()) && o2act::set("_o2SESSION", "_area", jxdbcopy_exp_5()) && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("Check parameters & conditions") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::script(jxdbcopy_exp_10()) && $o2exe->e();
+//	$o2exe->s(10) && True && o2act::remark("Export all ASPIDs") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "aspid_export_all", jxdbcopy_exp_6()) && $o2exe->e();
+//	$o2exe->s(12) && True && o2act::remark("Compose ASPIDs list (only for "Database"") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("and "Schema" modes)") && $o2exe->e();
+	$o2exe->s(14) && (jxdbcopy_exp_7() || $o2exe->e()) && o2act::set("prg§_§var", "asp_list", jxdbcopy_exp_8()) && $o2exe->e();
+	$o2exe->s(15) && True && o2act::set("prg§_§var", "start_time", jxdbcopy_exp_30()) && $o2exe->e();
+	$o2exe->s(16) && True && o2act::set("prg§_§var", "result", jxdbcopy_exp_2()) && $o2exe->e();
+//	$o2exe->s(17) && True && o2act::remark("Define connection server and database") && $o2exe->e();
+	$o2exe->s(18) && True && o2act::script(jxdbcopy_exp_22()) && $o2exe->e();
+//	$o2exe->s(19) && True && o2act::remark("Select tables list") && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("prg§_§var", "tables_list", jxdbcopy_exp_18()) && $o2exe->e();
+	$o2exe->s(21) && True && o2act::set("prg§_§var", "tab_index", jxdbcopy_exp_19()) && $o2exe->e();
+	$o2exe->s(22) && True && o2act::set("prg§_§var", "tab_total", jxdbcopy_exp_20()) && $o2exe->e();
+	$o2exe->s(23) && (jxdbcopy_exp_9() || $o2exe->e()) && o2act::exe("loop_on_tabs", "jxdbcopy_exp_21()", "") && $o2exe->e();
+//	$o2exe->s(24) && True && o2act::remark("Restore original ASPID") && $o2exe->e();
+	$o2exe->s(25) && True && o2act::set("_o2SESSION", "_area", jxdbcopy_exp_47()) && $o2exe->e();
+//	$o2exe->s(26) && True && o2act::remark("Restore tables log and tracing settings") && $o2exe->e();
+	$o2exe->s(27) && True && o2act::script(jxdbcopy_exp_13()) && $o2exe->e();
+//	$o2exe->s(28) && True && o2act::remark("Create log and add to process") && $o2exe->e();
+	$o2exe->s(29) && True && o2act::script(jxdbcopy_exp_31()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdbcopy§§export_all_aspids_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "asp_index", jxdbcopy_exp_19()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "asp_total", jxdbcopy_exp_42()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("loop_on_aspid", "jxdbcopy_exp_43()", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdbcopy§§loop_on_aspid_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "asp_index", jxdbcopy_exp_44()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("_o2SESSION", "_area", jxdbcopy_exp_45()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("loop_on_rows", False, "source") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("_o2SESSION", "_area", jxdbcopy_exp_47()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdbcopy§§loop_on_rows_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("target", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(jxdbcopy_exp_25()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("target", "S", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "row_count", jxdbcopy_exp_28()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdbcopy§§loop_on_tabs_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "tab_index", jxdbcopy_exp_24()) && $o2exe->e();
+//	$o2exe->s(2) && True && o2act::remark("Increment progress bar") && $o2exe->e();
+	$o2exe->s(3) && (jxdbcopy_exp_4() || $o2exe->e()) && o2act::script(jxdbcopy_exp_1()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "row_count", jxdbcopy_exp_27()) && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Check ASPIDs in table") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "asp_list", jxdbcopy_exp_29()) && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Create views") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "src_tab_exists", jxdbcopy_exp_37()) && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("Write from source to target") && $o2exe->e();
+	$o2exe->s(10) && (jxdbcopy_exp_40() || $o2exe->e()) && o2act::exe("loop_on_rows", False, "source") && $o2exe->e();
+	$o2exe->s(11) && (jxdbcopy_exp_41() || $o2exe->e()) && o2act::exe("export_all_aspids", True, "") && $o2exe->e();
+//	$o2exe->s(12) && True && o2act::remark("Commit each table") && $o2exe->e();
+	$o2exe->s(13) && True && o2act::script(jxdbcopy_exp_23()) && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "result", jxdbcopy_exp_38()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdbcopy§§start_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Reset tables repository in case of split") && $o2exe->e();
+	$o2exe->s(2) && (jxdbcopy_exp_15() || $o2exe->e()) && o2act::script(jxdbcopy_exp_14()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "action", jxdbcopy_exp_3()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "jxdb", jxdbcopy_exp_33()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "jxdb_asp", jxdbcopy_exp_26()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::exe("execute", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdbcopy_exp_1() {
+	$tot = o2val('prg§_§var','tab_total');
+$idx = o2val('prg§_§var','tab_index');
+o2job_set_progress($idx * 100 / $tot);
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_2() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_3() {
+	$action = 'export';
+$par    = strtolower(o2par(1)); 
+if ($par == 'import' || $par == 'in' || $par == 'i') {
+   $action = 'import';
+   }
+return ($action);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_4() {
+	
+return (o2session_is_job());
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_5() {
+	
+return (o2par(9));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_6() {
+	
+return (o2val('prg§_§var','action') == 'export' && o2val('prg§_§var','jxdb_asp') && o2zero('_o2SESSION','_area'));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_7() {
+	
+return (o2val('prg§_§var','aspid_export_all') && (o2val('prg§_§var','jxdb_asp') == 'D' || o2val('prg§_§var','jxdb_asp') == 'S'));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_8() {
+	
+return (o2asp_codes());
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_9() {
+	
+return (!o2error_getlastcode());
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_10() {
+	if (o2val('prg§_§var','action') == 'import' &&
+    o2val('prg§_§var','jxdb_asp') &&
+    o2zero('_o2SESSION','_area')) {
+    throw new o2_exception("Can't import on an ASP-database with no ASPID.",
+                           o2error_APP);
+
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_11() {
+	$log = $_SESSION['o2_app']->tables_log;
+$_SESSION['o2_app']->tables_log = false;
+return ($log);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_12() {
+	$trace = $_SESSION['o2_app']->record_trace;
+$_SESSION['o2_app']->record_trace = false;
+return ($trace);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_13() {
+	$_SESSION['o2_app']->tables_log   = o2val('prg§_§var','tables_log_save');
+$_SESSION['o2_app']->record_trace = o2val('prg§_§var','tables_trace_save');
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_14() {
+	$app = $_SESSION['o2_app'];
+if ($app->run_level == "DEV" && $app->dir_cvs_progs->exists($app->file_tabelle)) {
+   $file2inc = $app->dir_cvs_progs->element($app->file_tabelle);
+   }
+else {
+   $file2inc = $app->dir_progs->element($app->file_tabelle);
+   }
+include($file2inc);
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_15() {
+	
+return ($_SESSION['o2_app']->split_tab_repos);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_18() {
+	$list = array();
+$db   = o2val('prg§_§var','jxdb');
+foreach ($_SESSION['o2_app']->tab as $tab_index => $single_tab) {
+   /* ______________________________ Filter tables from selected database ___ */
+   if ($single_tab->db->id == $db) {
+      $list[] = $single_tab;
+      }
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_19() {
+	
+return (-1);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_20() {
+	
+return (count(o2val('prg§_§var','tables_list')));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_21() {
+	
+return ((o2val('prg§_§var','tab_index') >= (o2val('prg§_§var','tab_total') - 1)) || o2error_getlastcode());
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_22() {
+	$app = $_SESSION['o2_app'];
+if (isset($app->db['jxtdb_tmp'])) {
+   unset($app->db['jxtdb_tmp']);
+   }
+if (isset($app->server['jxtserver_tmp'])) {
+   unset($app->server['jxtserver_tmp']);
+   }
+$type   = o2par(3);
+$host   = o2par(4);
+$user   = o2par(5);
+$pswd   = o2par(6);
+$schema = o2par(7);
+$db     = o2par(8);
+/* Import or export */
+$action = o2val('prg§_§var','action');
+/* Set ASP mode */
+if ($action == 'import') {
+   $asp_mode = false;
+   $crea_tab = false;
+   }
+else {
+   $asp_mode = (o2zero('_o2SESSION','_area') ? o2val('prg§_§var','jxdb_asp') : false);
+   $crea_tab = true;
+   }
+$app->runtime->load_gateway($type);
+o2def::server('jxtserver_tmp', $type, $host, $user, $pswd, 0);
+o2def::db('jxtdb_tmp', 'jxtserver_tmp', $db, $schema, $asp_mode, $crea_tab);
+$app->set_aspid();
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_23() {
+	o2dbs_commit('jxtserver_tmp');
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_24() {
+	
+return (o2val('prg§_§var','tab_index') + 1);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_25() {
+	$app  = $_SESSION['o2_app'];
+$view = $app->istanze_prg[$app->progressivo_istanze]->contesto['target'];
+foreach ($view->campi as $field_index => $single_field) {
+   $view->imposta($field_index, o2val("source", $field_index));
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_26() {
+	
+return (o2db_asp(o2val('prg§_§var','jxdb')));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_27() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_28() {
+	
+return (o2val('prg§_§var','row_count') + 1);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_29() {
+	if (o2val('prg§_§var','aspid_export_all') && o2val('prg§_§var','jxdb_asp') == 'C') {
+   $app    = $_SESSION['o2_app'];
+   $tab    = o2val('prg§_§var','tables_list',o2val('prg§_§var','tab_index'));
+   $db     = $tab->db;
+   $server = $db->server;
+   $list   = o2_gateway::recordset($server->type,
+                                   $server->server,
+                                   $server->user,
+                                   $server->password,
+                                   $db->nome,
+                                   $db->proprietario,
+                                   $tab->nome,
+                                   $tab->nome,
+                                   "DISTINCT O2ASPID",
+                                   false,
+                                   false,
+                                   10000);
+   $ret    = array();
+   foreach ($list as $rec) {
+      $rec = array_values($rec);
+      if ($rec[0]) {
+         $ret[] = $rec[0];
+         }
+      }
+   sort($ret);
+   }
+else {
+   $ret = false;
+   }
+return ($ret);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_30() {
+	
+return (time());
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_31() {
+	$list  = o2val('prg§_§var','result');
+$tabs  = o2val('prg§_§var','tab_total');
+$time  = time() - o2val('prg§_§var','start_time');
+$error = o2error_getlastcode();
+$txt   = "Janox DB-copy result:\n\n".
+         (o2val('prg§_§var','action') == 'export' ?
+          'Export from application database: '.o2par(2)."\n".
+          'To target type: '.o2par(3)."\n".
+          'To target host: '.o2par(4)."\n".
+          'With target user: '.o2par(5)."\n".
+          'To target database: '.o2par(8)."\n".
+          'To target schema: '.o2par(7)."\n\n" : 
+          'Import to application database: '.o2par(2)."\n".
+          'From source type: '.o2par(3)."\n".
+          'From source host: '.o2par(4)."\n".
+          'With source user: '.o2par(5)."\n".
+          'From source database: '.o2par(8)."\n".
+          'From source schema: '.o2par(7)."\n\n").
+         $tabs.' tables copied '.($error ? 'with errors ' : '').'in '.$time." sec.\n".
+         ($list ? "----------\n\n".$list : '')."\n\nLog end\n";
+if (o2session_is_job()) {
+   $log = o2app_dir_logs().'jxdbcopy_'.date('YmdHis');
+   file_put_contents($log, $txt);
+   o2job_add_file($log);
+   }         
+elseif (o2rnt_interface() == 'BAT') {
+   print "\n\n".$txt;
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_33() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_37() {
+	$app = $_SESSION['o2_app'];
+$prg = $app->istanze_prg[$app->progressivo_istanze];
+if (isset($prg->contesto['source'])) {
+   unset($prg->contesto['source']);
+   }
+if (isset($prg->contesto['target'])) {
+   unset($prg->contesto['target']);
+   }
+if (isset($app->tab['jxttab_tmp'])) {
+   unset($app->tab['jxttab_tmp']);
+   }
+$action = o2val('prg§_§var','action');
+if ($action == 'export') {
+   $int_view_name = 'source';
+   $ext_view_name = 'target';
+   $int_rows      = 100;
+   $ext_rows      = 1;
+   }
+else {
+   $int_view_name = 'target';
+   $ext_view_name = 'source';
+   $int_rows      = 1;
+   $ext_rows      = 100;
+   }
+$exists = false;
+/* ________________________________________________________ Internal view ___ */
+$tab = o2val('prg§_§var','tables_list',o2val('prg§_§var','tab_index'));
+if ($action == 'export') {
+   $exists = $tab->exists();
+   }
+else {
+   $tab->crea(true);
+   }
+$iview            = new o2_dbview($prg->nome, $prg->id, $int_view_name);
+$iview->internal  = true;
+$iview->righe_vis = $int_rows;
+$iview->usa_file($tab->indice, "i_tab", $tab->chiave->nome);
+foreach ($tab->campi as $field_index => $single_field) {
+   $iview->usa($field_index, "i_tab", $field_index);
+   }
+$iview->struttura();
+$prg->contesto[$int_view_name] = $iview;
+/* _______________________________________________________ External table ___ */
+$app->tab['jxttab_tmp'] = clone $tab;
+$tab                    = $app->tab['jxttab_tmp'];
+$tab->set_db($app->db['jxtdb_tmp']);
+$tab->log_level    = false;
+$tab->log_table    = "";
+$tab->record_trace = false;
+if ($action == 'export') {
+   $tab->crea(true);
+   }
+else {
+   $exists = $tab->exists();
+   }
+/* ________________________________________________________ External view ___ */
+$eview            = new o2_dbview($prg->nome, $prg->id, $ext_view_name);
+$eview->internal  = true;
+$eview->righe_vis = $ext_rows;
+$eview->usa_file("jxttab_tmp", "e_tab", $tab->chiave->nome);
+foreach ($tab->campi as $field_index => $single_field) {
+   $eview->usa($field_index, "e_tab", $field_index);
+   }
+$eview->struttura();
+$prg->contesto[$ext_view_name] = $eview;
+return ($exists);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_38() {
+	$result = o2val('prg§_§var','result');
+$tab    = o2val('prg§_§var','tables_list',o2val('prg§_§var','tab_index'));
+$error  = '';
+if (o2val('prg§_§var','src_tab_exists')) {
+   $total  = o2val('prg§_§var','row_count');
+   $copied = o2view_total("target");
+   $error  = ($total && $copied != $total ? " ERROR!" : '');
+   }
+else {
+   $total  = '0';
+   $copied = '0';
+   $error  = ' SKIPPED: not in source!';
+   }
+if (o2session_is_job()) {
+   $result.= $tab->indice.$error.' ('.$copied.'/'.$total." rows)\n";
+   }
+elseif (o2rnt_interface() == 'BAT') {
+   $tot = o2val('prg§_§var','tab_total');
+   $idx = o2val('prg§_§var','tab_index');
+   print intval($idx * 100 / $tot).'% '.$tab->indice.$error.
+         ' ('.$copied.'/'.$total." rows)\n";
+   }
+return ($result);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_40() {
+	
+return (o2val('prg§_§var','src_tab_exists') && o2val('prg§_§var','asp_list') === false);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_41() {
+	
+return (o2val('prg§_§var','src_tab_exists') && o2val('prg§_§var','asp_list') !== false);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_42() {
+	
+return (count(o2val('prg§_§var','asp_list')));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_43() {
+	
+return (o2val('prg§_§var','asp_index') >= (o2val('prg§_§var','asp_total') - 1));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_44() {
+	
+return (o2val('prg§_§var','asp_index') + 1);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_45() {
+	
+return (o2val('prg§_§var','asp_list',o2val('prg§_§var','asp_index')));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_46() {
+	
+return (o2val('_o2SESSION','_area'));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_47() {
+	
+return (o2val('prg§_§var','asp_save'));
+	} //|o2_fine_exp|
+?>

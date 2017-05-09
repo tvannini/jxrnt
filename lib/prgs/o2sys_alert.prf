@@ -1,0 +1,134 @@
+<?php
+
+function o2sys_alert§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("local_txt", "_o2text");
+	$task_prg§_§var->definisci("txt_lines", "_o2number");
+	$task_prg§_§var->definisci("txt_max_width", "_o2number");
+		}
+function o2sys_alert§§sys_alert_form_def(&$form_sys_alert) {
+	$form_sys_alert->x(200);
+	$form_sys_alert->y(200);
+	$form_sys_alert->larghezza(400);
+	$form_sys_alert->altezza(250);
+	$form_sys_alert->titolo("");
+	$form_sys_alert->css_title("sys_alert_title");
+	$form_sys_alert->css_doc("sys_alert_doc");
+	$form_sys_alert->css_close("hidden");
+	$form_sys_alert->css_open("hidden");
+	$form_sys_alert->css_exit("sys_alert_close");
+	$form_sys_alert->align_v("Middle");
+	$form_sys_alert->align_o("Center");
+	$form_sys_alert->y_exp(o2sys_alert_exp_13());
+	$form_sys_alert->x_exp(o2sys_alert_exp_12());
+	$form_sys_alert->altezza_exp(o2sys_alert_exp_5());
+	$form_sys_alert->larghezza_exp(o2sys_alert_exp_8());
+	$form_sys_alert->frm_status(o2sys_alert_exp_1());
+	$ctrl_sys_alert_area = &$form_sys_alert->ctrldef("sys_alert_area", "htmlarea", "", "", "");
+		$ctrl_sys_alert_area->x(20);
+		$ctrl_sys_alert_area->y(0);
+		$ctrl_sys_alert_area->larghezza(370);
+		$ctrl_sys_alert_area->altezza(210);
+		$ctrl_sys_alert_area->html(o2sys_alert_exp_11());
+		$ctrl_sys_alert_area->expand("B");
+		}
+
+function o2sys_alert§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_alert§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "local_txt", o2sys_alert_exp_2()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "txt_lines", o2sys_alert_exp_6()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "txt_max_width", o2sys_alert_exp_7()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_alert_exp_1() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_2() {
+	
+return (stripcslashes(o2par(1)));
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_3() {
+	
+return ("<jx>/img/alert.png");
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_5() {
+	
+return (130 + (o2val('prg§_§var','txt_lines') * 16));
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_6() {
+	$lines = 0;
+$txt   = o2val('prg§_§var','local_txt');
+foreach (explode("\n", $txt) as $line) {
+   $lines+= intval(strlen($line) / 90) + 1;
+   }
+return ($lines);
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_7() {
+	$w      = 0;
+$maxrow = "";
+$rows   = explode("\n", o2val('prg§_§var','local_txt'));
+foreach ($rows as $row) {
+   if (strlen($row) > $w) {
+      $w      = strlen($row);
+      $maxrow = $row;
+      }
+   }
+$w = 100 + ($w * (strtoupper($maxrow) == $maxrow ? 9 : 7.5));
+return ($w);
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_8() {
+	
+return (max(200, min(o2val('prg§_§var','txt_max_width'), 600)));
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_11() {
+	$t =  '<table style="width:'.(o2form_width("sys_alert") - 40).'px;">
+        <tr>
+         <td style="width:48px;"><img src="'.o2rnt_alias().'/img/alert.png"></td>
+         <td class="alert_msg">'.
+          nl2br(htmlentities(o2val('prg§_§var','local_txt'), ENT_QUOTES, o2app_encoding())).
+        '</td>
+        </tr>
+        <tr>
+         <td colspan="2" align="center">
+          <hr style="width:94%;height:2px;color:#19181a;"/>
+          <div id="jx_alert_ok_bnt"
+               class="o2_ctrl_button"
+               onclick="o2jse.ctrl.btnExe(this);"
+               o2="e:'.count(o2app_prg()).
+                 ',c:\'jx_alert_ok_bnt\',cT:\'button\',f:\'sys_alert\',pT:\'form\',fret:!0,msg:\'\',action:\'close\'"
+               onkeyup="e=o2jse.event.std(event);'.
+                        /* Click on SpaceBar, Return and ALT+O */
+              '         if(e.keyCode == 32 || e.keyCode == 13 || (e.keyCode == 79 && e.altKey)){
+                         this.click();}"
+               tabindex="0"
+               style="width:90px;height:30px;line-height:30px;"
+               title="ALT+O"><u>O</u>K
+          </div>
+         </td>
+        </tr>
+       </table>
+       <script> document.getElementById("jx_alert_ok_bnt").focus(); </script>';
+return ($t);
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_12() {
+	
+return (o2exp(8) / 2);
+	} //|o2_fine_exp|
+
+function o2sys_alert_exp_13() {
+	
+return (o2exp(5) / 2);
+	} //|o2_fine_exp|
+?>

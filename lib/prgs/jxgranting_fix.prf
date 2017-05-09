@@ -1,0 +1,286 @@
+<?php
+
+function jxgranting_fix§§users_def(&$task_users, $_o2viewalias = "") {
+	$task_users->righe_vis = 10;
+
+	$task_users->usa_file("o2_users","o2_users","o2user",null,null);
+
+	$task_users->usa("o2user","o2_users","o2user","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§roles_def(&$task_roles, $_o2viewalias = "") {
+	$task_roles->righe_vis = 10;
+
+	$task_roles->usa_file("o2_roles","o2_roles","role_name",null,null);
+
+	$task_roles->usa("role_name","o2_roles","role_name","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§rights_def(&$task_rights, $_o2viewalias = "") {
+	$task_rights->righe_vis = 10;
+
+	$task_rights->usa_file("o2_rights","o2_rights","right_code",null,null);
+
+	$task_rights->usa("right_code","o2_rights","right_code","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§rights_per_role_def(&$task_rights_per_role, $_o2viewalias = "") {
+	$task_rights_per_role->righe_vis = 10;
+
+	$task_rights_per_role->usa_file("o2_rights_per_role","o2_rights_per_role","role_name",null,null);
+
+	$task_rights_per_role->usa("role_name","o2_rights_per_role","role_name","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§roles_per_user_def(&$task_roles_per_user, $_o2viewalias = "") {
+	$task_roles_per_user->righe_vis = 10;
+
+	$task_roles_per_user->usa_file("o2_roles_per_user","o2_roles_per_user","o2user",null,null);
+
+	$task_roles_per_user->usa("o2user","o2_roles_per_user","o2user","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§rights_per_role_2_def(&$task_rights_per_role_2, $_o2viewalias = "") {
+	$task_rights_per_role_2->righe_vis = 10;
+
+	$task_rights_per_role_2->usa_file("o2_rights_per_role","o2_rights_per_role","right_code",null,null);
+
+	$task_rights_per_role_2->usa("right_code","o2_rights_per_role","right_code","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§roles_per_user_2_def(&$task_roles_per_user_2, $_o2viewalias = "") {
+	$task_roles_per_user_2->righe_vis = 10;
+
+	$task_roles_per_user_2->usa_file("o2_roles_per_user","o2_roles_per_user","role_name",null,null);
+
+	$task_roles_per_user_2->usa("role_name","o2_roles_per_user","role_name","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§rights_per_role_dep_def(&$task_rights_per_role_dep, $_o2viewalias = "") {
+	$task_rights_per_role_dep->righe_vis = 10;
+
+	$task_rights_per_role_dep->usa_file("o2_rights_per_role","o2_rights_per_role","role_name",null,null);
+	$task_rights_per_role_dep->usa_file_link("o2_roles","o2_roles","role_name",null,null);
+
+	$task_rights_per_role_dep->unisci("o2_roles_role_name_join_","o2_roles","role_name","jxgranting_fix_exp_2()","jxgranting_fix_exp_2()",null,null);
+
+	$task_rights_per_role_dep->usa("role_name","o2_rights_per_role","role_name",null,null,null,null);
+	$task_rights_per_role_dep->usa("role","o2_roles","role_name","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§rights_per_role_dep_2_def(&$task_rights_per_role_dep_2, $_o2viewalias = "") {
+	$task_rights_per_role_dep_2->righe_vis = 10;
+
+	$task_rights_per_role_dep_2->usa_file("o2_rights_per_role","o2_rights_per_role","right_code",null,null);
+	$task_rights_per_role_dep_2->usa_file_link("o2_rights","o2_rights","right_code",null,null);
+
+	$task_rights_per_role_dep_2->unisci("o2_rights_right_code_join_","o2_rights","right_code","jxgranting_fix_exp_3()","jxgranting_fix_exp_3()",null,null);
+
+	$task_rights_per_role_dep_2->usa("right_code","o2_rights_per_role","right_code",null,null,null,null);
+	$task_rights_per_role_dep_2->usa("right","o2_rights","right_code","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§roles_per_user_dep_def(&$task_roles_per_user_dep, $_o2viewalias = "") {
+	$task_roles_per_user_dep->righe_vis = 10;
+
+	$task_roles_per_user_dep->usa_file("o2_roles_per_user","o2_roles_per_user","o2user",null,null);
+	$task_roles_per_user_dep->usa_file_link("o2_users","o2_users","o2user",null,null);
+
+	$task_roles_per_user_dep->unisci("o2_users_o2user_join_","o2_users","o2user","jxgranting_fix_exp_4()","jxgranting_fix_exp_4()",null,null);
+
+	$task_roles_per_user_dep->usa("o2user","o2_roles_per_user","o2user",null,null,null,null);
+	$task_roles_per_user_dep->usa("user","o2_users","o2user","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§roles_per_user_dep_2_def(&$task_roles_per_user_dep_2, $_o2viewalias = "") {
+	$task_roles_per_user_dep_2->righe_vis = 10;
+
+	$task_roles_per_user_dep_2->usa_file("o2_roles_per_user","o2_roles_per_user","role_name",null,null);
+	$task_roles_per_user_dep_2->usa_file_link("o2_roles","o2_roles","role_name",null,null);
+
+	$task_roles_per_user_dep_2->unisci("o2_roles_role_name_join_","o2_roles","role_name","jxgranting_fix_exp_5()","jxgranting_fix_exp_5()",null,null);
+
+	$task_roles_per_user_dep_2->usa("role_name","o2_roles_per_user","role_name",null,null,null,null);
+	$task_roles_per_user_dep_2->usa("role","o2_roles","role_name","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§descriptions_def(&$task_descriptions, $_o2viewalias = "") {
+	$task_descriptions->righe_vis = 10;
+
+	$task_descriptions->usa_file("o2_rights_roles_desc","o2_rights_roles_desc","unique_name",null,null);
+
+	$task_descriptions->usa("element_name","o2_rights_roles_desc","element_name","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§role_desc_dep_def(&$task_role_desc_dep, $_o2viewalias = "") {
+	$task_role_desc_dep->righe_vis = 10;
+
+	$task_role_desc_dep->usa_file("o2_rights_roles_desc","o2_rights_roles_desc","unique_name",null,null);
+	$task_role_desc_dep->usa_file_link("o2_roles","o2_roles","role_name",null,null);
+
+	$task_role_desc_dep->unisci("o2_roles_role_name_join_","o2_roles","role_name","jxgranting_fix_exp_7()","jxgranting_fix_exp_7()",null,null);
+
+	$task_role_desc_dep->usa("element_type","o2_rights_roles_desc","element_type","jxgranting_fix_exp_6()","jxgranting_fix_exp_6()",null,null);
+	$task_role_desc_dep->usa("element_name","o2_rights_roles_desc","element_name",null,null,null,null);
+	$task_role_desc_dep->usa("role_name","o2_roles","role_name","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§right_desc_dep_def(&$task_right_desc_dep, $_o2viewalias = "") {
+	$task_right_desc_dep->righe_vis = 10;
+
+	$task_right_desc_dep->usa_file("o2_rights_roles_desc","o2_rights_roles_desc","unique_name",null,null);
+	$task_right_desc_dep->usa_file_link("o2_rights","o2_rights","right_code",null,null);
+
+	$task_right_desc_dep->unisci("o2_rights_right_code_join_","o2_rights","right_code","jxgranting_fix_exp_9()","jxgranting_fix_exp_9()",null,null);
+
+	$task_right_desc_dep->usa("element_type","o2_rights_roles_desc","element_type","jxgranting_fix_exp_8()","jxgranting_fix_exp_8()",null,null);
+	$task_right_desc_dep->usa("element_name","o2_rights_roles_desc","element_name",null,null,null,null);
+	$task_right_desc_dep->usa("right_code","o2_rights","right_code","jxgranting_fix_exp_1()","jxgranting_fix_exp_1()",null,null);
+}
+
+function jxgranting_fix§§start_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("User blank") && $o2exe->e();
+	$o2exe->s(2) && (jxgranting_fix_exp_10() || $o2exe->e()) && o2act::view("users", "D", "") && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Role blank") && $o2exe->e();
+	$o2exe->s(4) && (jxgranting_fix_exp_11() || $o2exe->e()) && o2act::view("roles", "D", "") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Right blank") && $o2exe->e();
+	$o2exe->s(6) && (jxgranting_fix_exp_12() || $o2exe->e()) && o2act::view("rights", "D", "") && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Rights-per-role with blank role") && $o2exe->e();
+	$o2exe->s(8) && (jxgranting_fix_exp_13() || $o2exe->e()) && o2act::view("rights_per_role", "D", "") && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("Roles-per-user with blank user") && $o2exe->e();
+	$o2exe->s(10) && (jxgranting_fix_exp_14() || $o2exe->e()) && o2act::view("roles_per_user", "D", "") && $o2exe->e();
+//	$o2exe->s(11) && True && o2act::remark("Rights-per-role with blank right") && $o2exe->e();
+	$o2exe->s(12) && (jxgranting_fix_exp_15() || $o2exe->e()) && o2act::view("rights_per_role_2", "D", "") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("Roles-per-user with blank role") && $o2exe->e();
+	$o2exe->s(14) && (jxgranting_fix_exp_16() || $o2exe->e()) && o2act::view("roles_per_user_2", "D", "") && $o2exe->e();
+//	$o2exe->s(15) && True && o2act::remark("Rights-per-role with missing role") && $o2exe->e();
+	$o2exe->s(16) && (jxgranting_fix_exp_17() || $o2exe->e()) && o2act::view("rights_per_role_dep", "D", "") && $o2exe->e();
+//	$o2exe->s(17) && True && o2act::remark("Rights-per-role with missing right") && $o2exe->e();
+	$o2exe->s(18) && (jxgranting_fix_exp_18() || $o2exe->e()) && o2act::view("rights_per_role_dep_2", "D", "") && $o2exe->e();
+//	$o2exe->s(19) && True && o2act::remark("Roles-per-user with missing user") && $o2exe->e();
+	$o2exe->s(20) && (jxgranting_fix_exp_19() || $o2exe->e()) && o2act::view("roles_per_user_dep", "D", "") && $o2exe->e();
+//	$o2exe->s(21) && True && o2act::remark("Roles-per-user with missing role") && $o2exe->e();
+	$o2exe->s(22) && (jxgranting_fix_exp_20() || $o2exe->e()) && o2act::view("roles_per_user_dep_2", "D", "") && $o2exe->e();
+//	$o2exe->s(23) && True && o2act::remark("Description for blank element") && $o2exe->e();
+	$o2exe->s(24) && (jxgranting_fix_exp_21() || $o2exe->e()) && o2act::view("descriptions", "D", "") && $o2exe->e();
+//	$o2exe->s(25) && True && o2act::remark("Description for missing role") && $o2exe->e();
+	$o2exe->s(26) && (jxgranting_fix_exp_22() || $o2exe->e()) && o2act::view("role_desc_dep", "D", "") && $o2exe->e();
+//	$o2exe->s(27) && True && o2act::remark("Description for missing right") && $o2exe->e();
+	$o2exe->s(28) && (jxgranting_fix_exp_23() || $o2exe->e()) && o2act::view("right_desc_dep", "D", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_fix_exp_1() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_2() {
+	
+return (o2val('rights_per_role_dep','role_name'));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_3() {
+	
+return (o2val('rights_per_role_dep_2','right_code'));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_4() {
+	
+return (o2val('roles_per_user_dep','o2user'));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_5() {
+	
+return (o2val('roles_per_user_dep_2','role_name'));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_6() {
+	
+return ('Role');
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_7() {
+	
+return (o2val('role_desc_dep','element_name'));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_8() {
+	
+return ('Right');
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_9() {
+	
+return (o2val('right_desc_dep','element_name'));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_10() {
+	
+return (o2view_rec("users"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_11() {
+	
+return (o2view_rec("roles"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_12() {
+	
+return (o2view_rec("rights"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_13() {
+	
+return (o2view_rec("rights_per_role"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_14() {
+	
+return (o2view_rec("roles_per_user"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_15() {
+	
+return (o2view_rec("rights_per_role_2"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_16() {
+	
+return (o2view_rec("roles_per_user_2"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_17() {
+	
+return (o2view_rec("rights_per_role_dep"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_18() {
+	
+return (o2view_rec("rights_per_role_dep_2"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_19() {
+	
+return (o2view_rec("roles_per_user_dep"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_20() {
+	
+return (o2view_rec("roles_per_user_dep_2"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_21() {
+	
+return (o2view_rec("descriptions"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_22() {
+	
+return (o2view_rec("role_desc_dep"));
+	} //|o2_fine_exp|
+
+function jxgranting_fix_exp_23() {
+	
+return (o2view_rec("right_desc_dep"));
+	} //|o2_fine_exp|
+?>

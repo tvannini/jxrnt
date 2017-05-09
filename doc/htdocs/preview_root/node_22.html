@@ -1,0 +1,78 @@
+<html><head><title>Il repository dei datatypes</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_21.html'>o2architect - paradigma di sviluppo</a></td>
+       <td id='nav_next' align='right'><a href='node_28.html'>Il repository delle tabelle</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.5 &nbsp; Il repository dei <i>datatypes</i></h2><br /><fieldset>DATATYPE, MASK, MODEL REPOSITORY</fieldset>
+<p>Questo modulo spiega come si opera all’interno del repository dei <i>datatypes</i></p><br /><h4>Obiettivi</h4>
+<p>Al termine di questo capitolo il programmatore sarà in grado di:</p>
+<ul>
+<li>Definire un nuovo datatype nel repository</li>
+<li>Definire l’attributo del campo</li>
+<li>Define la formattazione (<i>mask</i>) del campo</li>
+</ul>
+
+<br /><h4>Introduzione</h4>
+<p>E’ arrivato il momento di iniziare a sviluppare la tua applicazione "Il mio negozio online”.</p>
+<p>Come abbiamo visto nei precedenti moduli, ci sono 4 frasi nella definizione di una applicazione: 
+nel rispetto di quello che è stato dichiarato il percorso corretto di sviluppo dell’applicazione,
+analizzeremo in questo capitolo i modelli di dato di cui avremo bisogno nel corso dell’applicazione.</p>
+<br />
+<h3>0.5.1<a name='node_25'> &nbsp; </a>Creare un nuovo progetto in o2Architect</h3></br /><blockquote><img src='img/image011.gif'></blockquote><br />
+<h3>0.5.2<a name='node_26'> &nbsp; </a>Definire un modello di dato nel <i>models repository</i></h3></br /><blockquote><p>Selezioniamo <i>models - datatypes</i> dal <i>navigator menu</i>, e apriamo
+quindi il repository dei modelli.</p>
+<img src='img/image014.gif'>
+<p>Dopo aver preso l’oggetto in check-out (team development) sarà possibile 
+aggiungere nuove voci all’elenco base procedendo come descritto sotto:</p>
+<ol>
+<li>premere  il tasto funzione <kbd>F4</kbd> (create line) o posizionarsi 
+       sull’ultima riga della tabella e premere <kbd>FrecciaGiù</kbd></li>
+<li>digitare il nome del modello nella colonna <i>Id</i></li>
+<li>selezionare la tipologia tramite il tasto funzione <kbd>F5</kbd> (zoom) 
+       dalla colonna <i>type</i></li>
+      <img src='img/image016.gif'>
+<li>indicare la formattazione del campo dalla colonna <i>Mask</i>; di seguito 
+       alcuni esempi di utilizzo di <i>mask</i>:</li>
+
+      <table>
+      <tr><th>Tipo</th><th>Mask</th><th>Significato</th></tr>
+      <tr><td>ALPHA</td><td>C50</td><td>Campo alfanumerico lungo 50 che 
+                      accetta sia maiuscole che minuscole</td></tr>
+      <tr><td>ALPHA</td><td>U30</td><td>Campo alfanumerico lungo 30 che
+                      trasforma sempre il dato inserito in caratteri maiuscoli</td></tr>
+      <tr><td>ALPHA</td><td>L30</td><td>Campo alfanumerico lungo 30 che 
+                      trasforma sempre il dato inserito in caratteri minuscoli</td></tr>
+      <tr><td>NUMBER</td><td>6</td><td>Intero lungo 6</td></tr>
+      <tr><td>NUMBER</td><td>$ 8.2</td><td>Valore numerico composto da 
+                      indicazione valuta, 8 interi e 2 decimali separati da punto</td></tr>
+      <tr><td>LOGICAL</td><td>&nbsp;</td><td>Valore booleano (true/false): 
+                      non ha <i>mask</i></td></tr>
+      <tr><td>DATE</td><td>-</td><td>Esprime le date nella forma
+                      dd-mm-yyyy</td></tr>
+      <tr><td>DATE</td><td>/</td><td>Esprime le date nella forma 
+                      dd/mm/yyyy</td></tr>
+      <tr><td>ALPHA</td><td>U1[Si|No|Forse]</td><td>Campo alfanumerico 
+                      lungo 1 carattere maiuscolo che può assumere solo 3 valori: S, N, F. 
+                      Le descrizioni estese esposte tra parentesi verranno automaticamente
+                      visualizzate all’interno del controllo combobox/listbox</td></tr>
+      <tr><td>TIME</td><td>:</td><td>Esprime i time nella forma 
+                      hh:mm:ss</td></tr>
+      </table>
+
+<li>per eliminare una voce dall’elenco utilizzare il tasto funzione <kbd>F3</kbd>
+       (delete line) dopo essersi posizionato sulla riga da eliminare.</li>
+</ol>
+</blockquote><br />
+<h3>0.5.3<a name='node_27'> &nbsp; </a>Repository completo di tutti i modelli necessari alla realizzazione del progetto</h3></br /><blockquote><img src='img/image018.gif'></blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_21.html'>o2architect - paradigma di sviluppo</a></td>
+       <td id='nav_next' align='right'><a href='node_28.html'>Il repository delle tabelle</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

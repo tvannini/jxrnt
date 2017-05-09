@@ -1,0 +1,390 @@
+/* ============================== IMPORT ================================== */
+@import url(janox/menu.css);
+@import url(janox/statusbar.css);
+@import url(janox/form.css);
+@import url(janox/button.css);
+@import url(janox/multipg.css);
+@import url(janox/tools.css);
+@import url(janox/table.css);
+@import url(janox/nav.css);
+@import url(janox/popup.css);
+@import url(janox/tree.css);
+@import url(janox/imglist.css);
+@import url(janox/progress.css);
+@import url(janox/errors.css);
+@import url(janox/cale.css);
+
+@font-face {
+    font-family: 'Gudea';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Gudea'), url(fonts/gudea.woff) format('woff');
+	}
+
+* {
+    -moz-box-sizing:    border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing:         border-box;
+    }
+
+* { font-family: "Gudea", sans-serif; color: #000000; font-size: 12px; }
+
+em, i { font-style: italic; }
+
+/* ============================== SFONDO ================================== */
+.o2_sfondo {
+    background-color: #DCDCDC;
+    }
+
+/* =============================== CONTROLLI =============================== */
+.o2_ctrl_label {
+    white-space: nowrap;
+    padding-top: 2px;
+    overflow: hidden;
+    }
+
+.o2_ctrl_edit {
+    background-color: #ffffff;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 1px;
+    overflow: hidden;
+    }
+
+.o2_ctrl_edit:focus {
+    background-color: #ffffff;
+    border-top: 1px solid #6B6661;
+    border-right: 1px solid #a19a93;
+    border-bottom: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    padding-left: 1px;
+    padding-right: 1px;
+    }
+
+.o2_ctrl_edit_dis {
+    background-color: #E1DAD4;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 1px;
+    overflow: hidden;
+    }
+
+.o2_ctrl_text {
+    background-color: #ffffff;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 1px;
+    overflow: auto;
+    }
+
+.o2_ctrl_text:focus {
+    background-color: #ffffff;
+    border-top: 1px solid #6B6661;
+    border-right: 1px solid #a19a93;
+    border-bottom: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    padding-left: 1px;
+    padding-right: 1px;
+    overflow: auto;
+    }
+
+.o2_ctrl_text_dis {
+    background-color: #E1DAD4;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 1px;
+    overflow: auto;
+    }
+
+.o2_ctrl_text_edit {
+    background-color: #ffffff;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 1px;
+    }
+
+.o2_ctrl_text_edit:focus {
+    background-color: #ffffff;
+    border-top: 1px solid #6B6661;
+    border-right: 1px solid #a19a93;
+    border-bottom: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    padding-left: 1px;
+    padding-right: 1px;
+    }
+
+.o2_ctrl_listcombo {
+    background-color: #ffffff;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 1px;
+    overflow: auto;
+    }
+
+.o2_ctrl_listcombo_dis {
+    background-color: #E1DAD4;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 1px;
+    overflow: auto;
+    }
+
+.o2_ctrl_listcombo_field {
+    background-color: #ffffff;
+    background-image: url(janox/listcombo/down.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 14px;
+    overflow: hidden;
+    }
+
+.o2_ctrl_listcombo_field_dis {
+    background-color: #E1DAD4;
+    border: 1px solid #BDB5AE;
+    padding-left: 1px;
+    padding-right: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    }
+
+.o2_ctrl_listcombo_field:focus {
+    background-color: #ffffff;
+    background-image: url(janox/listcombo/down.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    border-top: 1px solid #6B6661;
+    border-right: 1px solid #a19a93;
+    border-bottom: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    padding-left: 1px;
+    padding-right: 14px;
+    }
+
+div.o2_ctrl_listcombo_field {
+    background-color: #ffffff;
+    background-image: url(janox/listcombo/down.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    border: 1px solid #BDB5AE;
+    padding: 2px 14px 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    }
+
+.o2_ctrl_listcombo_list {
+    max-height: 250px;
+    background-color: #ffffff;
+    border: none;
+    overflow: auto;
+    box-shadow: 0px 6px 15px #6B6661;
+    -moz-box-shadow: 0px 6px 15px #6B6661;
+    -webkit-box-shadow: 0px 6px 10px #6B6661;
+    }
+
+option:hover {
+    background-color: #E1DAD4;
+    }
+
+.o2lu_sysppg, .o2lu_sysnpg {
+    text-align: right;
+    }
+
+.o2_ctrl_listcombo div,
+.o2_ctrl_listcombo_dis div,
+.o2_ctrl_listcombo_list div {
+    padding: 1px 3px 1px 3px;
+    min-height: 16px;
+    }
+
+.o2_ctrl_listcombo div:hover,
+.o2_ctrl_listcombo_list div:hover {
+    background-color: #E1DAD4;
+    padding: 1px 3px 1px 3px;
+    cursor: pointer;
+    }
+
+.jxlsr {
+    background-color: #FC7939;
+    }
+
+.o2_ctrl_file {
+    background: #ffffff url(janox/upload/file.png) no-repeat 3px;
+    border: 1px solid #BDB5AE;
+    overflow: hidden;
+    }
+
+.o2_ctrl_file:focus {
+    background: #ffffff url(janox/upload/file.png) no-repeat 3px;
+    border-top: 1px solid #6B6661;
+    border-right: 1px solid #a19a93;
+    border-bottom: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    overflow: hidden;
+    }
+
+.o2_ctrl_file_txt {
+    white-space: nowrap;
+    position: absolute;
+    top: 2px;
+    left: 20px;
+    overflow: hidden;
+    }
+
+.o2_ctrl_file_clear {
+    background: transparent url(janox/upload/clear.png) no-repeat center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    }
+
+.o2_ctrl_file_dis {
+    background: #E1DAD4 url(janox/upload/file.png) no-repeat 3px;
+    border: 1px solid #BDB5AE;
+    overflow: hidden;
+    }
+
+.o2_ctrl_line {
+    border-top: 1px solid #6B6661;
+    border-bottom: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    border-right: 1px solid #a19a93;
+    }
+
+.o2_ctrl_img {
+    vertical-align: middle;
+    }
+
+/* ============================== SYSTEM ============================ */
+.jxclock {
+    position: absolute;
+    right: 70px;
+    bottom: 2px;
+    width: 16px;
+    height: 16px;
+    background-image: url("janox/sys/wait.gif");
+    position: fixed;
+    }
+
+.jx_inctrl_wait {
+    background-image: url("janox/sys/wait.gif");
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    left: 50%;
+    top: 50%;
+    }
+
+.jxclock_big {
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    width: 100px;
+    height: 100px;
+    background-image: url("o2sys/sys/clock_big.gif");
+    border: 3px solid #993300;
+    }
+
+.reqMon {
+    position: fixed;
+    bottom: 4px;
+    right: 95px;
+    }
+
+.reqMonOn {
+    background-image: url("janox/sys/red.png");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    width: 13px;
+    height: 12px;
+    display: inline;
+    float: left;
+    }
+
+.reqMonOff {
+    background-image: url("janox/sys/gray.png");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    width: 13px;
+    height: 12px;
+    display: inline;
+    float: left;
+    }
+
+.reqMonFree{
+    background-image: url("janox/sys/green.png");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    width: 13px;
+    height: 12px;
+    display: inline;
+    float: left;
+    }
+
+.jxfastmsgframe {
+    top: 35px;
+    right: 10px;
+    }
+
+.jxfastmsg span {
+    color: #f5f5f5;
+    background-color: #bb0000;
+    font-weight: bold;
+    border-bottom: 1px solid #6B6661;
+    border-top: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    border-right: 1px solid #a19a93;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    box-shadow: 0px 3px 8px #6B6661;
+    }
+
+.jxfastmsg_close {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    cursor: pointer;
+    background-color: transparent;
+    }
+
+/* ============================= EXTRA =========================== */
+.jxzoom {
+    border-left: 2px solid #E18331;
+    }
+
+.jxsoc {}
+
+.jxerror {
+    background-color: #ff6666;
+    }
+
+.hidden {
+    display: none;
+    }
+
+.no_border {
+    border: none;
+    }
+
+.nowindow {
+    background-image: none;
+    background-color: transparent;
+    border: hidden;
+    cursor: default;
+    }
+
+.nav_big {
+    height: 32px;
+    background-color: #BDB5AE;
+    border: none;
+    border-bottom: #A19A93 1px solid;
+    padding-left: 10px;
+    padding-right: 10px;
+    }

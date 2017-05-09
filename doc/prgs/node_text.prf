@@ -1,0 +1,703 @@
+<?php
+
+function node_text§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("child_index", "_o2text");
+	$task_prg§_§var->definisci("child_nesting_str", "_o2text");
+	$task_prg§_§var->definisci("child_text", "node_text");
+	$task_prg§_§var->definisci("links_list", "node_text");
+	$task_prg§_§var->definisci("nesting_level", "_o2number");
+	$task_prg§_§var->definisci("nesting_str", "_o2text");
+	$task_prg§_§var->definisci("node_text", "node_text");
+	$task_prg§_§var->definisci("words_list", "node_text");
+		}
+
+function node_text§§key_words_def(&$task_key_words, $_o2viewalias = "") {
+	$task_key_words->righe_vis = 10;
+
+	$task_key_words->usa_file("jxdoc_key_words","key_words","node",null,null);
+
+	$task_key_words->usa("node","key_words","node","node_text_exp_1()","node_text_exp_1()",null,null);
+	$task_key_words->usa("key_word","key_words","key_word",null,null,null,null);
+}
+
+function node_text§§sub_nodes_def(&$task_sub_nodes, $_o2viewalias = "") {
+	$task_sub_nodes->righe_vis = 10;
+
+	$task_sub_nodes->usa_file("jxdoc_sub_nodes","sub_nodes","position",null,null);
+	$task_sub_nodes->usa_file_link("jxdoc_uses","jxdoc_uses","id",null,null);
+
+	$task_sub_nodes->unisci("jxdoc_uses_id_join_","jxdoc_uses","id","node_text_exp_37()","node_text_exp_37()",null,null);
+
+	$task_sub_nodes->usa("parent","sub_nodes","parent","node_text_exp_1()","node_text_exp_1()",null,null);
+	$task_sub_nodes->usa("child","sub_nodes","child",null,null,null,null);
+	$task_sub_nodes->usa("use","sub_nodes","use",null,null,null,null);
+	$task_sub_nodes->usa("tech_level","jxdoc_uses","tech_level",null,"node_text_exp_38()",null,null);
+}
+
+function node_text§§links_def(&$task_links, $_o2viewalias = "") {
+	$task_links->righe_vis = 10;
+
+	$task_links->usa_file("jxdoc_links","links","node",null,null);
+	$task_links->usa_file_link("jxdoc_nodes","nodes","id",null,null);
+
+	$task_links->unisci("nodes_id_join_","nodes","id","node_text_exp_8()","node_text_exp_8()",null,null);
+	$task_links->usa_file_link("jxdoc_nodes_ref","nodes_ref","id",null,null);
+
+	$task_links->unisci("nodes_ref_node_id_join_","nodes_ref","node_id","node_text_exp_8()","node_text_exp_8()",null,null);
+
+	$task_links->usa("node","links","node","node_text_exp_1()","node_text_exp_1()",null,null);
+	$task_links->usa("link","links","link",null,null,null,null);
+	$task_links->usa("title","nodes","title",null,null,null,null);
+	$task_links->usa("description","nodes","description",null,null,null,null);
+	$task_links->usa("node_ref","nodes_ref","node_ref",null,null,null,null);
+}
+
+function node_text§§node_def(&$task_node, $_o2viewalias = "") {
+	$task_node->righe_vis = 1;
+
+	$task_node->usa_file("jxdoc_nodes","nodes","id",null,null);
+	$task_node->usa_file_link("jxdoc_navigation_links","navigation_links","id",null,null);
+
+	$task_node->unisci("navigation_links_node_id_join_","navigation_links","node_id","node_text_exp_43()","node_text_exp_43()",null,null);
+	$task_node->usa_file_link("jxdoc_sub_nodes","sub_nodes","child",null,null);
+
+	$task_node->unisci("sub_nodes_child_join_","sub_nodes","child","node_text_exp_43()","node_text_exp_43()",null,null);
+	$task_node->unisci("sub_nodes_parent_join_","sub_nodes","parent","node_text_exp_44()","node_text_exp_44()",null,null);
+	$task_node->usa_file_link("jxdoc_uses","uses","id",null,null);
+
+	$task_node->unisci("uses_id_join_","uses","id","node_text_exp_45()","node_text_exp_45()",null,null);
+	$task_node->usa_file_link("jxdoc_nodes","parent_node","id",null,null);
+
+	$task_node->unisci("parent_node_id_join_","parent_node","id","node_text_exp_57()","node_text_exp_57()",null,null);
+	$task_node->usa_file_link("jxdoc_nodes","prev_node","id",null,null);
+
+	$task_node->unisci("prev_node_id_join_","prev_node","id","node_text_exp_58()","node_text_exp_58()",null,null);
+	$task_node->usa_file_link("jxdoc_nodes","next_node","id",null,null);
+
+	$task_node->unisci("next_node_id_join_","next_node","id","node_text_exp_59()","node_text_exp_59()",null,null);
+	$task_node->usa_file_link("jxdoc_nodes_ref","nodes_ref","id",null,null);
+
+	$task_node->unisci("nodes_ref_node_id_join_","nodes_ref","node_id","node_text_exp_43()","node_text_exp_43()",null,null);
+	$task_node->usa_file_link("jxdoc_sub_nodes","default_sub_nodes","child",null,null);
+
+	$task_node->unisci("default_sub_nodes_child_join_","default_sub_nodes","child","node_text_exp_43()","node_text_exp_43()",null,null);
+	$task_node->usa_file_link("jxdoc_uses","default_use","id",null,null);
+
+	$task_node->unisci("default_use_id_join_","default_use","id","node_text_exp_33()","node_text_exp_33()",null,null);
+
+	$task_node->usa("id","nodes","id","node_text_exp_1()","node_text_exp_1()",null,null);
+	$task_node->usa("description","nodes","description",null,null,null,null);
+	$task_node->usa("title","nodes","title",null,null,null,null);
+	$task_node->usa("main_text","nodes","node_text",null,null,null,null);
+	$task_node->usa("node_parent","navigation_links","node_parent",null,null,null,null);
+	$task_node->usa("node_prev","navigation_links","node_prev",null,null,null,null);
+	$task_node->usa("node_next","navigation_links","node_next",null,null,null,null);
+	$task_node->usa("position","sub_nodes","position",null,null,null,null);
+	$task_node->usa("use","sub_nodes","use",null,null,null,null);
+	$task_node->usa("prefix","uses","prefix",null,null,null,null);
+	$task_node->usa("suffix","uses","suffix",null,null,null,null);
+	$task_node->usa("incremental","uses","incremental",null,null,null,null);
+	$task_node->usa("show_title","uses","show_title",null,null,null,null);
+	$task_node->usa("title_level","uses","title_level",null,null,null,null);
+	$task_node->usa("parent_title","parent_node","title",null,null,null,null);
+	$task_node->usa("prev_title","prev_node","title",null,null,null,null);
+	$task_node->usa("next_title","next_node","title",null,null,null,null);
+	$task_node->usa("node_ref","nodes_ref","node_ref",null,null,null,null);
+	$task_node->usa("exists_default_use","default_sub_nodes","child",null,null,null,null);
+	$task_node->usa("default_position","default_sub_nodes","position",null,null,null,null);
+	$task_node->usa("default_use","default_sub_nodes","use",null,null,null,null);
+	$task_node->usa("default_prefix","default_use","prefix",null,null,null,null);
+	$task_node->usa("default_suffix","default_use","suffix",null,null,null,null);
+	$task_node->usa("default_incremental","default_use","incremental",null,null,null,null);
+	$task_node->usa("default_show_title","default_use","show_title",null,null,null,null);
+	$task_node->usa("default_title_level","default_use","title_level",null,null,null,null);
+}
+
+function node_text§§add_index_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(9, node_text_exp_66()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§add_keyword_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "words_list", node_text_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§add_link_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "links_list", node_text_exp_7()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§add_section_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "child_text", node_text_exp_9()) && $o2exe->e();
+//	$o2exe->s(2) && True && o2act::remark("retrieves child node text") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::call(node_text_exp_29(), False, node_text_exp_50(), "prg§_§var§§child_text", "prg§_§var§§child_nesting_str", node_text_exp_52(), node_text_exp_53(), node_text_exp_54(), node_text_exp_55(), node_text_exp_63(), "prg§_§var§§child_index", node_text_exp_17()) && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("adds child text to document or write down to file") && $o2exe->e();
+	$o2exe->s(5) && (node_text_exp_70() || $o2exe->e()) && o2act::set("prg§_§var", "node_text", node_text_exp_46()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§collect_keywords_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "words_list", node_text_exp_9()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("add_keyword", False, "key_words") && $o2exe->e();
+	$o2exe->s(3) && (node_text_exp_14() || $o2exe->e()) && o2act::set("prg§_§var", "node_text", node_text_exp_10()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§collect_links_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "links_list", node_text_exp_9()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("add_link", False, "links") && $o2exe->e();
+	$o2exe->s(3) && (node_text_exp_15() || $o2exe->e()) && o2act::set("prg§_§var", "node_text", node_text_exp_5()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§collect_sections_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "child_index", node_text_exp_9()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("add_section", False, "sub_nodes") && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§compose_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("esempio: nesting_str = "2.3.1"; nesting_level = 3") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "nesting_str", node_text_exp_22()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "nesting_level", node_text_exp_47()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "child_index", node_text_exp_65()) && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("key words") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::exe("collect_keywords", True, "") && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("node text") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "node_text", node_text_exp_2()) && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("sections") && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "child_nesting_str", node_text_exp_61()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::exe("collect_sections", True, "") && $o2exe->e();
+//	$o2exe->s(12) && True && o2act::remark("links") && $o2exe->e();
+	$o2exe->s(13) && True && o2act::exe("collect_links", True, "") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::ret(3, node_text_exp_51()) && $o2exe->e();
+//	$o2exe->s(15) && True && o2act::remark("Return the whole text") && $o2exe->e();
+	$o2exe->s(16) && (node_text_exp_31() || $o2exe->e()) && o2act::exe("return_as_text", True, "") && $o2exe->e();
+//	$o2exe->s(17) && True && o2act::remark("Create html file for current node and return link") && $o2exe->e();
+	$o2exe->s(18) && (node_text_exp_32() || $o2exe->e()) && o2act::exe("return_as_link", True, "") && $o2exe->e();
+//	$o2exe->s(19) && True && o2act::remark("Add item to index") && $o2exe->e();
+	$o2exe->s(20) && True && o2act::exe("add_index", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§return_as_link_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_text", node_text_exp_49()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(node_text_exp_34()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::ret(2, node_text_exp_56()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text§§return_as_text_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_text", node_text_exp_48()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::ret(2, node_text_exp_60()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function node_text_exp_1() {
+
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function node_text_exp_2() {
+	if (o2par(4) && o2exp(31)) {
+   $dev = '</div>';
+   }
+else {
+   $dev = "";
+   }
+$text = o2val('prg§_§var','node_text').o2val('node','main_text').$dev;
+return ($text);
+	} //|o2_fine_exp|
+
+function node_text_exp_3() {
+
+return (o2val('prg§_§var','words_list').(o2val('prg§_§var','words_list') ? ", " : "").htmlentities(o2val('key_words','key_word'), ENT_COMPAT | ENT_HTML5, o2app_encoding()));
+	} //|o2_fine_exp|
+
+function node_text_exp_4() {
+
+return (false);
+	} //|o2_fine_exp|
+
+function node_text_exp_5() {
+
+return (o2val('prg§_§var','node_text')."<fieldset>".o2val('prg§_§var','links_list')."</fieldset>");
+	} //|o2_fine_exp|
+
+function node_text_exp_6() {
+
+return (o2val('prg§_§var','node_text').o2val('prg§_§var','child_text'));
+	} //|o2_fine_exp|
+
+function node_text_exp_7() {
+	$list  = o2val('prg§_§var','links_list');
+$title = o2val('links','title');
+$desc  = o2val('links','description');
+$node  = o2val('links','node_ref');
+$id    = o2val('links','link');
+if (o2par(7)) {
+   $tag = '<a href="'.$node.'">';
+   }
+else {
+   $tag = '<a href="#" onclick="'.o2_act4js(o2par(10), "goto_link", $id).'">';
+   }
+$ref= $list. ($list ? ", " : "").
+      $tag.($title ? $title : $desc)."</a>";
+return ($ref);
+	} //|o2_fine_exp|
+
+function node_text_exp_8() {
+
+return (o2val('links','link'));
+	} //|o2_fine_exp|
+
+function node_text_exp_9() {
+
+return ("");
+	} //|o2_fine_exp|
+
+function node_text_exp_10() {
+
+return (o2val('prg§_§var','node_text')."<fieldset>".o2val('prg§_§var','words_list')."</fieldset>\n");
+	} //|o2_fine_exp|
+
+function node_text_exp_11() {
+
+return (o2val('prg§_§var','node_text'));
+	} //|o2_fine_exp|
+
+function node_text_exp_12() {
+
+return (o2val('sub_nodes','child'));
+	} //|o2_fine_exp|
+
+function node_text_exp_13() {
+
+return (o2val('prg§_§var','child_text'));
+	} //|o2_fine_exp|
+
+function node_text_exp_14() {
+
+return (o2val('prg§_§var','words_list'));
+	} //|o2_fine_exp|
+
+function node_text_exp_15() {
+
+return (o2val('prg§_§var','links_list'));
+	} //|o2_fine_exp|
+
+function node_text_exp_17() {
+
+return (o2par(10));
+	} //|o2_fine_exp|
+
+function node_text_exp_18() {
+
+return (o2val('prg§_§var','node_text')."<ol>");
+	} //|o2_fine_exp|
+
+function node_text_exp_19() {
+
+return (o2val('prg§_§var','node_text')."</ol>");
+	} //|o2_fine_exp|
+
+function node_text_exp_20() {
+
+return (o2val('prg§_§var','nesting_level'));
+	} //|o2_fine_exp|
+
+function node_text_exp_21() {
+
+return ("");
+	} //|o2_fine_exp|
+
+function node_text_exp_22() {
+	$lev = o2par(3);
+/* If missing parent from navigation use fields from default use */
+$default_use = o2zero('node','use');
+if ($default_use ? o2val('node','default_incremental') : o2val('node','incremental')) {
+   if (strpos($lev, ".")) {
+      $lev = substr($lev, 0, strrpos($lev, ".")).".".(intval(substr($lev, strrpos($lev, ".") + 1)) + 1);
+      }
+   else {
+      $lev = "".(intval($lev) + 1);
+      }
+   }
+$lev = substr($lev, strspn($lev, "0."));
+return ($lev);
+	} //|o2_fine_exp|
+
+function node_text_exp_23() {
+
+return (true);
+	} //|o2_fine_exp|
+
+function node_text_exp_24() {
+	$dev = "<div onclick='window.location=\"".o2_prg4http("editor", o2val('node','id'))."&".SID."\";'
+             title='".o2val('node','id')."::".o2val('node','description')."'
+             style='cursor: pointer;'>";
+return ($dev);
+	} //|o2_fine_exp|
+
+function node_text_exp_25() {
+
+return (o2par(5));
+	} //|o2_fine_exp|
+
+function node_text_exp_27() {
+
+return (o2par(4));
+	} //|o2_fine_exp|
+
+function node_text_exp_28() {
+	$lev = o2val('prg§_§var','nesting_level');
+if (strpos($lev, ".")) {
+   $lev = substr($lev, 0, strrpos($lev, ".")).".".(intval(substr($lev, strrpos($lev, ".") + 1)) + 1);
+   }
+else {
+   $lev = "".(intval($lev) + 1);
+   }
+return ($lev);
+	} //|o2_fine_exp|
+
+function node_text_exp_29() {
+
+return ((o2app_name() == "jxdoc" ? "node_text" : "doc/node_text"));
+	} //|o2_fine_exp|
+
+function node_text_exp_30() {
+
+return (o2par(6));
+	} //|o2_fine_exp|
+
+function node_text_exp_31() {
+	$cond = (o2par(4) ||
+         !o2val('node','incremental') ||
+         o2val('prg§_§var','nesting_level') > o2par(5)) &&
+        o2par(1) != o2par(8);
+return ($cond);
+	} //|o2_fine_exp|
+
+function node_text_exp_32() {
+
+return (!o2exp(31));
+	} //|o2_fine_exp|
+
+function node_text_exp_33() {
+
+return (o2val('node','default_use'));
+	} //|o2_fine_exp|
+
+function node_text_exp_34() {
+	$text_local = "<html><head><title>".strip_tags(o2val('node','title'))."</title>";
+$text_local.= "<link rel='stylesheet' type='text/css' href='".o2par(6)."'>";
+$text_local.= "</head>\n<body>\n";
+$text_local.= o2val('prg§_§var','node_text');
+$text_local.= "\n</body>\n</html>";
+
+$node_file = o2par(7).(o2par(1) != o2par(8) ?
+                       "node_".o2val('node','id').".html" :
+                       "cover.html");
+
+$f_local = fopen($node_file, "w");
+fwrite($f_local, $text_local);
+fclose($f_local);
+return (true);
+	} //|o2_fine_exp|
+
+function node_text_exp_35() {
+
+return (o2par(7));
+	} //|o2_fine_exp|
+
+function node_text_exp_36() {
+
+return (o2par(8));
+	} //|o2_fine_exp|
+
+function node_text_exp_37() {
+
+return (o2val('sub_nodes','use'));
+	} //|o2_fine_exp|
+
+function node_text_exp_38() {
+
+return ((o2par(4) ? null : 0));
+	} //|o2_fine_exp|
+
+function node_text_exp_43() {
+
+return (o2val('node','id'));
+	} //|o2_fine_exp|
+
+function node_text_exp_44() {
+
+return (o2val('node','node_parent'));
+	} //|o2_fine_exp|
+
+function node_text_exp_45() {
+
+return (o2val('node','use'));
+	} //|o2_fine_exp|
+
+function node_text_exp_46() {
+
+return (o2val('prg§_§var','node_text').o2val('prg§_§var','child_text'));
+	} //|o2_fine_exp|
+
+function node_text_exp_47() {
+	$lev = count(explode(".", o2val('prg§_§var','nesting_str')));
+return ($lev);
+	} //|o2_fine_exp|
+
+function node_text_exp_48() {
+	if (o2par(4)) {
+   $act_url = o2_act4js(o2par(10), "sendto", o2val('node','id'));
+   $dev = '<div onClick="'.$act_url.'" '.
+               'onMouseOver="window.oldbgcolor=this.style.backgroundColor; this.style.backgroundColor=\'#FFCC99\';" '.
+               'onMouseOut="this.style.backgroundColor=window.oldbgcolor;" '.
+               'title="'.o2val('node','id')."::".o2val('node','description').'" '.
+               'style="cursor: pointer;">';
+   }
+else {
+   $dev = "";
+   }
+$n_text  = o2val('prg§_§var','node_text');
+$incr    = (o2val('node','incremental') ? true : false);
+$title   = "";
+/* If missing parent from navigation use fields from default use */
+$exists_default = o2val('node','exists_default_use');
+$default_use    = o2zero('node','use');
+/* --- SHOW TITLE --- */
+if ($default_use ?
+    ($exists_default ? o2val('node','default_show_title') : true) :
+    o2val('node','show_title')) {
+   $title = "<a name='node_".o2val('node','id')."'>";
+   /* --- INCREMENTAL PARAGRAPH --- */
+   if ($incr) {
+      /* --- TITLE LEVEL IS DERIVED BY NESTING --- */
+      $h_level = min(o2val('prg§_§var','nesting_level'), 3);
+      $title  .= "<h".$h_level.">".o2val('prg§_§var','nesting_str')." ";
+      }
+   else {
+      /* --- TITLE LEVEL IS DERIVED BY USE --- */
+      $h_level = max(($default_use ? o2val('node','default_title_level') : o2val('node','title_level')), 1);
+      $title  .= "<h".$h_level.">";
+      }
+   $title.= o2val('node','title')."</h".$h_level."></a>";
+   }
+if ($incr) {
+   $s_q = "<blockquote>";
+   $e_q = "</blockquote>";
+   }
+else {
+   $s_q = "";
+   $e_q = "";
+   }
+if ($default_use) {
+   $s_q.= o2val('node','default_prefix');
+   $e_q.= o2val('node','default_suffix');
+   }
+else {
+   $s_q.= o2val('node','prefix');
+   $e_q.= o2val('node','suffix');
+   }
+$text = $dev.
+        $title.
+        $s_q.
+        $n_text.
+        $e_q.
+        ($n_text ? "<p></p>" : "");
+return ($text);
+	} //|o2_fine_exp|
+
+function node_text_exp_49() {
+	/* =========================== NAVIGATOR ============================ */
+$nav_text = "\n<table id='nav' width='100%'>\n";
+$start    = (o2val('node','node_parent') == o2par(8));
+
+/* -- parent node reference (URL) -- */
+$parent_ref = ($start ?
+               "cover.html" :
+               "node_".o2val('node','node_parent').".html");
+
+/* -- parent node link (add TR & TD) -- */
+$nav_text.= " <tr><td id='nav_top' colspan='2' align='center'><a href='".
+            $parent_ref."'>".
+            ($start ? "Top" : o2val('node','parent_title'))."</a></td></tr>\n";
+
+/* -- previous node link (add TR & TD) -- */
+$nav_text.= " <tr><td id='nav_prev' align='left'>".
+            (o2val('node','prev_title') ?
+             "<a href='node_".o2val('node','node_prev').".html'>".
+             "<b><</b> ".o2val('node','prev_title')."</a>" :
+             "&nbsp;")."</td>\n";
+
+/* -- next node link (add TD) -- */
+$nav_text.= " <td id='nav_next' align='right'>".
+            (o2val('node','next_title') ?
+             "<a href='node_".o2val('node','node_next').".html'>".
+             o2val('node','next_title')." <b>></b></a>" :
+             "&nbsp;")."</td></tr>\n</table>";
+
+/* -- header --
+$nav_up_text = "<table width='100%'><tr><td id='nav_frame' width='120px'><center>".
+                                    jxlogo(0.8)."</center></td>".
+                                    "<td id='nav_frame'>".
+                                    $nav_text."</td></tr></table>";
+*/
+
+/* -- footer -- */
+if ($GLOBALS['jxdoc_settings']['credits']) {
+   $jx_info = $GLOBALS['jxdoc_settings']['credits'];
+   }
+else {
+   $jx_info = "<a href='http://www.janox.it'><small>www.janox.it</small></a>";
+   }
+$nav_down_text = "<table width='100%'><tr><td id='nav_frame'>".$nav_text.
+                 "</td><td id='credits' width='1%'><center>".$jx_info.
+                 "</center></td></tr></table>";
+
+/* ============================= TITLE ============================== */
+$h_level = min(o2val('prg§_§var','nesting_level'), 3);
+$title = (o2val('node','title') ?
+          o2val('node','title') :
+          o2val('node','description'));
+$title = "\n<h".$h_level.">".
+         o2val('prg§_§var','nesting_str')." ".$title.
+         "</h".$h_level.">";
+
+/* ============================== FILE ============================== */
+$text = (o2par(1) != o2par(8) ? $nav_text.$title."<br />" : "").
+        o2val('prg§_§var','node_text').
+        (o2par(1) != o2par(8) ? "<br /><br />".$nav_down_text : "");
+return ($text);
+	} //|o2_fine_exp|
+
+function node_text_exp_50() {
+
+return (o2val('sub_nodes','child'));
+	} //|o2_fine_exp|
+
+function node_text_exp_51() {
+
+return (o2val('prg§_§var','nesting_str'));
+	} //|o2_fine_exp|
+
+function node_text_exp_52() {
+
+return (o2par(4));
+	} //|o2_fine_exp|
+
+function node_text_exp_53() {
+
+return (o2par(5));
+	} //|o2_fine_exp|
+
+function node_text_exp_54() {
+
+return (o2par(6));
+	} //|o2_fine_exp|
+
+function node_text_exp_55() {
+
+return (o2par(7));
+	} //|o2_fine_exp|
+
+function node_text_exp_56() {
+	$title = (o2val('node','title') ?
+          o2val('node','title') :
+          o2val('node','description'));
+
+$index = (o2val('node','incremental') ?
+          o2val('prg§_§var','nesting_str')." " :
+          "");
+
+$node_ref = (o2val('node','id') != o2par(8) ?
+             "node_".o2val('node','id').".html" :
+             "cover.html");
+
+$link = "<br />".$index."<a href='".$node_ref."'>".$title."</a>";
+return ($link);
+	} //|o2_fine_exp|
+
+function node_text_exp_57() {
+
+return (o2val('node','node_parent'));
+	} //|o2_fine_exp|
+
+function node_text_exp_58() {
+
+return (o2val('node','node_prev'));
+	} //|o2_fine_exp|
+
+function node_text_exp_59() {
+
+return (o2val('node','node_next'));
+	} //|o2_fine_exp|
+
+function node_text_exp_60() {
+
+return (o2val('prg§_§var','node_text'));
+	} //|o2_fine_exp|
+
+function node_text_exp_61() {
+
+return (o2val('prg§_§var','nesting_str').".0");
+	} //|o2_fine_exp|
+
+function node_text_exp_62() {
+
+return (o2val('node','incremental'));
+	} //|o2_fine_exp|
+
+function node_text_exp_63() {
+
+return (o2par(8));
+	} //|o2_fine_exp|
+
+function node_text_exp_64() {
+	/* ============================= TITLE ============================== */
+$h_level = min(o2val('prg§_§var','nesting_level'), 3);
+$title = (o2val('node','title') ?
+          o2val('node','title') :
+          o2val('node','description'));
+$title = "\n<h".$h_level.">".
+         o2val('prg§_§var','nesting_str').
+         " &nbsp; ".
+         $title.
+         "</h".$h_level.">";
+return ($title);
+	} //|o2_fine_exp|
+
+function node_text_exp_65() {
+
+return (o2par(9));
+	} //|o2_fine_exp|
+
+function node_text_exp_66() {
+	$s_q = "\n<blockquote>\n";
+$e_q = "</blockquote>\n";
+
+$ref = (o2val('node','incremental') ?
+        o2val('prg§_§var','nesting_str').
+        " <a href='".o2val('node','node_ref')."'>".o2val('node','title')."</a>".
+        (o2val('prg§_§var','child_index') ?
+         $s_q.o2val('prg§_§var','child_index').$e_q :
+         "\n<br>\n") :
+        o2val('prg§_§var','child_index'));
+return (o2par(9).$ref);
+	} //|o2_fine_exp|
+
+function node_text_exp_67() {
+
+return (!o2exp(68));
+	} //|o2_fine_exp|
+
+function node_text_exp_68() {
+
+return (!o2par(4) && o2val('node','incremental'));
+	} //|o2_fine_exp|
+
+function node_text_exp_69() {
+
+return (o2val('prg§_§var','node_text')."<br />");
+	} //|o2_fine_exp|
+
+function node_text_exp_70() {
+
+return (o2val('prg§_§var','child_text'));
+	} //|o2_fine_exp|
+?>

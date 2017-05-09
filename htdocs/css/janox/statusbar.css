@@ -1,0 +1,61 @@
+/* ====================================== STATUSBAR ==================================== */
+
+.o2statusbar {
+    background-color: #D1C8C0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #a19a93;
+    }
+
+.o2statustext {
+    color: #444444;
+    padding: 3px 5px 3px 7px;
+    white-space: nowrap;
+    }
+
+.o2notify {
+    font-weight: bold;
+    text-align: center;
+    width: 60px;
+    border-left: 1px solid #a19a93;
+    }
+
+.o2notify img {
+    vertical-align: middle;
+    padding-left: 10px;
+    display: inline;
+    }
+
+.o2notify div {
+    vertical-align: middle;
+    padding: 0 10px 0 5px;
+    display: inline;
+    }
+
+.o2notify_win {
+    position: absolute;
+    color: #19181A;
+    background-color: #E1DAD4;
+    border: 1px solid #a19a93;
+    padding: 5px 5px 5px 5px;
+    bottom: 25px;
+    right: 3px;
+    }
+
+ .o2notify_list {
+    border-spacing: 0;
+    border-collapse: collapse;
+    }
+
+ .o2notify_row_on td {
+    color: #19181A;
+    padding: 5px;
+    cursor: pointer;
+    }
+
+ .o2notify_row_off td {
+    color: #5d6a80;
+    padding: 5px;
+    cursor: pointer;
+    }

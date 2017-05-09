@@ -1,0 +1,63 @@
+/* =========================== MULTIPAGE ============================ */
+
+.o2_ctrl_multi_out {
+    border-bottom: 1px solid #a19a93;
+    }
+
+.o2_ctrl_multi_in {
+    background-color: #E1DAD4;
+    height: 100%;
+    border-bottom: 1px solid #6B6661;
+    border-top: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    border-right: 1px solid #a19a93;
+    margin-top: -1px;
+    border-top-right-radius: 5px;
+    overflow: hidden;
+    }
+
+.o2_ctrl_multi_on {
+    background-color: #E1DAD4;
+    height: 22px;
+    border-top: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    border-right: 1px solid #a19a93;
+    border-bottom: 1px solid #E1DAD4;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    margin-right: -1px;
+    display: inline-block;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    outline: none;
+    }
+
+.o2_ctrl_multi_off {
+    background-color: #C5BCB5;
+    height: 22px;
+    border: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    display: inline-block;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    cursor: pointer;
+    }
+
+.o2_ctrl_multi_off:hover {
+    color: #442204;
+    background-color: #CCC3BC;
+    border: 1px solid #E18331;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 0px 2px 4px #6B6661;
+    }

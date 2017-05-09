@@ -1,0 +1,275 @@
+<html><head><title>Un programma di interazione con i dati di una tabella</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_28.html'>Il repository delle tabelle</a></td>
+       <td id='nav_next' align='right'><a href='node_55.html'>Select, calculated, criteri di range e variabili</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.7 &nbsp; Un programma di interazione con i dati di una tabella</h2><br /><fieldset>FORM, MAIN TABLE, SELECT OPERATION, SYNTAX CHECK, VIEW</fieldset>
+<p>Questo capitolo mostra come creare un semplice programma di browsing su una 
+tabella.</p>
+<br /><h4>Obiettivi</h4>
+<p>Al termine di questo capitolo il programmatore sarà in grado di:</p>
+<ul>
+<li>Creare un programma di <em>browsing</em></li>
+<li>Navigare all’interno della definizione di una <i>view</i></li>
+<li>Impostare la tabella principale (<i>main table</i>) di una <i>view</i></li>
+<li>Definire i campi richiesti</li>
+<li>Disegnare un’interfaccia di base per navigare sui dati</li>
+<li>Controllare la sintassi del programma ed eseguirlo</li>
+</ul>
+
+<br /><h4>Introduzione</h4>
+<p>Arrivati a questo punto abbiamo definito i modelli e le tabelle per l’applicazione.</p>
+<p>In questo capitolo andremo a creare un semplice programma di <em>browsing</em>, 
+nel caso specifico un programma per la consultazione, la modifica e l’inserimento dei dati 
+nella tabella "Customers_type" e lo faremo ponendo l’attenzione soprattutto su come il 
+programma è suddiviso, tralasciando per il momento alcuni dettagli che saranno approfonditi 
+nei successivi capitoli.</p>
+<p>Il processo si divide in quattro fasi:</p>
+<ol>
+<li>Definizione della <i>view</i> (vista sul database)</li>
+<li>Definizione delle operazioni per l’esecuzione delle azioni di insert, delete, update </li>
+<li>Creazione della <i>Form</i> (interfaccia)</li>
+<li>Inserimento del programma a menu</li>
+</ol>
+
+<br />
+<h3>0.7.1<a name='node_43'> &nbsp; </a>I programmi</h3></br /><blockquote><p>Per creare un nuovo programma, selezionare <i>Programs</i> dal menu 
+</i>Navigator</i>.</p>
+<img src='img/image044.gif'>
+<ol>
+<li>Posizionarsi su <i>Programs</i> e premere <kbd>INVIO</kbd></li>
+<li>Digitare il nome del programma (stringa senza spazi) e confermare</li>
+</ol>
+<p>Per selezionare un programma, sia quello appena creato che qualsiasi altro già 
+presente nel repository dei programmi:</p>
+<ol>
+<li>Esplodere il menu <i>Programs</i> dal <i>Navigator</i></li>
+<li>Selezionare il programma da modificare</li>
+<li>Premere <kbd>INVIO</kbd></li>
+</ol>
+<img src='img/image046.gif'>
+<p>Come si può vedere il programma è suddiviso logicamente in 9 aree:</p>
+<ol>
+<li><i>Program properties</i></li>
+<li><i>Parameters</i></li>
+<li><i>Variables</i></li>
+<li><i>Views</i></li>
+<li><i>Forms</i></li>
+<li><i>I/O Files</i></li>
+<li><i>Protocols</i></li>
+<li><i>Actions</i></li>
+<li><i>Expressions</i></li>
+</ol>
+<p>Ogni area a sua volta potrà contenere altre sottoaree che analizzeremo 
+approfonditamente andando avanti nel corso. In questa fase ci limiteremo a creare lo 
+stretto necessario per raggiungere il nostro obiettivo:</p>
+<p>creare un semplice programma di interfaccia con una singola tabella, i 
+"Customer_types".</p>
+
+</blockquote><br />
+<h3>0.7.2<a name='node_44'> &nbsp; </a>Le view</h3></br /><blockquote><p>Per creare una nuova view:</p>
+<ol>
+<li>Selezionare l’area <i>View</i> dal <i>Navigator</i> e premere <kbd>INVIO</kbd></li>
+<li>Digitare il nome della view (stringa senza spazi) e confermare</li>
+</ol>
+<p>Per accedere ad una view, sia a quella appena creata che ad eventuali altre view del 
+programma, esplodere la voce <i>View</i> dal <i>Navigator</i> e dopo aver selezionato la 
+view interessata premere <kbd>INVIO</kbd> per accedere alla sua definizione.</p>
+<img src='img/image048.gif'>
+
+<br />
+<h3>Tabelle della view</h3></br /><p>Dopo aver creato una nuova view andiamo nell’area <i>Tables in view</i> per dichiarare 
+quali tabelle prenderanno parte nella query.</p>
+<p>Nel caso specifico aggiungiamo un’unica tabella ("Customer_types") e la dichiariamo 
+<i>Main table</i> della view.</p>
+<blockquote><p>In questo momento il programmatore non si preoccupi più del dovuto se non
+comprende il significato delle altre voci all’interno del repository, saranno abbondantemente 
+riprese nei successivi capitoli.</p></blockquote>
+<img src='img/image050.gif'>
+<br />
+<h3>Campi <i>select</i> e campi <i>calculated</i></h3></br /><p>Una volta dichiarato la tabella principale della view possiamo accedere nell’area sottostante 
+<i>Select and calculated fields</i> per definire quali campi della tabella vogliamo utilizzare 
+all’interno di questo programma.</p>
+<p>Per aggiungere un nuova riga a questa lista procedere come segue per tutti i campi da 
+selezionare:</p>
+<ol>
+<li>Creare una nuova riga <kbd>F4</kbd></li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Type</i> e selezionare il tipo 
+       "Select"</li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>From table</i> e selezionare 
+       "Customer_types"</li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Field</i> e selezionare il campo della 
+       tabella</li>
+<li>Confermare la riga (<kbd>FrecciaGiù</kbd>) in modo da attribuire il valore alla colonna 
+       <i>Alias</i></li>
+<li>Ripetere i punti 2-3-4-5 per tutti i campi della tabella, ottenendo un elenco come 
+       questo:</li>
+</ol>
+<img src='img/image052.gif'>
+
+<br />
+<h3>Proprietà della view</h3></br /><p>Ogni view ha un’area, dove definire eventuali proprietà avanzate, a cui si accede 
+selezionando dal <i>Navigator</i> l’elemento <i>View Properties</i> sotto la view 
+interessata.</p>
+<p>Nel nostro caso dobbiamo modificare la proprietà <i>Number of requested 
+records</i> ed impostarla ad "1".</p>
+<p>Questa proprietà identifica il numero di record che saranno richiesti di volta in volta
+al server di database e, nel caso di interfacce di tipo <em>screen</em>, dove viene 
+letto un record alla volta, deve essere impostato ad "1" (<i>default</i> = "10").</p>
+<blockquote><p>Questi argomenti saranno trattati a fondo nei capitoli successivi</p>
+</blockquote>
+<img src='img/image054.gif'>
+</blockquote><br />
+<h3>0.7.3<a name='node_48'> &nbsp; </a>Definizione di azioni e operazioni di modifica dei dati</h3></br /><blockquote><p>Le action (azioni) sono in sostanza tutta la componente esecutiva di un programma 
+o2.</p>
+<p>Ogni action è composta da una serie di operations (operazioni) che vengono eseguite
+da o2runtime nell’ordine in cui sono state definite.</p>
+<blockquote><p>In questo momento il programmatore non si preoccupi più del dovuto se non 
+comprende il significato delle altre voci all’interno del repository: saranno 
+abbondantemente riprese nei successivi capitoli.</p></blockquote>
+<p>Per creare una nuova <i>action</i>:</p>
+<ol>
+<li>Selezionare l’area <i>Actions</i> dal <i>Navigator</i> e premere <kbd>INVIO
+       </kbd></li>
+<li>Digitare il nome della action (stringa senza spazi) e confermare</li>
+</ol>
+<p>Per accedere ad una action, sia a quella appena creata che ad eventuali altre action 
+del programma, esplodere la voce <i>Actions</i> dal <i>Navigator</i> e, dopo aver 
+selezionato la action interessata, premere <kbd>INVIO</kbd> per accedere alla sua 
+definizione.</p>
+<img src='img/image056.gif'>
+<p>Per creare una nuova operazione:</p>
+<ol>
+<li>Creare una nuova riga nella tabella <i>Operations</i> (<kbd>F4</kbd>)</li>
+<li>Selezionare dal combobox l’operatore opportuno (nel nostro caso <i>Recordset</i>)
+       </li>
+<img src='img/image058.gif'>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Object</i> per aprire l'interfaccia di 
+definizione specifica per l’operatore scelto<br>
+<img src='img/image060.gif'>
+<br>Nel nostro caso, visto che stiamo definendo l’azione "new_customer_type" sceglieremo
+l’opzione "Prepare insert" (prepara il recordset per l’inserimento di un nuovo record)</li>
+<li>Conferma della riga (<kbd>FrecciaGiù</kbd>)</li>
+</ol>
+
+
+
+<br /><h4>Esercitazione</h4>
+<fieldset><p>Adesso il programmatore prosegua creando le altre due action necessarie per la 
+manutenzione della tabella "Customer_types" ("update_customer_type" e 
+"delete_customer_type") ripetendo i passi sopra visti, in modo da ottenere questo 
+risultato:</p>
+
+<h4>Operazioni di "update_customer_type"</h4>
+<img src='img/image062.gif'>
+<h4>Operazioni di "delete_customer_type"</h4>
+<img src='img/image064.gif'>
+<h4>Riepilogo delle action del programma</h4>
+<img src='img/image066.gif'>
+
+
+
+</fieldset></blockquote><br />
+<h3>0.7.4<a name='node_50'> &nbsp; </a>Creazione della form (interfaccia utente)</h3></br /><blockquote><p>In questa fase andremo a creare la rappresentazione visuale del programma generato
+nelle fasi precedenti.</p>
+<p>Per fare questo, il programmatore genererà una form in o2architect che produrrà 
+l’interfaccia per l’utente finale.</p>
+<blockquote><p>In questo momento il programmatore non si preoccupi più del dovuto se 
+non comprende il significato delle altre voci all’interno del repository, saranno 
+abbondantemente riprese nei successivi capitoli.</p></blockquote>
+<p>Per creare una nuova form:</p>
+<ol>
+<li>Selezionare l’area <i>Forms</i> dal <i>Navigator</i> e premere <kbd>INVIO</kbd></li>
+<li>Accedere alla tabella delle form</li>
+<li>Creare una nuova riga <kbd>F4</kbd></li>
+<li>Digitare il titolo nella colonna <i>Title</i></li>
+<li>Premere il pulsante <i>Design</i> per accedere all’editor visuale delle form</li>
+</ol>
+<img src='img/image068.gif'>
+<p>Il programmatore si trova di fronte una finestra denominata <i>Design form</i> che 
+rappresenta lo spazio totale disponibile (la finestra del browser).</p>
+<p>Al suo interno:</p>
+<ul>
+<li>la form "Customer_types" che sarà la form del nostro programma</li>
+<li>la palette dei controlli o2</li>
+<li>l’<i>Object inspector</i> strumento con il quale si attribuiscono le proprietà ai 
+       controlli</li>
+</ul>
+<p>Il programma che stiamo facendo deve consentire la completa manutenzione della tabella
+"Customer_types", per cui devono essere definiti i controlli che accolgano i valori dei campi della 
+tabella. Scegliamo dei semplici controlli <i>Edit text</i>.</p>
+<br />
+<h3>Aggiungere controlli ad una form</h3></br /><p>Per procedere con l’inserimento dei controlli sulla form procedere come 
+segue:</p>
+<ol>
+<li>Selezionare il controllo dalla palette (nel nostro caso il controllo <i>Edit</i>)
+       <br /><img src='img/image070.gif'></li>
+<li>Posizionare il controllo sulla form "Customer_types" semplicemente cliccando 
+       sul punto voluto
+       <br /><img src='img/image072.gif'></li>
+<li>Utilizzare adesso l’<i>Object inspector</i> per definire la proprietà <i>Field</i>
+       (campo associato al controllo) e selezionare il campo “id” dalla view 
+       “customer_types”
+       <br /><img src='img/image074.gif'></li>
+<li>Ripetere i punti 1-2-3 anche per il campo “description” in modo da ottenere 
+       questo risultato:
+       <br /><img src='img/image074.gif'></li>
+</ol>
+
+
+
+
+<br />
+<h3>Aggiungere un controllo di navigazione sulla vista (<i>DBNavigator</i>)</h3></br /><p>Procediamo adesso inserendo sulla form un oggetto di tipo <i>DBNavigator
+</i>.</p>
+<img src='img/image078.gif'>
+<p>Questo controllo fornisce all’utente finale la capacità di muoversi all’interno 
+del recodset semplicemente cliccando sui bottoni (<i>First row</i> –<i>Previous 
+page</i> – <i>Previous row</i> – <i>Next row</i> - <i>Next page</i> - <i>Last 
+row</i>)</p>
+<p>Proprietà obbligatoria: la <i>View</i>. Impostiamo la proprietà <i>View</i> 
+del <i>DBNavigator</i> selezionando la view “customer_types”</p>
+<img src='img/image080.gif'>
+
+<br />
+<h3>Aggiungere dei pulsanti di comando</h3></br /><p>Per scatenare le azioni sul recordset che abbiamo definito nella precedente fase 
+dobbiamo inserire sulla form 3 controlli di tipo <i>Button</i>.</p>
+<img src='img/image082.gif'>
+<p>Dopo aver posizionato l’oggetto <i>Button</i> sul form “Customer types” procedere 
+con la definizione delle proprietà al momento indispensabili:</p>
+<ul>
+<li><i>Caption</i></li>
+<li><i>Action</i></li>
+</ul>
+<p>La proprietà <i>Caption</i> contiene il testo che comparirà sul pulsante; la proprietà
+<i>action</i>, invece, il nome dell’azione che sarà invocata al click sul pulsante.</p>
+<h4>Esempio: attribuzione delle proprietà <i>Caption</i> e <i>Action</i> al pulsante 
+“Elimina”</h4>
+<img src='img/image084.gif'>
+<p>Ripetere l’operazione per gli altri due pulsanti: “Nuovo” e “Salva” in modo da ottenere 
+il seguente risultato:</p>
+<img src='img/image086.gif'>
+
+
+
+<br />
+<h3>Salvataggio del programma e pubblicazione</h3></br /><p>Adesso il programma è terminato: dobbiamo salvarlo e pubblicarlo prima che sia 
+possibile inserirlo in un menu.</p>
+<h4>Salvataggio modifiche dal <i>Design form</i></h4>
+<p>Uscire dal <i>Design form</i> tramite il pulsante di chiusura del form <img 
+src='img/image088.gif'> e alla richiesta di salvataggio confermare.</p>
+<h4>Pubblicazione del programma</h4>
+<p>Dal menu <i>CVS</i> scegliere la voce <i>Check-in</i> (<kbd>F12</kbd>).</p>
+</blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_28.html'>Il repository delle tabelle</a></td>
+       <td id='nav_next' align='right'><a href='node_55.html'>Select, calculated, criteri di range e variabili</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

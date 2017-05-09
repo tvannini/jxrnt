@@ -1,0 +1,190 @@
+<html><head><title>I programmi di selezione</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_64.html'>Relazione <em>uno-a-uno</em> - le link</a></td>
+       <td id='nav_next' align='right'><a href='node_75.html'>Relazione <em>uno-a-molti</em></a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.10 &nbsp; I programmi di selezione</h2><br /><fieldset>CALL E GOTO PROGRAM, LOCATE, PARAMETRI, RETURN PARAMETER, TABELLA DI SELEZIONE</fieldset>
+<p>Questo capitolo introduce l’utilizzo di programmi di selezione, funzioni che 
+abilitano l’utente finale a scegliere valori da una lista.</p>
+<br /><h4>Obiettivi</h4>
+<p>Al termine di questo capitolo sarai in grado di:</p>
+<ul>
+<li>Create una tabella di scelta</li>
+<li>Passare e ricevere parametri tra programmi</li>
+<li>Capire il concetto di programma di selezione</li>
+<li>Posizionarsi su un record della view senza filtrarla (<kbd>Locate</kbd>)</li>
+</ul>
+
+<br /><h4>Introduzione</h4>
+<p>Un’esigenza comune a molte procedure è quella far interagire più programmi
+(cioè unità funzionali distinte) e di scambiare tra loro informazioni. In questo 
+capitolo vedremo come invocare l’esecuzione di un programma dall’interno di un 
+altro e come scambiare parametri tra loro. In particolare vedremo come realizzare 
+un programma che consenta di selezionare un valore da un elenco e di restituirlo al
+programma chiamante, allo scopo di valorizzare un campo <em>a scelta 
+obbligatoria</em>.<p>
+
+<p>A tale scopo utilizzeremo il programma di consultazione e ricerca dei clienti 
+come programma di selezione per recuperare un "codice cliente".</p>
+<br />
+<h3>0.10.1<a name='node_69'> &nbsp; </a>I parametri in entrata</h3></br /><blockquote><p>Ogni programma che voglia ricevere informazioni da altri programmi deve 
+mettersi nella condizione di accettarle. Ciò viene fatto definendo il numero e il 
+tipo (<i>data models</i>) di informazioni accettate nell’elenco dei parametri 
+del programma: tali informazioni resteranno disponibili al programma chiamato 
+per tutto il tempo della sua esecuzione.</p>
+
+<p>Dal <i>Navigator</i> selezionare <i>Parameters</i>:</p>
+
+<img src='img/image120.gif'>
+
+<p>Per definire un nuovo parametro:</p>
+<ol>
+<li>Accedere alla tabella e creare una nuova riga (<kbd>F4</kbd>)</li>
+<li>Digitare un numero progressivo di <i>Id</i> per il parametro</li>
+<li>Digitare un nome significativo</li>
+<li><kbd>F5</kbd> (<i>zoom</i>) dalla colonna <i>Model</i> per selezionare 
+       il modello</li>
+</ol>
+
+</blockquote><br />
+<h3>0.10.2<a name='node_70'> &nbsp; </a>Il ritorno dei parametri</h3></br /><blockquote><p>Il ritorno dei parametri è implicito: ovvero, dopo la conclusione del programma
+chiamato, il chiamante si troverà i parametri passati <em>by reference</em> 
+(vedremo in dettaglio il significato quando parleremo del programma chiamante) 
+come valorizzati dal programma chiamato. La valorizzazione dei parametri avviene
+tramite l’istruziune di <i>return parameter</i>.</p>
+
+<p>Dall’elenco delle azioni creare una nuova azione di nome "return" che contenga 
+un’istruzione di <i>return parameter</i>:</p>
+
+<img src='img/image122.gif'>
+
+<p>Premendo <kbd>F5</kbd> su <i>Arguments</i> accedere alle espressioni e 
+inserire il riferimento al "Codice cliente" della vista "customers".</p>
+<p>Aggiungere un’istruzione di <i>Close program</i> all’azione "return" per 
+terminare il programma e ritornare l’esecuzione al programma chiamante. In questo
+modo, all’esecuzione dell’azione "return", il parametro "Customer_id" verrà 
+valorizzato con il valore corrente di "Codice cliente", a seconda della selezione 
+operata dall’utente sull’interfaccia del programma, e il programma di selezione verrà terminato.</p>
+<p>Adesso manca solo di dare la possibilità all’utilizzatore di operare la selezione:</p>
+
+<img src='img/image124.gif'>
+
+<p>Per questo aggiungere un pulsante sulla form a associargli la nostra nuova 
+azione di "return".</p>
+
+</blockquote><br />
+<h3>0.10.3<a name='node_71'> &nbsp; </a>Il passaggio di parametri</h3></br /><blockquote><p>Creiamo un programma (di nome "caller") che contenga una sola variabile 
+(di <i>alias</i> "selected_customer") di tipo "customer_id" e che mostri la 
+variabile ed un pulsante per chiamare un’azione di nome "selection". Per i vari 
+passaggi rimandiamo ai capitoli precedenti.</p>
+
+<img src='img/image126.gif'>
+
+<p>A questo punto definiamo la nostra azione "selection" aggiungendo una 
+chiamata al programma "customer" e passando la nostra variabile 
+"selected_customer" come parametro.</p>
+
+<img src='img/image128.gif'>
+
+<p>L’istruzione <i>call program</i> prevede di selezionare il programma da 
+chiamare e poi, premendo <kbd>F5</kbd> sulla cella <i>Arguments</i>, 
+presenta l’interfaccia dei parametri in uscita. I parametri possono essere passati 
+in due modi:</p>
+<ol>
+<li><em>by reference</em> - (Tramite il pulsante <i>Variable</i>) La variabile 
+       o il campo della vista da passare viene selezionato dall’elenco dei campi del 
+       programma. Al termine del programma chiamato il valore del campo potrà 
+       risultare variato.</li>
+<li><em>by expression</em> - (Tramite il pulsante <i>Expression</i>) Il valore
+       risultante dall’espressione sarà passato e reso disponibile al programma 
+       chiamato come valore ma nessuna azione di ritorno è attesa o possibile.</li>
+</ol>
+<p>Nel nostro caso passeremo la variabile "selected_customer" come riferimento 
+(<em> by reference</em>) per consentire il recupero del valore selezionato.</p>
+
+
+</blockquote><br />
+<h3>0.10.4<a name='node_72'> &nbsp; </a><i>Call program</i> e <i>Goto program</i></h3></br /><blockquote><p><i>Call program</i> e <i>Goto program</i> servono entrambe per chiamare 
+un altro programma ma con una sostanziale differenza:</p>
+
+<p>La <i>Call program</i> mette in attesa il programma chiamante (la cui eventuale 
+interfaccia rimane inattiva sullo sfondo) ed esegue il programma chiamato fino alla 
+sua conclusione. Al termine del chiamato (che esso preveda o no interazioni con
+l’operatore) il programma chiamante riprenderà la propria esecuzione, disponendo 
+degli eventuali parametri valorizzati (esecuzione <em>modale</em>).</p>
+
+<p>La <i>Goto program</i> passa l’esecuzione ad altro programma (oppure 
+sposta l’indirizzo web del browser all’url indicato) terminando in maniera 
+irreversibile l’esecuzione del programma chiamante. Ovviamente l’utilizzo dei 
+parametri <em>by reference</em> per una <i>Goto program</i> non può avere 
+alcun intento di recupero valore.</p></blockquote><br />
+<h3>0.10.5<a name='node_73'> &nbsp; </a>L’istruzione di <i>locate</i></h3></br /><blockquote><p>Se, ad esempio, volessimo ottenere questo effetto: quando il campo
+"selected_customer" del programma chiamante ha già un valore, posizionare 
+la selezione del programma chiamato sul record che descrive tale valore. 
+Ovvero: se inseriamo il valore "3" nel campo e premiamo il pulsante di selezione 
+del "Codice cliente", vogliamo che il programma "customer" si apra mostrando il 
+record con "id" = "3" come riga corrente.</p>
+
+<p>Questo comportamento lo si ottiene tramite l’istruzione <i>recordset locate</i>:
+l’istruzione accetta come parametri i valori di ricerca per ogni campo della tabella
+principale e rende corrente il primo record che soddisfi tali valori. Nel caso che nessun
+record li soddisfi, la vista si posiziona sul primo record del recordset.</p>
+
+<p><b>Nota bene</b> che l’istruzione di <i>locate</i> semplicemente posiziona 
+la vista sul record richiesto, senza operare alcuna variazione né di range né di
+ordinamento per il recordset!</p>
+
+<p>Nell’elenco delle azioni creare una nuova azione di nome "locate" e contenente 
+un’istruzione di <i>recordset locate</i> sulla vista "customers". Nell’elenco delle
+espressioni di locate per campo (<kbd>F5</kbd> sulla cella <i>Arguments</i>) 
+inserire un’espressione in corrispondenza del campo id che contenga il riferimento 
+al parametro in entrata "1 - Customer_id".</p>
+
+<img src='img/image130.gif'>
+
+<p>Ma quando eseguire la nostra azione? Abbiamo detto che vogliamo che il
+programma si apra <em>già posizionato</em> sul giusto record, quindi vogliamo 
+che l’azione "locate" sia eseguita ogni volta che chiamiamo il programma 
+"customers", prima di presentare l’interfaccia all’utente.</p>
+
+<p>Per questo dobbiamo indicare la nostra azione come <i>Initial action</i> del
+programma corrente (per i dettagli vedere la sezione relativa agli eventi). Come
+condizione di esecuzione della nostra istruzione di locate mettiamo una expression 
+che risolva in "true" se il parametro arriva valorizzato, cioè diverso da "0". Questo
+impedirà l’esecuzione dell’istruzione quando tale condizione non si verifichi, cioè 
+quando il programma verrà invocato da menu e quindi senza alcun parametro in 
+entrata.</p>
+</blockquote><br /><h4>Riepilogo</h4>
+<p>In questo capitolo abbiamo creato un programma di selezione di record in 
+una tabella, che accetti un parametro in entrata e lo valorizzi alla pressione di 
+un pulsante. Abbiamo poi creato un secondo programma che chiami il primo 
+passando una propria variabile come parametro e ne riceva il valore ritornato. 
+In fine abbiamo visto come posizionare la vista uno specifico record, senza variare 
+i criteri di range e ordinamento per il recordset.</p>
+
+<p>La <i>Call program</i> attende l’esecuzione del programma chiamato, dopo 
+di che riprende l’esecuzione del chiamante, mentre la <i>Goto program</i> non 
+prevede ritorno dal programma chiamato.</p>
+
+<p>I parametri in uscita possono essere passati come variabili o come espressioni 
+per recuperare o meno i valori di ritorno.</p>
+
+<p>I valori dei parametri in entrata sono disponibili al programma come i valori 
+delle normali variabili e campi delle viste.</p>
+
+<p>L’istruzione di <i>locate</i> accetta un’espressione per ogni campo per il quale 
+si voglia indicare un criterio di posizionamento.</p>
+
+<br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_64.html'>Relazione <em>uno-a-uno</em> - le link</a></td>
+       <td id='nav_next' align='right'><a href='node_75.html'>Relazione <em>uno-a-molti</em></a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<?php
+
+function jxgranting_right§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("right_code", "_o2alpha");
+	$task_prg§_§var->definisci("right_desc", "_o2text");
+		}
+
+function jxgranting_right§§rights_def(&$task_rights, $_o2viewalias = "") {
+	$task_rights->righe_vis = 10;
+
+	$task_rights->usa_file("o2_rights","o2_rights","right_code",null,null);
+
+	$task_rights->usa("right_code","o2_rights","right_code","jxgranting_right_exp_4()","jxgranting_right_exp_4()",null,null);
+}
+function jxgranting_right§§right_form_def(&$form_right) {
+	$form_right->x(-100);
+	$form_right->y(250);
+	$form_right->larghezza(310);
+	$form_right->altezza(350);
+	$form_right->titolo("Create right");
+	$form_right->css_doc("sys_right_doc");
+	$form_right->close_action("cancel");
+	$form_right->align_v("Middle");
+	$form_right->align_o("Center");
+	$form_right->frm_status(jxgranting_right_exp_1());
+	$ctrl_o2separator5 = &$form_right->ctrldef("o2separator5", "line", "", "", "");
+		$ctrl_o2separator5->x(30);
+		$ctrl_o2separator5->y(250);
+		$ctrl_o2separator5->larghezza(250);
+		$ctrl_o2separator5->altezza(2);
+	$ctrl_o2label24 = &$form_right->ctrldef("o2label24", "label", "", "", "");
+		$ctrl_o2label24->x(30);
+		$ctrl_o2label24->y(70);
+		$ctrl_o2label24->larghezza(100);
+		$ctrl_o2label24->altezza(20);
+		$ctrl_o2label24->label("Right name:");
+	$ctrl_o2label23 = &$form_right->ctrldef("o2label23", "label", "", "", "");
+		$ctrl_o2label23->x(30);
+		$ctrl_o2label23->y(30);
+		$ctrl_o2label23->larghezza(250);
+		$ctrl_o2label23->altezza(20);
+		$ctrl_o2label23->label("Create a new right.");
+	$ctrl_o2label2 = &$form_right->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(30);
+		$ctrl_o2label2->y(100);
+		$ctrl_o2label2->larghezza(100);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->label("Right description:");
+	$ctrl_o2edit8 = &$form_right->ctrldef("o2edit8", "edit", "", "prg§_§var", "right_code");
+		$ctrl_o2edit8->x(130);
+		$ctrl_o2edit8->y(70);
+		$ctrl_o2edit8->larghezza(150);
+		$ctrl_o2edit8->altezza(20);
+	$ctrl_o2textarea2 = &$form_right->ctrldef("o2textarea2", "text", "", "prg§_§var", "right_desc");
+		$ctrl_o2textarea2->x(30);
+		$ctrl_o2textarea2->y(120);
+		$ctrl_o2textarea2->larghezza(250);
+		$ctrl_o2textarea2->altezza(100);
+	$ctrl_o2button8 = &$form_right->ctrldef("o2button8", "button", "", "", "");
+		$ctrl_o2button8->x(90);
+		$ctrl_o2button8->y(270);
+		$ctrl_o2button8->larghezza(90);
+		$ctrl_o2button8->altezza(30);
+		$ctrl_o2button8->azione("cancel");
+		$ctrl_o2button8->label("     Cancel");
+		$ctrl_o2button8->css(jxgranting_right_exp_2());
+	$ctrl_o2button9 = &$form_right->ctrldef("o2button9", "button", "", "", "");
+		$ctrl_o2button9->x(190);
+		$ctrl_o2button9->y(270);
+		$ctrl_o2button9->larghezza(90);
+		$ctrl_o2button9->altezza(30);
+		$ctrl_o2button9->azione("check");
+		$ctrl_o2button9->label("     Create");
+		$ctrl_o2button9->css(jxgranting_right_exp_3());
+		}
+
+function jxgranting_right§§cancel_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(2, jxgranting_right_exp_1()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_right§§check_act(&$o2exe) {
+	$o2exe->s(1) && (jxgranting_right_exp_6() || $o2exe->e()) && o2act::exe("create", True, "") && $o2exe->e();
+	$o2exe->s(2) && (jxgranting_right_exp_8() || $o2exe->e()) && o2act::alert(jxgranting_right_exp_7(), 0) && $o2exe->e();
+	$o2exe->s(3) && (jxgranting_right_exp_10() || $o2exe->e()) && o2act::alert(jxgranting_right_exp_11(), 0) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_right§§create_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(1, jxgranting_right_exp_4()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::ret(2, jxgranting_right_exp_5()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::ret(3, jxgranting_right_exp_9()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_right_exp_1() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_2() {
+	
+return ("jxwiz_cancel");
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_3() {
+	
+return ("jxwiz_save");
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_4() {
+	
+return (o2val('prg§_§var','right_code'));
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_5() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_6() {
+	
+return (!o2zero('prg§_§var','right_code') && !o2view_rec("rights"));
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_7() {
+	
+return ("Right ".o2val('prg§_§var','right_code')." already exists!");
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_8() {
+	
+return (o2view_rec("rights"));
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_9() {
+	
+return (o2val('prg§_§var','right_desc'));
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_10() {
+	
+return (o2zero('prg§_§var','right_code'));
+	} //|o2_fine_exp|
+
+function jxgranting_right_exp_11() {
+	
+return ("Insert a valid right name");
+	} //|o2_fine_exp|
+?>

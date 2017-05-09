@@ -1,0 +1,269 @@
+<?php
+
+function jxlock§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("lock_status", "_o2logical");
+		}
+
+function jxlock§§options_def(&$task_options, $_o2viewalias = "") {
+	$task_options->righe_vis = 10;
+
+	$task_options->usa_file("o2_options","o2_options","id",null,null);
+
+	$task_options->usa("o2user","o2_options","o2user","jxlock_exp_1()","jxlock_exp_1()",null,null);
+	$task_options->usa("code","o2_options","code","jxlock_exp_2()","jxlock_exp_2()",null,null);
+	$task_options->usa("value","o2_options","value",null,null,null,null);
+}
+
+function jxlock§§sessions_def(&$task_sessions, $_o2viewalias = "") {
+	$task_sessions->righe_vis = 10;
+
+	$task_sessions->usa_file("o2_sessions","o2_sessions","sid",null,null);
+
+	$task_sessions->usa("sid","o2_sessions","sid",null,null,"jxlock_exp_17()",null);
+}
+function jxlock§§jxlock_form_def(&$form_jxlock) {
+	$form_jxlock->x(216);
+	$form_jxlock->y(170);
+	$form_jxlock->larghezza(397);
+	$form_jxlock->altezza(381);
+	$form_jxlock->titolo("Application lock");
+	$form_jxlock->align_o("Center");
+	$ctrl_o2label5 = &$form_jxlock->ctrldef("o2label5", "label", "", "", "");
+		$ctrl_o2label5->x(40);
+		$ctrl_o2label5->y(250);
+		$ctrl_o2label5->larghezza(320);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->visibile(jxlock_exp_7());
+		$ctrl_o2label5->label(jxlock_exp_16());
+	$ctrl_o2label4 = &$form_jxlock->ctrldef("o2label4", "label", "", "", "");
+		$ctrl_o2label4->x(40);
+		$ctrl_o2label4->y(230);
+		$ctrl_o2label4->larghezza(320);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->visibile(jxlock_exp_7());
+		$ctrl_o2label4->label(jxlock_exp_15());
+	$ctrl_o2separator2 = &$form_jxlock->ctrldef("o2separator2", "line", "", "", "");
+		$ctrl_o2separator2->x(40);
+		$ctrl_o2separator2->y(280);
+		$ctrl_o2separator2->larghezza(320);
+		$ctrl_o2separator2->altezza(2);
+	$ctrl_o2htmlarea2 = &$form_jxlock->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(40);
+		$ctrl_o2htmlarea2->y(30);
+		$ctrl_o2htmlarea2->larghezza(320);
+		$ctrl_o2htmlarea2->altezza(50);
+		$ctrl_o2htmlarea2->html(jxlock_exp_11());
+		$ctrl_o2htmlarea2->css(jxlock_exp_12());
+	$ctrl_o2label2 = &$form_jxlock->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(40);
+		$ctrl_o2label2->y(230);
+		$ctrl_o2label2->larghezza(320);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->visibile(jxlock_exp_8());
+		$ctrl_o2label2->label(jxlock_exp_13());
+	$ctrl_o2label3 = &$form_jxlock->ctrldef("o2label3", "label", "", "", "");
+		$ctrl_o2label3->x(40);
+		$ctrl_o2label3->y(250);
+		$ctrl_o2label3->larghezza(320);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->visibile(jxlock_exp_8());
+		$ctrl_o2label3->label(jxlock_exp_14());
+	$ctrl_o2image2 = &$form_jxlock->ctrldef("o2image2", "img", "", "", "");
+		$ctrl_o2image2->x(40);
+		$ctrl_o2image2->y(80);
+		$ctrl_o2image2->larghezza(128);
+		$ctrl_o2image2->altezza(128);
+		$ctrl_o2image2->label(jxlock_exp_6());
+		$ctrl_o2image2->imgexp(jxlock_exp_3());
+	$ctrl_o2button2 = &$form_jxlock->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(200);
+		$ctrl_o2button2->y(110);
+		$ctrl_o2button2->larghezza(160);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("toggle_lock");
+		$ctrl_o2button2->label(jxlock_exp_5());
+	$ctrl_o2button3 = &$form_jxlock->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(200);
+		$ctrl_o2button3->y(170);
+		$ctrl_o2button3->larghezza(160);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("destroy_sess");
+		$ctrl_o2button3->label("Destroy active sessions");
+	$ctrl_o2button4 = &$form_jxlock->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(270);
+		$ctrl_o2button4->y(300);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->azione("close");
+		$ctrl_o2button4->label("Close");
+		}
+
+function jxlock§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock§§delete_sess_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("sessions", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock§§destroy_sess_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("delete_sess", False, "sessions") && $o2exe->e();
+	$o2exe->s(2) && (jxlock_exp_23() || $o2exe->e()) && o2act::alert(jxlock_exp_18(), 2) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock§§do_batch_act(&$o2exe) {
+	$o2exe->s(1) && (jxlock_exp_8() || $o2exe->e()) && o2act::exe("destroy_sess", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("toggle_lock", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::ret(2, jxlock_exp_7()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock§§read_status_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "lock_status", jxlock_exp_4()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock§§set_lock_off_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("options", "C", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(jxlock_exp_21()) && $o2exe->e();
+	$o2exe->s(3) && (jxlock_exp_19() || $o2exe->e()) && o2act::call(jxlock_exp_19(), False) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock§§set_lock_on_act(&$o2exe) {
+	$o2exe->s(1) && (jxlock_exp_9() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("options", "o2user", jxlock_exp_1()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("options", "code", jxlock_exp_2()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("options", "value", jxlock_exp_10()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::view("options", "S", "") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::script(jxlock_exp_20()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("read_status", True, "") && $o2exe->e();
+	$o2exe->s(2) && (jxlock_exp_22() || $o2exe->e()) && o2act::exe("do_batch", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock§§toggle_lock_act(&$o2exe) {
+	$o2exe->s(1) && (jxlock_exp_7() || $o2exe->e()) && o2act::exe("set_lock_off", True, "") && $o2exe->e();
+	$o2exe->s(2) && (jxlock_exp_8() || $o2exe->e()) && o2act::exe("set_lock_on", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("read_status", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlock_exp_1() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function jxlock_exp_2() {
+	
+return ("lock");
+	} //|o2_fine_exp|
+
+function jxlock_exp_3() {
+	
+return ("<jx>/img/tools/".(o2val('prg§_§var','lock_status') ? "lock.png" : "unlock.png"));
+	} //|o2_fine_exp|
+
+function jxlock_exp_4() {
+	
+return ((o2val('options','value') ? true : false));
+	} //|o2_fine_exp|
+
+function jxlock_exp_5() {
+	
+return ((o2val('prg§_§var','lock_status') ? "Unlock" : "Lock"));
+	} //|o2_fine_exp|
+
+function jxlock_exp_6() {
+	
+return ("Application is currently ".(o2val('prg§_§var','lock_status') ? "LOCKED" : "UNLOCKED"));
+	} //|o2_fine_exp|
+
+function jxlock_exp_7() {
+	
+return (o2val('prg§_§var','lock_status'));
+	} //|o2_fine_exp|
+
+function jxlock_exp_8() {
+	
+return (!o2val('prg§_§var','lock_status'));
+	} //|o2_fine_exp|
+
+function jxlock_exp_9() {
+	
+return (!o2view_rec("options"));
+	} //|o2_fine_exp|
+
+function jxlock_exp_10() {
+	
+return ("1");
+	} //|o2_fine_exp|
+
+function jxlock_exp_11() {
+	$msg = "<center><h2>Application is currently <span style='color:".
+       (o2val('prg§_§var','lock_status') ? 
+        "#993300;'>LOCKED" : 
+        "#339900;'>UNLOCKED")."</span></h2></center>";
+return ($msg);
+	} //|o2_fine_exp|
+
+function jxlock_exp_12() {
+	
+return ("disp_area");
+	} //|o2_fine_exp|
+
+function jxlock_exp_13() {
+	$txt = "Lock application to deny access to all standard users:";
+return ($txt);
+	} //|o2_fine_exp|
+
+function jxlock_exp_14() {
+	$txt = "\"root\" and developers access will be granted anyway.";
+return ($txt);
+	} //|o2_fine_exp|
+
+function jxlock_exp_15() {
+	$txt = "Only \"root\" and developers can currently access:";
+return ($txt);
+	} //|o2_fine_exp|
+
+function jxlock_exp_16() {
+	$txt = "unlock application to allow standard users to login.";
+return ($txt);
+	} //|o2_fine_exp|
+
+function jxlock_exp_17() {
+	
+return (o2app_sid());
+	} //|o2_fine_exp|
+
+function jxlock_exp_18() {
+	
+return ("All active sessions destroyed");
+	} //|o2_fine_exp|
+
+function jxlock_exp_19() {
+	
+return ($_SESSION['o2_app']->prg_unlock);
+	} //|o2_fine_exp|
+
+function jxlock_exp_20() {
+	$_SESSION['o2_app']->lock = true;
+return (true);
+	} //|o2_fine_exp|
+
+function jxlock_exp_21() {
+	$_SESSION['o2_app']->lock = false;
+return (true);
+	} //|o2_fine_exp|
+
+function jxlock_exp_22() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function jxlock_exp_23() {
+	
+return (!o2par(1));
+	} //|o2_fine_exp|
+?>

@@ -1,0 +1,147 @@
+<?php
+
+function jxservice_add_host§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("free_services", "_o2structure");
+	$task_prg§_§var->definisci("host", "jxhost");
+	$task_prg§_§var->definisci("hosts", "_o2structure");
+	$task_prg§_§var->definisci("service", "jxservice");
+	$task_prg§_§var->definisci("services", "_o2structure");
+		}
+function jxservice_add_host§§jxservice_add_host_1_form_def(&$form_jxservice_add_host_1) {
+	$form_jxservice_add_host_1->x(16);
+	$form_jxservice_add_host_1->y(150);
+	$form_jxservice_add_host_1->larghezza(330);
+	$form_jxservice_add_host_1->altezza(210);
+	$form_jxservice_add_host_1->titolo("Add a service on a host");
+	$form_jxservice_add_host_1->align_o("Center");
+	$ctrl_o2label2 = &$form_jxservice_add_host_1->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(30);
+		$ctrl_o2label2->y(30);
+		$ctrl_o2label2->larghezza(70);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->label("Host:");
+	$ctrl_o2label3 = &$form_jxservice_add_host_1->ctrldef("o2label3", "label", "", "", "");
+		$ctrl_o2label3->x(30);
+		$ctrl_o2label3->y(60);
+		$ctrl_o2label3->larghezza(70);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->label("Service:");
+	$ctrl_o2separator2 = &$form_jxservice_add_host_1->ctrldef("o2separator2", "line", "", "", "");
+		$ctrl_o2separator2->x(30);
+		$ctrl_o2separator2->y(110);
+		$ctrl_o2separator2->larghezza(270);
+		$ctrl_o2separator2->altezza(2);
+	$ctrl_o2ListBox2 = &$form_jxservice_add_host_1->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "host");
+		$ctrl_o2ListBox2->x(100);
+		$ctrl_o2ListBox2->y(30);
+		$ctrl_o2ListBox2->larghezza(200);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->azione("change_host");
+		$ctrl_o2ListBox2->on_change(jxservice_add_host_exp_3());
+		$ctrl_o2ListBox2->valori(jxservice_add_host_exp_4());
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2ListBox3 = &$form_jxservice_add_host_1->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "service");
+		$ctrl_o2ListBox3->x(100);
+		$ctrl_o2ListBox3->y(60);
+		$ctrl_o2ListBox3->larghezza(200);
+		$ctrl_o2ListBox3->altezza(20);
+		$ctrl_o2ListBox3->modificabile(jxservice_add_host_exp_8());
+		$ctrl_o2ListBox3->valori(jxservice_add_host_exp_6());
+		$ctrl_o2ListBox3->righe(1);
+	$ctrl_o2button2 = &$form_jxservice_add_host_1->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(210);
+		$ctrl_o2button2->y(130);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("add");
+		$ctrl_o2button2->label("&Add");
+	$ctrl_o2button3 = &$form_jxservice_add_host_1->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(110);
+		$ctrl_o2button3->y(130);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("close");
+		$ctrl_o2button3->label("&Cancel");
+		}
+
+function jxservice_add_host§§add_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxservice_add_host_exp_7()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("close", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxservice_add_host§§change_host_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "free_services", jxservice_add_host_exp_5()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxservice_add_host§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxservice_add_host§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "services", jxservice_add_host_exp_1()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "hosts", jxservice_add_host_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxservice_add_host_exp_1() {
+	
+return (o2_service::get_list());
+	} //|o2_fine_exp|
+
+function jxservice_add_host_exp_2() {
+	$list = array('', '');
+foreach (o2val('prg§_§var','services') as $srv) {
+   $list[$srv['host']] = o2_str_nice($srv['host']);
+   }
+$list = array_unique($list);
+return ($list);
+	} //|o2_fine_exp|
+
+function jxservice_add_host_exp_3() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function jxservice_add_host_exp_4() {
+	
+return (o2val('prg§_§var','hosts'));
+	} //|o2_fine_exp|
+
+function jxservice_add_host_exp_5() {
+	$host     = o2val('prg§_§var','host');
+$app_srvs = $_SESSION['o2_app']->services;
+$def_srvs = o2val('prg§_§var','services');
+$list     = array();
+$default  = true;
+foreach ($def_srvs as $srv) {
+   if (!$srv['srv']) {
+      $default = false;
+      }
+   elseif ($srv['host'] == $host) {
+      unset($app_srvs[array_search($srv['srv'], $app_srvs)]);
+      }   
+   }
+if ($default) {
+   $list[''] = 'Default';
+   }
+foreach ($app_srvs as $srv) {
+   $list[$srv] = o2_str_nice($srv);
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function jxservice_add_host_exp_6() {
+	
+return (o2val('prg§_§var','free_services'));
+	} //|o2_fine_exp|
+
+function jxservice_add_host_exp_7() {
+	o2_service::add_host_service(o2val('prg§_§var','host'), o2val('prg§_§var','service'));
+return (true);
+	} //|o2_fine_exp|
+
+function jxservice_add_host_exp_8() {
+	
+return (!o2zero('prg§_§var','host'));
+	} //|o2_fine_exp|
+?>

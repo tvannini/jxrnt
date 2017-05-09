@@ -1,0 +1,60 @@
+<?php
+
+function jxdoc_css4embedding§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(2, jxdoc_css4embedding_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_css4embedding_exp_1() {
+	$text = "\n<style type='text/css'>\n<!--\n";
+if (o2par(1) && file_exists(o2app_dir_doc().o2par(1))) {
+   $text.= file_get_contents(o2app_dir_doc().o2par(1));
+   }
+else {
+   $text.='
+/* Background */
+   .doc_visorbg {
+      color: #19181A; 
+      background-color: #fdfdfd; 
+      overflow: auto;
+      }
+   .doc_visorarea {
+      text-align: justify;
+      padding: 10px 20px 10px 20px;
+      white-space: normal;
+      }   
+   
+   .doc_navigator {width:100%; background-color:transparent; border-collapse:collapse; margin: 0 0 10px 0;}
+   .doc_navigator a {border:none; font-weight:bold; padding: 5px 5px 2px 5px;}
+            
+/* Titles */
+   h1 {font-size:240%; font-weight:bold; margin:0 0 5px 0; line-height:200%}
+   h2 {font-size:210%; font-weight:bold; margin:0 0 5px 0; line-height:200%}
+   h3 {font-size:180%; font-weight:bold; margin:0 0 5px 0; line-height:200%}
+   h4 {font-size:150%; font-weight:bold; margin:0 0 5px 0; line-height:200%}
+   h5 {font-size:120%; font-weight:bold; margin:0 0 5px 0; line-height:200%}
+   h6 {font-size:100%; font-weight:bold; margin:0 0 5px 0; line-height:200%}
+
+/* Paragraph */
+   p {margin-top:0; margin-bottom:10px;}
+   blockquote {margin: 0 0 0 30px;}
+
+/* Images */
+   /*img {margin-top:10px; margin-bottom:10px;}*/
+
+/* ________________________ Coded types ___________________________*/
+/* Keyboard keys */
+   kbd {font-family: "Times New Roman", serif; font-weight: bold; font-variant: small-caps;}
+/* Text from interface */
+   i {font-family: "Times New Roman", serif; font-size: larger;}
+/* Values "___" */
+/* URL & path */
+   var {font-family: monospace; font-style: normal;}
+/* Scripting code (PHP, SQL, JavaScript, ...) */
+   code {font-family: "Courier New";}
+/* Generic emphasis */
+   em {font-family: "Times New Roman", serif; font-size: larger;}';
+   }
+$text.= "\n-->\n</style>\n";
+return ($text);
+	} //|o2_fine_exp|
+?>

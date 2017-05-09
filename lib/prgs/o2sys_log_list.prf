@@ -1,0 +1,143 @@
+<?php
+
+function o2sys_log_list§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("tables_list", "_o2structure");
+		}
+
+function o2sys_log_list§§loglist_def(&$task_loglist, $_o2viewalias = "") {
+	$task_loglist->righe_vis = 20;
+
+	$task_loglist->usa_file("o2_tabslog","o2_tabslog","log_tabname",null,null);
+
+	$task_loglist->usa("log_tabname","o2_tabslog","log_tabname",null,null,null,null);
+	$task_loglist->usa("log_level","o2_tabslog","log_level",null,null,null,null);
+	$task_loglist->usa("log_operations","o2_tabslog","log_operations",null,null,null,null);
+	$task_loglist->calcola("in_db", "o2sys_log_list_exp_5()",null,null,"o2sys_log_list_exp_9999()",null);
+}
+function o2sys_log_list§§o2sys_log_list_form_def(&$form_o2sys_log_list) {
+	$form_o2sys_log_list->x(201);
+	$form_o2sys_log_list->y(71);
+	$form_o2sys_log_list->larghezza(540);
+	$form_o2sys_log_list->altezza(584);
+	$form_o2sys_log_list->titolo(o2sys_log_list_exp_3());
+	$form_o2sys_log_list->close_action("save");
+	$form_o2sys_log_list->align_o("Center");
+	$ctrl_o2table2 = &$form_o2sys_log_list->ctrldef("o2table2", "tab", "", "loglist", "");
+		$ctrl_o2table2->x(20);
+		$ctrl_o2table2->y(20);
+		$ctrl_o2table2->larghezza(500);
+		$ctrl_o2table2->altezza(482);
+	$ctrl_o2button2 = &$form_o2sys_log_list->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(430);
+		$ctrl_o2button2->y(510);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("close");
+		$ctrl_o2button2->label("&Close");
+	$ctrl_o2dbnavigator2 = &$form_o2sys_log_list->ctrldef("o2dbnavigator2", "navigator", "o2table2", "loglist", "");
+		$ctrl_o2dbnavigator2->x(460);
+		$ctrl_o2dbnavigator2->y(110);
+		$ctrl_o2dbnavigator2->larghezza(18);
+		$ctrl_o2dbnavigator2->altezza(200);
+		$ctrl_o2dbnavigator2->vertical();
+		$ctrl_o2dbnavigator2->visible_new(o2sys_log_list_exp_9999());
+		$ctrl_o2dbnavigator2->visible_save(o2sys_log_list_exp_9999());
+		$ctrl_o2dbnavigator2->visible_undo(o2sys_log_list_exp_9999());
+		$ctrl_o2dbnavigator2->visible_detail(o2sys_log_list_exp_9999());
+		$ctrl_o2dbnavigator2->visible_select(o2sys_log_list_exp_9999());
+		$ctrl_o2dbnavigator2->act_del("loglist_delete");
+		$ctrl_o2dbnavigator2->confirm_del("ATTENTION: table will be discarded from logging.\\nProceed?");
+	$ctrl_o2image2 = &$form_o2sys_log_list->ctrldef("o2image2", "img", "o2table2", "", "");
+		$ctrl_o2image2->x(30);
+		$ctrl_o2image2->y(30);
+		$ctrl_o2image2->larghezza(16);
+		$ctrl_o2image2->altezza(16);
+		$ctrl_o2image2->azione("view_log");
+		$ctrl_o2image2->info_padre(array("01" ,"01" ,"01"));
+		$ctrl_o2image2->imgexp(o2sys_log_list_exp_2());
+	$ctrl_o2label2 = &$form_o2sys_log_list->ctrldef("o2label2", "label", "o2table2", "", "");
+		$ctrl_o2label2->x(60);
+		$ctrl_o2label2->y(30);
+		$ctrl_o2label2->larghezza(160);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->info_padre(array("01" ,"02" ,"02"));
+		$ctrl_o2label2->label(o2sys_log_list_exp_6());
+	$ctrl_o2ListBox2 = &$form_o2sys_log_list->ctrldef("o2ListBox2", "listcombo", "o2table2", "loglist", "log_level");
+		$ctrl_o2ListBox2->x(230);
+		$ctrl_o2ListBox2->y(30);
+		$ctrl_o2ListBox2->larghezza(100);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->info_padre(array("01" ,"03" ,"03" ,"Level" ,False ,"" ,False ,""));
+		$ctrl_o2ListBox2->valori(array());
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2label3 = &$form_o2sys_log_list->ctrldef("o2label3", "label", "o2table2", "", "");
+		$ctrl_o2label3->x(340);
+		$ctrl_o2label3->y(30);
+		$ctrl_o2label3->larghezza(70);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->info_padre(array("01" ,"04" ,"04"));
+		$ctrl_o2label3->label(o2sys_log_list_exp_7());
+		}
+
+function o2sys_log_list§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("loglist", "S", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_log_list§§loglist_delete_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("loglist", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_log_list§§save_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("loglist", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_log_list§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "tables_list", o2sys_log_list_exp_4()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_log_list§§view_log_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2sys_log_list_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_log_list_exp_1() {
+
+return (o2tab_browselog(o2val('loglist','log_tabname')));
+	} //|o2_fine_exp|
+
+function o2sys_log_list_exp_2() {
+
+return ("<jx>/img/history.png");
+	} //|o2_fine_exp|
+
+function o2sys_log_list_exp_3() {
+
+return ("Logged tables ".(o2par(1) ? "in database ".o2par(1) : "list"));
+	} //|o2_fine_exp|
+
+function o2sys_log_list_exp_4() {
+	$list = o2db_tables(o2par(1));
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_log_list_exp_5() {
+
+return (!o2par(1) || in_array(o2tab_name(o2val('loglist','log_tabname')), o2val('prg§_§var','tables_list')));
+	} //|o2_fine_exp|
+
+function o2sys_log_list_exp_6() {
+
+return (o2val('loglist','log_tabname'));
+	} //|o2_fine_exp|
+
+function o2sys_log_list_exp_7() {
+
+return (o2val('loglist','log_operations'));
+	} //|o2_fine_exp|
+
+function o2sys_log_list_exp_9999() {
+
+return (false);
+	} //|o2_fine_exp|
+?>

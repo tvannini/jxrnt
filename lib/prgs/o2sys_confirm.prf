@@ -1,0 +1,162 @@
+<?php
+
+function o2sys_confirm§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("local_txt", "_o2text");
+	$task_prg§_§var->definisci("txt_lines", "_o2number");
+	$task_prg§_§var->definisci("txt_max_width", "_o2number");
+		}
+function o2sys_confirm§§sys_confirm_form_def(&$form_sys_confirm) {
+	$form_sys_confirm->x(200);
+	$form_sys_confirm->y(200);
+	$form_sys_confirm->larghezza(400);
+	$form_sys_confirm->altezza(250);
+	$form_sys_confirm->titolo("");
+	$form_sys_confirm->css_title("sys_alert_title");
+	$form_sys_confirm->css_doc("sys_alert_doc");
+	$form_sys_confirm->css_close("hidden");
+	$form_sys_confirm->css_open("hidden");
+	$form_sys_confirm->css_exit("sys_alert_close");
+	$form_sys_confirm->close_action("act_no");
+	$form_sys_confirm->align_v("Middle");
+	$form_sys_confirm->align_o("Center");
+	$form_sys_confirm->y_exp(o2sys_confirm_exp_13());
+	$form_sys_confirm->x_exp(o2sys_confirm_exp_12());
+	$form_sys_confirm->altezza_exp(o2sys_confirm_exp_5());
+	$form_sys_confirm->larghezza_exp(o2sys_confirm_exp_8());
+	$form_sys_confirm->frm_status(o2sys_confirm_exp_1());
+	$ctrl_sys_confirm_area = &$form_sys_confirm->ctrldef("sys_confirm_area", "htmlarea", "", "", "");
+		$ctrl_sys_confirm_area->x(20);
+		$ctrl_sys_confirm_area->y(0);
+		$ctrl_sys_confirm_area->larghezza(370);
+		$ctrl_sys_confirm_area->altezza(220);
+		$ctrl_sys_confirm_area->html(o2sys_confirm_exp_11());
+		$ctrl_sys_confirm_area->expand("B");
+		}
+
+function o2sys_confirm§§act_no_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(2, o2sys_confirm_exp_1()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_confirm§§act_yes_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(2, o2sys_confirm_exp_15()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_confirm§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "local_txt", o2sys_confirm_exp_2()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "txt_lines", o2sys_confirm_exp_6()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "txt_max_width", o2sys_confirm_exp_7()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_confirm_exp_1() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_2() {
+	$app = $_SESSION['o2_app'];
+$txt = stripcslashes(o2par(1));
+if ($app->multilang) {
+   $ctxt = str_replace("\n", "\\n", $txt);
+   if (trim($app->translation[$ctxt])) {
+      $txt = $app->translation[$ctxt];
+      }
+   }
+return ($txt);
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_5() {
+	
+return (130 + (o2val('prg§_§var','txt_lines') * 16));
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_6() {
+	$lines = 0;
+$txt   = o2val('prg§_§var','local_txt');
+foreach (explode("\n", $txt) as $line) {
+   $lines+= intval(strlen($line) / 90) + 1;
+   }
+return ($lines);
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_7() {
+	$w      = 0;
+$maxrow = "";
+$rows   = explode("\n", o2val('prg§_§var','local_txt'));
+foreach ($rows as $row) {
+   if (strlen($row) > $w) {
+      $w      = strlen($row);
+      $maxrow = $row;
+      }
+   }
+$w = 100 + ($w * (strtoupper($maxrow) == $maxrow ? 9 : 7.5));
+return ($w);
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_8() {
+	
+return (max(235, min(o2val('prg§_§var','txt_max_width'), 600)));
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_11() {
+	$t =  '<table style="width:'.(o2form_width("sys_confirm") - 40).'px;">
+        <tr>
+         <td style="width:48px;"><img src="'.o2rnt_alias().'/img/question.png"></td>
+         <td class="alert_msg">'.
+          nl2br(htmlentities(o2val('prg§_§var','local_txt'), ENT_QUOTES, o2app_encoding())).
+        '</td>
+        </tr>
+        <tr>
+         <td colspan="2" align="center"
+             onkeyup="e=o2jse.event.std(event);'.
+                      /* ALT+Y and ALT+N */
+              '       if(e.altKey){
+                       if(e.keyCode == 89){'.o2_act4js(0, 'act_yes').'}
+                       else if(e.keyCode == 78){'.o2_act4js(0, 'act_no').'}}">
+          <hr style="width:94%;height:2px;color:#19181a;"/>
+          <div id="jx_confirm_yes_bnt"
+               class="o2_ctrl_button"
+               onclick="'.o2_act4js(0, 'act_yes').'"
+               onkeyup="e=o2jse.event.std(event);'.
+                        /* Click on SpaceBar and Return */
+              '         if(e.keyCode == 32 || e.keyCode == 13){this.click();}
+                        else if(e.keyCode == 39){document.getElementById(\'jx_confirm_no_bnt\').focus();}"
+               tabindex="0"
+               style="width:90px;height:30px;line-height:30px;display:inline-block;"
+               title="ALT+Y"><u>Y</u>es
+          </div>
+          <div id="jx_confirm_no_bnt"
+               class="o2_ctrl_button"
+               onclick="'.o2_act4js(0, 'act_no').'"
+               onkeyup="e=o2jse.event.std(event);'.
+                        /* Click on SpaceBar and Return */
+              '         if(e.keyCode == 32 || e.keyCode == 13){this.click();}
+                        else if(e.keyCode == 37){document.getElementById(\'jx_confirm_yes_bnt\').focus();}"
+               tabindex="0"
+               style="width:90px;height:30px;line-height:30px;display:inline-block;"
+               title="ALT+N"><u>N</u>o
+          </div>
+         </td>
+        </tr>
+       </table>
+       <script> document.getElementById("jx_confirm_yes_bnt").focus(); </script>';
+return ($t);
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_12() {
+	
+return (o2exp(8) / 2);
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_13() {
+	
+return (o2exp(5) / 2);
+	} //|o2_fine_exp|
+
+function o2sys_confirm_exp_15() {
+	
+return (true);
+	} //|o2_fine_exp|
+?>

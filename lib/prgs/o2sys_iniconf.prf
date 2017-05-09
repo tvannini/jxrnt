@@ -1,0 +1,1328 @@
+<?php
+
+function o2sys_iniconf§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("create_start", "_o2logical");
+	$task_prg§_§var->definisci("description", "_o2text");
+	$task_prg§_§var->definisci("file_name", "_o2alpha");
+	$task_prg§_§var->definisci("include_runtime", "_o2logical");
+	$task_prg§_§var->definisci("ini_file", "_o2alpha");
+	$task_prg§_§var->definisci("ini_struct", "_o2structure");
+	$task_prg§_§var->definisci("is_number", "_o2logical");
+	$task_prg§_§var->definisci("save_as", "_o2logical");
+	$task_prg§_§var->definisci("search", "_o2alpha");
+	$task_prg§_§var->definisci("selected_word", "_o2alpha");
+	$task_prg§_§var->definisci("set_value", "_o2logical");
+	$task_prg§_§var->definisci("smart_list", "_o2structure");
+	$task_prg§_§var->definisci("value", "_o2text");
+	$task_prg§_§var->definisci("wide", "_o2logical");
+		}
+function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
+	$form_o2sys_iniconf_1->x(325);
+	$form_o2sys_iniconf_1->y(80);
+	$form_o2sys_iniconf_1->larghezza(650);
+	$form_o2sys_iniconf_1->altezza(586);
+	$form_o2sys_iniconf_1->titolo("Application configuration");
+	$form_o2sys_iniconf_1->css_doc("sys_options_doc");
+	$form_o2sys_iniconf_1->align_o("Center");
+	$form_o2sys_iniconf_1->frm_status(o2sys_iniconf_exp_9999());
+	$ctrl_o2label5 = &$form_o2sys_iniconf_1->ctrldef("o2label5", "label", "", "", "");
+		$ctrl_o2label5->x(320);
+		$ctrl_o2label5->y(70);
+		$ctrl_o2label5->larghezza(300);
+		$ctrl_o2label5->altezza(40);
+		$ctrl_o2label5->visibile(o2sys_iniconf_exp_18());
+		$ctrl_o2label5->label(o2sys_iniconf_exp_15());
+	$ctrl_o2htmlarea2 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(320);
+		$ctrl_o2htmlarea2->y(230);
+		$ctrl_o2htmlarea2->larghezza(300);
+		$ctrl_o2htmlarea2->altezza(250);
+		$ctrl_o2htmlarea2->visibile(o2sys_iniconf_exp_47());
+		$ctrl_o2htmlarea2->html(o2sys_iniconf_exp_46());
+		$ctrl_o2htmlarea2->css(o2sys_iniconf_exp_48());
+	$ctrl_o2label3 = &$form_o2sys_iniconf_1->ctrldef("o2label3", "label", "", "", "");
+		$ctrl_o2label3->x(220);
+		$ctrl_o2label3->y(150);
+		$ctrl_o2label3->larghezza(90);
+		$ctrl_o2label3->altezza(22);
+		$ctrl_o2label3->visibile(o2sys_iniconf_exp_47());
+		$ctrl_o2label3->label("Set value:");
+	$ctrl_o2label4 = &$form_o2sys_iniconf_1->ctrldef("o2label4", "label", "", "", "");
+		$ctrl_o2label4->x(320);
+		$ctrl_o2label4->y(110);
+		$ctrl_o2label4->larghezza(300);
+		$ctrl_o2label4->altezza(40);
+		$ctrl_o2label4->visibile(o2sys_iniconf_exp_18());
+		$ctrl_o2label4->label(o2sys_iniconf_exp_1());
+	$ctrl_o2label2 = &$form_o2sys_iniconf_1->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(220);
+		$ctrl_o2label2->y(110);
+		$ctrl_o2label2->larghezza(90);
+		$ctrl_o2label2->altezza(22);
+		$ctrl_o2label2->visibile(o2sys_iniconf_exp_47());
+		$ctrl_o2label2->label("From runtime:");
+	$ctrl_o2label8 = &$form_o2sys_iniconf_1->ctrldef("o2label8", "label", "", "", "");
+		$ctrl_o2label8->x(320);
+		$ctrl_o2label8->y(70);
+		$ctrl_o2label8->larghezza(300);
+		$ctrl_o2label8->altezza(22);
+		$ctrl_o2label8->visibile(o2sys_iniconf_exp_17());
+		$ctrl_o2label8->label(o2sys_iniconf_exp_15());
+	$ctrl_o2label9 = &$form_o2sys_iniconf_1->ctrldef("o2label9", "label", "", "", "");
+		$ctrl_o2label9->x(400);
+		$ctrl_o2label9->y(20);
+		$ctrl_o2label9->larghezza(70);
+		$ctrl_o2label9->altezza(22);
+		$ctrl_o2label9->label("Search:");
+	$ctrl_o2label6 = &$form_o2sys_iniconf_1->ctrldef("o2label6", "label", "", "", "");
+		$ctrl_o2label6->x(220);
+		$ctrl_o2label6->y(70);
+		$ctrl_o2label6->larghezza(100);
+		$ctrl_o2label6->altezza(22);
+		$ctrl_o2label6->visibile(o2sys_iniconf_exp_47());
+		$ctrl_o2label6->label("Default:");
+	$ctrl_o2label7 = &$form_o2sys_iniconf_1->ctrldef("o2label7", "label", "", "", "");
+		$ctrl_o2label7->x(320);
+		$ctrl_o2label7->y(110);
+		$ctrl_o2label7->larghezza(300);
+		$ctrl_o2label7->altezza(22);
+		$ctrl_o2label7->visibile(o2sys_iniconf_exp_17());
+		$ctrl_o2label7->label(o2sys_iniconf_exp_1());
+	$ctrl_o2separator2 = &$form_o2sys_iniconf_1->ctrldef("o2separator2", "line", "", "", "");
+		$ctrl_o2separator2->x(30);
+		$ctrl_o2separator2->y(45);
+		$ctrl_o2separator2->larghezza(590);
+		$ctrl_o2separator2->altezza(2);
+	$ctrl_keys_list = &$form_o2sys_iniconf_1->ctrldef("keys_list", "listcombo", "", "prg§_§var", "selected_word");
+		$ctrl_keys_list->x(30);
+		$ctrl_keys_list->y(60);
+		$ctrl_keys_list->larghezza(180);
+		$ctrl_keys_list->altezza(470);
+		$ctrl_keys_list->azione("select_word");
+		$ctrl_keys_list->on_change(o2sys_iniconf_exp_4());
+		$ctrl_keys_list->valori(o2sys_iniconf_exp_3());
+		$ctrl_keys_list->righe(10);
+	$ctrl_o2edit3 = &$form_o2sys_iniconf_1->ctrldef("o2edit3", "edit", "", "prg§_§var", "value");
+		$ctrl_o2edit3->x(320);
+		$ctrl_o2edit3->y(150);
+		$ctrl_o2edit3->larghezza(300);
+		$ctrl_o2edit3->altezza(22);
+		$ctrl_o2edit3->modificabile(o2sys_iniconf_exp_14());
+		$ctrl_o2edit3->visibile(o2sys_iniconf_exp_6());
+		$ctrl_o2edit3->azione("check_value");
+		$ctrl_o2edit3->on_change(o2sys_iniconf_exp_24());
+	$ctrl_o2ListBox3 = &$form_o2sys_iniconf_1->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "value");
+		$ctrl_o2ListBox3->x(320);
+		$ctrl_o2ListBox3->y(150);
+		$ctrl_o2ListBox3->larghezza(300);
+		$ctrl_o2ListBox3->altezza(22);
+		$ctrl_o2ListBox3->visibile(o2sys_iniconf_exp_5());
+		$ctrl_o2ListBox3->azione("save_value");
+		$ctrl_o2ListBox3->on_change(o2sys_iniconf_exp_4());
+		$ctrl_o2ListBox3->valori(o2sys_iniconf_exp_8());
+		$ctrl_o2ListBox3->righe(1);
+	$ctrl_o2checkbox2 = &$form_o2sys_iniconf_1->ctrldef("o2checkbox2", "check", "", "prg§_§var", "set_value");
+		$ctrl_o2checkbox2->x(290);
+		$ctrl_o2checkbox2->y(150);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(22);
+		$ctrl_o2checkbox2->visibile(o2sys_iniconf_exp_47());
+		$ctrl_o2checkbox2->azione("enable_value");
+		$ctrl_o2checkbox2->on_change(o2sys_iniconf_exp_4());
+	$ctrl_o2textarea3 = &$form_o2sys_iniconf_1->ctrldef("o2textarea3", "text", "", "prg§_§var", "value");
+		$ctrl_o2textarea3->x(320);
+		$ctrl_o2textarea3->y(150);
+		$ctrl_o2textarea3->larghezza(300);
+		$ctrl_o2textarea3->altezza(70);
+		$ctrl_o2textarea3->modificabile(o2sys_iniconf_exp_14());
+		$ctrl_o2textarea3->visibile(o2sys_iniconf_exp_19());
+		$ctrl_o2textarea3->azione("save_value");
+		$ctrl_o2textarea3->on_change(o2sys_iniconf_exp_4());
+	$ctrl_o2edit2 = &$form_o2sys_iniconf_1->ctrldef("o2edit2", "edit", "", "prg§_§var", "search");
+		$ctrl_o2edit2->x(470);
+		$ctrl_o2edit2->y(20);
+		$ctrl_o2edit2->larghezza(150);
+		$ctrl_o2edit2->altezza(22);
+		$ctrl_o2edit2->azione("search");
+		$ctrl_o2edit2->on_change(o2sys_iniconf_exp_4());
+	$ctrl_o2button3 = &$form_o2sys_iniconf_1->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(320);
+		$ctrl_o2button3->y(500);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("open_save_as");
+		$ctrl_o2button3->label("     &Save as");
+		$ctrl_o2button3->css(o2sys_iniconf_exp_28());
+	$ctrl_o2button4 = &$form_o2sys_iniconf_1->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(425);
+		$ctrl_o2button4->y(500);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->azione("apply_conf");
+		$ctrl_o2button4->label("     &Apply");
+		$ctrl_o2button4->confirm_message(o2sys_iniconf_exp_32());
+		$ctrl_o2button4->css(o2sys_iniconf_exp_28());
+	$ctrl_o2button2 = &$form_o2sys_iniconf_1->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(530);
+		$ctrl_o2button2->y(500);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("quit");
+		$ctrl_o2button2->label("     &Cancel");
+		$ctrl_o2button2->css(o2sys_iniconf_exp_29());
+		}
+function o2sys_iniconf§§o2sys_iniconf_2_form_def(&$form_o2sys_iniconf_2) {
+	$form_o2sys_iniconf_2->x(228);
+	$form_o2sys_iniconf_2->y(172);
+	$form_o2sys_iniconf_2->larghezza(482);
+	$form_o2sys_iniconf_2->altezza(330);
+	$form_o2sys_iniconf_2->titolo("Save as");
+	$form_o2sys_iniconf_2->align_o("Center");
+	$form_o2sys_iniconf_2->frm_status(o2sys_iniconf_exp_9999());
+	$ctrl_o2label18 = &$form_o2sys_iniconf_2->ctrldef("o2label18", "label", "", "", "");
+		$ctrl_o2label18->x(270);
+		$ctrl_o2label18->y(120);
+		$ctrl_o2label18->larghezza(170);
+		$ctrl_o2label18->altezza(20);
+		$ctrl_o2label18->label("Flag this option to set the");
+	$ctrl_o2label10 = &$form_o2sys_iniconf_2->ctrldef("o2label10", "label", "", "", "");
+		$ctrl_o2label10->x(30);
+		$ctrl_o2label10->y(190);
+		$ctrl_o2label10->larghezza(200);
+		$ctrl_o2label10->altezza(22);
+		$ctrl_o2label10->label("Save configuration as:");
+	$ctrl_o2label11 = &$form_o2sys_iniconf_2->ctrldef("o2label11", "label", "", "", "");
+		$ctrl_o2label11->x(405);
+		$ctrl_o2label11->y(190);
+		$ctrl_o2label11->larghezza(40);
+		$ctrl_o2label11->altezza(22);
+		$ctrl_o2label11->label(".ini");
+	$ctrl_o2label12 = &$form_o2sys_iniconf_2->ctrldef("o2label12", "label", "", "", "");
+		$ctrl_o2label12->x(30);
+		$ctrl_o2label12->y(30);
+		$ctrl_o2label12->larghezza(200);
+		$ctrl_o2label12->altezza(22);
+		$ctrl_o2label12->label("Create application launcher:");
+	$ctrl_o2label13 = &$form_o2sys_iniconf_2->ctrldef("o2label13", "label", "", "", "");
+		$ctrl_o2label13->x(270);
+		$ctrl_o2label13->y(30);
+		$ctrl_o2label13->larghezza(170);
+		$ctrl_o2label13->altezza(22);
+		$ctrl_o2label13->label("Flag this option to create");
+	$ctrl_o2label15 = &$form_o2sys_iniconf_2->ctrldef("o2label15", "label", "", "", "");
+		$ctrl_o2label15->x(270);
+		$ctrl_o2label15->y(70);
+		$ctrl_o2label15->larghezza(170);
+		$ctrl_o2label15->altezza(22);
+		$ctrl_o2label15->label("with the provided name");
+	$ctrl_o2label17 = &$form_o2sys_iniconf_2->ctrldef("o2label17", "label", "", "", "");
+		$ctrl_o2label17->x(30);
+		$ctrl_o2label17->y(120);
+		$ctrl_o2label17->larghezza(200);
+		$ctrl_o2label17->altezza(22);
+		$ctrl_o2label17->label("Include runtime:");
+	$ctrl_o2label14 = &$form_o2sys_iniconf_2->ctrldef("o2label14", "label", "", "", "");
+		$ctrl_o2label14->x(270);
+		$ctrl_o2label14->y(50);
+		$ctrl_o2label14->larghezza(170);
+		$ctrl_o2label14->altezza(22);
+		$ctrl_o2label14->label("a full application launcher");
+	$ctrl_o2label19 = &$form_o2sys_iniconf_2->ctrldef("o2label19", "label", "", "", "");
+		$ctrl_o2label19->x(270);
+		$ctrl_o2label19->y(140);
+		$ctrl_o2label19->larghezza(170);
+		$ctrl_o2label19->altezza(20);
+		$ctrl_o2label19->label("current runtime path in the");
+	$ctrl_o2label20 = &$form_o2sys_iniconf_2->ctrldef("o2label20", "label", "", "", "");
+		$ctrl_o2label20->x(270);
+		$ctrl_o2label20->y(160);
+		$ctrl_o2label20->larghezza(170);
+		$ctrl_o2label20->altezza(20);
+		$ctrl_o2label20->label("application launcher.");
+	$ctrl_o2label16 = &$form_o2sys_iniconf_2->ctrldef("o2label16", "label", "", "", "");
+		$ctrl_o2label16->x(270);
+		$ctrl_o2label16->y(90);
+		$ctrl_o2label16->larghezza(170);
+		$ctrl_o2label16->altezza(20);
+		$ctrl_o2label16->label("in the <app>/htdocs folder.");
+	$ctrl_o2button5 = &$form_o2sys_iniconf_2->ctrldef("o2button5", "button", "", "", "");
+		$ctrl_o2button5->x(260);
+		$ctrl_o2button5->y(250);
+		$ctrl_o2button5->larghezza(90);
+		$ctrl_o2button5->altezza(30);
+		$ctrl_o2button5->azione("save_as");
+		$ctrl_o2button5->label("     &Save");
+		$ctrl_o2button5->css(o2sys_iniconf_exp_28());
+	$ctrl_o2button6 = &$form_o2sys_iniconf_2->ctrldef("o2button6", "button", "", "", "");
+		$ctrl_o2button6->x(360);
+		$ctrl_o2button6->y(250);
+		$ctrl_o2button6->larghezza(90);
+		$ctrl_o2button6->altezza(30);
+		$ctrl_o2button6->azione("close_save_as");
+		$ctrl_o2button6->label("     &Cancel");
+		$ctrl_o2button6->css(o2sys_iniconf_exp_29());
+	$ctrl_new_name = &$form_o2sys_iniconf_2->ctrldef("new_name", "edit", "", "prg§_§var", "file_name");
+		$ctrl_new_name->x(230);
+		$ctrl_new_name->y(190);
+		$ctrl_new_name->larghezza(170);
+		$ctrl_new_name->altezza(22);
+	$ctrl_o2checkbox3 = &$form_o2sys_iniconf_2->ctrldef("o2checkbox3", "check", "", "prg§_§var", "create_start");
+		$ctrl_o2checkbox3->x(230);
+		$ctrl_o2checkbox3->y(30);
+		$ctrl_o2checkbox3->larghezza(20);
+		$ctrl_o2checkbox3->altezza(22);
+		$ctrl_o2checkbox3->on_change(o2sys_iniconf_exp_4());
+	$ctrl_o2checkbox4 = &$form_o2sys_iniconf_2->ctrldef("o2checkbox4", "check", "", "prg§_§var", "include_runtime");
+		$ctrl_o2checkbox4->x(230);
+		$ctrl_o2checkbox4->y(120);
+		$ctrl_o2checkbox4->larghezza(20);
+		$ctrl_o2checkbox4->altezza(22);
+		$ctrl_o2checkbox4->modificabile(o2sys_iniconf_exp_39());
+		}
+
+function o2sys_iniconf§§apply_conf_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("select_word", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_iniconf_exp_30()) && $o2exe->e();
+	$o2exe->s(3) && (o2sys_iniconf_exp_38() || $o2exe->e()) && o2act::alert(o2sys_iniconf_exp_33(), 0) && $o2exe->e();
+	$o2exe->s(4) && (o2sys_iniconf_exp_38() || $o2exe->e()) && o2act::exe("quit", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§check_number_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::alert(o2sys_iniconf_exp_22(), 0) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "value", o2sys_iniconf_exp_23()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§check_value_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_iniconf_exp_21() || $o2exe->e()) && o2act::exe("check_number", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("save_value", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§close_save_as_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "save_as", o2sys_iniconf_exp_9999()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_iniconf_exp_41()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§enable_value_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "value", o2sys_iniconf_exp_10()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_31()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§open_save_as_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "save_as", o2sys_iniconf_exp_4()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "create_start", o2sys_iniconf_exp_9999()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "include_runtime", o2sys_iniconf_exp_4()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::script(o2sys_iniconf_exp_40()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§parse_app_ini_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_27()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§parse_rnt_ini_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_26()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§quit_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§save_as_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Create application launcher") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_iniconf_exp_42()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Create INI file") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "ini_file", o2sys_iniconf_exp_37()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("apply_conf", True, "") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::call("o2sys_fs_browser", False, o2sys_iniconf_exp_43(), o2sys_iniconf_exp_44(), o2sys_iniconf_exp_43(), o2sys_iniconf_exp_9999(), o2sys_iniconf_exp_9999(), o2sys_iniconf_exp_4(), o2sys_iniconf_exp_4(), o2sys_iniconf_exp_4(), o2sys_iniconf_exp_45()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "save_as", o2sys_iniconf_exp_9999()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§save_value_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_31()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§search_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "selected_word", o2sys_iniconf_exp_23()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("select_word", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§select_word_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "set_value", o2sys_iniconf_exp_11()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "value", o2sys_iniconf_exp_10()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "description", o2sys_iniconf_exp_7()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "wide", o2sys_iniconf_exp_16()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "is_number", o2sys_iniconf_exp_20()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf§§start_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("INI file to write") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "ini_file", o2sys_iniconf_exp_35()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Smart list for arranged order and spaces") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "smart_list", o2sys_iniconf_exp_34()) && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Store all settings info") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_2()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::exe("parse_rnt_ini", True, "") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::exe("parse_app_ini", True, "") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "selected_word", o2sys_iniconf_exp_9()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::exe("select_word", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_iniconf_exp_1() {
+	$rntval = o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "rntval");
+$val    = ($rntval !== null ? $rntval : "(none)");
+return ($val);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_2() {
+	$list = array();
+$list = array(
+   "refresh_prg" => array("rntval" => null,
+                          "appval" => null,
+                          "desc" => "   *** Refresh program ***\n\n".
+                                    "Program to be executed on session refresh. ".
+                                    "Leave it blank to disable refresh.\n".
+                                    "See \"refresh_time\" parameter too.",
+                          "default" => ""),
+   "refresh_time" => array("rntval" => null,
+                           "appval" => null,
+                           "desc" => "   *** Refresh time ***\n\n".
+                                     "This is the time to wait before session refresh. ".
+                                     "Set it to 0 (zero) to disable refresh.\n".
+                                     "See \"refresh_prg\" parameter too.\n".
+                                     "Refresh time is set in seconds. Minimum value is 3.",
+                           "default" => 0),
+   "maint_time" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Maintenance time ***\n\n".
+                                   "Maintenance activities are run at next login after maintenance ".
+                                   "time has expired since last execution.\n".
+                                   "Maintenance time is set in hours. Minimum value is 1.\n",
+                         "default" => 100),
+   "data_chunk" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Default data chunk ***\n\n".
+                                   "Default chunk size (in bytes) for all databases data retrieving streams.\n".
+                                   "This value is used for defining the number of records retrieved each time ".
+                                   "from a table while looping on it, by the formula:\n\n".
+                                   "   rn = MAX(16, INT(dc / rs))\n\nwhere\n\n".
+                                   "   rn = number of retrieved records\n".
+                                   "   dc = database data chunk\n".
+                                   "   rs = estimated record size (by runtime)",
+                         "default" => 65535),
+   "bug_aggregate" => array("rntval" => null,
+                            "appval" => null,
+                            "desc" => "   *** BUG Compatibility for aggregations ***\n\n".
+                                      "ATTENTION: this parameter is a bug compatibility tip and it is useful ".
+                                      "for compatibility with programs relying on an old buggy fixed behavior.\n\n".
+                                      "Aggregation functions in views are solved as a SQL query when it is possible, ".
+                                      "when not an aggregation loop is used and performances can be heavily affected.\n\n".
+                                      "When this parameter is ON not-SQL-solved aggregations are skipped and they are ".
+                                      "always valued to zero.\n\n.".
+                                      "Skipped aggregations can be reported as a \"warning\" in \"error.log\" file for ".
+                                      "debugging purposes (see parameter \"warning_log\").",
+                         "default" => "off",
+                         "values" => array("off", "on")),
+   "fetch_loop" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Statement fetching instead of paging in loops ***\n\n".
+                                   "When looping an action on a big dataset not all records are retrieved at the same time ".
+                                   "and pagination is used to go through the entire dataset.\n".
+                                   "When this parameter is ON the very first query statement is saved and used to retrieve next ".
+                                   "records going on fetching on it.\n".
+                                   "This can speed up looping sensibly, because queries are always solved only once, ".
+                                   "regardless the number of returned records.",
+                         "default" => "off",
+                         "values" => array("off", "on")),
+   "tables_create" => array("rntval" => null,
+                            "appval" => null,
+                            "desc" => "   *** Tables automatic creation ***\n\n".
+                                      "Enables tables tables creation at login.\n\n".
+                                      "ATTENTION: This option enables tables creation for the Janox runtime, ".
+                                      "but tables will be created only for databases with \"manage_tables\" flag ON.\n",
+                         "default" => "on",
+                         "values" => array("off", "on")),
+   "tables_log" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Tables changes log ***\n\n".
+                                   "Enables tables changes log capabilities.\n\n".
+                                   "WARNING: This option only enables log capability for the Janox runtime. ".
+                                   "To start logging a table you must activate log on the table by ".
+                                   "Tables Administration system interface.",
+                         "default" => "off",
+                         "values" => array("off", "on")),
+   "log_rebuild" => array("rntval" => null,
+                          "appval" => null,
+                          "desc" => "   *** Log-tables rebuild ***\n\n".
+                                    "Set log-tables behavior on related table rebuilding.\n".
+                                    "When a logged table is rebuilt we can have two different behaviors for ".
+                                    "related log-table:\n\n".
+                                    " 1. log_rebuild = ON\n".
+                                    "Log-table is also rebuilt, according with new table structure. ".
+                                    "Savable data are conserved.\n".
+                                    " 2. log_rebuild = OFF\n".
+                                    "Log-table is dropped and newly created. All table data are lost.",
+                          "default" => "on",
+                          "values" => array("off", "on")),
+   "log_backup" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Log-table backup ***\n\n".
+                                   "Enables log-tables backup on related table rebuild or drop.\n".
+                                   "When a logged table is rebuilt or dropped, related log-table can be ".
+                                   "archived before being dropped or converted (see directive \"log_rebuild\").",
+                         "default" => "on",
+                         "values" => array("off", "on")),
+   "log_db" => array("rntval"  => null,
+                     "appval"  => null,
+                     "desc"    => "   *** Log database ***\n\n".
+                                  "Specifies the database where to create log tables. Database name must ".
+                                  "be defined in the database repository and correctly matching a server.\n".
+                                  "When parameter is unset or set to blank (\"\") original tables databases are ".
+                                  "used.",
+                     "default" => ""),
+   "record_trace" => array("rntval"  => null,
+                           "appval"  => null,
+                           "desc"    => "   *** Record tracing system ***\n\n".
+                                        "Record tracing system is used to trace on record creation and update events.\n".
+                                        "This parameter is a comma separated list of six possible fields, in this order:\n".
+                                        " - Creation user (type Alpha)\n".
+                                        " - Creation date (type Date)\n".
+                                        " - Creation time (type Time)\n".
+                                        " - Last update user (type Alpha)\n".
+                                        " - Last update date (type Date)\n".
+                                        " - Last update time (type Time)\n\n".
+                                        "Runtime will check tables for existing columns (logical names) and it will ".
+                                        "automatically update them on events.\n\n".
+                                        "Some fields can be left blank. For axample you can set:\n".
+                                        " \",,,m_user\"\n".
+                                        "to trace the last-update-user only.",
+                           "default" => ""),
+   "profiling" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** Runtime profiling (displaying/hiding controls by rights) ***\n\n".
+                                  "Enables SuperUser to set controls granting properties at runtime.\n".
+                                  "Controls and menu items needing rights not owned by user will be removed from list.\n\n".
+                                  "Parameter can assume 4 different values:\n".
+                                  "   off       Profiling not activated\n".
+                                  "   on/(both) Profiling activated for menus and controls\n".
+                                  "   menu      Profiling activated only for menus\n".
+                                  "   ctrl      Profiling activated only for controls",
+                        "default" => "off",
+                        "values" => array("off", "on", "menu", "ctrl")),
+   "error_mode" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Errors management mode ***\n\n".
+                                   "Set error level management for PHP errors.\n".
+                                   "Possible values are:\n".
+                                   "   off   settings from php.ini are used\n".
+                                   "   DEV   development mode\n".
+                                   "   EXE   production mode.",
+                           "default" => "off",
+                           "values" => array("off", "DEV", "EXE")),
+   "errors_log" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Log errors to file ***\n\n".
+                                   "Enables errors logging on file (<app-dir>/logs/errors.log).",
+                           "default" => "off",
+                           "values" => array("off", "on")),
+   "warning_log" => array("rntval" => null,
+                          "appval" => null,
+                          "desc" => "   *** Log warning events to file ***\n\n".
+                                    "Enables warning logging on file (<app-dir>/logs/warning.log).\n".
+                                    "This function is used to log particular internal events, ".
+                                    "that may require your attention. This kind of events are not errors, ".
+                                    "but they can compromise performances and results.",
+                           "default" => "off",
+                           "values" => array("off", "on")),
+   "deliver_trn" => array("rntval" => null,
+                          "appval" => null,
+                          "desc" => "   *** Deliver resources as TRN ***\n\n".
+                                    "Enables resources delivering as TRN.\n".
+                                    "Resources (files like archives or images) outside folder mapped ".
+                                    "by the WEB Server can still be delivered to the end-user (see o2_path() function).\n".
+                                    "When this parameter is set to OFF (default) resources are delivered as a read-write ".
+                                    "PHP stream. When this parameter is ON resources are copied in a WEB Server mapped ".
+                                    "folder, behind an hash name.\nThis can be useful when you can't process resources by ".
+                                    "server-side streaming (PHP MAX_EXECUTION_TIME, PHP forced headers, ...).",
+                          "default" => "off",
+                          "values" => array("off", "on")),
+   "grid_plus" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** DB-grid control extra functions ***\n\n".
+                                  "Enables extra functions for DB-grid control, like columns arranging, ".
+                                  "data export, data filter, ...",
+                        "default" => "off",
+                        "values" => array("off", "on")),
+   "grid_multidel" => array("rntval" => null,
+                            "appval" => null,
+                            "desc" => "   *** Delete multiple rows in DB-grid ***\n\n".
+                                      "Enables function \"Delete filtered data\" in DB-grid context menu.\n\n".
+                                      "NOTE: this is only useful when \"grid_plus\" parameter si set to On.",
+                            "default" => "on",
+                            "values" => array("off", "on")),
+   "zoom" => array("rntval" => null,
+                   "appval" => null,
+                   "desc" => "   *** Field activation (zoom) ***\n\n".
+                             "Enables activation for zoomable fields.",
+                   "default" => "on",
+                   "values" => array("off", "on")),
+   "max_req_n" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** Max requests number ***\n\n".
+                                  "User can start multiple actions (requests) at the same time.\n".
+                                  "This parameter sets the maximum number of allowed requests.\n".
+                                  "When user reaches the maximum number or requests no more actions are allowed, ".
+                                  "until all responses are ended.\nMinimum value is 1.",
+                        "default" => 5),
+   "wait_on_ctrl" => array("rntval" => null,
+                           "appval" => null,
+                           "desc" => "   *** Mark waiting control ***\n\n".
+                                  "If set to ON submitting controls are marked with a waiting icon.\n".
+                                  "Parameter doesn't affect db-grid behaviour.",
+                           "default" => "on",
+                           "values" => array("off", "on")),
+   "fastmsg_time" => array("rntval" => null,
+                           "appval" => null,
+                           "desc" => "   *** Fast messages time-out ***\n\n".
+                                     "This is the time fast messages will persist before fading away.\n".
+                                     "Time-out is set in seconds. Minimum value is 3.",
+                           "default" => 5),
+   "decimals" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Decimal separator ***\n\n".
+                                 "Character to be used as decimal separator in number displaying.",
+                       "default" => "."),
+   "thousands" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** Thousands separator ***\n\n".
+                                  "Character to be used as thousands separator in number displaying.",
+                       "default" => ","),
+   "msg_del" => array("rntval" => null,
+                      "appval" => null,
+                      "desc" => "   *** Record delete ***\n\n".
+                                "Message to be displayed in confirm dialogs when the user clicks ".
+                                "on navigators \"record delete\" button.",
+                      "default" => "ATTENTION: current record is going to be deleted.\nProceed?"),
+   "msg_undo" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Undo changes ***\n\n".
+                                 "Message to be displayed in confirm dialogs when the user clicks ".
+                                 "on navigators \"undo changes\" button.",
+                       "default" => "ATTENTION: current record updates are going to be discarded.\nProceed?"),
+   "msg_norec" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** No records in db-grid ***\n\n".
+                                  "Message to be displayed in db-grids when no records are present.",
+                        "default" => "No records within selection"),
+   "models" => array("rntval" => null,
+                     "appval" => null,
+                     "desc" => "   *** Models repository ***\n\n".
+                               "Name of the file containing data models definition informations.\n".
+                               "The file must be in the folder \"[app]/prgs/\".",
+                     "default" => "mod_repository.inc"),
+   "dbs" => array("rntval" => null,
+                  "appval" => null,
+                  "desc" => "   *** Servers and databases repository ***\n\n".
+                            "Name of the file containing servers and databases definition informations.\n".
+                            "The file must be in the folder \"[app]/prgs/\".",
+                  "default" => "db_repository.inc"),
+   "tables" => array("rntval" => null,
+                     "appval" => null,
+                     "desc" => "   *** Tables repository ***\n\n".
+                               "Name of the file containing tables definition informations.\n".
+                               "The file must be in the folder \"[app]/prgs/\".",
+                     "default" => "file_repository.inc"),
+   "vars" => array("rntval" => null,
+                   "appval" => null,
+                   "desc" => "   *** Application variables repository ***\n\n".
+                             "Name of the file containing application variables definition informations.\n".
+                             "The file must be in the folder \"[app]/prgs/\".",
+                   "default" => "var_repository.inc"),
+   "viewmodels" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** View models repository ***\n\n".
+                                   "Name of the file containing view models definition informations.\n".
+                                   "The file must be in the folder \"[app]/prgs/\".",
+                         "default" => "view_repository.inc"),
+   "menus" => array("rntval" => null,
+                    "appval" => null,
+                    "desc" => "   *** Menus repository ***\n\n".
+                              "Name of the file containing menus definition informations.\n".
+                              "The file must be in the folder \"[app]/prgs/\".",
+                    "default" => "menu_repository.inc"),
+   "title" => array("rntval" => null,
+                    "appval" => null,
+                    "desc" => "   *** Application title ***\n\n".
+                              "Application title that will be displayed on browser title bar.\n".
+                              "This setting can be overridden by application logics.",
+                    "default" => ""),
+   "host" => array("rntval" => null,
+                   "appval" => null,
+                   "desc" => "   *** Host name ***\n\n".
+                             "The host name is used by an application installation to register ".
+                             "into a Janox network.\n".
+                             "Host name is primarily instended to be used with jobs, to indicate ".
+                             "the machine running a job process, to match machines with services and so on.\n",
+                   "default" => ""),
+   "activemenu" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Application main menu ***\n\n".
+                                   "Default application main menu, displayed as menu bar on top or left of ".
+                                   "main window. This setting can be overridden by application logics.\n".
+                                   "Leave it blank to hide application menu.",
+                         "default" => ""),
+   "menu_style" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Application main menu style ***\n\n".
+                                   "Default application main menu position.\n".
+                                   "Menu style can be [T]op or [L]eft.\n".
+                                   "Default style is [T]op.",
+                         "default" => "Top",
+                         "values" => array("Top", "Left")),
+   "encoding" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Application encoding ***\n\n".
+                                 "Set here the encoding for the application. Encoding will be used ".
+                                 "for databases data storing and HTML and filesystem productions.\n\n".
+                                 "To use \"UTF-8\" encoding multibyte string extension is required ".
+                                 "and it must be enabled in php.ini (see mb_string PHP extension).\n\n".
+                                 "\"ISO8859-1\" is recomanded for AS400 based installations.\n",
+                       "default" => "windows-1252",
+                       "values" => array("windows-1252", "UTF-8", "ISO8859-1")),
+   "css" => array("rntval" => null,
+                  "appval" => null,
+                  "desc" => "   *** Application style ***\n\n".
+                            "List of comma separated style files to load for application.\n".
+                            "System style (o2sys.css/rcs) is always loaded out of specification.\n".
+                            "Use an exlamation mark (\"!\") as first character to avoid system ".
+                            "style loading.",
+                  "default" => ""),
+   "defaultpage" => array("rntval" => null,
+                          "appval" => null,
+                          "desc" => "   *** HTML default page ***\n\n".
+                                    "HTML page to be included when no program is running.\n".
+                                    "Application will look for this page in its \"htdocs\" folder.\n".
+                                    "This setting is useful only in HTML context.",
+                          "default" => ""),
+   "header" => array("rntval" => null,
+                     "appval" => null,
+                     "desc" => "   *** HTML header ***\n\n".
+                               "HTML page to be included before any application page production.\n".
+                               "Application will look for this page in its \"htdocs\" folder.\n".
+                               "This setting is useful only in HTML context.",
+                     "default" => ""),
+   "footer" => array("rntval" => null,
+                     "appval" => null,
+                     "desc" => "   *** HTML footer ***\n\n".
+                               "HTML page to be included after any application page production.\n".
+                               "Application will look for this page in its \"htdocs\" folder.\n".
+                               "This setting is useful only in HTML context.",
+                     "default" => ""),
+   "extrainc" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** PHP inclusions ***\n\n".
+                                 "List of comma separeted PHP files to be included in application.\n".
+                                 "Application will look for this page in its \"prgs\" folder.\n".
+                                 "Useful for including custom functions files.",
+                       "default" => ""),
+   "errorinc" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** HTML-PHP custom error message ***\n\n".
+                                 "This server side code is included inside error boxes to create ".
+                                 "custom messages.\n".
+                                 "If this file is a PHP file, then you can use all application-level Janox ".
+                                 "functions, like o2user_*(), o2app_*(), o2dir_*(), o2error_*(), ...\n".
+                                 "Application will look for this file under its \"prgs\" folder.\n",
+                       "default" => ""),
+   "htmlhead" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** HTML HEAD inclusions ***\n\n".
+                                 "A list of comma separeted files to be client-side-included in the ".
+                                 "HEAD declaration of each page.\n".
+                                 "Application will look for this page under its \"prgs\" folder.\n".
+                                 "Useful for including custom Javascript and CSS files.\n",
+                                 "This setting is useful only in HTML context.",
+                       "default" => ""),
+   "nologin" => array("rntval" => null,
+                      "appval" => null,
+                      "desc" => "   *** Login failed page ***\n\n".
+                                "HTML page where the user will be redirected after login failed ".
+                                "(see \"validate\" setting).\n".
+                                "Application will look for this page in its \"htdocs\" folder.\n",
+                      "default" => ""),
+   "lockpage" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Lock page for Under Maintenance ***\n\n".
+                                 "HTML page where users trying to login will be redirected, ".
+                                 "when application is lock for maintenance.\n".
+                                 "Application will look for this page in its \"htdocs\" folder.\n".
+                                 "(See \"unlockprg\" setting.)\n",
+                       "default" => ""),
+   "logout_url" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** URL to logout to ***\n\n".
+                                   "Set HTML page where users will be redirected to, after logout.\n".
+                                   "URL will be used by function o2app_logout(), when called without parameters.\n".                                   
+                                   "If URL starts with \"http://\" then it's absolute, else it's considered ".
+                                   "relative to application alias.",
+                         "default" => ""),
+   "unlockprg" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** Unlock program ***\n\n".
+                                  "Name of an application program to be executed on application unlock.\n".
+                                  "(See \"lockpage\" setting.)",
+                        "default" => ""),
+   "sesserror" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** Session error page ***\n\n".
+                                  "HTML page where the user will be redirected when session validation".
+                                  " fails (see \"validate\" setting).\n".
+                                  "User can get to this page in two ways:\n".
+                                  "1. session has expired and a new validation is needed;\n".
+                                  "2. session has never been granted: for example, user got the URL from ".
+                                  "an active session (or he tried to sniff it!).\n".
+                                  "Result is always the same: a new validation is neeeded, so this page ".
+                                  "should contain a link to the login page.\n".
+                                  "Application will look for this page in its \"htdocs\" folder.\n",
+                      "default" => ""),
+   "validate" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Validation level ***\n\n".
+                                 "Validation level required for application. Level can be set to ".
+                                 "0, 1 or 2:\n\n".
+                                 "  0. No validation required: all user are logged in as \"default\"\n\n".
+                                 "  1. Mandatary: only users with valid credentials can log to the application\n\n".
+                                 "  2. Mixed: users with valid credentials are logged in with their own user-name, ".
+                                 "others will be logged in as \"default\"",
+                       "default" => 0,
+                       "values" => array(0, 1, 2)),
+   "ldap_server" => array("rntval" => null,
+                          "appval" => null,
+                          "desc" => "   *** LDAP authority server for validation ***\n\n".
+                                    "Enables using LDAP authority to validate user credentials.\n".
+                                    "When LDAP is set to ON, for \"LDAP\" users login password is not matched against ".
+                                    "local stored credentials, but it is passed to LDAP sub-system for validation.\n\n".
+                                    "Single users \"login type\" can be set to \"LDAP\" by System Granting tools\n\n".
+                                    "ATTENTION: This option requires login password to be provided clear (unhashed).\n\n".
+                                    "ATTENTION: This option requires \"ldap\" capabilities to be enabled for PHP.\n\n".
+                                    "Leave it blank to disable use of LDAP, else set it to the LDAP server name, ".
+                                    "in the form &lt;server&gt;.&lt;domain&gt;",
+                          "default" => ""),
+   "ldap_search_domain" => array("rntval" => null,
+                                 "appval" => null,
+                                 "desc" => "   *** LDAP search domain for validation ***\n\n".
+                                           "When this parameter is set it used as search domain to look ".
+                                           "up for registered users.\n".
+                                           "If you leave it blank search domain is extracted from ".
+                                           "LDAP_SERVER parameter.\n\n".
+                                           "See LDAP_SERVER parameter for further informations.\n\n".
+                                           "Leave it blank to use LDAP_SERVER domain or set it to the LDAP ".
+                                           "search domain name, in the form &lt;domain&gt;[.&lt;ext&gt;]",
+                                 "default" => ""),
+   "timeout" => array("rntval" => null,
+                      "appval" => null,
+                      "desc" => "   *** Sessions time-out ***\n\n".
+                                "Session time-out is the maximum time a session can wait for user activity. ".
+                                "After this time has expired since last user activity, no other activity ".
+                                "will be allowed on current session and a new login is required.\n".
+                                "Time is set in minutes.",
+                      "default" => 10),
+   "allow_history" => array("rntval" => null,
+                            "appval" => null,
+                            "desc" => "   *** Allow browser history ***\n\n".
+                                      "When set to ON users can recover past pages from history, using 'back' button.\n".
+                                      "When set to OFF last server state is resent to client each time users try to ".
+                                      "submits past pages recovered from history.\n".
+                                      "This setting is useful only in HTML context.",
+                            "default" => "off",
+                            "values" => array("off", "on")),
+   "keepalive" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** HTML keep-alive ***\n\n".
+                                  "When set to ON keep-alive option forces the page to be reloaded, based on ".
+                                  "application timeout.\nEach page starts a count-down to session expiring time: ".
+                                  "if no user activity refreshes session in this while, a page reload is ".
+                                  "automatically forced.\nThis setting is useful only in HTML context.",
+                        "default" => "on",
+                        "values" => array("off", "on")),
+   "reporter" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Reporter executable ***\n\n".
+                                 "Path to the Reporter executable.\n".
+                                 "Reporter is used for utput productions (PDF).",
+                       "default" => ""),
+   "startprg" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Start program ***\n\n".
+                                 "Name of an application program to be executed just after login.",
+                       "default" => ""),
+   "reqprg" => array("rntval" => null,
+                     "appval" => null,
+                     "desc" => "   *** Request program ***\n\n".
+                               "Name of an application program to be executed each time control get back to ".
+                               "the server (each user activity). This program must be a \"pure batch\" (no windows allowed).",
+                     "default" => ""),
+   "services" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Services ***\n\n".
+                                 "List of §-separated names of services enabled for application deferred executions.",
+                       "default" => "_internal"),
+   "rpc_server" => array("rntval" => null,
+                         "appval" => null,
+                         "desc" => "   *** Remote Procedure Call (RPC) Server ***\n\n".
+                                 " - EXPERIMENTAL - \n\n".
+                                 "When enabled Application is used as a RPC Server.\n".
+                                 "When set to ON start-program is executed every request, ".
+                                 "windows and controls are not displayed and programs execution ".
+                                 "hierarchy is discarded on session saving.\n\n".
+                                 " - Usage model -\n".
+                                 "First call to RPC Server with granting (user and password).\n".
+                                 "First call returns the JXSESSNAME variable value.\n".
+                                 "Next calls are made passing JXSESSNAME=[sessname].\n",
+                        "default" => "off",
+                        "values" => array("off", "on")),
+   "split_rep" => array("rntval" => null,
+                        "appval" => null,
+                        "desc" => "   *** Splitted repository ***\n\n".
+                                  "Set to ON to use single definition files for each table.\n".
+                                  "Set to OFF to use whole repository definition (see \"tables\" setting).",
+                        "default" => "off",
+                        "values" => array("off", "on")),
+   "doc" => array("rntval" => null,
+                  "appval" => null,
+                  "desc" => "   *** Documentor ***\n\n".
+                            "Set to ON to enable jxDocumentor capabilities for application.",
+                  "default" => "off",
+                  "values" => array("off", "on")),
+   "sharedir" => array("rntval" => null,
+                       "appval" => null,
+                       "desc" => "   *** Absolute application path ***\n\n".
+                                 "Set here the absolute path, leading to the application main ".
+                                 "folder from clients in your net.",
+                       "default" => "")
+
+   );
+
+ksort($list);
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_3() {
+	$search = trim(o2val('prg§_§var','search'));
+/* All items */
+if ($search) {
+   $list = array();
+   foreach (o2val('prg§_§var','ini_struct') as $item => $info) {
+      if (stripos($info["desc"], $search) !== false) {
+         $list[$item] = $item;
+         }
+      }
+   }
+/* Filtered items */
+else {
+   $words = array_keys(o2val('prg§_§var','ini_struct'));
+   $list = array_combine($words, $words);
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_4() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_5() {
+	
+return (o2val('prg§_§var','set_value') && count(o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values")));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_6() {
+	
+return (o2val('prg§_§var','selected_word') && !o2exp(5) && !o2val('prg§_§var','wide'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_7() {
+	
+return (o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "desc"));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_8() {
+	$values = o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values");
+$list = (count($values) ? array_combine($values, $values) : array());
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_9() {
+	$words = array_keys(o2val('prg§_§var','ini_struct'));
+$word  = $words[0];
+return ($word);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_10() {
+	$struct  = o2val('prg§_§var','ini_struct');
+$key     = o2val('prg§_§var','selected_word');
+$rntval  = $struct[$key]["rntval"];
+$default = $struct[$key]["default"];
+if (o2val('prg§_§var','set_value')) {
+   if (isset($struct[$key]["setval"])) {
+      $val = $struct[$key]["setval"];
+      }
+   else {
+      $appval = $struct[$key]["appval"];
+      $val    = ($appval !== null ? $appval : ($rntval !== null ? $rntval : $default));
+      }
+   }
+else {
+   $val = ($rntval !== null ? $rntval : $default);
+   }
+return ($val);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_11() {
+	$struct = o2val('prg§_§var','ini_struct');
+$key    = o2val('prg§_§var','selected_word');
+$set    = isset($struct[$key]["setval"]);
+return ($set);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_12() {
+	
+return (o2val('prg§_§var','value'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_13() {
+	
+return (o2zero('prg§_§var','set_value'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_14() {
+	
+return (o2val('prg§_§var','set_value'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_15() {
+	
+return (o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default"));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_16() {
+	
+return (strpos(o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default"), "\n") !== false);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_17() {
+	
+return (o2val('prg§_§var','selected_word') && !o2val('prg§_§var','wide'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_18() {
+	
+return (o2val('prg§_§var','selected_word') && o2val('prg§_§var','wide'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_19() {
+	
+return (o2val('prg§_§var','selected_word') && !o2exp(5) && o2val('prg§_§var','wide'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_20() {
+	
+return (is_numeric(o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default")));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_21() {
+	
+return (o2val('prg§_§var','is_number') && !is_numeric(o2val('prg§_§var','value')));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_22() {
+	
+return ("Insert a valid number!");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_23() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_24() {
+	
+return (o2val('prg§_§var','is_number'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_25() {
+	
+return ("alert_msg");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_26() {
+	$rnt_root = new o2_dir(o2rnt_root());
+$ini      = $rnt_root."janox.ini";
+$values   = parse_ini_file($ini);
+$struct   = o2val('prg§_§var','ini_struct');
+foreach (array_keys($struct) as $key) {
+   if (isset($values[$key])) {
+      if (count($struct[$key]['values']) == 2 &&
+          in_array("on", $struct[$key]['values']) &&
+          in_array("off", $struct[$key]['values'])) {
+         $struct[$key]["rntval"] = ($values[$key] ? "on" : "off");
+         }
+      else {
+         $struct[$key]["rntval"] = $values[$key];
+         }
+      }
+   else {
+      $struct[$key]["rntval"] = null;
+      }
+   }
+return ($struct);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_27() {
+	$ini    = o2app_dir_home().o2app_name().".ini";
+$values = parse_ini_file($ini);
+$struct = o2val('prg§_§var','ini_struct');
+foreach (array_keys($struct) as $key) {
+   if (isset($values[$key])) {
+      if (count($struct[$key]['values']) == 2 &&
+          in_array("on", $struct[$key]['values'], true) &&
+          in_array("off", $struct[$key]['values'], true)) {
+         $struct[$key]["appval"] = ($values[$key] ? "on" : "off");
+         }
+      elseif (is_array($struct[$key]['values']) &&
+      	      in_array("on", $struct[$key]['values'], true) &&
+              ($values[$key] === "1" || $values[$key] === "")) {
+         $struct[$key]["appval"] = ($values[$key] === "1" ? "on" : "off");
+         }
+      else {
+         $struct[$key]["appval"] = $values[$key];
+         }
+      $struct[$key]["setval"] = $struct[$key]["appval"];
+      }
+   else {
+      $struct[$key]["appval"] = null;
+      unset($struct[$key]["setval"]);
+      }
+   }
+return ($struct);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_28() {
+	
+return ("jxwiz_save");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_29() {
+	
+return ("jxwiz_cancel");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_30() {
+	$initxt = ";   *** Janox application configuration ***\n\n[APP]\n";
+$struct = o2val('prg§_§var','ini_struct');
+$maxlen = 0;
+$list   = array();
+foreach ($struct as $key => $info) {
+   $quote = "";
+   if (isset($struct[$key]["setval"])) {
+      $default    = $struct[$key]["default"];
+      if (!(is_numeric($default) || ($default === "on") || ($default === "off"))) {
+         $quote = '"';
+         }
+      $list[$key] = $quote.$struct[$key]["setval"].$quote;
+      $maxlen     = max(strlen($key), $maxlen);
+      }
+   }
+foreach (o2val('prg§_§var','smart_list') as $key) {
+   if (!$key) {
+      $initxt.= "\n";
+      }
+   else {
+      if (isset($list[$key])) {
+         $initxt.= $key.str_repeat(" ", ($maxlen - strlen($key)))." = ".
+                   $list[$key]."\n";
+         }
+      }
+   }
+file_put_contents(o2val('prg§_§var','ini_file'), $initxt);
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_31() {
+	$struct = o2val('prg§_§var','ini_struct');
+$key    = o2val('prg§_§var','selected_word');
+if (o2val('prg§_§var','set_value')) {
+   $struct[$key]["setval"] = o2val('prg§_§var','value');
+   }
+else {
+   unset($struct[$key]["setval"]);
+   }
+return ($struct);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_32() {
+	
+return ("ATTENTION!\nActual application configuration file will be overwritten.\nProceed?");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_33() {
+	
+return ("Configuration applied.\nRelogin to the application to make changes effective.");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_34() {
+	$list = array("models",
+              "vars",
+              "dbs",
+              "tables",
+              "viewmodels",
+              "menus",
+              "",
+              "title",
+              "host",
+              "encoding",
+              "css",
+              "activemenu",
+              "menu_style",
+              "",
+              "defaultpage",
+              "footer",
+              "header",
+              "extrainc",
+              "htmlhead",
+              "errorinc",
+              "",
+              "validate",
+              "ldap_server",
+              "ldap_search_domain",
+              "timeout",
+              "allow_history",
+              "keepalive",
+              "nologin",
+              "lockpage",
+              "unlockprg",
+              "logout_url",
+              "sesserror",
+              "startprg",
+              "reqprg",
+              "services",
+              "rpc_server",
+              "data_chunk",
+              "tables_create",
+              "tables_log",
+              "log_rebuild",
+              "log_backup",
+              "log_db",
+              "record_trace",
+              "",
+              "deliver_trn",
+              "grid_plus",
+              "grid_multidel",
+              "zoom",
+              "max_req_n",
+              "wait_on_ctrl",
+              "fastmsg_time",
+              "split_rep",
+              "profiling",
+              "doc",
+              "refresh_prg",
+              "refresh_time",
+              "maint_time",
+              "error_mode",
+              "errors_log",
+              "warning_log",
+              "reporter",
+              "",
+              "decimals",
+              "thousands",
+              "msg_del",
+              "msg_undo",
+              "msg_norec",
+              "",
+              "bug_aggregate",
+              "fetch_loop");
+return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_35() {
+	
+return (o2app_dir_home().o2app_name().".ini");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_36() {
+	
+return (o2val('prg§_§var','save_as'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_37() {
+	
+return (o2app_dir_home().o2val('prg§_§var','file_name').".ini");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_38() {
+	
+return (!o2val('prg§_§var','save_as'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_39() {
+	
+return (o2val('prg§_§var','create_start'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_40() {
+	o2ctrl_focus("o2sys_iniconf_2", "new_name");
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_41() {
+	o2ctrl_focus("o2sys_iniconf_1", "keys_list");
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_42() {
+	$launcher = file_get_contents(o2rnt_root()."/htdocs/jxapp.php");
+if (o2val('prg§_§var','include_runtime')) {
+   $php_exe  = addslashes($GLOBALS['o2_runtime']->rnt_script);
+   $launcher = str_replace('$jxrnt = "";', '$jxrnt = "'.$php_exe.'";', $launcher);
+   }
+file_put_contents(o2app_dir_htdocs().o2val('prg§_§var','file_name').".php",
+                  $launcher);
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_43() {
+	
+return (o2app_dir_home());
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_44() {
+	
+return ("*");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_45() {
+	
+return ("Verify file(s) creation");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_46() {
+	list($title, $body) = explode("\n", o2val('prg§_§var','description'), 2);
+$code = '<div style="text-align:justify"><center><h4>'.
+        trim($title, " *")."</h4></center>".nl2br(trim($body))."</div>";
+return ( $code);
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_47() {
+	
+return (o2val('prg§_§var','selected_word'));
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_48() {
+	
+return ("disp_area");
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_9999() {
+	
+return (false);
+	} //|o2_fine_exp|
+?>

@@ -1,0 +1,180 @@
+<html><head><title>Gli eventi</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_75.html'>Relazione <em>uno-a-molti</em></a></td>
+       <td id='nav_next' align='right'><a href='node_84.html'>Le azioni</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.12 &nbsp; Gli eventi</h2><br /><fieldset>EVENTI APPLICAZIONE, EVENTI DEI CONTROLLI, EVENTI DI PROGRAMMA, EVENTI DI VIEW</fieldset>
+<p>In questo capitolo vedremo i vari eventi disponibili in o2 e come utilizzarli.</p>
+<br /><h4>Obiettivi</h4>
+<p>Al completamento di questo capitolo sarai in grado di:</p>
+<ul>
+<li>Individuare ogni tipo di evento</li>
+<li>Applicare il meccanismo degli eventi alla logica dei programmi</li>
+<li>Scegliere gli eventi in base alle necessità</li>
+</ul>
+
+<br /><h4>Introduzione</h4>
+<p>Gli eventi sono tutti quei momenti in cui l’o2runtime può passare il controllo 
+ad un’azione o ad un programma indicati dal programmatore ed hanno due scopi:
+</p>
+<ol>
+<li>Permettere al programmatore di intervenire all’interno di procedure 
+       automatizzate (come gli eventi di view di <i>Read new row</i> e <i>Leaving
+       modified row</i>)</li>
+<li>Permettere al programmatore di indicare le azioni da eseguire a fronte di 
+       certi comportamenti dell’operatore (come gli eventi di action per i pulsanti)
+       </li>
+</ol>
+<p>Gli eventi si dividono in 4 categorie in dipendenza degli oggetti su cui sono 
+definiti e del tipo di esecuzione che possono invocare.</p>
+<br />
+<h3>0.12.1<a name='node_80'> &nbsp; </a>Gli eventi di applicazione</h3></br /><blockquote><p>Gli eventi di applicazione servono a controllare momenti esecutivi 
+indipendenti dal programma chiamato e comuni a tutta l’appliazione e sono 
+due:</p>
+
+<img src='img/image132.gif'>
+
+<ol>
+<li><i>Start program</i>
+       <p>Lo <i>Start program</i> serve ad indicare il programma da eseguire
+       all’entrata nell’applicazione, cioè immediatamente dopo la funzione di login 
+       di convalida dell’utente di scrittura della sessione.</p>
+      <p>Tale programma può essere un programma batch di servizio di ambiente, 
+      utile a vari scopi: impostare variabili di ambiente, impostare i menu di 
+      applicazione, recuperare informazioni dell’utente e scrivere log e statistiche; 
+      oppure può essere un programma con interfaccia che dia al via alle esecuzioni 
+      in assenza di menu, mostri menu personalizzati, mostri e costituisca la 
+      <em>home page</em> del sito, richieda o notifichi informazioni all’utente e 
+      quanto altro si voglia eseguire sempre ed una sola volta ad ogni accesso al 
+      proprio sito.</p></li>
+<li><i>On request program</i>
+       <p>L’<i>On request program</i>, invece, deve essere rigorosamente batch 
+       per un logico motivo: la sua esecuzione viene invocata ad ogni 
+       <em>request</em> da parte dell’utente e, quindi, anche durante le normali
+       interazioni richieste dagli altri programmi.</p>
+       <p>L’utilizzo di questo evento è da prendersi in considerazione in casi molto
+       particolari, ad esempio, qualora si vogliano fare controlli sullo stato della 
+       sessione o per risolvere esigenze specifiche di gestione della comunicazione 
+       <em>http</em>.</p></li>
+</ol>
+
+
+ </blockquote><br />
+<h3>0.12.2<a name='node_81'> &nbsp; </a>Gli eventi di programma</h3></br /><blockquote><p>Ad oggi l’o2 prevede un solo evento di programma e cioè la <i>initial 
+action</i>.</p>
+<p>La <i>initial action</i> è l’azione eseguita automaticamente dal 
+programma ogni volta che viene chiamato ed è possibile impostarla 
+dall’omonimo campo nella pagina di <i>Program properties</i> del
+programma.</p>
+
+<img src='img/image134.gif'>
+
+<p>Come abbiamo visto, tramite questo evento è possibile impostare una 
+vista del programma su specifici valori di ricerca ma risulta molto utile anche 
+per effettuare controlli e valorizzare variabili all’entrata in un programma con 
+interfaccia.</p>
+
+<p>Indispensabile l’utilizzo della <i>initial action</i> per i programmi batch: 
+non mostrando alcuna interfaccia all’utente, tali programmi rimangono in 
+esecuzione per la durata della loro gerarchia esecutiva, il cui primo passo è 
+<em>sempre</em> la <i>initial action</i>, in assenza della quale non eseguono 
+alcuna azione.</p>
+</blockquote><br />
+<h3>0.12.3<a name='node_82'> &nbsp; </a>Gli eventi di view</h3></br /><blockquote><p>Agli eventi di view è possibile collegare 2 azioni del programma che 
+contiene la vista, tramite la pagina di <i>View properties</i>:</p>
+
+<img src='img/image136.gif'>
+<ol>
+<li><i>Action on read new row</i>
+       <p>Questa action verrà invocata ogni volta che, ad opera dell’utente o delle 
+       logiche esecutive delle azioni, verrà impostata la selezione del record corrente 
+       per la vista, prima di eseguire qualunque azione scatenata dai controlli e prima 
+       di comporre la form da mostrare all’operatore.</p>
+       <p>Questo evento risulta particolarmente utile per sincronizzare il contesto
+       visualizzato con i record selezionati nelle viste e per mostrare decodifiche dei 
+       dati del recordset. Ad esempio, con questo evento, si possono opportunamente
+       valorizzare variabili locali a fronte di valori letti dal record corrente.</p></li>
+<li><i>Action on leaving modified row</i>
+       <p>L’azione qui indicata sarà automaticamente eseguita ogni volta che si tenterà 
+       di impostare la selezione per la vista, abbandonando un record modificato e non
+       scritto su database.</p>
+       <p>Questo evento è pensato per automatizzare le procedure di salvataggio delle
+       modifiche: inserendo un’azione che esegua un’istruzione di <i>record postrow</i>, 
+       si otterrà l’effetto di salvare le modifiche apportate dall’operatore, senza che egli 
+       lo richieda, ad ogni tentativo di cambio del record corrente.</p>
+      <p>Un altro utilizzo può essere quello di assicurare ad una vista la corretta forma 
+      dei dati da salvare, prima di scriverli su database, indipendentemente dalle azioni 
+      che ne provocheranno le modifiche.</p></li>
+</ol>
+</blockquote><br />
+<h3>0.12.4<a name='node_83'> &nbsp; </a>Gli eventi di interfaccia</h3></br /><blockquote><p>Gli eventi di interfaccia sono di numero e di forma più varia e servono ad 
+indicare le azioni di programma da eseguire a fronte delle varie funzionalità 
+offerte dai controlli di interazione con l’utente.</p>
+
+<h4>Il controllo <i>window</i></h4>
+<blockquote>
+<p>Prevede un solo evento di <i>Close click action</i>, la cui azione viene 
+indicata nella pagina di proprietà della form:</p>
+
+<img src='img/image140.gif'>
+
+<p>L’azione qui indicata verrà eseguita quando l’operatore clicca sulla crocetta 
+di chiusura della finestra e può essere utile per eseguire azioni all’uscita dal 
+programma o per impostare criteri di visibilità per le finestre.</p>
+</blockquote>
+
+<h4>I controlli associati a campi (<i>Edit control</i>, <i>List/combo box</i>, 
+<i>Check box</i>, <i>Text area</i> e <i>Multi page</i>)</h4>
+<blockquote>
+<p>Implementano tutti un evento di <i>on change</i>, controllabile tramite 2
+proprietà della finestra <i>Object inspector</i>, presente durante la sessione 
+di editing della form.</p>
+
+<img src='img/image142.gif'>
+
+<p>La proprietà <i>Action</i> indica l’azione da eseguire a fronte di una 
+modifica al valore del controllo: l’azione verrà eseguita al prossimo ritorno al 
+server.</p>
+
+<p>La proprietà <i>Submit on change</i> permette di indicare un’espressione 
+che, se valutata a "true", forza il ritorno al server quando si abbandoni il controllo 
+dopo averlo modificato. Il comportamento, guidato da un <em>javascript</em>, 
+è lo stesso che se l’operatore premesse un pulsante di <em>submit</em> ogni 
+qualvolta abbia apportato modifiche al controllo: questo permette di aggiornare le 
+viste e di eseguire l’azione indicata nella proprietà <i>Action</i> del controllo ad 
+ogni modifica del valore.</p>
+
+<p>L’uso delle due proprietà permette di utilizzare gli eventi di <i>on change</i> 
+dei controlli associati a campi, in modo da far reagire in maniera dinamiche e
+tempestiva il contesto del programma alle eventuali variazioni di valore dei campi 
+e delle variabili che si utilizzano: particolarmente utile si dimostra nella validazione 
+dei valori inseriti e nell’aggiornamento delle link, delle viste dipendenti e delle viste 
+in base a campi di selezione.</p>
+</blockquote>
+
+<h4>I controlli <i>button</i> e <i>image</i></h4>
+<blockquote>
+<p>Implementano l’evento di <em>click</em>, che prevede (proprietà 
+<i>Action</i> dell’<i>Object inspector</i>) l’indicazione di un’azione da eseguire
+quando l’operatore prema il pulsante sinistro del mouse su tali controlli.</p>
+
+<img src='img/image142.gif'>
+
+<p>L’utilizzo di questo evento è semplice da capire e costituisce la base 
+dell’interazione con pulsanti e aree grafiche cliccabili: permette di implementare
+facilmente menu di comandi personalizzati e gli effetti interattivi più frequenti di 
+ogni applicazione.</p>
+</blockquote>
+</blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_75.html'>Relazione <em>uno-a-molti</em></a></td>
+       <td id='nav_next' align='right'><a href='node_84.html'>Le azioni</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

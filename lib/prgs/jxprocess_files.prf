@@ -1,0 +1,58 @@
+<?php
+function jxprocess_files§§jxprocess_files_1_form_def(&$form_jxprocess_files_1) {
+	$form_jxprocess_files_1->x(500);
+	$form_jxprocess_files_1->y(218);
+	$form_jxprocess_files_1->larghezza(340);
+	$form_jxprocess_files_1->altezza(420);
+	$form_jxprocess_files_1->titolo("Process files");
+	$form_jxprocess_files_1->align_o("Center");
+	$ctrl_o2htmlarea3 = &$form_jxprocess_files_1->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea3->x(20);
+		$ctrl_o2htmlarea3->y(20);
+		$ctrl_o2htmlarea3->larghezza(300);
+		$ctrl_o2htmlarea3->altezza(300);
+		$ctrl_o2htmlarea3->html(jxprocess_files_exp_1());
+	$ctrl_o2separator4 = &$form_jxprocess_files_1->ctrldef("o2separator4", "line", "", "", "");
+		$ctrl_o2separator4->x(20);
+		$ctrl_o2separator4->y(330);
+		$ctrl_o2separator4->larghezza(300);
+		$ctrl_o2separator4->altezza(2);
+	$ctrl_o2button4 = &$form_jxprocess_files_1->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(230);
+		$ctrl_o2button4->y(350);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->azione("close");
+		$ctrl_o2button4->label("&Hide");
+		}
+
+function jxprocess_files§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxprocess_files§§show_file_act(&$o2exe) {
+	$o2exe->s(1) && (jxprocess_files_exp_3() || $o2exe->e()) && o2act::call(jxprocess_files_exp_2(), False, jxprocess_files_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxprocess_files_exp_1() {
+	$code = '<table style="width:100%"><tr><td>';
+foreach (o2par(1) as $path) {
+   $file  = basename($path);
+   $style = 'style="background-color:#ffffff;border:1px solid #bbbbbb;cursor:pointer;padding:3px;"';
+   $div   = '<div '.$style.' onclick="'.o2_act4js(0, "show_file", $path).'">'.$file.'</div>';  
+   $code .= '<tr><td>'.$div.'</td></tr>';
+   }
+$code.= '</table>';
+return ($code);
+	} //|o2_fine_exp|
+
+function jxprocess_files_exp_2() {
+	
+return ("tools/jxvisor");
+	} //|o2_fine_exp|
+
+function jxprocess_files_exp_3() {
+	
+return (o2_reqpar(1));
+	} //|o2_fine_exp|
+?>

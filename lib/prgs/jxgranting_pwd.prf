@@ -1,0 +1,149 @@
+<?php
+
+function jxgranting_pwd§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("password", "_o2alpha");
+	$task_prg§_§var->definisci("password_repeat", "_o2alpha");
+		}
+function jxgranting_pwd§§password_form_def(&$form_password) {
+	$form_password->x(-100);
+	$form_password->y(250);
+	$form_password->larghezza(310);
+	$form_password->altezza(250);
+	$form_password->titolo("Password");
+	$form_password->css_doc("sys_rights_doc");
+	$form_password->close_action("cancel");
+	$form_password->align_v("Middle");
+	$form_password->align_o("Center");
+	$form_password->frm_status(jxgranting_pwd_exp_1());
+	$ctrl_o2label14 = &$form_password->ctrldef("o2label14", "label", "", "", "");
+		$ctrl_o2label14->x(30);
+		$ctrl_o2label14->y(30);
+		$ctrl_o2label14->larghezza(250);
+		$ctrl_o2label14->altezza(20);
+		$ctrl_o2label14->label(jxgranting_pwd_exp_2());
+	$ctrl_o2label16 = &$form_password->ctrldef("o2label16", "label", "", "", "");
+		$ctrl_o2label16->x(30);
+		$ctrl_o2label16->y(95);
+		$ctrl_o2label16->larghezza(120);
+		$ctrl_o2label16->altezza(20);
+		$ctrl_o2label16->label("Repeat password:");
+	$ctrl_o2label15 = &$form_password->ctrldef("o2label15", "label", "", "", "");
+		$ctrl_o2label15->x(30);
+		$ctrl_o2label15->y(70);
+		$ctrl_o2label15->larghezza(120);
+		$ctrl_o2label15->altezza(20);
+		$ctrl_o2label15->label("Password:");
+	$ctrl_o2separator2 = &$form_password->ctrldef("o2separator2", "line", "", "", "");
+		$ctrl_o2separator2->x(30);
+		$ctrl_o2separator2->y(150);
+		$ctrl_o2separator2->larghezza(250);
+		$ctrl_o2separator2->altezza(2);
+	$ctrl_o2edit7 = &$form_password->ctrldef("o2edit7", "edit", "", "prg§_§var", "password");
+		$ctrl_o2edit7->x(160);
+		$ctrl_o2edit7->y(70);
+		$ctrl_o2edit7->larghezza(120);
+		$ctrl_o2edit7->altezza(20);
+		$ctrl_o2edit7->pswd(true);
+	$ctrl_o2edit8 = &$form_password->ctrldef("o2edit8", "edit", "", "prg§_§var", "password_repeat");
+		$ctrl_o2edit8->x(160);
+		$ctrl_o2edit8->y(95);
+		$ctrl_o2edit8->larghezza(120);
+		$ctrl_o2edit8->altezza(20);
+		$ctrl_o2edit8->pswd(true);
+	$ctrl_o2button3 = &$form_password->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(90);
+		$ctrl_o2button3->y(170);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("cancel");
+		$ctrl_o2button3->label("     Cancel");
+		$ctrl_o2button3->css(jxgranting_pwd_exp_3());
+	$ctrl_o2button2 = &$form_password->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(190);
+		$ctrl_o2button2->y(170);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("save");
+		$ctrl_o2button2->label("     Save");
+		$ctrl_o2button2->css(jxgranting_pwd_exp_4());
+		}
+
+function jxgranting_pwd§§cancel_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(3, jxgranting_pwd_exp_1()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_pwd§§ok_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(2, jxgranting_pwd_exp_10()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::ret(3, jxgranting_pwd_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_pwd§§save_act(&$o2exe) {
+	$o2exe->s(1) && (jxgranting_pwd_exp_5() || $o2exe->e()) && o2act::exe("wrong", True, "") && $o2exe->e();
+	$o2exe->s(2) && (jxgranting_pwd_exp_6() || $o2exe->e()) && o2act::exe("ok", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_pwd§§wrong_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "password", jxgranting_pwd_exp_7()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "password_repeat", jxgranting_pwd_exp_7()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::alert(jxgranting_pwd_exp_8(), 0) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::script(jxgranting_pwd_exp_9()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_pwd_exp_1() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_2() {
+	
+return ("Set or change password for user ".o2par(1));
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_3() {
+	
+return ("jxwiz_cancel");
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_4() {
+	
+return ("jxwiz_save");
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_5() {
+	
+return (o2val('prg§_§var','password') != o2val('prg§_§var','password_repeat'));
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_6() {
+	
+return (o2val('prg§_§var','password') == o2val('prg§_§var','password_repeat'));
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_7() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_8() {
+	
+return ("Not matching passwords.\nTry again...");
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_9() {
+	o2ctrl_focus("password", "o2edit7");
+return (true);
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_10() {
+	
+return ((o2zero('prg§_§var','password') ? "" : md5(o2val('prg§_§var','password'))));
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_11() {
+	
+return (true);
+	} //|o2_fine_exp|
+?>

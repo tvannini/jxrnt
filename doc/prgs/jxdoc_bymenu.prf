@@ -1,0 +1,17 @@
+<?php
+
+function jxdoc_bymenu§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::alert(jxdoc_bymenu_exp_2(), 0) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(jxdoc_bymenu_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_bymenu_exp_1() {
+	print "<script> o2jse.menu.setDocByMenu(); </script>";
+return (true);
+	} //|o2_fine_exp|
+
+function jxdoc_bymenu_exp_2() {
+	
+return ("Please select a menu entry for getting help");
+	} //|o2_fine_exp|
+?>

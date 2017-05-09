@@ -1,0 +1,311 @@
+<?php
+
+function o2sys_datahistory§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("page", "_o2number");
+	$task_prg§_§var->definisci("rec_trace", "_o2logical");
+	$task_prg§_§var->definisci("result_fld", "_o2text");
+	$task_prg§_§var->definisci("result_rec", "_o2text");
+	$task_prg§_§var->definisci("result_trace", "_o2text");
+		}
+function o2sys_datahistory§§o2sys_datahistory_form_def(&$form_o2sys_datahistory) {
+	$form_o2sys_datahistory->x(380);
+	$form_o2sys_datahistory->y(50);
+	$form_o2sys_datahistory->larghezza(580);
+	$form_o2sys_datahistory->altezza(410);
+	$form_o2sys_datahistory->titolo("Data history");
+	$form_o2sys_datahistory->align_o("Center");
+	$form_o2sys_datahistory->altezza_exp(o2sys_datahistory_exp_7());
+	$form_o2sys_datahistory->larghezza_exp(o2sys_datahistory_exp_8());
+	$ctrl_o2htmlarea6 = &$form_o2sys_datahistory->ctrldef("o2htmlarea6", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea6->x(20);
+		$ctrl_o2htmlarea6->y(340);
+		$ctrl_o2htmlarea6->larghezza(440);
+		$ctrl_o2htmlarea6->altezza(30);
+		$ctrl_o2htmlarea6->expand("H");
+	$ctrl_o2button2 = &$form_o2sys_datahistory->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(470);
+		$ctrl_o2button2->y(340);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("close");
+		$ctrl_o2button2->label("OK");
+	$ctrl_o2multipage2 = &$form_o2sys_datahistory->ctrldef("o2multipage2", "multipage", "", "prg§_§var", "page");
+		$ctrl_o2multipage2->x(20);
+		$ctrl_o2multipage2->y(20);
+		$ctrl_o2multipage2->larghezza(540);
+		$ctrl_o2multipage2->altezza(310);
+		$ctrl_o2multipage2->visibile(o2sys_datahistory_exp_10());
+		$ctrl_o2multipage2->expand("B");
+		$ctrl_o2multipage2->label(array("Field","Record"));
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2multipage3 = &$form_o2sys_datahistory->ctrldef("o2multipage3", "multipage", "", "prg§_§var", "page");
+		$ctrl_o2multipage3->x(20);
+		$ctrl_o2multipage3->y(20);
+		$ctrl_o2multipage3->larghezza(540);
+		$ctrl_o2multipage3->altezza(310);
+		$ctrl_o2multipage3->visibile(o2sys_datahistory_exp_11());
+		$ctrl_o2multipage3->expand("B");
+		$ctrl_o2multipage3->label(array("Field"));
+		$ctrl_o2multipage3->buttons("T");
+	$ctrl_o2htmlarea2 = &$form_o2sys_datahistory->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea2->x(20);
+		$ctrl_o2htmlarea2->y(40);
+		$ctrl_o2htmlarea2->larghezza(500);
+		$ctrl_o2htmlarea2->altezza(250);
+		$ctrl_o2htmlarea2->expand("B");
+		$ctrl_o2htmlarea2->info_padre(array(0));
+		$ctrl_o2htmlarea2->html(o2sys_datahistory_exp_3());
+		$ctrl_o2htmlarea2->css(o2sys_datahistory_exp_5());
+	$ctrl_o2htmlarea3 = &$form_o2sys_datahistory->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea3->x(20);
+		$ctrl_o2htmlarea3->y(40);
+		$ctrl_o2htmlarea3->larghezza(500);
+		$ctrl_o2htmlarea3->altezza(200);
+		$ctrl_o2htmlarea3->expand("B");
+		$ctrl_o2htmlarea3->info_padre(array(1));
+		$ctrl_o2htmlarea3->html(o2sys_datahistory_exp_4());
+		$ctrl_o2htmlarea3->css(o2sys_datahistory_exp_5());
+	$ctrl_o2htmlarea5 = &$form_o2sys_datahistory->ctrldef("o2htmlarea5", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea5->x(20);
+		$ctrl_o2htmlarea5->y(250);
+		$ctrl_o2htmlarea5->larghezza(500);
+		$ctrl_o2htmlarea5->altezza(50);
+		$ctrl_o2htmlarea5->visibile(o2sys_datahistory_exp_16());
+		$ctrl_o2htmlarea5->expand("H");
+		$ctrl_o2htmlarea5->info_padre(array(1));
+		$ctrl_o2htmlarea5->html(o2sys_datahistory_exp_13());
+		$ctrl_o2htmlarea5->css(o2sys_datahistory_exp_5());
+	$ctrl_o2htmlarea4 = &$form_o2sys_datahistory->ctrldef("o2htmlarea4", "htmlarea", "o2multipage3", "", "");
+		$ctrl_o2htmlarea4->x(20);
+		$ctrl_o2htmlarea4->y(40);
+		$ctrl_o2htmlarea4->larghezza(500);
+		$ctrl_o2htmlarea4->altezza(250);
+		$ctrl_o2htmlarea4->expand("B");
+		$ctrl_o2htmlarea4->info_padre(array(0));
+		$ctrl_o2htmlarea4->html(o2sys_datahistory_exp_3());
+		$ctrl_o2htmlarea4->css(o2sys_datahistory_exp_5());
+		}
+
+function o2sys_datahistory§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_datahistory§§start_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Compose result code") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "result_fld", o2sys_datahistory_exp_2()) && $o2exe->e();
+	$o2exe->s(3) && (o2sys_datahistory_exp_10() || $o2exe->e()) && o2act::set("prg§_§var", "result_rec", o2sys_datahistory_exp_1()) && $o2exe->e();
+	$o2exe->s(4) && (o2sys_datahistory_exp_10() || $o2exe->e()) && o2act::set("prg§_§var", "rec_trace", o2sys_datahistory_exp_14()) && $o2exe->e();
+	$o2exe->s(5) && (o2sys_datahistory_exp_15() || $o2exe->e()) && o2act::set("prg§_§var", "result_trace", o2sys_datahistory_exp_12()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_datahistory_exp_1() {
+	$set  = o2par(1);
+$recs = $set['rec'];
+$code = '<table class="jxdatalogtab"><tr><th></th><th>User</th><th>Date</th><th>Time</th><th>Action</th>';
+foreach ($recs[0] as $fld_id => $fld) {
+   if (substr($fld_id, 0, 6) != 'jxlog_') {
+      $code.= '<th>'.$fld_id.'</th>';
+      }   
+   }
+$code.= '</tr>';
+$rntimg = o2rnt_alias().'img/';
+foreach ($recs as $id => $rec) {
+   if ($rec['jxlog_act'] != 'P') {
+      $date  = o2format($rec['jxlog_date'], 'o2sys_short_date');
+      $time  = o2format($rec['jxlog_time'], 'o2sys_short_time');      
+      if ($rec['jxlog_act'] == 'A') {
+         $code.= '<tr title="Current values"><td><img src="'.$rntimg.
+                 'ctrl_select.png"></td><td colspan="3"></td><td class="jxdatalogact">[Current]</td>';
+         foreach ($rec as $fld_id => $fld) {
+            if (substr($fld_id, 0, 6) != 'jxlog_') {               
+               $code.= '<td class="jxdatalogdata">'.$fld.'</td>';
+               }   
+            }
+         }
+      else {
+         $act    = ($rec['jxlog_act'] == 'D' ? 'Deleted' :
+                    ($rec['jxlog_act'] == 'U' || $rec['jxlog_act'] == 'C' ? 'Changed' :
+                     ($rec['jxlog_act'] == 'I' ? 'Inserted' : '?')));
+         $img    = ($rec['jxlog_act'] == 'D' ? 'o2_ctrl_navv_del' :
+                    ($rec['jxlog_act'] == 'U' || $rec['jxlog_act'] == 'C' ? 'o2_ctrl_navv_save' :
+                     ($rec['jxlog_act'] == 'I' ? 'o2_ctrl_navv_new' : '')));                        
+         $code.= '<tr title="'.strtoupper($act).': '.$rec['jxlog_user'].' ('.$date.' '.$time.')"><td><div class="'.$img.'"></div></td><td>'.
+                 $rec['jxlog_user'].'</td><td>'.
+                 $date.'</td><td>'.
+                 $time.'</td><td class="jxdatalogact">'.
+                 $act.'</td>';
+         foreach ($recs[$id - 1] as $fld_id => $fld) {
+            if (substr($fld_id, 0, 6) != 'jxlog_') {               
+               $code.= '<td '.
+                       (($rec['jxlog_act'] == 'C') && ($recs[$id][$fld_id] != $fld) ?
+                        'class="jxdatalogdatamod"' : 
+                        'class="jxdatalogdata"').
+                       '>'.$fld.'</td>';
+               }   
+            }      
+         }      
+      }
+   $code.= '</tr>';
+   }   
+if ($rec['jxlog_act'] != 'I') {
+   $code.= '<tr title="Initial values"><td><img src="'.$rntimg.
+             'right.png" style="opacity:0.4"></td><td colspan="3"></td><td class="jxdatalogact">[Start]</td>';
+   foreach ($rec as $fld_id => $fld) {
+      if (substr($fld_id, 0, 6) != 'jxlog_') {               
+         $code.= '<td class="jxdatalogdata">'.$fld.'</td>';
+         }   
+      }
+   $code.= '</tr>';   
+   }   
+$code.= '</table>';
+return ($code);
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_2() {
+	$set        = o2par(1);
+$code       = '<table class="jxdatalogtab"><tr><th></th><th>User</th><th>Date</th><th>Time</th><th>Action</th><th>Value</th></tr>';
+$cache      = '';
+$rntimg     = o2rnt_alias().'img/';
+$last_value = null;
+foreach ($set['fld'] as $id => $rec) {
+   /* Previous value for [U]pdate events */
+   if ($rec['act'] != 'P' && ($rec['act'] != 'C' || $rec['value'] !== $last_value)) {
+      $date  = o2format($rec['date'], 'o2sys_short_date');
+      $time  = o2format($rec['time'], 'o2sys_short_time');
+      /*   Current value row   */
+      if ($rec['act'] == 'A') {
+         $img        = '<img src="'.$rntimg.'ctrl_select.png">';
+         $code      .= '<tr><td>'.$img.
+                       '</div></td><td colspan="3"></td><td class="jxdatalogact">[Current]</td><td class="jxdatalogdata">'.
+                       $rec['value'].'</td></tr>';
+         $last_value = $rec['value'];
+         }
+      else {                 
+         $act        = ($rec['act'] == 'D' ? 'Deleted' :
+                        ($rec['act'] == 'U' || $rec['act'] == 'C' ? 'Changed' :
+                         ($rec['act'] == 'I' ? 'Inserted' : '?')));
+         $img        = ($rec['act'] == 'D' ? 'o2_ctrl_navv_del' :
+                          ($rec['act'] == 'U' || $rec['act'] == 'C' ? 'o2_ctrl_navv_save' :
+                             ($rec['act'] == 'I' ? 'o2_ctrl_navv_new' : '')));
+         $img        = '<div class="'.$img.'">';
+         $code      .= '<tr><td>'.$img.'</div></td><td>'.
+                       $rec['user'].'</td><td>'.
+                       $date.'</td><td>'.
+                       $time.'</td><td class="jxdatalogact">'.
+                       $act.'</td><td class="jxdatalogdata">'.
+                       $last_value.'</td></tr>';
+         $last_value = $rec['value'];
+         }
+      $last_title = '';
+      $last_act   = $rec['act'];
+      }   
+   }
+if ($last_act != 'I') {
+   $img  = '<img src="'.$rntimg.'right.png" style="opacity:0.4">';
+   $code.= '<tr><td>'.$img.
+           '</td><td colspan="3"></td><td class="jxdatalogact">'.
+           '[Start]</td><td class="jxdatalogdata">'.
+           $last_value.'</td></tr>';
+   }
+$code.= '</table>';
+return ($code);
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_3() {
+	
+return (o2val('prg§_§var','result_fld'));
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_4() {
+	
+return (o2val('prg§_§var','result_rec'));
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_5() {
+	
+return ("disp_area");
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_6() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_7() {
+	
+return (o2client_height()/2);
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_8() {
+	
+return (o2client_width() / 2);
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_10() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_11() {
+	
+return (!o2par(2));
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_12() {
+	$set     = o2par(1);
+$trace   = $set['trace'];
+$current = $set['rec'][0];
+$code    = '<table style="border-top:1px solid #666666;width:100%">'.
+           '<tr><td rowspan="2" class="o2_ctrl_label" style="text-align:center">Record tracing:</td>';
+if ($trace['cu'] || $trace['cd'] || $trace['ct']) {
+   $code.= '<td class="o2_ctrl_label" style="text-align:center">Creation:</td>';
+   }
+if ($trace['uu'] || $trace['ud'] || $trace['ut']) {
+   $code.= '<td class="o2_ctrl_label" style="text-align:center">Last update:</td>';
+   }
+$code.= '</tr><tr><td style="text-align:center">';
+if ($trace['cu']) {
+   $code.= $current[$trace['cu']].' &nbsp; ';
+   }
+if ($trace['cd']) {
+   $code.= o2format($current[$trace['cd']], 'o2sys_short_date').' &nbsp; ';
+   }
+if ($trace['ct']) {
+   $code.= o2format($current[$trace['ct']], 'o2sys_short_time').' &nbsp; ';
+   }
+$code.= '</td><td style="text-align:center">';
+if ($trace['uu']) {
+   $code.= $current[$trace['uu']].' &nbsp; ';
+   }
+if ($trace['ud']) {
+   $code.= o2format($current[$trace['ud']], 'o2sys_short_date').' &nbsp; ';
+   }                                      
+if ($trace['ut']) {
+   $code.= o2format($current[$trace['ut']], 'o2sys_short_time').' &nbsp; ';
+   }
+$code .= '</td></tr></table>';
+return ($code);
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_13() {
+	
+return (o2val('prg§_§var','result_trace'));
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_14() {
+	$set  = o2par(1);
+$cond = isset($set['trace']);
+return ($cond);
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_15() {
+	
+return (o2par(2) && o2val('prg§_§var','rec_trace'));
+	} //|o2_fine_exp|
+
+function o2sys_datahistory_exp_16() {
+	
+return (o2val('prg§_§var','rec_trace'));
+	} //|o2_fine_exp|
+?>

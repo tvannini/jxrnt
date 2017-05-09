@@ -1,0 +1,120 @@
+<html><head><title>o2architect - paradigma di sviluppo</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_9.html'>"Il mio negozio online" -  L’applicazione di studio</a></td>
+       <td id='nav_next' align='right'><a href='node_22.html'>Il repository dei <i>datatypes</i></a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.4 &nbsp; o2architect - paradigma di sviluppo</h2><br /><br /><h4>Introduzione</h4>
+<p>Questo modulo pone le basi per lo sviluppo di applicazioni in Janox.</p><br /><h4>Obiettivi</h4>
+<p>Al termine di questo modulo sarai in grado di:</p>
+<ul>
+ <li>Spiegare le 4 fasi del processo di sviluppo di una applicazione</li>
+ <li>Descrivere la relazione esistente tra modelli, tabelle, programmi, e 
+     menu.</li>
+ <li>Spiegare il sistema gerarchico degli oggetti che compongono 
+     l'applicazione.</li>
+</ul>
+
+<br />
+<h3>0.4.1<a name='node_15'> &nbsp; </a>Le quattro fasi per scrivere un’applicazione Janox</h3></br /><blockquote><p>Ogni applicazione Janox è tipicamente formata da quattro fasi:</p>
+<ol>
+ <li>Models - Definizione dei <em>tipi dato</em> dell'applicazione per 
+     l'utilizzo in tabelle e programmi</li>
+ <li>Tables – Definizione di tabelle di database ove l'applicazione memorizzerà
+     i dati</li>
+ <li>Programs – Creare la logica per l'interazione tra l'utente finale e le tabelle
+     del database (le funzionalità dell'applicazione)</li>
+ <li>Menus – Creare i menu che abilitano l'utente finale ad utilizzare i programmi 
+     dell'applicazione</li>
+</ol>
+<p>Quando si sviluppa una applicazione con Janox può essere di grande aiuto tenere 
+   sempre ben presenti queste fasi.</p>
+<img src="img/image007.gif" />
+<p>Il diagramma a piramide è molto importante per capire le fasi dello sviluppo 
+   dell'applicazione. Capire il diagramma renderà più semplice scrivere 
+   l'applicazione.</p>
+<p>Ogni fase della stesura dell'applicazione è locicamente collegata alla fase 
+   successiva.</p>
+<p>Il risultato di ogni fase viene memorizzato in un repository (contenitore) - 
+   un <i>model repository</i>, un <i>table repository</i>, un <i>program 
+   repository</i>, e un <i>menu repository</i>.
+<br />
+<h3>0.4.1.1<a name='node_16'> &nbsp; </a>Definire i <i>models - datatypes</i></h3></br /><blockquote><p>Un modello è un insieme di proprietà per un certo campo (<i>field</i>).</p>
+<p>Ogni volta che si decide di realizzare un'applicazione  in Janox si inizia con la
+   definizione di questi modelli. Per semplificarne la successiva identificazione è
+   molto meglio dare ai modelli, e agli oggetti che vedremo in seguito, da subito
+   nomi significativi.</i>
+
+<h4>Proprietà di un Data-type</h4>
+<p>Ogni oggetto dell'applicazione ha delle proprietà. Un modello data-type è
+   composto da un insieme di proprietà che vengono ereditate dagli oggetti di più
+   alto livello nella piramide dell'applicazione (tables, programs...).</p>
+<ul>
+ <li><i>Id</i></li>
+ <li><i>Type</i> ("Alpha", "Number", "Logical", ecc.)</li>
+ <li><i>Mask</i> (Maschera di formattazione I/O del dato)</li>
+</ul>
+
+</blockquote><br />
+<h3>0.4.1.2<a name='node_17'> &nbsp; </a>Definire le <i>tables</i></h3></br /><blockquote><p>La seconda fase dello sviluppo di una applicazione consiste nel definire 
+le tabelle per l'applicazione. Le colonne di ogni tabella ereditano il loro 
+contenuto dai modelli che il programmatore ha definito precedentemente 
+nel <i>model repository</i>.</p>
+<p>Una tabella è un set di record che hanno la stessa struttura sotto lo 
+stesso nome.</i>
+<p>Un indice è un criterio di ordinamento dei dati di una tabella.</p>
+<p>Una tabella può avere uno o più indici e gli indici devono essere tutti 
+univoci.</p>
+
+</blockquote><br />
+<h3>0.4.1.3<a name='node_18'> &nbsp; </a>Creare i <i>programs</i></h3></br /><blockquote><p>La terza fase consiste nella creazione dei programmi che eseguano le 
+   logiche dell'applicazione e fungano da interfaccia tra l'utente finale e le
+   tabelle del database.</p>
+<p>I programmi sono gli strumenti con cui l'utente finale può manipolare i dati ed
+   è il programmatore a decidere quali dati e che tipo di manipolazione su essi
+   sia permessa.</p>
+<p>In Janox non esiste una differenza netta tra programmi <em>online</em>, cioè 
+   programmi con un'interfaccia di interazione con l'utente, e programmi 
+   cosiddetti <em>batch</em>, cioè procedure con un predefinito flow esecutivo
+   e nessuna interfaccia interattiva. Infatti in Janox un singolo programma può 
+   mutare aspetto a seconda delle situazioni senza che il programmatore debba
+   definirlo in differenti modi.</p>
+</blockquote><br />
+<h3>0.4.1.4<a name='node_19'> &nbsp; </a>Creare i <i>menus</i></h3></br /><blockquote><p>Il quarto ed ultimo step consiste nell'associare i programmi alle voci dei menù 
+   in modo da permettere all'utente finale di navigare attraverso l'applicazione.</p>
+<p>I menu sono lo strumento principale che permette all'utente finale di accedere 
+   alle funzionalità dell’applicazione.</p>
+</blockquote></blockquote><br />
+<h3>0.4.2<a name='node_20'> &nbsp; </a>Il meccanismo della <em>ereditarietà</em></h3></br /><blockquote><p>Il diagramma a piramide mostra anche il meccanismo di ereditarietà che 
+   esiste tra i repository dei modelli, delle tabelle, e dei programmi:</p>
+<img src='img/image009.gif'>
+<p>Gli oggetti nelle tabelle e nei programmi ereditano le proprietà definite
+   nei modelli su cui sono basati.</p>
+<p>Tale meccanismo offre i seguenti benefici al programmatore:</p>
+<ol>
+ <li>Riduzione dei tempi di sviluppo dell'applicazione. Una volta creato un modello, 
+     il programmatore non deve ogni volta definire le proprietà sugli oggetti del 
+     suo tipo.</li>
+ <li>Manutenzione dell'applicazione semplificata. Una volta associati gli oggetti ai 
+     loro modelli, ogni modifica alle proprietà dei modelli è automaticamente 
+     ereditata dagli oggetti associati.</li>
+</ol>
+
+<h4>Esempio:</h4>
+<p>Definendo un modello per il campo "codice_cliente" come alfanumerico 
+   lungo 5 caratteri, lo si può utilizzare come campo di tabella o come variabile 
+   di programma. Se durante lo sviluppo diventasse necessario variare i campi di 
+   questo tipo e portarli a 6 caratteri, basterà variare il modello e il meccanismo 
+   di ereditarietà garantirà che tali modifiche abbiano effetto su tutti gli oggetti
+   dell'applicazione basati su tale modello.</p></blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_9.html'>"Il mio negozio online" -  L’applicazione di studio</a></td>
+       <td id='nav_next' align='right'><a href='node_22.html'>Il repository dei <i>datatypes</i></a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

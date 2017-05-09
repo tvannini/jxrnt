@@ -1,0 +1,36 @@
+<?php
+
+function o2dev_fs_browser§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(o2dev_fs_browser_exp_6(), False, o2dev_fs_browser_exp_1(), o2dev_fs_browser_exp_2(), o2dev_fs_browser_exp_1(), o2dev_fs_browser_exp_3(), o2dev_fs_browser_exp_3(), o2dev_fs_browser_exp_4(), o2dev_fs_browser_exp_4(), o2dev_fs_browser_exp_4(), o2dev_fs_browser_exp_5()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_fs_browser_exp_1() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function o2dev_fs_browser_exp_2() {
+	
+return ("*");
+	} //|o2_fine_exp|
+
+function o2dev_fs_browser_exp_3() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function o2dev_fs_browser_exp_4() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_fs_browser_exp_5() {
+	
+return ("Application workspace");
+	} //|o2_fine_exp|
+
+function o2dev_fs_browser_exp_6() {
+	
+return ("tools/o2sys_fs_browser");
+	} //|o2_fine_exp|
+?>

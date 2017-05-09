@@ -1,0 +1,48 @@
+/* ============================== SFONDO ================================== */
+.o2_sfondo {
+	color: #19181A; 
+	background-image: none;
+	background-color: #F3F0F0; 
+	font: normal 13px Arial, sans-serif; 
+	text-align: justify; 
+	padding: 0 50px 0 50px;
+	}
+
+/* Titles */
+h1 {font-size: 24px; font-weight: bold;}
+h2 {font-size: 20px; font-weight: bold;}
+h3 {font-size: 18px; font-weight: bold;}
+h4 {font-size: 16px; font-weight: bold;}
+h5 {font: italic 14px "Times New Roman", serif; font-weight: bold;}
+h6 {font-size: 14px; font-weight: bold;}
+
+/* Paragraph */
+p { margin-top: 10px; margin-bottom: 20px;}
+
+/* Images */
+/*img { margin-top: 10px; margin-bottom: 20px;}*/
+
+/* ________________________ Coded types ___________________________*/
+/* Keyboard keys */
+kbd {font: bold 13px "Times New Roman", serif; font-variant: small-caps;}
+/* Text from interface */
+i {font-family: "Times New Roman", serif;	font-size: larger;}
+/* Values "___" */
+/* URL & path */
+var {font-family: Terminal, Fixedsys, monospace; font-style: normal;}
+/* Scripting code (PHP, SQL, JavaScript, ...) */
+code {font-family: "Courier New";}
+/* Generic emphasis */
+em {font-family: "Times New Roman", serif; font-size: larger;}
+	
+dt {
+	font-size: 12px;
+	font-weight: bold;
+	margin-top: 10px;
+	}
+
+dfn {
+	font-family: "Times New Roman", serif;
+	font-size: larger;
+	}
+

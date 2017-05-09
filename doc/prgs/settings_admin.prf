@@ -1,0 +1,208 @@
+<?php
+
+function settings_admin§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("setting_desc", "_o2text");
+	$task_prg§_§var->definisci("setting_key", "setting_key");
+		}
+
+function settings_admin§§settings_def(&$task_settings, $_o2viewalias = "") {
+	$task_settings->righe_vis = 10;
+
+	$task_settings->usa_file("jxdoc_settings","settings","key",null,null);
+
+	$task_settings->usa("key","settings","key","settings_admin_exp_11()","settings_admin_exp_11()",null,null);
+	$task_settings->usa("value","settings","value",null,null,null,null);
+	$task_settings->usa("description","settings","description",null,null,null,null);
+}
+function settings_admin§§unique_form_def(&$form_unique) {
+	$form_unique->x(300);
+	$form_unique->y(100);
+	$form_unique->larghezza(540);
+	$form_unique->altezza(440);
+	$form_unique->titolo("Settings administration");
+	$form_unique->css_doc("sys_jxdoctool_doc");
+	$form_unique->close_action("confirm");
+	$form_unique->align_o("Center");
+	$form_unique->frm_status(settings_admin_exp_4());
+	$ctrl_o2table2 = &$form_unique->ctrldef("o2table2", "tab", "", "settings", "");
+		$ctrl_o2table2->x(20);
+		$ctrl_o2table2->y(20);
+		$ctrl_o2table2->larghezza(500);
+		$ctrl_o2table2->altezza(232);
+	$ctrl_o2textarea2 = &$form_unique->ctrldef("o2textarea2", "text", "", "settings", "description");
+		$ctrl_o2textarea2->x(20);
+		$ctrl_o2textarea2->y(260);
+		$ctrl_o2textarea2->larghezza(500);
+		$ctrl_o2textarea2->altezza(130);
+		$ctrl_o2textarea2->modificabile(settings_admin_exp_4());
+	$ctrl_o2dbnavigator2 = &$form_unique->ctrldef("o2dbnavigator2", "navigator", "o2table2", "settings", "");
+		$ctrl_o2dbnavigator2->x(472);
+		$ctrl_o2dbnavigator2->y(30);
+		$ctrl_o2dbnavigator2->larghezza(18);
+		$ctrl_o2dbnavigator2->altezza(164);
+		$ctrl_o2dbnavigator2->vertical();
+		$ctrl_o2dbnavigator2->visible_new(settings_admin_exp_9999());
+		$ctrl_o2dbnavigator2->visible_del(settings_admin_exp_9999());
+		$ctrl_o2dbnavigator2->act_save("confirm");
+		$ctrl_o2dbnavigator2->act_undo("settings_undo");
+	$ctrl_o2label2 = &$form_unique->ctrldef("o2label2", "label", "o2table2", "", "");
+		$ctrl_o2label2->x(0);
+		$ctrl_o2label2->y(20);
+		$ctrl_o2label2->larghezza(130);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->info_padre(array("01" ,"01" ,"01" ,"Key" ,False ,"" ,False ,""));
+		$ctrl_o2label2->label(settings_admin_exp_13());
+	$ctrl_o2edit3 = &$form_unique->ctrldef("o2edit3", "edit", "o2table2", "settings", "value");
+		$ctrl_o2edit3->x(130);
+		$ctrl_o2edit3->y(20);
+		$ctrl_o2edit3->larghezza(320);
+		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->info_padre(array("01" ,"02" ,"02" ,"Value" ,True ,"" ,False ,""));
+		}
+
+function settings_admin§§confirm_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("settings", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function settings_admin§§set_default_act(&$o2exe) {
+	$o2exe->s(1) && (settings_admin_exp_10() || $o2exe->e()) && o2act::view("settings", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("settings", "key", settings_admin_exp_1()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("settings", "description", settings_admin_exp_5()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::view("settings", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function settings_admin§§set_defaults_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("css file") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "setting_key", settings_admin_exp_2()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "setting_desc", settings_admin_exp_6()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("set_default", True, "") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("html title") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "setting_key", settings_admin_exp_3()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "setting_desc", settings_admin_exp_7()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::exe("set_default", True, "") && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("html breaking level") && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "setting_key", settings_admin_exp_8()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "setting_desc", settings_admin_exp_9()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::exe("set_default", True, "") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("credits") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "setting_key", settings_admin_exp_14()) && $o2exe->e();
+	$o2exe->s(15) && True && o2act::set("prg§_§var", "setting_desc", settings_admin_exp_15()) && $o2exe->e();
+	$o2exe->s(16) && True && o2act::exe("set_default", True, "") && $o2exe->e();
+//	$o2exe->s(17) && True && o2act::remark("Default page") && $o2exe->e();
+	$o2exe->s(18) && True && o2act::set("prg§_§var", "setting_key", settings_admin_exp_16()) && $o2exe->e();
+	$o2exe->s(19) && True && o2act::set("prg§_§var", "setting_desc", settings_admin_exp_17()) && $o2exe->e();
+	$o2exe->s(20) && True && o2act::exe("set_default", True, "") && $o2exe->e();
+//	$o2exe->s(21) && True && o2act::remark("No-doc message") && $o2exe->e();
+	$o2exe->s(22) && True && o2act::set("prg§_§var", "setting_key", settings_admin_exp_18()) && $o2exe->e();
+	$o2exe->s(23) && True && o2act::set("prg§_§var", "setting_desc", settings_admin_exp_19()) && $o2exe->e();
+	$o2exe->s(24) && True && o2act::exe("set_default", True, "") && $o2exe->e();
+//	$o2exe->s(25) && True && o2act::remark("Show all settings") && $o2exe->e();
+	$o2exe->s(26) && True && o2act::set("prg§_§var", "setting_key", settings_admin_exp_12()) && $o2exe->e();
+	$o2exe->s(27) && True && o2act::view("settings", "1", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function settings_admin§§settings_undo_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("settings", "A", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function settings_admin_exp_1() {
+	
+return (o2val('prg§_§var','setting_key'));
+	} //|o2_fine_exp|
+
+function settings_admin_exp_2() {
+	
+return ("css");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_3() {
+	
+return ("html_title");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_4() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function settings_admin_exp_5() {
+	
+return (o2val('prg§_§var','setting_desc'));
+	} //|o2_fine_exp|
+
+function settings_admin_exp_6() {
+	$t = "Path to css file as requested for href property of <link rel='stylesheet'> tag";
+return ($t);
+	} //|o2_fine_exp|
+
+function settings_admin_exp_7() {
+	$t = "Text for 1st node <title> tag";
+return ($t);
+	} //|o2_fine_exp|
+
+function settings_admin_exp_8() {
+	
+return ("break_level");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_9() {
+	$t = "Nesting level under which group sections in a single page";
+return ($t);
+	} //|o2_fine_exp|
+
+function settings_admin_exp_10() {
+	
+return (!o2view_rec("settings"));
+	} //|o2_fine_exp|
+
+function settings_admin_exp_11() {
+	
+return ((o2zero('prg§_§var','setting_key') ? null : o2val('prg§_§var','setting_key')));
+	} //|o2_fine_exp|
+
+function settings_admin_exp_12() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_13() {
+	
+return (o2val('settings','key'));
+	} //|o2_fine_exp|
+
+function settings_admin_exp_14() {
+	
+return ("credits");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_15() {
+	
+return ("String to be displayed in the footer of each page. Can be HTML.");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_16() {
+	
+return ("default_page");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_17() {
+	
+return ("Node ID to be displayed when no help page is available for requested item");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_18() {
+	
+return ("nodoc_msg");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_19() {
+	
+return ("Message to be displayed when no documentation is available for rquested program.");
+	} //|o2_fine_exp|
+
+function settings_admin_exp_9999() {
+	
+return (false);
+	} //|o2_fine_exp|
+?>

@@ -1,0 +1,1059 @@
+<?php
+
+function jxjobs§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("confirm", "_o2logical");
+	$task_prg§_§var->definisci("filter_tree", "_o2alpha");
+	$task_prg§_§var->definisci("group_tree", "_o2logical");
+	$task_prg§_§var->definisci("job_block_mode", "jxjob_block_mode");
+	$task_prg§_§var->definisci("job_desc", "jxjob_desc");
+	$task_prg§_§var->definisci("job_disabled", "_o2logical");
+	$task_prg§_§var->definisci("job_id", "jxjob_id");
+	$task_prg§_§var->definisci("job_keep_days", "_o2number");
+	$task_prg§_§var->definisci("job_max_instances", "_o2number");
+	$task_prg§_§var->definisci("job_name", "jxjob_name");
+	$task_prg§_§var->definisci("job_obj", "_o2structure");
+	$task_prg§_§var->definisci("job_params", "_o2structure");
+	$task_prg§_§var->definisci("job_prg", "_o2alpha");
+	$task_prg§_§var->definisci("job_service", "jxservice");
+	$task_prg§_§var->definisci("par_job_id", "jxjob_id");
+	$task_prg§_§var->definisci("run_jobs_list", "_o2text");
+	$task_prg§_§var->definisci("sched_job_list", "_o2text");
+	$task_prg§_§var->definisci("sort_tree", "_o2logical");
+		}
+function jxjobs§§jxjobs_1_form_def(&$form_jxjobs_1) {
+	$form_jxjobs_1->x(400);
+	$form_jxjobs_1->y(30);
+	$form_jxjobs_1->larghezza(800);
+	$form_jxjobs_1->altezza(650);
+	$form_jxjobs_1->titolo("Jobs");
+	$form_jxjobs_1->css_doc("sys_jobs_doc");
+	$form_jxjobs_1->align_o("Center");
+	$ctrl_o2label6 = &$form_jxjobs_1->ctrldef("o2label6", "label", "", "", "");
+		$ctrl_o2label6->x(20);
+		$ctrl_o2label6->y(16);
+		$ctrl_o2label6->larghezza(760);
+		$ctrl_o2label6->altezza(28);
+		$ctrl_o2label6->expand("H");
+		$ctrl_o2label6->label("");
+		$ctrl_o2label6->css(jxjobs_exp_10());
+	$ctrl_o2htmlarea10 = &$form_jxjobs_1->ctrldef("o2htmlarea10", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea10->x(210);
+		$ctrl_o2htmlarea10->y(20);
+		$ctrl_o2htmlarea10->larghezza(10);
+		$ctrl_o2htmlarea10->altezza(20);
+		$ctrl_o2htmlarea10->expand("H");
+	$ctrl_o2htmlarea2 = &$form_jxjobs_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(20);
+		$ctrl_o2htmlarea2->y(50);
+		$ctrl_o2htmlarea2->larghezza(300);
+		$ctrl_o2htmlarea2->altezza(550);
+		$ctrl_o2htmlarea2->expand("B");
+		$ctrl_o2htmlarea2->html(jxjobs_exp_2());
+		$ctrl_o2htmlarea2->css(jxjobs_exp_3());
+	$ctrl_o2label9 = &$form_jxjobs_1->ctrldef("o2label9", "label", "", "", "");
+		$ctrl_o2label9->x(30);
+		$ctrl_o2label9->y(20);
+		$ctrl_o2label9->larghezza(60);
+		$ctrl_o2label9->altezza(20);
+		$ctrl_o2label9->label("Search:");
+	$ctrl_o2label18 = &$form_jxjobs_1->ctrldef("o2label18", "label", "", "", "");
+		$ctrl_o2label18->x(330);
+		$ctrl_o2label18->y(20);
+		$ctrl_o2label18->larghezza(240);
+		$ctrl_o2label18->altezza(20);
+		$ctrl_o2label18->expand("H");
+		$ctrl_o2label18->label(jxjobs_exp_83());
+	$ctrl_o2image7 = &$form_jxjobs_1->ctrldef("o2image7", "img", "", "", "");
+		$ctrl_o2image7->x(699);
+		$ctrl_o2image7->y(21);
+		$ctrl_o2image7->larghezza(3);
+		$ctrl_o2image7->altezza(17);
+		$ctrl_o2image7->imgexp(jxjobs_exp_41());
+	$ctrl_o2image2 = &$form_jxjobs_1->ctrldef("o2image2", "img", "", "", "");
+		$ctrl_o2image2->x(675);
+		$ctrl_o2image2->y(18);
+		$ctrl_o2image2->larghezza(24);
+		$ctrl_o2image2->altezza(24);
+		$ctrl_o2image2->azione("create_job");
+		$ctrl_o2image2->label("Create a new job");
+		$ctrl_o2image2->css(jxjobs_exp_36());
+		$ctrl_o2image2->imgexp(jxjobs_exp_37());
+	$ctrl_o2image36 = &$form_jxjobs_1->ctrldef("o2image36", "img", "", "", "");
+		$ctrl_o2image36->x(224);
+		$ctrl_o2image36->y(18);
+		$ctrl_o2image36->larghezza(24);
+		$ctrl_o2image36->altezza(24);
+		$ctrl_o2image36->azione("sort_tree");
+		$ctrl_o2image36->label(jxjobs_exp_14());
+		$ctrl_o2image36->css(jxjobs_exp_11());
+		$ctrl_o2image36->imgexp(jxjobs_exp_18());
+	$ctrl_o2image14 = &$form_jxjobs_1->ctrldef("o2image14", "img", "", "", "");
+		$ctrl_o2image14->x(702);
+		$ctrl_o2image14->y(18);
+		$ctrl_o2image14->larghezza(24);
+		$ctrl_o2image14->altezza(24);
+		$ctrl_o2image14->azione("goto_services");
+		$ctrl_o2image14->label("Go to Services");
+		$ctrl_o2image14->css(jxjobs_exp_36());
+		$ctrl_o2image14->imgexp(jxjobs_exp_82());
+	$ctrl_o2image12 = &$form_jxjobs_1->ctrldef("o2image12", "img", "", "", "");
+		$ctrl_o2image12->x(296);
+		$ctrl_o2image12->y(18);
+		$ctrl_o2image12->larghezza(24);
+		$ctrl_o2image12->altezza(24);
+		$ctrl_o2image12->azione("switch_tree_group");
+		$ctrl_o2image12->label(jxjobs_exp_78());
+		$ctrl_o2image12->css(jxjobs_exp_11());
+		$ctrl_o2image12->imgexp(jxjobs_exp_75());
+	$ctrl_o2image10 = &$form_jxjobs_1->ctrldef("o2image10", "img", "", "", "");
+		$ctrl_o2image10->x(726);
+		$ctrl_o2image10->y(18);
+		$ctrl_o2image10->larghezza(24);
+		$ctrl_o2image10->altezza(24);
+		$ctrl_o2image10->azione("goto_processes");
+		$ctrl_o2image10->label("Go to Processes");
+		$ctrl_o2image10->css(jxjobs_exp_36());
+		$ctrl_o2image10->imgexp(jxjobs_exp_46());
+	$ctrl_o2image9 = &$form_jxjobs_1->ctrldef("o2image9", "img", "", "", "");
+		$ctrl_o2image9->x(750);
+		$ctrl_o2image9->y(18);
+		$ctrl_o2image9->larghezza(24);
+		$ctrl_o2image9->altezza(24);
+		$ctrl_o2image9->azione("goto_sched");
+		$ctrl_o2image9->label("Go to Scheduler");
+		$ctrl_o2image9->css(jxjobs_exp_36());
+		$ctrl_o2image9->imgexp(jxjobs_exp_45());
+	$ctrl_o2image21 = &$form_jxjobs_1->ctrldef("o2image21", "img", "", "", "");
+		$ctrl_o2image21->x(272);
+		$ctrl_o2image21->y(18);
+		$ctrl_o2image21->larghezza(24);
+		$ctrl_o2image21->altezza(24);
+		$ctrl_o2image21->azione("unfold_tree");
+		$ctrl_o2image21->label("Collapse all");
+		$ctrl_o2image21->css(jxjobs_exp_11());
+		$ctrl_o2image21->imgexp(jxjobs_exp_13());
+	$ctrl_o2image20 = &$form_jxjobs_1->ctrldef("o2image20", "img", "", "", "");
+		$ctrl_o2image20->x(248);
+		$ctrl_o2image20->y(18);
+		$ctrl_o2image20->larghezza(24);
+		$ctrl_o2image20->altezza(24);
+		$ctrl_o2image20->azione("fold_tree");
+		$ctrl_o2image20->label("Expand all");
+		$ctrl_o2image20->css(jxjobs_exp_11());
+		$ctrl_o2image20->imgexp(jxjobs_exp_12());
+	$ctrl_o2multipage2 = &$form_jxjobs_1->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(330);
+		$ctrl_o2multipage2->y(50);
+		$ctrl_o2multipage2->larghezza(450);
+		$ctrl_o2multipage2->altezza(550);
+		$ctrl_o2multipage2->visibile(jxjobs_exp_31());
+		$ctrl_o2multipage2->expand("B");
+		$ctrl_o2multipage2->label(array("Job"));
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2edit5 = &$form_jxjobs_1->ctrldef("o2edit5", "edit", "", "prg§_§var", "filter_tree");
+		$ctrl_o2edit5->x(90);
+		$ctrl_o2edit5->y(20);
+		$ctrl_o2edit5->larghezza(120);
+		$ctrl_o2edit5->altezza(20);
+		$ctrl_o2edit5->azione("filter_tree");
+		$ctrl_o2edit5->on_change(jxjobs_exp_17());
+	$ctrl_o2multipage7 = &$form_jxjobs_1->ctrldef("o2multipage7", "multipage", "", "", "");
+		$ctrl_o2multipage7->x(330);
+		$ctrl_o2multipage7->y(50);
+		$ctrl_o2multipage7->larghezza(450);
+		$ctrl_o2multipage7->altezza(550);
+		$ctrl_o2multipage7->visibile(jxjobs_exp_30());
+		$ctrl_o2multipage7->expand("B");
+		$ctrl_o2multipage7->label(array("Info"));
+		$ctrl_o2multipage7->buttons("T");
+	$ctrl_o2label10 = &$form_jxjobs_1->ctrldef("o2label10", "label", "o2multipage2", "", "");
+		$ctrl_o2label10->x(10);
+		$ctrl_o2label10->y(33);
+		$ctrl_o2label10->larghezza(430);
+		$ctrl_o2label10->altezza(28);
+		$ctrl_o2label10->expand("H");
+		$ctrl_o2label10->info_padre(array(0));
+		$ctrl_o2label10->label("");
+		$ctrl_o2label10->css(jxjobs_exp_10());
+	$ctrl_o2label5 = &$form_jxjobs_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
+		$ctrl_o2label5->x(20);
+		$ctrl_o2label5->y(160);
+		$ctrl_o2label5->larghezza(80);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->info_padre(array(0));
+		$ctrl_o2label5->label("Module:");
+	$ctrl_o2label8 = &$form_jxjobs_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
+		$ctrl_o2label8->x(100);
+		$ctrl_o2label8->y(200);
+		$ctrl_o2label8->larghezza(50);
+		$ctrl_o2label8->altezza(20);
+		$ctrl_o2label8->expand("H");
+		$ctrl_o2label8->info_padre(array(0));
+		$ctrl_o2label8->label(jxjobs_exp_66());
+	$ctrl_o2label15 = &$form_jxjobs_1->ctrldef("o2label15", "label", "o2multipage2", "", "");
+		$ctrl_o2label15->x(360);
+		$ctrl_o2label15->y(200);
+		$ctrl_o2label15->larghezza(70);
+		$ctrl_o2label15->altezza(20);
+		$ctrl_o2label15->visibile(jxjobs_exp_68());
+		$ctrl_o2label15->info_padre(array(0));
+		$ctrl_o2label15->label(jxjobs_exp_67());
+	$ctrl_o2htmlarea5 = &$form_jxjobs_1->ctrldef("o2htmlarea5", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea5->x(100);
+		$ctrl_o2htmlarea5->y(120);
+		$ctrl_o2htmlarea5->larghezza(330);
+		$ctrl_o2htmlarea5->altezza(40);
+		$ctrl_o2htmlarea5->expand("H");
+		$ctrl_o2htmlarea5->info_padre(array(0));
+		$ctrl_o2htmlarea5->html(jxjobs_exp_34());
+	$ctrl_o2label14 = &$form_jxjobs_1->ctrldef("o2label14", "label", "o2multipage2", "", "");
+		$ctrl_o2label14->x(100);
+		$ctrl_o2label14->y(160);
+		$ctrl_o2label14->larghezza(330);
+		$ctrl_o2label14->altezza(20);
+		$ctrl_o2label14->expand("H");
+		$ctrl_o2label14->info_padre(array(0));
+		$ctrl_o2label14->label(jxjobs_exp_35());
+	$ctrl_o2label7 = &$form_jxjobs_1->ctrldef("o2label7", "label", "o2multipage2", "", "");
+		$ctrl_o2label7->x(20);
+		$ctrl_o2label7->y(200);
+		$ctrl_o2label7->larghezza(80);
+		$ctrl_o2label7->altezza(20);
+		$ctrl_o2label7->info_padre(array(0));
+		$ctrl_o2label7->label("Max instances:");
+	$ctrl_o2label2 = &$form_jxjobs_1->ctrldef("o2label2", "label", "o2multipage2", "", "");
+		$ctrl_o2label2->x(20);
+		$ctrl_o2label2->y(80);
+		$ctrl_o2label2->larghezza(70);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->info_padre(array(0));
+		$ctrl_o2label2->label("ID:");
+	$ctrl_o2label11 = &$form_jxjobs_1->ctrldef("o2label11", "label", "o2multipage2", "", "");
+		$ctrl_o2label11->x(100);
+		$ctrl_o2label11->y(80);
+		$ctrl_o2label11->larghezza(50);
+		$ctrl_o2label11->altezza(20);
+		$ctrl_o2label11->info_padre(array(0));
+		$ctrl_o2label11->label(jxjobs_exp_32());
+	$ctrl_o2label17 = &$form_jxjobs_1->ctrldef("o2label17", "label", "o2multipage2", "", "");
+		$ctrl_o2label17->x(100);
+		$ctrl_o2label17->y(180);
+		$ctrl_o2label17->larghezza(330);
+		$ctrl_o2label17->altezza(20);
+		$ctrl_o2label17->expand("H");
+		$ctrl_o2label17->info_padre(array(0));
+		$ctrl_o2label17->label(jxjobs_exp_76());
+	$ctrl_o2label12 = &$form_jxjobs_1->ctrldef("o2label12", "label", "o2multipage2", "", "");
+		$ctrl_o2label12->x(100);
+		$ctrl_o2label12->y(100);
+		$ctrl_o2label12->larghezza(330);
+		$ctrl_o2label12->altezza(20);
+		$ctrl_o2label12->expand("H");
+		$ctrl_o2label12->info_padre(array(0));
+		$ctrl_o2label12->label(jxjobs_exp_33());
+	$ctrl_o2htmlarea8 = &$form_jxjobs_1->ctrldef("o2htmlarea8", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea8->x(160);
+		$ctrl_o2htmlarea8->y(80);
+		$ctrl_o2htmlarea8->larghezza(270);
+		$ctrl_o2htmlarea8->altezza(20);
+		$ctrl_o2htmlarea8->expand("H");
+		$ctrl_o2htmlarea8->info_padre(array(0));
+		$ctrl_o2htmlarea8->html(jxjobs_exp_63());
+	$ctrl_o2label16 = &$form_jxjobs_1->ctrldef("o2label16", "label", "o2multipage2", "", "");
+		$ctrl_o2label16->x(20);
+		$ctrl_o2label16->y(180);
+		$ctrl_o2label16->larghezza(80);
+		$ctrl_o2label16->altezza(20);
+		$ctrl_o2label16->info_padre(array(0));
+		$ctrl_o2label16->label("Service:");
+	$ctrl_o2label13 = &$form_jxjobs_1->ctrldef("o2label13", "label", "o2multipage2", "", "");
+		$ctrl_o2label13->x(260);
+		$ctrl_o2label13->y(200);
+		$ctrl_o2label13->larghezza(100);
+		$ctrl_o2label13->altezza(20);
+		$ctrl_o2label13->visibile(jxjobs_exp_68());
+		$ctrl_o2label13->info_padre(array(0));
+		$ctrl_o2label13->label("Blocking mode:");
+	$ctrl_o2label3 = &$form_jxjobs_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
+		$ctrl_o2label3->x(20);
+		$ctrl_o2label3->y(100);
+		$ctrl_o2label3->larghezza(70);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->info_padre(array(0));
+		$ctrl_o2label3->label("Name:");
+	$ctrl_o2label4 = &$form_jxjobs_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
+		$ctrl_o2label4->x(20);
+		$ctrl_o2label4->y(120);
+		$ctrl_o2label4->larghezza(70);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->info_padre(array(0));
+		$ctrl_o2label4->label("Description:");
+	$ctrl_o2image5 = &$form_jxjobs_1->ctrldef("o2image5", "img", "o2multipage2", "", "");
+		$ctrl_o2image5->x(146);
+		$ctrl_o2image5->y(35);
+		$ctrl_o2image5->larghezza(24);
+		$ctrl_o2image5->altezza(24);
+		$ctrl_o2image5->azione("sched_add");
+		$ctrl_o2image5->info_padre(array(0));
+		$ctrl_o2image5->label("Add schedule");
+		$ctrl_o2image5->css(jxjobs_exp_36());
+		$ctrl_o2image5->imgexp(jxjobs_exp_42());
+	$ctrl_o2image4 = &$form_jxjobs_1->ctrldef("o2image4", "img", "o2multipage2", "", "");
+		$ctrl_o2image4->x(20);
+		$ctrl_o2image4->y(35);
+		$ctrl_o2image4->larghezza(24);
+		$ctrl_o2image4->altezza(24);
+		$ctrl_o2image4->azione("node_detail");
+		$ctrl_o2image4->info_padre(array(0));
+		$ctrl_o2image4->label("Refresh");
+		$ctrl_o2image4->css(jxjobs_exp_36());
+		$ctrl_o2image4->imgexp(jxjobs_exp_40());
+	$ctrl_o2image13 = &$form_jxjobs_1->ctrldef("o2image13", "img", "o2multipage2", "", "");
+		$ctrl_o2image13->x(122);
+		$ctrl_o2image13->y(35);
+		$ctrl_o2image13->larghezza(24);
+		$ctrl_o2image13->altezza(24);
+		$ctrl_o2image13->modificabile(jxjobs_exp_69());
+		$ctrl_o2image13->azione("queue_job");
+		$ctrl_o2image13->info_padre(array(0));
+		$ctrl_o2image13->label("Queue job for running");
+		$ctrl_o2image13->css(jxjobs_exp_70());
+		$ctrl_o2image13->imgexp(jxjobs_exp_80());
+	$ctrl_o2image6 = &$form_jxjobs_1->ctrldef("o2image6", "img", "o2multipage2", "", "");
+		$ctrl_o2image6->x(98);
+		$ctrl_o2image6->y(35);
+		$ctrl_o2image6->larghezza(24);
+		$ctrl_o2image6->altezza(24);
+		$ctrl_o2image6->modificabile(jxjobs_exp_69());
+		$ctrl_o2image6->azione("exe_job");
+		$ctrl_o2image6->info_padre(array(0));
+		$ctrl_o2image6->label("Run job");
+		$ctrl_o2image6->css(jxjobs_exp_70());
+		$ctrl_o2image6->imgexp(jxjobs_exp_43());
+	$ctrl_o2image27 = &$form_jxjobs_1->ctrldef("o2image27", "img", "o2multipage2", "", "");
+		$ctrl_o2image27->x(44);
+		$ctrl_o2image27->y(38);
+		$ctrl_o2image27->larghezza(3);
+		$ctrl_o2image27->altezza(17);
+		$ctrl_o2image27->info_padre(array(0));
+		$ctrl_o2image27->imgexp(jxjobs_exp_41());
+	$ctrl_o2image8 = &$form_jxjobs_1->ctrldef("o2image8", "img", "o2multipage2", "", "");
+		$ctrl_o2image8->x(95);
+		$ctrl_o2image8->y(38);
+		$ctrl_o2image8->larghezza(3);
+		$ctrl_o2image8->altezza(17);
+		$ctrl_o2image8->info_padre(array(0));
+		$ctrl_o2image8->imgexp(jxjobs_exp_41());
+	$ctrl_o2image3 = &$form_jxjobs_1->ctrldef("o2image3", "img", "o2multipage2", "", "");
+		$ctrl_o2image3->x(47);
+		$ctrl_o2image3->y(35);
+		$ctrl_o2image3->larghezza(24);
+		$ctrl_o2image3->altezza(24);
+		$ctrl_o2image3->azione("edit_job");
+		$ctrl_o2image3->info_padre(array(0));
+		$ctrl_o2image3->label("Edit job");
+		$ctrl_o2image3->css(jxjobs_exp_36());
+		$ctrl_o2image3->imgexp(jxjobs_exp_49());
+	$ctrl_o2image11 = &$form_jxjobs_1->ctrldef("o2image11", "img", "o2multipage2", "", "");
+		$ctrl_o2image11->x(71);
+		$ctrl_o2image11->y(35);
+		$ctrl_o2image11->larghezza(24);
+		$ctrl_o2image11->altezza(24);
+		$ctrl_o2image11->azione("delete_job");
+		$ctrl_o2image11->info_padre(array(0));
+		$ctrl_o2image11->label("Delete job");
+		$ctrl_o2image11->css(jxjobs_exp_36());
+		$ctrl_o2image11->imgexp(jxjobs_exp_38());
+		$ctrl_o2image11->confirm_message(jxjobs_exp_39());
+	$ctrl_o2multipage3 = &$form_jxjobs_1->ctrldef("o2multipage3", "multipage", "o2multipage2", "", "");
+		$ctrl_o2multipage3->x(20);
+		$ctrl_o2multipage3->y(225);
+		$ctrl_o2multipage3->larghezza(410);
+		$ctrl_o2multipage3->altezza(110);
+		$ctrl_o2multipage3->expand("B");
+		$ctrl_o2multipage3->info_padre(array(0));
+		$ctrl_o2multipage3->label(array("Schedules"));
+		$ctrl_o2multipage3->buttons("T");
+	$ctrl_o2multipage4 = &$form_jxjobs_1->ctrldef("o2multipage4", "multipage", "o2multipage2", "", "");
+		$ctrl_o2multipage4->x(20);
+		$ctrl_o2multipage4->y(350);
+		$ctrl_o2multipage4->larghezza(410);
+		$ctrl_o2multipage4->altezza(180);
+		$ctrl_o2multipage4->expand("B");
+		$ctrl_o2multipage4->info_padre(array(0));
+		$ctrl_o2multipage4->label(array("Runs"));
+		$ctrl_o2multipage4->buttons("T");
+	$ctrl_o2htmlarea4 = &$form_jxjobs_1->ctrldef("o2htmlarea4", "htmlarea", "o2multipage3", "", "");
+		$ctrl_o2htmlarea4->x(10);
+		$ctrl_o2htmlarea4->y(30);
+		$ctrl_o2htmlarea4->larghezza(390);
+		$ctrl_o2htmlarea4->altezza(70);
+		$ctrl_o2htmlarea4->expand("B");
+		$ctrl_o2htmlarea4->info_padre(array(0));
+		$ctrl_o2htmlarea4->html(jxjobs_exp_25());
+		$ctrl_o2htmlarea4->css(jxjobs_exp_27());
+	$ctrl_o2htmlarea3 = &$form_jxjobs_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage4", "", "");
+		$ctrl_o2htmlarea3->x(10);
+		$ctrl_o2htmlarea3->y(30);
+		$ctrl_o2htmlarea3->larghezza(390);
+		$ctrl_o2htmlarea3->altezza(140);
+		$ctrl_o2htmlarea3->expand("B");
+		$ctrl_o2htmlarea3->info_padre(array(0));
+		$ctrl_o2htmlarea3->html(jxjobs_exp_22());
+		$ctrl_o2htmlarea3->css(jxjobs_exp_27());
+	$ctrl_o2htmlarea7 = &$form_jxjobs_1->ctrldef("o2htmlarea7", "htmlarea", "o2multipage4", "", "");
+		$ctrl_o2htmlarea7->x(110);
+		$ctrl_o2htmlarea7->y(0);
+		$ctrl_o2htmlarea7->larghezza(300);
+		$ctrl_o2htmlarea7->altezza(20);
+		$ctrl_o2htmlarea7->expand("H");
+		$ctrl_o2htmlarea7->info_padre(array(0));
+		$ctrl_o2htmlarea7->html(jxjobs_exp_61());
+	$ctrl_o2htmlarea9 = &$form_jxjobs_1->ctrldef("o2htmlarea9", "htmlarea", "o2multipage7", "", "");
+		$ctrl_o2htmlarea9->x(50);
+		$ctrl_o2htmlarea9->y(370);
+		$ctrl_o2htmlarea9->larghezza(200);
+		$ctrl_o2htmlarea9->altezza(20);
+		$ctrl_o2htmlarea9->expand("H");
+		$ctrl_o2htmlarea9->info_padre(array(0));
+	$ctrl_o2htmlarea6 = &$form_jxjobs_1->ctrldef("o2htmlarea6", "htmlarea", "o2multipage7", "", "");
+		$ctrl_o2htmlarea6->x(50);
+		$ctrl_o2htmlarea6->y(120);
+		$ctrl_o2htmlarea6->larghezza(350);
+		$ctrl_o2htmlarea6->altezza(160);
+		$ctrl_o2htmlarea6->expand("B");
+		$ctrl_o2htmlarea6->info_padre(array(0));
+		$ctrl_o2htmlarea6->html(jxjobs_exp_28());
+		$ctrl_o2htmlarea6->css(jxjobs_exp_27());
+	$ctrl_o2image35 = &$form_jxjobs_1->ctrldef("o2image35", "img", "o2multipage7", "", "");
+		$ctrl_o2image35->x(310);
+		$ctrl_o2image35->y(370);
+		$ctrl_o2image35->larghezza(90);
+		$ctrl_o2image35->altezza(15);
+		$ctrl_o2image35->info_padre(array(0));
+		$ctrl_o2image35->imgexp(jxjobs_exp_29());
+		}
+
+function jxjobs§§create_job_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "job_id", jxjobs_exp_48()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::call(jxjobs_exp_55(), False, "prg§_§var§§job_id") && $o2exe->e();
+	$o2exe->s(3) && (jxjobs_exp_31() || $o2exe->e()) && o2act::exe("set_tree_list", True, "") && $o2exe->e();
+	$o2exe->s(4) && (jxjobs_exp_31() || $o2exe->e()) && o2act::script(jxjobs_exp_50()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("node_detail", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§delete_job_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxjobs_exp_47()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "job_id", jxjobs_exp_48()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("set_tree_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§delete_sched_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "par_job_id", jxjobs_exp_73()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::confirm("prg§_§var", "confirm", jxjobs_exp_71()) && $o2exe->e();
+	$o2exe->s(3) && (jxjobs_exp_72() || $o2exe->e()) && o2act::script(jxjobs_exp_53()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("set_tree_list", True, "") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("node_detail", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§edit_job_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxjobs_exp_55(), False, jxjobs_exp_32()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("set_tree_list", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("node_detail", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§exe_job_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxjobs_exp_44()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("node_detail", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§filter_tree_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("set_tree_list", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(jxjobs_exp_16()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§fold_tree_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxjobs_exp_19()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§get_run_jobs_list_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "run_jobs_list", jxjobs_exp_21()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§get_sched_jobs_list_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "sched_job_list", jxjobs_exp_26()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§goto_processes_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::gotoprg(jxjobs_exp_56(), false) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§goto_sched_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::gotoprg(jxjobs_exp_57(), false) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§goto_services_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::gotoprg(jxjobs_exp_84(), false) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§node_detail_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "job_obj", jxjobs_exp_4()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "job_id", jxjobs_exp_5()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "job_name", jxjobs_exp_6()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "job_desc", jxjobs_exp_7()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "job_prg", jxjobs_exp_8()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "job_service", jxjobs_exp_74()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "job_params", jxjobs_exp_9()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "job_keep_days", jxjobs_exp_60()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "job_max_instances", jxjobs_exp_62()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "job_block_mode", jxjobs_exp_64()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "job_disabled", jxjobs_exp_65()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::exe("get_run_jobs_list", True, "") && $o2exe->e();
+	$o2exe->s(13) && True && o2act::exe("get_sched_jobs_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§queue_job_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxjobs_exp_81()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("node_detail", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§run_job_detail_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxjobs_exp_59(), False, jxjobs_exp_54()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("node_detail", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§sched_add_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxjobs_exp_58(), False, jxjobs_exp_48(), jxjobs_exp_32()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("set_tree_list", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("node_detail", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§sched_detail_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxjobs_exp_58(), False, jxjobs_exp_52()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("node_detail", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§set_tree_list_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxjobs_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§sort_tree_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "sort_tree", jxjobs_exp_15()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("set_tree_list", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§switch_tree_group_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "group_tree", jxjobs_exp_77()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(jxjobs_exp_79()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs§§unfold_tree_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxjobs_exp_20()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxjobs_exp_1() {
+	$structure = o2_job::get_for_tree();
+o2tree_def("jobs", $structure, 1, "node_detail");
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_2() {
+	$code = o2tree_get_code("jobs");
+return ($code);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_3() {
+	
+return ("jxtree");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_4() {
+	$sele = o2tree_get_selection("jobs");
+if ($sele) {
+   $list = o2tree_get_nodes("jobs");
+   $job  = o2_job::get_by_id($list[$sele][4]);
+   }
+return ($job);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_5() {
+	$job = o2val('prg§_§var','job_obj');
+$id  = $job->id;
+return ($id);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_6() {
+	$job  = o2val('prg§_§var','job_obj');
+$name = $job->name;
+return ($name);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_7() {
+	$job  = o2val('prg§_§var','job_obj');
+$desc = $job->desc;
+return ($desc);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_8() {
+	$job  = o2val('prg§_§var','job_obj');
+$prg = $job->prg;
+return ($prg);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_9() {
+	$job    = o2val('prg§_§var','job_obj');
+$params = $job->params;
+return ($params);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_10() {
+	
+return ("jxtoolbar");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_11() {
+	
+return ("jximgbtn");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_12() {
+	
+return ("<jx>/img/jobs/fold.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_13() {
+	
+return ("<jx>/img/jobs/unfold.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_14() {
+	
+return ((o2val('prg§_§var','sort_tree') ? "Sort by definition order" : "Sort by alphabetical order"));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_15() {
+	
+return (!o2val('prg§_§var','sort_tree'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_16() {
+	o2tree_filter("jobs", o2val('prg§_§var','filter_tree'));
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_17() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_18() {
+	
+return ("<jx>/img/jobs/".(o2val('prg§_§var','sort_tree') ? "unsort.png" : "sort.png"));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_19() {
+	o2tree_fold("jobs");
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_20() {
+	o2tree_unfold("jobs");
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_21() {
+	$raw_list = o2_run_job::get_by_job(o2val('prg§_§var','job_id'));
+if ($raw_list !== false) {
+   $rnt   = $GLOBALS['o2_runtime'];
+   $imgs  = $rnt->alias."img/jobs/";
+   $code  = '<table style="width:100%">';
+   $blank = "&nbsp;&nbsp;&nbsp;&nbsp;- - -"; 
+   foreach ($raw_list as $run_job) {
+      $run    = $run_job->is_running();
+      $wait   = ($run_job->start > (time() - 3)) && ($run_job->progress < 1);
+      $queued = ($run_job->status == 'Q' && $run_job->progress < 1);
+      $error  = ($run_job->error || 
+                 (!$queued &&
+                  ($run_job->progress < 100 || $run_job->status == 'R') && 
+                  !$run) ? true : false);
+      $status = ($wait ? 'Waiting' : 
+                 ($queued ? 'Queued' : 
+                  ($error ? 'Error' : o2format($run_job->status, 'jxjob_status'))));
+      $ico    = $imgs.($wait ? 'scheduled.png' :
+                       ($error ? 'failed.png' : 
+                        ($run_job->status == 'C' ? 'executed.png' : 
+                         ($run_job->status == 'Q' ? 'scheduled.png' :
+                          'running.png'))));
+      $bar    = $run_job->get_bar('node_detail', 'node_detail');
+      $code  .= '<tr><td><img class="jximgbtn" src="'.$ico.
+                '" onclick="'.o2_act4js(0, "run_job_detail", $run_job->id).
+                '"></td><td>'.($run_job->start > 0 ? date("d/m/y H:i", $run_job->start) : $blank).
+                "</td><td>".($run_job->end > 0 ? date("d/m/y H:i", $run_job->end) : $blank).
+                "</td><td>".$status.
+                "</td><td style='width:100px;height:18px'>".$bar.
+                "</td></tr>\n";
+      }
+   $code.= '</table>';
+   }
+else {
+   $code = 'Never';
+   }
+return ($code);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_22() {
+	
+return (o2val('prg§_§var','run_jobs_list'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_23() {
+	
+return ("o2_ctrl_text_dis");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_24() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_25() {
+	
+return (o2val('prg§_§var','sched_job_list'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_26() {
+	$raw_list = o2_scheduler::get_by_job(o2val('prg§_§var','job_id'));
+if ($raw_list !== false) {
+   $rnt  = $GLOBALS['o2_runtime'];
+   $imgs = $rnt->alias."img/jobs/";
+   $code = '<table style="width:100%">';
+   foreach ($raw_list as $id => $sched_job) {
+      $ico   = $imgs.($sched_job["active"] ? "scheduled.png" : "paused.png"); 
+      $code .= '<tr><td><img src="'.$ico.'" title="Edit schedule" class="jximgbtn" onclick="'. 
+               o2_act4js(0, "sched_detail", $id).'"></td><td>'.
+               $sched_job["desc"].'</td><td style="width:20px"><img src="'.$imgs.
+               'cancel.png" title="Delete schedule" class="jximgbtn" onclick="'. 
+               o2_act4js(0, "delete_sched", $id)."\"></td></tr>\n";
+      }
+   $code.= "</table>";
+   }
+else {
+   $code = "Never";
+   }
+return ($code);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_27() {
+	
+return ("disp_area");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_28() {
+	$text = "<center><h3>Janox Jobs Manager</h3></center><br>Select an item from the treeview<br>to see its properties.";
+return ($text);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_29() {
+	
+return ("<jx>/img/jxpowered.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_30() {
+	
+return (o2zero('prg§_§var','job_id'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_31() {
+	
+return (!o2zero('prg§_§var','job_id'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_32() {
+	
+return (o2val('prg§_§var','job_id'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_33() {
+	
+return (o2val('prg§_§var','job_name'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_34() {
+	$label = '<div class="o2_ctrl_label" style="overflow:hidden;white-space:normal;word-wrap:break-word">'.nl2br(o2val('prg§_§var','job_desc'))."</div>";
+return ($label);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_35() {
+	
+return (o2val('prg§_§var','job_prg'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_36() {
+	
+return ("jximgbtn");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_37() {
+	
+return ("<jx>/img/jobs/job_add.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_38() {
+	
+return ("<jx>/img/jobs/job_del.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_39() {
+	
+return ("ATTENTION! This job is going to be deleted.\nProceed?");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_40() {
+	
+return ("<jx>/img/jobs/refresh.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_41() {
+	
+return ("<jx>/img/jobs/separator.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_42() {
+	
+return ("<jx>/img/jobs/sched_add.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_43() {
+	
+return ("<jx>/img/jobs/exe".(o2val('prg§_§var','job_disabled') ? "_dis" : "").".png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_44() {
+	$job = o2_job::get_by_id(o2val('prg§_§var','job_id'));
+if ($job) {
+   $job->run(o2val('_o2SESSION','_area'));
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_45() {
+	
+return ("<jx>/img/jobs/scheduler.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_46() {
+	
+return ("<jx>/img/jobs/run_job.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_47() {
+	if ($job = o2_job::get_by_id(o2val('prg§_§var','job_id'))) {
+   $job->delete(true);
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_48() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_49() {
+	
+return ("<jx>/img/jobs/job_edit.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_50() {
+	o2tree_node_select("jobs", "jxjob_".o2val('prg§_§var','job_id'));
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_51() {
+	
+return ($id);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_52() {
+	
+return (o2_reqpar(1));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_53() {
+	$task = new o2_task(o2val('prg§_§var','par_job_id'));
+$task->delete();
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_54() {
+	
+return (o2_reqpar(1));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_55() {
+	
+return ("tools/jxjob");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_56() {
+	
+return ("tools/jxprocesses");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_57() {
+	
+return ("tools/jxscheduler");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_58() {
+	
+return ("tools/jxtask");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_59() {
+	
+return ("tools/jxprocess");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_60() {
+	$job  = o2val('prg§_§var','job_obj');
+$keep = $job->keep_days;
+return ($keep);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_61() {
+	$days = o2val('prg§_§var','job_keep_days');
+$keep = "<div style='float:right'>Run instances are preserved ".
+        ($days ? "for ".$days." days" : "forever")."</div>";
+return ($keep);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_62() {
+	$job  = o2val('prg§_§var','job_obj');
+$max = $job->max_instances;
+return ($max);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_63() {
+	$dis = "";
+if (o2val('prg§_§var','job_disabled')) {
+   $dis.= "<div style='float:right;font-weight:bold;color:#993300'>DISABLED</div>";
+   }
+return ($dis);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_64() {
+	$job  = o2val('prg§_§var','job_obj');
+$mode = $job->block_mode;
+return ($mode);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_65() {
+	$job = o2val('prg§_§var','job_obj');
+$dis = ($job->disabled ? true : false);
+return ($dis);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_66() {
+	
+return (o2val('prg§_§var','job_max_instances'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_67() {
+	
+return (o2format(o2val('prg§_§var','job_block_mode'), "jxjob_block_mode"));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_68() {
+	
+return (o2val('prg§_§var','job_max_instances'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_69() {
+	
+return (!o2val('prg§_§var','job_disabled'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_70() {
+	
+return ("jximgbtn".(o2val('prg§_§var','job_disabled') ? "_dis" : ""));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_71() {
+	
+return ("Job schedule is going to be deleted.\nProceed?");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_72() {
+	
+return (o2val('prg§_§var','confirm'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_73() {
+	
+return (o2_reqpar(1));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_74() {
+	$job  = o2val('prg§_§var','job_obj');
+$srv = o2_str_nice($job->service);
+return ($srv);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_75() {
+	
+return ('<jx>/img/jobs/'.(o2val('prg§_§var','group_tree') ? 'byjob.png' : 'bysrv.png'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_76() {
+	
+return ((o2zero('prg§_§var','job_service') ? 'Default' : o2val('prg§_§var','job_service')));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_77() {
+	
+return (!o2val('prg§_§var','group_tree'));
+	} //|o2_fine_exp|
+
+function jxjobs_exp_78() {
+	$msg = (o2val('prg§_§var','group_tree') ? 'Ungroup' : 'Group by service');
+return ($msg);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_79() {
+	$structure = o2_job::get_for_tree(0, 50, o2val('prg§_§var','group_tree'));
+o2tree_def("jobs", $structure, 1, "node_detail");
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_80() {
+	
+return ("<jx>/img/jobs/queue".(o2val('prg§_§var','job_disabled') ? "_dis" : "").".png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_81() {
+	$job = o2_job::get_by_id(o2val('prg§_§var','job_id'));
+if ($job) {
+   o2_run_job::queue($job, null, o2val('_o2SESSION','_area'));
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_82() {
+	
+return ("<jx>/img/jobs/services.png");
+	} //|o2_fine_exp|
+
+function jxjobs_exp_83() {
+	$code = 'Host: '.o2_str_nice($_SESSION['o2_app']->host);
+return ($code);
+	} //|o2_fine_exp|
+
+function jxjobs_exp_84() {
+	
+return ("tools/jxservices");
+	} //|o2_fine_exp|
+?>

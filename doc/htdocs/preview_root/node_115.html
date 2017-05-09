@@ -1,0 +1,700 @@
+<html><head><title>Il CSS dell'applicazione</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_111.html'>Generazione di report <em>PDF</em> da file <em>XML</em></a></td>
+       <td id='nav_next' align='right'><a href='node_124.html'>Distribuire l’applicazione</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.17 &nbsp; Il <em>CSS</em> dell'applicazione</h2><br /><fieldset>CLASSE CSS, FILE CSS</fieldset>
+<p>Questo capitolo ha come scopo quello di consentire al programmatore di 
+intervenire sui vari aspetti grafici di un’applicazione. In particolare si vedrà come
+utilizzare e gestire il file di <em>CSS</em> che sovrintende alla renderizzazione 
+delle interfacce.</p>
+<br /><h4>Obiettivi</h4>
+<p>Al termine di questo capitolo il programmatore sarà in grado di:</p>
+<ul>
+<li>Specificare una classe di <em>CSS</em> per le proprietà di un controllo.</li>
+<li>Modificare o sostituire la libreria <em>CSS</em> collegata all’applicazione.</li>
+</ul>
+
+<br /><h4>Introduzione</h4>
+<p>Non è negli scopi di questo capitolo voler costituire una documentazione 
+sull’uso dei <em>CSS</em> (<em>Cascading Style Sheets</em>): qui 
+assumeremo una conoscenza elementare dell’<em>HTML</em> e del possibile 
+uso di librerie esterne di definizione grafica (file <em>CSS</em>).</p>
+
+<p>A questo aggiungeremo solo che o2, per una maggiore flessibilità e efficacia, 
+non prevede, sui controlli, proprietà specifiche per tutte quelle caratteristiche 
+grafiche che non abbiano una rilevanza funzionale. Ovvero non troverete 
+nell’interfaccia alcun luogo dove specificare il colore del bordo di un controllo o 
+l’immagine di sfondo della finestra. Una classe di stile può riassumere in sé tutte 
+le caratteristiche desiderate e consentite dai <em>CSS</em>: o2 utilizza una 
+classe di stile per ogni elemento grafico che sia possibile variare.</p>
+<br />
+<h3>0.17.1<a name='node_118'> &nbsp; </a>Il file <em>CSS</em> dell’applicazione</h3></br /><blockquote><p>Il file <em>CSS</em> dell’applicazione è un file che raccoglie una serie di 
+definizioni grafiche, ognuna col proprio nome (classi di stile). Variando il file 
+<em>CSS</em> dell’applicazione è possibile sostituire in blocco le definizioni 
+grafiche corrispondenti ad ogni nome, ottenendo così lo stesso effetto di variare 
+il tema in <em>Windows</em> o in <em>KDE</em>.</p>
+
+<img src='img/image174.gif' />
+
+<p>Nella pagina delle proprietà dell’applicazione trovate il campo dove indicare 
+il nome del file <em>CSS</em>. o2runtime controllerà nelle seguenti cartelle la 
+presenza del file indicato:</p>
+<ol>
+<li><var>file://[app_root]/htdocs/css/</var> (cioè
+       <var>http://[app_alias]/css/</var>)</li>
+<li><var>file://[o2_root]/css/</var> (cioè 
+       <var>http://[o2_alias]/css/</var>)</li>
+</ol>
+
+<p>Nel caso in cui il file non venga trovato o nessun file di <en>CSS</em> venga
+specificato, o2runtime provvederà ad utilizzare il <em>CSS</em> di default fornito 
+con la distribuzione (<var>/[o2_root]/css/default.css</var>).</p>
+
+<p>La variazione del file di <em>CSS</em> sarà visibile al client solo all’apertura 
+della prossima sezione, ovvero dopo il prossimo login.</p>
+</blockquote><br />
+<h3>0.17.2<a name='node_119'> &nbsp; </a>La grafica dei controlli</h3></br /><blockquote><p>I controlli, sulla base della loro rappresentazione <em>HTML</em>, si 
+dividono in due categorie:</p>
+<ol>
+<li>semplici</li>
+<li>composti</li>
+</ol>
+
+<p>Si dicono semplici tutti quei controlli ai quali (come al combo box, all’edit field 
+o all’immagine) in <em>HTML</em> corrisponde uno specifico e singolo tag, mentre
+indicheremo come composti quei controlli che (come la tabella, il navigatore o la 
+finestra) vengono assemblati dall’o2runtime utilizzando e giustapponendo più tag 
+<em>HTML</em>.</p>
+
+<p>A tutti gli elementi semplici è associata un’unica classe di stile, mentre gli 
+elementi composti prevedono più classi di stile per i singoli tag costituenti.</p>
+
+<p>Le classi di stile associate alla window si trovano nella pagina delle proprietà 
+della form.</p>
+
+<img src='img/image176.gif' />
+
+<p>Le classi di stile dei controlli si trovano nella finestra delle proprietà <i>Object
+Inspector</i> dei singoli controlli, nella sessione di edit della form.</p>
+
+<img src='img/image178.gif' />
+
+<p>Premendo <kbd>F5</kbd> sui campi destinati alle classi di stile, l’interfaccia
+cercherà il file di <em>CSS</em> collegato all’applicazione (se non sarà in grado 
+di identificarlo chiederà al programmatore di indicarlo su file system) e mostrerà
+l’elenco delle classi di stile presenti sul file e che non inizino con l’identificativo 
+“o2_” (vedi oltre i default). In alto una finestra di preview mostra le caratteristiche
+della classe e permette di selezionare una voce da associare al controllo.</p>
+
+<p>In questo modo è possibile associare ad un controllo (o ad una parte del 
+controllo, per i controlli complessi) un alias di renderizzazione, che poi verrà risolto
+dall’o2runtime utilizzando il file di <em>CSS</em> specificato per l’applicazione.
+</p>
+<br />
+<h3>Le classi <em>CSS</em> di default</h3></br /><p>Qualora nessuna classe di stile venga specificata per un controllo o per 
+una sua proprietà, l’o2 utilizzerà una classe di default specifica e la cui 
+definizione è contenuta nel file <var>default.css</var> della distribuzione.</p>
+
+<p>Per alcune proprietà grafiche dell’applicazione (come, ad esempio, i menu o 
+lo sfondo della finestra del browser) non è possibile specificare la classe di stile 
+ma è comunque possibile modificare la classe di default associata.</p>
+
+<p>Le classi il cui nome termina con i suffissi “_focus”, “_hover” e “_dis” vengono
+composte automaticamente dall’o2runtime a partire dal nome della classe associata, 
+al fine di ottenere certi effetti grafici con particolari significati funzionali:</p>
+
+<ul>
+<li>"_focus"
+      <p>La classe viene sostituita alla classe di base nei controlli associati a campo 
+      quando il cursore di inserimento (<em>caret</em>) si posiziona sul controllo.
+      </li>
+<li>"_hover"
+      <p>La classe viene sostituita alla classe di base nei controlli cliccabili quando 
+      il puntatore del mouse passa sopra il controllo.</li>
+<li>"_dis"
+      <p>La classe viene sostituita alla classe di base per i controlli non abilitati alla
+      modifica o inattivi.</li>
+</ul>
+
+<p>Se, ad esempio, voglio utilizzare una classe di nome “importo” per un certo 
+controllo edit, dovrò provvedere a creare nel file <em>CSS</em> dell’applicazione
+anche le rispettive classi “importo_focus” e “importo_dis”, che sovrintenderanno 
+alla renderizzazione del controllo nei casi, rispettivamente, che il controllo diventi 
+il controllo attivo o che il controllo sia disabilitato alla modifica.</p><br /><p>Ecco un elenco delle classi previste per i singoli controlli, con l’indicazione 
+del tag <em>HTML</em> a cui si applicano, il nome della classe di default e una 
+breve descrizione:</p>
+
+<table>
+ <tr>
+  <th>Controllo</th>
+  <th>Propriet&agrave;</th>
+  <th>Default</th>
+  <th>Tag HTML</th>
+  <th width='60%'>Descrizione</th>
+ </tr>
+ 
+ <tr>
+  <td> &nbsp; </td>
+  <td> &nbsp; </td>
+  <td>o2_sfondo</td>
+  <td><code>&lt;body</code>&gt;</td>
+  <td>Aspetto generale e sfondo della finestra del browser</td>
+ </tr>
+
+ <tr>
+  <td colspan="1" rowspan="5">Menu</td>
+  <td colspan="1" rowspan="5"> &nbsp; </td>
+  <td>o2_barraMenu</td>
+  <td><code>&lt;table</code>&gt;</td>
+  <td>Barra dei menu di livello 0</td>
+ </tr>
+ 
+ <tr>
+  <td>o2_sottoMenu</td>
+  <td><code>&lt;table</code>&gt;</td>
+  <td>Menu a tendina di livello </code>&gt; 0</td>
+ </tr>
+ 
+ <tr>
+  <td>o2_voceMenu</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Ogni voce di menu quando non attiva</td>
+ </tr>
+ 
+ <tr>
+  <td>o2_voceMenuAttiva</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Ogni voce di menu quando attiva</td>
+ </tr>
+ 
+ <tr>
+  <td>o2_spacerMenu</td>
+  <td><code>&lt;hr</code>&gt;</td>
+  <td>Separatore orizzontale</td>
+ </tr>
+
+ <tr>
+  <td colspan="1" rowspan="10">Form</td>
+  <td>Form</td>
+  <td>o2_form_window</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Ingombro totale della finestra</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>Document button</td>
+  <td>o2_form_doc</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Angolo in alto a sinistra della finestra</td>
+ </tr>
+
+ <tr>
+  
+  <td>Minimize button</td>
+  <td>o2_form_close</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Pulsante di minimizzazione della finestra (a sinistra della crocetta di chiusura, 
+      quando la finestra &egrave; massimizzata)</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>Maximize button</td>
+  <td>o2_form_open</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Pulsante di ripristino della finestra (a sinistra della crocetta di chiusura, quando
+      la finestra &egrave; minimizzata)</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>Close form button</td>
+  <td>o2_form_exit</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Angolo in alto a destra della finestra (crocetta di chiusura)</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>Resize form button</td>
+  <td>o2_form_resize</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Angolo in basso a destra della finestra, quando la barra di stato &egrave; visibile.
+      Contiene il pulsante di <i>resize</i> della form</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>Title on active form</td>
+  <td>o2_form_title</td>
+  <td><code>&lt;table</code>&gt;</td>
+  <td>Barra del titolo per le finestre attive</td>
+ </tr>
+
+ <tr>
+  
+  <td>Title on inactive form</td>
+  <td>o2_form_title_no</td>
+  <td><code>&lt;table</code>&gt;</td>
+  <td>Barra del titolo per le finestre inattive</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>Body</td>
+  <td>o2_form_body</td>
+  <td><code>&lt;div</code>&gt; / <code>&lt;iframe</code>&gt;</td>
+  <td>Spazio interno della finestra</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>Status bar</td>
+  <td>o2_form_status</td>
+  <td><code>&lt;table</code>&gt;</td>
+  <td>Barra di stato</td>
+ </tr>
+ 
+ <tr>
+  <td colspan="1" rowspan="11">Table</td>
+  <td>CssDiv</td>
+  <td>o2_tab_space</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Ingombro esterno stanziato della tabella (come da design)</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssTab</td>
+  <td>o2_tab_tab</td>
+  <td><code>&lt;table</code>&gt;</td>
+  <td>Ingombro esterno effettivo della tabella (a seconda del numero di righe 
+      presenti)</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>Css Header (controllo)</td>
+  <td>o2_tab_testa</td>
+  <td><code>&lt;th</code>&gt;</td>
+  <td>Barra dei titoli di colonna. Questa classe &egrave; controllabile anche dal campo 
+      <i>Css Header</i> delle <i>Parent Options</i> del controllo in tabella</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssBody (form) / Css Line (controllo)</td>
+  <td>o2_tab_corpo</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Cella del corpo della tabella per le righe diverse dal record corrente. 
+      Questa classe &egrave; controllabile anche dal campo <i>Css Line</i> delle <i>Parent 
+      Options</i> del controllo in tabella</td>
+ </tr>
+
+ <tr>
+  
+  <td>CssCurrentLine (form) / Css Line (controllo)</td>
+  <td>o2_tab_sele</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Cella del corpo della tabella per la sola riga del record corrente. Questa classe 
+      &egrave; controllabile anche dal campo <i>Css Line</i> delle <i>Parent Options</i> del
+      controllo in tabella</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssLine</td>
+  <td>o2_tab_riga</td>
+  <td><code>&lt;tr</code>&gt;</td>
+  <td>Righe dispari del corpo</td>
+ </tr>
+
+ <tr>
+  
+  <td>CssAlternate</td>
+  <td>o2_tab_alt</td>
+  <td><code>&lt;tr</code>&gt;</td>
+  <td>Righe pari del corpo</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssMouseOverLine</td>
+  <td>o2_tab_point</td>
+  <td><code>&lt;tr</code>&gt;</td>
+  <td>Riga, non del record corrente, quando vi si posizioni sopra il puntatore del 
+      mouse</td>
+ </tr>
+ 
+ <tr>
+  
+  <td colspan="1" rowspan="3"> &nbsp; </td>
+  <td>o2_tab_sort</td>
+  <td><code>&lt;span</code>&gt;</td>
+  <td>Pulsante a fianco del titolo che indica la possibilit&agrave; di sorting per la 
+      colonna</td>
+ </tr>
+ 
+ <tr>
+  
+  
+  <td>o2_tab_sorta</td>
+  <td><code>&lt;span</code>&gt;</td>
+  <td>Pulsante a fianco del titolo quando la colonna &egrave; gi&agrave; segmento ascendente di 
+      sorting</td>
+ </tr>
+ 
+ <tr>
+  <td>o2_tab_sortd</td>
+  <td><code>&lt;span</code>&gt;</td>
+  <td>Pulsante a fianco del titolo quando la colonna &egrave; gi&agrave; segmento discendente di 
+      sorting</td>
+ </tr>
+ 
+ <tr>
+  <td colspan="1" rowspan="9">Navigator orizzontale (o2_ctrl_nav_) e verticale (o2_ctrl_navv_)</td>
+  <td>CssSpace</td>
+  <td>o2_ctrl_nav_space / o2_ctrl_navv_space</td>
+  <td><code>&lt;table</code>&gt;</td>
+  <td>Ingombro totale del navigatore</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssSlide</td>
+  <td>o2_ctrl_nav_i / o2_ctrl_navv_i</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Barra scorrevole che indica la parte visibile</td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssNavBar</td>
+  <td>o2_ctrl_nav_e / o2_ctrl_navv_e</td>
+  <td><code>&lt;td</code>&gt;</td>
+  <td>Slitta del navigatore in cui scorre la barra e che rappresenta la totalit&agrave; 
+      del recordset</td>
+ </tr>
+
+ <tr>
+  
+  <td>CssFirst</td>
+  <td>o2_ctrl_nav_first / o2_ctrl_navv_first</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Pulsante di <em>Vai a primo record</em></td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssPrevPage</td>
+  <td>o2_ctrl_nav_prevpg / o2_ctrl_navv_prevpg</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Pulsante di <em>Vai a pagina precedente</em></td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssPrev</td>
+  <td>o2_ctrl_nav_prev / o2_ctrl_navv_prev</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Pulsante di <em>Vai a record precedente</em></td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssNext</td>
+  <td>o2_ctrl_nav_next / o2_ctrl_navv_next</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Pulsante di <em>Vai a record successivo</em></td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssNextPage</td>
+  <td>o2_ctrl_nav_nextpg / o2_ctrl_navv_nextpg</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Pulsante di <em>Vai a pagina successiva</em></td>
+ </tr>
+ 
+ <tr>
+  
+  <td>CssLast</td>
+  <td>o2_ctrl_nav_last / o2_ctrl_navv_last</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Pulsante di <em>Vai a ultimo record</em></td>
+ </tr>
+
+ <tr>
+  <td>Text label</td>
+  <td>Css class</td>
+  <td>o2_ctrl_label</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Etichette di testo</td>
+ </tr>
+ 
+ <tr>
+  <td>Separator</td>
+  <td>Css class</td>
+  <td>o2_ctrl_separatore</td>
+  <td><code>&lt;hr</code>&gt;</td>
+  <td>Separatore orizzontale</td>
+ </tr>
+ 
+ <tr>
+  <td colspan="1" rowspan="3">Edit field</td>
+  <td>Css class</td>
+  <td>o2_ctrl_edit</td>
+  <td><code>&lt;input type=&#8217;text&#8217;</code>&gt;</td>
+  <td>Campo di edit quando modificabile e non &egrave; il controllo su cui &egrave; il 
+      cursore</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_edit_focus</td>
+  <td><code>&lt;input type=&#8217;text&#8217;</code>&gt;</td>
+  <td>Campo di edit quando modificabile ed &egrave; il controllo su cui &egrave; il 
+      cursore</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_edit_dis</td>
+  <td><code>&lt;input type=&#8217;text&#8217;</code>&gt;</td>
+  <td>Campo di edit quando non modificabile</td>
+ </tr>
+ 
+ <tr>
+  <td colspan="1" rowspan="3">Text area</td>
+  <td>Css class</td>
+  <td>o2_ctrl_text</td>
+  <td><code>&lt;textarea</code>&gt;</td>
+  <td>Multiline edit area quando modificabile e non &egrave; il controllo su cui &egrave; 
+      il cursore</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_text_focus</td>
+  <td><code>&lt;textarea</code>&gt;</td>
+  <td>Multiline edit area quando modificabile ed &egrave; il controllo su cui &egrave; il 
+      cursore</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_text_dis</td>
+  <td><code>&lt;textarea</code>&gt;</td>
+  <td>Multiline edit area quando non modificabile</td>
+ </tr>
+
+ <tr>
+  <td colspan="1" rowspan="2">List/combo box</td>
+  <td>Css class</td>
+  <td>o2_ctrl_listcombo</td>
+  <td><code>&lt;select</code>&gt;</td>
+  <td>List/combo box quando non &egrave; il controllo su cui &egrave; il cursore</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_listcombo_focus</td>
+  <td><code>&lt;select</code>&gt;</td>
+  <td>List/combo box quando &egrave; il controllo su cui &egrave; il cursore</td>
+ </tr>
+
+ <tr>
+  <td colspan="1" rowspan="3">Button (standard button) &nbsp;  &nbsp; </td>
+  <td>Css class</td>
+  <td>o2_ctrl_button</td>
+  <td><code>&lt;input type =&#8217;button&#8217;</code>&gt;</td>
+  <td>Bottone quando abilitato e non vi &egrave; sopra il puntatore del mouse</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_button:hover</td>
+  <td><code>&lt;input type =&#8217;button&#8217;</code>&gt;</td>
+  <td>Bottone quando abilitato e vi &egrave; sopra il puntatore del mouse</td>
+ </tr>
+
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_button_dis</td>
+  <td><code>&lt;input type =&#8217;button&#8217;</code>&gt;</td>
+  <td>Bottone quando non &egrave; abilitato</td>
+ </tr>
+ 
+ <tr>
+  <td colspan="1" rowspan="3">Link (href style button)</td>
+  <td>Css class</td>
+  <td>o2_ctrl_ref</td>
+  <td><code>&lt;span</code>&gt;</td>
+  <td>Link ipertestuale attivo e quando non vi &egrave; sopra il puntatore del 
+      mouse</td>
+ </tr>
+
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_ref_hover</td>
+  <td><code>&lt;span</code>&gt;</td>
+  <td>Link ipertestuale attivo e quando vi &egrave; sopra il puntatore del 
+      mouse</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_ref_dis</td>
+  <td><code>&lt;span</code>&gt;</td>
+  <td>Link ipertestuale non attivo</td>
+ </tr>
+ 
+ <tr>
+  <td colspan="1" rowspan="2">File upload &nbsp; </td>
+  <td>Css class</td>
+  <td>o2_ctrl_file</td>
+  <td><code>&lt;input type=&#8217;file&#8217;</code>&gt;</td>
+  <td>Controllo di file upload quando non &egrave; il controllo su cui &egrave; 
+      il cursore</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_file_focus</td>
+  <td><code>&lt;input type=&#8217;file&#8217;</code>&gt;</td>
+  <td>Controllo di file upload quando &egrave; il controllo su cui &egrave; il 
+      cursore</td>
+ </tr>
+ 
+ <tr>
+  <td colspan="1" rowspan="5">Multipage &nbsp;  &nbsp;  &nbsp;  &nbsp; </td>
+  <td>Css class</td>
+  <td>o2_ctrl_multi_out</td>
+  <td><code>&lt;table</code>&gt;</td>
+  <td>Ingombro totale esterno del controllo</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_multi_in</td>
+  <td><code>&lt;div</code>&gt;</td>
+  <td>Spazio disponibile interno del controllo</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_multi_on</td>
+  <td><code>&lt;input type =&#8217;button&#8217;</code>&gt;</td>
+  <td>Pulsante della pagina non attivabile (pagina corrente)</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_multi_off</td>
+  <td><code>&lt;input type =&#8217;button&#8217;</code>&gt;</td>
+  <td>Pulsanti delle pagine attivabili (non pagina corrente) quando non vi &egrave; 
+      sopra il puntatore del mouse</td>
+ </tr>
+ 
+ <tr>
+  <td>Css class</td>
+  <td>o2_ctrl_multi_off:hover</td>
+  <td><code>&lt;input type =&#8217;button&#8217;</code>&gt;</td>
+  <td>Pulsanti delle pagine attivabili (non pagina corrente) quando vi &egrave; sopra 
+      il puntatore del mouse</td>
+ </tr>
+
+</table>
+
+</blockquote><br />
+<h3>0.17.3<a name='node_122'> &nbsp; </a>La modifica delle classi di stile</h3></br /><blockquote><p>A questo punto apparirà evidente che, per variare il modo in cui 
+o2runtime rappresenta graficamente un controllo o una sua parte, al 
+programmatore si offrono tre distinte possibilità:</p>
+<ol>
+<li>Associare al controllo una classe diversa da quella di default
+       <p>Serve a differenziare un certo controllo, in una sua specifica istanza, 
+       in una specifica form, da tutti gli altri controlli dello stesso tipo. Questo 
+       modo di intervenire risulta particolarmente utile per risolvere peculiarità 
+       grafiche contingenti (come, ad esempio, per differenziare una certa colonna 
+       in una tabella o per evidenziare un titolo o una informazione in una specifica 
+       form) ma richiede che lo sviluppatore intervenga direttamente sul controllo 
+       da modificare.</p></li>
+<li>Variare nel file <em>CSS</em> dell’applicazione la classe di default
+       <p>Questo secondo metodo, invece, serve a fondare uno standard di 
+       riferimento per tutta l’applicazione e ad avvicinare tutti i controlli di una 
+       stessa categoria alle preferenze grafiche e funzionali dello sviluppatore. 
+       Questo tipo di intervento può essere molto utile per definire uno standard 
+       grafico collettivo in una situazione di sviluppo in equipe o per intervenire 
+       “in un colpo solo” su tutti i controlli di una stessa categoria, per variarne le
+       caratteristiche senza dover rintracciare e modificare ogni programma che ne 
+       faccia uso.</p>
+       <p><b>ATTENZIONE</b>: la definizione generale dell’aspetto per i singoli 
+       controlli è un problema che dovrebbe essere preso in considerazione prima 
+       di intraprendere lo sviluppo dei programmi, in quanto la definizione successiva 
+       di certe caratteristiche (ad esempio di dimensione, di bordi o di overflow) 
+       potrebbe costringere gli sviluppatori a correggere posizioni e spaziature per 
+       i controlli già inseriti nelle form.</p></li>
+<li>Variare il file di <em>CSS</em> associato all’applicazione
+       <p>Questa terza ed ultima possibilità consiste nell’indicare per l’applicazione 
+       un diverso file <em>CSS</em> o nel sovrascrivere il file indicato per 
+       l’applicazione con un diverso file. In questi due casi (entrambi facilmente
+       realizzabili anche senza l’ausilio dell’interfaccia di sviluppo) si avrà come 
+       risultato, al successivo login, la variazione di tutte le caratteristiche grafiche
+       dell’applicazione: questo metodo può essere particolarmente utile per creare 
+       veri e propri temi o skin, cioè set preconfezionati di definizioni grafiche,
+       intercambiabili per le proprie interfacce.</p></li>
+</ol>
+</blockquote><br />
+<h3>0.17.4<a name='node_123'> &nbsp; </a>Note e consigli</h3></br /><blockquote><p>Per chi abbia una minima familiarità con l’uso dei <em>CSS</em> non 
+sarà difficile immaginare quali difficoltà si possano celare dietro la modifica 
+delle classi; per tutti gli altri vogliamo farne una rapida rassegna:</p>
+<ul>
+<li>Le caratteristiche supportate dai <em>CSS</em> variano a seconda del 
+       tag <em>HTML</em> a cui verrà associata la classe. Un esempio banale: 
+       inutile cercare di specificare il colore di sfondo di un separatore orizzontale.
+       </li>
+<li>Gli standard dei <em>CSS</em> sono attualmente materia di evoluzione e
+       possono quindi variare da versione a versione.</li>
+<li>Nonostante la presenza di uno standard nominalmente accettato le differenze 
+       di renderizzazione di certe caratteristiche di stile possono variare (anche
+       sensibilmente) da browser a browser. Il file <em>CSS</em> fornito con la
+       distribuzione mira, in primo luogo, ad eliminare queste differenze (o comunque 
+       a diminuirne l’impatto funzionale).</li>
+<li>Uno stesso risultato grafico si può, a volte, raggiungere con percorsi di stile 
+       diversi: spesso, però, ognuno di essi comporta effetti collaterali diversi e può
+       interagire in maniera diversa con le altre caratteristiche del controllo.</li>
+</ul>
+<br />
+<h4>Consigli operativi</h4>
+<ul>
+<li>Provare ogni modifica alle classi di stile su più browser, e comunque su tutti 
+       quelli che si intende supportare.</li>
+<li>Partire da una copia del file <em>CSS</em> della distribuzione per creare 
+       nuovi file e da una delle classi del file della distribuzione per creare nuove 
+       classi, variando, ad ogni prova, pochi elementi facilmente rintracciabili.</li>
+<li>Verificare a runtime, su differenti browser, la posizione e l’ingombro delle 
+       form e dei controlli editati con l’interfaccia: certi elementi hanno, in sviluppo,
+       dimensioni e caratteristiche standard che possono variare sensibilmente con 
+       la definizione di stile.</li>
+<li>Evitare il proliferare di classi simili: rendono più complessa e incerta la scelta 
+       in sviluppo e non offrono standard di riferimento all’operatore finale.</li>
+<li>Con i <em>CSS</em> è possibile ottenere praticamente qualunque effetto 
+       voluto: quindi evitare di ricorre ad espedienti di sovrapposizioni o 
+       mascheramenti di controlli con altri controlli, perché rendono difficoltoso
+       rintracciare e manutenere i controlli in sviluppo.</li>
+</ul>
+</blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_111.html'>Generazione di report <em>PDF</em> da file <em>XML</em></a></td>
+       <td id='nav_next' align='right'><a href='node_124.html'>Distribuire l’applicazione</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>

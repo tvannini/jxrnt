@@ -1,0 +1,167 @@
+<?php
+
+function uses_select§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("edit_id", "use_id");
+	$task_prg§_§var->definisci("search_desc", "use_desc");
+		}
+
+function uses_select§§uses_def(&$task_uses, $_o2viewalias = "") {
+	$task_uses->righe_vis = 10;
+
+	$task_uses->usa_file("jxdoc_uses","uses","description",null,null);
+
+	$task_uses->usa("id","uses","id",null,null,null,null);
+	$task_uses->usa("description","uses","description",null,null,null,"uses_select_exp_3()");
+	$task_uses->usa("incremental","uses","incremental",null,null,null,null);
+	$task_uses->usa("tech_level","uses","tech_level",null,null,null,null);
+}
+function uses_select§§unic_form_def(&$form_unic) {
+	$form_unic->x(150);
+	$form_unic->y(100);
+	$form_unic->larghezza(540);
+	$form_unic->altezza(340);
+	$form_unic->titolo("Uses selection");
+	$form_unic->css_doc("sys_jxdoctool_doc");
+	$form_unic->align_o("Center");
+	$form_unic->frm_status(uses_select_exp_5());
+	$ctrl_o2label2 = &$form_unic->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(20);
+		$ctrl_o2label2->y(20);
+		$ctrl_o2label2->larghezza(60);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->label("Search");
+	$ctrl_o2table2 = &$form_unic->ctrldef("o2table2", "tab", "", "uses", "");
+		$ctrl_o2table2->x(20);
+		$ctrl_o2table2->y(60);
+		$ctrl_o2table2->larghezza(500);
+		$ctrl_o2table2->altezza(232);
+		$ctrl_o2table2->modificabile(uses_select_exp_5());
+	$ctrl_o2edit2 = &$form_unic->ctrldef("o2edit2", "edit", "", "prg§_§var", "search_desc");
+		$ctrl_o2edit2->x(80);
+		$ctrl_o2edit2->y(20);
+		$ctrl_o2edit2->larghezza(300);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->on_change(uses_select_exp_4());
+	$ctrl_o2dbnavigator2 = &$form_unic->ctrldef("o2dbnavigator2", "navigator", "o2table2", "uses", "");
+		$ctrl_o2dbnavigator2->x(462);
+		$ctrl_o2dbnavigator2->y(40);
+		$ctrl_o2dbnavigator2->larghezza(18);
+		$ctrl_o2dbnavigator2->altezza(164);
+		$ctrl_o2dbnavigator2->vertical();
+		$ctrl_o2dbnavigator2->visible_select(uses_select_exp_8());
+		$ctrl_o2dbnavigator2->enable_del(uses_select_exp_10());
+		$ctrl_o2dbnavigator2->act_new("new");
+		$ctrl_o2dbnavigator2->act_del("delete");
+		$ctrl_o2dbnavigator2->act_detail("edit");
+		$ctrl_o2dbnavigator2->act_select("select");
+	$ctrl_o2edit3 = &$form_unic->ctrldef("o2edit3", "edit", "o2table2", "uses", "id");
+		$ctrl_o2edit3->x(10);
+		$ctrl_o2edit3->y(20);
+		$ctrl_o2edit3->larghezza(40);
+		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->info_padre(array("01" ,"01" ,"01" ,"#" ,False ,"" ,False ,""));
+	$ctrl_o2edit4 = &$form_unic->ctrldef("o2edit4", "edit", "o2table2", "uses", "description");
+		$ctrl_o2edit4->x(50);
+		$ctrl_o2edit4->y(20);
+		$ctrl_o2edit4->larghezza(350);
+		$ctrl_o2edit4->altezza(20);
+		$ctrl_o2edit4->info_padre(array("01" ,"02" ,"02" ,"Description" ,False ,"" ,False ,""));
+	$ctrl_o2checkbox2 = &$form_unic->ctrldef("o2checkbox2", "check", "o2table2", "uses", "incremental");
+		$ctrl_o2checkbox2->x(410);
+		$ctrl_o2checkbox2->y(20);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(20);
+		$ctrl_o2checkbox2->info_padre(array("01" ,"03" ,"03" ,"Inc." ,True ,"" ,False ,""));
+	$ctrl_o2checkbox3 = &$form_unic->ctrldef("o2checkbox3", "check", "o2table2", "uses", "tech_level");
+		$ctrl_o2checkbox3->x(430);
+		$ctrl_o2checkbox3->y(20);
+		$ctrl_o2checkbox3->larghezza(20);
+		$ctrl_o2checkbox3->altezza(20);
+		$ctrl_o2checkbox3->info_padre(array("01" ,"04" ,"04" ,"Tech." ,True ,"" ,False ,"" ,"" ,""));
+		}
+
+function uses_select§§delete_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("uses", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function uses_select§§edit_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(uses_select_exp_11(), False, uses_select_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function uses_select§§new_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "edit_id", uses_select_exp_9()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::call(uses_select_exp_11(), False, "prg§_§var§§edit_id") && $o2exe->e();
+	$o2exe->s(3) && (uses_select_exp_2() || $o2exe->e()) && o2act::view("uses", "L", array("id"=>uses_select_exp_2())) && $o2exe->e();
+	} //|o2_fine_act|
+
+function uses_select§§select_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(1, uses_select_exp_1()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function uses_select§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(uses_select_exp_12(), False) && $o2exe->e();
+	$o2exe->s(2) && (uses_select_exp_7() || $o2exe->e()) && o2act::view("uses", "L", array("id"=>uses_select_exp_7())) && $o2exe->e();
+	} //|o2_fine_act|
+
+function uses_select_exp_1() {
+	
+return (o2val('uses','id'));
+	} //|o2_fine_exp|
+
+function uses_select_exp_2() {
+	
+return (o2val('prg§_§var','edit_id'));
+	} //|o2_fine_exp|
+
+function uses_select_exp_3() {
+	
+return ((o2val('prg§_§var','search_desc') ? o2val('prg§_§var','search_desc') : null));
+	} //|o2_fine_exp|
+
+function uses_select_exp_4() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function uses_select_exp_5() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function uses_select_exp_6() {
+	
+return (!o2view_rec("uses"));
+	} //|o2_fine_exp|
+
+function uses_select_exp_7() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function uses_select_exp_8() {
+	
+return (count(o2app_prg()) > 1);
+	} //|o2_fine_exp|
+
+function uses_select_exp_9() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function uses_select_exp_10() {
+	
+return (o2val('uses','id') < 950);
+	} //|o2_fine_exp|
+
+function uses_select_exp_11() {
+	
+return ((o2app_name() == "jxdoc" ? "uses_edit" : "doc/uses_edit"));
+	} //|o2_fine_exp|
+
+function uses_select_exp_12() {
+	
+return ((o2app_name() == "jxdoc" ? "uses_create_default" : "doc/uses_create_default"));
+	} //|o2_fine_exp|
+?>

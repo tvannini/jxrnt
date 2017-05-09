@@ -1,0 +1,47 @@
+<?php
+
+function get_settings§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("settings_local", "_o2structure");
+		}
+
+function get_settings§§settings_def(&$task_settings, $_o2viewalias = "") {
+	$task_settings->righe_vis = 10;
+
+	$task_settings->usa_file("jxdoc_settings","settings","key");
+
+	$task_settings->usa("key","settings","key",null,null,null,null);
+	$task_settings->usa("value","settings","value",null,null,null,null);
+}
+
+function get_settings§§add_setting_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "settings_local", get_settings_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function get_settings§§settings_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "settings_local", get_settings_exp_2()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("add_setting", False, "settings") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::ret(1, get_settings_exp_4()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function get_settings_exp_1() {
+	$arr = o2val('prg§_§var','settings_local');
+$arr[o2val('settings','key')] = o2val('settings','value');
+return ($arr);
+	} //|o2_fine_exp|
+
+function get_settings_exp_2() {
+	
+return (array());
+	} //|o2_fine_exp|
+
+function get_settings_exp_3() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function get_settings_exp_4() {
+	
+return (o2val('prg§_§var','settings_local'));
+	} //|o2_fine_exp|
+?>

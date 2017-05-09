@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='CP1252' standalone='yes'?>
+<!--                 o2xdb table document                -->
+<!-- created       : 14.12.2009 20:13:16                 -->
+<!-- application   : jxdoc                               -->
+<!-- by            : root                                -->
+<!-- from          : SQLITE                              -->
+<!-- database      :                                     -->
+<!-- table         : docuses                             -->
+<rset>
+<r><f>1</f><f><![CDATA[Testo]]></f><f></f><f></f><f></f><f>0</f></r>
+<r><f>2</f><f><![CDATA[Sezione]]></f><f></f><f></f><f>1</f><f>1</f></r>
+<r><f>3</f><f><![CDATA[Paragrafo]]></f><f></f><f></f><f>0</f><f>1</f></r>
+<r><f>4</f><f><![CDATA[Introduzione]]></f><f><![CDATA[<h4>Introduzione</h4>
+]]></f><f></f><f></f><f></f></r>
+<r><f>5</f><f><![CDATA[Obiettivi]]></f><f><![CDATA[<h4>Obiettivi</h4>
+]]></f><f></f><f></f><f></f></r>
+<r><f>6</f><f><![CDATA[Riepilogo]]></f><f><![CDATA[<h4>Riepilogo</h4>
+]]></f><f></f><f></f><f></f></r>
+<r><f>7</f><f><![CDATA[Avvertimento]]></f><f><![CDATA[<fieldset><h4>Attenzione</h4>
+]]></f><f><![CDATA[</fieldset>]]></f><f></f><f></f></r>
+<r><f>8</f><f><![CDATA[Esercizio]]></f><f><![CDATA[<h4>Esercitazione</h4>
+<fieldset>]]></f><f><![CDATA[</fieldset>]]></f><f></f><f></f></r>
+<r><f>996</f><f><![CDATA[Menu (internal)]]></f><f></f><f></f><f>0</f><f>0</f></r>
+<r><f>997</f><f><![CDATA[Control (internal)]]></f><f></f><f></f><f>0</f><f>0</f></r>
+<r><f>998</f><f><![CDATA[Form (internal)]]></f><f></f><f></f><f>0</f><f>0</f></r>
+<r><f>999</f><f><![CDATA[Program (internal)]]></f><f></f><f></f><f>0</f><f>0</f></r>
+</rset>
+<!-- Total 1672 bytes wrote -->

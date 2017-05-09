@@ -1,0 +1,305 @@
+<?php
+
+function jxdoc_indexbymenu§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("item", "_o2structure");
+	$task_prg§_§var->definisci("item_id", "_o2number");
+	$task_prg§_§var->definisci("items", "_o2structure");
+	$task_prg§_§var->definisci("menu_node_id", "node_id");
+	$task_prg§_§var->definisci("subnode_parent", "node_id");
+		}
+
+function jxdoc_indexbymenu§§nodes_def(&$task_nodes, $_o2viewalias = "") {
+	$task_nodes->righe_vis = 10;
+
+	$task_nodes->usa_file("jxdoc_nodes","jxdoc_nodes","description",null,null);
+
+	$task_nodes->usa("id","jxdoc_nodes","id",null,null,null,null);
+	$task_nodes->usa("description","jxdoc_nodes","description",null,null,null,null);
+	$task_nodes->usa("title","jxdoc_nodes","title",null,null,null,null);
+	$task_nodes->usa("node_text","jxdoc_nodes","node_text",null,null,null,null);
+}
+
+function jxdoc_indexbymenu§§subnodes_def(&$task_subnodes, $_o2viewalias = "") {
+	$task_subnodes->righe_vis = 10;
+
+	$task_subnodes->usa_file("jxdoc_sub_nodes","jxdoc_sub_nodes","child",null,null);
+
+	$task_subnodes->usa("parent","jxdoc_sub_nodes","parent",null,null,null,null);
+	$task_subnodes->usa("use","jxdoc_sub_nodes","use",null,null,null,null);
+	$task_subnodes->usa("child","jxdoc_sub_nodes","child",null,null,null,null);
+	$task_subnodes->usa("position","jxdoc_sub_nodes","position",null,null,null,null);
+}
+
+function jxdoc_indexbymenu§§last_node_id_def(&$task_last_node_id, $_o2viewalias = "") {
+	$task_last_node_id->righe_vis = 1;
+
+	$task_last_node_id->usa_file("jxdoc_nodes","jxdoc_nodes","id",null,null);
+
+	$task_last_node_id->usa("id","jxdoc_nodes","id",null,null,null,null);
+}
+
+function jxdoc_indexbymenu§§prg_node_def(&$task_prg_node, $_o2viewalias = "") {
+	$task_prg_node->righe_vis = 1;
+
+	$task_prg_node->usa_file("jxdoc_nodes","jxdoc_nodes","description",null,null);
+
+	$task_prg_node->usa("id","jxdoc_nodes","id",null,null,null,null);
+	$task_prg_node->usa("description","jxdoc_nodes","description","jxdoc_indexbymenu_exp_10()","jxdoc_indexbymenu_exp_10()",null,null);
+	$task_prg_node->usa("title","jxdoc_nodes","title",null,null,null,null);
+	$task_prg_node->usa("node_text","jxdoc_nodes","node_text",null,null,null,null);
+}
+
+function jxdoc_indexbymenu§§this_menu_node_def(&$task_this_menu_node, $_o2viewalias = "") {
+	$task_this_menu_node->righe_vis = 10;
+
+	$task_this_menu_node->usa_file("jxdoc_nodes","jxdoc_nodes","description",null,null);
+
+	$task_this_menu_node->usa("id","jxdoc_nodes","id",null,null,null,null);
+	$task_this_menu_node->usa("description","jxdoc_nodes","description","jxdoc_indexbymenu_exp_12()","jxdoc_indexbymenu_exp_12()",null,null);
+	$task_this_menu_node->usa("title","jxdoc_nodes","title",null,null,null,null);
+	$task_this_menu_node->usa("node_text","jxdoc_nodes","node_text",null,null,null,null);
+}
+
+function jxdoc_indexbymenu§§prg_as_subnode_def(&$task_prg_as_subnode, $_o2viewalias = "") {
+	$task_prg_as_subnode->righe_vis = 10;
+
+	$task_prg_as_subnode->usa_file("jxdoc_sub_nodes","jxdoc_sub_nodes","child",null,null);
+
+	$task_prg_as_subnode->usa("parent","jxdoc_sub_nodes","parent","jxdoc_indexbymenu_exp_16()","jxdoc_indexbymenu_exp_16()",null,null);
+	$task_prg_as_subnode->usa("use","jxdoc_sub_nodes","use",null,null,null,null);
+	$task_prg_as_subnode->usa("child","jxdoc_sub_nodes","child","jxdoc_indexbymenu_exp_17()","jxdoc_indexbymenu_exp_17()",null,null);
+	$task_prg_as_subnode->usa("position","jxdoc_sub_nodes","position",null,null,null,null);
+}
+
+function jxdoc_indexbymenu§§last_subnode_position_def(&$task_last_subnode_position, $_o2viewalias = "") {
+	$task_last_subnode_position->righe_vis = 10;
+
+	$task_last_subnode_position->usa_file("jxdoc_sub_nodes","jxdoc_sub_nodes","position",null,null);
+
+	$task_last_subnode_position->usa("parent","jxdoc_sub_nodes","parent","jxdoc_indexbymenu_exp_18()","jxdoc_indexbymenu_exp_18()",null,null);
+	$task_last_subnode_position->usa("position","jxdoc_sub_nodes","position",null,null,null,null);
+}
+
+function jxdoc_indexbymenu§§add_item_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "item", jxdoc_indexbymenu_exp_5()) && $o2exe->e();
+//	$o2exe->s(2) && True && o2act::remark("Item is a menu") && $o2exe->e();
+	$o2exe->s(3) && (jxdoc_indexbymenu_exp_8() || $o2exe->e()) && o2act::exe("insert_menu", True, "") && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("Item is a program") && $o2exe->e();
+	$o2exe->s(5) && (jxdoc_indexbymenu_exp_6() || $o2exe->e()) && o2act::exe("check_prg", True, "") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "item_id", jxdoc_indexbymenu_exp_4()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_indexbymenu§§add_this_menu_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("last_node_id", "4", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "menu_node_id", jxdoc_indexbymenu_exp_14()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("nodes", "I", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("nodes", "id", jxdoc_indexbymenu_exp_16()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("nodes", "description", jxdoc_indexbymenu_exp_12()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("nodes", "title", jxdoc_indexbymenu_exp_15()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::view("nodes", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_indexbymenu§§check_prg_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("prg_node", "1", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("prg_as_subnode", "1", "") && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Prg node exists and subnode-link doesn't exist") && $o2exe->e();
+	$o2exe->s(4) && (jxdoc_indexbymenu_exp_11() || $o2exe->e()) && o2act::exe("link_prg", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_indexbymenu§§insert_menu_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("insert_menu_node", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("link_menu", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::call(jxdoc_indexbymenu_exp_7(), False, jxdoc_indexbymenu_exp_9()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_indexbymenu§§insert_menu_node_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("last_node_id", "4", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("nodes", "I", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("nodes", "id", jxdoc_indexbymenu_exp_14()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("nodes", "description", jxdoc_indexbymenu_exp_23()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("nodes", "title", jxdoc_indexbymenu_exp_24()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::view("nodes", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_indexbymenu§§link_menu_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "subnode_parent", jxdoc_indexbymenu_exp_16()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("last_subnode_position", "4", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("subnodes", "I", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("subnodes", "parent", jxdoc_indexbymenu_exp_16()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("subnodes", "use", jxdoc_indexbymenu_exp_25()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("subnodes", "child", jxdoc_indexbymenu_exp_26()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("subnodes", "position", jxdoc_indexbymenu_exp_20()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::view("subnodes", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_indexbymenu§§link_prg_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "subnode_parent", jxdoc_indexbymenu_exp_16()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("last_subnode_position", "4", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("subnodes", "I", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("subnodes", "parent", jxdoc_indexbymenu_exp_16()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("subnodes", "use", jxdoc_indexbymenu_exp_19()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("subnodes", "child", jxdoc_indexbymenu_exp_17()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("subnodes", "position", jxdoc_indexbymenu_exp_20()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::view("subnodes", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_indexbymenu§§start_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Load menu repository") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(jxdoc_indexbymenu_exp_22()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Check if menu already exists") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::view("this_menu_node", "1", "") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "menu_node_id", jxdoc_indexbymenu_exp_27()) && $o2exe->e();
+	$o2exe->s(6) && (jxdoc_indexbymenu_exp_13() || $o2exe->e()) && o2act::exe("add_this_menu", True, "") && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "items", jxdoc_indexbymenu_exp_1()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "item_id", jxdoc_indexbymenu_exp_2()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::exe("add_item", "jxdoc_indexbymenu_exp_3()", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxdoc_indexbymenu_exp_1() {
+	$app  = $_SESSION['o2_app'];
+$menu = o2par(1);
+if ($app->menu[$menu] && is_array($app->menu[$menu]->voci)) {
+   $list = array_values($app->menu[$menu]->voci);
+   }
+else {
+  $list = array();  
+  }
+return ($list);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_2() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_3() {
+	
+return (o2val('prg§_§var','item_id') >= count(o2val('prg§_§var','items')));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_4() {
+	
+return (o2val('prg§_§var','item_id') + 1);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_5() {
+	
+return (o2val('prg§_§var','items', o2val('prg§_§var','item_id')));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_6() {
+	$item = o2val('prg§_§var','item');
+return ($item->tipo == "P");
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_7() {
+	
+return ((o2app_name() == "jxdoc" ? "jxdoc_indexbymenu" : "doc/jxdoc_indexbymenu"));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_8() {
+	$item = o2val('prg§_§var','item');
+return ($item->tipo == "M");
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_9() {
+	$item = o2val('prg§_§var','item');
+return ($item->nome);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_10() {
+	$item = o2val('prg§_§var','item');
+return ("prg::".$item->data);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_11() {
+	
+return (o2view_rec("prg_node") && !o2view_rec("prg_as_subnode"));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_12() {
+	
+return ("menu::".o2par(1));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_13() {
+	
+return (!o2view_rec("this_menu_node"));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_14() {
+	
+return (o2val('last_node_id','id') + 1);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_15() {
+	$menu  = $_SESSION['o2_app']->menu[o2par(1)];
+$title = 'Menu "'.ucwords($menu->nome).'"';
+return ($title);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_16() {
+	
+return (o2val('prg§_§var','menu_node_id'));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_17() {
+	
+return (o2val('prg_node','id'));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_18() {
+	
+return (o2val('prg§_§var','subnode_parent'));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_19() {
+	
+return (999);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_20() {
+	
+return (o2val('last_subnode_position','position') + 1);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_21() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_22() {
+	$app = $_SESSION['o2_app'];
+if ($app->menu == array()) {
+   $app->includi_repository($app->file_menu);
+   }
+
+return (true);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_23() {
+	$menu = o2val('prg§_§var','item');
+return ("menu::".$menu->nome);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_24() {
+	$menu = o2val('prg§_§var','item');
+return ($menu->label);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_25() {
+	
+return (996);
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_26() {
+	
+return (o2val('nodes','id'));
+	} //|o2_fine_exp|
+
+function jxdoc_indexbymenu_exp_27() {
+	
+return (o2val('this_menu_node','id'));
+	} //|o2_fine_exp|
+?>

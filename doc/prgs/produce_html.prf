@@ -1,0 +1,198 @@
+<?php
+
+function produce_html§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("file_local", "_o2text");
+	$task_prg§_§var->definisci("html_folder", "_o2text");
+	$task_prg§_§var->definisci("html_local", "node_text");
+	$task_prg§_§var->definisci("index", "_o2text");
+	$task_prg§_§var->definisci("settings", "_o2structure");
+	$task_prg§_§var->definisci("starting_node_local", "node_id");
+		}
+
+function produce_html§§produce_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Get settings") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::call(produce_html_exp_24(), False, "prg§_§var§§settings") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::script(produce_html_exp_25()) && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Select starting node") && $o2exe->e();
+	$o2exe->s(6) && (produce_html_exp_4() || $o2exe->e()) && o2act::call(produce_html_exp_26(), False, "prg§_§var§§starting_node_local") && $o2exe->e();
+	$o2exe->s(7) && (produce_html_exp_1() || $o2exe->e()) && o2act::set("prg§_§var", "starting_node_local", produce_html_exp_1()) && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("") && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("Free temporary tables") && $o2exe->e();
+	$o2exe->s(10) && True && o2act::script(produce_html_exp_20()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::call(produce_html_exp_27(), False, produce_html_exp_5(), produce_html_exp_16(), produce_html_exp_19(), produce_html_exp_19(), produce_html_exp_21()) && $o2exe->e();
+//	$o2exe->s(12) && True && o2act::remark("") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("Create destination directory") && $o2exe->e();
+	$o2exe->s(14) && (produce_html_exp_8() || $o2exe->e()) && o2act::set("prg§_§var", "html_folder", produce_html_exp_9()) && $o2exe->e();
+	$o2exe->s(15) && (produce_html_exp_10() || $o2exe->e()) && o2act::set("prg§_§var", "html_folder", produce_html_exp_11()) && $o2exe->e();
+	$o2exe->s(16) && (produce_html_exp_10() || $o2exe->e()) && o2act::script(produce_html_exp_12()) && $o2exe->e();
+//	$o2exe->s(17) && True && o2act::remark("") && $o2exe->e();
+//	$o2exe->s(18) && True && o2act::remark("Produce text") && $o2exe->e();
+	$o2exe->s(19) && True && o2act::call(produce_html_exp_28(), False, produce_html_exp_5(), produce_html_exp_22(), produce_html_exp_21(), produce_html_exp_15(), produce_html_exp_16(), produce_html_exp_17(), produce_html_exp_18(), produce_html_exp_5(), "prg§_§var§§index") && $o2exe->e();
+//	$o2exe->s(20) && True && o2act::remark("") && $o2exe->e();
+//	$o2exe->s(21) && True && o2act::remark("Produce index page") && $o2exe->e();
+	$o2exe->s(22) && True && o2act::exe("produce_index", True, "") && $o2exe->e();
+//	$o2exe->s(23) && True && o2act::remark("") && $o2exe->e();
+//	$o2exe->s(24) && True && o2act::remark("Show produced page") && $o2exe->e();
+	$o2exe->s(25) && True && o2act::script(produce_html_exp_2()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function produce_html§§produce_index_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(produce_html_exp_23()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function produce_html_exp_1() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function produce_html_exp_2() {
+	o2js_exe("window.open(\"".o2app_alias()."preview_".o2app_user()."/index.html\");");
+return (true);
+	} //|o2_fine_exp|
+
+function produce_html_exp_3() {
+	$file = o2val('prg§_§var','html_folder')."index_old.html";
+return ($file);
+	} //|o2_fine_exp|
+
+function produce_html_exp_4() {
+	
+return (!o2par(1));
+	} //|o2_fine_exp|
+
+function produce_html_exp_5() {
+	
+return (o2val('prg§_§var','starting_node_local'));
+	} //|o2_fine_exp|
+
+function produce_html_exp_6() {
+	
+return ("css/o2man.css");
+	} //|o2_fine_exp|
+
+function produce_html_exp_7() {
+	
+return ("o2 :: manual :: operating & reference");
+	} //|o2_fine_exp|
+
+function produce_html_exp_8() {
+	
+return (is_dir(o2par(2)));
+	} //|o2_fine_exp|
+
+function produce_html_exp_9() {
+	
+return (realpath(o2par(2)).DIRECTORY_SEPARATOR);
+	} //|o2_fine_exp|
+
+function produce_html_exp_10() {
+	
+return (!o2exp(8));
+	} //|o2_fine_exp|
+
+function produce_html_exp_11() {
+	
+return (o2app_dir_htdocs().DIRECTORY_SEPARATOR."preview_".o2app_user().DIRECTORY_SEPARATOR);
+	} //|o2_fine_exp|
+
+function produce_html_exp_12() {
+	@mkdir(o2val('prg§_§var','html_folder'));
+return (true);
+	} //|o2_fine_exp|
+
+function produce_html_exp_13() {
+	
+return (1);
+	} //|o2_fine_exp|
+
+function produce_html_exp_14() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function produce_html_exp_15() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function produce_html_exp_16() {
+	
+return (o2val('prg§_§var','settings', 'break_level'));
+	} //|o2_fine_exp|
+
+function produce_html_exp_17() {
+	
+return (o2val('prg§_§var','settings', 'css'));
+	} //|o2_fine_exp|
+
+function produce_html_exp_18() {
+	
+return (o2val('prg§_§var','html_folder'));
+	} //|o2_fine_exp|
+
+function produce_html_exp_19() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function produce_html_exp_20() {
+	o2tab_drop('jxdoc_navigation_links');
+o2tab_drop('jxdoc_nodes_ref');
+o2tab_create('jxdoc_navigation_links');
+o2tab_create('jxdoc_nodes_ref');
+return (true);
+	} //|o2_fine_exp|
+
+function produce_html_exp_21() {
+	
+return ("0");
+	} //|o2_fine_exp|
+
+function produce_html_exp_22() {
+	
+return ("");
+	} //|o2_fine_exp|
+
+function produce_html_exp_23() {
+	$text_local = "<html><head><title>".Index."</title>";
+$text_local.= "<link rel='stylesheet' type='text/css' href='".o2val('prg§_§var','settings', 'css')."'>";
+$text_local.= "</head>\n<body>\n";
+$text_local.= "<br /><br /><center><h1>Content index<h1></center><hr /><br />\n";
+$text_local.= "<a href='cover.html'>Cover</a><br />";
+$text_local.= o2val('prg§_§var','index');
+$text_local.= "\n</body>\n</html>";
+
+$index_file = o2val('prg§_§var','html_folder')."index.html";
+$f_local = fopen($index_file, "w");
+fwrite($f_local, $text_local);
+fclose($f_local);
+return (true);
+	} //|o2_fine_exp|
+
+function produce_html_exp_24() {
+	
+return ((o2app_name() == "jxdoc" ? "get_settings" : "doc/get_settings"));
+	} //|o2_fine_exp|
+
+function produce_html_exp_25() {
+	$GLOBALS['jxdoc_settings'] = o2val('prg§_§var','settings');
+return (true);
+	} //|o2_fine_exp|
+
+function produce_html_exp_26() {
+	
+return ((o2app_name() == "jxdoc" ? "nodes_select" : "doc/nodes_select"));
+	} //|o2_fine_exp|
+
+function produce_html_exp_27() {
+	
+return ((o2app_name() == "jxdoc" ? "prepare_navigation" : "doc/prepare_navigation"));
+	} //|o2_fine_exp|
+
+function produce_html_exp_28() {
+	
+return ((o2app_name() == "jxdoc" ? "node_text" : "doc/node_text"));
+	} //|o2_fine_exp|
+?>

@@ -1,0 +1,162 @@
+<?php
+
+function o2sys_request§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("expire", "_o2sid");
+	$task_prg§_§var->definisci("now", "_o2sid");
+	$task_prg§_§var->definisci("session_verified", "_o2logical");
+		}
+
+function o2sys_request§§sessions_def(&$task_sessions, $_o2viewalias = "") {
+	$task_sessions->righe_vis = 1;
+
+	$task_sessions->usa_file("o2_sessions","sessions","sid",null,null);
+
+	$task_sessions->usa("sid","sessions","sid","o2sys_request_exp_1()","o2sys_request_exp_1()",null,null);
+	$task_sessions->usa("o2user","sessions","o2user",null,null,null,null);
+	$task_sessions->usa("a_date","sessions","a_date",null,null,null,null);
+	$task_sessions->usa("a_time","sessions","a_time",null,null,null,null);
+	$task_sessions->usa("e_date","sessions","e_date",null,null,null,null);
+	$task_sessions->usa("e_time","sessions","e_time",null,null,null,null);
+}
+
+function o2sys_request§§session_error_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("----- Set 401 HTTP code header") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_request_exp_16()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("----- Redirect to "Sessione error" page") && $o2exe->e();
+	$o2exe->s(4) && (o2sys_request_exp_15() || $o2exe->e()) && o2act::gotourl(o2sys_request_exp_14()) && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("----- Print out default "Session error" message") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::script(o2sys_request_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_request§§update_db_session_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("sessions", "a_date", o2sys_request_exp_7()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("sessions", "a_time", o2sys_request_exp_9()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("sessions", "e_date", o2sys_request_exp_8()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("sessions", "e_time", o2sys_request_exp_10()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::view("sessions", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_request§§verify_db_session_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("---------------------------------- Verify session existance") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "session_verified", o2sys_request_exp_2()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("--------------------------------------- Handle session error") && $o2exe->e();
+	$o2exe->s(4) && (o2sys_request_exp_4() || $o2exe->e()) && o2act::exe("session_error", True, "") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("---------------------------------------------- Update session") && $o2exe->e();
+	$o2exe->s(6) && (o2sys_request_exp_13() || $o2exe->e()) && o2act::exe("update_db_session", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_request§§verify_session_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "now", o2sys_request_exp_5()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "expire", o2sys_request_exp_6()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("verify_db_session", True, "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::script(o2sys_request_exp_11()) && $o2exe->e();
+	$o2exe->s(5) && (o2sys_request_exp_12() || $o2exe->e()) && o2act::call(o2sys_request_exp_17(), False) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_request_exp_1() {
+	
+return (o2app_sid());
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_2() {
+	$exp_d    = o2val('sessions','e_date');
+$exp_t    = o2val('sessions','e_time');
+$expire   = mktime(substr($exp_t, 0, 2),
+                   substr($exp_t, 2, 2),
+                   substr($exp_t, 4, 2),
+                   substr($exp_d, 4, 2),
+                   substr($exp_d, 6, 2),
+                   substr($exp_d, 0, 4));
+$verified = trim(o2val('sessions','o2user')) == o2app_user() && 
+            $expire >= o2val('prg§_§var','now');
+return ($verified);
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_3() {
+	if ($GLOBALS['jxjs']) {
+   print "document.write('<br /><br /><center><h4>Session error</h4></center>');\n}\n";
+   die();   
+   }
+else {
+   die("<br /><br /><center><h4>Session error</h4></center>");
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_4() {
+	
+return (!o2val('prg§_§var','session_verified'));
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_5() {
+	
+return (time());
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_6() {
+	$now = o2val('prg§_§var','now');
+$expire = mktime(date("H", $now),
+                 date("i", $now) + o2app_timeout(),
+                 date("s", $now),
+                 date("m", $now),
+                 date("d", $now),
+                 date("Y", $now));
+return ($expire);
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_7() {
+	
+return (date("Ymd", o2val('prg§_§var','now')));
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_8() {
+	
+return (date("Ymd", o2val('prg§_§var','expire')));
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_9() {
+	
+return (date("His", o2val('prg§_§var','now')));
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_10() {
+	
+return (date("His", o2val('prg§_§var','expire')));
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_11() {
+	o2dbs_commit(o2db_server(o2tab_db("o2_sessions")));
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_12() {
+	
+return (o2app_reqprg());
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_13() {
+	
+return (o2val('prg§_§var','session_verified'));
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_14() {
+	
+return ((o2rnt_interface() != "HTML" ? o2app_dir_htdocs() : "").o2app_sesserror());
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_15() {
+	
+return (o2app_sesserror());
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_16() {
+	header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized", true, 401);
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_request_exp_17() {
+	
+return ("app/".o2app_reqprg());
+	} //|o2_fine_exp|
+?>

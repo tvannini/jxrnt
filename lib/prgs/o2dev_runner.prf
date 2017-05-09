@@ -1,0 +1,735 @@
+<?php
+
+function o2dev_runner§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("extended_options", "_o2logical");
+	$task_prg§_§var->definisci("filter_string", "_o2alpha");
+	$task_prg§_§var->definisci("param_field", "_o2alpha");
+	$task_prg§_§var->definisci("param_id", "_o2number");
+	$task_prg§_§var->definisci("params_list", "_o2structure");
+	$task_prg§_§var->definisci("prg_name", "_o2alpha");
+	$task_prg§_§var->definisci("prgs_list", "_o2structure");
+	$task_prg§_§var->definisci("value", "_o2text");
+	$task_prg§_§var->definisci("value_combo", "_o2alpha");
+	$task_prg§_§var->definisci("value_logic", "_o2logical");
+		}
+function o2dev_runner§§o2dev_runner_form_def(&$form_o2dev_runner) {
+	$form_o2dev_runner->x(280);
+	$form_o2dev_runner->y(80);
+	$form_o2dev_runner->larghezza(480);
+	$form_o2dev_runner->altezza(220);
+	$form_o2dev_runner->titolo("Execute module by name");
+	$form_o2dev_runner->align_o("Center");
+	$form_o2dev_runner->frm_status(o2dev_runner_exp_1());
+	$ctrl_o2label2 = &$form_o2dev_runner->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(30);
+		$ctrl_o2label2->y(40);
+		$ctrl_o2label2->larghezza(70);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->label("Filter:");
+	$ctrl_o2label3 = &$form_o2dev_runner->ctrldef("o2label3", "label", "", "", "");
+		$ctrl_o2label3->x(30);
+		$ctrl_o2label3->y(70);
+		$ctrl_o2label3->larghezza(120);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->label("Select module:");
+	$ctrl_o2label4 = &$form_o2dev_runner->ctrldef("o2label4", "label", "", "", "");
+		$ctrl_o2label4->x(30);
+		$ctrl_o2label4->y(110);
+		$ctrl_o2label4->larghezza(120);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->label("Extended options:");
+	$ctrl_o2edit3 = &$form_o2dev_runner->ctrldef("o2edit3", "edit", "", "prg§_§var", "filter_string");
+		$ctrl_o2edit3->x(150);
+		$ctrl_o2edit3->y(40);
+		$ctrl_o2edit3->larghezza(300);
+		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->azione("refresh_list");
+		$ctrl_o2edit3->on_change(o2dev_runner_exp_9998());
+	$ctrl_o2ListBox2 = &$form_o2dev_runner->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "prg_name");
+		$ctrl_o2ListBox2->x(150);
+		$ctrl_o2ListBox2->y(70);
+		$ctrl_o2ListBox2->larghezza(300);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->valori(o2dev_runner_exp_8());
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2button2 = &$form_o2dev_runner->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(360);
+		$ctrl_o2button2->y(140);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("execute");
+		$ctrl_o2button2->label("Execute");
+	$ctrl_o2checkbox2 = &$form_o2dev_runner->ctrldef("o2checkbox2", "check", "", "prg§_§var", "extended_options");
+		$ctrl_o2checkbox2->x(150);
+		$ctrl_o2checkbox2->y(110);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(20);
+		$ctrl_o2checkbox2->azione("load_params");
+		$ctrl_o2checkbox2->on_change(o2dev_runner_exp_9998());
+		}
+function o2dev_runner§§o2dev_runner_ext_form_def(&$form_o2dev_runner_ext) {
+	$form_o2dev_runner_ext->x(280);
+	$form_o2dev_runner_ext->y(80);
+	$form_o2dev_runner_ext->larghezza(665);
+	$form_o2dev_runner_ext->altezza(550);
+	$form_o2dev_runner_ext->titolo("Execute module by name");
+	$form_o2dev_runner_ext->align_o("Center");
+	$form_o2dev_runner_ext->frm_status(o2dev_runner_exp_1());
+	$ctrl_o2label7 = &$form_o2dev_runner_ext->ctrldef("o2label7", "label", "", "", "");
+		$ctrl_o2label7->x(30);
+		$ctrl_o2label7->y(110);
+		$ctrl_o2label7->larghezza(120);
+		$ctrl_o2label7->altezza(20);
+		$ctrl_o2label7->label("Extended options:");
+	$ctrl_o2edit2 = &$form_o2dev_runner_ext->ctrldef("o2edit2", "edit", "", "prg§_§var", "filter_string");
+		$ctrl_o2edit2->x(150);
+		$ctrl_o2edit2->y(40);
+		$ctrl_o2edit2->larghezza(300);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->azione("refresh_list");
+		$ctrl_o2edit2->on_change(o2dev_runner_exp_9998());
+	$ctrl_o2label6 = &$form_o2dev_runner_ext->ctrldef("o2label6", "label", "", "", "");
+		$ctrl_o2label6->x(30);
+		$ctrl_o2label6->y(70);
+		$ctrl_o2label6->larghezza(120);
+		$ctrl_o2label6->altezza(20);
+		$ctrl_o2label6->label("Select module:");
+	$ctrl_o2label5 = &$form_o2dev_runner_ext->ctrldef("o2label5", "label", "", "", "");
+		$ctrl_o2label5->x(30);
+		$ctrl_o2label5->y(40);
+		$ctrl_o2label5->larghezza(70);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->label("Filter:");
+	$ctrl_o2ListBox3 = &$form_o2dev_runner_ext->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "prg_name");
+		$ctrl_o2ListBox3->x(150);
+		$ctrl_o2ListBox3->y(70);
+		$ctrl_o2ListBox3->larghezza(300);
+		$ctrl_o2ListBox3->altezza(20);
+		$ctrl_o2ListBox3->azione("load_params");
+		$ctrl_o2ListBox3->on_change(o2dev_runner_exp_9998());
+		$ctrl_o2ListBox3->valori(o2dev_runner_exp_8());
+		$ctrl_o2ListBox3->righe(1);
+	$ctrl_o2button3 = &$form_o2dev_runner_ext->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(535);
+		$ctrl_o2button3->y(470);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("execute");
+		$ctrl_o2button3->label("Execute");
+	$ctrl_o2checkbox3 = &$form_o2dev_runner_ext->ctrldef("o2checkbox3", "check", "", "prg§_§var", "extended_options");
+		$ctrl_o2checkbox3->x(150);
+		$ctrl_o2checkbox3->y(110);
+		$ctrl_o2checkbox3->larghezza(20);
+		$ctrl_o2checkbox3->altezza(20);
+		$ctrl_o2checkbox3->on_change(o2dev_runner_exp_9998());
+	$ctrl_o2multipage2 = &$form_o2dev_runner_ext->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(30);
+		$ctrl_o2multipage2->y(150);
+		$ctrl_o2multipage2->larghezza(595);
+		$ctrl_o2multipage2->altezza(300);
+		$ctrl_o2multipage2->label(array("Parameters"));
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2ListBox4 = &$form_o2dev_runner_ext->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "param_id");
+		$ctrl_o2ListBox4->x(10);
+		$ctrl_o2ListBox4->y(40);
+		$ctrl_o2ListBox4->larghezza(285);
+		$ctrl_o2ListBox4->altezza(210);
+		$ctrl_o2ListBox4->azione("change_param");
+		$ctrl_o2ListBox4->on_change(o2dev_runner_exp_9998());
+		$ctrl_o2ListBox4->info_padre(array(0));
+		$ctrl_o2ListBox4->valori(o2dev_runner_exp_12());
+		$ctrl_o2ListBox4->righe(10);
+	$ctrl_o2label8 = &$form_o2dev_runner_ext->ctrldef("o2label8", "label", "o2multipage2", "", "");
+		$ctrl_o2label8->x(10);
+		$ctrl_o2label8->y(260);
+		$ctrl_o2label8->larghezza(50);
+		$ctrl_o2label8->altezza(20);
+		$ctrl_o2label8->visibile(o2dev_runner_exp_55());
+		$ctrl_o2label8->info_padre(array(0));
+		$ctrl_o2label8->label("Value:");
+	$ctrl_o2ListBox5 = &$form_o2dev_runner_ext->ctrldef("o2ListBox5", "listcombo", "o2multipage2", "prg§_§var", "param_id");
+		$ctrl_o2ListBox5->x(300);
+		$ctrl_o2ListBox5->y(40);
+		$ctrl_o2ListBox5->larghezza(285);
+		$ctrl_o2ListBox5->altezza(210);
+		$ctrl_o2ListBox5->azione("change_param");
+		$ctrl_o2ListBox5->on_change(o2dev_runner_exp_9998());
+		$ctrl_o2ListBox5->info_padre(array(0));
+		$ctrl_o2ListBox5->valori(o2dev_runner_exp_13());
+		$ctrl_o2ListBox5->righe(10);
+	$ctrl_o2edit4 = &$form_o2dev_runner_ext->ctrldef("o2edit4", "edit", "o2multipage2", "prg§_§var", "value");
+		$ctrl_o2edit4->x(70);
+		$ctrl_o2edit4->y(260);
+		$ctrl_o2edit4->larghezza(200);
+		$ctrl_o2edit4->altezza(20);
+		$ctrl_o2edit4->visibile(o2dev_runner_exp_18());
+		$ctrl_o2edit4->azione("change_value");
+		$ctrl_o2edit4->on_change(o2dev_runner_exp_9998());
+		$ctrl_o2edit4->info_padre(array(0));
+		$ctrl_o2edit4->maschera(o2dev_runner_exp_20());
+	$ctrl_o2checkbox4 = &$form_o2dev_runner_ext->ctrldef("o2checkbox4", "check", "o2multipage2", "prg§_§var", "value_logic");
+		$ctrl_o2checkbox4->x(70);
+		$ctrl_o2checkbox4->y(260);
+		$ctrl_o2checkbox4->larghezza(20);
+		$ctrl_o2checkbox4->altezza(20);
+		$ctrl_o2checkbox4->visibile(o2dev_runner_exp_17());
+		$ctrl_o2checkbox4->azione("change_value");
+		$ctrl_o2checkbox4->on_change(o2dev_runner_exp_9998());
+		$ctrl_o2checkbox4->info_padre(array(0));
+	$ctrl_o2ListBox6 = &$form_o2dev_runner_ext->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "value_combo");
+		$ctrl_o2ListBox6->x(70);
+		$ctrl_o2ListBox6->y(260);
+		$ctrl_o2ListBox6->larghezza(200);
+		$ctrl_o2ListBox6->altezza(20);
+		$ctrl_o2ListBox6->visibile(o2dev_runner_exp_19());
+		$ctrl_o2ListBox6->azione("change_value");
+		$ctrl_o2ListBox6->on_change(o2dev_runner_exp_9998());
+		$ctrl_o2ListBox6->info_padre(array(0));
+		$ctrl_o2ListBox6->valori(o2dev_runner_exp_21());
+		$ctrl_o2ListBox6->righe(1);
+		}
+
+function o2dev_runner§§change_param_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "param_field", o2dev_runner_exp_16()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "value", o2dev_runner_exp_22()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "value_logic", o2dev_runner_exp_22()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "value_combo", o2dev_runner_exp_10()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_runner§§change_value_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "params_list", o2dev_runner_exp_23()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_runner§§execute_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(o2dev_runner_exp_2(), False, o2dev_runner_exp_54(), o2dev_runner_exp_24(), o2dev_runner_exp_25(), o2dev_runner_exp_26(), o2dev_runner_exp_27(), o2dev_runner_exp_28(), o2dev_runner_exp_29(), o2dev_runner_exp_30(), o2dev_runner_exp_31(), o2dev_runner_exp_32(), o2dev_runner_exp_33(), o2dev_runner_exp_34(), o2dev_runner_exp_35(), o2dev_runner_exp_36(), o2dev_runner_exp_37(), o2dev_runner_exp_38(), o2dev_runner_exp_39(), o2dev_runner_exp_40(), o2dev_runner_exp_41(), o2dev_runner_exp_42(), o2dev_runner_exp_43(), o2dev_runner_exp_44(), o2dev_runner_exp_45(), o2dev_runner_exp_46(), o2dev_runner_exp_47(), o2dev_runner_exp_48(), o2dev_runner_exp_49(), o2dev_runner_exp_50(), o2dev_runner_exp_51(), o2dev_runner_exp_52(), o2dev_runner_exp_53()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_runner§§load_params_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "params_list", o2dev_runner_exp_15()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("change_param", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_runner§§refresh_list_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "prgs_list", o2dev_runner_exp_7()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "prg_name", o2dev_runner_exp_5()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("load_params", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_runner_exp_1() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_2() {
+	$_SESSION['o2_app']->extcall_level = 0;
+return (o2val('prg§_§var','prg_name'));
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_3() {
+	
+return (16);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_4() {
+	
+return ('F');
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_5() {
+	
+return (array_shift(o2val('prg§_§var','prgs_list')));
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_6() {
+	
+return ('A');
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_7() {
+	$arr_files = array();
+$dir       = o2app_dir_home()."/prgs/";
+if (is_dir($dir)) {
+   if ($dh = opendir($dir)) {
+      while (($file = readdir($dh)) !== false) {
+         if (substr(trim($file), -3) == 'prg') {
+            if (o2zero('prg§_§var','filter_string') ||
+                substr_count(trim($file), trim(o2val('prg§_§var','filter_string')))) {
+               $prg_name             = substr(trim($file), 0, strlen(trim($file)) - 4);
+               $arr_files[$prg_name] = $prg_name;
+               }
+            }
+         }
+      closedir($dh);
+      }
+   }
+asort($arr_files);
+return ($arr_files);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_8() {
+	
+return (o2val('prg§_§var','prgs_list'));
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_9() {
+	
+return (o2val('prg§_§var','param_field') != "c");
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_10() {
+	if (o2val('prg§_§var','param_field') == "l") {
+   $val = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'value');
+   }
+else {
+   $val = '';
+   }   
+return ($val);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_11() {
+	
+return (!o2val('prg§_§var','extended_options'));
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_12() {
+	$list = array();
+foreach (o2val('prg§_§var','params_list') as $par_id => $param) {
+   $list[] = $param['par'];
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_13() {
+	$list = array();
+foreach (o2val('prg§_§var','params_list') as $par_id => $param) {
+   if (o2model_type($param['model']) == "S") {
+      if (isset($param['value'])) {
+         $list[] = "[Structure]";
+         }
+      else {
+         $list[] = "";
+         }
+      }
+   else {
+      $list[] = $param['value'];
+      }
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_14() {
+	
+return (o2val('prg§_§var','extended_options'));
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_15() {
+	$list    = array();
+if (!o2zero('prg§_§var','prg_name')) {
+   $app = $_SESSION['o2_app'];
+   $prg = o2val('prg§_§var','prg_name').".prg";
+   if ($app->dir_cvs_progs->exists($prg)) {
+      $prg = $app->dir_cvs_progs.$prg;
+      }
+   else {
+      $prg = $app->dir_progs.$prg;
+      }
+   $parts   = array();
+   $prg_txt = file_get_contents($prg);
+   preg_match_all('/o2def\:\:par\((\d+),\s*\"([^"]*)\",\s*\"([^"]*)\"/', $prg_txt, $parts);
+   foreach ($parts[1] as $par_id) {
+      $par_id--;
+      $list[] = array('par'   => $parts[2][$par_id],
+                      'model' => $parts[3][$par_id]);
+      }
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_16() {
+	$app    = $_SESSION['o2_app'];
+$m_name = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model');
+$model  = $app->maschere[$m_name];
+if ($model->tipo == "L") {
+   $ctrl_type = "c";
+   }
+elseif (count($model->valori)) {
+   $ctrl_type = "l";
+   }
+elseif ($model->tipo == "S") {
+   $ctrl_type = "s";
+   }
+else {
+   $ctrl_type = "e";
+   }
+return ($ctrl_type);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_17() {
+	
+return (o2val('prg§_§var','param_field') == "c");
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_18() {
+	
+return (o2val('prg§_§var','param_field') != "c" && o2val('prg§_§var','param_field') != "l" && count(o2val('prg§_§var','params_list')));
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_19() {
+	
+return (o2val('prg§_§var','param_field') == "l");
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_20() {
+	$param = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'));
+if (o2val('prg§_§var','param_field') == "s") {
+   $model = '_o2text';
+   }
+else {
+   $model = $param['model'];
+   }
+return ($model);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_21() {
+	$app    = $_SESSION['o2_app'];
+$m_name = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model');
+$model  = $app->maschere[$m_name];
+$len    = $model->dimensione;
+$items  = array();
+if (count($model->valori)) {
+   foreach ($model->valori as $item) {
+      $items[substr($item, 0, $len)] = $item;
+      }
+   }
+return ($items);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_22() {
+	$val = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'value');
+if (o2val('prg§_§var','param_field') == "s") {
+   $val = preg_replace('/\s+/', ' ', str_replace(array("\n", "'"), array(" ", '"'), var_export($val, 1)));
+   }
+return ($val);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_23() {
+	$list  = o2val('prg§_§var','params_list');
+$parid = o2val('prg§_§var','param_id');
+switch (o2val('prg§_§var','param_field')) {
+   case "c":
+      $list[$parid]['value'] = o2val('prg§_§var','value_logic');
+      break;   
+   case "l":
+      $list[$parid]['value'] = o2val('prg§_§var','value_combo');
+      break;   
+   case "s":
+      $value = o2val('prg§_§var','value');
+      if (!$value) {
+         if (isset($list[$parid]['value'])) {
+            unset($list[$parid]['value']);
+            }
+         }
+      else {
+         if (@eval('$val='.$value.";") === false) {
+            $val = "[Error] ".$value;
+            }  
+         $list[$parid]['value'] = $val;
+         }
+      break;   
+   default:
+      $list[$parid]['value'] = o2val('prg§_§var','value');
+      break;
+   }
+return ($list);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_24() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[1])) {
+   $par = $list[1]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_25() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[2])) {
+   $par = $list[2]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_26() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[3])) {
+   $par = $list[3]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_27() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[4])) {
+   $par = $list[4]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_28() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[5])) {
+   $par = $list[5]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_29() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[6])) {
+   $par = $list[6]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_30() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[7])) {
+   $par = $list[7]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_31() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[8])) {
+   $par = $list[8]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_32() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[9])) {
+   $par = $list[9]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_33() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[10])) {
+   $par = $list[10]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_34() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[11])) {
+   $par = $list[11]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_35() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[12])) {
+   $par = $list[12]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_36() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[13])) {
+   $par = $list[13]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_37() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[14])) {
+   $par = $list[14]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_38() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[15])) {
+   $par = $list[15]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_39() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[16])) {
+   $par = $list[16]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_40() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[17])) {
+   $par = $list[17]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_41() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[18])) {
+   $par = $list[18]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_42() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[19])) {
+   $par = $list[19]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_43() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[20])) {
+   $par = $list[20]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_44() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[21])) {
+   $par = $list[21]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_45() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[22])) {
+   $par = $list[22]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_46() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[23])) {
+   $par = $list[23]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_47() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[24])) {
+   $par = $list[24]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_48() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[25])) {
+   $par = $list[25]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_49() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[26])) {
+   $par = $list[26]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_50() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[27])) {
+   $par = $list[27]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_51() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[28])) {
+   $par = $list[28]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_52() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[29])) {
+   $par = $list[29]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_53() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[30])) {
+   $par = $list[30]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_54() {
+	$par  = null;
+$list = o2val('prg§_§var','params_list');
+if (o2val('prg§_§var','extended_options') && isset($list[0])) {
+   $par = $list[0]['value'];
+   }
+return ($par);
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_55() {
+	
+return (count(o2val('prg§_§var','params_list')));
+	} //|o2_fine_exp|
+
+function o2dev_runner_exp_9998() {
+	
+return (true);
+	} //|o2_fine_exp|
+?>

@@ -1,0 +1,88 @@
+<html><head><title>Generazione di report PDF da file XML</title><link rel='stylesheet' type='text/css' href='jxman.css'></head>
+<body>
+<table width='100%'><tr><td id='nav_frame' width='120px'><center><table cellspacing='1' style='border:1px solid #993300;'> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>o</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>2</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>a</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>h</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>i</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#19181A; background-color:#D9D9D0;'>c</td></tr> <tr><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>t</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>u</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>r</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#D9D9D0; background-color:#993300;'>e</td><td style='padding:0 0 0 0;margin:0 0 0 0;text-align:center;width:14px;height:14px;font:11px "Courier New",Courier,monospace;letter-spacing:-2px; color:#993300; background-color:#D9D9D0;'>::</td></tr></table></center></td><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_105.html'>Export verso <em>XML</em></a></td>
+       <td id='nav_next' align='right'><a href='node_115.html'>Il <em>CSS</em> dell'applicazione</a></td>
+   </tr>
+</table></td></tr></table>
+<h2>0.16 &nbsp; Generazione di report <em>PDF</em> da file <em>XML</em></h2><br /><fieldset>INDEXES FIELD, MASTER FIELD, O2REPORTER, PRINT, TEMPLATE</fieldset>
+<p>Questo capitolo ha come scopo quello di abilitare il programmatore alla 
+produzione di report in formato <em>PDF</em>. Questi report hanno come fonte 
+dati un set di file <em>XML</em> e come <em>template</em> un documento 
+prodotto dal reporter (o2Reporter).</p>
+<br /><h4>Obiettivi</h4>
+<p>Al termine di queso capitolo il programmatore sarà in grado di:</p>
+<ul>
+<li>Creare un <em>template</em> con o2reporter</li>
+<li>Produrre dei report in formato <em>PDF</em></li>
+</ul>
+
+<br /><h4>Introduzione</h4>
+<p>In questo capitolo vedremo come si collegano le risorse <em>XML</em> 
+a o2reporter per la generazione automatica di un file <em>PDF</em> partendo 
+da un <em>template</em>.</p>
+
+<p>Per quanto riguarda le funzionalità di o2reporter si rimanda alla specifica
+documentazione.</p>
+
+
+<br />
+<h3>0.16.1<a name='node_114'> &nbsp; </a>L'operatore <i>Print</i></h3></br /><blockquote><p>Dopo aver realizzato i programmi per l’esportazione dati verso file 
+<em>XML</em> è possibile utilizzare o2reporter come generatore di report.
+</p>
+
+<p>o2reporter è un generatore di report molto semplice che utilizza le risorse 
+<em>XML</em> come dataset, aiuta il programmatore nella definizione di 
+<em>template</em> di stampa e, se invocato dall’istruzione <i>Print</i>,
+produce direttamente un file <em>PDF</em> come risultato del report.</p>
+
+<p>Riprendiamo il programma visto nel precedente capitolo, e torniamo alla action “esporta”; dopo l’istruzione <i>Execute action</i> inseriamo una nuova riga 
+selezionando l’operatore <i>Print</i>.</p>
+
+<p>Dopo aver selezionato l’operatore <i>Print</i> apparirà una finestra <i>Print information</i>, richiedendo di definire:</p>
+<ol>
+<li>Un’espressione per definire il nome del <em>template</em> che sarà utilizzato 
+       (file di tipo <var>frf</var>). I template si trovano nella directory dei modelli
+       (<var>[app_root]/models/</var>).</li>
+<li>Un’espressione per definire il nome del file <em>PDF</em> che sarà prodotto 
+       nella directory temporanea dell’utente collegato</li>
+<li>Un elenco di risorse (file <em>XML</em>) implicate nel report con eventuali
+       parametri per il collegamento fra risorse (<i>Parent</i>, <i>Master fields</i>, 
+       <i>Index fields</i>).</li>
+</ol>
+
+<img src='img/image164.gif' />
+
+<p>Nel nostro esercizio selezioniamo solamente la risorsa “customers” dal treeview 
+di sinistra e premendo il pulsante <i>Include</i> otteniamo:</p>
+
+<img src='img/image166.gif' />
+
+<p>Dalla colonna <i>Test file</i> premere il pulsante di scelta e selezionare il file 
+<em>XML</em> generato con l’export. Definire il file di test è necessario per 
+accedere alla definizione grafica del <em>template</em> tramite o2reporter.</p>
+
+<p>Premere il pulsante <i>Design</i> in basso a destra accedendo così a 
+o2reporter.</p>
+
+<img src='img/image168.gif' />
+
+<p>Dopo aver realizzato il <em>template</em> salvare il file
+(<var>nometemplate.frf</var>) nella directory dei modelli, esattamente in
+<var>[app_root]/models/</var>.</p>
+<p>Adesso, rieseguendo il progrmma nella directory <var>tmp</var> dell’utente,
+comparirà il file <em>PDF</em>.</p>
+
+<img src='img/image170.gif' /><br />
+<img src='img/image172.gif' />
+</blockquote><br /><br /><table width='100%'><tr><td id='nav_frame'>
+<table id='nav' width='100%'>
+<tr>   <td id='nav_top' colspan='2' align='center'><a href='cover.html'>Fondamenti di Janox</a></td></tr>
+   <tr><td id='nav_prev' align='left'><a href='node_105.html'>Export verso <em>XML</em></a></td>
+       <td id='nav_next' align='right'><a href='node_115.html'>Il <em>CSS</em> dell'applicazione</a></td>
+   </tr>
+</table></td><td id='nav_frame' width='150px'><center><a href='http://www.o2gen.it'>www.o2gen.it</a><br /><small>&copy; 2008 <a href='http:www.software4u.it'>Software4U.it</a></small></center></td></tr></table>
+</body>
+</html>
