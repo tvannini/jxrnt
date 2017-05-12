@@ -4084,10 +4084,13 @@ function o2tab_fields($table_name) {
 
 
 /**
- * Returns table indexes as an array
+ * Returns table indexes as an array.
+ * If $type_info parameter is passed as TRUE extra information are returned, about index
+ * from repository or from extra-indexes and index unicity.
  *
  * @package table
- * @param   string $table_name
+ * @param   string  $table_name
+ * @param   boolean $type_info
  * @return  array
  */
 function o2tab_indexes($table_name, $type_info = false) {
@@ -4401,7 +4404,7 @@ function o2tab_suspend_trace($table_name, $suspend = true) {
 function o2tab_info($table_name) {
 
     if ($table = $_SESSION['o2_app']->get_table($table_name)) {
-        return $table->info(true);
+        return $table->info(true, true);
         }
     else {
         return false;
@@ -5432,7 +5435,7 @@ function o2viewtab_info($view_name, $table_alias) {
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
     if ($table = $view_obj->files[$table_alias]) {
-        return $table->info(true);
+        return $table->info(true, true);
         }
     else {
         return false;

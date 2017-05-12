@@ -1885,11 +1885,14 @@ class o2_file {
      * Returns physical table informations as an array.
      * If parameter $with_constraints is passed as TRUE then table contraints informations
      * are returned too.
+     * If parameter $with_extraidxs is passed as TRUE then table extra indexes
+     * informations are returned too.
      *
      * @param  boolean $with_constraints
+     * @param  boolean $with_extraidxs
      * @return mix
      */
-    function info($with_constraints = false) {
+    function info($with_constraints = false, $with_extraidxs = false) {
 
         $app                = $_SESSION['o2_app'];
         $tab_exists         = false;
@@ -2006,7 +2009,48 @@ class o2_file {
                 $segms_local[] = array('column' => $single_segment->campo->phys_name,
                                        'dir'    => $single_segment->direzione);
                 }
-            $def_keys[$single_key->nome] = $segms_local;
+            $def_keys[$single_key->nome] = array('extra'    => false,
+                                                 'unique'   => true,
+                                                 'segments' => $segms_local);
+            }
+        // _____________________________________________________________ Extra indexes ___
+        if ($with_extraidxs) {
+            $eidxs_tab    = $app->get_table('o2_extraindexes');
+            $c_o          = constant("o2_".$eidxs_tab->db->server->type."_o");
+            $c_c          = constant("o2_".$eidxs_tab->db->server->type."_c");
+            $eidxs_select = $eidxs_tab->campi['index_name']->nome_fisico.' '.
+                            $c_o.'IDX_NAME'.$c_c.','.
+                            $eidxs_tab->campi['index_fields']->nome_fisico.' '.
+                            $c_o.'IDX_FIELDS'.$c_c.','.
+                            $eidxs_tab->campi['index_unique']->nome_fisico.' '.
+                            $c_o.'IDX_UNIQUE'.$c_c;
+            $eidxs_where  = $eidxs_tab->campi['index_table']->nome_fisico."='".
+                            $this->indice."'";
+            $eidxs_order  = '';
+            foreach (o2_gateway::recordset($eidxs_tab->db->server->type,
+                                           $eidxs_tab->db->server->server,
+                                           $eidxs_tab->db->server->user,
+                                           $eidxs_tab->db->server->password,
+                                           $eidxs_tab->db->nome,
+                                           $eidxs_tab->db->proprietario,
+                                           $eidxs_tab->nome,
+                                           $eidxs_tab->nome,
+                                           $eidxs_select,
+                                           $eidxs_where,
+                                           $eidxs_order,
+                                           1000) as $eidx_def) {
+                $segms_local = array();
+                if ($this->asp == 'C') {
+                    $segms_local[] = array('column' => $aspid, 'dir' => "A");
+                    }
+                foreach (explode(',', $eidx_def['IDX_FIELDS']) as $single_segment) {
+                    list($idx_fld, $idx_dir) = explode('|', $single_segment);
+                    $segms_local[] = array('column' => $idx_fld, 'dir' => $idx_dir);
+                    }
+                $def_keys[$eidx_def['IDX_NAME']] = array('extra'    => true,
+                                                      'unique' => $eidx_def['IDX_UNIQUE'],
+                                                         'segments' => $segms_local);
+                }
             }
         // ______________________________ Comparing definition and physical structures ___
         // __________________________________________________________ Comparing fields ___
@@ -2061,20 +2105,21 @@ class o2_file {
             foreach ($arr_keys_local as $key_name => $single_key) {
                 // _______________________ If physical key match a defined key by name ___
                 if (isset($def_keys[$key_name])) {
-                    // _______________________________ If segments number is differnet ___
-                    if (count($def_keys[$key_name]) != count($single_key)) {
-                        $var_keys[$key_name] = $single_key;
+                    // _______________________________ If segments number is different ___
+                    if (count($def_keys[$key_name]['segments']) !=
+                        count($single_key)) {
+                        $var_keys[$key_name] = $def_keys[$key_name];
                         }
                     // ____ If physiacl and defined keys have the same segments number ___
                     else {
                         // _____________________________ Loop on physical key segments ___
                         foreach ($single_key as $segm_index => $single_segment) {
-                            if (($def_keys[$key_name][$segm_index]['column'] !=
-                                 $single_segment['column']) ||
+                            if (($def_keys[$key_name]['segments'][$segm_index]['column']
+                                 != $single_segment['column']) ||
                                 ($single_segment['dir'] &&
-                                ($def_keys[$key_name][$segm_index]['dir'] !=
+                                ($def_keys[$key_name]['segments'][$segm_index]['dir'] !=
                                  $single_segment['dir']))) {
-                                $var_keys[$key_name] = $single_key;
+                                $var_keys[$key_name] = $def_keys[$key_name];
                                 }
                             }
                         }
