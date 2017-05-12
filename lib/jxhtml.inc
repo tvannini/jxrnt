@@ -481,31 +481,31 @@ class o2html {
             $sele_mode = $app->caret_position[$prg_id]['sele'];
             $internal  = $app->caret_position[$prg_id]['int'];
             $o2_form   = str_replace("_".$prg_id."_html_form", "", $html_form);
-            if (!$internal && !isset($app->istanze_prg[$prg_id]->form[$o2_form])) {
+            $form_obj  = $app->istanze_prg[$prg_id]->form[$o2_form];
+            if (!$internal && !$form_obj) {
                 throw new o2_exception("<b>FOCUS SETTING ERROR:</b> cannot find form <i>".
                                        substr($o2_form, 0, -5)."</i>.",
                                        o2error_UNKNOWNFORM);
                 return false;
                 }
-            elseif (!$internal &&
-                    !isset($app->istanze_prg[$prg_id]->form[$o2_form]->
-                     controlli[$ctrl_name])) {
+            elseif (!$internal && !isset($form_obj->controlli[$ctrl_name])) {
                 throw new o2_exception("<b>FOCUS SETTING ERROR:</b> ".
                                        "cannot find control <i>".$ctrl_name.
                                        "</i> in form <i>".substr($o2_form, 0, -5)."</i>.",
                                        o2error_UNKNOWNCTRL);
                 return false;
                 }
-            elseif (!$app->istanze_prg[$prg_id]->form[$o2_form]->chiusa &&
-                    $app->istanze_prg[$prg_id]->form[$o2_form]->controlli[$ctrl_name]->
-                    is_visible()) {
+            elseif (!$form_obj->chiusa &&
+                    $form_obj->controlli[$ctrl_name]->is_visible() &&
+                    ($form_obj->controlli[$ctrl_name]->modificabile ||
+                     $form_obj->controlli[$ctrl_name]->tipo_ctrl == 'tab')) {
                 $sele_mode = ($sele_mode === null ? "null" :
                               ($sele_mode === 0 ? "0" : "1"));
                 $js_local  = ($scriptless ? "" : "<script> o2jse.cmd.focus(").
                               "'".$ctrl_name.$prg_id."',".$sele_mode.
                               ($scriptless ? "" : "); </script>\n");
-                unset($app->caret_position[$prg_id]);
                 }
+            unset($app->caret_position[$prg_id]);
             }
         return $js_local;
 
