@@ -43,7 +43,7 @@ $jxrel = "2.3.00";
  *
  * @global string $jxbuilt
  */
-$jxbuilt = "20170510";
+$jxbuilt = "20170513";
 /**
  * Start execution time
  *
