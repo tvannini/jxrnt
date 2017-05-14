@@ -530,8 +530,9 @@ function o2_mkdate($date, $years = 0, $months = 0, $days = 0) {
 
 
 /**
- * Takes an o2-time as first parameter, adds to it the passed numbers of hours,
- * minutes and seconds and returns the result as an o2-time. o2-time = 'HHMMSS'.
+ * Takes an Janox-time as first parameter, adds to it the passed numbers of hours,
+ * minutes and seconds and returns the result as a Janox-time.
+ * Janox time format = 'HHMMSS'.
  *
  * @param  string  $time
  * @param  integer $hours
@@ -554,7 +555,7 @@ function o2_mktime($time, $hours = 0, $minutes = 0, $seconds = 0) {
 
 
 /**
- * Executes an o2 program and returns 1st parameter. Can accept infinite parameters.
+ * Executes a Janox program and returns 1st parameter. Can accept infinite parameters.
  *
  * @param  string $prg_name
  * @return mix
