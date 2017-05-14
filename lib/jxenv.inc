@@ -53,6 +53,7 @@ class o2_prg {
     public $script          = "";      /* Program definition file name (.prg/.prg)      */
     /*     _____ ACTIONS ______________________________________________________________ */
     public $esecutivo       = "";      /* Action to execute at program start            */
+    public $exit_now        = false;   /* If close-prg requested: exit actions in loop  */
     /*     _____ LISTS ________________________________________________________________ */
     public $parametri       = array(); /* Input parameters masks list                   */
     public $contesto        = array(); /* Views list                                    */
@@ -93,6 +94,7 @@ class o2_prg {
             $this->nome      = trim($nome);
             $this->id        = $id_esecuzione;
             $this->esecutivo = $prefisso;
+            $this->exit_now  = false;
             $prgs            = "";
             foreach ($_SESSION['o2_app']->istanze_prg as $single_prg) {
                 $prgs.= $single_prg->nome."|";
@@ -378,7 +380,10 @@ class o2_prg {
                     $task_local->act_wait_next = false;
                     }
                 }
-            } while (!$condizione_local && $act_end && $prosegui_loop);
+            } while (!$condizione_local &&
+                     $act_end &&
+                     $prosegui_loop &&
+                     !$this->exit_now);
         // _________________________ If loop action ended (exit with $act_end == TRUE) ___
         if ($loop_view && $act_end) {
             // _________________________________ Unset flag on view we were looping on ___
@@ -470,6 +475,8 @@ class o2_prg {
                 break;
                 }
             }
+        // ____________________________________________ Needed to exit looping actions ___
+        $this->exit_now = true;
 
         }
 
@@ -546,6 +553,8 @@ class o2_prg {
         foreach ($this->form as &$single_form) {
             $single_form->chiusa = false;
             }
+        // ___________________________________________________________ Reset exit flag ___
+        $this->exit_now   = false;
         // ______________________________________________________ Blank SQL JOIN flags ___
         $this->link_check = array();
         $this->link_field = array();
