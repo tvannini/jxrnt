@@ -1467,13 +1467,14 @@ function o2job_get_bar($run_job_id, $complete_action = false, $start_action = fa
  * Old value is returned.
  *
  * @package jobs
- * @param   string $on   TRUE to enable, FALSE to disable
+ * @param   string $job_name   Job name to look for
+ * @param   string $on         TRUE to enable, FALSE to disable
  * @return  boolean
  * @see     o2job_is_enabled()
  * @see     o2job_get_by_name()
  * @see     o2job_run()
  */
-function o2job_enable($on = true) {
+function o2job_enable($job_name, $on = true) {
 
     if ($job = o2_job::get_by_name($job_name)) {
         $ret           = !$job->disabled;
