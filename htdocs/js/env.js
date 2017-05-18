@@ -1949,6 +1949,8 @@ o2jse.ctrl.multiPage = function(targetObj, noRequest) {
     objBtnOpen.className      = mpField.o2.csson;
     objBtnOpen.tabIndex       = "-1";
     objBtnOpen.onclick        = "";
+    o2jse.infoForm['o2lastform'].value = o2Info.f;
+    o2jse.infoForm['o2lastctrl'].value = o2Info.c;
     // ____________________________________________________________ Display wait image ___
     if (objDivOpen.innerHTML.trim() == "") {
         objDivOpen.innerHTML = "<div class='jx_inctrl_wait'>&nbsp;</div>";
@@ -3570,6 +3572,8 @@ o2jse.nav.btnExe = function(targetObj) {
         o2jse.infoForm[ctrlName].value      = targetObj.o2.action;
         targetObj.o2.msg                    = "";
         o2jse.ctrl.make_waiting(targetObj);
+        o2jse.infoForm['o2lastform'].value = '';
+        o2jse.infoForm['o2lastctrl'].value = '';
         // _____________________________________________________ Client mode execution ___
         if (o2jse.cliMode) {
             jxjs.request(targetObj, targetObj.o2.action);
