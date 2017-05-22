@@ -5504,7 +5504,6 @@ if (is_array($node[6])) {
 else {
    $code = '';
    }
-   
 return ($code);
 	} //|o2_fine_exp|
 
@@ -5678,7 +5677,7 @@ function jxconnectivity_exp_365() {
 else {
    $is_on = false;
    }
-*/   
+*/
 return ($is_on);
 	} //|o2_fine_exp|
 
