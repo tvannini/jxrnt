@@ -470,6 +470,7 @@ class o2_form {
     function vis() {
 
         $app = $_SESSION['o2_app'];
+        $prg = $app->istanze_prg[$this->id_esecuzione];
         // __________________________________________________________ Window is closed ___
         if ($this->chiusa) {
             $this->chiusa  = false;
@@ -480,7 +481,7 @@ class o2_form {
                 }
             if (isset($app->open_wins[$this->id_esecuzione][$this->nome])) {
                 if ($this->linkto) {
-                    $parent_win = $prg_wins[$this->linkto];
+                    $parent_win = $prg->form[$this->linkto];
                     $link_id    = 0;
                     foreach ($parent_win->linked as $linked_form_name => $dummy) {
                         $link_id++;
@@ -511,7 +512,7 @@ class o2_form {
                     }
                 if (isset($app->open_wins[$this->id_esecuzione][$this->nome])) {
                     if ($this->linkto) {
-                        $parent_win = $prg_wins[$this->linkto];
+                        $parent_win = $prg->form[$this->linkto];
                         $link_id    = 0;
                         foreach ($parent_win->linked as $linked_form_name => $dummy) {
                             $link_id++;
@@ -531,7 +532,6 @@ class o2_form {
             }
         // _________________________________________________________ Window is visible ___
         $this->visible = true;
-        $prg           = $app->istanze_prg[$this->id_esecuzione];
         $this->attiva  = ($this->id_esecuzione == $app->istanza_attiva ||
                           $this->menu_behavior);
         // ____________________________ Executes _def (active or undefined forms only) ___
