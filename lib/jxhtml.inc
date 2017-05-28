@@ -922,6 +922,16 @@ class o2html {
                         $ctrl_obj                 = true;
                         break;
                         }
+                    // ________________ Force resize maximized window (browser resize) ___
+                    elseif ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
+                                      '_jxcmd'] == '4') {
+                        $single_form->maximized   = false;
+                        $single_form->max_restore();
+                        $single_form->restore_width  = 0;
+                        $single_form->restore_height = 0;
+                        $ctrl_obj                    = true;
+                        break;
+                        }
                     elseif (isset($single_form->controlli[$single_ctrl])) {
                         $ctrl_obj = $single_form->controlli[$single_ctrl];
                         break;
@@ -1764,15 +1774,22 @@ class o2html {
                   ">&nbsp;</td></tr></table>\n";
             }
         print "</div></div>\n".$repos;
-        // ____________________________________________________ Manage refresh timeout ___
-        if ($o2form_obj->attiva && $o2form_obj->refresh_exp) {
-            $time_local = false;
-            eval("\$time_local = ".$o2form_obj->refresh_exp.";");
-            if ($time_local) {
-                print '<script> o2jse.jxRefresh=setTimeout(\'o2jse.cmd.exe("",'.
-                      $o2form_obj->id_esecuzione.',"'.
-                      $o2form_obj->refresh_action.'");delete(o2jse.jxRefresh)\','.
-                      ($time_local * 1000)."); </script>\n";
+        // __________________________ Manage refresh timeout and browser window resize ___
+        if ($o2form_obj->attiva) {
+            if ($o2form_obj->refresh_exp) {
+                $time_local = false;
+                eval("\$time_local = ".$o2form_obj->refresh_exp.";");
+                if ($time_local) {
+                    print '<script> o2jse.jxRefresh=setTimeout(\'o2jse.cmd.exe("",'.
+                          $o2form_obj->id_esecuzione.',"'.
+                          $o2form_obj->refresh_action.'");delete(o2jse.jxRefresh)\','.
+                          ($time_local * 1000)."); </script>\n";
+                    }
+                }
+            if ($o2form_obj->maximized) {
+                print "<script>o2jse.maximizedWin=['".$o2form_obj->nome."','".
+                                                      $o2form_obj->id_esecuzione.
+                      "'];</script>\n";
                 }
             }
         print "<!-- win end -->\n";

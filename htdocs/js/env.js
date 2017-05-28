@@ -115,7 +115,9 @@ var o2jse = {
     exeTree         : [],          /* Executions chain: running programs and actions    */
     keyList         : [],          /* List of enabled control keys                      */
     reposWins       : [],          /* List of windows to be repositioned                */
-    waitingScripts  : 0            /* Scripts waiting to be evaluated                   */
+    waitingScripts  : 0,           /* Scripts waiting to be evaluated                   */
+    maximizedWin    : false,       /* Maximized active form name for browser win resize */
+    winResizing     : false        /* Resizing event on browser window                  */
 
     };
 
@@ -230,24 +232,11 @@ o2jse.init = function() {
                                                 },
                                             3000);
         }
-    // ___________________________________________________________ Windows positioning ___
+    // ________________________________________________ Windows positioning and sizing ___
     o2jse.reposAllWins();
     window.onresize = function() {
-
-                         o2jse.cli.width  = (window.innerWidth != null ?
-                                             window.innerWidth :
-                                             (document.documentElement &&
-                                              document.documentElement.clientWidth ?
-                                              document.documentElement.clientWidth :
-                                              o2jse.elBody.clientWidth));
-                         o2jse.cli.height = (window.innerHeight != null ?
-                                             window.innerHeight :
-                                             (document.documentElement &&
-                                              document.documentElement.clientHeight ?
-                                              document.documentElement.clientHeight :
-                                              o2jse.elBody.clientHeight));
-                         o2jse.reposAllWins();
-
+                         clearTimeout(o2jse.winResizing);
+                         o2jse.winResizing = setTimeout(o2jse.resizeBrowserWindow, 500);
                          };
     // _____________________________________________________________ Set time analysis ___
     if (o2jse.dev.timeAnalysis) {
@@ -276,6 +265,52 @@ o2jse.waitDocReady = function() {
         if (o2jse.docReady) {
             o2jse.docReady();
             o2jse.docReady = null;
+            }
+        }
+
+    };
+
+
+/**
+ * Manage resize events on browser window.
+ * Uses timeout to run only once at the end of resizing.
+ *
+ */
+o2jse.resizeBrowserWindow = function() {
+
+    if (o2jse.started) {
+        o2jse.cli.width  = (window.innerWidth != null ?
+                            window.innerWidth :
+                            (document.documentElement &&
+                             document.documentElement.clientWidth ?
+                             document.documentElement.clientWidth :
+                             o2jse.elBody.clientWidth));
+        o2jse.cli.height = (window.innerHeight != null ?
+                            window.innerHeight :
+                            (document.documentElement &&
+                             document.documentElement.clientHeight ?
+                             document.documentElement.clientHeight :
+                             o2jse.elBody.clientHeight));
+        o2jse.reposAllWins();
+        if (o2jse.maximizedWin) {
+
+
+            maxWin = document.getElementById(o2jse.maximizedWin[0] + '_' +
+                                             o2jse.maximizedWin[1]);
+
+            o2jse.ctrl.init(maxWin);
+            formInfo = maxWin.o2;
+            // ________________________________________________________ Refresh action ___
+            var refrAct = formInfo.r;
+            // Set <form>_jxcmd = '3' to remove 'maximized' flag on form (server-side) ___
+            var cmdField   = o2jse.infoForm[o2jse.maximizedWin[0] +
+                                            o2jse.maximizedWin[1] + "_jxcmd"];
+            cmdField.value = '4';
+            o2jse.infoForm['o2_modfields'].value+= cmdField.name + ";";
+            // ______________________________________________ Refresh action on resize ___
+            jxjs.refresh(formInfo, refrAct);
+
+
             }
         }
 
@@ -4730,6 +4765,9 @@ o2jse.win.maxRest = function(targetObj) {
     var winDiv   = document.getElementById(objInfo.f + "_" + objInfo.e);
     var cmdField = o2jse.infoForm[objInfo.f + objInfo.e + "_jxcmd"];
     o2jse.ctrl.init(winDiv);
+    if (winDiv.o2.max) {
+        o2jse.maximizedWin = false;
+        }
     // ______________________________ Conditions for max-rest are the same as for exit ___
     if (winDiv.o2.exit) {
         cmdField.value = "2";
