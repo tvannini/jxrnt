@@ -4544,19 +4544,19 @@ class o2_dbview extends o2_view {
                 }
             }
         if (count($update_arr) != 0) {
+            $prev_key = $this->chiave_corrente($this->file,
+                                               true,
+                                               false,
+                                               false,
+                                               true,
+                                               true,
+                                               true);
             // ___________________________________________________ Manage log by level ___
             if ($app->tables_log &&
                 (!isset($GLOBALS['jxlogsuspend']) ||
                  !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
                 ($this->file->log_level == "C" || $this->file->log_level == "M")) {
                 // ______________________ Skip multiple record changes for transaction ___
-                $prev_key = $this->chiave_corrente($this->file,
-                                                   true,
-                                                   false,
-                                                   false,
-                                                   true,
-                                                   true,
-                                                   true);
                 if (o2_gateway::use_key_once($db_type,
                                              $this->file->db->server->server,
                                              $this->file->db->server->user,
@@ -4586,11 +4586,7 @@ class o2_dbview extends o2_view {
                                              $this->file->write_name,
                                              $this->file->indice,
                                              $update_arr,
-                                             $this->chiave_corrente($this->file,
-                                                                    true,
-                                                                    false,
-                                                                    false,
-                                                                    true));
+                                             $prev_key);
             // ___________________________________________________ Manage log by level ___
             if ($app->tables_log &&
                 (!isset($GLOBALS['jxlogsuspend']) ||
@@ -4764,18 +4760,20 @@ class o2_dbview extends o2_view {
      */
     function cancella_corrente() {
 
-        $app = $_SESSION['o2_app'];
+        $app      = $_SESSION['o2_app'];
+        $prev_key = $this->chiave_corrente($this->file,
+                                           true,
+                                           false,
+                                           false,
+                                           true,
+                                           true,
+                                           true);
         // _______________________________________________________ Manage log by level ___
         if ($app->tables_log &&
             (!isset($GLOBALS['jxlogsuspend']) ||
              !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
             (strpos("DEM", $this->file->log_level) !== false)) {
-            $this->file->log_write_full("D", $this->chiave_corrente($this->file,
-                                                                    true,
-                                                                    false,
-                                                                    false,
-                                                                    true,
-                                                                    true));
+            $this->file->log_write_full("D", $prev_key);
             }
         $ret_val = o2_gateway::deleterec($this->file->db->server->type,
                                          $this->file->db->server->server,
@@ -4785,11 +4783,7 @@ class o2_dbview extends o2_view {
                                          $this->file->db->proprietario,
                                          $this->file->write_name,
                                          $this->file->indice,
-                                         $this->chiave_corrente($this->file,
-                                                                true,
-                                                                false,
-                                                                false,
-                                                                true));
+                                         $prev_key);
         // _______________________________________________________ Manage log by level ___
         if ($app->tables_log &&
             (!isset($GLOBALS['jxlogsuspend']) ||
