@@ -160,10 +160,16 @@
 
 .o2_form_exit:before {
     content: url(form/close.png);
+    position: absolute;
+    top: 4px;
+    -webkit-margin-before: -1px;
     }
 
 .o2_form_exit:hover:before {
     content: url(form/close_on.png);
+    position: absolute;
+    top: 4px;
+    -webkit-margin-before: -1px;
     }
 
 .o2_form_status {
