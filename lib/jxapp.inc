@@ -6679,6 +6679,8 @@ class o2_scheduler {
 
     /**
      * Returns list of scheduled tasks for the requested job
+     * NOTE: if session ASPID is set then only scheduled items for current ASPID are
+     *       returned (ASP blank, 'NOASP' or equal to ASPID).
      *
      * @param  integer $job_id
      * @return array

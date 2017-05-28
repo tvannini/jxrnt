@@ -1797,7 +1797,9 @@ function o2job_schedule($job_name,
 
 
 /**
- * Returns TRUE if job with passed name is scheduled, else FALSE
+ * Returns TRUE if job with passed name is scheduled, else FALSE.
+ * NOTE: if session ASPID is set then only scheduled items for current ASPID are
+ *       considered (ASP blank, 'NOASP' or equal to current ASPID).
  *
  * @package jobs
  * @param   string $job_name   Name to look for
