@@ -849,6 +849,7 @@ class o2html {
      */
     static function receive() {
 
+//o2log($_REQUEST, 1);
         $app          = $_SESSION['o2_app'];
         $posted_ctrls = array();
         $app->ritorno = false;
@@ -879,7 +880,7 @@ class o2html {
         if (is_array($prg_local->contesto)) {
             foreach ($prg_local->contesto as &$single_view) {
                 $sele_name = $single_view->nome."_vs".$prgexe_id;
-                if (isset($_REQUEST[$sele_name])) {
+                if ($_REQUEST[$sele_name]) {
                     $sele_value = $_REQUEST[$sele_name];
                     if ($single_view->selezione !== ($sele_value - 1)) {
                         if ($single_view->record_suffix()) {

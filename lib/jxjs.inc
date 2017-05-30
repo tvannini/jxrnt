@@ -195,7 +195,18 @@ class jxjs {
      */
     static function force_reload() {
 
-        $_SESSION['o2_app']->open_wins = array();
+        $app            = $_SESSION['o2_app'];
+        $app->open_wins = array();
+        $prgexe_id      = $app->progressivo_istanze;
+        $prg            = $app->istanze_prg[$prgexe_id];
+        if (is_array($prg->contesto)) {
+            foreach ($prg->contesto as $view) {
+                if (is_a($view, 'o2_dbview')) {
+                    $sele_name = $view->nome.'_vs'.$prgexe_id;
+                    print "o2jse.infoForm['".$sele_name."'].value=0;\n";
+                    }
+                }
+            }
         print "o2jse.infoForm['o2lastform'].value='';".
               "o2jse.infoForm['o2lastctrl'].value='';".
               "o2jse.infoForm['o2_action'].value='';".
