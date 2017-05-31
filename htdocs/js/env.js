@@ -166,8 +166,11 @@ o2jse.init = function() {
                         document.documentElement.clientHeight ?
                         document.documentElement.clientHeight :
                         o2jse.elBody.clientHeight));
-    o2jse.submitting = false;
-    o2jse.started    = true;
+    o2jse.infoForm['o2_action'].value   = '';
+    o2jse.infoForm['o2lastform'].value  = '';
+    o2jse.infoForm['o2lastctrl'].value  = '';
+    o2jse.submitting                    = false;
+    o2jse.started                       = true;
     // ________________________________________________________________ Init all stuff ___
     if (jxjs.respTimeOut) {
         clearTimeout(jxjs.respTimeOut);
