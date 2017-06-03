@@ -753,8 +753,8 @@ function o2_sqlite3_aggregate($server,
     if (substr($table, 0, 1) != "(") {
         $table = o2_sqlite3_o.$database.$table.o2_sqlite3_c;
         }
-    $query_local = "SELECT ".$functions_list.
-                   " FROM ".$table." AS ".o2_sqlite3_o.$table_alias.o2_sqlite3_c;
+    $query = "SELECT ".$functions_list.
+             " FROM ".$table." AS ".o2_sqlite3_o.$table_alias.o2_sqlite3_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
             // _________________________________ Insert database in table name, if any ___
@@ -765,10 +765,10 @@ function o2_sqlite3_aggregate($server,
             }
         }
     if ($where) {
-        $query_local.= " WHERE ".$where;
+        $query.= " WHERE ".$where;
         }
     try {
-        $res_local = o2_sqlite3_execute($query_local, $server, $user, $password, false);
+        $res_local = o2_sqlite3_execute($query, $server, $user, $password, false);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBAGGREGATE);
