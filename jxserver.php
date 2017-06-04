@@ -36,7 +36,7 @@
  *
  *
  * @name      jxserver.php
- * @package   janox/router.php
+ * @package   janox/jxserver.php
  * @version   2.3
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
