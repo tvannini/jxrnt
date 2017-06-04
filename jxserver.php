@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  *
- * JXServer script:
- * ==============
+ * JXServer script
+ * ===============
  *
  * This script works both as a service controller and as a router script.
  *
