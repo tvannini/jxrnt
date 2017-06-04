@@ -123,89 +123,72 @@ else {
     <head>
         <title>o2 :: dbadmin - Database Server Administration</title>
         <link rel='icon' href='img/o2.ico' type='image/ico'>
+        <link href="index/index.css" rel="stylesheet" type="text/css">
         <style type="text/css">
         <!--
+          * {
+            color: #606060;
+            font: normal 14px Gudea; line-height:1.8em;
+            }
           body {
-             color: #666666;
              background-color: #fefefe;
-             font: normal 16px Arial, sans-serif;
-             letter-spacing: 1px;
              margin: 0;
              }
-            .label {
-             color: #666666;
-             font: normal 0.78em/1.5em Arial, sans-serif;
-             letter-spacing: 1px;
-             padding-right: 1em;
-             padding-left: 1em;
-                }
-            .field {
-                color: #666666;
-             font: bold 0.78em Arial, sans-serif;
-                border: 1px solid #dddddd;
-                 width: 160px;
-             height: 1.5em;
+          .combo {
+             width: 250px;
+             }
+          .field {
+             border: 1px solid #dddddd;
+             width: 250px;
+             height: 20px;
              padding-left: 3px;
-                }
-            .field_area {
-                color: #414141;
-             font: normal 0.78em/1.5em "Courier New", mono;
-             border: 1px solid #dddddd;
-             padding: 0 5px 0 5px;
-                 width: 100%;
              }
-         .tab_list {
-             color: #666666;
-             font: normal 0.78em/1.5em Arial, sans-serif;
-             border: 1px solid #dddddd;
+          .area {
+             padding: 0 5px 0 5px;
              width: 100%;
-             padding: 0 5px 0 5px;
-                }
-            .result {
-             color: #414141;
-             font: normal 0.78em/1.2em "Courier New", mono;
-             letter-spacing: 0;
-             border: 1px solid #666666;
-                border-right: none;
-             padding: 0 5px 0 5px;
-                }
-            .count_col {
-             color: #993300;
-             font: normal 0.72em/1.2em "Courier New", mono;
-             letter-spacing: 0;
-             text-align: right;
-                 border-right: 1px solid #666666;
-                padding-right: 2px;
-             padding-top: 2px;
-                }
-            .res_col {
-                border-right: 1px solid #666666;
-             padding: 0 5px 0 5px;
-                white-space: nowrap;
-                }
-         .btn_app {
-             color: #666666;
-             background-color: #dddddd;
-             font: bold 0.78em/1.5em Arial, sans-serif;
-             letter-spacing: 1px;
-             border: 1px solid;
-             border-left-color: #eaeaea;
-             border-top-color: #eaeaea;
-             border-right-color: #b1b1b1;
-             border-bottom-color: #b1b1b1;
-             height: 1.5em;
+             height: 100%;
              }
-         .btn_app:hover {
+          .list {
+             width: 250px;
+             height: 100%;
+             padding: 0 5px 0 5px;
+             float: right;
+             }
+          .result {
+             color: #414141;
+             border: 1px solid #606060;
+             border-right: none;
+             padding: 0 5px 0 5px;
+             }
+          .space {
+             height: 5px;
+             line-height: 5px;
+             }
+          .count_col {
              color: #993300;
-             background-color: #dddddd;
-             font: bold 0.75em/1.5em Arial, sans-serif;
-             letter-spacing: 1px;
-             border: 1px solid;
-             border-left-color: #eaeaea;
-             border-top-color: #eaeaea;
-             border-right-color: #b1b1b1;
-             border-bottom-color: #b1b1b1;
-             height: 1.5em;
+             text-align: right;
+             border-right: 1px solid #606060;
+             padding-right: 2px;
+             padding-top: 2px;
+             }
+          .res_col {
+             border-right: 1px solid #606060;
+             padding: 0 5px 0 5px;
+             white-space: nowrap;
+             }
+          .btn_app {
+             width: 90px;
+             text-align: center;
+             background: #e0ddd9;
+             border: 1px solid #BDB5AE;
+             border-radius: 3px;
+             }
+          .btn_app:hover {
+             width: 90px;
+             text-align: center;
+             background: #D1C8C0;
+             border: 1px solid #BDB5AE;
+             border-radius: 3px;
              cursor: pointer;
              }
         -->
@@ -221,13 +204,12 @@ else {
         </script>
     </head>
     <body>
-     <br />
      <form method="POST" target="_self" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-      <table align="center" width="500px">
+      <table width="100%">
        <tr>
         <td class="label">Type:</td>
         <td>
-         <select name="o2dbadm_type" class="field">
+         <select name="o2dbadm_type" class="combo">
           <?php
             foreach ($present_gateways as $gateway_name => $gateway_selected) {
                 print "<option value='".$gateway_name."' ".
@@ -237,20 +219,10 @@ else {
           ?>
          </select>
         </td>
-        <td class="label">Tables list:</td>
-       </tr>
-       <tr>
-        <td class="label">Server:</td>
-        <td>
-         <INPUT type="text"
-                name="o2dbadm_server"
-                class="field"
-                value="<?php echo $o2db_server; ?>">
-         </td>
-        <td rowspan="5">
+        <td rowspan="6">
          <select name="o2dbadm_table"
                  size="10"
-                 class="tab_list"
+                 class="field list"
                  ondblclick="showTab(this);"
                  title="Double click on table to select from">
           <?php
@@ -262,6 +234,15 @@ else {
           ?>
          </select>
         </td>
+       </tr>
+       <tr>
+        <td class="label">Server:</td>
+        <td>
+         <INPUT type="text"
+                name="o2dbadm_server"
+                class="field"
+                value="<?php echo $o2db_server; ?>">
+         </td>
        </tr>
        <tr>
         <td class="label">User:</td>
@@ -296,13 +277,16 @@ else {
                 value="<?php echo $o2db_owner; ?>">
         </td>
        </tr>
+       <tr><td class="space">&nbsp;</td></tr>
        <tr>
         <td colspan="3" height="100%">
-         <textarea name="o2dbadm_command" rows="4" class="field_area"><?php
+         <textarea name="o2dbadm_command" rows="4" class="field area"
+                 placeholder='Type a query here or press "Execute" to get tables list'><?php
           print $o2db_query;
          ?></textarea>
         </td>
        </tr>
+       <tr><td class="space">&nbsp;</td></tr>
        <tr>
         <td colspan="2" valign="top" class="label">Result:</td>
         <td align="right">

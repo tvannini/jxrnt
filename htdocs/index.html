@@ -1,171 +1,175 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
-<head>
- <meta http-equiv='Content-Type' content='text/html; charset=windows-1252'>
- <meta name='description' content='Janox'>
- <meta name='GENERATOR' content='Janox - www.janox.it'>
- <title>Janox :: full cross-tech development suite</title>
- <link rel='icon' href='index/janox.ico' type='image/ico'>
- <link rel="stylesheet" type="text/css" href="index/index.css">
- <script>
-  function set_page(pageName) {
-   switch(pageName) {
-    case "app":
-     loadUrl = "login.html";
-     descTxt = "applications";
-     break;
-    case "phpinfo":
-     loadUrl = "phpinfo.php";
-     descTxt = "php informations";
-     break;
-    case "phpman":
-     loadUrl = "http://www.php.net/manual/en/funcref.php";
-     descTxt = "php online manual";
-     break;
-    case "jxconf":
-     loadUrl = "jxconf.php";
-     descTxt = "Janox configuration";
-     break;
-    case "jxinfo":
-     loadUrl = "jxinfo.php";
-     descTxt = "Janox informations";
-     break;
-    case "relnotes":
-     loadUrl = "notes.php";
-     descTxt = "release notes";
-     break;
-    case "funcref":
-     loadUrl = "doc/index.html";
-     descTxt = "functions reference";
-     break;
-    case "dbadmin":
-     loadUrl = "dbadmin.php";
-     descTxt = "database manager";
-     break;
-    case "download":
-     loadUrl = "http://www.janox.it/download.html";
-     descTxt = "Download Janox stable versions";
-     break;
-    default:
-     loadUrl = "about:blank";
-     descTxt = "home";
-     break;
+ <head>
+  <title>Janox - The full cross-tech development suite</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name='description' content='Janox'>
+  <meta name='GENERATOR' content='Janox - www.janox.it'>
+  <link rel='shortcut icon' type='image/x-icon' href='img/janox.ico'>
+  <link href="index/index.css" rel="stylesheet" type="text/css">
+  <script>
+    function set_page(pageName) {
+     title = false;
+     switch(pageName) {
+      case "app":
+       loadUrl = "login.html";
+       descTxt = "applications";
+       menuId = 'app';
+       title  = 'Applications';
+       break;
+      case "phpinfo":
+       loadUrl = "phpinfo.php";
+       descTxt = "php informations";
+       menuId = 'php';
+       title  = 'PHP';
+       break;
+      case "phpman":
+       loadUrl = "http://www.php.net/manual/en/funcref.php";
+       descTxt = "php online manual";
+       break;
+      case "jxconf":
+       loadUrl = "jxconf.php";
+       descTxt = "Janox configuration";
+       break;
+      case "jxinfo":
+       loadUrl = "jxinfo.php";
+       descTxt = "Janox informations";
+       menuId = 'rnt';
+       title  = 'Janox runtime';
+       break;
+      case "dbadmin":
+       loadUrl = "dbadmin.php";
+       descTxt = "database manager";
+       menuId = 'db';
+       title  = 'Database manager';
+       break;
+      case "download":
+       loadUrl = "http://www.janox.it/download.html";
+       descTxt = "Download Janox stable versions";
+       break;
+      default:
+       loadUrl = "about:blank";
+       descTxt = "home";
+       break;
+       }
+      document.getElementById("main_area").src = loadUrl;
+      document.getElementById("site_path").innerHTML = location.host + " | " +
+                                                       descTxt;
+      menuItems = document.getElementsByClassName('active');
+      for (i = menuItems.length - 1; i >= 0; i--) {
+          menuItems[i].className = "";
+          }
+      document.getElementById(menuId).className = "active";
+      if (title) {
+        document.getElementById('title').innerHTML = title;
+        }
+      return void(0);
+      }
+
+    function load_app(appName, appAlias, jxuser, jxpassword, jxdev, jxkey, jxtrace) {
+     var csW = (window.innerWidth != null ?
+                window.innerWidth :
+                document.documentElement.clientWidth);
+     var csH = (window.innerHeight != null ?
+                window.innerHeight :
+                document.documentElement.clientHeight);
+     document.body.innerHTML += "<form name='jxloginfrm' method='POST' action='/" +
+                                appAlias + "/" + appName + ".php'>" +
+                                "<input type='hidden' name='user' value='" + jxuser + "'>" +
+                                "<input type='hidden' name='password' value='" + jxpassword + "'>" +
+                                "<input type='hidden' name='dev' value='" + jxdev + "'>" +
+                                "<input type='hidden' name='key' value='" + jxkey + "'>" +
+                                "<input type='hidden' name='jxtrace' value='" + jxtrace + "'>" +
+                                "<input type='hidden' name='jxcsw' value='" + csW + "'>" +
+                                "<input type='hidden' name='jxcsh' value='" + csH + "'>" +
+                                "</form>";
+     document.forms["jxloginfrm"].submit();
+     /* --- Login in GET ---
+     this.location.href = "/" + appAlias + "/" + appName + ".php?user=" + jxuser +
+                          "&password=" + jxpassword + "&dev=" + jxdev + "&key=" + jxkey;
+     */
      }
-    document.getElementById("main_area").src = loadUrl;
-    document.getElementById("site_path").innerHTML = "[ " + location.host + " ][ " +
-                                                     descTxt + " ]";
-    return void(0);
-    }
 
-  function load_app(appName, appAlias, jxuser, jxpassword, jxdev, jxkey, jxtrace) {
-   var csW = (window.innerWidth != null ?
-              window.innerWidth :
-              document.documentElement.clientWidth);
-   var csH = (window.innerHeight != null ?
-              window.innerHeight :
-              document.documentElement.clientHeight);
-   document.body.innerHTML += "<form name='jxloginfrm' method='POST' action='/" +
-                              appAlias + "/" + appName + ".php'>" +
-                              "<input type='hidden' name='user' value='" + jxuser + "'>" +
-                              "<input type='hidden' name='password' value='" + jxpassword + "'>" +
-                              "<input type='hidden' name='dev' value='" + jxdev + "'>" +
-                              "<input type='hidden' name='key' value='" + jxkey + "'>" +
-                              "<input type='hidden' name='jxtrace' value='" + jxtrace + "'>" +
-                              "<input type='hidden' name='jxcsw' value='" + csW + "'>" +
-                              "<input type='hidden' name='jxcsh' value='" + csH + "'>" +
-                              "</form>";
-   document.forms["jxloginfrm"].submit();
-   /* --- Login in GET ---
-   this.location.href = "/" + appAlias + "/" + appName + ".php?user=" + jxuser +
-                        "&password=" + jxpassword + "&dev=" + jxdev + "&key=" + jxkey;
-   */
-   }
+    function setHost() {
+     document.getElementById("site_path").innerHTML = location.host + ' | applications';
+     }
+   </script>
+ </head>
+ <body onload="setHost()">
+  <div class="main">
+    <div class="main_resize">
+      <!-- HADER -->
+      <div class="header">
+        <div class="logo"><a href="http://www.janox.it"><img src="index/logo.gif" border="0" alt=""></a></div>
+        <div class="update" id="site_path"></div>
+        <div class="clr"></div>
+        <div class="menu">
+          <ul>
+            <li><a id="app" href="javascript:set_page('app')" class="active"><span>Applications</span></a></li>
+            <li><a id="rnt" href="javascript:set_page('jxinfo')" class=""><span>Runtime</span></a></li>
+            <li><a id="php" href="javascript:set_page('phpinfo')" class=""><span>PHP</span></a></li>
+            <li><a id="db" href="javascript:set_page('dbadmin')" class=""><span>Databases</span></a></li>
+          </ul>
+        </div>
+        <div class="click">
+          <p><a href="mailto:info@janox.it">Info@janox.it</a></p>
+        </div>
+        <div class="clr"></div>
+      </div>
+      <div class="band">&nbsp;</div>
+      <!--                    MARGIN TOP: needed                     -->
+      <div class="margin_top"></div>
 
-  function setHost() {
-   document.getElementById("site_path").innerHTML = "[ " + location.host +
-                                                    " ][ applications ]";
-   }
- </script>
-</head>
-<body style="overflow-x:hidden" onload="setHost()">
- <table cellspacing="0" cellpadding="0" style="width:100%;height:100%">
-  <tr>
-   <td colspan="2" style="height:1%">
-    <table class="jxheader" cellspacing="0" cellpadding="0">
-     <tr>
-      <td rowspan="2">
-       <img class="jxlogo" src="index/janox.png" style="width:450px;height:100px">
-      </td>
-      <td id="site_path" align="right">
-       [ local ][ applications ]
-      </td>
-     </tr>
-    </table>
-   </td>
-  </tr>
-  <tr>
-   <td valign="top" style="padding:2em 2em 2em 0;width:1%">
-    <div class="nav_menu">
-     <!-- ............................. Functions .................................... -->
-     <div class="mtitle">Functions</div>
-     <a class="mi" href="javascript:set_page('app')"
-        title="Start Janox applications">Applications</a><br>
-     <a class="mi" href="javascript:set_page('dbadmin')"
-        title="Manage databases and execute queries">Database tool</a><br>
-    </div><br>
-    <div class="nav_menu">
-     <!-- .............................. Runtime ..................................... -->
-     <div class="mtitle">Janox runtime</div>
-     <a class="mi" href="javascript:set_page('jxconf')"
-        title="Show Janox runtime configuration">Configuration</a><br>
-     <a class="mi" href="javascript:set_page('jxinfo')"
-        title="Show Janox runtime parameters and modules">Informations</a><br>
-     <a class="mi" href="javascript:set_page('relnotes')"
-        title="Show release-notes text">Release notes</a><br>
-     <a class="mi" href="javascript:set_page('funcref')"
-        title="Show Janox functions documentation and syntax">Functions ref</a><br>
-     <a class="mi" href="http://www.janox.it/download.html"
-        title="Download Janox">Download</a><br>
-    </div><br>
-    <div class="nav_menu">
-     <!-- ................................ PHP ....................................... -->
-     <div class="mtitle">PHP</div>
-     <a class="mi" href="javascript:set_page('phpinfo')"
-        title="Show PHP settings">Informations</a><br>
-     <a class="mi" href="javascript:set_page('phpman')"
-        title="Show PHP online manual">Online manual</a><br>
-    </div><br>
-    <div class="nav_menu">
-     <!-- ............................. Community .................................... -->
-     <div class="mtitle">Community</div>
-     <a class="mi" href="http://www.janox.it/community.html"
-        title="Janox site">Janox.it
-     </a><br>
-     <a class="mi" href="http://www.janox.it/support.html"
-        title="Bugs reporting and support requests">Support &amp; bugs
-     </a><br>
-     <a class="mi" href="http://www.janox.it/contact.html" title="Our links">Contact us</a>
-     <br>
-    </div>
-   </td>
-   <!-- ................................. Page ....................................... -->
-   <td style="vertical-align:top;width:100%;height:100%;padding-left:20px;">
-    <iframe frameborder="0" id="main_area" src="login.html" style="width:100%;height:95%">
-    </iframe>
-   </td>
-  </tr>
-  <tr>
-   <td> &nbsp; </td>
-   <td colspan="2">
-    <hr>
-    <div style="text-align:right">
-     Janox is distributed under the terms of the <a style="letter-spacing:0;"
-     href="http://www.gnu.org/licenses/lgpl-3.0.txt">GNU Lesser General Public License (LGPL)</a>
-     &nbsp; &nbsp;
-    </div>
-   </td>
-  </tr>
- </table>
-</body>
+      <!--            Top content (Main view or page title)          -->
+
+      <h3 id="title">Applications</h3>
+
+      <!--                     Bottom content                        -->
+
+      <!--                  Bottom LEFT content                      -->
+      <div class="main_left">
+              <!-- Documentazione -->
+        <h2><img src="index/bullet_doc.png" class="floated">Documentation<br />
+          <span>Resources | <a href="http://www.janox.it/doc.html">Page</a></span></h2>
+        <h2>&nbsp;</h2>
+
+        <!-- COMMUNITY -->
+        <h2><img src="index/bullet_support.png" class="floated">Community<br>
+          <span>Resources | <a href="http://www.janox.it/community.html">Page</a></span></h2>
+
+        <p><strong>Google groups:</strong><br></p>
+          <p><span>Public | <a href="https://groups.google.com/forum/#!forum/jxsupport" target="_blank">Support</a></span><br>
+          Public support channel: post here your requests and our community will answer fast.</p>
+          <p><span>Private | <a href="https://groups.google.com/forum/#!forum/jxdev" target="_blank">Development</a></span><br>
+          Analysis, consulting and development channel: it's reserved to Janox community.</p>
+
+        <h2>&nbsp;</h2>
+      </div>
+      <!--                  Bottom RIGHT content                     -->
+      <div class="main_right">
+
+        <iframe frameborder="0" id="main_area" src="login.html" style="width:100%;height:95%">
+        </iframe>
+
+
+      </div>
+
+      <div class="clr"></div>
+      <p></p>
+      <p></p>
+      <p></p>
+     </div><!-- Close main-resize -->
+
+     <!--                              Footer                        -->
+
+     <div class="footer">
+       <div class="footer_resize">
+         <p class="leftt">© Copyright www.janox.it &nbsp; &nbsp; &nbsp; <a href="http://www.janox.it">Home</a> | <a href="contact.html">Contact</a> | <a href="#">RSS</a></p>
+         <p class="right">Janox is distributed under the terms of the <a href="http://www.gnu.org/licenses/lgpl-3.0.txt">GNU Lesser General Public License (LGPL)</a></p>
+         <div class="clr"></div>
+       </div>
+       <div class="clr"></div>
+     </div>
+   </div><!-- Close main -->
+ </body>
 </html>
-
