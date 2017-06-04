@@ -75,6 +75,22 @@ $jxrnt_path = __DIR__.'/jxrnt/';
 $apps = ['jxdemo' => __DIR__.'/demo/htdocs/'];
 
 
+/**
+ * Default port is 8333, but if you want to listen on a different port just set $port
+ * variable value.
+ *
+ * Server will respond on http://localhost:<port>.
+ *
+ * @var integer $port   HTTP port to listen on
+ */
+$port = 8333;
+
+// ____________________________________ Set down error reporting to avoid braking HTML ___
+error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+ini_set('display_errors', false);
+ini_set('log_errors', true);
+
+
 // _____________________________________________________________ Include Janox runtime ___
 $o2_runtime = $jxrnt_path.'jxrnt.php';
 include_once $o2_runtime;
@@ -155,6 +171,7 @@ else {
         foreach ($list as $pid => $exe_name) {
             if (!strpos($exe_name, 'fpm') && $pid != getmypid()) {
                 $rnt_obj->kill($pid);
+                print "Janox Mini WEB Server stopped.\n";
                 break;
                 }
             }
@@ -170,8 +187,8 @@ else {
                 }
             }
         if ($running) {
-            print "Janox Mini WEB Server is running with PID ".$running.
-                  " and serving applications:\n";
+            print "Janox Mini WEB Server is running.\nWith PID ".$running.
+                  "\nListening on http://localhost:".$port."\nServing applications:\n";
             foreach ($apps as $app_name => $app_dir) {
                 print ' '.$app_name.' '.(str_repeat('.', 20 - strlen($app_name))).
                       ' from '.$app_dir."\n";
@@ -183,7 +200,7 @@ else {
         }
     // __________________________________________________________________ Start server ___
     else {
-        $cmd = 'php -S localhost:8333 '.__FILE__;
+        $cmd = 'php -S localhost:'.$port.' '.__FILE__;
         $rnt_obj->batch_exec($cmd);
         // __________________________________________________________ Check if started ___
         $list    = $rnt_obj->proc_list(true);
@@ -196,8 +213,8 @@ else {
             }
         //____________________________________________________________________ Started ___
         if ($running) {
-            print "Janox Mini WEB Server started with PID ".$running.
-                  " serving applications:\n";
+            print "Janox Mini WEB Server started.\nWith PID ".$running.
+                  "\nListening on http://localhost:".$port."\nServing applications:\n";
             foreach ($apps as $app_name => $app_dir) {
                 print ' '.$app_name.' '.(str_repeat('.', 20 - strlen($app_name))).
                       ' from '.$app_dir."\n";
