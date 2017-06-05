@@ -1816,7 +1816,7 @@ class o2_file {
      * @var o2_chiave
      */
     public $chiave       = "";      /* Oggetto o2_chiave chiave primaria della tabella  */
-    public $pk_segments  = array(); /* List of PKey segments <logic_name> => <phys_name>*/
+    public $pk_segments  = array(); /* List of PKey segments <phys_name> => <logic_name>*/
     public $batch_chunk  = 1024;    /* Chunk of records to retrieve when looping on file*/
     public $log_level    = false;   /* Active log level: [R]ecord[D]elete[I]nsert[B]oth */
     public $record_trace = false;   /* Active trace fields: cu, cd, ct, uu, ud, ut      */
@@ -5541,7 +5541,7 @@ class o2def {
                 $campo->name = $field_name;
                 $direzione   = func_get_arg($i + 1);
                 $segmenti[]  = new o2_segmento_indice($campo, $direzione);
-                $pk_segments[$campo->nome_fisico] = $direzione;
+                $pk_segments[$campo->nome_fisico] = $field_name;
                 }
             }
         $tab_local->chiavi[$con_nome] = new o2_chiave($con_nome, $segmenti);

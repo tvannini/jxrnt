@@ -1531,7 +1531,8 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Add, for each table in view, fields needed by used key
+     * Add, for each table in view, fields needed by used key and ansures presence of pkey
+     * segments
      *
      */
     function add_key_fields() {
@@ -1550,6 +1551,7 @@ class o2_dbview extends o2_view {
                         }
                     }
                 }
+            $pk_segms = $single_file->pk_segments;
             $used_key = $single_file->chiavi[$this->chiavi_in_uso[$file_name]];
             foreach ($used_key->segmenti as &$single_seg) {
                 $fieldname     = strtoupper($single_seg->campo->phys_name);
@@ -1558,6 +1560,10 @@ class o2_dbview extends o2_view {
                 foreach ($this->campi as &$single_field) {
                     if ($single_field->file == $file_name &&
                         strtoupper($single_field->phys_name) == $fieldname) {
+                        $phys_name = $single_field->nome_fisico;
+                        if (isset($pk_segms[$phys_name])) {
+                            unset($pk_segms[$phys_name]);
+                            }
                         $field_present = true;
                         break;
                         }
@@ -1570,6 +1576,24 @@ class o2_dbview extends o2_view {
                                                                     null,
                                                                     null,
                                                                     null);
+                    if (isset($pk_segms[$single_seg->campo->nome_fisico])) {
+                        unset($pk_segms[$single_seg->campo->nome_fisico]);
+                        }
+                    }
+                }
+            // _ Main file used key is not primary key: check if missing pkey segments ___
+            if ($file_name == $this->file->indice &&
+                $used_key->nome != $single_file->chiave->nome &&
+                count($pk_segms)) {
+                foreach ($pk_segms as $seg_field) {
+                    $seg_name = $seg_field.'_JXKF';
+                    $this->campi[$seg_name] = new o2_campo_task($seg_name,
+                                                                $file_name,
+                                                      $single_file->campi[$seg_field],
+                                                                null,
+                                                                null,
+                                                                null,
+                                                                null);
                     }
                 }
             }
@@ -2632,8 +2656,6 @@ class o2_dbview extends o2_view {
         else {
             $new_where = $this->wheres[$file_in_esame];
             }
-
-
         // ______________________________________________________________ Handle ASPID ___
         if ($file_in_esame != $this->file->indice &&
             $this->files[$file_in_esame]->asp == 'C' &&
