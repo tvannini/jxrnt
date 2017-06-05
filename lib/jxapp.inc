@@ -85,6 +85,7 @@ class o2_app {
     public $password           = '';        /* Logged user password                     */
     public $ldap_server        = false;     /* LDAP authority server for user validation*/
     public $ldap_search_domain = false;     /* LDAP search domain for user validation   */
+    public $ldap_base_dn       = false;     /* LDAP base DN for user validation         */
     public $timeout            = 10;        /* Session timeout (in minutes)             */
     public $keep_alive         = true;      /* Set auto-refresh to keep session alive   */
     public $user_roles         = array();   /* List of roles for logged user            */
@@ -1196,6 +1197,9 @@ class o2_app {
             }
         if (isset($conf['ldap_search_domain'])) {
             $this->ldap_search_domain = $conf['ldap_search_domain'];
+            }
+        if (isset($conf['ldap_base_dn'])) {
+            $this->ldap_base_dn = $conf['ldap_base_dn'];
             }
         if (isset($conf['encoding'])) {
             $this->chr_encoding = $conf['encoding'];

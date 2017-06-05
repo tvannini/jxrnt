@@ -22,10 +22,10 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 	$form_o2sys_iniconf_1->y(80);
 	$form_o2sys_iniconf_1->larghezza(650);
 	$form_o2sys_iniconf_1->altezza(586);
-	$form_o2sys_iniconf_1->titolo("Application configuration");
-	$form_o2sys_iniconf_1->css_doc("sys_options_doc");
 	$form_o2sys_iniconf_1->align_o("Center");
+	$form_o2sys_iniconf_1->titolo("Application configuration");
 	$form_o2sys_iniconf_1->frm_status(o2sys_iniconf_exp_9999());
+	$form_o2sys_iniconf_1->css_doc("sys_options_doc");
 	$ctrl_o2label5 = &$form_o2sys_iniconf_1->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(320);
 		$ctrl_o2label5->y(70);
@@ -177,8 +177,8 @@ function o2sys_iniconf§§o2sys_iniconf_2_form_def(&$form_o2sys_iniconf_2) {
 	$form_o2sys_iniconf_2->y(172);
 	$form_o2sys_iniconf_2->larghezza(482);
 	$form_o2sys_iniconf_2->altezza(330);
-	$form_o2sys_iniconf_2->titolo("Save as");
 	$form_o2sys_iniconf_2->align_o("Center");
+	$form_o2sys_iniconf_2->titolo("Save as");
 	$form_o2sys_iniconf_2->frm_status(o2sys_iniconf_exp_9999());
 	$ctrl_o2label18 = &$form_o2sys_iniconf_2->ctrldef("o2label18", "label", "", "", "");
 		$ctrl_o2label18->x(270);
@@ -818,6 +818,17 @@ $list = array(
                                            "Leave it blank to use LDAP_SERVER domain or set it to the LDAP ".
                                            "search domain name, in the form &lt;domain&gt;[.&lt;ext&gt;]",
                                  "default" => ""),
+   "ldap_base_dn" => array("rntval" => null,
+                           "appval" => null,
+                           "desc" => "   *** LDAP base DN string ***\n\n".
+                                     "When this parameter is set it used as search base DN string ".
+                                     "for registered users.\n".
+                                     "If you leave it blank default base DN string will be used ".
+                                     "(CN=Users, DC=[domain], OU=Users, OU=People, DC=[domain]).\n\n".
+                                     "See LDAP_SERVER parameter for further informations.\n\n".
+                                     "Leave it blank to use LDAP base DN default string or set it ".
+                                     "to your custom search string",
+                           "default" => ""),
    "timeout" => array("rntval" => null,
                       "appval" => null,
                       "desc" => "   *** Sessions time-out ***\n\n".
@@ -1194,6 +1205,7 @@ function o2sys_iniconf_exp_34() {
               "validate",
               "ldap_server",
               "ldap_search_domain",
+              "ldap_base_dn",
               "timeout",
               "allow_history",
               "keepalive",

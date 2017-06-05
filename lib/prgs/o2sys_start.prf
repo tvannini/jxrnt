@@ -587,9 +587,14 @@ else {
       }
    /* _____________________________________________ Bind to connection OK ___ */
    elseif ($bind) {
-      $base_dn = array("CN=Users,DC=".join(',DC=', explode('.', $domain)),
-                       "OU=Users,OU=People,DC=".join(',DC=', 
-                                                     explode('.', $domain)));
+      if ($app->ldap_base_dn) {
+         $base_dn = $app->ldap_base_dn;
+         }
+      else {
+         $base_dn = array("CN=Users,DC=".join(',DC=', explode('.', $domain)),
+                          "OU=Users,OU=People,DC=".join(',DC=', 
+                                                        explode('.', $domain)));
+         }
       /* ___________________________________________ Execute LDAP request ___ */
       $result  = ldap_search(array($conn, $conn), $base_dn, "(cn=*)");
       /* __________________________________________________ Request error ___ */
