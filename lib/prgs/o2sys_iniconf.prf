@@ -1293,8 +1293,8 @@ return (true);
 function o2sys_iniconf_exp_42() {
 	$launcher = file_get_contents(o2rnt_root()."/htdocs/jxapp.php");
 if (o2val('prg§_§var','include_runtime')) {
-   $php_exe  = addslashes($GLOBALS['o2_runtime']->rnt_script);
-   $launcher = str_replace('$jxrnt = "";', '$jxrnt = "'.$php_exe.'";', $launcher);
+   $jxrnt    = addslashes($GLOBALS['o2_runtime']->rnt_script);
+   $launcher = str_replace('$jxrnt = "";', '$jxrnt = "'.$jxrnt.'";', $launcher);
    }
 file_put_contents(o2app_dir_htdocs().o2val('prg§_§var','file_name').".php",
                   $launcher);
