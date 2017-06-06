@@ -297,6 +297,10 @@ class o2_app {
         // _________________________________________ Link to Janox runtime environment ___
         $this->runtime = $GLOBALS['o2_runtime'];
         $this->versione($versione);
+        // ____________________________________________________________ PHP executable ___
+        if (!$this->runtime->php_engine || !file_exists($this->runtime->php_engine)) {
+            $this->runtime->find_php_exe();
+            }
         // _______________________________________________________________ Development ___
         if ($this->runtime->developer) {
             $this->developer = $this->runtime->developer;

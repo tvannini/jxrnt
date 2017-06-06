@@ -6129,6 +6129,39 @@ endofjxmsg;
         }
 
 
+    function find_php_exe() {
+
+        if ($this->mswin) {
+            $php_exe = 'php.exe';
+            }
+        else {
+            $php_exe = 'php';
+            }
+        $found = false;
+        // ______________________________________________________ Found PHP_BINDIR ___
+        if (PHP_BINDIR) {
+            if (file_exists(PHP_BINDIR.DIRECTORY_SEPARATOR.$php_exe)) {
+                $php_exe = PHP_BINDIR.DIRECTORY_SEPARATOR.$php_exe;
+                $found   = true;
+                }
+            }
+        if (!$found && ($dir = ini_get('extension_dir'))) {
+            if (file_exists($dir.DIRECTORY_SEPARATOR.$php_exe)) {
+                $php_exe = $dir.DIRECTORY_SEPARATOR.$php_exe;
+                $found   = true;
+                }
+            }
+        if (!$found && ($dir = php_ini_loaded_file())) {
+            if (file_exists(dirname($dir).DIRECTORY_SEPARATOR.$php_exe)) {
+                $php_exe = dirname($dir).DIRECTORY_SEPARATOR.$php_exe;
+                $found   = true;
+                }
+            }
+        $this->php_engine = ($found ? $php_exe : false);
+
+        }
+
+
     function load_gateway($type = 'sqlite3') {
 
         if ($type) {

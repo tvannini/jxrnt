@@ -162,9 +162,20 @@ if (php_sapi_name() == 'cli-server') {
  *
  */
 else {
-    $rnt_obj      = $GLOBALS['o2_runtime'];
-    $php_exe_path = PHP_BINDIR;
-    $word         = strtolower(trim($_SERVER['argv'][1]));
+    $rnt_obj = $GLOBALS['o2_runtime'];
+    if (!$rnt_obj->php_engine || !file_exists($rnt_obj->php_engine)) {
+        $rnt_obj->find_php_exe();
+        }
+    if ($rnt_obj->php_engine) {
+        $php_exe_path = $rnt_obj->php_engine;
+        }
+    else {
+        print "Sorry, can't find a suitable PHP executable to run Janox Mini WEB ".
+              "Server.\n".
+              "Please set PHP executable in <janox>/jxrnt/janox.ini configuration file.";
+        die();
+        }
+    $word = strtolower(trim($_SERVER['argv'][1]));
     // ___________________________________________________________________ Stop server ___
     if ($word == 'stop') {
         $list = $rnt_obj->proc_list(true);
@@ -200,7 +211,7 @@ else {
         }
     // __________________________________________________________________ Start server ___
     else {
-        $cmd = 'php -S localhost:'.$port.' '.__FILE__;
+        $cmd = $php_exe_path.' -S localhost:'.$port.' '.__FILE__;
         $rnt_obj->batch_exec($cmd);
         // __________________________________________________________ Check if started ___
         $list    = $rnt_obj->proc_list(true);
