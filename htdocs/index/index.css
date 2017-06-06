@@ -85,3 +85,4 @@ li.bg, .bg {  clear:both; border-top:1px dotted #dfdfdf;}
 .btn-right { float:right; cursor:pointer; font:normal 14px Gudea; color:#606060; }
 .led { display:inline-block; width:8px; height:8px; border:1px solid #666; border-radius:50%; background-color:transparent; cursor:pointer; }
 .on { background-color:#bbb; cursor:default;}
+.copyright { font-family:monospace; display:inline-block; vertical-align:sub; font-size:16px; }
