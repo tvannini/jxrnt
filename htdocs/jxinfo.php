@@ -2,18 +2,17 @@
 <html>
 	<head>
 		<title>Janox :: info - Runtime details</title>
+        <link href="index/index.css" rel="stylesheet" type="text/css">
         <style type="text/css">
         <!--
-        @font-face {
-            font-family: 'Gudea';
-            font-style: normal;
-            font-weight: 400;
-            src: local('Gudea'), url(css/fonts/gudea.woff) format('woff');
-            }
-        * { font-family: "Gudea", sans-serif; color: #000000; font-size: 14px; box-sizing: border-box; }
+        * { font-family: "Gudea", sans-serif; color: #606060; font-size: 14px; box-sizing: border-box; }
         body {
-         color: #666666;
+         background-color: #fefefe;
          margin: 0;
+         }
+        .main_resize {
+         border: none;
+         max-width: 100%;
          }
         .label {
          color: #666666;
@@ -29,7 +28,7 @@
          -->
         </style>
 </head>
-<body>
+<body class="main_resize">
 <br />
 <?php
     include(dirname(__FILE__)."/../jxrnt.php");
@@ -52,17 +51,17 @@
 	<table align="center">
 
 <?php
-    o2info_item("version",
+    o2info_item("Version",
                 $GLOBALS['o2_runtime']->release());
-    o2info_item("root",
+    o2info_item("Root",
                 $GLOBALS['o2_runtime']->root->nome_completo);
-    o2info_item("web root",
+    o2info_item("WEB root",
                 $GLOBALS['o2_runtime']->alias);
-    o2info_item("php executable",
+    o2info_item("PHP executable",
                 $GLOBALS['o2_runtime']->php_engine);
-    o2info_item("multisession",
+    o2info_item("Multisession",
                ($GLOBALS['o2_runtime']->multisession ? "On" : "Off"));
-    o2info_item("default data chunk",
+    o2info_item("Default data chunk",
                 number_format($GLOBALS['o2_runtime']->def_datachunk, 0, "", ".").
                 " bytes");
     $dbms_list        = "";
@@ -74,8 +73,7 @@
 		  $dbms_list.= substr($fs_element->nome, 5)."<br>";
 		  }
 	   }
-    o2info_item("dbms", $dbms_list);
-    o2info_item("services", $services_list);
+    o2info_item("Dbms", $dbms_list);
 ?>
 
 	</table>

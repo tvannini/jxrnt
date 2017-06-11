@@ -126,13 +126,14 @@ else {
         <link href="index/index.css" rel="stylesheet" type="text/css">
         <style type="text/css">
         <!--
-          * {
-            color: #606060;
-            font: normal 14px Gudea; line-height:1.8em;
-            }
+          * { font-family: "Gudea", sans-serif; color: #606060; font-size: 14px; box-sizing: border-box; }
           body {
              background-color: #fefefe;
              margin: 0;
+             }
+          .main_resize {
+             border: none;
+             max-width: 100%;
              }
           .combo {
              width: 250px;
@@ -203,7 +204,7 @@ else {
 
         </script>
     </head>
-    <body>
+    <body class="main_resize">
      <form method="POST" target="_self" action="<?php echo $_SERVER['PHP_SELF']; ?>">
       <table width="100%">
        <tr>
