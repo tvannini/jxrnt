@@ -5598,7 +5598,7 @@ class o2_ctrl_progress extends o2_ctrl {
         $prg     = $app->istanze_prg[$app->progressivo_istanze];
         $code    = "";
         $list    = array();
-        $stop    = false;
+        $stop    = true;
         $act     = false;
         $act_id  = "";
         $callers = array();
@@ -5690,15 +5690,15 @@ class o2_ctrl_progress extends o2_ctrl {
                 unset($view);
                 }
             }
+        if ($stop) {
+            $code.= "o2jse.progress.stop();\n";
+            }
+        // _________________________________ If $act is sent posticipate progress-stop ___
         if ($act) {
-            $code = "o2jse.progress.stop();\n".
-                    "o2jse.cmd.exe(null,".
+            $code = "o2jse.cmd.exe(null,".
                                    $app->progressivo_istanze.",'".
                                    $act."','".
                                    $act_id."')\n";
-            }
-        elseif ($stop) {
-            $code.= "o2jse.progress.stop();\n";
             }
         print $code;
         die();
