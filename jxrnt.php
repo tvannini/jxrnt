@@ -38,30 +38,35 @@
  * @global string $jxrel
  */
 $jxrel = "2.3.00";
+
 /**
  * Janox built date string
  *
  * @global string $jxbuilt
  */
-$jxbuilt = "20170606";
+$jxbuilt = "20170612";
+
 /**
  * Start execution time
  *
- * @global boolean $jxtime
+ * @global float $jxtime
  */
 $jxtime = microtime(true);
+
 /**
  * Script directly passed to PHP engine
  *
  * @global string $jxsrcname
  */
 $jxsrcname = basename($_SERVER['argv'][0]);
+
 /**
  * If runtime script is called directly from command-line.
  *
  * @global boolean $jxdirect
  */
 $jxdirect = ($_SERVER['argc'] > 0 && $jxsrcname == basename(__FILE__));
+
 // _____________________________________________________ Janox runtime for application ___
 include_once 'lib/jxapp.inc';
 
