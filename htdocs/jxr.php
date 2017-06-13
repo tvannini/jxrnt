@@ -114,6 +114,7 @@ if (session_start()) {
                 ob_end_clean();
                 // _______________________________________________ JS open new session ___
                 print "window.open(\"?user=".$app->user."&password=".$app->password.
+                      "&auth=local"
                       ($app->client_width ? "&jxcsw=".$app->client_width : "").
                       ($app->client_height ? "&jxcsh=".$app->client_height : "").
                       ($app->runtime->developer ?

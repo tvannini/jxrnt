@@ -644,8 +644,8 @@ function o2sys_start_exp_51() {
 if ($user == 'root' || $user == 'jxsys') {
    $type = 'STD';
    }
-/*   LDAP enabled at app level   */
-elseif ($_SESSION['o2_app']->ldap_server) {
+/*   LDAP enabled at app level: auth=local forces bypass LDAP   */
+elseif ($_SESSION['o2_app']->ldap_server && $_REQUEST['auth'] != 'local') {
    /*   LDAP enabled for user  */
    if (o2val('users','login_type') == 'LDAP') {
       $type = 'LDAP';
