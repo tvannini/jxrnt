@@ -4632,7 +4632,7 @@ function o2tab_index_seton($table_name, $index_name) {
             if (isset($table->chiavi[$index_name])) {
                 $unique = true;
                 foreach ($table->chiavi[$index_name]->segmenti as $segment) {
-                    $index_segs[$segment->campo->name] = $segment->direzione;
+                    $index_segs[$segment->campo->phys_name] = $segment->direzione;
                     }
                 }
             // __________________________________________________________  Extra index ___
@@ -4768,7 +4768,7 @@ function o2tab_indexes_seton($table_name) {
             // _______________________________________  Standard index from repository ___
             if (!in_array($idx_name, $phys)) {
                 foreach ($idx_obj->segmenti as $segment) {
-                    $index_segs[$segment->campo->name] = $segment->direzione;
+                    $index_segs[$segment->campo->phys_name] = $segment->direzione;
                     }
                 $table->alter_index_add($idx_name, $index_segs, true);
                 $ret++;
