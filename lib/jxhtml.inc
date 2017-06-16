@@ -496,6 +496,7 @@ class o2html {
                 return false;
                 }
             elseif (!$form_obj->chiusa &&
+                    isset($form_obj->controlli[$ctrl_name]) &&
                     $form_obj->controlli[$ctrl_name]->is_visible() &&
                     ($form_obj->controlli[$ctrl_name]->modificabile ||
                      $form_obj->controlli[$ctrl_name]->tipo_ctrl == 'tab')) {

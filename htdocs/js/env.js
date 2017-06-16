@@ -7087,6 +7087,9 @@ jxjs.request = function(reqObj, reqValue, refrAct) {
 jxjs.refresh = function(formInfo, refrAct) {
 
     if (formInfo) {
+        if (o2jse.infoForm['o2lastform'].value != formInfo.f) {
+            o2jse.infoForm['o2lastctrl'].value = '';
+            }
         o2jse.infoForm['o2lastform'].value = formInfo.f;
         }
     if (!refrAct) {
