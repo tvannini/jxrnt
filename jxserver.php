@@ -92,8 +92,8 @@ ini_set('log_errors', true);
 
 
 // _____________________________________________________________ Include Janox runtime ___
-$o2_runtime = $jxrnt_path.'jxrnt.php';
-include_once $o2_runtime;
+$jxrnt = $jxrnt_path.'jxrnt.php';
+include_once $jxrnt;
 
 
 /**
@@ -163,16 +163,15 @@ if (php_sapi_name() == 'cli-server') {
  */
 else {
     $rnt_obj = $GLOBALS['o2_runtime'];
-    if (!$rnt_obj->php_engine || !file_exists($rnt_obj->php_engine)) {
+    if ($rnt_obj && (!$rnt_obj->php_engine || !file_exists($rnt_obj->php_engine))) {
         $rnt_obj->find_php_exe();
         }
-    if ($rnt_obj->php_engine) {
+    if ($rnt_obj && $rnt_obj->php_engine) {
         $php_exe_path = $rnt_obj->php_engine;
         }
     else {
-        print "Sorry, can't find a suitable PHP executable to run Janox Mini WEB ".
-              "Server.\n".
-              "Please set PHP executable in <janox>/jxrnt/janox.ini configuration file.";
+        print "Sorry, can't find Janox runtime to run Janox Mini WEB Server.\n".
+              "Please set \$jxrnt_path variable in this file (".__file__.").\n";
         die();
         }
     $word = strtolower(trim($_SERVER['argv'][1]));
