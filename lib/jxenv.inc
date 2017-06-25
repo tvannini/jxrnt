@@ -5154,9 +5154,9 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Ritorna il valore di $campo_corrente per il record corrente
+     * Ritorna il valore di $field_name per il record corrente
      *
-     * @param  string $campo_corrente
+     * @param  string $field_name
      * @return mix
      */
 
