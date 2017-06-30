@@ -3849,8 +3849,36 @@ function o2field_name($table_name, $field_name) {
         }
     elseif (isset($app->tab[$table_name]) &&
             $app->tab[$table_name]->asp == 'C' &&
-            strtoupper($field_name) == "O2ASPID") {
-        return "O2ASPID";
+            strtoupper($field_name) == 'O2ASPID') {
+        return $app->tab[$table_name]->campi['O2ASPID']->phys_name;
+        }
+    else {
+        return false;
+        }
+
+    }
+
+
+/**
+ * Returns a table field delimited physical name
+ *
+ * @package field
+ * @param   string $table_name
+ * @param   string $field_name
+ * @return  string
+ */
+function o2field_fname($table_name, $field_name) {
+
+    $app = $_SESSION['o2_app'];
+    if (isset($app->tab[$table_name]) &&
+        isset($app->tab[$table_name]->campi[$field_name])) {
+        // _________________________________ Physical name is returned with delimiters ___
+        return $app->tab[$table_name]->campi[$field_name]->nome_fisico;
+        }
+    elseif (isset($app->tab[$table_name]) &&
+            $app->tab[$table_name]->asp == 'C' &&
+            strtoupper($field_name) == 'O2ASPID') {
+        return $app->tab[$table_name]->campi['O2ASPID']->nome_fisico;
         }
     else {
         return false;
