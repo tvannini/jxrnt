@@ -1025,7 +1025,7 @@ class o2_app {
                                         "DISTINCT ".$area." ".$co."AREA".$cc,
                                         false,
                                         false,
-                                        10000);
+                                        1000000);
         $ret    = array();
         foreach ($list as $rec) {
             if ($rec["AREA"]) {
@@ -3746,7 +3746,7 @@ class o2_job {
                                           $select,
                                           "",
                                           "",
-                                          1000);
+                                          1000000);
         $list     = array();
         $img_path = "<jx>/img/jobs/tree/";
         foreach ($job_recs as $job_rec) {
@@ -4908,7 +4908,7 @@ class o2_run_job {
                                           $select,
                                           $where,
                                           $orderby,
-                                          1000);
+                                          1000000);
         $list = array();
         if (count($run_jobs)) {
             foreach ($run_jobs as $run_rec) {
@@ -4981,7 +4981,7 @@ class o2_run_job {
                                           $select,
                                           $where,
                                           $orderby,
-                                          1000,
+                                          1000000,
                                           null,
                                           $with_lock);
         if (count($run_jobs)) {
@@ -5110,7 +5110,7 @@ class o2_run_job {
                                           $select,
                                           '',
                                           '',
-                                          1000);
+                                          1000000);
         foreach ($job_recs as $job_rec) {
             self::clear_by_job($job_rec['JOB_ID']);
             }
@@ -5285,7 +5285,7 @@ class o2_service {
                                           $select,
                                           '',
                                           '',
-                                          1000);
+                                          1000000);
         $list     = array();
         foreach ($srv_recs as $srv_rec) {
             $host_id        = $srv_rec['SRV_HOST'].'h'.$srv_rec['SRV_SERVICE'].'s';
@@ -5371,7 +5371,7 @@ class o2_service {
                                           $select,
                                           $where,
                                           '',
-                                          1000);
+                                          1000000);
         $list     = array();
         foreach ($srv_recs as $srv_rec) {
             $srv        = $srv_rec['SRV_SERVICE'];
@@ -6590,7 +6590,7 @@ class o2_scheduler {
                                         $select,
                                         $where,
                                         '',
-                                        1000,
+                                        1000000,
                                         null,
                                         true);
         $now    = new DateTime();
@@ -6784,7 +6784,7 @@ class o2_scheduler {
                                         $select,
                                         $where,
                                         "",
-                                        1000);
+                                        1000000);
         $code   = '<table style="width:100%"><tr><th colspan="2">Job</th><th>Module</th>'.
                   '<th>ASP-ID</th><th>Scheduled</th><th>Next run</th></tr>';
         $img    = $rnt->alias."img/jobs/";
