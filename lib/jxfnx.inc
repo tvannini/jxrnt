@@ -7893,6 +7893,7 @@ function o2progress_view_bar($bar_name,
  * @package prg
  * @param   string $name    Variable unique name
  * @param   mix    $value   Variable definition value
+ * @see     o2refvar_get()
  */
 function o2refvar_set($name, $value = false) {
 
@@ -7914,6 +7915,7 @@ function o2refvar_set($name, $value = false) {
  * @package prg
  * @param   string $name    Variable unique name
  * @param   mix    $value   Variable definition value
+ * @see     o2refvar_set()
  */
 function &o2refvar_get($name) {
 
