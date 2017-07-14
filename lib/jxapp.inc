@@ -5133,12 +5133,13 @@ class o2_run_job {
      * If $job_name and/or $status parameters are valued then they are used to filter the
      * request.
      *
-     * @param  string $user
-     * @param  string $complete_action   Action to be executed on progress completion
-     * @param  string $start_action      Action to be executed on progress start (>0)
-     * @param  string $buttons_action    Action to be executed on button press
-     * @param  string $job_name          Job name to filter request on
-     * @param  string $status            Process status to filter request on
+     * @param  string  $user
+     * @param  string  $complete_action   Action to be executed on progress completion
+     * @param  string  $start_action      Action to be executed on progress start (>0)
+     * @param  string  $buttons_action    Action to be executed on button press
+     * @param  string  $job_name          Job name to filter request on
+     * @param  string  $status            Process status to filter request on
+     * @param  integer $last_days         Filter run-jobs for last N days (0 = always)
      * @return string
      */
     static function get_monitor($user            = '',
@@ -5146,7 +5147,8 @@ class o2_run_job {
                                 $start_action    = '',
                                 $buttons_action  = '',
                                 $job_name        = '',
-                                $status          = '') {
+                                $status          = '',
+                                $last_days       = 0) {
 
         $app   = $_SESSION['o2_app'];
         $rnt   = $GLOBALS['o2_runtime'];
@@ -5159,15 +5161,21 @@ class o2_run_job {
                  'border-bottom:1px solid #bbbbbb;">';
         $sp    = '&nbsp;&nbsp;';
         if (is_array($list)) {
-            $code = '<table style="width:100%">';
+            $code      = '<table style="width:100%">';
+            $last_date = false;
             foreach ($list as $id => $run_job) {
                 $job = o2_job::get_by_id($run_job->job);
                 // _______________________________________ Filter by job name & status ___
                 if ((!$job_name || $job->name == $job_name) &&
                     (!$status || (substr($run_job->get_status(), 0, 1) ==
                                   strtoupper(substr($status, 0, 1))))) {
-                    if ($curd != date('Ymd', $run_job->start)) {
-                        $curd = date('Ymd', $run_job->start);
+                    $curd = date('Ymd', $run_job->start);
+                    // ______________________________________ Filter by number of days ___
+                    if ($last_days &&
+                        ($curd < date('Ymd',strtotime('-'.$last_days.' days')))) {
+                        continue;
+                        }
+                    elseif ($last_date != $curd) {
                         if ($curd == date('Ymd')) {
                             $code.= $label.'Today</td></tr>';
                             }
@@ -5177,6 +5185,7 @@ class o2_run_job {
                         else {
                             $code.= $label.date('d/m/Y', $run_job->start).'</td></tr>';
                             }
+                        $last_date = $curd;
                         }
                     $run = $run_job->is_running();
                     $ico = $img;
