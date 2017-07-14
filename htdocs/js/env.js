@@ -3045,13 +3045,13 @@ o2jse.tab.initContMenu = function() {
  */
 o2jse.tab.visibleCols = function(jxInfo) {
 
-    // _______________________________ Create menu content for "Customize columns" ___
+    // ___________________________________ Create menu content for "Customize columns" ___
     var frameTable = document.createElement("TABLE");
-    // __________________________________________________________ Get grid control ___
-    var gridObj  = document.getElementById(jxInfo.c + jxInfo.e + "_tab");
-    var cols     = gridObj.getElementsByTagName("thead")[0].getElementsByTagName("th");
-    var colsLen  = cols.length;
-    // ______________________ Skip last pseudo-column (used to resize last column) ___
+    // ______________________________________________________________ Get grid control ___
+    var gridObj    = document.getElementById(jxInfo.c + jxInfo.e + "_tab");
+    var cols       = gridObj.getElementsByTagName("thead")[0].getElementsByTagName("th");
+    var colsLen    = cols.length;
+    // __________________________ Skip last pseudo-column (used to resize last column) ___
     for (var i = 0; i < colsLen - 1; i++) {
         if (cols[i].className != "o2_tab_marker") {
             o2jse.ctrl.init(cols[i]);
