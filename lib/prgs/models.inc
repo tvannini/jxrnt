@@ -33,6 +33,7 @@ o2def::model("o2sys_deferred_status", "A", "U1[Scheduled|Running|Executed|Cancel
 o2def::model("o2sys_extraidx_key", "A", "C250", "");
 o2def::model("o2sys_extraidx_tab", "A", "C50", "");
 o2def::model("o2sys_full_number", "N", "12tz", "");
+o2def::model("o2sys_full_str", "A", "C2048", "");
 o2def::model("o2sys_generic_opt", "A", "U1", "");
 o2def::model("o2sys_language", "A", "L20", "");
 o2def::model("o2sys_logact", "A", "U1[Inserted|Deleted|Updated|Changed]", "");
