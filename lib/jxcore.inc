@@ -7455,6 +7455,84 @@ function o2_str_nice($str) {
 
 
 /**
+ * Returns passed object size, calculated in bytes.
+ * This function is mostly used to weigth session data from analisys.
+ *
+ * @param mix       $obj
+ * @param string    $name
+ * @param string    $parent
+ * @param integer   $limit
+ * return integer
+ */
+function jx_sizeof($obj, $name = 'o2_app', $parent = 0, $limit = 0) {
+
+    $res  = array();
+    $size = 0;
+    // __________________________________ Limit recursion deepness, to avoid crash (?) ___
+    if ($limit > 20000) {
+        return array($res, $size);
+        }
+    // _________________________________________________________________________ Array ___
+    if (is_array($obj)) {
+        $id   = md5(serialize($obj));
+        $type = 'Array';
+        $img  = 'menu';
+        if (isset($GLOBALS['jxallobjs'][$id])) {
+            $size+= $GLOBALS['jxallobjs'][$id];
+            }
+        else {
+            foreach ($obj as $key => $value) {
+                list($r, $s) = jx_sizeof($value, $key, $id, $limit + 1);
+                $res += $r;
+                $size+= $s;
+                }
+            $GLOBALS['jxallobjs'][$id] = $size;
+            }
+        }
+    // ________________________________________________________________________ Object ___
+    elseif (is_object($obj)) {
+        $id   = spl_object_hash($obj);
+        $type = get_class($obj);
+        $img  = 'tab';
+        if (isset($GLOBALS['jxallobjs'][$id])) {
+            $size+= $GLOBALS['jxallobjs'][$id];
+            }
+        else {
+            foreach (get_object_vars($obj) as $prop => $value) {
+                list($r, $s) = jx_sizeof($value, $prop, $id, $limit + 1);
+                $res += $r;
+                $size+= $s;
+                }
+            $GLOBALS['jxallobjs'][$id] = $size;
+            }
+        }
+    // _________________________________________________________________________ Value ___
+    elseif (is_scalar($obj)) {
+        $id   = uniqid('V', true);
+        $type = 'Value';
+        $size+= mb_strlen(serialize($obj), '8bit');
+        $img  = 'field';
+        }
+    // _________________________________________________________ Resources and unknown ___
+    else {
+        $id   = uniqid('U', true);
+        $type = 'Other';
+        $size = 0;
+        $img  = 'var';
+        }
+    $s = intval($size / 8);
+    // __________________________________ Limit to show only items over a certain size ___
+    if ($s >= 1000) {
+        $res[$id] = array($parent,
+                          $name.' ['.$type.'] '.$s,
+                          '<jx>/img/tools/tree/'.$img.'.png');
+        }
+    return array($res, $size);
+
+    }
+
+
+/**
  * Define a provided update script for release back compatibility.
  * Actually upgrades are used only for system tables structure change.
  * When $test parameter is passed as TRUE only a check will be performed, without any

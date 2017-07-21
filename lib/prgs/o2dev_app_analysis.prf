@@ -11,8 +11,8 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 	$form_o2dev_app_analysis->y(20);
 	$form_o2dev_app_analysis->larghezza(680);
 	$form_o2dev_app_analysis->altezza(650);
-	$form_o2dev_app_analysis->titolo("Application analysis");
 	$form_o2dev_app_analysis->align_o("Center");
+	$form_o2dev_app_analysis->titolo("Application analysis");
 	$ctrl_o2label2 = &$form_o2dev_app_analysis->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(30);
 		$ctrl_o2label2->y(30);
@@ -73,6 +73,10 @@ function o2dev_app_analysis§§a_check_links_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2dev_app_analysis§§a_session_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_30()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2dev_app_analysis§§a_unused_fields_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_11()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -107,7 +111,8 @@ function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(7) && (o2dev_app_analysis_exp_23() || $o2exe->e()) && o2act::exe("a_build_tabs_relations", True, "") && $o2exe->e();
 	$o2exe->s(8) && (o2dev_app_analysis_exp_25() || $o2exe->e()) && o2act::exe("a_views_in_loop", True, "") && $o2exe->e();
 	$o2exe->s(9) && (o2dev_app_analysis_exp_27() || $o2exe->e()) && o2act::exe("a_check_exps", True, "") && $o2exe->e();
-	$o2exe->s(10) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
+	$o2exe->s(10) && (o2dev_app_analysis_exp_29() || $o2exe->e()) && o2act::exe("a_session", True, "") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§export_act(&$o2exe) {
@@ -150,7 +155,9 @@ function o2dev_app_analysis_exp_4() {
               "TABSREL"    => "Build tables relations structure",
               "CHECKLINKS" => "Check links criteria",
               "CHECKLOOP"  => "Check view rebuilds while looping",
-              "CHECKEXPS"  => "Check for columns (;) in return expressions");
+              "CHECKEXPS"  => "Check for columns (;) in return expressions",
+              "SESSION"    => "Analyze session weights");
+              
 return ($list);
 	} //|o2_fine_exp|
 
@@ -1054,6 +1061,23 @@ o2tree_def("jxresult", $res);
 if ($id_prg) {
    o2tree_node_show("jxresult", 'P'.$id_prg);
    }
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_29() {
+	
+return (o2val('prg§_§var','analysis_model') == "SESSION");
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_30() {
+	$app  = $_SESSION['o2_app'];
+$res  = array();
+$show = "jxresult";
+
+list($res, $s) = jx_sizeof($_SESSION['o2_app']);
+
+ksort($res);                         
+o2tree_def("jxresult", $res);
 return (true);
 	} //|o2_fine_exp|
 ?>
