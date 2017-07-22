@@ -761,8 +761,15 @@ class jxjs {
         $parent = "{pT:'".($o2ctrl_obj->padre ?
                            $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
                            'form')."'}";
+        // _________________________________________ NOT EXPOSED! Used only internally ___
+        if ($o2ctrl_obj->campo_in_ctrl) {
+            $html = $o2ctrl_obj->valore;
+            }
+        else {
+            $html = $o2ctrl_obj->html;
+            }
         print jxjs::ctrl($o2ctrl_obj,
-                         "code:".jxjs::html_embed($o2ctrl_obj->html).
+                         "code:".jxjs::html_embed($html).
                          ",s:'".$o2ctrl_obj->css.
                         "',x:".$o2ctrl_obj->x.
                          ',y:'.$o2ctrl_obj->y.
@@ -938,6 +945,11 @@ class jxjs {
                                 // __________________________________________ Checkbox ___
                                 elseif ($ctrl->tipo_ctrl == "checkbox") {
                                     $ctrl_code = "v:".($ctrl->sql2ctrl() ? "!0" : "!1");
+                                    }
+                                // _________________________________________ HTML area ___
+                                elseif ($ctrl->tipo_ctrl == "html") {
+                                    // _____________ NOT EXPOSED! Used only internally ___
+                                    $ctrl_code = "v:".jxjs::html_embed($ctrl->valore);
                                     }
                                 else {
                                     $ctrl_code = "v:'".

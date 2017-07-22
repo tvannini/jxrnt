@@ -3927,13 +3927,20 @@ class o2html {
      */
     static function ctrl_area($o2ctrl_obj) {
 
+        // _________________________________________ NOT EXPOSED! Used only internally ___
+        if ($o2ctrl_obj->campo_in_ctrl) {
+            $html = $o2ctrl_obj->valore;
+            }
+        else {
+            $html = $o2ctrl_obj->html;
+            }
         print '<div'.($o2ctrl_obj->active_by_tab ?
                       ' id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
                    ' class="'.$o2ctrl_obj->css.
                   '" style="width:'.$o2ctrl_obj->larghezza.
                         'px;height:'.$o2ctrl_obj->altezza.'px;'.
                      ($o2ctrl_obj->visibile ? '' : 'display:none;').
-              '">'.($o2ctrl_obj->visibile ? $o2ctrl_obj->html : "")."</div>\n";
+              '">'.($o2ctrl_obj->visibile ? $html : '')."</div>\n";
 
         }
 
