@@ -6067,7 +6067,13 @@ o2jse.pu.getCode = function(ctrlObj, contCode) {
         o2jse.removeEl(o2jse.waitObj);
         delete o2jse.waitObj;
         }
-    ctrlObj.innerHTML = contCode;
+    if (contCode) {
+        ctrlObj.innerHTML = contCode;
+        }
+    else {
+        o2jse.removeEl(ctrlObj);
+        delete ctrlObj;
+        }
 
     };
 
