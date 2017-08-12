@@ -2110,7 +2110,7 @@ class o2_file {
                         count($single_key)) {
                         $var_keys[$key_name] = $def_keys[$key_name];
                         }
-                    // ____ If physiacl and defined keys have the same segments number ___
+                    // ____ If physical and defined keys have the same segments number ___
                     else {
                         // _____________________________ Loop on physical key segments ___
                         foreach ($single_key as $segm_index => $single_segment) {
