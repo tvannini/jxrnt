@@ -660,7 +660,7 @@ function o2_postgres_createtable($server,
         try {
             o2_postgres_execute($query, $server, $user, $password, true, true);
             foreach ($script as $key_create) {
-                o2_postgres_execute($key_create,$server, $user, $password, true, true);
+                o2_postgres_execute($key_create, $server, $user, $password, true, true);
                 }
             }
         catch (o2_exception $o2e) {
