@@ -71,6 +71,7 @@ TD + tfoot .o2_tab_marker,
     }
 
 .o2_tab_point {
+    background-color: #E1DAD4;
     white-space: nowrap;
     cursor: pointer;
     }
@@ -178,6 +179,11 @@ TD + tfoot .o2_tab_marker,
 
 .o2_tab_resize_line {
     border-left: 1px dotted #a19a93;
+    }
+
+.o2_tab_pinned {
+    border-right: 1px dotted #6B6661;
+    background-color: #ffffff;
     }
 
 /* =============================== EXTRA =================================== */

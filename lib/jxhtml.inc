@@ -3042,11 +3042,11 @@ class o2html {
                                       $o2ctrl_obj->point_class."',cssc:'".$row_class."'").
                                   "class=\"".$row_class.
                                   ($o2ctrl_obj->riga_corrente ? " o2tab_current" : "").
-                                  '" onMouseOver="o2jse.tab.rowOn(this, event'.
-                                  ($o2ctrl_obj->riga_corrente ? ", 'o2tab_current'" : "").
-                                  ');" onMouseOut="this.className=this.o2.cssc'.
-                                  ($o2ctrl_obj->riga_corrente ? "+' o2tab_current'" : "").
-                                  ';"'.
+                                  '" onMouseOver="o2jse.tab.rowOn(this,event'.
+                                  ($o2ctrl_obj->riga_corrente ? ",'o2tab_current'" : "").
+                                  ');" onMouseOut="o2jse.tab.rowOut(this,event'.
+                                  ($o2ctrl_obj->riga_corrente ? ",'o2tab_current'" : "").
+                                  ');"'.
                                   ($o2ctrl_obj->riga_corrente ? ($o2ctrl_obj->row_marker ?
                                    ' onClick="o2jse.tab.activateMarker(o2jse.infoForm[\''.
                                    $o2ctrl_obj->nome.'_sele'.$o2ctrl_obj->id_esecuzione.

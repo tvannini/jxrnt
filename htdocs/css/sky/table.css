@@ -215,6 +215,11 @@ TD + tfoot .o2_tab_marker {
     border-left: 1px dotted #a19a93;
     }
 
+.o2_tab_pinned {
+    border-right: 1px dotted #6B6661;
+    background-color: #ffffff;
+    }
+
 /* =============================== EXTRA =================================== */
 
 .tab_testa_sx {

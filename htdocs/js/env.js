@@ -2049,8 +2049,21 @@ o2jse.tab.select = function(targetObj, eventObj) {
         else if (tg.o2.cT == "listcombo") {
             ctrl = o2jse.infoForm[tg.o2.c + tg.o2.e + "_desc"];
             }
+
+/*
+        var pseudoC = document.getElementById(tg.o2.c + tg.o2.e + '_pseudoC_tab');
+o2log(tg.o2);
+        // _____________ Pinned columns are present and method colled on pinned columns___
+        if (pseudoC && pseudoC.contains(tg)) {
+            var srcTab = document.getElementById(tg.o2.c + tg.o2.e + '_tab');
+            var row    = tg.rowIndex +
+                         (srcTab.getElementsByTagName('TH') ? tg.o2.lines : 0);
+            sourceRow  = srcTab.rows[row];
+            }
+
+
         // ___________________________________________________________ Seek source row ___
-        if (ctrl) {
+        else */ if (ctrl) {
             var tdP = ctrl.parentNode;
             if (tdP) {
                 var trP = tdP.parentNode;
@@ -2112,11 +2125,67 @@ o2jse.tab.sort = function(targetObj) {
  *
  * @param object targetObj   HTML element on which event is fired
  * @param object eventObj    Event object passed by event
+ * @param string extraCss    Class name to set on element
  */
 o2jse.tab.rowOn = function(targetObj, eventObj, extraCss) {
 
     o2jse.ctrl.init(targetObj);
-    targetObj.className = targetObj.o2.cssp + (extraCss ? " " + extraCss : "");
+    var newClass = targetObj.o2.cssp + (extraCss ? ' ' + extraCss : '');
+    var pseudoC  = document.getElementById(targetObj.o2.c + targetObj.o2.e +
+                                           '_pseudoC_tab');
+    // ____________________________________________________ Pinned columns are present ___
+    if (pseudoC) {
+        // _______________________________________ Method colled on pinned columns row ___
+        if (pseudoC.contains(targetObj)) {
+            var srcTab = document.getElementById(targetObj.o2.c + targetObj.o2.e + '_tab');
+            var row    = targetObj.rowIndex +
+                         (srcTab.getElementsByTagName('TH') ? targetObj.o2.lines : 0);
+            srcTab.rows[row].className = newClass;
+            }
+        // _____________________________________________ Method colled on standard row ___
+        else {
+            var row = targetObj.rowIndex -
+                      (targetObj.parentNode.parentNode.getElementsByTagName('TH') ?
+                       targetObj.o2.lines : 0);
+            pseudoC.rows[row].className = newClass;
+            }
+        }
+    targetObj.className = newClass;
+
+    };
+
+
+/**
+ * Handler for OnMouseOut events on table rows
+ *
+ * @param object targetObj   HTML element on which event is fired
+ * @param object eventObj    Event object passed by event
+ * @param string extraCss    Class name to set on element
+ */
+o2jse.tab.rowOut = function(targetObj, eventObj, extraCss) {
+
+    o2jse.ctrl.init(targetObj);
+    var newClass = targetObj.o2.cssc + (extraCss ? " " + extraCss : "");
+    var pseudoC  = document.getElementById(targetObj.o2.c + targetObj.o2.e +
+                                           '_pseudoC_tab');
+    // ____________________________________________________ Pinned columns are present ___
+    if (pseudoC) {
+        // _______________________________________ Method colled on pinned columns row ___
+        if (pseudoC.contains(targetObj)) {
+            var srcTab = document.getElementById(targetObj.o2.c + targetObj.o2.e + '_tab');
+            var row    = targetObj.rowIndex +
+                         (srcTab.getElementsByTagName('TH') ? targetObj.o2.lines : 0);
+            srcTab.rows[row].className = newClass;
+            }
+        // _____________________________________________ Method colled on standard row ___
+        else {
+            var row = targetObj.rowIndex -
+                      (targetObj.parentNode.parentNode.getElementsByTagName('TH') ?
+                       targetObj.o2.lines : 0);
+            pseudoC.rows[row].className = newClass;
+            }
+        }
+    targetObj.className = newClass;
 
     };
 
@@ -2786,6 +2855,7 @@ o2jse.tab.set = function(tabName,
     var myTab        = document.getElementById(tabName + "_tab");
     var myCont       = myTab.parentNode;
     var contAll      = myCont.parentNode;
+    var hScroll      = myCont.scrollWidth > myCont.clientWidth;
     var vScroll      = myCont.scrollHeight > myCont.clientHeight;
     var myHead       = myTab.getElementsByTagName("thead")[0];
     var myFoot       = myTab.getElementsByTagName("tfoot")[0];
@@ -2875,6 +2945,85 @@ o2jse.tab.set = function(tabName,
         codeOnScroll+= "document.getElementById('" + pseudoF.id +
                        "').scrollLeft=this.scrollLeft;";
         }
+
+    // __________________________________________ Add pseudo-columns for fixed columns ___
+    if (false) {
+
+        var pinCols = 1;
+        // ______________________ If horizontal scrolling needed create pseudo-columns ___
+        if (hScroll) {
+            // _______________ If table marker column is visible add it to pinned ones ___
+            if (myTab.getElementsByTagName('TR')[0]
+                     .firstElementChild.className.substr(0, 13) == 'o2_tab_marker') {
+                pinCols++;
+                }
+            var startRow            = (myHead ? 1 : 0);
+            var startTop            = myCont.clientTop +
+                                      (myHead ? myHead.offsetHeight : 0);
+            var fWidth              = 0;
+            myTab.style.tableLayout = "fixed";
+            var fTab                = myTab.cloneNode(false);
+            fTab.id                 = tabName + '_pseudoC_tab';
+            // _______________________________________________________ Prepare columns ___
+            for (var i = startRow; i < myTab.rows.length; i++) {
+                myTab.rows[i].style.height = myTab.rows[i].offsetHeight + 'px';
+//                var fStart  = i - startRow;
+                var fRow    = fTab.appendChild(myTab.rows[i].cloneNode(false));
+                for (var n = 0; n < pinCols; n++) {
+                    var myCell = myTab.rows[i].cells[n];
+                    if (!myCell.style.width) {
+                        myCell.style.width = myCell.offsetWidth + "px";
+                        }
+                    // _____________________________ Sum cells width to get full width ___
+                    if (i == startRow) {
+                        fWidth+= myCell.offsetWidth;
+                        }
+                    var newCell = myCell.cloneNode(true);
+                    newCell.style.width = myCell.offsetWidth + 'px';
+                    fRow.appendChild(newCell);
+                    delete(myCell);
+                    }
+                delete(fRow);
+                }
+            // _____________________________________ Create headers for pinned columns ___
+            if (myHead) {
+                var fH = document.createElement('table').appendChild(myHead.cloneNode(false));
+                var fR = fH.appendChild(myHead.rows[0].cloneNode(false));
+                for (var n = 0; n < pinCols; n++) {
+                    var myC         = myHead.rows[0].cells[n];
+                    myC.style.width = myC.offsetWidth + 'px';
+                    fR.appendChild(myC.cloneNode(true));
+                    }
+                var pseudoCH         = document.createElement('div');
+                pseudoCH.id          = tabName + '_pseudoCH';
+                pseudoCH.style.position = 'absolute';
+                pseudoCH.style.top      = myCont.clientTop + 'px';
+                pseudoCH.style.left     = myCont.clientLeft + 'px';
+                pseudoCH.style.width    = fWidth + 'px';
+                pseudoCH.appendChild(fH);
+                contAll.appendChild(pseudoCH);
+                }
+//            fTab.style.height      = myTab.offsetHeight + 'px';
+            // ______________________________________________ Add columns to fixed div ___
+            var pseudoC               = document.createElement('div');
+            pseudoC.id                = tabName + '_pseudoC';
+            pseudoC.className         = 'o2_tab_pinned';
+            pseudoC.style.position    = 'absolute';
+            pseudoC.style.overflow    = 'hidden';
+            pseudoC.style.top         = startTop + 'px';
+            pseudoC.style.left        = myCont.clientLeft + 'px';
+            pseudoC.style.width       = fWidth + 'px';
+            pseudoC.style.height      = (myCont.clientHeight -
+                                         (myHead ? myHead.offsetHeight : 0)) + "px";
+            pseudoC.appendChild(fTab);
+            contAll.appendChild(pseudoC);
+            // _____________________________ Code to scroll pseudo-header with content ___
+            codeOnScroll+= "document.getElementById('" + pseudoC.id +
+                           "').scrollTop=this.scrollTop;";
+            }
+
+        }
+
     // _________________________________________ Assign code to onScroll event handler ___
     myCont.onscroll = new Function("o2jse.lu.listOff();" + codeOnScroll);
     if (fillRows == 0) {
