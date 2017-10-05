@@ -2875,8 +2875,16 @@ class o2html {
                 $ord_js    = "";
                 $ord_title = "";
                 $ord_style = "cursor:default;";
+                // _____________________________________ Action on column header click ___
+                if ($ctrl->info_padre[11]) {
+                    $ord_js    = ' onClick=\'o2jse.cmd.exe(event,'.
+                                                          $o2ctrl_obj->id_esecuzione.',"'.
+                                                          $ctrl->info_padre[11].'","'.
+                                                          $ctrl->nome.'");\'';
+                    $ord_style = "cursor:pointer;";
+                    }
                 // ___________________________________________________ Order by column ___
-                if ($ctrl->campo_in_ctrl) {
+                elseif ($ctrl->campo_in_ctrl) {
                     $campo_obj = $o2ctrl_obj->prg_obj->contesto[$ctrl->task]->
                                   campo_per_controllo($ctrl->campo_in_ctrl);
                     // ______________________________________________ Ordinable column ___
