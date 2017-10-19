@@ -1367,6 +1367,11 @@ function o2_mysql_recordset($server,
     if ($order_by) {
         $query.= " ORDER BY ".$order_by;
         }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return array();
+        }
     $query.= " LIMIT ".abs($recs);
     if ($lock) {
         $query.= " FOR UPDATE";

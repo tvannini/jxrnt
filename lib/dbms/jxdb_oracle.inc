@@ -1539,6 +1539,11 @@ function o2_oracle_recordset($server,
     if ($order_by) {
         $query.= " ORDER BY ".$order_by;
         }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return array();
+        }
     if ($lock) {
         $query.= " FOR UPDATE";
         }

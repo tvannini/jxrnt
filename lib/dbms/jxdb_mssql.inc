@@ -1560,7 +1560,8 @@ function o2_mssql_recordset($server,
         }
     else {
         $stm = false;
-        if (strtoupper(substr($select_str, 0, 8)) != "DISTINCT") {
+        if (strtoupper(substr($select_str, 0, 8)) != "DISTINCT" &&
+            !isset($GLOBALS['jxviewsql'])) {
             $query.= "TOP ".$recs.' ';
             }
         }
@@ -1578,6 +1579,11 @@ function o2_mssql_recordset($server,
         }
     if ($order_by) {
         $query.= " ORDER BY ".$order_by;
+        }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return array();
         }
     try {
         $res = o2_mssql_execute($query,

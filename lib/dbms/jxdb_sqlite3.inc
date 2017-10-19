@@ -1125,6 +1125,11 @@ function o2_sqlite3_recordset($server,
     if ($order_by) {
         $query.= " ORDER BY ".$order_by;
         }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return array();
+        }
     if ($stm_id) {
         $stm = 0;
         }
