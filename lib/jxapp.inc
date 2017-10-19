@@ -53,30 +53,31 @@ class o2_app {
     /**
      * @var o2_runtime
      */
-    public $runtime         = null;    /* Running o2_runtime object                     */
-    public $nome            = '';      /* Application name                              */
-    public $alias           = '';      /* Application alias (in the form .../[alias]/)  */
-    public $referer         = '';      /* <alias>/<name>.php ($_SERVER['PHP_SELF'])     */
-    public $versione        = '';      /* Version (in the form v.s.r)                   */
-    public $titolo          = '';      /* Text to write in the browser title bar        */
-    public $chr_encoding    = '';      /* Character encoding (default windows-1252)     */
-    public $default         = '';      /* Document to be included when nothing to do    */
-    public $no_login        = '';      /* Failed login page                             */
-    public $lock_page       = '';      /* Access denied for Under Maintanance page      */
-    public $sess_error      = '';      /* Failed session validation page                */
-    public $pagina_prima    = '';      /* Document to prepend to pages                  */
-    public $pagina_dopo     = '';      /* Document to append to pages                   */
-    public $css             = '';      /* CSS documents string (separated by ",")       */
-    public $client_width    = 0;       /* Browser window width                          */
-    public $client_height   = 0;       /* Browser window height                         */
-    public $vars            = array(); /* Application variables (o2_appvar) list        */
-    public $page_mark       = 0;       /* Last sent page mark for page expiring         */
-    public $relocate_now    = false;   /* Views relocating immediate executing          */
-    public $caret_position  = array(); /* Programs scripts for caret reposition list    */
-    public $js_file         = '';      /* Javascript file to be included                */
-    public $favicon         = '';      /* "Favorite icon" for application               */
-    public $rpc_server      = false;   /* If app is used as an RPC Server               */
-    public $services        = array(); /* List of defined services                      */
+    public $runtime          = null;    /* Running o2_runtime object                    */
+    public $nome             = '';      /* Application name                             */
+    public $alias            = '';      /* Application alias (in the form .../[alias]/) */
+    public $referer          = '';      /* <alias>/<name>.php ($_SERVER['PHP_SELF'])    */
+    public $versione         = '';      /* Version (in the form v.s.r)                  */
+    public $titolo           = '';      /* Text to write in the browser title bar       */
+    public $chr_encoding     = '';      /* Character encoding (default windows-1252)    */
+    public $default          = '';      /* Document to be included when nothing to do   */
+    public $no_login         = '';      /* Failed login page                            */
+    public $lock_page        = '';      /* Access denied for Under Maintanance page     */
+    public $sess_error       = '';      /* Failed session validation page               */
+    public $pagina_prima     = '';      /* Document to prepend to pages                 */
+    public $pagina_dopo      = '';      /* Document to append to pages                  */
+    public $css              = '';      /* CSS documents string (separated by ",")      */
+    public $client_width     = 0;       /* Browser window width                         */
+    public $client_height    = 0;       /* Browser window height                        */
+    public $vars             = array(); /* Application variables (o2_appvar) list       */
+    public $page_mark        = 0;       /* Last sent page mark for page expiring        */
+    public $relocate_now     = false;   /* Views relocating immediate executing         */
+    public $caret_position   = array(); /* Programs scripts for caret reposition list   */
+    public $js_file          = '';      /* Javascript file to be included               */
+    public $favicon          = '';      /* "Favorite icon" for application              */
+    public $rpc_server       = false;   /* If app is used as an RPC Server              */
+    public $services         = array(); /* List of defined services                     */
+    public $service_redirect = false;   /* If set all jobs are assigned to this service */
     /*     _____ Session ______________________________________________________________ */
     public $validazione        = 0;         /* Validation level (0=none,1=full,2=mixed))*/
     public $session_name       = '';        /* Session name (PHPSESSID)                 */
@@ -1332,11 +1333,14 @@ class o2_app {
         if (isset($conf['host'])) {
             $this->host = strtoupper($conf['host']);
             }
+        if (isset($conf['service_redirect'])) {
+            $this->service_redirect = strtoupper($conf['service_redirect']);
+            }
         if (isset($conf['services'])) {
             $this->services = array();
             foreach (preg_split('/[,; ]+/', $conf['services']) as $service) {
                 $service = strtoupper($service);
-                if ($service != 'default') {
+                if ($service != 'DEFAULT') {
                     $this->services[] = $service;
                     }
                 }
@@ -3561,6 +3565,7 @@ class o2_job {
                                 $disabled      = false,
                                 $service       = false) {
 
+        $app                 = $_SESSION['o2_app'];
         $this->id            = intval($id);
         $this->name          = $name;
         $this->prg           = $prg;
@@ -3574,7 +3579,10 @@ class o2_job {
         $this->disabled      = ($disabled ? true : false);
         // _______________________________________________________________ Set service ___
         $service = strtoupper($service);
-        if ($service && in_array($service, $_SESSION['o2_app']->services)) {
+        if ($app->service_redirect) {
+            $this->service = $app->service_redirect;
+            }
+        elseif ($service && in_array($service, $_SESSION['o2_app']->services)) {
             $this->service = $service;
             }
         else {
@@ -4270,8 +4278,9 @@ class o2_run_job {
         $run_job->aspid     = ($aspid ? $aspid : '');
         $run_job->status    = 'Q';
         $service            = strtoupper($service);
-        $run_job->service   = ($service && in_array($service, $app->services) ?
-                               $service : $job->service);
+        $run_job->service   = ($app->service_redirect ? $app->service_redirect :
+                               ($service && in_array($service, $app->services) ?
+                                $service : $job->service));
         if ($at_date || $at_time) {
             $ad                = ($at_date ? $at_date : date('Ymd'));
             $at                = ($at_time ? $at_time : date('His'));

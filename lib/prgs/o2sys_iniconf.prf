@@ -877,6 +877,14 @@ $list = array(
                        "desc" => "   *** Services ***\n\n".
                                  "List of §-separated names of services enabled for application deferred executions.",
                        "default" => "_internal"),
+   "service_redirect" => array("rntval"  => null,
+                               "appval"  => null,
+                               "desc"    => "   *** Service redirect ***\n\n".
+                                            "Specifies a service to work as a service overriding for all executions.\n".
+                                            "When this parameter is set all jobs executions (run and queue) will be assigned ".
+                                            "to this service, regardless all other logics.\n".
+                                            "To use this parameter set it to the name of a registered service.",
+                               "default" => ""),
    "rpc_server" => array("rntval" => null,
                          "appval" => null,
                          "desc" => "   *** Remote Procedure Call (RPC) Server ***\n\n".
@@ -1217,6 +1225,7 @@ function o2sys_iniconf_exp_34() {
               "startprg",
               "reqprg",
               "services",
+              "service_redirect",
               "rpc_server",
               "data_chunk",
               "tables_create",
