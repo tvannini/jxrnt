@@ -1611,6 +1611,9 @@ o2jse.ctrl.c = function(targetObj) {
     switch (targetObj.o2.dT) {
         // ______________________________________________________________________ ALFA ___
         case "A":
+            if (targetObj.o2.cT == 'edit') {
+                targetObj.value = targetObj.value.replace(/\s/g, " ");
+                }
             targetObj.value = o2jse.data.fa(targetObj.value, targetObj.o2.m);
             break;
         // __________________________________________________________________  NUMERIC ___
