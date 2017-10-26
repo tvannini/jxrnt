@@ -31,50 +31,31 @@ function o2sys_fs_browser§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("uploaded_file", "_o2structure");
 		}
 function o2sys_fs_browser§§browser_form_def(&$form_browser) {
-	$form_browser->x(300);
-	$form_browser->y(100);
+	$form_browser->x(246);
+	$form_browser->y(83);
 	$form_browser->larghezza(600);
-	$form_browser->altezza(480);
-	$form_browser->titolo(o2sys_fs_browser_exp_40());
-	$form_browser->css_doc("sys_fs_doc");
+	$form_browser->altezza(450);
 	$form_browser->align_o("Center");
-	$form_browser->altezza_exp(o2sys_fs_browser_exp_67());
-	$form_browser->larghezza_exp(o2sys_fs_browser_exp_66());
+	$form_browser->titolo(o2sys_fs_browser_exp_40());
 	$ctrl_bottom_bar = &$form_browser->ctrldef("bottom_bar", "label", "", "", "");
-		$ctrl_bottom_bar->x(20);
-		$ctrl_bottom_bar->y(406);
-		$ctrl_bottom_bar->larghezza(560);
-		$ctrl_bottom_bar->altezza(28);
+		$ctrl_bottom_bar->x(0);
+		$ctrl_bottom_bar->y(390);
+		$ctrl_bottom_bar->larghezza(600);
+		$ctrl_bottom_bar->altezza(30);
 		$ctrl_bottom_bar->expand("H");
 		$ctrl_bottom_bar->label("");
 		$ctrl_bottom_bar->css(o2sys_fs_browser_exp_41());
 	$ctrl_status = &$form_browser->ctrldef("status", "label", "", "", "");
-		$ctrl_status->x(30);
-		$ctrl_status->y(410);
-		$ctrl_status->larghezza(540);
+		$ctrl_status->x(0);
+		$ctrl_status->y(395);
+		$ctrl_status->larghezza(600);
 		$ctrl_status->altezza(20);
 		$ctrl_status->label(o2sys_fs_browser_exp_49());
-	$ctrl_o2htmlarea3 = &$form_browser->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea3->x(20);
-		$ctrl_o2htmlarea3->y(50);
-		$ctrl_o2htmlarea3->larghezza(250);
-		$ctrl_o2htmlarea3->altezza(350);
-		$ctrl_o2htmlarea3->expand("V");
-		$ctrl_o2htmlarea3->html(o2sys_fs_browser_exp_42());
-		$ctrl_o2htmlarea3->css(o2sys_fs_browser_exp_45());
-	$ctrl_o2htmlarea2 = &$form_browser->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(280);
-		$ctrl_o2htmlarea2->y(50);
-		$ctrl_o2htmlarea2->larghezza(300);
-		$ctrl_o2htmlarea2->altezza(350);
-		$ctrl_o2htmlarea2->expand("B");
-		$ctrl_o2htmlarea2->html(o2sys_fs_browser_exp_6());
-		$ctrl_o2htmlarea2->css(o2sys_fs_browser_exp_63());
 	$ctrl_o2multipage2 = &$form_browser->ctrldef("o2multipage2", "multipage", "", "", "");
-		$ctrl_o2multipage2->x(20);
-		$ctrl_o2multipage2->y(16);
-		$ctrl_o2multipage2->larghezza(560);
-		$ctrl_o2multipage2->altezza(28);
+		$ctrl_o2multipage2->x(0);
+		$ctrl_o2multipage2->y(0);
+		$ctrl_o2multipage2->larghezza(600);
+		$ctrl_o2multipage2->altezza(40);
 		$ctrl_o2multipage2->expand("H");
 		$ctrl_o2multipage2->label(array("Page1"));
 		$ctrl_o2multipage2->css_space_out(o2sys_fs_browser_exp_41());
@@ -82,24 +63,54 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2multipage2->css_label_on(o2sys_fs_browser_exp_74());
 		$ctrl_o2multipage2->css_label_off(o2sys_fs_browser_exp_74());
 		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2htmlarea3 = &$form_browser->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea3->x(0);
+		$ctrl_o2htmlarea3->y(40);
+		$ctrl_o2htmlarea3->larghezza(200);
+		$ctrl_o2htmlarea3->altezza(350);
+		$ctrl_o2htmlarea3->expand("B");
+		$ctrl_o2htmlarea3->html(o2sys_fs_browser_exp_42());
+		$ctrl_o2htmlarea3->css(o2sys_fs_browser_exp_45());
+	$ctrl_o2htmlarea2 = &$form_browser->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(200);
+		$ctrl_o2htmlarea2->y(40);
+		$ctrl_o2htmlarea2->larghezza(400);
+		$ctrl_o2htmlarea2->altezza(350);
+		$ctrl_o2htmlarea2->expand("B");
+		$ctrl_o2htmlarea2->html(o2sys_fs_browser_exp_6());
+		$ctrl_o2htmlarea2->css(o2sys_fs_browser_exp_63());
 	$ctrl_o2label4 = &$form_browser->ctrldef("o2label4", "label", "o2multipage2", "", "");
 		$ctrl_o2label4->x(30);
-		$ctrl_o2label4->y(4);
+		$ctrl_o2label4->y(8);
 		$ctrl_o2label4->larghezza(70);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(0));
 		$ctrl_o2label4->label("Filter files:");
+	$ctrl_o2htmlarea4 = &$form_browser->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea4->x(210);
+		$ctrl_o2htmlarea4->y(8);
+		$ctrl_o2htmlarea4->larghezza(10);
+		$ctrl_o2htmlarea4->altezza(20);
+		$ctrl_o2htmlarea4->expand("H");
+		$ctrl_o2htmlarea4->info_padre(array(0));
+	$ctrl_o2htmlarea5 = &$form_browser->ctrldef("o2htmlarea5", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea5->x(310);
+		$ctrl_o2htmlarea5->y(8);
+		$ctrl_o2htmlarea5->larghezza(50);
+		$ctrl_o2htmlarea5->altezza(20);
+		$ctrl_o2htmlarea5->expand("H");
+		$ctrl_o2htmlarea5->info_padre(array(0));
 	$ctrl_o2edit2 = &$form_browser->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "files_filter");
 		$ctrl_o2edit2->x(100);
-		$ctrl_o2edit2->y(4);
+		$ctrl_o2edit2->y(8);
 		$ctrl_o2edit2->larghezza(100);
 		$ctrl_o2edit2->altezza(20);
 		$ctrl_o2edit2->azione("load_file_list");
 		$ctrl_o2edit2->on_change(o2sys_fs_browser_exp_3());
 		$ctrl_o2edit2->info_padre(array(0));
 	$ctrl_o2image2 = &$form_browser->ctrldef("o2image2", "img", "o2multipage2", "", "");
-		$ctrl_o2image2->x(330);
-		$ctrl_o2image2->y(2);
+		$ctrl_o2image2->x(230);
+		$ctrl_o2image2->y(6);
 		$ctrl_o2image2->larghezza(24);
 		$ctrl_o2image2->altezza(24);
 		$ctrl_o2image2->modificabile(o2sys_fs_browser_exp_52());
@@ -109,8 +120,8 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2image2->css(o2sys_fs_browser_exp_51());
 		$ctrl_o2image2->imgexp(o2sys_fs_browser_exp_50());
 	$ctrl_o2image3 = &$form_browser->ctrldef("o2image3", "img", "o2multipage2", "", "");
-		$ctrl_o2image3->x(354);
-		$ctrl_o2image3->y(2);
+		$ctrl_o2image3->x(254);
+		$ctrl_o2image3->y(6);
 		$ctrl_o2image3->larghezza(24);
 		$ctrl_o2image3->altezza(24);
 		$ctrl_o2image3->visibile(o2sys_fs_browser_exp_13());
@@ -120,8 +131,8 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2image3->css(o2sys_fs_browser_exp_56());
 		$ctrl_o2image3->imgexp(o2sys_fs_browser_exp_54());
 	$ctrl_o2image4 = &$form_browser->ctrldef("o2image4", "img", "o2multipage2", "", "");
-		$ctrl_o2image4->x(378);
-		$ctrl_o2image4->y(2);
+		$ctrl_o2image4->x(278);
+		$ctrl_o2image4->y(6);
 		$ctrl_o2image4->larghezza(24);
 		$ctrl_o2image4->altezza(24);
 		$ctrl_o2image4->visibile(o2sys_fs_browser_exp_12());
@@ -136,11 +147,10 @@ function o2sys_fs_browser§§add_folder_form_def(&$form_add_folder) {
 	$form_add_folder->y(231);
 	$form_add_folder->larghezza(388);
 	$form_add_folder->altezza(71);
-	$form_add_folder->titolo("Create new folder");
-	$form_add_folder->css_doc("sys_fs_doc");
-	$form_add_folder->close_action("close_form_newdir");
 	$form_add_folder->align_o("Center");
+	$form_add_folder->titolo("Create new folder");
 	$form_add_folder->frm_status(o2sys_fs_browser_exp_9999());
+	$form_add_folder->close_action("close_form_newdir");
 	$ctrl_new_folder = &$form_add_folder->ctrldef("new_folder", "edit", "", "prg§_§var", "newdir_name");
 		$ctrl_new_folder->x(10);
 		$ctrl_new_folder->y(10);
@@ -159,11 +169,10 @@ function o2sys_fs_browser§§add_file_form_def(&$form_add_file) {
 	$form_add_file->y(163);
 	$form_add_file->larghezza(479);
 	$form_add_file->altezza(70);
-	$form_add_file->titolo("Add file to folder");
-	$form_add_file->css_doc("sys_fs_doc");
-	$form_add_file->close_action("close_form_fileupload");
 	$form_add_file->align_o("Center");
+	$form_add_file->titolo("Add file to folder");
 	$form_add_file->frm_status(o2sys_fs_browser_exp_9999());
+	$form_add_file->close_action("close_form_fileupload");
 	$ctrl_o2file2 = &$form_add_file->ctrldef("o2file2", "file", "", "prg§_§var", "uploaded_file");
 		$ctrl_o2file2->x(10);
 		$ctrl_o2file2->y(10);
@@ -182,10 +191,9 @@ function o2sys_fs_browser§§visor_form_def(&$form_visor) {
 	$form_visor->y(100);
 	$form_visor->larghezza(610);
 	$form_visor->altezza(500);
-	$form_visor->titolo("Retrieve file");
-	$form_visor->css_doc("sys_fs_doc");
-	$form_visor->close_action("close_form_fileget");
 	$form_visor->align_o("Center");
+	$form_visor->titolo("Retrieve file");
+	$form_visor->close_action("close_form_fileget");
 		}
 
 function o2sys_fs_browser§§close_form_fileget_act(&$o2exe) {
@@ -676,7 +684,7 @@ return ((o2par(9) ? o2par(9) : "Resources browser"));
 
 function o2sys_fs_browser_exp_41() {
 	
-return ("jxtoolbar");
+return ('nav_big');
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_42() {
@@ -844,16 +852,6 @@ return (0);
 function o2sys_fs_browser_exp_65() {
 	
 return (o2val('prg§_§var','folder_start'));
-	} //|o2_fine_exp|
-
-function o2sys_fs_browser_exp_66() {
-	
-return (max(600, o2client_width() / 2));
-	} //|o2_fine_exp|
-
-function o2sys_fs_browser_exp_67() {
-	
-return (max(480, o2client_height() / 2));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_69() {
