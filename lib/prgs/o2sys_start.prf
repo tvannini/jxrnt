@@ -216,11 +216,13 @@ function o2sys_start§§login_failed_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_start§§login_ldap_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_49()) && $o2exe->e();
-//	$o2exe->s(2) && True && o2act::remark("Set area-code and update password") && $o2exe->e();
-	$o2exe->s(3) && (o2sys_start_exp_12() || $o2exe->e()) && o2act::exe("login_correct_ldap", True, "") && $o2exe->e();
-//	$o2exe->s(4) && True && o2act::remark("Handle login error") && $o2exe->e();
-	$o2exe->s(5) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::exe("login_failed", True, "") && $o2exe->e();
+//	$o2exe->s(1) && True && o2act::remark("LDAP from CMD: no password check!!!") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_52()) && $o2exe->e();
+	$o2exe->s(3) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_49()) && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("Set area-code and update password") && $o2exe->e();
+	$o2exe->s(5) && (o2sys_start_exp_12() || $o2exe->e()) && o2act::exe("login_correct_ldap", True, "") && $o2exe->e();
+//	$o2exe->s(6) && True && o2act::remark("Handle login error") && $o2exe->e();
+	$o2exe->s(7) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::exe("login_failed", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_std_act(&$o2exe) {
@@ -660,5 +662,12 @@ else {
    $type = 'STD';
    }
 return ($type);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_52() {
+	
+
+
+return ((o2rnt_interface() == 'BAT') && o2app_user() && o2val('users','o2user'));
 	} //|o2_fine_exp|
 ?>
