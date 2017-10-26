@@ -6399,7 +6399,7 @@ class o2act {
             switch ($app->runtime->interface) {
                 case "HTML":
                     ob_clean();
-                    $_SESSION['jxredirect'] = urlencode(trim($program));
+                    $_SESSION['jxredirect'] = $program;
                     // _____________________________________________________ Full-AJAX ___
                     if ($GLOBALS['jxjs'] || $GLOBALS['jxjsorigin']) {
                         jxjs::page();
@@ -6411,7 +6411,7 @@ class o2act {
                         }
                     break;
                 default:
-                    $_SESSION['jxredirect'] = urlencode(trim($program));
+                    $_SESSION['jxredirect'] = $program;
                     o2html::page(true);
                     die();
                     break;

@@ -1525,11 +1525,12 @@ function o2job_queue($job_name, $params = array()) {
  * Job is queued for execution and a dedicated batch process is started.
  * A list of parameters (by name) can be provided: list will override parameters passed to
  * program called by job.
+ * If job exists then new job execution ID is returned, else FALSE.
  *
  * @package jobs
  * @param   string $job_name   Job name to look for
  * @param   array  $params     List of overriding parameters passed to program
- * @return  boolean
+ * @return  integer
  * @see     o2job_create()
  * @see     o2job_queue()
  * @see     o2job_get_by_name()
@@ -1553,7 +1554,7 @@ function o2job_run($job_name, $params = array()) {
  *
  * @package jobs
  * @param   string $job_name   Name to look for
- * @return  boolean
+ * @return  integer
  * @see     o2job_create()
  * @see     o2job_get_by_name()
  * @see     o2job_is_scheduled()
