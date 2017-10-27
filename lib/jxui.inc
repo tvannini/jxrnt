@@ -4047,6 +4047,7 @@ class o2_ctrl_tab extends o2_ctrl {
     public $hscroll        = 0;       /* Table body horizontal scrolling value          */
     public $vscroll        = 0;       /* Table body vertical scrolling value            */
     public $custom_colsord = false;   /* Custom columns order set                       */
+    public $pinned_cols    = false;   /* Number of pinned columns                       */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $spazio_class   = "o2_tab_space";  /* Whole external assigned space <DIV>    */
     public $tab_class      = "o2_tab_tab";    /* Whole actually used space <TABLE>      */
@@ -4193,6 +4194,14 @@ class o2_ctrl_tab extends o2_ctrl {
     function css_fcol($css = "") {
 
         $this->fcol_class = ($css ? $css : "o2_tab_fcol");
+        return true;
+
+        }
+
+
+    function pinned_cols($num = "") {
+
+        $this->pinned_cols = ($num ? $num : false);
         return true;
 
         }

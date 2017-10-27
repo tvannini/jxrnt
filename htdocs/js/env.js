@@ -2948,11 +2948,10 @@ o2jse.tab.set = function(tabName,
         codeOnScroll+= "document.getElementById('" + pseudoF.id +
                        "').scrollLeft=this.scrollLeft;";
         }
-
+    o2jse.ctrl.init(myTab);
     // __________________________________________ Add pseudo-columns for fixed columns ___
-    if (false) {
-
-        var pinCols = 1;
+    if (myTab.o2.pc) {
+        var pinCols = myTab.o2.pc;
         // ______________________ If horizontal scrolling needed create pseudo-columns ___
         if (hScroll) {
             // _______________ If table marker column is visible add it to pinned ones ___

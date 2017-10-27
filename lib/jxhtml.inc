@@ -2696,7 +2696,9 @@ class o2html {
             // __________________________________________ Check for internal navigator ___
             o2html::ctrl_tab_getnav($o2ctrl_obj);
             // -------------------------=[ START EXTERNAL DIV ]=--------------------------
-            print "<div id='".$html_name."' ".$o2ctrl_obj->js_props().
+            print "<div id='".$html_name."' ".
+                  $o2ctrl_obj->js_props($o2ctrl_obj->pinned_cols ?
+                                        'pc:'.$o2ctrl_obj->pinned_cols : false).
                       " class='".$o2ctrl_obj->spazio_class.
                                  ($o2ctrl_obj->modificabile ? " jxtabedit" : "").
                      "' style='position:absolute;width:".$o2ctrl_obj->larghezza.
