@@ -5919,8 +5919,12 @@ function o2view_rec($view_name) {
                 break;
                 }
             }
+        $view_obj->campo($field->nome);
+        return (count($view_obj->recordset) > 0);
+/*
         return (($view_obj->campo($field->nome) !== $field->maschera->default) ||
                 (count($view_obj->recordset) > 0));
+*/
         }
     else {
         return false;
