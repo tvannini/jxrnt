@@ -2996,12 +2996,13 @@ o2jse.tab.set = function(tabName,
                     myC.style.width = myC.offsetWidth + 'px';
                     fR.appendChild(myC.cloneNode(true));
                     }
-                var pseudoCH         = document.createElement('div');
-                pseudoCH.id          = tabName + '_pseudoCH';
+                var pseudoCH            = document.createElement('div');
+                pseudoCH.id             = tabName + '_pseudoCH';
                 pseudoCH.style.position = 'absolute';
                 pseudoCH.style.top      = myCont.clientTop + 'px';
                 pseudoCH.style.left     = myCont.clientLeft + 'px';
                 pseudoCH.style.width    = fWidth + 'px';
+                fH.style.height         = myHead.offsetHeight + 'px';
                 pseudoCH.appendChild(fH);
                 contAll.appendChild(pseudoCH);
                 }
