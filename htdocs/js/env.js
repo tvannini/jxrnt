@@ -3002,7 +3002,7 @@ o2jse.tab.set = function(tabName,
                 pseudoCH.style.top      = myCont.clientTop + 'px';
                 pseudoCH.style.left     = myCont.clientLeft + 'px';
                 pseudoCH.style.width    = fWidth + 'px';
-                fH.style.height         = myHead.offsetHeight + 'px';
+                fR.style.height         = myHead.offsetHeight + 'px';
                 pseudoCH.appendChild(fH);
                 contAll.appendChild(pseudoCH);
                 }
