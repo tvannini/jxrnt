@@ -1577,7 +1577,7 @@ function o2_mssql_recordset($server,
     if ($where) {
         $query.= " WHERE ".$where;
         }
-    if ($order_by) {
+    if ($order_by && !isset($GLOBALS['jxviewsql'])) {
         $query.= " ORDER BY ".$order_by;
         }
     // _________________________________________ Return SQL query instead of executing ___
