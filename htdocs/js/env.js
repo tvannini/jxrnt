@@ -2056,7 +2056,7 @@ o2jse.tab.select = function(targetObj, eventObj) {
 /*
         var pseudoC = document.getElementById(tg.o2.c + tg.o2.e + '_pseudoC_tab');
 o2log(tg.o2);
-        // _____________ Pinned columns are present and method colled on pinned columns___
+        // _____________ Pinned columns are present and method called on pinned columns___
         if (pseudoC && pseudoC.contains(tg)) {
             var srcTab = document.getElementById(tg.o2.c + tg.o2.e + '_tab');
             var row    = tg.rowIndex +
