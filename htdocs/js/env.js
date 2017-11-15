@@ -1761,7 +1761,9 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 // ______________________________________________________ Hide control ___
                 waitCtrl.style.display = "none";
                 // __________________________ Simulate original control as a container ___
-                o2jse.waitObj              = o2jse.createEl(pNode, "DIV", cClass);
+                o2jse.waitObj              = o2jse.createEl(pNode,
+                                                            waitCtrl.tagName,
+                                                            cClass);
                 o2jse.waitObj.style.width  = cWidth + "px";
                 o2jse.waitObj.style.height = cHeight + "px";
                 // ___________________________ Create wait image inside pseudo-control ___
@@ -4328,6 +4330,10 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
     o2jse.infoForm['o2_action'].value   = actName;
     o2jse.infoForm['o2lastform'].value  = "";
     o2jse.infoForm['o2lastctrl'].value  = "";
+    // __________________________________ Preserve waiting requests (submit-on-change) ___
+    if (o2jse.submitting) {
+        return false;
+        }
     // ____________________ Remove previous external parameters fields (Full-AJAX only)___
     for (var i = o2jse.infoForm.elements.length; i > 0; i--) {
         var field = o2jse.infoForm.elements[i - 1];
@@ -4363,6 +4369,7 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
             o2jse.cmd.submit(prgID);
             }
         }
+    o2jse.ctrl.make_waiting(stdEvent.target);
 
     };
 
