@@ -1732,8 +1732,7 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 var pNode   = waitCtrl.parentNode;
                 var cWidth  = waitCtrl.offsetWidth;
                 var cHeight = waitCtrl.offsetHeight;
-                var cClass  = (waitCtrl.o2 && waitCtrl.o2.cT == "button" ?
-                               waitCtrl.className : "");
+                var cClass  = waitCtrl.className;
                 // ______________________________________________________ Hide control ___
                 waitCtrl.style.display = "none";
                 // __________________________ Simulate original control as a container ___
