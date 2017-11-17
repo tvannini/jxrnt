@@ -1725,30 +1725,7 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + "px";
                 wObj.style.top      = "0";
                 break;
-            case "DIV": // ___________________ Controls as a DIV (navigator & buttons) ___
-                // ______________________________________________ Save waiting control ___
-                jxjs.waitingCtrl = waitCtrl;
-                // _______________________________________ Save current control values ___
-                var pNode   = waitCtrl.parentNode;
-                var cWidth  = waitCtrl.offsetWidth;
-                var cHeight = waitCtrl.offsetHeight;
-                var cClass  = waitCtrl.className;
-                // ______________________________________________________ Hide control ___
-                waitCtrl.style.display = "none";
-                // __________________________ Simulate original control as a container ___
-                o2jse.waitObj              = o2jse.createEl(pNode, "DIV", cClass);
-                o2jse.waitObj.style.width  = cWidth + "px";
-                o2jse.waitObj.style.height = cHeight + "px";
-                // ___________________________ Create wait image inside pseudo-control ___
-                var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                     "DIV",
-                                                     "jx_inctrl_wait",
-                                                     "&nbsp;");
-                wObj.style.position = "relative";
-                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + "px";
-                wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + "px";
-                break;
-            default: // __________________ Controls as an INPUT (EDIT, TEXT-AREA, ...) ___
+            case "INPUT": // _____________ Controls as an INPUT (EDIT, TEXT-AREA, ...) ___
                 o2jse.ctrl.b(waitCtrl);
                 // ______________________________________________ Save waiting control ___
                 jxjs.waitingCtrl = waitCtrl;
@@ -1760,9 +1737,8 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 // ______________________________________________________ Hide control ___
                 waitCtrl.style.display = "none";
                 // __________________________ Simulate original control as a container ___
-                o2jse.waitObj              = o2jse.createEl(pNode,
-                                                            waitCtrl.tagName,
-                                                            cClass);
+                o2jse.waitObj          = o2jse.createEl(false, waitCtrl.tagName, cClass);
+                pNode.insertBefore(o2jse.waitObj, waitCtrl);
                 o2jse.waitObj.style.width  = cWidth + "px";
                 o2jse.waitObj.style.height = cHeight + "px";
                 // ___________________________ Create wait image inside pseudo-control ___
@@ -1771,6 +1747,36 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                                                      "jx_inctrl_wait",
                                                      "&nbsp;");
                 wObj.style.position = "absolute";
+                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + "px";
+                wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + "px";
+                break;
+            default: // ________ Controls as a DIV (navigator & buttons) and other tags___
+                // ______________________________________________ Save waiting control ___
+                jxjs.waitingCtrl = waitCtrl;
+                // _______________________________________ Save current control values ___
+                var pNode   = waitCtrl.parentNode;
+                var cWidth  = waitCtrl.offsetWidth;
+                var cHeight = waitCtrl.offsetHeight;
+                var cClass  = waitCtrl.className;
+                // ______________________________________________________ Hide control ___
+                waitCtrl.style.display = "none";
+                // __________________________ Simulate original control as a container ___
+                o2jse.waitObj = o2jse.createEl(false, "DIV", cClass);
+                pNode.insertBefore(o2jse.waitObj, waitCtrl);
+                var bgImg = (o2jse.waitObj.currentStyle ||
+                             window.getComputedStyle(o2jse.waitObj,
+                                                     false)).backgroundImage;
+                if (bgImg.slice(0, 3).toLowerCase() == 'url') {
+                    o2jse.waitObj.style.backgroundImage = 'none';
+                    }
+                o2jse.waitObj.style.width  = cWidth + "px";
+                o2jse.waitObj.style.height = cHeight + "px";
+                // ___________________________ Create wait image inside pseudo-control ___
+                var wObj            = o2jse.createEl(o2jse.waitObj,
+                                                     "DIV",
+                                                     "jx_inctrl_wait",
+                                                     "&nbsp;");
+                wObj.style.position = "relative";
                 wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + "px";
                 wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + "px";
                 break;
@@ -6249,8 +6255,9 @@ o2jse.tv = {};
  * @param string ctrl   Treeview control name
  * @param string node   Node id to be open/close
  */
-o2jse.tv.c = function(ctrl, node) {
+o2jse.tv.c = function(target, ctrl, node) {
 
+    o2jse.ctrl.make_waiting(target);
     var treeCtrl = o2jse.createInput(o2jse.infoForm,
                                      "hidden",
                                      "",

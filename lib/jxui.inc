@@ -4984,7 +4984,8 @@ class o2_ctrl_tree extends o2_ctrl {
         // _______________________________________________________ Icon to fold/unfold ___
         $fold = "<div class='jx_treenode_".
                 ($has_child ? ($open ? "open'" : "close'") : "leaf'").
-                ($has_child ? " onclick='o2jse.tv.c(\"".$this->nome.'","'.$node_id."\");'"
+                ($has_child ?
+                 " onclick='o2jse.tv.c(this,\"".$this->nome.'","'.$node_id."\");'"
                  : "")."></div>";
         // ______________________________________________________________________ Icon ___
         if ($this_node[2]) {
