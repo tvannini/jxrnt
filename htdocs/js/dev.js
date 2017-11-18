@@ -83,8 +83,10 @@ o2jse.dev.show = function(local_obj, deepLimit, indent, propName) {
         }
     if (indent < 1) {
         o2jse.dText+= "<br /><br /><br />";
-        var div     = o2jse.createEl(o2jse.elBody, "DIV", "disp_area", o2jse.dText);
+//        var div     = o2jse.createEl(o2jse.elBody, "DIV", "disp_area", o2jse.dText);
+o2jse.lab.getResult(null, o2jse.dText);
         o2jse.dText = false;
+/*
         if (o2jse.menuStyle == 'T') {
             div.style.marginTop = (document.getElementById("jxMenuBar").offsetHeight + 20)
                                   + 'px';
@@ -93,6 +95,7 @@ o2jse.dev.show = function(local_obj, deepLimit, indent, propName) {
             div.style.marginLeft = (document.getElementById("jxMenuBar").offsetWidth + 20)
                                    + 'px';
             }
+*/
         }
 
     };
