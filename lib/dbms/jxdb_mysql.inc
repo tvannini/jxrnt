@@ -1364,15 +1364,20 @@ function o2_mysql_recordset($server,
     if ($where) {
         $query.= " WHERE ".$where;
         }
-    if ($order_by) {
+    if ($order_by &&
+        (!isset($GLOBALS['jxviewsql']) ||
+         (strpos($GLOBALS['jxviewsql'], 'O') !== false))) {
         $query.= " ORDER BY ".$order_by;
+        }
+    if (!isset($GLOBALS['jxviewsql']) ||
+        (strpos($GLOBALS['jxviewsql'], 'L') !== false)) {
+        $query.= " LIMIT ".abs($recs);
         }
     // _________________________________________ Return SQL query instead of executing ___
     if (isset($GLOBALS['jxviewsql'])) {
         $GLOBALS['jxviewsql'] = $query;
         return array();
         }
-    $query.= " LIMIT ".abs($recs);
     if ($lock) {
         $query.= " FOR UPDATE";
         }

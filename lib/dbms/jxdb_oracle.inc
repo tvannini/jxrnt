@@ -1536,7 +1536,9 @@ function o2_oracle_recordset($server,
     if ($where) {
         $query.= " WHERE ".$where;
         }
-    if ($order_by) {
+    if ($order_by &&
+        (!isset($GLOBALS['jxviewsql']) ||
+         (strpos($GLOBALS['jxviewsql'], 'O') !== false))) {
         $query.= " ORDER BY ".$order_by;
         }
     // _________________________________________ Return SQL query instead of executing ___

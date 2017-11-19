@@ -1108,34 +1108,40 @@ function o2_sqlite3_recordset($server,
     if (substr($table, 0, 1) != "(") {
         $table = o2_sqlite3_o.$database.$table.o2_sqlite3_c;
         }
-    $query = "SELECT ".$select_str." FROM ".$table.
-             " AS ".o2_sqlite3_o.$table_alias.o2_sqlite3_c;
+    $query = 'SELECT '.$select_str.' FROM '.$table.
+             ' AS '.o2_sqlite3_o.$table_alias.o2_sqlite3_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
             // _________________________________ Insert database in table name, if any ___
             if ($database) {
                 $linktab = substr($linktab, 0, 1).$database.substr($linktab, 1);
                 }
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
-    if ($order_by) {
-        $query.= " ORDER BY ".$order_by;
-        }
-    // _________________________________________ Return SQL query instead of executing ___
-    if (isset($GLOBALS['jxviewsql'])) {
-        $GLOBALS['jxviewsql'] = $query;
-        return array();
+    if ($order_by &&
+        (!isset($GLOBALS['jxviewsql']) ||
+         (strpos($GLOBALS['jxviewsql'], 'O') !== false))) {
+        $query.= ' ORDER BY '.$order_by;
         }
     if ($stm_id) {
         $stm = 0;
         }
     else {
         $stm   = false;
-        $query.= " LIMIT ".$recs;
+        if ((strtoupper(substr($select_str, 0, 8)) != 'DISTINCT') &&
+            (!isset($GLOBALS['jxviewsql']) ||
+             (strpos($GLOBALS['jxviewsql'], 'L') !== false))) {
+            $query.= ' LIMIT '.$recs;
+            }
+        }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return array();
         }
     try {
         $res = o2_sqlite3_execute($query,

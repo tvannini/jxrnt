@@ -1560,25 +1560,28 @@ function o2_mssql_recordset($server,
         }
     else {
         $stm = false;
-        if (strtoupper(substr($select_str, 0, 8)) != "DISTINCT" &&
-            !isset($GLOBALS['jxviewsql'])) {
-            $query.= "TOP ".$recs.' ';
+        if ((strtoupper(substr($select_str, 0, 8)) != 'DISTINCT') &&
+            (!isset($GLOBALS['jxviewsql']) ||
+             (strpos($GLOBALS['jxviewsql'], 'L') !== false))) {
+            $query.= 'TOP '.$recs.' ';
             }
         }
-    $query.= $select_str." FROM ".$table." AS ".o2_mssql_o.$table_alias.o2_mssql_c;
+    $query.= $select_str.' FROM '.$table.' AS '.o2_mssql_o.$table_alias.o2_mssql_c;
     if ($lock) {
-        $query.= " WITH (UPDLOCK)";
+        $query.= ' WITH (UPDLOCK)';
         }
     if ($links) {
         foreach ($links as $linktab => $linkon) {
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
-    if ($order_by && !isset($GLOBALS['jxviewsql'])) {
-        $query.= " ORDER BY ".$order_by;
+    if ($order_by &&
+        (!isset($GLOBALS['jxviewsql']) ||
+         (strpos($GLOBALS['jxviewsql'], 'O') !== false))) {
+        $query.= ' ORDER BY '.$order_by;
         }
     // _________________________________________ Return SQL query instead of executing ___
     if (isset($GLOBALS['jxviewsql'])) {

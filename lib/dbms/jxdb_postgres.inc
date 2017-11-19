@@ -1440,38 +1440,44 @@ function o2_postgres_recordset($server,
         unset($GLOBALS['o2_postgres_stms'][$stm_id]);
         }
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
-        $table = o2_postgres_o.$database.o2_postgres_c.".".
-                 o2_postgres_o.$owner.o2_postgres_c.".".
+    if (substr($table, 0, 1) != '(') {
+        $table = o2_postgres_o.$database.o2_postgres_c.'.'.
+                 o2_postgres_o.$owner.o2_postgres_c.'.'.
                  o2_postgres_o.$table.o2_postgres_c;
         }
-    $query = "SELECT ".$select_str." FROM ".$table.
-             " AS ".o2_postgres_o.$table_alias.o2_postgres_c;
+    $query = 'SELECT '.$select_str.' FROM '.$table.
+             ' AS '.o2_postgres_o.$table_alias.o2_postgres_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
-    if ($order_by) {
-        $query.= " ORDER BY ".$order_by;
-        }
-    // _________________________________________ Return SQL query instead of executing ___
-    if (isset($GLOBALS['jxviewsql'])) {
-        $GLOBALS['jxviewsql'] = $query;
-        return array();
+    if ($order_by &&
+        (!isset($GLOBALS['jxviewsql']) ||
+         (strpos($GLOBALS['jxviewsql'], 'O') !== false))) {
+        $query.= ' ORDER BY '.$order_by;
         }
     if ($stm_id) {
         $stm = 0;
         }
     else {
         $stm   = false;
-        $query.= " LIMIT ".$recs;
+        if ((strtoupper(substr($select_str, 0, 8)) != 'DISTINCT') &&
+            (!isset($GLOBALS['jxviewsql']) ||
+             (strpos($GLOBALS['jxviewsql'], 'L') !== false))) {
+            $query.= ' LIMIT '.$recs;
+            }
+        }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return array();
         }
     if ($lock) {
-        $query.= " FOR UPDATE";
+        $query.= ' FOR UPDATE';
         }
     try {
         $res = o2_postgres_execute($query,
