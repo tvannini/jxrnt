@@ -2500,7 +2500,6 @@ o2jse.tab.startSizing = function(eventObj) {
                                  r: divObj.offsetWidth + stdEvent.x};
         o2jse.cmd.opacity(tabObj, 50);
         o2jse.cmd.startGlass(o2jse.tab.sizeTo, o2jse.tab.stopSizing, "col-resize");
-
         }
 
     };

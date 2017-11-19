@@ -2698,6 +2698,7 @@ class o2html {
             // ___________________________ All grid-plus functions are enabled on grid ___
             if ($o2ctrl_obj->gp_vis_cols &&
                 $o2ctrl_obj->gp_ord_cols &&
+                $o2ctrl_obj->gp_size_cols &&
                 $o2ctrl_obj->gp_filter_recs &&
                 $o2ctrl_obj->gp_sort_recs &&
                 $o2ctrl_obj->gp_rows_num &&
@@ -2710,6 +2711,7 @@ class o2html {
                 // ___________________________________ NOTE: TRUE flag means DISABLED! ___
                 $custom_plus = 'gp_vc:'.($o2ctrl_obj->gp_vis_cols ? '!1' : '!0').','.
                                'gp_oc:'.($o2ctrl_obj->gp_ord_cols ? '!1' : '!0').','.
+                               'gp_sc:'.($o2ctrl_obj->gp_size_cols ? '!1' : '!0').','.
                                'gp_fr:'.($o2ctrl_obj->gp_filter_recs ? '!1' : '!0').','.
                                'gp_sr:'.($o2ctrl_obj->gp_sort_recs ? '!1' : '!0').','.
                                'gp_rn:'.($o2ctrl_obj->gp_rows_num ? '!1' : '!0').','.
@@ -2875,7 +2877,7 @@ class o2html {
     static function ctrl_tab_header($o2ctrl_obj) {
 
         $app                  = $_SESSION['o2_app'];
-        $sizable              = $app->grid_plus;
+        $sizable              = $app->grid_plus && $o2ctrl_obj->gp_size_cols;
         $prg                  = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
         $row_index            = 1;
         $puntatore_col        = 0;
@@ -2976,7 +2978,8 @@ class o2html {
                 else {
                     $col_size = false;
                     }
-                $col_js = ' onmousedown="o2jse.tab.startColMovingTO(event);"';
+                $col_js = ($o2ctrl_obj->gp_ord_cols ?
+                           ' onmousedown="o2jse.tab.startColMovingTO(event);"' : '');
                 $o2ctrl_obj->colonne = max($ctrl->info_padre[2], $o2ctrl_obj->colonne);
                 $puntatore_col       = $ctrl->info_padre[2];
                 $code.= '<th o2="e:'.$o2ctrl_obj->id_esecuzione.

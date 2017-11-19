@@ -4035,6 +4035,7 @@ class o2_ctrl_tab extends o2_ctrl {
     public $footer         = false;   /* If tab has footer (at last one column has it)  */
     public $gp_vis_cols    = true;    /* grid-plus change visible columns               */
     public $gp_ord_cols    = true;    /* grid-plus change columns order                 */
+    public $gp_size_cols   = true;    /* grid-plus change columns size                  */
     public $gp_filter_recs = true;    /* grid-plus filter records                       */
     public $gp_sort_recs   = true;    /* grid-plus sort data by columns                 */
     public $gp_rows_num    = true;    /* grid-plus set rows number                      */
@@ -4224,11 +4225,12 @@ class o2_ctrl_tab extends o2_ctrl {
         if (is_array($list)) {
             $this->gp_vis_cols    = ($list[0] ? true : false);
             $this->gp_ord_cols    = ($list[1] ? true : false);
-            $this->gp_filter_recs = ($list[2] ? true : false);
-            $this->gp_sort_recs   = ($list[3] ? true : false);
-            $this->gp_rows_num    = ($list[4] ? true : false);
-            $this->gp_export      = ($list[5] ? true : false);
-            $this->gp_delete      = ($list[6] ? true : false);
+            $this->gp_size_cols   = ($list[2] ? true : false);
+            $this->gp_filter_recs = ($list[3] ? true : false);
+            $this->gp_sort_recs   = ($list[4] ? true : false);
+            $this->gp_rows_num    = ($list[5] ? true : false);
+            $this->gp_export      = ($list[6] ? true : false);
+            $this->gp_delete      = ($list[7] ? true : false);
             }
 
         }
