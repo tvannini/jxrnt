@@ -2695,10 +2695,34 @@ class o2html {
             $html_name = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
             // __________________________________________ Check for internal navigator ___
             o2html::ctrl_tab_getnav($o2ctrl_obj);
+            // ___________________________ All grid-plus functions are enabled on grid ___
+            if ($o2ctrl_obj->gp_vis_cols &&
+                $o2ctrl_obj->gp_ord_cols &&
+                $o2ctrl_obj->gp_filter_recs &&
+                $o2ctrl_obj->gp_sort_recs &&
+                $o2ctrl_obj->gp_rows_num &&
+                $o2ctrl_obj->gp_export &&
+                $o2ctrl_obj->gp_delete) {
+                $custom_plus = false;
+                }
+            // ___________________ One or more grid-plus function are disabled on grid ___
+            else {
+                // ___________________________________ NOTE: TRUE flag means DISABLED! ___
+                $custom_plus = 'gp_vc:'.($o2ctrl_obj->gp_vis_cols ? '!1' : '!0').','.
+                               'gp_oc:'.($o2ctrl_obj->gp_ord_cols ? '!1' : '!0').','.
+                               'gp_fr:'.($o2ctrl_obj->gp_filter_recs ? '!1' : '!0').','.
+                               'gp_sr:'.($o2ctrl_obj->gp_sort_recs ? '!1' : '!0').','.
+                               'gp_rn:'.($o2ctrl_obj->gp_rows_num ? '!1' : '!0').','.
+                               'gp_xp:'.($o2ctrl_obj->gp_export ? '!1' : '!0').','.
+                               'gp_dl:'.($o2ctrl_obj->gp_delete ? '!1' : '!0');
+                }
             // -------------------------=[ START EXTERNAL DIV ]=--------------------------
+            $js_props = ($o2ctrl_obj->pinned_cols ?
+                         'pc:'.$o2ctrl_obj->pinned_cols : '').
+                        ($o2ctrl_obj->pinned_cols && $custom_plus ? ',' : '').
+                        $custom_plus;
             print "<div id='".$html_name."' ".
-                  $o2ctrl_obj->js_props($o2ctrl_obj->pinned_cols ?
-                                        'pc:'.$o2ctrl_obj->pinned_cols : false).
+                  $o2ctrl_obj->js_props($js_props ? $js_props : false).
                       " class='".$o2ctrl_obj->spazio_class.
                                  ($o2ctrl_obj->modificabile ? " jxtabedit" : "").
                      "' style='position:absolute;width:".$o2ctrl_obj->larghezza.

@@ -3118,78 +3118,114 @@ o2jse.tab.initContMenu = function() {
 
     var jxInfo = o2jse.cMenu.target.o2;
     if (jxInfo.cT == "tab") {
+        // ________________________________________________ Get main table prorperties ___
+        var mTb = document.getElementById(jxInfo.c + jxInfo.e);
+        o2jse.ctrl.init(mTb);
+        var mTbInfo = mTb.o2;
         o2jse.tab.customInfo = jxInfo;
         if (o2jse.menu.menuList["jxGridExtra"]) {
             o2jse.menu.menuList["jxGridExtra"].clear();
             }
-        o2jse.cMenu.addItem("M",
-                            "jxGridExtra",
-                            "Table",
-                            "",
-                            o2jse.rntAlias + "img/grid/grid.png");
-        // ___________________________________________________________ Visible columns ___
-        o2jse.menu.menuList["jxGridExtra"].addItem("M", "jxCustumTabCols",
-                                                   "Visible columns",
-                                                   "",
-                                                   o2jse.rntAlias + "img/grid/cols.png");
-        // _____________________________________________________________ Order columns ___
-        o2jse.menu.menuList["jxGridExtra"].addItem("M", "jxGridOrder",
-                                                   "Order columns",
-                                                   "",
-                                                   o2jse.rntAlias +"img/grid/order.png");
-        // ____________________________________________________________ Filter records ___
-        o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridFilter",
-                                                   "Filter data",
-                                                   o2jse.tab.filter,
-                                                   o2jse.rntAlias +"img/grid/filter.png");
-        // ______________________________________________________________ Sort records ___
-        o2jse.menu.menuList["jxGridExtra"].addItem("M", "jxGridSort",
-                                                   "Sort data",
-                                                   "",
-                                                   o2jse.rntAlias +"img/grid/sort.png");
-        // ___________________________________________________________ Set rows number ___
-        o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridRows",
-                                                   "Set rows number",
-                                                   o2jse.tab.setRowsN,
-                                                   o2jse.rntAlias +"img/grid/rows.png");
-        // _______________________________________________________________ Export data ___
-        o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridExport",
-                                                   "Export data",
-                                                   o2jse.tab.exportData,
-                                                   o2jse.rntAlias +"img/grid/export.png");
-        // _______________________________________________________________ Delete data ___
-        if (o2jse.tab.gridMultiDel) {
-            pTab = document.getElementById(jxInfo.c + jxInfo.e);
-            o2jse.ctrl.init(pTab);
-            if (pTab.o2.nav &&
-                document.getElementById(pTab.o2.nav + pTab.o2.e + "_delbtn")) {
-                o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridDeleteAll",
-                                                           "Delete filtered data",
-                                                           function () {
-                                                        o2jse.tab.deleteData(pTab.o2.nav);
-                                                            },
+        // ___________________ If all functions are disabled don't show grid-plus menu ___
+        if (!(mTbInfo.gp_vc &&
+              mTbInfo.gp_oc &&
+              mTbInfo.gp_fr &&
+              mTbInfo.gp_sr &&
+              mTbInfo.gp_rn &&
+              mTbInfo.gp_xp &&
+              mTbInfo.gp_dl)) {
+            o2jse.cMenu.addItem("M",
+                                "jxGridExtra",
+                                "Table",
+                                "",
+                                o2jse.rntAlias + "img/grid/grid.png");
+            // _______________________________________________________ Visible columns ___
+            if (!mTbInfo.gp_vc) {
+                o2jse.menu.menuList["jxGridExtra"].addItem("M", "jxCustumTabCols",
+                                                           "Visible columns",
+                                                           "",
                                                            o2jse.rntAlias +
-                                                           "img/grid/delete.png");
+                                                           "img/grid/cols.png");
+                o2jse.tab.visibleCols(jxInfo);
                 }
+
+            // _________________________________________________________ Order columns ___
+            if (!mTbInfo.gp_oc) {
+                o2jse.menu.menuList["jxGridExtra"].addItem("M", "jxGridOrder",
+                                                           "Order columns",
+                                                           "",
+                                                           o2jse.rntAlias +
+                                                           "img/grid/order.png");
+                o2jse.tab.orderCols(jxInfo);
+                }
+            // ________________________________________________________ Filter records ___
+            if (!mTbInfo.gp_fr) {
+                o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridFilter",
+                                                           "Filter data",
+                                                           o2jse.tab.filter,
+                                                           o2jse.rntAlias +
+                                                           "img/grid/filter.png");
+                }
+            // __________________________________________________________ Sort records ___
+            if (!mTbInfo.gp_sr) {
+                o2jse.menu.menuList["jxGridExtra"].addItem("M", "jxGridSort",
+                                                           "Sort data",
+                                                           "",
+                                                           o2jse.rntAlias +
+                                                           "img/grid/sort.png");
+                o2jse.tab.sortCols(jxInfo);
+                }
+            // _______________________________________________________ Set rows number ___
+            if (!mTbInfo.gp_rn) {
+                o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridRows",
+                                                           "Set rows number",
+                                                           o2jse.tab.setRowsN,
+                                                           o2jse.rntAlias +
+                                                           "img/grid/rows.png");
+                }
+            // ___________________________________________________________ Export data ___
+            if (!mTbInfo.gp_xp) {
+                o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridExport",
+                                                           "Export data",
+                                                           o2jse.tab.exportData,
+                                                           o2jse.rntAlias +
+                                                           "img/grid/export.png");
+                }
+            // ___________________________________________________________ Delete data ___
+            if (o2jse.tab.gridMultiDel && !mTbInfo.gp_dl) {
+                if (mTbInfo.nav &&
+                    document.getElementById(mTbInfo.nav + mTbInfo.e + "_delbtn")) {
+                    o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridDeleteAll",
+                                                               "Delete filtered data",
+                                                        function () {
+                                                        o2jse.tab.deleteData(mTbInfo.nav);
+                                                           },
+                                                               o2jse.rntAlias +
+                                                               "img/grid/delete.png");
+                    }
+                }
+            // _____________________________________________________________ Separator ___
+            o2jse.menu.menuList["jxGridExtra"].addItem("S");
+            // _________________________________________________________________ Reset ___
+            o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridReset",
+                                                       "Reset",
+                                                       o2jse.tab.resetCols,
+                                                       o2jse.rntAlias +
+                                                       "img/grid/reset.png");
+            // __________________________________________________________________ Save ___
+            if (o2jse.tab.autoSaveSettings == 2) {
+                o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridSave",
+                                                           "Save settings",
+                                                           o2jse.tab.saveSettings,
+                                                           o2jse.rntAlias +
+                                                           "img/grid/save.png");
+                }
+            return true;
             }
-        // _________________________________________________________________ Separator ___
-        o2jse.menu.menuList["jxGridExtra"].addItem("S");
-        // _____________________________________________________________________ Reset ___
-        o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridReset",
-                                                   "Reset",
-                                                   o2jse.tab.resetCols,
-                                                   o2jse.rntAlias +"img/grid/reset.png");
-        // ______________________________________________________________________ Save ___
-        if (o2jse.tab.autoSaveSettings == 2) {
-            o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridSave",
-                                                       "Save settings",
-                                                       o2jse.tab.saveSettings,
-                                                     o2jse.rntAlias +"img/grid/save.png");
+        else {
+            return false;
             }
-        o2jse.tab.visibleCols(jxInfo);
-        o2jse.tab.sortCols(jxInfo);
-        o2jse.tab.orderCols(jxInfo);
-        return true;
+
         }
     else {
         return false;
