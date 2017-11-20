@@ -4410,7 +4410,6 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
             }
         }
     if (stdEvent.target && stdEvent.target.tagName) {
-o2log(stdEvent.target.tagName);
         o2jse.ctrl.make_waiting(stdEvent.target);
         }
 
