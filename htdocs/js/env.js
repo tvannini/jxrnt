@@ -4409,7 +4409,9 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
             o2jse.cmd.submit(prgID);
             }
         }
-    o2jse.ctrl.make_waiting(stdEvent.target);
+    if (stdEvent.target) {
+        o2jse.ctrl.make_waiting(stdEvent.target);
+        }
 
     };
 
