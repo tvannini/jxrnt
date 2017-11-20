@@ -4409,7 +4409,8 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
             o2jse.cmd.submit(prgID);
             }
         }
-    if (stdEvent.target) {
+    if (stdEvent.target && stdEvent.target.tagName) {
+o2log(stdEvent.target.tagName);
         o2jse.ctrl.make_waiting(stdEvent.target);
         }
 
