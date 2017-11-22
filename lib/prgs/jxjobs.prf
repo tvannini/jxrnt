@@ -26,9 +26,9 @@ function jxjobs§§jxjobs_1_form_def(&$form_jxjobs_1) {
 	$form_jxjobs_1->y(30);
 	$form_jxjobs_1->larghezza(800);
 	$form_jxjobs_1->altezza(650);
+	$form_jxjobs_1->align_o("Center");
 	$form_jxjobs_1->titolo("Jobs");
 	$form_jxjobs_1->css_doc("sys_jobs_doc");
-	$form_jxjobs_1->align_o("Center");
 	$ctrl_o2label6 = &$form_jxjobs_1->ctrldef("o2label6", "label", "", "", "");
 		$ctrl_o2label6->x(20);
 		$ctrl_o2label6->y(16);
@@ -147,8 +147,8 @@ function jxjobs§§jxjobs_1_form_def(&$form_jxjobs_1) {
 		$ctrl_o2multipage2->y(50);
 		$ctrl_o2multipage2->larghezza(450);
 		$ctrl_o2multipage2->altezza(550);
-		$ctrl_o2multipage2->visibile(jxjobs_exp_31());
 		$ctrl_o2multipage2->expand("B");
+		$ctrl_o2multipage2->visibile(jxjobs_exp_31());
 		$ctrl_o2multipage2->label(array("Job"));
 		$ctrl_o2multipage2->buttons("T");
 	$ctrl_o2edit5 = &$form_jxjobs_1->ctrldef("o2edit5", "edit", "", "prg§_§var", "filter_tree");
@@ -163,8 +163,8 @@ function jxjobs§§jxjobs_1_form_def(&$form_jxjobs_1) {
 		$ctrl_o2multipage7->y(50);
 		$ctrl_o2multipage7->larghezza(450);
 		$ctrl_o2multipage7->altezza(550);
-		$ctrl_o2multipage7->visibile(jxjobs_exp_30());
 		$ctrl_o2multipage7->expand("B");
+		$ctrl_o2multipage7->visibile(jxjobs_exp_30());
 		$ctrl_o2multipage7->label(array("Info"));
 		$ctrl_o2multipage7->buttons("T");
 	$ctrl_o2label10 = &$form_jxjobs_1->ctrldef("o2label10", "label", "o2multipage2", "", "");
@@ -540,6 +540,7 @@ function jxjobs§§set_tree_list_act(&$o2exe) {
 
 function jxjobs§§sort_tree_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "sort_tree", jxjobs_exp_15()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("set_tree_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxjobs§§start_act(&$o2exe) {
@@ -557,6 +558,10 @@ function jxjobs§§unfold_tree_act(&$o2exe) {
 
 function jxjobs_exp_1() {
 	$structure = o2_job::get_for_tree();
+// ___________________________________________________ Sort list if required ___
+if (o2val('prg§_§var','sort_tree')) {
+   uksort($structure, 'strnatcasecmp');
+   }
 o2tree_def("jobs", $structure, 1, "node_detail");
 return (true);
 	} //|o2_fine_exp|
