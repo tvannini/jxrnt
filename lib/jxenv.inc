@@ -1125,11 +1125,12 @@ class o2_prg {
                                       $where,
                                       '',
                                       1);
+        $res  = ($rec[0] ? array_change_key_case($rec[0]) : array());
         $rset = array(array('jxlog_id'   => 0,
                             'jxlog_date' => date('Ymd'),
                             'jxlog_time' => date('His'),
                             'jxlog_act'  => 'A',
-                            'jxlog_user' => '') + array_change_key_case($rec[0]));
+                            'jxlog_user' => '') + $res);
         // _________________________________________________________ Get log recordset ___
         $tab    = $app->tab[$view->files[$table_alias]->log_table];
         $db     = $tab->db;
