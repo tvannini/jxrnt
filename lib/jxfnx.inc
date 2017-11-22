@@ -5845,6 +5845,15 @@ function o2view_total($view_name, $from_cache = false) {
     if ($view_obj) {
         // _____________________________________ Custom FROM (table name or SQL query) ___
         if ($view_obj->custom_from) {
+            // ________________________ Needed to fix defined check-box view-selectors ___
+            if (count($view_obj->formule)) {
+                foreach ($view_obj->formule as $formula) {
+                    if ($formula->selector) {
+                        $view_obj->vista = false;
+                        break;
+                        }
+                    }
+                }
             $view_obj->struttura();
             }
         $changed = false;
