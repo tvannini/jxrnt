@@ -1893,7 +1893,7 @@ class o2html {
             }
         else {
             $js_change = '';
-            if ($zoom) {
+            if ($active && $zoom) {
                 $js_change = $o2ctrl_obj->js_props("z:!0").
                              'onDblClick="o2jse.ctrl.zoom(event);"';
                 }
@@ -1905,8 +1905,10 @@ class o2html {
                                  ($enabled ? "" : "_dis").($zoom ? ' jxzoom' : '').
                      '" style="width:'.$o2ctrl_obj->larghezza.
                            'px;height:'.$o2ctrl_obj->altezza.'px;'.$aligned.
-                           ($o2ctrl_obj->visibile ? "" : "display:none;").'" '.
-                  $js_change.'>'.$o2ctrl_obj->sql2ctrl()."</div>\n";
+                        ($o2ctrl_obj->visibile ? "" : "display:none;").
+                        ($active && $o2ctrl_obj->popup_exp ?
+                        '" onMouseOver="o2jse.pu.i(event);" onMouseOut="o2jse.pu.o();" ' :
+                        '" ').$js_change.'>'.$o2ctrl_obj->sql2ctrl()."</div>\n";
             }
 
 
@@ -1920,11 +1922,12 @@ class o2html {
      */
     static function ctrl_text($o2ctrl_obj) {
 
+        $active    = $o2ctrl_obj->is_active();
         $enabled   = $o2ctrl_obj->is_enabled();
         $zoom      = $o2ctrl_obj->is_zoomable();
         $area_name = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
         // ____________________________________________________________ Active control ___
-        if ($o2ctrl_obj->is_active() && $enabled) {
+        if ($active && $enabled) {
             // _________________________________________________________ WYSIWYG editor___
             if ($o2ctrl_obj->html) {
                 // ___________________________________________________ Command buttons ___
@@ -2013,9 +2016,10 @@ class o2html {
                 }
             // _________________________________________ Normal text-area (no WYSIWYG) ___
             else {
-                $js_change = $o2ctrl_obj->js_props($zoom ? "z:!0" : "z:!1")
+                $js_change = $o2ctrl_obj->js_props($active && $zoom ? "z:!0" : "z:!1")
                             .'onChange="o2jse.ctrl.c(this);" '.
-                             ($zoom ? 'onDblClick="o2jse.ctrl.zoom(event);" ' : '').
+                             ($active && $zoom ?
+                              'onDblClick="o2jse.ctrl.zoom(event);" ' : '').
                              'onFocus="o2jse.ctrl.f(this);" '.
                              'onBlur="o2jse.ctrl.b(this);" '.
                              'onKeyPress="return o2jse.ctrl.l(event);" ';
@@ -2045,8 +2049,10 @@ class o2html {
                      '" style="width:'.$o2ctrl_obj->larghezza.
                           'px;height:'.$o2ctrl_obj->altezza."px;".
                           ($o2ctrl_obj->visibile ? "" : "display:none;").'" '.
-                     $js_change."\n>".
-                  nl2br($o2ctrl_obj->sql2ctrl())."</div>\n";
+                     $js_change.
+                     ($active && $o2ctrl_obj->popup_exp ?
+                      ' onMouseOver="o2jse.pu.i(event);" onMouseOut="o2jse.pu.o();"' :
+                      '')."\n>".nl2br($o2ctrl_obj->sql2ctrl())."</div>\n";
             }
 
         }
@@ -2086,7 +2092,7 @@ class o2html {
               $o2ctrl_obj->js_props("vS:!0").
               ($o2ctrl_obj->visibile ? '' : 'style="display:none;" ').
               ($active ? 'onClick="o2jse.cb.c(this,'.$submit.');" ' : 'DISABLED').
-              ($o2ctrl_obj->popup_exp ?
+              ($o2ctrl_obj->is_active() && $o2ctrl_obj->popup_exp ?
                ' onMouseOver="o2jse.pu.i(event)" onMouseOut="o2jse.pu.o()"' : '').
               ">\n";
 
@@ -2306,7 +2312,7 @@ class o2html {
             if (!$desc_value) {
                 $desc_value = "&nbsp;";
                 }
-            if ($zoom) {
+            if ($active && $zoom) {
                 $js_change = ' onDblClick="o2jse.ctrl.zoom(event);"';
                 }
             if ($active && $enabled_in_tab) {
@@ -2314,7 +2320,10 @@ class o2html {
                          '" id="'.$htmlname.'_desc" style="width:'.$o2ctrl_obj->larghezza.
                                                   'px;height:'.$o2ctrl_obj->altezza.'px;'.
                                            ($o2ctrl_obj->visibile ? "" : "display:none;").
-                      '" '.$js_prop.$js_change.'>'.$desc_value."</div>\n".
+                      '" '.$js_prop.$js_change.
+                      ($o2ctrl_obj->popup_exp ?
+                       ' onMouseOver="o2jse.pu.i(event)" onMouseOut="o2jse.pu.o()"' : '').
+                      '>'.$desc_value."</div>\n".
                    '<input type="hidden" name="'.$htmlname.
                         '" value="'.$code_value.'" '.$js_prop.'>';
                 }
@@ -2376,11 +2385,12 @@ class o2html {
      */
     static function ctrl_button($o2ctrl_obj) {
 
+        $active   = $o2ctrl_obj->is_active();
         $enabled  = $o2ctrl_obj->modificabile;
         $label    = $o2ctrl_obj->label;
         $title    = "";
         $shortcut = "";
-        if ($o2ctrl_obj->is_active() && $enabled) {
+        if ($active && $enabled) {
             $o2ctrl_obj->forza_submit = !$o2ctrl_obj->tab_row;
             $js_change = 'onClick="o2jse.ctrl.btnExe(this)" '.
                          'onFocus="o2jse.ctrl.f(this)" onBlur="o2jse.ctrl.b(this)" '.
@@ -2417,9 +2427,14 @@ class o2html {
                 }
             }
         else {
-            $js_change = "";
-            $js_props  = "";
-            $label     = str_replace("&", "", $label);
+            if ($active && $o2ctrl_obj->popup_exp) {
+                $js_change = 'onMouseOver="o2jse.pu.i(event)" onMouseOut="o2jse.pu.o()"';
+                }
+            else {
+                $js_change = "";
+                }
+            $js_props = "";
+            $label    = str_replace("&", "", $label);
             }
         list($css_before, $css_after) = explode(" ", $o2ctrl_obj->css, 2);
         print '<div '.($o2ctrl_obj->tab_row ? '' :

@@ -7512,7 +7512,6 @@ jxc = function(defObj) {
                 ctrlObj.o2.alignV = "";
                 ctrlObj.o2.x      = defObj.x;
                 ctrlObj.o2.y      = defObj.y;
-//                o2jse.win.needRepos(defObj.i);
                 }
             // _________________________________________________________ Width element ___
             ctrlObj = document.getElementById(defObj.i).getElementsByTagName("div")[0];
@@ -7746,15 +7745,6 @@ jxc = function(defObj) {
                     if (ctrlObj.innerHTML != defObj.l) {
                         ctrlObj.innerHTML = defObj.l;
                         }
-                    // _________________________________________________________ Popup ___
-                    if (defObj.p.puexp) {
-                        ctrlObj.onmouseover = function(e) { o2jse.pu.i(e); };
-                        ctrlObj.onmouseout  = function() { o2jse.pu.o(); };
-                        }
-                    else {
-                        ctrlObj.onmouseover = null;
-                        ctrlObj.onmouseout  = null;
-                        }
                     }
                 else {
                     ctrlObj.style.display = "none";
@@ -7798,6 +7788,10 @@ jxc = function(defObj) {
                             newEl.style.height = ctrlObj.style.height;
                             newEl.id           = ctrlObj.name;
                             newEl.o2           = defObj.p;
+                            if (defObj.p.puexp) {
+                                newEl.onmouseover = function(e) { o2jse.pu.i(e); };
+                                newEl.onmouseout  = function() { o2jse.pu.o(); };
+                                }
                             // _________ Disable focused ctrl: focus to fall-back ctrl ___
                             if ((document.activeElement.name == ctrlObj.name) &&
                                 o2jse.ctrl.focusFallBack) {
@@ -7897,6 +7891,10 @@ jxc = function(defObj) {
                                 newEl.style.height = ctrlObj.style.height;
                                 newEl.id           = ctrlObj.name;
                                 newEl.o2           = defObj.p;
+                                if (defObj.p.puexp) {
+                                    newEl.onmouseover = function(e) { o2jse.pu.i(e); };
+                                    newEl.onmouseout  = function() { o2jse.pu.o(); };
+                                    }
                                 // _____ Disable focused ctrl: focus to fall-back ctrl ___
                                 if ((document.activeElement.name == ctrlObj.name) &&
                                     o2jse.ctrl.focusFallBack) {
@@ -7956,16 +7954,10 @@ jxc = function(defObj) {
                         if (defObj.e) {
                             ctrlObj.disabled = false;
                             ctrlObj.onclick = function() { o2jse.cb.c(this, defObj.vS); };
-                            if (defObj.p.puexp) {
-                                ctrlObj.onmouseover = function(e) { o2jse.pu.i(e); };
-                                ctrlObj.onmouseout  = function() { o2jse.pu.o(); };
-                                }
                             }
                         else {
-                            ctrlObj.disabled    = true;
-                            ctrlObj.onmouseover = null;
-                            ctrlObj.onmouseout  = null;
-                            ctrlObj.onclick     = null;
+                            ctrlObj.disabled = true;
+                            ctrlObj.onclick  = null;
                             }
                         }
                     // _______________________________________________ Set style class ___
@@ -7999,16 +7991,10 @@ jxc = function(defObj) {
                         var zoom = defObj.p.z;
                         if (defObj.e) {
                             divObj.onclick = function(e) { o2jse.lb.m(e); };
-                            if (defObj.p.puexp) {
-                                divObj.onmouseover = function(e) { o2jse.pu.i(e); };
-                                divObj.onmouseout  = function() { o2jse.pu.o(); };
-                                }
                             }
                         // __________________________________________________ Disabled ___
                         else {
                             divObj.onclick     = null;
-                            divObj.onmouseover = null;
-                            divObj.onmouseout  = null;
                             }
                         // _________________________ Reload listbox options from items ___
                         var opts = divObj.getElementsByTagName("div");
@@ -8079,6 +8065,10 @@ jxc = function(defObj) {
                                 newEl.style.height = descField.style.height;
                                 newEl.id           = descField.id;
                                 newEl.o2           = defObj.p;
+                                if (defObj.p.puexp) {
+                                    newEl.onmouseover = function(e){ o2jse.pu.i(e); };
+                                    newEl.onmouseout  = function() { o2jse.pu.o(); };
+                                    }
                                 // _____ Disable focused ctrl: focus to fall-back ctrl ___
                                 if ((document.activeElement.id == descField.id) &&
                                     o2jse.ctrl.focusFallBack) {
@@ -8109,10 +8099,6 @@ jxc = function(defObj) {
                             descField.onclick   = function() { o2jse.lu.ck(this); };
                             descField.onfocus   = function() { o2jse.lu.f(this); };
                             descField.onblur    = function() { o2jse.lu.b(this); };
-                            if (defObj.p.puexp) {
-                                descField.onmouseover = function(e) { o2jse.pu.i(e); };
-                                descField.onmouseout  = function() { o2jse.pu.o(); };
-                                }
                             }
                         // __________________________________________________ Disabled ___
                         else {
@@ -8175,17 +8161,11 @@ jxc = function(defObj) {
                         ctrlObj.onfocus  = function() { o2jse.ctrl.f(this); };
                         ctrlObj.onblur   = function() { o2jse.ctrl.b(this); };
                         ctrlObj.tabIndex = "0";
-                        if (defObj.p.puexp) {
-                            ctrlObj.onmouseover = function(e) { o2jse.pu.i(e); };
-                            ctrlObj.onmouseout  = function() { o2jse.pu.o(); };
-                            }
                         }
                     else {
                         ctrlObj.onclick     = null;
                         ctrlObj.onfocus     = null;
                         ctrlObj.onblur      = null;
-                        ctrlObj.onmouseover = null;
-                        ctrlObj.onmouseout  = null;
                         ctrlObj.removeAttribute("tabIndex");
                         }
                     // _______________________________________________ Set style class ___
