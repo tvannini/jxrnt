@@ -1703,7 +1703,7 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
             jxjs.waitingCtrl.style.display = "block";
             }
         switch (waitCtrl.tagName.toUpperCase()) {
-            case "TD": // ______________________ Controls as a TD in TABLE (win-close) ___
+            case 'TD': // ______________________ Controls as a TD in TABLE (win-close) ___
                 // ______________________________________________ Save waiting control ___
                 jxjs.waitingCtrl = waitCtrl;
                 // _______________________________________ Save current control values ___
@@ -1711,21 +1711,21 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 var cWidth  = waitCtrl.offsetWidth;
                 var cHeight = waitCtrl.offsetHeight;
                 // ______________________________________________________ Hide control ___
-                waitCtrl.style.display = "none";
+                waitCtrl.style.display = 'none';
                 // __________________________ Simulate original control as a container ___
                 o2jse.waitObj              = pNode.insertCell(-1);
-                o2jse.waitObj.style.width  = cWidth + "px";
-                o2jse.waitObj.style.height = cHeight + "px";
+                o2jse.waitObj.style.width  = cWidth + 'px';
+                o2jse.waitObj.style.height = cHeight + 'px';
                 // ___________________________ Create wait image inside pseudo-control ___
                 var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                     "DIV",
-                                                     "jx_inctrl_wait",
-                                                     "&nbsp;");
-                wObj.style.position = "relative";
-                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + "px";
-                wObj.style.top      = "0";
+                                                     'DIV',
+                                                     'jx_inctrl_wait',
+                                                     '&nbsp;');
+                wObj.style.position = 'relative';
+                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + 'px';
+                wObj.style.top      = '0';
                 break;
-            case "TH": // ______________________ Controls as a TD in TABLE (win-close) ___
+            case 'TH': // ______________________ Controls as a TD in TABLE (win-close) ___
                 // ______________________________________________ Save waiting control ___
                 jxjs.waitingCtrl = waitCtrl;
                 // _______________________________________ Save current control values ___
@@ -1734,22 +1734,22 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 var cHeight = waitCtrl.offsetHeight;
                 var cClass  = waitCtrl.className;
                 // ______________________________________________________ Hide control ___
-                waitCtrl.style.display = "none";
+                waitCtrl.style.display = 'none';
                 // __________________________ Simulate original control as a container ___
                 o2jse.waitObj          = o2jse.createEl(false, 'TH', cClass);
                 pNode.insertBefore(o2jse.waitObj, waitCtrl);
-                o2jse.waitObj.style.width  = cWidth + "px";
-                o2jse.waitObj.style.height = cHeight + "px";
+                o2jse.waitObj.style.width  = cWidth + 'px';
+                o2jse.waitObj.style.height = cHeight + 'px';
                 // ___________________________ Create wait image inside pseudo-control ___
                 var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                     "DIV",
-                                                     "jx_inctrl_wait",
-                                                     "&nbsp;");
-                wObj.style.position = "relative";
-                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + "px";
-                wObj.style.top      = "0";
+                                                     'DIV',
+                                                     'jx_inctrl_wait',
+                                                     '&nbsp;');
+                wObj.style.position = 'relative';
+                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + 'px';
+                wObj.style.top      = '0';
                 break;
-            case "INPUT": // _____________ Controls as an INPUT (EDIT, TEXT-AREA, ...) ___
+            case 'INPUT': // _____________ Controls as an INPUT (EDIT, TEXT-AREA, ...) ___
                 o2jse.ctrl.b(waitCtrl);
                 // ______________________________________________ Save waiting control ___
                 jxjs.waitingCtrl = waitCtrl;
@@ -1763,16 +1763,16 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 // __________________________ Simulate original control as a container ___
                 o2jse.waitObj          = o2jse.createEl(false, 'DIV', cClass);
                 pNode.insertBefore(o2jse.waitObj, waitCtrl);
-                o2jse.waitObj.style.width  = cWidth + "px";
-                o2jse.waitObj.style.height = cHeight + "px";
+                o2jse.waitObj.style.width  = cWidth + 'px';
+                o2jse.waitObj.style.height = cHeight + 'px';
                 // ___________________________ Create wait image inside pseudo-control ___
                 var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                     "DIV",
-                                                     "jx_inctrl_wait",
-                                                     "&nbsp;");
-                wObj.style.position = "absolute";
-                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + "px";
-                wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + "px";
+                                                     'DIV',
+                                                     'jx_inctrl_wait',
+                                                     '&nbsp;');
+                wObj.style.position = 'absolute';
+                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + 'px';
+                wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + 'px';
                 break;
             default: // ________ Controls as a DIV (navigator & buttons) and other tags___
                 // ______________________________________________ Save waiting control ___
@@ -1783,9 +1783,9 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 var cHeight = waitCtrl.offsetHeight;
                 var cClass  = waitCtrl.className;
                 // ______________________________________________________ Hide control ___
-                waitCtrl.style.display = "none";
+                waitCtrl.style.display = 'none';
                 // __________________________ Simulate original control as a container ___
-                o2jse.waitObj = o2jse.createEl(false, waitCtrl.tagName, cClass);
+                o2jse.waitObj = o2jse.createEl(false, 'DIV', cClass);
                 pNode.insertBefore(o2jse.waitObj, waitCtrl);
                 var bgImg = (o2jse.waitObj.currentStyle ||
                              window.getComputedStyle(o2jse.waitObj,
@@ -1793,16 +1793,16 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 if (bgImg.slice(0, 3).toLowerCase() == 'url') {
                     o2jse.waitObj.style.backgroundImage = 'none';
                     }
-                o2jse.waitObj.style.width  = cWidth + "px";
-                o2jse.waitObj.style.height = cHeight + "px";
+                o2jse.waitObj.style.width  = cWidth + 'px';
+                o2jse.waitObj.style.height = cHeight + 'px';
                 // ___________________________ Create wait image inside pseudo-control ___
                 var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                     "DIV",
-                                                     "jx_inctrl_wait",
-                                                     "&nbsp;");
-                wObj.style.position = "relative";
-                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + "px";
-                wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + "px";
+                                                     'DIV',
+                                                     'jx_inctrl_wait',
+                                                     '&nbsp;');
+                wObj.style.position = 'relative';
+                wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + 'px';
+                wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + 'px';
                 break;
             }
         }
