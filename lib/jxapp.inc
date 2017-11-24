@@ -3720,7 +3720,10 @@ class o2_job {
      * @param  boolean $group_by_srv   Group jobs by service
      * @return array
      */
-    static function get_for_tree($root = 0, $desc_len = 50, $group_by_srv = false) {
+    static function get_for_tree($root          = 0,
+                                 $desc_len      = 50,
+                                 $group_by_srv  = false,
+                                 $order_by_name = false) {
 
         $app      = $_SESSION['o2_app'];
         $aspid    = $app->vars['_area']->valore;
@@ -3743,6 +3746,7 @@ class o2_job {
                     $tab->campi["job_disabled"]->nome_fisico." ".$co."JOB_DISABLED".
                                                                  $cc.",".
                     $tab->campi["job_desc"]->nome_fisico." ".$co."JOB_DESC".$cc;
+        $order_by = $tab->campi["job_name"]->nome_fisico.' ASC';
         $job_recs = o2_gateway::recordset($server->type,
                                           $server->server,
                                           $server->user,
@@ -3752,8 +3756,8 @@ class o2_job {
                                           $tab->nome,
                                           "jx_jobs",
                                           $select,
-                                          "",
-                                          "",
+                                          '',
+                                          ($order_by_name ? $order_by : ''),
                                           1000000);
         $list     = array();
         $img_path = "<jx>/img/jobs/tree/";

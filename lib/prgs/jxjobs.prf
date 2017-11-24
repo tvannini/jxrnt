@@ -549,7 +549,7 @@ function jxjobs§§start_act(&$o2exe) {
 
 function jxjobs§§switch_tree_group_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "group_tree", jxjobs_exp_77()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::script(jxjobs_exp_79()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("set_tree_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxjobs§§unfold_tree_act(&$o2exe) {
@@ -557,11 +557,10 @@ function jxjobs§§unfold_tree_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxjobs_exp_1() {
-	$structure = o2_job::get_for_tree();
-// ___________________________________________________ Sort list if required ___
-if (o2val('prg§_§var','sort_tree')) {
-   uksort($structure, 'strnatcasecmp');
-   }
+	$structure = o2_job::get_for_tree(0, 
+                                  50, 
+                                  o2val('prg§_§var','group_tree'), 
+                                  o2val('prg§_§var','sort_tree'));
 o2tree_def("jobs", $structure, 1, "node_detail");
 return (true);
 	} //|o2_fine_exp|
@@ -1026,12 +1025,6 @@ return (!o2val('prg§_§var','group_tree'));
 function jxjobs_exp_78() {
 	$msg = (o2val('prg§_§var','group_tree') ? 'Ungroup' : 'Group by service');
 return ($msg);
-	} //|o2_fine_exp|
-
-function jxjobs_exp_79() {
-	$structure = o2_job::get_for_tree(0, 50, o2val('prg§_§var','group_tree'));
-o2tree_def("jobs", $structure, 1, "node_detail");
-return (true);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_80() {
