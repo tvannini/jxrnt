@@ -4394,10 +4394,6 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
     o2jse.infoForm['o2_action'].value   = actName;
     o2jse.infoForm['o2lastform'].value  = "";
     o2jse.infoForm['o2lastctrl'].value  = "";
-    // __________________________________ Preserve waiting requests (submit-on-change) ___
-    if (o2jse.submitting) {
-        return false;
-        }
     // ____________________ Remove previous external parameters fields (Full-AJAX only)___
     for (var i = o2jse.infoForm.elements.length; i > 0; i--) {
         var field = o2jse.infoForm.elements[i - 1];
