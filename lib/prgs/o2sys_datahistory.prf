@@ -13,10 +13,10 @@ function o2sys_datahistory§§o2sys_datahistory_form_def(&$form_o2sys_datahistory)
 	$form_o2sys_datahistory->y(50);
 	$form_o2sys_datahistory->larghezza(580);
 	$form_o2sys_datahistory->altezza(410);
-	$form_o2sys_datahistory->titolo("Data history");
-	$form_o2sys_datahistory->align_o("Center");
 	$form_o2sys_datahistory->altezza_exp(o2sys_datahistory_exp_7());
 	$form_o2sys_datahistory->larghezza_exp(o2sys_datahistory_exp_8());
+	$form_o2sys_datahistory->align_o("Center");
+	$form_o2sys_datahistory->titolo("Data history");
 	$ctrl_o2htmlarea6 = &$form_o2sys_datahistory->ctrldef("o2htmlarea6", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea6->x(20);
 		$ctrl_o2htmlarea6->y(340);
@@ -35,8 +35,8 @@ function o2sys_datahistory§§o2sys_datahistory_form_def(&$form_o2sys_datahistory)
 		$ctrl_o2multipage2->y(20);
 		$ctrl_o2multipage2->larghezza(540);
 		$ctrl_o2multipage2->altezza(310);
-		$ctrl_o2multipage2->visibile(o2sys_datahistory_exp_10());
 		$ctrl_o2multipage2->expand("B");
+		$ctrl_o2multipage2->visibile(o2sys_datahistory_exp_10());
 		$ctrl_o2multipage2->label(array("Field","Record"));
 		$ctrl_o2multipage2->buttons("T");
 	$ctrl_o2multipage3 = &$form_o2sys_datahistory->ctrldef("o2multipage3", "multipage", "", "prg§_§var", "page");
@@ -44,8 +44,8 @@ function o2sys_datahistory§§o2sys_datahistory_form_def(&$form_o2sys_datahistory)
 		$ctrl_o2multipage3->y(20);
 		$ctrl_o2multipage3->larghezza(540);
 		$ctrl_o2multipage3->altezza(310);
-		$ctrl_o2multipage3->visibile(o2sys_datahistory_exp_11());
 		$ctrl_o2multipage3->expand("B");
+		$ctrl_o2multipage3->visibile(o2sys_datahistory_exp_11());
 		$ctrl_o2multipage3->label(array("Field"));
 		$ctrl_o2multipage3->buttons("T");
 	$ctrl_o2htmlarea2 = &$form_o2sys_datahistory->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
@@ -71,16 +71,26 @@ function o2sys_datahistory§§o2sys_datahistory_form_def(&$form_o2sys_datahistory)
 		$ctrl_o2htmlarea5->y(250);
 		$ctrl_o2htmlarea5->larghezza(500);
 		$ctrl_o2htmlarea5->altezza(50);
-		$ctrl_o2htmlarea5->visibile(o2sys_datahistory_exp_16());
 		$ctrl_o2htmlarea5->expand("H");
+		$ctrl_o2htmlarea5->visibile(o2sys_datahistory_exp_16());
 		$ctrl_o2htmlarea5->info_padre(array(1));
 		$ctrl_o2htmlarea5->html(o2sys_datahistory_exp_13());
 		$ctrl_o2htmlarea5->css(o2sys_datahistory_exp_5());
+	$ctrl_o2htmlarea7 = &$form_o2sys_datahistory->ctrldef("o2htmlarea7", "htmlarea", "o2multipage3", "", "");
+		$ctrl_o2htmlarea7->x(20);
+		$ctrl_o2htmlarea7->y(250);
+		$ctrl_o2htmlarea7->larghezza(500);
+		$ctrl_o2htmlarea7->altezza(50);
+		$ctrl_o2htmlarea7->expand("H");
+		$ctrl_o2htmlarea7->visibile(o2sys_datahistory_exp_16());
+		$ctrl_o2htmlarea7->info_padre(array(0));
+		$ctrl_o2htmlarea7->html(o2sys_datahistory_exp_13());
+		$ctrl_o2htmlarea7->css(o2sys_datahistory_exp_5());
 	$ctrl_o2htmlarea4 = &$form_o2sys_datahistory->ctrldef("o2htmlarea4", "htmlarea", "o2multipage3", "", "");
 		$ctrl_o2htmlarea4->x(20);
 		$ctrl_o2htmlarea4->y(40);
 		$ctrl_o2htmlarea4->larghezza(500);
-		$ctrl_o2htmlarea4->altezza(250);
+		$ctrl_o2htmlarea4->altezza(200);
 		$ctrl_o2htmlarea4->expand("B");
 		$ctrl_o2htmlarea4->info_padre(array(0));
 		$ctrl_o2htmlarea4->html(o2sys_datahistory_exp_3());
@@ -95,8 +105,8 @@ function o2sys_datahistory§§start_act(&$o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Compose result code") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "result_fld", o2sys_datahistory_exp_2()) && $o2exe->e();
 	$o2exe->s(3) && (o2sys_datahistory_exp_10() || $o2exe->e()) && o2act::set("prg§_§var", "result_rec", o2sys_datahistory_exp_1()) && $o2exe->e();
-	$o2exe->s(4) && (o2sys_datahistory_exp_10() || $o2exe->e()) && o2act::set("prg§_§var", "rec_trace", o2sys_datahistory_exp_14()) && $o2exe->e();
-	$o2exe->s(5) && (o2sys_datahistory_exp_15() || $o2exe->e()) && o2act::set("prg§_§var", "result_trace", o2sys_datahistory_exp_12()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "rec_trace", o2sys_datahistory_exp_14()) && $o2exe->e();
+	$o2exe->s(5) && (o2sys_datahistory_exp_16() || $o2exe->e()) && o2act::set("prg§_§var", "result_trace", o2sys_datahistory_exp_12()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_datahistory_exp_1() {
