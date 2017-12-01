@@ -1041,9 +1041,10 @@ class o2_prg {
             $last = $value;
             }
         if ($with_record) {
-            $ret    = array('fld' => $rset,
-                            'rec' => $this->log_record($view->nome, $field->file));
             $t_name = $view->files[$field->file]->repos_index;
+            $ret    = array('tab' => $t_name,
+                            'fld' => $rset,
+                            'rec' => $this->log_record($view->nome, $field->file));
             if ($app->record_trace && is_array($app->tab[$t_name]->record_trace) &&
                 (!isset($GLOBALS['jxtracesuspend']) ||
                  !in_array($t_name, $GLOBALS['jxtracesuspend']))) {

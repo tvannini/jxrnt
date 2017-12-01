@@ -267,14 +267,21 @@ function o2sys_datahistory_exp_12() {
 $trace   = $set['trace'];
 $current = $set['rec'][0];
 $code    = '<table style="border-top:1px solid #666666;width:100%">'.
-           '<tr><td rowspan="2" class="o2_ctrl_label" style="text-align:center">Record tracing:</td>';
+           '<tr><td class="o2_ctrl_label" style="text-align:center">Record tracing:</td>';
 if ($trace['cu'] || $trace['cd'] || $trace['ct']) {
    $code.= '<td class="o2_ctrl_label" style="text-align:center">Creation:</td>';
    }
 if ($trace['uu'] || $trace['ud'] || $trace['ut']) {
    $code.= '<td class="o2_ctrl_label" style="text-align:center">Last update:</td>';
    }
-$code.= '</tr><tr><td style="text-align:center">';
+if ((o2app_runlevel() == 'DEV') || (o2app_user() == 'root')) {
+   $tname = $set['tab'];
+   }
+else {
+   $tname = '&nbsp;';
+   }
+$code.= '</tr><tr><td style="text-align:center">'.$tname.
+        '</td><td style="text-align:center">';
 if ($trace['cu']) {
    $code.= $current[$trace['cu']].' &nbsp; ';
    }
