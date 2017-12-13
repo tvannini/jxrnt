@@ -4009,7 +4009,7 @@ class o2html {
                     "' style='width:".$o2ctrl_obj->larghezza."px;".
                              "height:".$o2ctrl_obj->altezza."px;".
                     ($o2ctrl_obj->visibile ? '' : 'display:none;').
-                    "' src='".$o2ctrl_obj->path."'></iframe>\n";
+                    "' src='".$o2ctrl_obj->path."' frameBorder='0'></iframe>\n";
 
         }
 
