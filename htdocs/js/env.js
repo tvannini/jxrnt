@@ -1762,7 +1762,7 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 waitCtrl.style.display = "none";
                 // __________________________ Simulate original control as a container ___
                 o2jse.waitObj          = o2jse.createEl(false, 'DIV', cClass);
-                pNode.insertBefore(o2jse.waitObj, waitCtrl);
+                pNode.insertBefore(o2jse.waitObj, waitCtrl.nextSibling);
                 o2jse.waitObj.style.width  = cWidth + 'px';
                 o2jse.waitObj.style.height = cHeight + 'px';
                 // ___________________________ Create wait image inside pseudo-control ___
