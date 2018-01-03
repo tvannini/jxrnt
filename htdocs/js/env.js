@@ -5231,7 +5231,7 @@ o2jse.lu = {
 
 /**
  * Handler for key entry events (onKeyDown) on lookup control.
- * This same method is applied to edit field (descrition) and to items list.
+ * This same method is applied to edit field (description) and to items list.
  *
  * @param object eventObj    Event object fired on lookup control
  * @param object targetObj   Lookup editable INPUT field

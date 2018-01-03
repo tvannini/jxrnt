@@ -760,6 +760,7 @@
     border-right: 1px solid #a19a93;
     border-bottom: 1px solid #BDB5AE;
     border-left: 1px solid #a19a93;
+    overflow: auto;
     }
 
 .jxdbgbtn {
