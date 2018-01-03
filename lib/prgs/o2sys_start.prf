@@ -199,13 +199,16 @@ function o2sys_start§§login_correct_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_start§§login_correct_ldap_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::set("_o2SESSION", "_area", o2sys_start_exp_21()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("users", "last_date", o2sys_start_exp_6()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::set("users", "last_time", o2sys_start_exp_7()) && $o2exe->e();
-//	$o2exe->s(4) && True && o2act::remark("Update local password from LDAP validation") && $o2exe->e();
-//	$o2exe->s(5) && True && o2act::remark("Override app password with clear one in $_REQUEST") && $o2exe->e();
-	$o2exe->s(6) && True && o2act::set("users", "o2password", o2sys_start_exp_50()) && $o2exe->e();
-	$o2exe->s(7) && True && o2act::view("users", "S", "") && $o2exe->e();
+//	$o2exe->s(1) && True && o2act::remark("Strip local domain from user name") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_start_exp_53()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("users", "1", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("_o2SESSION", "_area", o2sys_start_exp_21()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("users", "last_date", o2sys_start_exp_6()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("users", "last_time", o2sys_start_exp_7()) && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Update local password from LDAP validation") && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("Override app password with clear one in $_REQUEST") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("users", "o2password", o2sys_start_exp_50()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::view("users", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_failed_act(&$o2exe) {
@@ -555,14 +558,17 @@ return (o2val('prg§_§var','login_type') == 'LDAP');
 
 function o2sys_start_exp_49() {
 	$app      = $_SESSION['o2_app'];
-$server   = $app->ldap_server;
-$domain   = ($app->ldap_search_domain ? 
-             $app->ldap_search_domain : 
-             substr($server, strpos($server, '.') + 1));
 $login_ok = false;
 $error    = false;
 $errno    = 0;
-$user     = o2app_user().'@'.$domain;
+$server   = $app->ldap_server;
+$user     = o2app_user();
+if (strpos($user, '@') === false) {
+   $domain = ($app->ldap_search_domain ? 
+              $app->ldap_search_domain : 
+              substr($server, strpos($server, '.') + 1));
+   $user   = $user.'@'.$domain;
+   }
 /* _________________ Override password in app with clear one in $_REQUEST ___ */
 $password = $_REQUEST['password'];
 /* ______________________________________________________ Test connection ___ */
@@ -676,5 +682,23 @@ return ($type);
 function o2sys_start_exp_52() {
 	
 return ((o2rnt_interface() == 'BAT') && o2app_user() && o2val('users','o2user'));
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_53() {
+	$app      = $_SESSION['o2_app'];
+$server   = $app->ldap_server;
+$user     = o2app_user();
+$luser    = strtolower($user);
+if (strpos($user, '@') !== false) {
+   $domain = strtolower($app->ldap_search_domain ? 
+                        $app->ldap_search_domain : 
+                        substr($server, strpos($server, '.') + 1));
+   if (substr($luser, strpos($luser, '@') + 1) == $domain) {
+      $user = substr($user, 0, strpos($user, '@'));
+      o2app_user($user);      
+      }              
+   }
+
+return (true);
 	} //|o2_fine_exp|
 ?>
