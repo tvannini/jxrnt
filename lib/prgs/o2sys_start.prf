@@ -649,7 +649,7 @@ return (md5($_REQUEST['password']));
 function o2sys_start_exp_51() {
 	$app = $_SESSION['o2_app'];
 /* __________________________________________ Password is provided as MD5 ___ */
-if (strlen($app->password) == 32) {
+if (strlen($_REQUEST['password']) == 32) {
    $md5 = true;
    }
 /* ___________________________________________ Password is provided clear ___ */
@@ -698,7 +698,6 @@ if (strpos($user, '@') !== false) {
       o2app_user($user);      
       }              
    }
-
 return (true);
 	} //|o2_fine_exp|
 ?>
