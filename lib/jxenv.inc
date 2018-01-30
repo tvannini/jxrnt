@@ -5856,9 +5856,15 @@ class o2_protocollo {
                     $rowdata.= $field->nome."=\"".($val != "00000000" ? $val : "")."\" ";
                     }
                 else {
-                    $rowdata.= $field->nome."=\"".htmlspecialchars(rtrim($val),
-                                                                   ENT_COMPAT | ENT_HTML5,
-                                                                $app->chr_encoding)."\" ";
+                    $rowdata.= $field->nome."=\"".
+                               str_replace("\r", '',
+                                str_replace("\n", '&#10;',
+                                            htmlspecialchars(rtrim($val),
+                                                             ENT_COMPAT | ENT_HTML5,
+                                                             $app->chr_encoding))).
+                               "\" ";
+
+
                     }
                 }
             }
