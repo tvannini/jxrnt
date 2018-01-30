@@ -308,12 +308,12 @@ o2jse.resizeBrowserWindow = function() {
             // Set <form>_jxcmd = '3' to remove 'maximized' flag on form (server-side) ___
             var cmdField   = o2jse.infoForm[o2jse.maximizedWin[0] +
                                             o2jse.maximizedWin[1] + "_jxcmd"];
-            cmdField.value = '4';
-            o2jse.infoForm['o2_modfields'].value+= cmdField.name + ";";
-            // ______________________________________________ Refresh action on resize ___
-            jxjs.refresh(formInfo, refrAct);
-
-
+            if (cmdField) {
+                cmdField.value = '4';
+                o2jse.infoForm['o2_modfields'].value+= cmdField.name + ";";
+                // __________________________________________ Refresh action on resize ___
+                jxjs.refresh(formInfo, refrAct);
+                }
             }
         }
 
