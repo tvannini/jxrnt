@@ -1044,6 +1044,9 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
                 callBack(fromObj, resText);
                 }
             }
+        else {
+            o2jse.requester.endReq(reqId);
+            }
 
         };
 
