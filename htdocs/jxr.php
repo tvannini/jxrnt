@@ -42,9 +42,7 @@
 include_once '../jxrnt.php';
 // ____________________________________________________ If called by a working session ___
 session_name($_REQUEST["JXSESSNAME"]);
-//file_put_contents('/janox/projects/evision/logs/tommy.log', 'PRIMA: '.(microtime(true) - $GLOBALS['jxtime'])."\n", FILE_APPEND);
 if (session_start()) {
-//file_put_contents('/janox/projects/evision/logs/tommy.log', 'DOPO: '.(microtime(true) - $GLOBALS['jxtime'])."\n", FILE_APPEND);
     $app = $_SESSION['o2_app'];
     // _____________________________________________________ Server side extra scripts ___
     if ($app->file_server_inc) {
@@ -69,9 +67,7 @@ if (session_start()) {
             jxjs::start($_REQUEST['jxjsid']);
             if (is_a($app, "o2_app")) {
                 try {
-//file_put_contents('/janox/projects/evision/logs/tommy.log', 'PREEXE: '.(microtime(true) - $GLOBALS['jxtime'])."\n", FILE_APPEND);
                     $app->esecutivo();
-//file_put_contents('/janox/projects/evision/logs/tommy.log', 'POSTEXE: '.(microtime(true) - $GLOBALS['jxtime'])."\n", FILE_APPEND);
                     }
                 catch (o2_exception $o2e) {
                     $o2e->send();

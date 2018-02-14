@@ -7134,7 +7134,7 @@ o2jse.notify.getList = function(nullObj, listText) {
  *
  * @param object trObj
  */
-o2jse.notify.clickOnDispatch = function(trObj){
+o2jse.notify.clickOnDispatch = function(trObj) {
 
     if (trObj.jxMsgAct) {
         refStr = "?JXSESSNAME=" + o2jse.sessName +
