@@ -4299,6 +4299,8 @@ class o2_dbview extends o2_view {
         $view            = clone $this;
         $view->righe_vis = 1;
         $view->aggregate = array();
+        $view->prefisso  = false;
+        $view->suffisso  = false;
         // _____________________________________________ Clear cloned view dependences ___
         $view->dipendenze = array();
         unset($_SESSION['o2_app']->istanze_prg[$this->id_esecuzione]->
@@ -4362,7 +4364,7 @@ class o2_dbview extends o2_view {
         $view->crea_recordset(true);
         $view->seleziona_riga();
         // _____________________________ Get record unique key to filter original view ___
-        $this->key_filter_next = "((".$view->chiave_corrente($view->file, false,true).
+        $this->key_filter_next = "((".$view->chiave_corrente($view->file, false, true).
                                   ") OR (".$view->chiave_corrente($view->file)."))";
         unset($view);
         $this->direzione = 2;
