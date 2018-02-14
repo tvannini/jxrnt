@@ -3421,22 +3421,22 @@ class o2_file {
             $c_o    = constant("o2_".$engine."_o");
             $c_c    = constant("o2_".$engine."_c");
             // ________________________________________________ Get full record values ___
-            $set = o2_gateway::recordset($this->db->server->type,
-                                         $this->db->server->server,
-                                         $this->db->server->user,
-                                         $this->db->server->password,
-                                         $this->db->nome,
-                                         $this->db->proprietario,
-                                         $this->write_name,
-                                         $this->write_name,
-                                         "*",
-                                         $where,
-                                         "",
-                                         1);
-            $set = $set[0];
+            $set    = o2_gateway::recordset($this->db->server->type,
+                                            $this->db->server->server,
+                                            $this->db->server->user,
+                                            $this->db->server->password,
+                                            $this->db->nome,
+                                            $this->db->proprietario,
+                                            $this->write_name,
+                                            $this->write_name,
+                                            "*",
+                                            $where,
+                                            "",
+                                            1);
+            $set    = $set[0];
             // __________________________________________________________ Manage ASPID ___
             if ($this->asp == 'C') {
-                $aspval = o2_gateway::normalize($engine, $app->vars['_area']->valore);
+                $aspval   = o2_gateway::normalize($engine, $app->vars['_area']->valore);
                 $fields[] = 'O2ASPID';
                 $values[] = "'".$aspval."'";
                 }
