@@ -2310,7 +2310,7 @@ function o2app_name() {
 
 
 /**
- * Returns application alias in the form "http://domine/app_alias/"
+ * Returns application alias in the form "http://domain/app_alias/"
  *
  * @package application
  * @return  string

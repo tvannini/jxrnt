@@ -611,17 +611,19 @@ else {
          }
       /* _____________________________________ Search throw LDAP response ___ */
       else {
+         $username = explode('@', strtolower($user));
          foreach ($result as $res) {
             $info = ldap_get_entries($conn, $res);
             for ($i = 0; $i < $info['count']; $i++) {
                /* _____________________________ If user found in response ___ */
-               if (isset($info[$i]['userprincipalname']) && 
-		   strtolower($info[$i]['userprincipalname'][0]) == 
-                                                            strtolower($user)) {
+               if (isset($info[$i]['userprincipalname'])) {
+                  $ldap_user = explode('@', 
+                                 strtolower($info[$i]['userprincipalname'][0])); 
                   /* ___________________________________________ Login OK ___ */
-                  $username = explode('@', $user);
-                  $login_ok = true;
-                  break;
+                  if ($ldap_user == $username) {
+                     $login_ok = true;
+                     break;
+                     }
                   }
                }  
 	    }
