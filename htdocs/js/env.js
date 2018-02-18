@@ -1037,15 +1037,19 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
     reqObj.engine.onreadystatechange = function() {
 
         if (reqObj.engine.readyState == 4) {
-            var resText = reqObj.engine.responseText;
-            o2jse.requester.endReq(reqId);
-            // ______ Function is called passing original object and request body text ___
-            if (callBack) {
-                callBack(fromObj, resText);
+            if (reqObj.engine.status == 200) {
+                var resText = reqObj.engine.responseText;
+                o2jse.requester.endReq(reqId);
+                // __ Function is called passing original object and request body text ___
+                if (callBack) {
+                    callBack(fromObj, resText);
+                    }
                 }
-            }
-        else {
-            o2jse.requester.endReq(reqId);
+            else {
+                st = reqObj.engine.status;
+                o2jse.requester.endReq(reqId);
+                alert("Network error (" + st + "): please try again.");
+                }
             }
 
         };
