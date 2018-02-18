@@ -324,8 +324,7 @@ class o2_app {
                     $this->referer = $_SERVER['PHP_SELF'];
                     $this->nome    = preg_replace('/\..*$/i', '',
                                                   basename($this->referer));
-                    $this->alias   = "http://".$_SERVER['HTTP_HOST'].
-                                     dirname($this->referer)."/";
+                    $this->alias   = dirname($this->referer)."/";
                     }
                 $_SESSION['o2_app'] = $this;
                 $this->crea_cartelle();
