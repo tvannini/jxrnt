@@ -2315,7 +2315,7 @@ function o2app_name() {
  *
  * NOTE: application alias is returned with ending back-slash.
  *
- * Sample: if you are serving your application from "<myhost>/apps/myapp/myapp.php" main
+ * Sample: if you are serving your application from "[myhost]/apps/myapp/myapp.php" main
  *         page, then application alias will be returned as "/apps/myapp/".
  *
  * @package application
