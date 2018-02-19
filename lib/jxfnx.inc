@@ -2310,11 +2310,17 @@ function o2app_name() {
 
 
 /**
- * Returns application alias in the form "http://domain/app_alias/"
+ * Returns application alias as an URL prefix, mostly useful to address application
+ * resuources (images, JS libraries, ...)
+ *
+ * NOTE: application alias is returned with ending back-slash.
+ *
+ * Sample: if you are serving your application from "<myhost>/apps/myapp/myapp.php" main
+ *         page, then application alias will be returned as "/apps/myapp/".
  *
  * @package application
  * @return  string
- * @see     o2app_name(), o2app_sid()
+ * @see     o2app_name(), o2app_dir_htdocs()
  */
 function o2app_alias() {
 
@@ -2747,11 +2753,11 @@ function o2app_dir_home() {
 
 
 /**
- * Returns application "web home" folder path
+ * Returns application WEB root folder path
  *
  * @package application
  * @return  string
- * @see     o2app_dir_home()
+ * @see     o2app_dir_home(), o2app_alias()
  */
 function o2app_dir_htdocs() {
 
