@@ -4,9 +4,9 @@ function jxscheduler§§jxscheduler_1_form_def(&$form_jxscheduler_1) {
 	$form_jxscheduler_1->y(100);
 	$form_jxscheduler_1->larghezza(600);
 	$form_jxscheduler_1->altezza(460);
+	$form_jxscheduler_1->align_o("Center");
 	$form_jxscheduler_1->titolo("Scheduler");
 	$form_jxscheduler_1->css_doc("sys_sched_doc");
-	$form_jxscheduler_1->align_o("Center");
 	$ctrl_o2label2 = &$form_jxscheduler_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(20);
 		$ctrl_o2label2->y(16);
@@ -127,7 +127,7 @@ function jxscheduler§§refresh_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxscheduler§§task_detail_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::call(jxscheduler_exp_16(), False, jxscheduler_exp_2()) && $o2exe->e();
+	$o2exe->s(1) && True && o2act::call(jxscheduler_exp_12(), False, jxscheduler_exp_2()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxscheduler_exp_1() {
@@ -211,11 +211,6 @@ function jxscheduler_exp_15() {
 return ("tools/jxprocesses");
 	} //|o2_fine_exp|
 
-function jxscheduler_exp_16() {
-	
-return ("tools/jxtask");
-	} //|o2_fine_exp|
-
 function jxscheduler_exp_17() {
 	
 return (!o2par(1));
@@ -227,7 +222,16 @@ return (0);
 	} //|o2_fine_exp|
 
 function jxscheduler_exp_19() {
-	$job_id = o2_job::get_by_name(o2par(1))->id;
+	if (o2par(2)) {
+   $job_id = o2par(2);
+   }
+elseif (o2par(1)) {
+   $job_id = o2_job::get_by_name(o2par(1))->id;
+   }
+else {
+   $job_id = 0;
+   }
+
 return ($job_id);
 	} //|o2_fine_exp|
 

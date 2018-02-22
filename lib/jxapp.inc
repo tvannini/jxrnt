@@ -6769,13 +6769,16 @@ class o2_scheduler {
      *                   1. show:
      *                       -show:  Show task details icon
      *                   2. task-id
-     * If $job_name is passed it is used to filter scheduled task by.
+     * If $job_id is passed it is used to filter scheduled tasks by.
+     * If $job_id is not passed and $job_name is passed, then $job_name is used to filter
+     * scheduled tasks by.
      *
-     * @param  string $buttons_action
-     * @param  string $job_name
+     * @param  string  $buttons_action
+     * @param  string  $job_name
+     * @param  integer $job_id
      * @return string
      */
-    static function get_monitor($buttons_action = "", $job_name = "") {
+    static function get_monitor($buttons_action = "", $job_name = "", $job_id = 0) {
 
         $app    = $_SESSION['o2_app'];
         $rnt    = $app->runtime;
@@ -6810,20 +6813,22 @@ class o2_scheduler {
                   '<th>ASP-ID</th><th>Scheduled</th><th>Next run</th></tr>';
         $img    = $rnt->alias."img/jobs/";
         if (count($recs)) {
-        $job_name = strtolower($job_name);
+            $job_name = strtolower($job_name);
             foreach ($recs as $rec_id => $rec) {
-                $job  = o2_job::get_by_id($rec["SCHED_JOB"]);
-                $task = self::get_task_by_id($rec["SCHED_ID"]);
-                $desc = $task->get_description();
-                $next = $task->get_next_run_desc();
-                $ico  = $img.($task->paused ? "paused.png" : "scheduled.png");
-                $row  = '<tr'.($task->paused ?
-                               ' style="color:#A8A8A8"' :
-                               ($next == "Never" ?
-                                ' style="color:#993300"' :
-                                ($next == "Waiting..." ?
-                                 ' style="color:#009900"' : ""))).'>';
-                if (!$job_name || strtolower($job->name) == $job_name) {
+                $job = o2_job::get_by_id($rec["SCHED_JOB"]);
+                if ((!$job_id && !$job_name) ||
+                    ($job_id && ($job->id == $job_id)) ||
+                    ($job_name && (strtolower($job->name) == $job_name))) {
+                    $task = self::get_task_by_id($rec["SCHED_ID"]);
+                    $desc = $task->get_description();
+                    $next = $task->get_next_run_desc();
+                    $ico  = $img.($task->paused ? "paused.png" : "scheduled.png");
+                    $row  = '<tr'.($task->paused ?
+                                   ' style="color:#A8A8A8"' :
+                                   ($next == "Never" ?
+                                    ' style="color:#993300"' :
+                                    ($next == "Waiting..." ?
+                                     ' style="color:#009900"' : ""))).'>';
                     $code.= $row.'<td><img src="'.$ico.
                             ($buttons_action ?
                              '" class="jximgbtn" title="See task details" onclick="'.

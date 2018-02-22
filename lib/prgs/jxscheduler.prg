@@ -17,5 +17,6 @@ o2def::act("refresh", "");
 o2def::act("task_detail", "");
 o2def::form("jxscheduler_1", "", False, "true", false);
 o2def::par(1, "job_name","jxjob_name");
+o2def::par(2, "job_id","jxjob_id");
 
 ?>
