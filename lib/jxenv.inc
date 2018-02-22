@@ -4290,6 +4290,8 @@ class o2_dbview extends o2_view {
             $this->direzione = 0;
             return true;
             }
+        $prefix_save    = $this->prefisso;
+        $this->prefisso = false;
         $this->record_primo();
         $conditions = array_change_key_case($conditions, CASE_UPPER);
         $main_file  = $this->file->indice;
@@ -4369,6 +4371,7 @@ class o2_dbview extends o2_view {
         unset($view);
         $this->direzione = 2;
         $this->selezione = 0;
+        $this->prefisso  = $prefix_save;
         $this->crea_recordset();
         $this->offset_ini  = -1;
         $this->offset_fine = -$this->righe_vis;
