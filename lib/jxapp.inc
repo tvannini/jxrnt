@@ -2340,6 +2340,8 @@ class o2_app {
             }
         // _________________________________________________________ Database gateways ___
         $this->load_gateways();
+        // _____________________________________________ ESECUZIONE DEL PRG DI REQUEST ___
+        $this->intcall("tools/o2sys_request");
         // __________________________________________ STARTING NEW EXECUTION HIERARCHY ___
         $this->istanze_prg         = array();
         $this->progressivo_istanze = 0;
