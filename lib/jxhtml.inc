@@ -2433,7 +2433,7 @@ class o2html {
             else {
                 $js_change = "";
                 }
-            $js_props = "";
+            $js_props = $o2ctrl_obj->js_props();
             $label    = str_replace("&", "", $label);
             }
         list($css_before, $css_after) = explode(" ", $o2ctrl_obj->css, 2);
