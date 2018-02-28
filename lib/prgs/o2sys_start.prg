@@ -24,6 +24,7 @@ o2def::act("db_session", "");
 o2def::act("delete_dbsession", "");
 o2def::act("insert_jxsys", "");
 o2def::act("insert_root", "");
+o2def::act("ldap_with_domain", "");
 o2def::act("load_logged", "");
 o2def::act("load_options", "");
 o2def::act("load_rights", "");

@@ -10,6 +10,7 @@ function o2sys_start§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("rights", "_o2structure");
 	$task_prg§_§var->definisci("roles", "_o2structure");
 	$task_prg§_§var->definisci("terminal_id", "jxterminal_id");
+	$task_prg§_§var->definisci("user_name", "o2sys_long_str");
 		}
 
 function o2sys_start§§users_def(&$task_users, $_o2viewalias = "") {
@@ -17,7 +18,7 @@ function o2sys_start§§users_def(&$task_users, $_o2viewalias = "") {
 
 	$task_users->usa_file("o2_users","users","o2user",null,null);
 
-	$task_users->usa("o2user","users","o2user","o2sys_start_exp_1()","o2sys_start_exp_1()",null,null);
+	$task_users->usa("o2user","users","o2user","o2sys_start_exp_54()","o2sys_start_exp_54()",null,null);
 	$task_users->usa("o2password","users","o2password",null,null,null,null);
 	$task_users->usa("area","users","area",null,null,null,null);
 	$task_users->usa("expire_date","users","expire_date",null,null,null,null);
@@ -156,6 +157,12 @@ function o2sys_start§§insert_root_act(&$o2exe) {
 	$o2exe->s(3) && True && o2act::view("users", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2sys_start§§ldap_with_domain_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("-----------------------------------Retry login without domain") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_56()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("login", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2sys_start§§load_logged_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::ret(5, o2sys_start_exp_36()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -200,7 +207,7 @@ function o2sys_start§§login_correct_act(&$o2exe) {
 
 function o2sys_start§§login_correct_ldap_act(&$o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Strip local domain from user name") && $o2exe->e();
-	$o2exe->s(2) && True && o2act::script(o2sys_start_exp_53()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_53()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("users", "1", "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("_o2SESSION", "_area", o2sys_start_exp_21()) && $o2exe->e();
 	$o2exe->s(5) && True && o2act::set("users", "last_date", o2sys_start_exp_6()) && $o2exe->e();
@@ -232,8 +239,10 @@ function o2sys_start§§login_std_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_3()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("------------------------------------------------------Set Area value") && $o2exe->e();
 	$o2exe->s(3) && (o2sys_start_exp_12() || $o2exe->e()) && o2act::exe("login_correct", True, "") && $o2exe->e();
-//	$o2exe->s(4) && True && o2act::remark("-------------------------Handle error if login is not correct") && $o2exe->e();
-	$o2exe->s(5) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::exe("login_failed", True, "") && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("------------------------Check for LDAP user with domain") && $o2exe->e();
+	$o2exe->s(5) && (o2sys_start_exp_55() || $o2exe->e()) && o2act::exe("ldap_with_domain", True, "") && $o2exe->e();
+//	$o2exe->s(6) && True && o2act::remark("-------------------------Handle error if login is not correct") && $o2exe->e();
+	$o2exe->s(7) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::exe("login_failed", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§session_act(&$o2exe) {
@@ -247,18 +256,19 @@ function o2sys_start§§session_act(&$o2exe) {
 
 function o2sys_start§§start_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "now", o2sys_start_exp_16()) && $o2exe->e();
-//	$o2exe->s(2) && True && o2act::remark("---------------------------------------- Verify login") && $o2exe->e();
-	$o2exe->s(3) && (o2sys_start_exp_19() || $o2exe->e()) && o2act::exe("login", True, "") && $o2exe->e();
-//	$o2exe->s(4) && True && o2act::remark("---------------------------------------- Register session") && $o2exe->e();
-	$o2exe->s(5) && True && o2act::exe("session", True, "") && $o2exe->e();
-//	$o2exe->s(6) && True && o2act::remark("---------------------------------------- Commit all") && $o2exe->e();
-	$o2exe->s(7) && True && o2act::script(o2sys_start_exp_47()) && $o2exe->e();
-//	$o2exe->s(8) && True && o2act::remark("---------------------------------------- Load options") && $o2exe->e();
-	$o2exe->s(9) && True && o2act::exe("load_options", True, "") && $o2exe->e();
-	$o2exe->s(10) && True && o2act::ret(1, o2sys_start_exp_5()) && $o2exe->e();
-	$o2exe->s(11) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
-	$o2exe->s(12) && (o2sys_start_exp_32() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
-	$o2exe->s(13) && True && o2act::exe("load_logged", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_1()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("---------------------------------------- Verify login") && $o2exe->e();
+	$o2exe->s(4) && (o2sys_start_exp_19() || $o2exe->e()) && o2act::exe("login", True, "") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("---------------------------------------- Register session") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::exe("session", True, "") && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("---------------------------------------- Commit all") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::script(o2sys_start_exp_47()) && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("---------------------------------------- Load options") && $o2exe->e();
+	$o2exe->s(10) && True && o2act::exe("load_options", True, "") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::ret(1, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(12) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(13) && (o2sys_start_exp_32() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::exe("load_logged", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§terminal_id_act(&$o2exe) {
@@ -563,11 +573,16 @@ $error    = false;
 $errno    = 0;
 $server   = $app->ldap_server;
 $user     = o2app_user();
+// ______________________ No domain in username: add domain from app options ___
 if (strpos($user, '@') === false) {
    $domain = ($app->ldap_search_domain ? 
               $app->ldap_search_domain : 
               substr($server, strpos($server, '.') + 1));
    $user   = $user.'@'.$domain;
+   }
+// _____________________________________________ Domain provided in username ___
+else {
+   $domain = substr($user, strpos($user, '@') + 1);
    }
 /* _________________ Override password in app with clear one in $_REQUEST ___ */
 $password = $_REQUEST['password'];
@@ -700,6 +715,21 @@ if (strpos($user, '@') !== false) {
       o2app_user($user);      
       }              
    }
-return (true);
+return ($user);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_54() {
+	
+return (o2val('prg§_§var','user_name'));
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_55() {
+	
+return (!o2val('prg§_§var','login_correct') && (strpos(o2val('prg§_§var','user_name'), '@') !== false));
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_56() {
+	
+return (substr(o2val('prg§_§var','user_name'), 0, strpos(o2val('prg§_§var','user_name'), '@')));
 	} //|o2_fine_exp|
 ?>
