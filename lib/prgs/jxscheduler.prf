@@ -22,14 +22,6 @@ function jxscheduler§§jxscheduler_1_form_def(&$form_jxscheduler_1) {
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->expand("H");
 		$ctrl_o2label3->label(jxscheduler_exp_20());
-	$ctrl_o2htmlarea2 = &$form_jxscheduler_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(20);
-		$ctrl_o2htmlarea2->y(50);
-		$ctrl_o2htmlarea2->larghezza(560);
-		$ctrl_o2htmlarea2->altezza(360);
-		$ctrl_o2htmlarea2->expand("B");
-		$ctrl_o2htmlarea2->html(jxscheduler_exp_1());
-		$ctrl_o2htmlarea2->css(jxscheduler_exp_7());
 	$ctrl_o2image2 = &$form_jxscheduler_1->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(471);
 		$ctrl_o2image2->y(18);
@@ -49,6 +41,14 @@ function jxscheduler§§jxscheduler_1_form_def(&$form_jxscheduler_1) {
 		$ctrl_o2image3->label("Add schedule");
 		$ctrl_o2image3->css(jxscheduler_exp_4());
 		$ctrl_o2image3->imgexp(jxscheduler_exp_9());
+	$ctrl_o2htmlarea2 = &$form_jxscheduler_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(20);
+		$ctrl_o2htmlarea2->y(50);
+		$ctrl_o2htmlarea2->larghezza(560);
+		$ctrl_o2htmlarea2->altezza(360);
+		$ctrl_o2htmlarea2->expand("B");
+		$ctrl_o2htmlarea2->html(jxscheduler_exp_1());
+		$ctrl_o2htmlarea2->css(jxscheduler_exp_7());
 	$ctrl_o2image5 = &$form_jxscheduler_1->ctrldef("o2image5", "img", "", "", "");
 		$ctrl_o2image5->x(498);
 		$ctrl_o2image5->y(18);
@@ -132,7 +132,7 @@ function jxscheduler§§task_detail_act(&$o2exe) {
 
 function jxscheduler_exp_1() {
 	
-return (o2_scheduler::get_monitor("task_detail", o2par(1)));
+return (o2_scheduler::get_monitor("task_detail", o2par(1), o2par(2)));
 	} //|o2_fine_exp|
 
 function jxscheduler_exp_2() {
@@ -231,7 +231,6 @@ elseif (o2par(1)) {
 else {
    $job_id = 0;
    }
-
 return ($job_id);
 	} //|o2_fine_exp|
 
