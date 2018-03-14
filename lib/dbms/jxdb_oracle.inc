@@ -1519,8 +1519,10 @@ function o2_oracle_recordset($server,
                              $where,
                              $order_by,
                              $recs,
-                             $links = null,
-                             $lock  = false) {
+                             $links      = null,
+                             $lock       = false,
+                             $page_where = false,
+                             $stm_id     = false) {
 
     // __________________ If $table starts with a "(" then table is a sub-select query ___
     if (substr($table, 0, 1) != "(") {
@@ -1532,6 +1534,9 @@ function o2_oracle_recordset($server,
         foreach ($links as $linktab => $linkon) {
             $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
             }
+        }
+    if ($page_where) {
+        $where = $page_where.$where;
         }
     if ($where) {
         $query.= " WHERE ".$where;
