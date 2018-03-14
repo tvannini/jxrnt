@@ -114,6 +114,7 @@ em, i { font-style: italic; }
     padding-right: 1px;
     overflow: auto;
     border-radius: 5px;
+    white-space: normal;
     }
 
 .o2_ctrl_text_edit {

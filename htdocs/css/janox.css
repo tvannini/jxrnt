@@ -106,6 +106,7 @@ em, i { font-style: italic; }
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
+    white-space: normal;
     }
 
 .o2_ctrl_text_edit {
