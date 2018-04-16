@@ -7,6 +7,7 @@ function o2sys_start§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("login_type", "o2sys_login_type");
 	$task_prg§_§var->definisci("lookup_user", "_o2alpha");
 	$task_prg§_§var->definisci("now", "_o2sid");
+	$task_prg§_§var->definisci("original_login_name", "o2sys_long_str");
 	$task_prg§_§var->definisci("rights", "_o2structure");
 	$task_prg§_§var->definisci("roles", "_o2structure");
 	$task_prg§_§var->definisci("terminal_id", "jxterminal_id");
@@ -159,8 +160,9 @@ function o2sys_start§§insert_root_act(&$o2exe) {
 
 function o2sys_start§§ldap_with_domain_act(&$o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("-----------------------------------Retry login without domain") && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_56()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::exe("login", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "original_login_name", o2sys_start_exp_54()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_56()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("login", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§load_logged_act(&$o2exe) {
@@ -572,7 +574,13 @@ $login_ok = false;
 $error    = false;
 $errno    = 0;
 $server   = $app->ldap_server;
-$user     = o2app_user();
+if (o2zero('prg§_§var','original_login_name')) {
+   $user = o2app_user();
+   }
+else {
+   $user = o2val('prg§_§var','original_login_name');
+   }
+   
 // ______________________ No domain in username: add domain from app options ___
 if (strpos($user, '@') === false) {
    $domain = ($app->ldap_search_domain ? 
@@ -611,15 +619,19 @@ else {
    /* _____________________________________________ Bind to connection OK ___ */
    elseif ($bind) {
       if ($app->ldap_base_dn) {
-         $base_dn = $app->ldap_base_dn;
+         $base_dn = explode(';', $app->ldap_base_dn);
          }
       else {
          $base_dn = array("CN=Users,DC=".join(',DC=', explode('.', $domain)),
                           "OU=Users,OU=People,DC=".join(',DC=', 
                                                         explode('.', $domain)));
          }
+      $link = array();
+      for($i = 0; $i < count($base_dn); $i++) {
+         $link[] = $conn; 
+         }
       /* ___________________________________________ Execute LDAP request ___ */
-      $result  = ldap_search(array($conn, $conn), $base_dn, "(cn=*)");
+      $result = ldap_search($link, $base_dn, "(cn=*)");
       /* __________________________________________________ Request error ___ */
       if (!count($result)) {
          $error = 'Login failed: '.ldap_error($conn);
@@ -707,13 +719,8 @@ $server   = $app->ldap_server;
 $user     = o2app_user();
 $luser    = strtolower($user);
 if (strpos($user, '@') !== false) {
-   $domain = strtolower($app->ldap_search_domain ? 
-                        $app->ldap_search_domain : 
-                        substr($server, strpos($server, '.') + 1));
-   if (substr($luser, strpos($luser, '@') + 1) == $domain) {
-      $user = substr($user, 0, strpos($user, '@'));
-      o2app_user($user);      
-      }              
+   $user      = substr($user, 0, strpos($user, '@'));
+   $app->user = $user; 
    }
 return ($user);
 	} //|o2_fine_exp|
