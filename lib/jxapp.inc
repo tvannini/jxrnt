@@ -1208,6 +1208,11 @@ class o2_app {
         if (isset($conf['encoding'])) {
             $this->chr_encoding = $conf['encoding'];
             }
+        if (isset($conf['alias']) &&
+            $conf['alias'] &&
+            $this->runtime->interface == 'HTML') {
+            $this->alias = $conf['alias'];
+            }
         if (isset($conf['title'])) {
             $this->titolo = $conf['title'];
             }
@@ -3635,7 +3640,8 @@ class o2_job {
                                          '',
                                          1);
         $job_rec = $job_rec[0];
-        $job     = new o2_job($job_rec['JOB_ID'],
+        if ($job_rec['JOB_ID']) {
+            return new o2_job($job_rec['JOB_ID'],
                               $job_rec['JOB_NAME'],
                               $job_rec['JOB_PRG'],
                               unserialize($job_rec['JOB_PARAMS']),
@@ -3645,7 +3651,10 @@ class o2_job {
                               $job_rec['JOB_BLOCK_MODE'],
                               $job_rec['JOB_DISABLED'],
                               $job_rec['JOB_SERVICE']);
-        return $job;
+            }
+        else {
+            return false;
+            }
 
         }
 

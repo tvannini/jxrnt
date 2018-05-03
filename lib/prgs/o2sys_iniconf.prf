@@ -649,6 +649,17 @@ $list = array(
                               "Name of the file containing menus definition informations.\n".
                               "The file must be in the folder \"[app]/prgs/\".",
                     "default" => "menu_repository.inc"),
+   "alias" => array("rntval" => null,
+                    "appval" => null,
+                    "desc" => "   *** Application WEB alias ***\n\n".
+                              "Application alias is usually extracted by login URL, so you don't need ".
+                              "to set this parameter.\n\n".
+                              "However, in some proxy configuration systems, alias may be not correctly deduced.\n".
+                              "In these cases you can use this parameter to set the correct alias for the application.\n\n".
+                              "NOTE: application alias is the first part of URLs where application resuources ".
+                              "are served out from (\"app_root/htdocs/\"). It should start with a \"/\" or ".
+                              "with a protocol (\"http://\", \"https://\", ...)",
+                    "default" => ""),
    "title" => array("rntval" => null,
                     "appval" => null,
                     "desc" => "   *** Application title ***\n\n".
@@ -1196,6 +1207,7 @@ function o2sys_iniconf_exp_34() {
               "viewmodels",
               "menus",
               "",
+              "alias",
               "title",
               "host",
               "encoding",
