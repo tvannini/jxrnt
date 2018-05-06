@@ -2090,21 +2090,8 @@ o2jse.tab.select = function(targetObj, eventObj) {
         else if (tg.o2.cT == "listcombo") {
             ctrl = o2jse.infoForm[tg.o2.c + tg.o2.e + "_desc"];
             }
-
-/*
-        var pseudoC = document.getElementById(tg.o2.c + tg.o2.e + '_pseudoC_tab');
-o2log(tg.o2);
-        // _____________ Pinned columns are present and method called on pinned columns___
-        if (pseudoC && pseudoC.contains(tg)) {
-            var srcTab = document.getElementById(tg.o2.c + tg.o2.e + '_tab');
-            var row    = tg.rowIndex +
-                         (srcTab.getElementsByTagName('TH') ? tg.o2.lines : 0);
-            sourceRow  = srcTab.rows[row];
-            }
-
-
         // ___________________________________________________________ Seek source row ___
-        else */ if (ctrl) {
+        if (ctrl) {
             var tdP = ctrl.parentNode;
             if (tdP) {
                 var trP = tdP.parentNode;
@@ -2122,6 +2109,27 @@ o2log(tg.o2);
                 }
             }
         o2jse.tab.moveSel(sourceRow, targetObj);
+        // ____________ Pinned columns are present and method called on pinned columns ___
+        var pseudoC = document.getElementById(tg.o2.c + tg.o2.e + '_pseudoC_tab');
+        if (pseudoC) {
+            var srcTab = document.getElementById(tg.o2.c + tg.o2.e + '_tab');
+            // _______________________________________ Method called on pinned columns ___
+            if (pseudoC.contains(tg)) {
+                if (sourceRow) {
+                    var sRow   = sourceRow.rowIndex +
+                                 (srcTab.getElementsByTagName('TH') ? tg.o2.lines : 0);
+                    sourceRow  = srcTab.rows[sRow];
+                    }
+                var tRow   = targetObj.rowIndex +
+                             (srcTab.getElementsByTagName('TH') ? tg.o2.lines : 0);
+                targetRow  = srcTab.rows[tRow];
+                o2jse.tab.moveSel(sourceRow, targetRow);
+                }
+            // _____________________________________ Method called on standard columns ___
+            else {
+                // ______________________________________________________________ TODO ___
+                }
+            }
         // _______________________________________________ Set focus to target control ___
         if (ctrl && ctrl.focus) {
             ctrl.focus();
@@ -3057,7 +3065,7 @@ o2jse.tab.set = function(tabName,
                                          (myHead ? myHead.offsetHeight : 0)) + "px";
             pseudoC.appendChild(fTab);
             contAll.appendChild(pseudoC);
-            // _____________________________ Code to scroll pseudo-header with content ___
+            // ____________________________ Code to scroll pseudo-columns with content ___
             codeOnScroll+= "document.getElementById('" + pseudoC.id +
                            "').scrollTop=this.scrollTop;";
             }
