@@ -3242,21 +3242,24 @@ o2jse.tab.initContMenu = function() {
                                                                "img/grid/delete.png");
                     }
                 }
-            // _____________________________________________________________ Separator ___
-            o2jse.menu.menuList["jxGridExtra"].addItem("S");
-            // _________________________________________________________________ Reset ___
-            o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridReset",
-                                                       "Reset",
-                                                       o2jse.tab.resetCols,
-                                                       o2jse.rntAlias +
-                                                       "img/grid/reset.png");
-            // __________________________________________________________________ Save ___
-            if (o2jse.tab.autoSaveSettings == 2) {
-                o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridSave",
-                                                           "Save settings",
-                                                           o2jse.tab.saveSettings,
+            // ________________________________ Show "save" only when settings enabled ___
+            if (!(mTbInfo.gp_vc && mTbInfo.gp_oc && mTbInfo.gp_rn)) {
+                // _________________________________________________________ Separator ___
+                o2jse.menu.menuList["jxGridExtra"].addItem("S");
+                // _____________________________________________________________ Reset ___
+                o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridReset",
+                                                           "Reset",
+                                                           o2jse.tab.resetCols,
                                                            o2jse.rntAlias +
-                                                           "img/grid/save.png");
+                                                           "img/grid/reset.png");
+                // ______________________________________________________________ Save ___
+                if (o2jse.tab.autoSaveSettings == 2) {
+                    o2jse.menu.menuList["jxGridExtra"].addItem("J", "jxGridSave",
+                                                               "Save settings",
+                                                               o2jse.tab.saveSettings,
+                                                               o2jse.rntAlias +
+                                                               "img/grid/save.png");
+                    }
                 }
             return true;
             }
