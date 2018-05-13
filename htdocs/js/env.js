@@ -2113,7 +2113,7 @@ o2jse.tab.select = function(targetObj, eventObj) {
         var pseudoC = document.getElementById(tg.o2.c + tg.o2.e + '_pseudoC_tab');
         if (pseudoC) {
             var srcTab = document.getElementById(tg.o2.c + tg.o2.e + '_tab');
-            // _______________________________________ Method called on pinned columns ___
+            // ___ Method called on pinned columns: move selection on standard columns ___
             if (pseudoC.contains(tg)) {
                 if (sourceRow) {
                     var sRow   = sourceRow.rowIndex +
@@ -2123,11 +2123,19 @@ o2jse.tab.select = function(targetObj, eventObj) {
                 var tRow   = targetObj.rowIndex +
                              (srcTab.getElementsByTagName('TH') ? tg.o2.lines : 0);
                 targetRow  = srcTab.rows[tRow];
-                o2jse.tab.moveSel(sourceRow, targetRow);
+                o2jse.tab.moveSel(sourceRow, targetRow, true);
                 }
-            // _____________________________________ Method called on standard columns ___
+            // ___ Method called on standard columns: move selection on pinned columns ___
             else {
-                // ______________________________________________________________ TODO ___
+                if (sourceRow) {
+                    var sRow   = sourceRow.rowIndex -
+                                 (srcTab.getElementsByTagName('TH') ? tg.o2.lines : 0);
+                    sourceRow  = pseudoC.rows[sRow];
+                    }
+                var tRow   = targetObj.rowIndex -
+                             (srcTab.getElementsByTagName('TH') ? tg.o2.lines : 0);
+                targetRow  = pseudoC.rows[tRow];
+                o2jse.tab.moveSel(sourceRow, targetRow, true);
                 }
             }
         // _______________________________________________ Set focus to target control ___
@@ -2676,10 +2684,11 @@ o2jse.tab.changeRow = function(targetObj, movDir, navName) {
  * Change table selection from sourceRow to targetRow in CLIENT MODE.
  * (For selection by keyboard on row-marker see o2jse.tab.selectRow() method)
  *
- * @param object sourceRow   Coming-from row (actually selected - contains fields)
- * @param object targetRow   Going-to row (actually unselected - contains text id DIVs)
+ * @param object  sourceRow   Coming-from row (actually selected - contains fields)
+ * @param object  targetRow   Going-to row (actually unselected - contains text id DIVs)
+ * @param noolean noRequest   Avoid request execution, used by pinned columns
  */
-o2jse.tab.moveSel = function(sourceRow, targetRow) {
+o2jse.tab.moveSel = function(sourceRow, targetRow, noRequest) {
 
     o2jse.ctrl.init(targetRow);
     var rowsCont  = targetRow.parentNode;
@@ -2701,7 +2710,9 @@ o2jse.tab.moveSel = function(sourceRow, targetRow) {
         }
     // __________________________________________ Comunicates changed fields to server ___
     var newSele = parseInt(targetRow.rowIndex / targetRow.o2.lines);
-    jxjs.request(targetRow, newSele);
+    if (!noRequest) {
+        jxjs.request(targetRow, newSele);
+        }
     // ____________________________________ Set new view selection for the environment ___
     viewField.value = newSele;
     // __________________________________________ Loop on cells for translating fields ___
