@@ -249,7 +249,17 @@ function o2_postgres_execute($query,
             return $set;
             }
         else {
-            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+            $data  = $stm->fetchAll(PDO::FETCH_ASSOC);
+            $err_c = $stm->errorCode();
+            // _____________________________________ Error on statement (during fetch) ___
+            if ($err_c != '00000') {
+                $err = $stm->errorInfo();
+                $conn->rollBack && @$conn->rollBack();
+                throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
+                                       "</i><br />query: <code>".$query."</code><hr />".
+                                       $err[2],
+                                       o2error_DBDATAQUERY);
+                }
             $stm->closeCursor();
             $stm = null;
             return $data;

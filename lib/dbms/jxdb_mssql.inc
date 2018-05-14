@@ -130,7 +130,8 @@ function o2_mssql_connect($server, $user, $password, $trans) {
                   PDO::ATTR_CASE            => PDO::CASE_UPPER,
                   PDO::SQLSRV_ATTR_ENCODING => ($utf8 ?
                                                 PDO::SQLSRV_ENCODING_UTF8 :
-                                                PDO::SQLSRV_ENCODING_SYSTEM));
+                                                PDO::SQLSRV_ENCODING_SYSTEM),
+				  PDO::ATTR_ERRMODE         => PDO::ERRMODE_EXCEPTION);
     // _________________________________________________ Check for existing connection ___
     if (!isset($GLOBALS['o2_mssql_conn'][$key])) {
         // _____________________________________________________ Create new connection ___
@@ -262,6 +263,10 @@ function o2_mssql_execute($query,
         if ($loop) {
             $set = array();
             $num = 0;
+			// _____________________________________ Needed for some stored procedures ___
+            while($stm->columnCount() === 0 && $stm->nextRowset()) {
+                // _________________ Advance rowset until we get to a rowset with data ___
+                }
             while ((!$limit || $num < $limit) && ($row = $stm->fetch(PDO::FETCH_ASSOC))) {
                 $num++;
                 $set[] = $row;
@@ -273,7 +278,21 @@ function o2_mssql_execute($query,
             return $set;
             }
         else {
-            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+            // _____________________________________ Needed for some stored procedures ___
+            while($stm->columnCount() === 0 && $stm->nextRowset()) {
+                // _________________ Advance rowset until we get to a rowset with data ___
+                }
+            $data  = $stm->fetchAll(PDO::FETCH_ASSOC);
+			$err_c = $stm->errorCode();
+            // _____________________________________ Error on statement (during fetch) ___
+            if ($err_c != '00000') {
+                $err = $stm->errorInfo();
+                $conn->rollBack && @$conn->rollBack();
+                throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
+                                       "</i><br />query: <code>".$query."</code><hr />".
+                                       $err[2],
+                                       o2error_DBDATAQUERY);
+                }
             $stm->closeCursor();
             $stm = null;
             return $data;
