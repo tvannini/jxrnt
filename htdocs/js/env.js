@@ -1048,7 +1048,7 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
             else {
                 st = reqObj.engine.status;
                 o2jse.requester.endReq(reqId);
-                alert("Network error (" + st + "): please try again.");
+//                alert("Network error (" + st + "): please try again.");
                 }
             }
 
