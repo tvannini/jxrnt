@@ -96,6 +96,7 @@ var o2jse = {
     profiling       : false,       /* If profiling capabilities enabled and mode (M|C|B)*/
     cliMode         : true,        /* If Full-AJAX behavior is enabled                  */
     waitOnCtrl      : true,        /* If waiting icon has to be displayed on last ctrl  */
+    netErr          : false,       /* If network errors reporting is enabled            */
     fastMsgTime     : 5,           /* Fast messages timeout to fade away                */
     contMenuApp     : false,       /* If context menu shows application menu            */
     contMenuNewSess : false,       /* If context menu shows "Open new session"          */
@@ -946,6 +947,17 @@ o2jse.conf.gridWheel = function(wheel) {
 
 
 /**
+ * Set on network errors reporting
+ *
+ */
+o2jse.conf.netErr = function() {
+
+    o2jse.netErr = true;
+
+    };
+
+
+/**
  * Object managing background requests to server by XMLHttpRequest
  *
  */
@@ -1048,7 +1060,13 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
             else {
                 st = reqObj.engine.status;
                 o2jse.requester.endReq(reqId);
-//                alert("Network error (" + st + "): please try again.");
+                // _____________________________________________ Report network errors ___
+                if (o2jse.netErr) {
+                    alert("Network error (" + st +
+                          (reqObj.engine.responseText.trim().length > 0 ?
+                           " - With code" : " - Empty") +
+                          "): please try again.");
+                    }
                 }
             }
 

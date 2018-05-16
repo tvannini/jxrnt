@@ -173,6 +173,7 @@ class o2_app {
     public $errors_log      = false;   /* Enables errors logging on file                */
     public $errors_inc      = false;   /* File name to be included for custom error msgs*/
     public $custom_response = false;   /* FALSE or buffer length for custom output      */
+    public $network_errors  = false;   /* Enables network errors reporting (alert)      */
     /**
      * @var o2_ctrl_listcombo
      */
@@ -1308,7 +1309,7 @@ class o2_app {
             $this->errors_inc = $conf['errorinc'];
             }
         if (isset($conf['max_req_n'])) {
-            $this->max_req_n  = max($conf['max_req_n'], 1);
+            $this->max_req_n = max($conf['max_req_n'], 1);
             }
         if (isset($conf['maint_time'])) {
             $this->maint_time = max($conf['maint_time'], 1);
@@ -1330,6 +1331,9 @@ class o2_app {
             }
         if (isset($conf['rpc_server'])) {
             $this->rpc_server = ($conf['rpc_server'] ? true : false);
+            }
+        if (isset($conf['network_errors'])) {
+            $this->network_errors = ($conf['network_errors'] ? true : false);
             }
         if (isset($conf['bug_aggregate'])) {
             $this->bug_aggregate = ($conf['bug_aggregate'] ? true : false);
