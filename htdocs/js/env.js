@@ -3287,6 +3287,49 @@ o2jse.tab.initContMenu = function() {
 
 
 /**
+ * Executes action actName on click on columns header
+ *
+ * @param {object}  eventObj   Event object when fired
+ * @param {integer} prgID      Program index or 0 for current program
+ * @param {string}  actName    Name of action to execute
+ * @param {string}  ctrlName   Name of control binding to column
+ */
+o2jse.tab.colExe = function(eventObj, prgID, actName, ctrlName) {
+
+    var stdEvent  = o2jse.event.std(eventObj);
+    var targetObj = stdEvent.target;
+    stdEvent.stop();
+    o2jse.ctrl.init(targetObj);
+    // ___________________________________________________________ Create action field ___
+    var colExeField = o2jse.createInput(o2jse.infoForm,
+                                        "hidden",
+                                        "",
+                                        actName,
+                                        targetObj.o2.c + "_jxcexe" + targetObj.o2.e);
+    // ______________________________________________ Add external parameter as fields ___
+    var ctrlObj = o2jse.createInput(o2jse.infoForm,
+                                    "hidden",
+                                    "",
+                                    ctrlName,
+                                    "extp_1");
+
+    colExeField.o2  = targetObj.o2;
+    if (o2jse.cliMode) {
+        jxjs.request(colExeField, "");
+        }
+    else {
+        o2jse.cmd.ctrlUpd(colExeField);
+        }
+    o2jse.removeEl(colExeField);
+    o2jse.removeEl(ctrlObj);
+    delete colExeField;
+    delete ctrlObj;
+    o2jse.ctrl.make_waiting(targetObj);
+
+    }
+
+
+/**
  * Method used to create Columns Custom Visibility menu
  *
  */

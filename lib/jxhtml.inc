@@ -985,6 +985,7 @@ class o2html {
                                                             "_vscroll"]);
                                 }
                             // ________________________________ Grid specific commands ___
+                            $colex_cmd = $single_ctrl.'_jxcexe'.$app->progressivo_istanze;
                             $sort_cmd  = $single_ctrl.'_jxsort'.$app->progressivo_istanze;
                             $size_cmd  = $single_ctrl.'_jxsize'.$app->progressivo_istanze;
                             $vis_cmd   = $single_ctrl.'_jxvcol'.$app->progressivo_istanze;
@@ -996,8 +997,13 @@ class o2html {
                             $del_cmd   = $single_ctrl.'_jxddel'.$app->progressivo_istanze;
                             $save_cmd  = $single_ctrl.'_jxsave'.$app->progressivo_istanze;
                             $reset_cmd = $single_ctrl.'_jxresc'.$app->progressivo_istanze;
+                            // ______________________________ Get table columns sizing ___
+                            if ($_REQUEST[$colex_cmd]) {
+                                $prg_local->esegui_azione($_REQUEST[$colex_cmd]);
+                                unset($_REQUEST["o2_modfields"]);
+                                }
                             // __________ Get table columns sorting (by column header) ___
-                            if ($_REQUEST[$sort_cmd]) {
+                            elseif ($_REQUEST[$sort_cmd]) {
                                 $segment = $form_obj->controlli[$_REQUEST[$sort_cmd]]->
                                             campo_in_ctrl;
                                 if (array_key_exists($segment, $view_obj->sort)) {
@@ -2920,7 +2926,7 @@ class o2html {
                 $ord_style = "cursor:default;";
                 // _____________________________________ Action on column header click ___
                 if ($ctrl->info_padre[11]) {
-                    $ord_js    = ' onClick=\'o2jse.cmd.exe(event,'.
+                    $ord_js    = ' onClick=\'o2jse.tab.colExe(event,'.
                                                           $o2ctrl_obj->id_esecuzione.',"'.
                                                           $ctrl->info_padre[11].'","'.
                                                           $ctrl->nome.'");\'';
