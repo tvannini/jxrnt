@@ -3344,7 +3344,7 @@ o2jse.tab.colExe = function(eventObj, prgID, actName, ctrlName) {
     delete ctrlObj;
     o2jse.ctrl.make_waiting(targetObj);
 
-    }
+    };
 
 
 /**
