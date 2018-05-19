@@ -4150,6 +4150,7 @@ class o2_run_job {
     public $end       = 0;                 /* End time-stamp                            */
     public $aspid     = '';                /* Instance running ASP-ID                   */
     public $status    = '';                /* Status [Queued|Running|Completed|Killed]  */
+    public $error     = false;             /* Error message, if any                     */
     public $pid       = 0;                 /* System process ID for running instance    */
     public $progress  = 0;                 /* Running instance percentage progress      */
     public $files     = array();           /* List of run-job produced files            */
