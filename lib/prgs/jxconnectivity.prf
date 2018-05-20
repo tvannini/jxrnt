@@ -3792,7 +3792,7 @@ foreach ($def_fields as $def_name => $def_field) {
     $size    = "";
     $oldtype = "";
     $oldsize = "";
-    $text    = $def_name;
+    $text    = $def_field['name'];
     // ___________________________________________ Missing in physical table ___
     if ($tab_strct['exist'] && in_array($def_name, array_keys($only_def_fields))) {
         $status = "M";
