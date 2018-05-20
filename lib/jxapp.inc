@@ -4720,17 +4720,18 @@ class o2_run_job {
 
         if ($this->status == 'R' && (!$this->end || $this->end < 0)) {
             $app = $_SESSION['o2_app'];
-            if ($this->host == $app->host) {
-                if (isset($GLOBALS['jxprocpids'])) {
-                    $pids = $GLOBALS['jxprocpids'];
-                    }
-                else {
-                    $pids                  = $app->runtime->proc_list(true);
-                    $GLOBALS['jxprocpids'] = $pids;
-                    }
+            // ________ GLOBAL var is used as cache to exe query only once in a script ___
+            if (isset($GLOBALS['jxprocpids'])) {
+                $pids = $GLOBALS['jxprocpids'];
                 }
             else {
-                $pids = o2_service::get_host_pids($this->host);
+                if ($this->host == $app->host) {
+                    $pids = $app->runtime->proc_list(true);
+                    }
+                else {
+                    $pids = o2_service::get_host_pids($this->host);
+                    }
+                $GLOBALS['jxprocpids'] = $pids;
                 }
             return isset($pids[$this->pid]);
             }
@@ -5178,21 +5179,143 @@ class o2_run_job {
                                 $status          = '',
                                 $last_days       = 0) {
 
-        $app   = $_SESSION['o2_app'];
-        $rnt   = $GLOBALS['o2_runtime'];
-        $img   = $rnt->alias.'img/jobs/';
-        $prg   = $app->istanze_prg[$app->progressivo_istanze];
-        $list  = self::get_list($user);
-        $code  = '';
-        $curd  = '';
-        $label = '<tr><td colspan="6" style="color:#666666;padding-top:5px;'.
-                 'border-bottom:1px solid #bbbbbb;">';
-        $sp    = '&nbsp;&nbsp;';
-        if (is_array($list)) {
-            $code      = '<table style="width:100%">';
+        $app       = $_SESSION['o2_app'];
+        $rnt       = $GLOBALS['o2_runtime'];
+        $aspid     = $app->vars['_area']->valore;
+        $tab       = $app->get_table(self::$run_table);
+        $db        = $tab->db;
+        $server    = $db->server;
+        $jtab      = $app->get_table(o2_job::$jobs_table);
+        $co        = constant('o2_'.$server->type.'_o');
+        $cc        = constant('o2_'.$server->type.'_c');
+        $link      = array();
+        $f         = $tab->campi;
+        $jf        = $jtab->campi;
+        $select    = $f['run_id'].' '.$co.'RUN_ID'.$cc.','.
+                     $co.'jx_run_jobs'.$cc.'.'.$f['job_id'].' '.$co.'JOB_ID'.$cc.','.
+                     $f['run_prg'].' '.$co.'RUN_PRG'.$cc.','.
+                     $f['run_service'].' '.$co.'RUN_SERVICE'.$cc.','.
+                     $f['run_host'].' '.$co.'RUN_HOST'.$cc.','.
+                     $f['run_user'].' '.$co.'RUN_USER'.$cc.','.
+                     $f['run_developer'].' '.$co.'RUN_DEVELOPER'.$cc.','.
+                     $f['run_params'].' '.$co.'RUN_PARAMS'.$cc.','.
+                     $f['run_aspid'].' '.$co.'RUN_ASPID'.$cc.','.
+                     $f['run_status'].' '.$co.'RUN_STATUS'.$cc.','.
+                     $f['run_pid'].' '.$co.'RUN_PID'.$cc.','.
+                     $f['run_progress'].' '.$co.'RUN_PROGRESS'.$cc.','.
+                     $f['run_error'].' '.$co.'RUN_ERROR'.$cc.','.
+                     $f['run_files'].' '.$co.'RUN_FILES'.$cc.','.
+                     $f['run_start_date'].' '.$co.'RUN_START_DATE'.$cc.','.
+                     $f['run_start_time'].' '.$co.'RUN_START_TIME'.$cc.','.
+                     $f['run_end_date'].' '.$co.'RUN_END_DATE'.$cc.','.
+                     $f['run_end_time'].' '.$co.'RUN_END_TIME'.$cc.','.
+                     $f['run_at_date'].' '.$co.'RUN_AT_DATE'.$cc.','.
+                     $f['run_at_time'].' '.$co.'RUN_AT_TIME'.$cc.','.
+                     $jf['job_name'].' '.$co.'JOB_NAME'.$cc.','.
+                     $jf['job_prg'].' '.$co.'JOB_PRG'.$cc.','.
+                     $jf['job_service'].' '.$co.'JOB_SERVICE'.$cc.','.
+                     $jf['job_params'].' '.$co.'JOB_PARAMS'.$cc.','.
+                     $jf['job_keep_days'].' '.$co.'JOB_KEEP_DAYS'.$cc.','.
+                     $jf['job_max_instances'].' '.$co.'JOB_MAX_INSTANCES'.$cc.','.
+                     $jf['job_block_mode'].' '.$co.'JOB_BLOCK_MODE'.$cc.','.
+                     $jf['job_disabled'].' '.$co.'JOB_DISABLED'.$cc.','.
+                     $jf['job_desc'].' '.$co.'JOB_DESC'.$cc;
+        $jl        = o2_gateway::qualify($server->type,
+                                         $db->nome,
+                                         $db->proprietario,
+                                         $jtab->nome).' '.$co.$jtab->nome.$cc;
+        $link[$jl] = $co.'jx_run_jobs'.$cc.'.'.$f['job_id'].'='.
+                                     $co.$jtab->nome.$cc.'.'.$jf['job_id'];
+        $where     = ($user ?
+                      $f['run_user']." ='".$user."'".
+                      ($aspid ? ' AND '.$f['run_aspid']."='".$aspid."' AND" : ' AND') :
+                      '');
+        $orderby   = $f['run_start_date'].' DESC,'.$f['run_start_time'].' DESC';
+        $run_jobs  = o2_gateway::recordset($server->type,
+                                           $server->server,
+                                           $server->user,
+                                           $server->password,
+                                           $db->nome,
+                                           $db->proprietario,
+                                           $tab->nome,
+                                           'jx_run_jobs',
+                                           $select,
+                                           $where,
+                                           $orderby,
+                                           1000000,
+                                           $link);
+        $img       = $rnt->alias.'img/jobs/';
+        $code      = '<table style="width:100%">';
+        $curd      = '';
+        $label     = '<tr><td colspan="6" style="color:#666666;padding-top:5px;'.
+                     'border-bottom:1px solid #bbbbbb;">';
+        $sp        = '&nbsp;&nbsp;';
+        if (count($run_jobs)) {
             $last_date = false;
-            foreach ($list as $id => $run_job) {
-                $job = o2_job::get_by_id($run_job->job);
+            foreach ($run_jobs as $id => $r) {
+                // ____________________________________________________ Run-job object ___
+                $run_job            = new o2_run_job();
+                $run_job->id        = $r['RUN_ID'];
+                $run_job->job       = $r['JOB_ID'];
+                $run_job->prg       = $r['RUN_PRG'];
+                $run_job->service   = $r['RUN_SERVICE'];
+                $run_job->host      = $r['RUN_HOST'];
+                $run_job->params    = unserialize($r['RUN_PARAMS']);
+                $run_job->user      = $r['RUN_USER'];
+                $run_job->developer = $r['RUN_DEVELOPER'];
+                $run_job->aspid     = $r['RUN_ASPID'];
+                $run_job->status    = $r['RUN_STATUS'];
+                $run_job->pid       = $r['RUN_PID'];
+                $run_job->progress  = $r['RUN_PROGRESS'];
+                $run_job->error     = $r['RUN_ERROR'];
+                $run_job->files     = unserialize($r['RUN_FILES']);
+                if ($r['RUN_START_DATE']) {
+                    $sd             = $r['RUN_START_DATE'];
+                    $st             = $r['RUN_START_TIME'];
+                    $start          = new DateTime($sd{0}.$sd{1}.$sd{2}.$sd{3}.'-'.
+                                                   $sd{4}.$sd{5}.'-'.
+                                                   $sd{6}.$sd{7}.' '.
+                                                   $st{0}.$st{1}.':'.
+                                                   $st{2}.$st{3}.':'.
+                                                   $st{4}.$st{5});
+                    $run_job->start = $start->getTimestamp();
+                    unset($start);
+                    }
+                if ($r['RUN_END_DATE']) {
+                    $ed           = $r['RUN_END_DATE'];
+                    $et           = $r['RUN_END_TIME'];
+                    $end          = new DateTime($ed{0}.$ed{1}.$ed{2}.$ed{3}.'-'.
+                                                 $ed{4}.$ed{5}.'-'.
+                                                 $ed{6}.$ed{7}.' '.
+                                                 $et{0}.$et{1}.':'.
+                                                 $et{2}.$et{3}.':'.
+                                                 $et{4}.$et{5});
+                    $run_job->end = $end->getTimestamp();
+                    unset($end);
+                    }
+                if ($r['RUN_AT_DATE']) {
+                    $ad           = $r['RUN_AT_DATE'];
+                    $at           = $r['RUN_AT_TIME'];
+                    $at_time      = new DateTime($ad{0}.$ad{1}.$ad{2}.$ad{3}.'-'.
+                                                 $ad{4}.$ad{5}.'-'.
+                                                 $ad{6}.$ad{7}.' '.
+                                                 $at{0}.$at{1}.':'.
+                                                 $at{2}.$at{3}.':'.
+                                                 $at{4}.$at{5});
+                    $run_job->exe_time = $at_time->getTimestamp();
+                    unset($at_time);
+                    }
+                // ________________________________________________ Related job object ___
+                $job = new o2_job($r['JOB_ID'],
+                                  $r['JOB_NAME'],
+                                  $r['JOB_PRG'],
+                                  unserialize($r['JOB_PARAMS']),
+                                  $r['JOB_DESC'],
+                                  $r['JOB_KEEP_DAYS'],
+                                  $r['JOB_MAX_INSTANCES'],
+                                  $r['JOB_BLOCK_MODE'],
+                                  $r['JOB_DISABLED'],
+                                  $r['JOB_SERVICE']);
                 // _______________________________________ Filter by job name & status ___
                 if ((!$job_name || $job->name == $job_name) &&
                     (!$status || (substr($run_job->get_status(), 0, 1) ==
@@ -5265,10 +5388,9 @@ class o2_run_job {
                               '"></td></tr>';
                     }
                 }
-            $code.= '</table>';
             }
+        $code.= '</table>';
         return $code;
-
         }
 
     }

@@ -1690,6 +1690,13 @@ class o2_campo {
 
         }
 
+
+    function __toString() {
+
+        return $this->nome_fisico;
+
+        }
+
     }
 
 

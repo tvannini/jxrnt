@@ -5,11 +5,12 @@ function jxprocesses§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("days_filter", "_o2number");
 	$task_prg§_§var->definisci("flt_job", "jxjob_name");
 	$task_prg§_§var->definisci("flt_status", "jxjob_status");
+	$task_prg§_§var->definisci("jobs_names", "_o2structure");
 	$task_prg§_§var->definisci("win_height", "_o2number");
 	$task_prg§_§var->definisci("win_width", "_o2number");
 		}
 function jxprocesses§§jxprocesses_1_form_def(&$form_jxprocesses_1) {
-	$form_jxprocesses_1->x(78);
+	$form_jxprocesses_1->x(79);
 	$form_jxprocesses_1->y(60);
 	$form_jxprocesses_1->larghezza(580);
 	$form_jxprocesses_1->altezza(430);
@@ -53,13 +54,6 @@ function jxprocesses§§jxprocesses_1_form_def(&$form_jxprocesses_1) {
 		$ctrl_o2image4->label("Refresh");
 		$ctrl_o2image4->css(jxprocesses_exp_5());
 		$ctrl_o2image4->imgexp(jxprocesses_exp_6());
-	$ctrl_o2htmlarea3 = &$form_jxprocesses_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea3->x(465);
-		$ctrl_o2htmlarea3->y(7);
-		$ctrl_o2htmlarea3->larghezza(10);
-		$ctrl_o2htmlarea3->altezza(15);
-		$ctrl_o2htmlarea3->expand("H");
-		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2image10 = &$form_jxprocesses_1->ctrldef("o2image10", "img", "o2multipage2", "", "");
 		$ctrl_o2image10->x(482);
 		$ctrl_o2image10->y(2);
@@ -82,6 +76,13 @@ function jxprocesses§§jxprocesses_1_form_def(&$form_jxprocesses_1) {
 		$ctrl_o2image9->label("Go to scheduler");
 		$ctrl_o2image9->css(jxprocesses_exp_5());
 		$ctrl_o2image9->imgexp(jxprocesses_exp_15());
+	$ctrl_o2htmlarea3 = &$form_jxprocesses_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea3->x(465);
+		$ctrl_o2htmlarea3->y(7);
+		$ctrl_o2htmlarea3->larghezza(10);
+		$ctrl_o2htmlarea3->altezza(15);
+		$ctrl_o2htmlarea3->expand("H");
+		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2ListBox2 = &$form_jxprocesses_1->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "flt_job");
 		$ctrl_o2ListBox2->x(40);
 		$ctrl_o2ListBox2->y(4);
@@ -91,7 +92,7 @@ function jxprocesses§§jxprocesses_1_form_def(&$form_jxprocesses_1) {
 		$ctrl_o2ListBox2->on_change(jxprocesses_exp_22());
 		$ctrl_o2ListBox2->popup("jxprocesses_exp_23()");
 		$ctrl_o2ListBox2->info_padre(array(0));
-		$ctrl_o2ListBox2->valori(jxprocesses_exp_12());
+		$ctrl_o2ListBox2->valori(jxprocesses_exp_26());
 		$ctrl_o2ListBox2->righe(1);
 	$ctrl_o2ListBox3 = &$form_jxprocesses_1->ctrldef("o2ListBox3", "listcombo", "o2multipage2", "prg§_§var", "flt_status");
 		$ctrl_o2ListBox3->x(240);
@@ -136,10 +137,12 @@ function jxprocesses§§goto_scheduler_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxprocesses§§refresh_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "jobs_names", jxprocesses_exp_12()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxprocesses§§start_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "days_filter", jxprocesses_exp_25()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "jobs_names", jxprocesses_exp_12()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxprocesses_exp_1() {
@@ -316,6 +319,11 @@ return ('Filter by process status');
 function jxprocesses_exp_25() {
 	
 return (3);
+	} //|o2_fine_exp|
+
+function jxprocesses_exp_26() {
+	
+return (o2val('prg§_§var','jobs_names'));
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_28() {
