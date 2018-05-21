@@ -5228,7 +5228,7 @@ class o2_run_job {
                                      $co.$jtab->nome.$cc.'.'.$jf['job_id'];
         $where     = ($user ?
                       $f['run_user']." ='".$user."'".
-                      ($aspid ? ' AND '.$f['run_aspid']."='".$aspid."' AND" : ' AND') :
+                      ($aspid ? ' AND '.$f['run_aspid']."='".$aspid."'" : '') :
                       '');
         $orderby   = $f['run_start_date'].' DESC,'.$f['run_start_time'].' DESC';
         $run_jobs  = o2_gateway::recordset($server->type,
