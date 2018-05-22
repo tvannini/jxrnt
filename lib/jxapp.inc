@@ -5252,7 +5252,7 @@ class o2_run_job {
         $sp        = '&nbsp;&nbsp;';
         if (count($run_jobs)) {
             $last_date = false;
-            foreach ($run_jobs as $id => $r) {
+            foreach ($run_jobs as $rn => $r) {
                 // ____________________________________________________ Run-job object ___
                 $run_job            = new o2_run_job();
                 $run_job->id        = $r['RUN_ID'];
@@ -5376,14 +5376,17 @@ class o2_run_job {
                     $code  .= $tr.'<td><img src="'.$ico.
                               ($buttons_action ?
                                '" class="jximgbtn" onclick="'.
-                               o2_act4js(0, $buttons_action, "show", $id) : "").
+                               o2_act4js(0, $buttons_action, "show", $run_job->id) : "").
                               '"></td>'.$desc.
                               '<td style="width:100%;height:18px">'.$bar.
                               '</td><td><img class="'.
                               ($attach ? "jximgbtn" : "").'" '.
                               ($attach ?
-                               'onclick="'.
-                               o2_act4js(0, $buttons_action, "attach", $id).'"' : "").
+                               'onclick="'.o2_act4js(0,
+                                                     $buttons_action,
+                                                     "attach",
+                                                     $run_job->id).'"' :
+                               "").
                               ' src="'.$img.($attach ? "attach.png" : "attach_dis.png").
                               '"></td></tr>';
                     }
