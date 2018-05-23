@@ -1492,6 +1492,7 @@ class o2_dbview extends o2_view {
     public $looping_on      = false; /* If an action is looping on view                 */
     public $custom_from     = false; /* If FROM clausole is defined by expression       */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
+    public $statement       = null;  /* PDO Statement opened on view (if any)           */
     public $offset_ini      = 0;     /* First recordset row index in whole file         */
     public $offset_fine     = 0;     /* Last recordset row index in whole file          */
     public $direzione       = 0;     /* Records retrieving direction:
