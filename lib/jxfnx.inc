@@ -6099,6 +6099,106 @@ function o2view_get_query($view_name, $with_orderby = false, $with_limit = false
 
 
 /**
+ * Creates a query statement and executes records fetching on it.
+ *
+ * This function allows fetching records one-by-one from a Janox view and returns each one
+ * as an array, in the form:
+ *
+ *   array('FIELD_NAME1' => $vield_value1,
+ *         'FIELD_NAME2' => $vield_value2,
+ *         ...,
+ *         'FIELD_NAMEn' => $vield_valueN)
+ *
+ * This function can be used in this way:
+ *
+ *    while($record = o2view_fetch($view_name)) {
+ *       $field = $record['FIELD'];
+ *       }
+ *
+ * NOTE: If you unexpectedly stop fetching or you need to reset fetching, consider using
+ *       o2view_fetch_free() to reset the statement.
+ *
+ * @package view
+ * @param   string $view_name
+ * @return  array
+ * @see     o2view_fetch_free(), o2view_get_query()
+ */
+function o2view_fetch($view_name) {
+
+    $app      = $_SESSION['o2_app'];
+    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    // ___________________________________________ Sibling calls: fetch from statement ___
+    if ($view_obj->statement) {
+        if (!$row = $view_obj->statement->fetch(PDO::FETCH_ASSOC)) {
+            $view_obj->statement->closeCursor();
+            $view_obj->statement = null;
+            return false;
+            }
+        // _________________________________________ Error on statement (during fetch) ___
+        if ($view_obj->statement->errorCode() != '00000') {
+            $row = false;
+            $err = $view_obj->statement->errorInfo();
+            $conn->rollBack && @$conn->rollBack();
+            throw new o2_exception($err[2], o2error_DBDATAQUERY);
+            return false;
+            }
+        return $row;
+        }
+    // __________________________________________________ First call: create statement ___
+    elseif ($view_obj) {
+        $GLOBALS['jxviewsql'] = 'QO'; // ________________ Query with Order by clausole ___
+        $view_obj->record_primo();
+        $query = $GLOBALS['jxviewsql'];
+        unset($GLOBALS['jxviewsql']);
+        // _________________________________________________________ Reset origin view ___
+        $view_obj->record_primo();
+        // ________________________________________________________________ Connection ___
+        $srv  = $view_obj->file->db->server;
+        $conn = o2_gateway::connect($srv->type,
+                                    $srv->server,
+                                    $srv->user,
+                                    $srv->password);
+        // _________________________________________________________________ Statement ___
+        if (!$GLOBALS["jxlasterror"]) {
+            $stm = false;
+            // ________________________________________________ Create query statement ___
+            if (!($stm = $conn->query($query))) {
+               $err = $conn->errorInfo();
+               throw new o2_exception($err[2], o2error_DBDATAQUERY);
+               }
+            }
+        $view_obj->statement = $stm;
+        return o2view_fetch($view_name);
+        }
+    else {
+        return false;
+        }
+
+    }
+
+
+/**
+ * Resets and frees a view statement created for fetching rows
+ *
+ * @package view
+ * @param   string $view_name
+ * @return  array
+ * @see     o2view_fetch(), o2view_get_query()
+ */
+function o2view_fetch_free($view_name) {
+
+    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if ($view_obj->statement) {
+        $view_obj->statement->closeCursor();
+        $view_obj->statement = null;
+        return true;
+        }
+    return false;
+
+    }
+
+
+/**
  * === DEPRECATED ===
  * This function has been deprecated: use recordset-DeleteAll instruction instead.
  *
