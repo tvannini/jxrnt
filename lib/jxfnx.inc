@@ -6182,7 +6182,7 @@ function o2view_fetch($view_name) {
  *
  * @package view
  * @param   string $view_name
- * @return  array
+ * @return  boolean
  * @see     o2view_fetch(), o2view_get_query()
  */
 function o2view_fetch_free($view_name) {
