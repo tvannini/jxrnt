@@ -542,6 +542,7 @@
 .jxwiz_next {
     background: url("tools/wiz_next.png") no-repeat ;
     padding: 0;
+    padding-left: 16px;
     margin: 0;
     border: none;
     text-align: center;
@@ -550,6 +551,7 @@
 .jxwiz_next:hover, .jxwiz_next:focus {
     background: url("tools/wiz_next_focus.png") no-repeat ;
     padding: 0;
+    padding-left: 16px;
     margin: 0;
     border: none;
     border: none;
@@ -562,6 +564,7 @@
 .jxwiz_cancel {
     background: url("tools/wiz_cancel.png") no-repeat ;
     padding: 0;
+    padding-left: 16px;
     margin: 0;
     border: none;
     text-align: center;
@@ -570,6 +573,7 @@
 .jxwiz_cancel:hover, .jxwiz_cancel:focus {
     background: url("tools/wiz_cancel_focus.png") no-repeat ;
     padding: 0;
+    padding-left: 16px;
     margin: 0;
     border: none;
     border-radius: 3px;
@@ -581,6 +585,7 @@
 .jxwiz_save {
     background: url("tools/wiz_save.png") no-repeat ;
     padding: 0;
+    padding-left: 16px;
     margin: 0;
     border: none;
     text-align: center;
@@ -589,6 +594,7 @@
 .jxwiz_save:hover, .jxwiz_save:focus {
     background: url("tools/wiz_save_focus.png") no-repeat ;
     padding: 0;
+    padding-left: 16px;
     margin: 0;
     border: none;
     border: none;
