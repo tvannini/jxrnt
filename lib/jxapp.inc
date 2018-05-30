@@ -10686,7 +10686,7 @@ class o2_inspector {
                     $func_body.= $token_text;
                     // ______________ If reading 1st level parameter (no sub function) ___
                     if ($param_idx) {
-                        // ______________________________________ Add text to paramter ___
+                        // _____________________________________ Add text to parameter ___
                         $params[$param_idx].= trim($token_text);
                         }
                     }
@@ -10755,6 +10755,69 @@ class o2_inspector {
                 }
             }
         return $res;
+
+        }
+
+    // ==================================================== MULTI LANGUAGE TRANSLATION ===
+    function mlt_harvest($prg_name) {
+
+        $list  = array();
+        $code  = file_get_contents($this->dir_prgs.$prg_name.'.prf');
+        $parts = array();
+        // _____________________________________________________________ Windows title ___
+        preg_match_all('/^\s*\$form_(\w+)->titolo\(["\'](.+)["\']\);\s*$/m',
+                       $code, $parts);
+        foreach ($parts[1] as $idx => $form_name) {
+            $list[$form_name.'#title'] = $parts[2][$idx];
+            }
+        // ____________________________________________ Labels, buttons and imgs label ___
+        preg_match_all('/^\s*\$ctrl_(\w+)->label\(["\'](.+)["\']\);\s*$/m',
+                       $code, $parts);
+        foreach ($parts[1] as $idx => $ctrl_name) {
+            $list[$ctrl_name.'#label'] = $parts[2][$idx];
+            }
+        // ___________________________________________ Confirm and navigators messages ___
+        preg_match_all('/^\s*\$ctrl_(\w+)->confirm_(\w*)\(["\'](.+)["\']\);\s*$/m',
+                       $code, $parts);
+        foreach ($parts[1] as $idx => $ctrl_name) {
+            $list[$ctrl_name.'#msg_'.$parts[2][$idx]] = $parts[3][$idx];
+            }
+        // _____________________________________________________ List/combo-box values ___
+        preg_match_all('/^\s*\$ctrl_(\w+)->valori\(array\(\s*(.+)\s*\)\);\s*$/m',
+                       $code, $parts);
+        foreach ($parts[1] as $idx => $ctrl_name) {
+            $parts2 = array();
+            preg_match_all('/["\']?(.*?)["\']?\s*=>\s*["\'](.*?)["\']\s*,?\s*/',
+                           $parts[2][$idx], $parts2);
+            foreach ($parts2[2] as $valid => $value) {
+                $list[$ctrl_name.'#val_'.$parts2[1][$valid]] = $value;
+                }
+            }
+        // ____________________________________________________ Multipage pages labels ___
+        preg_match_all('/^\s*\$ctrl_(\w+)->label\(array\(\s*(.+)\s*\)\);\s*$/m',
+                       $code, $parts);
+        foreach ($parts[1] as $idx => $ctrl_name) {
+            $parts2 = array();
+            preg_match_all('/["\'](.*?)["\']/', $parts[2][$idx], $parts2);
+            foreach ($parts2[1] as $valid => $value) {
+                $list[$ctrl_name.'#page_'.$valid] = $value;
+                }
+            }
+        // _____________________________________________ Grid column title and tooltip ___
+        preg_match_all('/^\s*\$ctrl_(\w+)->info_padre\(array\((["\'].+["\'])\)\);\s*$/m',
+                       $code, $parts);
+        foreach ($parts[1] as $idx => $ctrl_name) {
+            $parts2 = array();
+            preg_match_all('/["\'](.*?)["\']/', $parts[2][$idx], $parts2);
+            if (isset($parts2[1][3])) {
+                $list[$ctrl_name.'#grid_title'] = $parts2[1][3];
+                }
+            if (isset($parts2[1][10])) {
+                $list[$ctrl_name.'#grid_tip'] = $parts2[1][10];
+                }
+            }
+        ksort($list);
+        o2log($list);
 
         }
 
