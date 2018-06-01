@@ -6457,7 +6457,7 @@ class o2act {
                     if ($singolo_parametro['tipo'] == "V") {
                         $view_local = $app->istanze_prg[$app->progressivo_istanze]->
                                        contesto[$singolo_parametro['task']];
-                        if ($view_local->campo($singolo_parametro['campo']) !=
+                        if ($view_local->campo($singolo_parametro['campo']) !==
                             $singolo_parametro['valore']) {
                             $view_local->imposta($singolo_parametro['campo'],
                                                  $singolo_parametro['valore']);
