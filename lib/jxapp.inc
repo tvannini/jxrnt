@@ -1638,6 +1638,41 @@ class o2_app {
 
 
     /**
+     * Retrieve translated string for current language set in options
+     *
+     * @param string $ctrl
+     * @param string $prop
+     * @param string $prop_value
+     * @param string $string
+     */
+    function translate($ctrl, $prop, $prop_value, $string) {
+
+        $prg = $this->istanze_prg[$this->progressivo_istanze]->nome;
+        $res = $this->translation[$prg][$ctrl.'#'.$prop.
+                                        ($prop == 'item' || $prop == 'page' ? 
+                                         '_'.$prop_value : '')];
+        // ____________________________________ Look for translation in prg dictionary ___
+        if ($res) {
+            return $res;
+            }
+        else {
+            $res = $this->translation[''][$ctrl.'#'.$prop.
+                                          ($prop == 'item' || $prop == 'page' ? 
+                                           '_'.$prop_value : '')];
+            // _____________________________ Look for translation in global dictionary ___
+            if ($res) {
+                return $res;
+                }
+            // _______________________________________________ Fallback to base string ___
+            else {
+                return $string;
+                }
+            }
+
+        }
+
+
+    /**
      * Load translation table for current language set in options
      *
      */
@@ -2355,6 +2390,7 @@ class o2_app {
         $this->istanze_prg         = array();
         $this->progressivo_istanze = 0;
         $this->prgs_cache          = array();
+        $this->translation         = array('' => $this->translation['']);
         $this->goto_prg($this->prg_start, false);
         // ____________________________________________________ Actions list execution ___
         $this->actions_loop();
@@ -2410,6 +2446,7 @@ class o2_app {
                         }
                     }
                 $this->prgs_cache       = array();
+                $this->translation      = array('' => $this->translation['']);
                 $redirect               = $_SESSION['jxredirect'];
                 $_SESSION['jxredirect'] = false;
                 // _______________________________________ Reset range control filters ___
@@ -7005,6 +7042,7 @@ class o2_scheduler {
  */
 class o2_inspector {
 
+    static $mlt_table     = 'jx_translations'; /* System table for translations storage */
     /*     ===== ELEMENT IDENTIFIER WORDS ============================================= */
     static $w_table       = "table";
     static $w_link_table  = "link_table";
@@ -10758,6 +10796,7 @@ class o2_inspector {
 
         }
 
+
     // ==================================================== MULTI LANGUAGE TRANSLATION ===
     function mlt_harvest($prg_name) {
 
@@ -10768,19 +10807,28 @@ class o2_inspector {
         preg_match_all('/^\s*\$form_(\w+)->titolo\(["\'](.+)["\']\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $form_name) {
-            $list[$form_name.'#title'] = $parts[2][$idx];
+            if (!isset($list[$form_name])) {
+                $list[$form_name] = array();
+                }
+            $list[$form_name]['title'][0] = $parts[2][$idx];
             }
         // ____________________________________________ Labels, buttons and imgs label ___
         preg_match_all('/^\s*\$ctrl_(\w+)->label\(["\'](.+)["\']\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $ctrl_name) {
-            $list[$ctrl_name.'#label'] = $parts[2][$idx];
+            if (!isset($list[$ctrl_name])) {
+                $list[$ctrl_name] = array();
+                }
+            $list[$ctrl_name]['label'][0] = $parts[2][$idx];
             }
         // ___________________________________________ Confirm and navigators messages ___
         preg_match_all('/^\s*\$ctrl_(\w+)->confirm_(\w*)\(["\'](.+)["\']\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $ctrl_name) {
-            $list[$ctrl_name.'#msg_'.$parts[2][$idx]] = $parts[3][$idx];
+            if (!isset($list[$ctrl_name])) {
+                $list[$ctrl_name] = array();
+                }
+            $list[$ctrl_name]['msg_'.$parts[2][$idx]][0] = $parts[3][$idx];
             }
         // _____________________________________________________ List/combo-box values ___
         preg_match_all('/^\s*\$ctrl_(\w+)->valori\(array\(\s*(.+)\s*\)\);\s*$/m',
@@ -10790,7 +10838,10 @@ class o2_inspector {
             preg_match_all('/["\']?(.*?)["\']?\s*=>\s*["\'](.*?)["\']\s*,?\s*/',
                            $parts[2][$idx], $parts2);
             foreach ($parts2[2] as $valid => $value) {
-                $list[$ctrl_name.'#val_'.$parts2[1][$valid]] = $value;
+                if (!isset($list[$ctrl_name])) {
+                    $list[$ctrl_name] = array('item' => array());
+                    }
+                $list[$ctrl_name]['item'][$parts2[1][$valid]] = $value;
                 }
             }
         // ____________________________________________________ Multipage pages labels ___
@@ -10800,7 +10851,10 @@ class o2_inspector {
             $parts2 = array();
             preg_match_all('/["\'](.*?)["\']/', $parts[2][$idx], $parts2);
             foreach ($parts2[1] as $valid => $value) {
-                $list[$ctrl_name.'#page_'.$valid] = $value;
+                if (!isset($list[$ctrl_name])) {
+                    $list[$ctrl_name] = array('page' => array());
+                    }
+                $list[$ctrl_name]['page'][$valid] = $value;
                 }
             }
         // _____________________________________________ Grid column title and tooltip ___
@@ -10810,14 +10864,171 @@ class o2_inspector {
             $parts2 = array();
             preg_match_all('/["\'](.*?)["\']/', $parts[2][$idx], $parts2);
             if (isset($parts2[1][3])) {
-                $list[$ctrl_name.'#grid_title'] = $parts2[1][3];
+                if (!isset($list[$ctrl_name])) {
+                    $list[$ctrl_name] = array();
+                    }
+                $list[$ctrl_name]['grid_title'][0] = $parts2[1][3];
                 }
             if (isset($parts2[1][10])) {
-                $list[$ctrl_name.'#grid_tip'] = $parts2[1][10];
+                if (!isset($list[$ctrl_name])) {
+                    $list[$ctrl_name] = array();
+                    }
+                $list[$ctrl_name]['grid_tip'][0] = $parts2[1][10];
                 }
             }
-        ksort($list);
-        o2log($list);
+        // ___________________________________________________ Function o2_translate() ___
+        preg_match_all(
+                   '/o2_translate\(\s*["\'](.+?)["\']\s*,\s*["\'](.+?)["\']\s*([^)]*)\)/',
+                       $code, $parts);
+        foreach ($parts[2] as $idx => $base_string) {
+            $list[$parts[1][$idx]]['string'][0] = $base_string;
+            }
+        $this->mlt_process_list($prg_name, $list);
+
+        }
+
+
+    function mlt_process_list($prg_name, $list) {
+
+//        $lang = $this->option_get('lang');
+        $lang = 'eng';
+        if (!is_array($list)) {
+            throw new o2_exception("Multilanguage Translation: Cannot process items list.",
+                                   o2error_EXECUTION);
+            return false;
+            }
+        $app    = $_SESSION['o2_app']; 
+        $tab    = $app->get_table(self::$mlt_table);
+        $db     = $tab->db;
+        $server = $db->server;
+        $co     = constant('o2_'.$server->type.'_o');
+        $cc     = constant('o2_'.$server->type.'_c');
+        $f      = $tab->campi;
+        $select = $f['mlt_base_str'].' '.$co.'BASE_STR'.$cc.','.
+                  $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
+
+        foreach ($list as $ctrl => $properties) {
+            foreach ($properties as $prop => $prop_values) {
+                foreach ($prop_values as $prop_val => $string) {
+                    if ($string) {
+                        $where   = $f['mlt_lang']."='".$lang."' AND ".
+                                   $f['mlt_prg']."='".$prg_name."' AND ".
+                                   $f['mlt_ctrl']."='".$ctrl."' AND ".
+                                   $f['mlt_property']."='".$prop."' AND ".
+                                   $f['mlt_prop_value']."='".$prop_val."'";
+                        $mlt_rec = o2_gateway::recordset($server->type,
+                                                         $server->server,
+                                                         $server->user,
+                                                         $server->password,
+                                                         $db->nome,
+                                                         $db->proprietario,
+                                                         $tab->nome,
+                                                         'jx_translations',
+                                                         $select,
+                                                         $where,
+                                                         '',
+                                                         1);
+                        // ______________________ String doesn't exists in translation ___
+                        if (count($mlt_rec) < 1) {
+                            $fields = array($f['mlt_lang'],
+                                            $f['mlt_prg'],
+                                            $f['mlt_ctrl'],
+                                            $f['mlt_property'],
+                                            $f['mlt_prop_value'],
+                                            $f['mlt_base_str']);
+                            $values = array("'".$lang."'",
+                                            "'".$prg_name."'",
+                                            "'".$ctrl."'",
+                                            "'".$prop."'",
+                                            "'".$prop_val."'",
+                                            "'".$string."'");
+                            o2_gateway::insertrec($server->type,
+                                                  $server->server,
+                                                  $server->user,
+                                                  $server->password,
+                                                  $db->nome,
+                                                  $db->proprietario,
+                                                  $tab->nome,
+                                                  'jx_translations',
+                                                  $fields,
+                                                  $values);                        
+                            }
+                        // _______ String already exists in translation and it changed ___
+                        elseif ($mlt_rec[0]['mlt_base_str'] != $string) {
+
+                            //  ================================================= TODO ===
+
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+    function mlt_produce_lang($lang) {
+
+
+        $app  = $_SESSION['o2_app']; 
+        $tab  = $app->get_table(self::$mlt_table);
+        $db   = $tab->db;
+        $srv  = $db->server;
+        $co   = constant('o2_'.$srv->type.'_o');
+        $cc   = constant('o2_'.$srv->type.'_c');
+        $f    = $tab->campi;
+        // ________________________________________________________________ Connection ___
+        $conn = o2_gateway::connect($srv->type,
+                                    $srv->server,
+                                    $srv->user,
+                                    $srv->password);
+        // _____________________________________________________________________ Query ___        
+        $qtab  = o2_gateway::qualify($srv->type, 
+                                     $db->nome,
+                                     $db->proprietario,
+                                     $tab->nome);
+        $query = "SELECT ".$f['mlt_prg'].' '.$co.'PRG'.$cc.','.
+                           $f['mlt_ctrl'].' '.$co.'CTRL'.$cc.','.
+                           $f['mlt_property'].' '.$co.'PROPERTY'.$cc.','.
+                           $f['mlt_prop_value'].' '.$co.'PROP_VALUE'.$cc.','.
+                           $f['mlt_base_str'].' '.$co.'BASE_STR'.$cc.','.
+                           $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc.
+                 " FROM ".$qtab." WHERE ".$f['mlt_lang']."='".$lang.
+                 "' ORDER BY ".$f['mlt_lang'].' ASC,'.$f['mlt_prg'].' ASC';
+        // _________________________________________________________________ Statement ___
+        if (!$GLOBALS["jxlasterror"]) {
+            $stm = false;
+            // ________________________________________________ Create query statement ___
+            if (!($stm = $conn->query($query))) {
+               $err = $conn->errorInfo();
+               throw new o2_exception($err[2], o2error_DBDATAQUERY);
+               return false;
+               }
+
+            // ______________________________________________________ /app/lang/<lang> ___
+            $lang_dir = new o2_dir($app->dir_home."/lang/".$lang);
+            $lang_dir->crea();
+            $prg  = false;
+            $text = '';
+            while ($row = $stm->fetch(PDO::FETCH_ASSOC)) {
+                // _____________________________ Write single program translation file ___
+                if ($prg && ($prg != $row['PRG'])) {
+                    file_put_contents($lang_dir.$prg, $text); 
+                    $text = '';
+                    }
+                $prg      = $row['PRG'];
+                $ctrl     = $row['CTRL'];
+                $prop     = $row['PROPERTY'];
+                $prop_val = (($prop == 'item') || ($prop == 'page') ? 
+                             '_'.$row['PROP_VALUE'] : '');
+                $text.= '; --- '.str_replace("\n", "\\n", $row['BASE_STR'])."\n".
+                        '"'.$ctrl.'#'.$prop.$prop_val.'" = "'.
+                        str_replace("\n", "\\n", $row['LANG_STR']).'"'."\n";
+                }
+            file_put_contents($lang_dir.$prg, $text); 
+
+            }
+
 
         }
 

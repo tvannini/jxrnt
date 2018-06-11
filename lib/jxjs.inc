@@ -260,9 +260,18 @@ class jxjs {
         $parent = "pT:'".($o2ctrl_obj->padre ?
                           $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
                           'form')."'";
+        if ($app->multilang) {
+            $label = $app->translate($o2ctrl_obj->nome, 
+                                     'label', 
+                                     0, 
+                                     $o2ctrl_obj->label); 
+            }  
+        else {
+            $label = $o2ctrl_obj->label;
+            }
         print jxjs::ctrl($o2ctrl_obj,
                          "l:'".str_replace(array("\n","\r"), ' ',
-                                           addslashes(jx_encode($o2ctrl_obj->label))).
+                                           addslashes(jx_encode($label))).
                          "',s:'".$o2ctrl_obj->css.
                          "',x:".$o2ctrl_obj->x.
                          ',y:'.$o2ctrl_obj->y.
@@ -456,6 +465,12 @@ class jxjs {
                     $static_list   = array();
                     reset($o2ctrl_obj->valori);
                     while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
+                        if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                            $descrizione = $app->translate($o2ctrl_obj->nome, 
+                                                           'item', 
+                                                           $codice, 
+                                                           $descrizione); 
+                            }
                         if ($cod_default === false) {
                             $cod_default  = $codice;
                             $desc_default = $descrizione;
@@ -513,6 +528,12 @@ class jxjs {
             $o2ctrl_obj->error = true;
             reset($o2ctrl_obj->valori);
             while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
+                if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                    $descrizione = $app->translate($o2ctrl_obj->nome, 
+                                                   'value', 
+                                                   $codice, 
+                                                   $descrizione); 
+                    }
                 $cod_default = ($cod_default !== false ? $cod_default : $codice);
                 $v_local     = substr($o2ctrl_obj->ctrl2sql(), 0, $mask->dimensione);
                 $items      .= "['".addslashes(trim($codice))."','".
@@ -547,7 +568,15 @@ class jxjs {
      */
     static function ctrl_button($o2ctrl_obj) {
 
-        $label = $o2ctrl_obj->label;
+        if ($app->multilang) {
+            $label = $app->translate($o2ctrl_obj->nome, 
+                                     'label', 
+                                     0, 
+                                     $o2ctrl_obj->label); 
+            }  
+        else {
+            $label = $o2ctrl_obj->label;
+            }
         // _________________________________ Keyboard short-cuts are defined only once ___
         if ($o2ctrl_obj->tab_row) {
             $o2ctrl_obj->forza_submit = false;
@@ -609,21 +638,30 @@ class jxjs {
      */
     static function ctrl_image($o2ctrl_obj) {
 
-        $on = false;
+        $app = $_SESSION['o2_app'];
+        $on  = false;
         if ($o2ctrl_obj->is_enabled()) {
             $o2ctrl_obj->forza_submit = !$o2ctrl_obj->tab_row;
             $on                       = ($o2ctrl_obj->azione_submit ? true : false);
             }
         if (!$on) {
-            $app    = $_SESSION['o2_app'];
             $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->
                                                                   form[$o2ctrl_obj->form];
             $parent = "{pT:'".($o2ctrl_obj->padre ?
                                $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
                                'form')."'}";
             }
+        if ($app->multilang) {
+            $label = $app->translate($o2ctrl_obj->nome, 
+                                     'label', 
+                                     0, 
+                                     $o2ctrl_obj->label); 
+            }  
+        else {
+            $label = $o2ctrl_obj->label;
+            }
         print jxjs::ctrl($o2ctrl_obj,
-                         "l:'".addcslashes(jx_encode($o2ctrl_obj->label), "\"'\n\r\\").
+                         "l:'".addcslashes(jx_encode($label), "\"'\n\r\\").
                          "',src:'".$o2ctrl_obj->src().
                          "',srcover:'".$o2ctrl_obj->srcover().
                          "',s:'".$o2ctrl_obj->css.
@@ -1058,8 +1096,17 @@ class jxjs {
                     $pos_buffer = '';
                     }
                 }
+            if ($app->multilang) {
+                $title = $app->translate($o2form_obj->nome, 
+                                         'title', 
+                                         0, 
+                                         $o2form_obj->titolo); 
+                }  
+            else {
+                $title = $o2form_obj->titolo;
+                }
             print "jxc({i:'".$form_id."',t:'win',v:!0,title:'".
-                  addslashes(jx_encode($o2form_obj->titolo)).
+                  addslashes(jx_encode($title)).
                   "',w:".$o2form_obj->larghezza.
                   ",h:".max(0,
                             ($o2form_obj->altezza -

@@ -6073,7 +6073,8 @@ endofjxmsg;
                      'jx_running_jobs',
                      'jx_scheduler',
                      'jx_services',
-                     'jx_hosts');
+                     'jx_hosts',
+                     'jx_translations');
 
         }
 

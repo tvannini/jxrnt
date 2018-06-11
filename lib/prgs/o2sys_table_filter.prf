@@ -29,8 +29,8 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 	$form_filters->y(40);
 	$form_filters->larghezza(600);
 	$form_filters->altezza(562);
-	$form_filters->titolo("Filters");
 	$form_filters->align_o("Center");
+	$form_filters->titolo("Filters");
 	$ctrl_bar = &$form_filters->ctrldef("bar", "navigator", "", "tmp_where", "");
 		$ctrl_bar->x(0);
 		$ctrl_bar->y(0);
@@ -86,42 +86,42 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_o2label3->y(20);
 		$ctrl_o2label3->larghezza(30);
 		$ctrl_o2label3->altezza(20);
-		$ctrl_o2label3->info_padre(array("01" ,"01" ,"01"));
+		$ctrl_o2label3->info_padre(array("01", "01", "01"));
 		$ctrl_o2label3->label(o2sys_table_filter_exp_14());
 	$ctrl_o2label2 = &$form_filters->ctrldef("o2label2", "label", "tab", "", "");
 		$ctrl_o2label2->x(40);
 		$ctrl_o2label2->y(20);
 		$ctrl_o2label2->larghezza(150);
 		$ctrl_o2label2->altezza(22);
-		$ctrl_o2label2->info_padre(array("01" ,"02" ,"02" ,"Column" ,False ,"" ,False ,""));
+		$ctrl_o2label2->info_padre(array("01", "02", "02", "Column", False, "", False, ""));
 		$ctrl_o2label2->label(o2sys_table_filter_exp_2());
 	$ctrl_o2edit2 = &$form_filters->ctrldef("o2edit2", "edit", "tab", "tmp_where", "min_exp");
 		$ctrl_o2edit2->x(260);
 		$ctrl_o2edit2->y(20);
 		$ctrl_o2edit2->larghezza(80);
 		$ctrl_o2edit2->altezza(22);
-		$ctrl_o2edit2->info_padre(array("01" ,"03" ,"03" ,"From" ,True ,"" ,False ,""));
+		$ctrl_o2edit2->info_padre(array("01", "03", "03", "From", True, "", False, ""));
 		$ctrl_o2edit2->maschera(o2sys_table_filter_exp_10());
 	$ctrl_o2edit3 = &$form_filters->ctrldef("o2edit3", "edit", "tab", "tmp_where", "max_exp");
 		$ctrl_o2edit3->x(340);
 		$ctrl_o2edit3->y(20);
 		$ctrl_o2edit3->larghezza(80);
 		$ctrl_o2edit3->altezza(22);
-		$ctrl_o2edit3->info_padre(array("01" ,"04" ,"04" ,"To" ,True ,"" ,False ,""));
+		$ctrl_o2edit3->info_padre(array("01", "04", "04", "To", True, "", False, ""));
 		$ctrl_o2edit3->maschera(o2sys_table_filter_exp_10());
 	$ctrl_o2edit4 = &$form_filters->ctrldef("o2edit4", "edit", "tab", "tmp_where", "not_exp");
 		$ctrl_o2edit4->x(420);
 		$ctrl_o2edit4->y(20);
 		$ctrl_o2edit4->larghezza(80);
 		$ctrl_o2edit4->altezza(22);
-		$ctrl_o2edit4->info_padre(array("01" ,"05" ,"05" ,"Not" ,True ,"" ,False ,""));
+		$ctrl_o2edit4->info_padre(array("01", "05", "05", "Not", True, "", False, ""));
 		$ctrl_o2edit4->maschera(o2sys_table_filter_exp_10());
 	$ctrl_o2edit5 = &$form_filters->ctrldef("o2edit5", "edit", "tab", "tmp_where", "like_exp");
 		$ctrl_o2edit5->x(500);
 		$ctrl_o2edit5->y(20);
 		$ctrl_o2edit5->larghezza(80);
 		$ctrl_o2edit5->altezza(22);
-		$ctrl_o2edit5->info_padre(array("01" ,"06" ,"06" ,"Containing" ,True ,"" ,False ,""));
+		$ctrl_o2edit5->info_padre(array("01", "06", "06", "Containing", True, "", False, ""));
 		$ctrl_o2edit5->maschera(o2sys_table_filter_exp_10());
 		}
 
@@ -238,7 +238,15 @@ foreach ($form->controlli as $ctrl_index => $single_ctrl) {
    if ($single_ctrl->task == $table->task &&
        $single_ctrl->visibile             &&
        $single_ctrl->campo_in_ctrl) {
-      $caption    = $single_ctrl->info_padre[3];
+      if ($app->multilang) {
+         $caption = $app->translate($single_ctrl->nome, 
+                                    'grid_title', 
+                                    0, 
+                                    $single_ctrl->info_padre[3]); 
+         }  
+      else {
+         $caption = $single_ctrl->info_padre[3];
+         }              
       $field_name = $single_ctrl->campo_in_ctrl;
       $mask       = $single_ctrl->maschera->nome;
       $list[]     = array(1 => $field_name, 2 => $caption, 3 => $mask);

@@ -365,13 +365,7 @@ class o2_form {
 
     function titolo($titolo = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$titolo])) {
-            $this->titolo = $app->translation[$titolo];
-            }
-        else {
-            $this->titolo = $titolo;
-            }
+        $this->titolo = $titolo;
         return true;
 
         }
@@ -1805,15 +1799,6 @@ class o2_ctrl {
         if ($info_padre === null) {
             $info_padre = array();
             }
-        // ____________________________________ Translate column title and description ___
-        if ($app->multilang) {
-            if (trim($app->translation[$info_padre[3]])) {
-                $info_padre[3] = $app->translation[$info_padre[3]];
-                }
-            if (trim($app->translation[$info_padre[10]])) {
-                $info_padre[10] = $app->translation[$info_padre[10]];
-                }
-            }
         $parent = $app->istanze_prg[$this->id_esecuzione]->form[$this->form]->
                    controlli[$this->padre];
         if ($parent->tipo_ctrl == 'tab') {
@@ -2050,6 +2035,16 @@ class o2_ctrl {
                 $log = ",log:!0";
                 }
             }
+        // _________________________________________________ Multilanguage translation ___
+        if ($app->multilang) {
+            $msg = $app->translate($o2ctrl_obj->nome, 
+                                   'msg_message', 
+                                   0, 
+                                   $o2ctrl_obj->confirm_message); 
+            }  
+        else {
+            $msg = $o2ctrl_obj->confirm_message; 
+            }
         return  ($as_obj ? "{" : "o2=\"").
                     "e:".$this->id_esecuzione.
                     ",c:'".$this->nome.
@@ -2069,10 +2064,8 @@ class o2_ctrl {
                    (strpos($extraProps, "msg:'") !== false ?
                     "'" :
                     "',msg:'".($as_obj ?
-                               addcslashes($this->confirm_message, "\r\n\'\"\\") :
-                               str_replace("'", "\'",
-                                           addcslashes($this->confirm_message, "\r\n"))).
-                    "'").
+                               addcslashes($msg, "\r\n\'\"\\") :
+                               str_replace("'", "\'", addcslashes($msg, "\r\n")))."'").
                    ($this->popup_exp ? ",puact:'".$this->popup_act.
                                        "',puexp:'".$this->popup_exp."'" : "").
                    ($extraProps ? ','.$extraProps : '').($as_obj ? "}" : "\"\n");
@@ -2121,13 +2114,7 @@ class o2_ctrl_label extends o2_ctrl {
      */
     function label($label = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$label])) {
-            $this->label = $app->translation[$label];
-            }
-        else {
-            $this->label = $label;
-            }
+        $this->label = $label;
         return true;
 
         }
@@ -2288,10 +2275,6 @@ class o2_ctrl_navigator extends o2_ctrl {
 
     function msg2alert($msg) {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$msg])) {
-            $msg = $app->translation[$msg];
-            }
         return addcslashes($msg, "\n\r'");
 
         }
@@ -2917,13 +2900,7 @@ class o2_ctrl_check extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$message])) {
-            $this->confirm_message = $app->translation[$message];
-            }
-        else {
-            $this->confirm_message = $message;
-            }
+        $this->confirm_message = $message;
         return true;
 
         }
@@ -3028,15 +3005,6 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 }
             $valori = $new_values;
             }
-        if ($app->multilang && !$this->untraslate) {
-            $lang_values = array();
-            foreach ($valori as $code => $descr) {
-                $lang_values[$code] = (trim($app->translation[$descr]) ?
-                                       $app->translation[$descr] :
-                                       $descr);
-                }
-            $valori = $lang_values;
-            }
         if ($valori !== null) {
             $this->valori = $valori;
             }
@@ -3080,13 +3048,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$message])) {
-            $this->confirm_message = $app->translation[$message];
-            }
-        else {
-            $this->confirm_message = $message;
-            }
+        $this->confirm_message = $message;
         return true;
 
         }
@@ -3195,7 +3157,15 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 reset($this->valori);
                 while (list($item_code, $item_desc) = each($this->valori)) {
                     if ($value == trim($item_code)) {
-                        $ret = $item_desc;
+                        if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                            $ret = $app->translate($o2ctrl_obj->nome, 
+                                                   'item', 
+                                                   $item_code, 
+                                                   $item_desc); 
+                            }
+                        else {
+                            $ret = $item_desc;
+                            }
                         break;
                         }
                     }
@@ -3285,7 +3255,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
             $desc_list  = "[";
             }
         $unique_code = array();
-        // ___________________________ Add items from preset, in any and if first page ___
+        // ___________________________ Add items from preset, if any and if first page ___
         if ($this->preset_list && !$items_view->offset_ini) {
             foreach ($this->preset_list as $item_code => $item_desc) {
                 if (!$unique_code[$item_code]) {
@@ -3393,13 +3363,7 @@ class o2_ctrl_button extends o2_ctrl {
 
     function label($label = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$label])) {
-            $this->label = $app->translation[$label];
-            }
-        else {
-            $this->label = $label;
-            }
+        $this->label = $label;
         return true;
 
         }
@@ -3412,13 +3376,7 @@ class o2_ctrl_button extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$message])) {
-            $this->confirm_message = $app->translation[$message];
-            }
-        else {
-            $this->confirm_message = $message;
-            }
+        $this->confirm_message = $message;
         return true;
 
         }
@@ -3598,13 +3556,7 @@ class o2_ctrl_img extends o2_ctrl {
 
     function label($label = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$label])) {
-            $this->label = $app->translation[$label];
-            }
-        else {
-            $this->label = $label;
-            }
+        $this->label = $label;
         return true;
 
         }
@@ -3617,13 +3569,7 @@ class o2_ctrl_img extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$message])) {
-            $this->confirm_message = $app->translation[$message];
-            }
-        else {
-            $this->confirm_message = $message;
-            }
+        $this->confirm_message = $message;
         return true;
 
         }
@@ -3820,21 +3766,9 @@ class o2_ctrl_multipage extends o2_ctrl {
     function label($label = null) {
 
         if (!$label) {
-            $label = array("default");
+            $label = array("Page1");
             }
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang) {
-            $lang_label = array();
-            foreach ($label as $single_label) {
-                $lang_label[] = (trim($app->translation[$single_label]) ?
-                                 $app->translation[$single_label] :
-                                 $single_label);
-                }
-            $this->label = $lang_label;
-            }
-        else {
-            $this->label = $label;
-            }
+        $this->label = $label;
         return true;
 
         }
@@ -3872,13 +3806,7 @@ class o2_ctrl_multipage extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang && trim($app->translation[$message])) {
-            $this->confirm_message = $app->translation[$message];
-            }
-        else {
-            $this->confirm_message = $message;
-            }
+        $this->confirm_message = $message;
         return true;
 
         }

@@ -2,6 +2,7 @@
 
 function jxtranslate§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("lang", "o2sys_language");
 	$task_prg§_§var->definisci("prg", "_o2alpha");
 	$task_prg§_§var->definisci("prgs", "_o2structure");
 		}
@@ -26,10 +27,26 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("harvest");
 		$ctrl_o2button2->label("&Harvest");
+	$ctrl_o2edit2 = &$form_jxtranslate_1->ctrldef("o2edit2", "edit", "", "prg§_§var", "lang");
+		$ctrl_o2edit2->x(30);
+		$ctrl_o2edit2->y(70);
+		$ctrl_o2edit2->larghezza(100);
+		$ctrl_o2edit2->altezza(20);
+	$ctrl_o2button3 = &$form_jxtranslate_1->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(290);
+		$ctrl_o2button3->y(70);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("produce");
+		$ctrl_o2button3->label("&Produce");
 		}
 
 function jxtranslate§§harvest_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxtranslate_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtranslate§§produce_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxtranslate_exp_4()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxtranslate§§start_act(&$o2exe) {
@@ -40,6 +57,7 @@ function jxtranslate_exp_1() {
 	$p = o2_inspector::get_app_prgs();
 $l = array_keys($p);
 $l = array_combine($l, $l);
+
 return ($l);
 	} //|o2_fine_exp|
 
@@ -51,8 +69,14 @@ return (o2val('prg§_§var','prgs'));
 function jxtranslate_exp_3() {
 	$prg_name = o2val('prg§_§var','prg');
 $insp     = new o2_inspector();
-$list     = $insp->mlt_harvest($prg_name); 
+$list     = $insp->mlt_harvest($prg_name);
+return (true);
+	} //|o2_fine_exp|
 
+function jxtranslate_exp_4() {
+	$lang = o2val('prg§_§var','lang');
+$insp = new o2_inspector();
+$list = $insp->mlt_produce_lang($lang);
 return (true);
 	} //|o2_fine_exp|
 ?>

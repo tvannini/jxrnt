@@ -655,12 +655,20 @@ foreach ($prg->form as $form) {
          if ($ctrl->campo_in_ctrl &&
              $ctrl->task == $view_name &&
              $ctrl->is_visible()) {
-            $title = false;
             if ($ctrl->padre &&
                 $form->controlli[$ctrl->padre]->tipo_ctrl == "tab") {
                if ($ctrl->info_padre[3]) {
+                  if ($app->multilang) {
+                     $title = $app->translate($ctrl->nome, 
+                                              'grid_title', 
+                                              0, 
+                                              $ctrl->info_padre[3]); 
+                     }  
+                  else {
+                     $title = $ctrl->info_padre[3];
+                     }              
                   $titles[] = array('F' => $ctrl->campo_in_ctrl,
-                                    'T' => $ctrl->info_padre[3]);
+                                    'T' => $title);
                   }
                }
             else {

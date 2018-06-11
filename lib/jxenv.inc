@@ -91,12 +91,13 @@ class o2_prg {
     function __construct($nome, $id_esecuzione, $prefisso, $suffisso, $script = null) {
 
         if ($nome) {
+            $app             = $_SESSION['o2_app'];
             $this->nome      = trim($nome);
             $this->id        = $id_esecuzione;
             $this->esecutivo = $prefisso;
             $this->exit_now  = false;
             $prgs            = "";
-            foreach ($_SESSION['o2_app']->istanze_prg as $single_prg) {
+            foreach ($app->istanze_prg as $single_prg) {
                 $prgs.= $single_prg->nome."|";
                 }
             $this->exe_path = $prgs.$this->nome;
@@ -105,6 +106,9 @@ class o2_prg {
                 }
             else {
                 $this->script = trim($nome).".prg";
+                }
+            if ($app->multilang) {
+                $this->load_translation();
                 }
             }
         else {
@@ -669,8 +673,16 @@ class o2_prg {
                                 $single_form->controlli[$single_ctrl->padre]->tipo_ctrl ==
                                                                                   "tab") {
                                 if ($single_ctrl->info_padre[3]) {
-                                    $titles[$single_ctrl->campo_in_ctrl] = $single_ctrl->
-                                                                            info_padre[3];
+                                    if ($app->multilang) {
+                                        $title = $app->translate($single_ctrl->nome, 
+                                                                 'grid_title', 
+                                                                 0, 
+                                                             $single_ctrl->info_padre[3]); 
+                                        }  
+                                    else {
+                                        $title = $single_ctrl->info_padre[3];
+                                        }
+                                    $titles[$single_ctrl->campo_in_ctrl] = $title;
                                     }
                                 // __________________________ Add field to export list ___
                                 $grid_fields[] = $single_ctrl->campo_in_ctrl;
@@ -1189,6 +1201,25 @@ class o2_prg {
         return $rset;
 
         }
+
+
+    /**
+     * Load translation table for current language set in options
+     *
+     */
+    function load_translation() {
+
+        $app = $_SESSION['o2_app'];
+        if (!isset($app->translation[$this->nome])) {
+            // ______________________________________________________ /app/lang/<lang> ___
+            $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
+            // _____________________________________________________ Translation table ___
+            if ($lang_dir->exists($this->nome)) {
+                $app->translation[$this->nome] = jx_parse_conf($lang_dir.$this->nome);
+                }
+            }
+            
+        }        
 
     }
 

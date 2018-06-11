@@ -1672,6 +1672,15 @@ class o2html {
             }
         // ======================= [###### BARRA DEL TITOLO ######] ======================
         if ($o2form_obj->title_bar && !$o2form_obj->linkto && !$nowin) {
+            if ($app->multilang) {                
+                $title = $app->translate(substr($o2form_obj->nome, 0, -5), 
+                                         'title', 
+                                         0, 
+                                         $o2form_obj->titolo); 
+                }  
+            else {
+                $title = $o2form_obj->titolo;
+                }
             print '<table cellspacing="0" cellpadding="0" width="100%" class="'.
                   ($o2form_obj->attiva ?
                    $o2form_obj->css_titlebar :
@@ -1693,9 +1702,7 @@ class o2html {
                                  $o2form_obj->css_title :
                                  $o2form_obj->css_title_no).
                     '" onmousedown="o2jse.win.startMoving(this,event);"><span id="'.
-                    $div_name.'_title">'.jx_encode($o2form_obj->titolo).
-                    "</span></td>\n".
-
+                    $div_name.'_title">'.jx_encode($title)."</span></td>\n".
                   ($o2form_obj->status_bar ?
                    '<td title="Maximize/restore" class="'.
                    ($o2form_obj->maximized ?
@@ -1850,6 +1857,16 @@ class o2html {
      */
     static function ctrl_label($o2ctrl_obj) {
 
+        $app = $_SESSION['o2_app'];
+        if ($app->multilang) {
+            $label = $app->translate($o2ctrl_obj->nome, 
+                                     'label', 
+                                     0, 
+                                     $o2ctrl_obj->label); 
+            }  
+        else {
+            $label = $o2ctrl_obj->label;
+            }
         print '<div'.($o2ctrl_obj->tab_row ? "" :
                       ' id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'"').
                    ' class="'.$o2ctrl_obj->css.
@@ -1861,7 +1878,7 @@ class o2html {
                  ',puact:\''.$o2ctrl_obj->popup_act.
                 "',puexp:'".$o2ctrl_obj->popup_exp.
               '\'" onMouseOver="o2jse.pu.i(event)" onMouseOut="o2jse.pu.o()"' : '').
-              '>'.jx_encode($o2ctrl_obj->label)."</div>\n";
+              '>'.jx_encode($label)."</div>\n";
 
         }
 
@@ -2158,6 +2175,7 @@ class o2html {
         elseif ($zoom && $active) {
             $jsl = 'onDblClick="o2jse.ctrl.zoom(event);" ';
             }
+        reset($o2ctrl_obj->valori);
         if ($enabled_in_tab) {
             $cod_default = false;
             print '<div id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.
@@ -2169,18 +2187,16 @@ class o2html {
                   $o2ctrl_obj->larghezza.'px;height:'.$o2ctrl_obj->altezza."px;".
                   ($o2ctrl_obj->visibile ? "" : "display:none;")."\"\n".
                   $o2ctrl_obj->js_props($zoom ? "z:!0" : "z:!1").$jsi.$jsl.">\n";
-            // __________________________________ Verify code existence in values list ___
-            reset($o2ctrl_obj->valori);
-            while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
-                if ($v_local == trim($codice)) {
-                    $o2ctrl_obj->error = false;
-                    }
-                }
-            // _______________________________________________________ Draw items list ___
+            // _____________________________ Draw items list and verify code existence ___
             $o2ctrl_obj->error = true;
             $list              = '';
-            reset($o2ctrl_obj->valori);
             while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
+                if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                    $descrizione = $app->translate($o2ctrl_obj->nome, 
+                                                   'item', 
+                                                   $codice, 
+                                                   $descrizione); 
+                    }
                 $cod_default = ($cod_default !== false ? $cod_default : $codice);
                 $list.= '<div id="jxdata:'.$codice.'" ';
                 if ($v_local == trim($codice)) {
@@ -2206,28 +2222,24 @@ class o2html {
             }
         else {
             $valore_local = "";
-            reset($o2ctrl_obj->valori);
             while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
-                  $valore_local.= htmlentities($descrizione,
-                                               ENT_QUOTES,
-                                               $app->chr_encoding).'<br />';
+                if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                    $descrizione = $app->translate($o2ctrl_obj->nome, 
+                                                   'item', 
+                                                   $codice, 
+                                                   $descrizione); 
+                    }
+                $valore_local.= htmlentities($descrizione,
+                                             ENT_QUOTES,
+                                             $app->chr_encoding).'<br />';
                 }
             if (!$valore_local) {
                 $valore_local = "&nbsp;";
                 }
-            if ($enabled_in_tab) {
-                print '<div class="'.$o2ctrl_obj->css.($enabled ? "" : "_dis").
-                         '" style="width:'.$o2ctrl_obj->larghezza.
-                               'px;height:'.$o2ctrl_obj->altezza.'px;'.
-                      ($o2ctrl_obj->visibile ? "" : "display:none;").'">';
-                }
-            else {
-                print '<div style="width:'.$o2ctrl_obj->larghezza.
-                              'px;height:'.$o2ctrl_obj->altezza.'px;'.
-                      ($o2ctrl_obj->visibile ? "" : "display:none;").'" '.
-                      $o2ctrl_obj->js_props().">";
-                }
-            print $valore_local."</div>\n";
+            print '<div style="width:'.$o2ctrl_obj->larghezza.
+                          'px;height:'.$o2ctrl_obj->altezza.'px;'.
+                  ($o2ctrl_obj->visibile ? "" : "display:none;").'" '.
+                  $o2ctrl_obj->js_props().">".$valore_local."</div>\n";
             }
 
         }
@@ -2263,6 +2275,12 @@ class o2html {
                 $static_list   = array();
                 reset($o2ctrl_obj->valori);
                 while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
+                    if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                        $descrizione = $app->translate($o2ctrl_obj->nome, 
+                                                       'item', 
+                                                       $codice, 
+                                                       $descrizione); 
+                        }
                     if ($cod_default === false) {
                         $cod_default  = $codice;
                         $desc_default = $descrizione;
@@ -2392,11 +2410,20 @@ class o2html {
      */
     static function ctrl_button($o2ctrl_obj) {
 
+        $app      = $_SESSION['o2_app'];
         $active   = $o2ctrl_obj->is_active();
         $enabled  = $o2ctrl_obj->modificabile;
-        $label    = $o2ctrl_obj->label;
         $title    = "";
         $shortcut = "";
+        if ($app->multilang) {
+            $label = $app->translate($o2ctrl_obj->nome, 
+                                     'label', 
+                                     0, 
+                                     $o2ctrl_obj->label); 
+            }  
+        else {
+            $label = $o2ctrl_obj->label;
+            }
         if ($active && $enabled) {
             $o2ctrl_obj->forza_submit = !$o2ctrl_obj->tab_row;
             $js_change = 'onClick="o2jse.ctrl.btnExe(this)" '.
@@ -2465,7 +2492,8 @@ class o2html {
      */
     static function ctrl_image($o2ctrl_obj) {
 
-        $prg        = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+        $app        = $_SESSION['o2_app'];
+        $prg        = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
         $form       = $prg->form[$o2ctrl_obj->form];
         $html_name  = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
         $map_buffer = "<map name='".$html_name."_o2map'>\n";
@@ -2510,12 +2538,21 @@ class o2html {
         if ($o2ctrl_obj->imgoverexp) {
             print "<script>(new Image()).src='".$src_over."';</script>\n";
             }
+        if ($app->multilang) {
+            $label = $app->translate($o2ctrl_obj->nome, 
+                                     'label', 
+                                     0, 
+                                     $o2ctrl_obj->label); 
+            }  
+        else {
+            $label = $o2ctrl_obj->label;
+            }
         print "<img name='".$html_name."' ".
                     $js_change_local.
-                   "alt='".$o2ctrl_obj->label.
+                   "alt='".$label.
                  "' src='".$src.
                  "' class='".$o2ctrl_obj->css.
-                 "' title='".jx_encode($o2ctrl_obj->label).
+                 "' title='".jx_encode($label).
                  "' style='width:".$o2ctrl_obj->larghezza.
                       "px; height:".$o2ctrl_obj->altezza."px;".
                            $css_cursor_local.
@@ -2639,8 +2676,9 @@ class o2html {
      */
     static function ctrl_multipage_h($o2ctrl_obj) {
 
-        $active = $o2ctrl_obj->is_active();
+        $app = $_SESSION['o2_app'];
         if ($o2ctrl_obj->pagine > 1) {
+            $active = $o2ctrl_obj->is_active();
             foreach ($o2ctrl_obj->label as $page_index => $title) {
                 $actual = $o2ctrl_obj->valore == $page_index;
                 if ($active) {
@@ -2648,6 +2686,12 @@ class o2html {
                                        ($actual ? "" :
                                      'onClick="o2jse.ctrl.multiPage(this)" tabindex="0"');
                     }
+                if ($app->multilang) {
+                    $title = $app->translate($o2ctrl_obj->nome, 
+                                             'page', 
+                                             $page_index, 
+                                             $title); 
+                    }  
                 print '<div id="'.
                       $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'_mpb'.$page_index.
                       '" class="'.($actual ?
@@ -2657,8 +2701,17 @@ class o2html {
                 }
             }
         else {
+            if ($app->multilang) {
+                $title = $app->translate($o2ctrl_obj->nome, 
+                                         'page', 
+                                         0, 
+                                         $o2ctrl_obj->label[0]); 
+                }  
+            else {
+                $title = $o2ctrl_obj->label[0];
+                }
             print '<div class="'.$o2ctrl_obj->css_label_on.'">'.
-                  jx_encode($o2ctrl_obj->label[0]).'</div>';
+                  jx_encode($title).'</div>';
             }
 
         }
@@ -2673,6 +2726,7 @@ class o2html {
      */
     static function ctrl_multipage_v($o2ctrl_obj) {
 
+        $app = $_SESSION['o2_app'];
         if ($o2ctrl_obj->pagine > 1) {
             $active = $o2ctrl_obj->is_active();
             foreach ($o2ctrl_obj->label as $page_index => $title) {
@@ -2965,7 +3019,15 @@ class o2html {
                         }
                     }
                 if (trim($ctrl->info_padre[3]) != "") {
-                    $titolo = jx_encode($ctrl->info_padre[3]);
+                    if ($app->multilang) {
+                        $titolo = jx_encode($app->translate($ctrl->nome, 
+                                                            'grid_title', 
+                                                            0, 
+                                                            $ctrl->info_padre[3])); 
+                        }  
+                    else {
+                        $titolo = jx_encode($ctrl->info_padre[3]);
+                        }
                     }
                 else {
                     $titolo = "&nbsp;";
@@ -3004,6 +3066,16 @@ class o2html {
                            ' onmousedown="o2jse.tab.startColMovingTO(event);"' : '');
                 $o2ctrl_obj->colonne = max($ctrl->info_padre[2], $o2ctrl_obj->colonne);
                 $puntatore_col       = $ctrl->info_padre[2];
+                if ($app->multilang) {
+                    $tip = $app->translate($ctrl->nome, 
+                                           'grid_tip', 
+                                           0, 
+                                           $ctrl->info_padre[10]); 
+                    }  
+                else {
+                    $tip = $ctrl->info_padre[10];
+                    }
+
                 $code.= '<th o2="e:'.$o2ctrl_obj->id_esecuzione.
                            ",f:'".$o2ctrl_obj->form.
                           "',cT:'".$o2ctrl_obj->tipo_ctrl.
@@ -3020,9 +3092,7 @@ class o2html {
                            '"' : '').
                         ' style="'.($col_size ? 'width:'.$col_size.'px;' : "").$ord_style.
                         ($ctrl->visibile && !$client_vis ? "" : "display:none;").'"'.
-                        ($ctrl->info_padre[10] ?
-                         ' title="'.$ctrl->info_padre[10].'"' :
-                         $ord_title).$ord_js.$col_js.'>'.
+                        ($tip ? ' title="'.$tip.'"' : $ord_title).$ord_js.$col_js.'>'.
                         ($code && $sizable ?
                          '<div class="o2_tab_resize" title="Click & drag to resize '.
                          'column" onmousedown="o2jse.tab.startSizing(event);"> &nbsp; '.
@@ -3571,9 +3641,18 @@ class o2html {
      */
     static function ctrl_nav_new($o2ctrl_obj, $view) {
 
+        $app = $_SESSION['o2_app'];
+        if ($app->multilang) {
+            $msg = $app->translate($o2ctrl_obj->nome, 
+                                   'msg_new', 
+                                   0, 
+                                   $o2ctrl_obj->msg_new); 
+            }  
+        else {
+            $msg = $o2ctrl_obj->msg_new;
+            }
         $html = "<div id='".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione."_newbtn' ".
-                $o2ctrl_obj->js_props("msg:'".$o2ctrl_obj->msg_new.
-                                    "',action:11,rt:false").
+                $o2ctrl_obj->js_props("msg:'".$msg."',action:11,rt:false").
                           " class='".$o2ctrl_obj->css_new.
                                      ($o2ctrl_obj->enable_new ? "" : "_dis").
                          "' title='Insert new record'";
@@ -3601,12 +3680,22 @@ class o2html {
      */
     static function ctrl_nav_del($o2ctrl_obj, $view, $inline = false) {
 
+        $app = $_SESSION['o2_app'];
+        if ($app->multilang) {
+            $msg = $app->translate($o2ctrl_obj->nome, 
+                                   'msg_new', 
+                                   0, 
+                                   $o2ctrl_obj->msg_del); 
+            }  
+        else {
+            $msg = $o2ctrl_obj->msg_del;
+            }
         $recs = (count($view->recordset) > 0);
         if ($o2ctrl_obj->is_active() && $recs && $o2ctrl_obj->enable_del) {
             $html = "<div ".($inline ? "" : "id='".$o2ctrl_obj->nome.
                                                    $o2ctrl_obj->id_esecuzione.
                                                    "_delbtn' ").
-                     $o2ctrl_obj->js_props("msg:'".$o2ctrl_obj->msg_del.
+                     $o2ctrl_obj->js_props("msg:'".$msg.
                                          "',action:12,rt:".($inline ? "true" : "false")).
                       "class='".$o2ctrl_obj->css_del.
                     "' title='Delete ".($inline ? "" : "current ")."record'";
@@ -3633,11 +3722,20 @@ class o2html {
      */
     static function ctrl_nav_save($o2ctrl_obj, $view) {
 
+        $app = $_SESSION['o2_app'];
+        if ($app->multilang) {
+            $msg = $app->translate($o2ctrl_obj->nome, 
+                                   'msg_new', 
+                                   0, 
+                                   $o2ctrl_obj->msg_save); 
+            }  
+        else {
+            $msg = $o2ctrl_obj->msg_save;
+            }
         $recs = (count($view->recordset) > 0);
         if ($o2ctrl_obj->is_active() && $recs && $o2ctrl_obj->enable_save) {
             $html = "<div id='".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione."_savebtn' ".
-                    $o2ctrl_obj->js_props("msg:'".$o2ctrl_obj->msg_save.
-                                        "',action:13,rt:false").
+                    $o2ctrl_obj->js_props("msg:'".$msg."',action:13,rt:false").
                     " class='".$o2ctrl_obj->css_save.
                     "' title='Save current record updates' ";
             if ($o2ctrl_obj->effect_on_over) {
@@ -3663,11 +3761,20 @@ class o2html {
      */
     static function ctrl_nav_undo($o2ctrl_obj, $view) {
 
+        $app = $_SESSION['o2_app'];
+        if ($app->multilang) {
+            $msg = $app->translate($o2ctrl_obj->nome, 
+                                   'msg_new', 
+                                   0, 
+                                   $o2ctrl_obj->msg_undo); 
+            }  
+        else {
+            $msg = $o2ctrl_obj->msg_undo;
+            }
         $recs = (count($view->recordset) > 0);
         if ($o2ctrl_obj->is_active() && $recs && $o2ctrl_obj->enable_undo) {
             $html = "<div id='".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione."_undobtn' ".
-                    $o2ctrl_obj->js_props("msg:'".$o2ctrl_obj->msg_undo.
-                                        "',action:14,rt:false").
+                    $o2ctrl_obj->js_props("msg:'".$msg."',action:14,rt:false").
                     " class='".$o2ctrl_obj->css_undo.
                     "' title='Discard current record updates' ";
             if ($o2ctrl_obj->effect_on_over) {
@@ -3694,12 +3801,22 @@ class o2html {
      */
     static function ctrl_nav_select($o2ctrl_obj, $view, $inline = false) {
 
+        $app = $_SESSION['o2_app'];
+        if ($app->multilang) {
+            $msg = $app->translate($o2ctrl_obj->nome, 
+                                   'msg_new', 
+                                   0, 
+                                   $o2ctrl_obj->msg_select); 
+            }  
+        else {
+            $msg = $o2ctrl_obj->msg_select;
+            }
         $recs = (count($view->recordset) > 0);
         if ($o2ctrl_obj->is_active() && $recs && $o2ctrl_obj->enable_select) {
             $html = "<div ".($inline ? "" : "id='".$o2ctrl_obj->nome.
                                                    $o2ctrl_obj->id_esecuzione.
                                                    "_selebtn' ").
-                    $o2ctrl_obj->js_props("msg:'".$o2ctrl_obj->msg_select.
+                    $o2ctrl_obj->js_props("msg:'".$msg.
                                           "',action:15,rt:".($inline ? "true" : "false")).
                     "class='".$o2ctrl_obj->css_select.
                     "' title='Select ".($inline ? "" : "current ")."record'";
@@ -3727,13 +3844,23 @@ class o2html {
      */
     static function ctrl_nav_detail($o2ctrl_obj, $view, $inline = false) {
 
+        $app = $_SESSION['o2_app'];
+        if ($app->multilang) {
+            $msg = $app->translate($o2ctrl_obj->nome, 
+                                   'msg_new', 
+                                   0, 
+                                   $o2ctrl_obj->msg_detail); 
+            }  
+        else {
+            $msg = $o2ctrl_obj->msg_detail;
+            }
        $recs = (count($view->recordset) > 0);
         if ($o2ctrl_obj->is_active() && $recs && $o2ctrl_obj->enable_detail) {
             $html = "<div ".($inline ? "" : "id='".$o2ctrl_obj->nome.
                                                    $o2ctrl_obj->id_esecuzione.
                                                    "_detbtn' ").
-                    $o2ctrl_obj->js_props("msg:'".$o2ctrl_obj->msg_detail.
-                                        "',action:16,rt:".($inline ? "true" : "false")).
+                    $o2ctrl_obj->js_props("msg:'".$msg.
+                                          "',action:16,rt:".($inline ? "true" : "false")).
                       "class='".$o2ctrl_obj->css_detail.
                     "' title='Show ".($inline ? "" : "current ")."record details'";
             if ($o2ctrl_obj->effect_on_over) {

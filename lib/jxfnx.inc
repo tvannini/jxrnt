@@ -797,28 +797,28 @@ function o2mail_send($from,
 
 
 /**
- * Returns translation for the passed text
+ * Returns translation for the passed code.
+ * Function can accept infinite parameters to replace placeholders in string.
+ * Placeholders are in the form #n, where #1 is the first substitution parameter, #2 the 
+ * second one and so on.
  *
+ * @param  string $code   Unique code identifier for string
  * @param  string $text   Text to be translated
  * @return string
  */
-function o2_translate($text) {
+function o2_translate($code, $string) {
 
-    $app = $_SESSION['o2_app'];
-    if ($app->multilang) {
-        if ($app->harvest_labels) {
-            $app->harvest_list[] = $text;
-            }
-        if (trim($app->translation[$text])) {
-            return $app->translation[$text];
-            }
-        else {
-            return $text;
-            }
+    $app      = $_SESSION['o2_app'];
+    $lang_str = $app->translate($code, 'string', 0, $string);
+    $params   = func_get_args();
+    array_shift($params);
+    array_shift($params);
+    $param_n = 1;
+    foreach ($params as $param) {
+        $lang_str = str_replace('#'.$param_n, $param, $lang_str);
+        $param_n++;
         }
-    else {
-        return $text;
-        }
+    return $lang_str;
 
     }
 

@@ -241,4 +241,16 @@ o2def::tab("jx_hosts", "default", "jx_hosts", "host_host");
 
 	o2def::index("host_host", "host_host","A");
 
+o2def::tab("jx_translations", "default", "jx_translations", "lang_ctrl");
+
+	o2def::field("mlt_lang", "mlt_lang", "o2sys_language");
+	o2def::field("mlt_prg", "mlt_prg", "_o2alpha");
+	o2def::field("mlt_ctrl", "mlt_ctrl", "_o2alpha");
+	o2def::field("mlt_property", "mlt_property", "_o2alpha");
+	o2def::field("mlt_prop_value", "mlt_prop_value", "_o2alpha");
+	o2def::field("mlt_base_str", "mlt_base_str", "o2sys_full_str");
+	o2def::field("mlt_lang_str", "mlt_lang_str", "o2sys_full_str");
+
+	o2def::index("lang_ctrl", "mlt_lang","A", "mlt_prg","A", "mlt_ctrl","A", "mlt_property","A", "mlt_prop_value","A");
+
 ?>
