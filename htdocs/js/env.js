@@ -28,8 +28,9 @@
  *
  * @name      jxjse
  * @package   jxrnt/htdocs/js/env.js
- * @version   2.3
- * @copyright www.janox.it 2007
+ * @version   2.4
+ * @copyright Tommaso Vannini (tvannini@janox.it) 2007
+ * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
 
@@ -1049,15 +1050,7 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
     reqObj.engine.onreadystatechange = function() {
 
         if (reqObj.engine.readyState == 4) {
-            if (reqObj.engine.status == 200) {
-                var resText = reqObj.engine.responseText;
-                o2jse.requester.endReq(reqId);
-                // __ Function is called passing original object and request body text ___
-                if (callBack) {
-                    callBack(fromObj, resText);
-                    }
-                }
-            else {
+            if (reqObj.engine.status == 0) {
                 st = reqObj.engine.status;
                 o2jse.requester.endReq(reqId);
                 // _____________________________________________ Report network errors ___
@@ -1066,6 +1059,14 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
                           (reqObj.engine.responseText.trim().length > 0 ?
                            " - With code" : " - Empty") +
                           "): please try again.");
+                    }
+                }
+            else {
+                var resText = reqObj.engine.responseText;
+                o2jse.requester.endReq(reqId);
+                // __ Function is called passing original object and request body text ___
+                if (callBack) {
+                    callBack(fromObj, resText);
                     }
                 }
             }
