@@ -30,7 +30,7 @@
  *
  * @name      jxenv
  * @package   janox/jxenv.inc
- * @version   2.3
+ * @version   2.4
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -674,11 +674,11 @@ class o2_prg {
                                                                                   "tab") {
                                 if ($single_ctrl->info_padre[3]) {
                                     if ($app->multilang) {
-                                        $title = $app->translate($single_ctrl->nome, 
-                                                                 'grid_title', 
-                                                                 0, 
-                                                             $single_ctrl->info_padre[3]); 
-                                        }  
+                                        $title = $app->translate($single_ctrl->nome,
+                                                                 'grid_title',
+                                                                 0,
+                                                             $single_ctrl->info_padre[3]);
+                                        }
                                     else {
                                         $title = $single_ctrl->info_padre[3];
                                         }
@@ -1218,8 +1218,8 @@ class o2_prg {
                 $app->translation[$this->nome] = jx_parse_conf($lang_dir.$this->nome);
                 }
             }
-            
-        }        
+
+        }
 
     }
 

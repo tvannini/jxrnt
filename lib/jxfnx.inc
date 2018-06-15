@@ -30,7 +30,7 @@
  *
  * @name      jxfnx
  * @package   janox/jxfnx.inc
- * @version   2.3
+ * @version   2.4
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -799,7 +799,7 @@ function o2mail_send($from,
 /**
  * Returns translation for the passed code.
  * Function can accept infinite parameters to replace placeholders in string.
- * Placeholders are in the form #n, where #1 is the first substitution parameter, #2 the 
+ * Placeholders are in the form #n, where #1 is the first substitution parameter, #2 the
  * second one and so on.
  *
  * @param  string $code   Unique code identifier for string

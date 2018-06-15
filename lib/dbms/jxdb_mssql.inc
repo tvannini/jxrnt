@@ -25,7 +25,7 @@
  *
  * @name      jxmssql
  * @package   janox/dbms/jxdb_mssql.php
- * @version   2.3
+ * @version   2.4
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */

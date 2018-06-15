@@ -26,7 +26,7 @@
  *
  * @name      jxjs
  * @package   janox/jxjs.inc
- * @version   2.3
+ * @version   2.4
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -261,11 +261,11 @@ class jxjs {
                           $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
                           'form')."'";
         if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome, 
-                                     'label', 
-                                     0, 
-                                     $o2ctrl_obj->label); 
-            }  
+            $label = $app->translate($o2ctrl_obj->nome,
+                                     'label',
+                                     0,
+                                     $o2ctrl_obj->label);
+            }
         else {
             $label = $o2ctrl_obj->label;
             }
@@ -466,10 +466,10 @@ class jxjs {
                     reset($o2ctrl_obj->valori);
                     while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
                         if ($app->multilang && !$o2ctrl_obj->untranslate) {
-                            $descrizione = $app->translate($o2ctrl_obj->nome, 
-                                                           'item', 
-                                                           $codice, 
-                                                           $descrizione); 
+                            $descrizione = $app->translate($o2ctrl_obj->nome,
+                                                           'item',
+                                                           $codice,
+                                                           $descrizione);
                             }
                         if ($cod_default === false) {
                             $cod_default  = $codice;
@@ -529,10 +529,10 @@ class jxjs {
             reset($o2ctrl_obj->valori);
             while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
                 if ($app->multilang && !$o2ctrl_obj->untranslate) {
-                    $descrizione = $app->translate($o2ctrl_obj->nome, 
-                                                   'value', 
-                                                   $codice, 
-                                                   $descrizione); 
+                    $descrizione = $app->translate($o2ctrl_obj->nome,
+                                                   'value',
+                                                   $codice,
+                                                   $descrizione);
                     }
                 $cod_default = ($cod_default !== false ? $cod_default : $codice);
                 $v_local     = substr($o2ctrl_obj->ctrl2sql(), 0, $mask->dimensione);
@@ -569,11 +569,11 @@ class jxjs {
     static function ctrl_button($o2ctrl_obj) {
 
         if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome, 
-                                     'label', 
-                                     0, 
-                                     $o2ctrl_obj->label); 
-            }  
+            $label = $app->translate($o2ctrl_obj->nome,
+                                     'label',
+                                     0,
+                                     $o2ctrl_obj->label);
+            }
         else {
             $label = $o2ctrl_obj->label;
             }
@@ -652,11 +652,11 @@ class jxjs {
                                'form')."'}";
             }
         if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome, 
-                                     'label', 
-                                     0, 
-                                     $o2ctrl_obj->label); 
-            }  
+            $label = $app->translate($o2ctrl_obj->nome,
+                                     'label',
+                                     0,
+                                     $o2ctrl_obj->label);
+            }
         else {
             $label = $o2ctrl_obj->label;
             }
@@ -1097,11 +1097,11 @@ class jxjs {
                     }
                 }
             if ($app->multilang) {
-                $title = $app->translate($o2form_obj->nome, 
-                                         'title', 
-                                         0, 
-                                         $o2form_obj->titolo); 
-                }  
+                $title = $app->translate($o2form_obj->nome,
+                                         'title',
+                                         0,
+                                         $o2form_obj->titolo);
+                }
             else {
                 $title = $o2form_obj->titolo;
                 }

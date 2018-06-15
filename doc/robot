@@ -11,7 +11,7 @@
  *
  * @name    jxrobot
  * @package jxapp/robot
- * @version 2.3
+ * @version 2.4
  */
 o2_robot::task('maintenance', 1450469065); /* 2015 Dec 18 - 21:04 */
 return true;

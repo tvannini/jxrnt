@@ -39,6 +39,13 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2button3->altezza(30);
 		$ctrl_o2button3->azione("produce");
 		$ctrl_o2button3->label("&Produce");
+	$ctrl_o2button4 = &$form_jxtranslate_1->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(290);
+		$ctrl_o2button4->y(110);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->azione("receive");
+		$ctrl_o2button4->label("&Receive");
 		}
 
 function jxtranslate§§harvest_act(&$o2exe) {
@@ -49,6 +56,10 @@ function jxtranslate§§produce_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxtranslate_exp_4()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function jxtranslate§§receive_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxtranslate_exp_5()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function jxtranslate§§start_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "prgs", jxtranslate_exp_1()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -57,7 +68,6 @@ function jxtranslate_exp_1() {
 	$p = o2_inspector::get_app_prgs();
 $l = array_keys($p);
 $l = array_combine($l, $l);
-
 return ($l);
 	} //|o2_fine_exp|
 
@@ -77,6 +87,13 @@ function jxtranslate_exp_4() {
 	$lang = o2val('prg§_§var','lang');
 $insp = new o2_inspector();
 $list = $insp->mlt_produce_lang($lang);
+return (true);
+	} //|o2_fine_exp|
+
+function jxtranslate_exp_5() {
+	$lang = o2val('prg§_§var','lang');
+$insp = new o2_inspector();
+$list = $insp->mlt_get_lang($lang);
 return (true);
 	} //|o2_fine_exp|
 ?>

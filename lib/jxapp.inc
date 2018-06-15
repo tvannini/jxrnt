@@ -26,7 +26,7 @@
  *
  * @name      jxapp
  * @package   janox/jxapp.inc
- * @version   2.3
+ * @version   2.4
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -1523,7 +1523,7 @@ class o2_app {
         // _________________________________________________ Multilanguage translation ___
         $this->multilang = $this->option_get("lang");
         if ($this->multilang) {
-            $this->load_translation();
+            // __________________________________________ TODO: Load global dictionary ___
             }
         $this->commit_all(false);
         return true;
@@ -1613,7 +1613,8 @@ class o2_app {
                 }
             // ______________________________________________________ Menu translation ___
             if ($this->multilang) {
-                $this->translate_menu($this->load_menu_translation());
+                // ________________________________________ TODO: Load menu dictionary ___
+//                $this->translate_menu($this->load_menu_translation());
                 }
             }
         else {
@@ -1649,7 +1650,7 @@ class o2_app {
 
         $prg = $this->istanze_prg[$this->progressivo_istanze]->nome;
         $res = $this->translation[$prg][$ctrl.'#'.$prop.
-                                        ($prop == 'item' || $prop == 'page' ? 
+                                        ($prop == 'item' || $prop == 'page' ?
                                          '_'.$prop_value : '')];
         // ____________________________________ Look for translation in prg dictionary ___
         if ($res) {
@@ -1657,7 +1658,7 @@ class o2_app {
             }
         else {
             $res = $this->translation[''][$ctrl.'#'.$prop.
-                                          ($prop == 'item' || $prop == 'page' ? 
+                                          ($prop == 'item' || $prop == 'page' ?
                                            '_'.$prop_value : '')];
             // _____________________________ Look for translation in global dictionary ___
             if ($res) {
@@ -1667,23 +1668,6 @@ class o2_app {
             else {
                 return $string;
                 }
-            }
-
-        }
-
-
-    /**
-     * Load translation table for current language set in options
-     *
-     */
-    function load_translation() {
-
-        // _________________________________________________________________ /app/lang ___
-        $lang_dir = new o2_dir($this->dir_home."/lang/");
-        $lang_dir->crea();
-        // _________________________________________________________ Translation table ___
-        if ($lang_dir->exists($this->multilang)) {
-            $this->translation = jx_parse_conf($lang_dir.$this->multilang);
             }
 
         }
@@ -10893,11 +10877,11 @@ class o2_inspector {
 //        $lang = $this->option_get('lang');
         $lang = 'eng';
         if (!is_array($list)) {
-            throw new o2_exception("Multilanguage Translation: Cannot process items list.",
+            throw new o2_exception("Multilanguage Translation: Cannot process items list",
                                    o2error_EXECUTION);
             return false;
             }
-        $app    = $_SESSION['o2_app']; 
+        $app    = $_SESSION['o2_app'];
         $tab    = $app->get_table(self::$mlt_table);
         $db     = $tab->db;
         $server = $db->server;
@@ -10906,7 +10890,6 @@ class o2_inspector {
         $f      = $tab->campi;
         $select = $f['mlt_base_str'].' '.$co.'BASE_STR'.$cc.','.
                   $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
-
         foreach ($list as $ctrl => $properties) {
             foreach ($properties as $prop => $prop_values) {
                 foreach ($prop_values as $prop_val => $string) {
@@ -10941,7 +10924,8 @@ class o2_inspector {
                                             "'".$ctrl."'",
                                             "'".$prop."'",
                                             "'".$prop_val."'",
-                                            "'".$string."'");
+                                            "'".o2_gateway::normalize($server->type,
+                                                                      $string)."'");
                             o2_gateway::insertrec($server->type,
                                                   $server->server,
                                                   $server->user,
@@ -10951,7 +10935,7 @@ class o2_inspector {
                                                   $tab->nome,
                                                   'jx_translations',
                                                   $fields,
-                                                  $values);                        
+                                                  $values);
                             }
                         // _______ String already exists in translation and it changed ___
                         elseif ($mlt_rec[0]['mlt_base_str'] != $string) {
@@ -10970,7 +10954,7 @@ class o2_inspector {
     function mlt_produce_lang($lang) {
 
 
-        $app  = $_SESSION['o2_app']; 
+        $app  = $_SESSION['o2_app'];
         $tab  = $app->get_table(self::$mlt_table);
         $db   = $tab->db;
         $srv  = $db->server;
@@ -10982,8 +10966,8 @@ class o2_inspector {
                                     $srv->server,
                                     $srv->user,
                                     $srv->password);
-        // _____________________________________________________________________ Query ___        
-        $qtab  = o2_gateway::qualify($srv->type, 
+        // _____________________________________________________________________ Query ___
+        $qtab  = o2_gateway::qualify($srv->type,
                                      $db->nome,
                                      $db->proprietario,
                                      $tab->nome);
@@ -11013,22 +10997,84 @@ class o2_inspector {
             while ($row = $stm->fetch(PDO::FETCH_ASSOC)) {
                 // _____________________________ Write single program translation file ___
                 if ($prg && ($prg != $row['PRG'])) {
-                    file_put_contents($lang_dir.$prg, $text); 
+                    file_put_contents($lang_dir.$prg, $text);
                     $text = '';
                     }
                 $prg      = $row['PRG'];
                 $ctrl     = $row['CTRL'];
                 $prop     = $row['PROPERTY'];
-                $prop_val = (($prop == 'item') || ($prop == 'page') ? 
+                $prop_val = (($prop == 'item') || ($prop == 'page') ?
                              '_'.$row['PROP_VALUE'] : '');
                 $text.= '; --- '.str_replace("\n", "\\n", $row['BASE_STR'])."\n".
                         '"'.$ctrl.'#'.$prop.$prop_val.'" = "'.
                         str_replace("\n", "\\n", $row['LANG_STR']).'"'."\n";
                 }
-            file_put_contents($lang_dir.$prg, $text); 
+            file_put_contents($lang_dir.$prg, $text);
 
             }
 
+        }
+
+
+    function mlt_get_lang($lang) {
+
+        $app    = $_SESSION['o2_app'];
+        $tab    = $app->get_table(self::$mlt_table);
+        $db     = $tab->db;
+        $server = $db->server;
+        $co     = constant('o2_'.$server->type.'_o');
+        $cc     = constant('o2_'.$server->type.'_c');
+        $f      = $tab->campi;
+        $select = $f['mlt_ctrl'].' '.$co.'CTRL'.$cc.','.
+                  $f['mlt_property'].' '.$co.'PROPERTY'.$cc.','.
+                  $f['mlt_prop_value'].' '.$co.'PROP_VALUE'.$cc.','.
+                  $f['mlt_base_str'].' '.$co.'BASE_STR'.$cc.','.
+                  $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
+        // __________________________________________________________ /app/lang/<lang> ___
+        $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
+        foreach ($lang_dir->all_elements() as $prg_name => $prg_dict) {
+            $dict  = jx_parse_conf($prg_dict);
+            $where = $f['mlt_lang']."='".$lang."' AND ".
+                     $f['mlt_prg']."='".$prg_name."'";
+            $recs  = o2_gateway::recordset($server->type,
+                                           $server->server,
+                                           $server->user,
+                                           $server->password,
+                                           $db->nome,
+                                           $db->proprietario,
+                                           $tab->nome,
+                                           'jx_translations',
+                                           $select,
+                                           $where,
+                                           '',
+                                           100000);
+            foreach ($recs as $rec) {
+                $item = $rec['CTRL'].'#'.$rec['PROPERTY'].
+                        ($rec['PROPERTY'] == 'item' || $rec['PROPERTY'] == 'page' ?
+                         '_'.$rec['PROP_VALUE'] : '');
+                if ($rec['LANG_STR'] != $dict[$item]) {
+
+                    $where_i = $where.' AND '.
+                               $f['mlt_ctrl']."='".$rec['CTRL']."' AND ".
+                               $f['mlt_property']."='".$rec['PROPERTY']."' AND ".
+                               $f['mlt_prop_value']."='".$rec['PROP_VALUE']."'";
+                    $sets    = array($f['mlt_lang_str']->nome_fisico =>
+                                     "'".o2_gateway::normalize($server->type,
+                                                               $dict[$item])."'");
+                    o2_gateway::modifyrec($server->type,
+                                          $server->server,
+                                          $server->user,
+                                          $server->password,
+                                          $db->nome,
+                                          $db->proprietario,
+                                          $tab->nome,
+                                          'jx_translations',
+                                          $sets,
+                                          $where_i);
+
+                    }
+                }
+            }
 
         }
 

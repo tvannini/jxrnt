@@ -31,7 +31,7 @@
  *
  * @name      jxhtml
  * @package   janox/jxhtml.inc
- * @version   2.3
+ * @version   2.4
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -1672,12 +1672,12 @@ class o2html {
             }
         // ======================= [###### BARRA DEL TITOLO ######] ======================
         if ($o2form_obj->title_bar && !$o2form_obj->linkto && !$nowin) {
-            if ($app->multilang) {                
-                $title = $app->translate(substr($o2form_obj->nome, 0, -5), 
-                                         'title', 
-                                         0, 
-                                         $o2form_obj->titolo); 
-                }  
+            if ($app->multilang) {
+                $title = $app->translate(substr($o2form_obj->nome, 0, -5),
+                                         'title',
+                                         0,
+                                         $o2form_obj->titolo);
+                }
             else {
                 $title = $o2form_obj->titolo;
                 }
@@ -1859,11 +1859,11 @@ class o2html {
 
         $app = $_SESSION['o2_app'];
         if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome, 
-                                     'label', 
-                                     0, 
-                                     $o2ctrl_obj->label); 
-            }  
+            $label = $app->translate($o2ctrl_obj->nome,
+                                     'label',
+                                     0,
+                                     $o2ctrl_obj->label);
+            }
         else {
             $label = $o2ctrl_obj->label;
             }
@@ -2192,10 +2192,10 @@ class o2html {
             $list              = '';
             while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
                 if ($app->multilang && !$o2ctrl_obj->untranslate) {
-                    $descrizione = $app->translate($o2ctrl_obj->nome, 
-                                                   'item', 
-                                                   $codice, 
-                                                   $descrizione); 
+                    $descrizione = $app->translate($o2ctrl_obj->nome,
+                                                   'item',
+                                                   $codice,
+                                                   $descrizione);
                     }
                 $cod_default = ($cod_default !== false ? $cod_default : $codice);
                 $list.= '<div id="jxdata:'.$codice.'" ';
@@ -2224,10 +2224,10 @@ class o2html {
             $valore_local = "";
             while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
                 if ($app->multilang && !$o2ctrl_obj->untranslate) {
-                    $descrizione = $app->translate($o2ctrl_obj->nome, 
-                                                   'item', 
-                                                   $codice, 
-                                                   $descrizione); 
+                    $descrizione = $app->translate($o2ctrl_obj->nome,
+                                                   'item',
+                                                   $codice,
+                                                   $descrizione);
                     }
                 $valore_local.= htmlentities($descrizione,
                                              ENT_QUOTES,
@@ -2276,10 +2276,10 @@ class o2html {
                 reset($o2ctrl_obj->valori);
                 while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
                     if ($app->multilang && !$o2ctrl_obj->untranslate) {
-                        $descrizione = $app->translate($o2ctrl_obj->nome, 
-                                                       'item', 
-                                                       $codice, 
-                                                       $descrizione); 
+                        $descrizione = $app->translate($o2ctrl_obj->nome,
+                                                       'item',
+                                                       $codice,
+                                                       $descrizione);
                         }
                     if ($cod_default === false) {
                         $cod_default  = $codice;
@@ -2416,11 +2416,11 @@ class o2html {
         $title    = "";
         $shortcut = "";
         if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome, 
-                                     'label', 
-                                     0, 
-                                     $o2ctrl_obj->label); 
-            }  
+            $label = $app->translate($o2ctrl_obj->nome,
+                                     'label',
+                                     0,
+                                     $o2ctrl_obj->label);
+            }
         else {
             $label = $o2ctrl_obj->label;
             }
@@ -2539,11 +2539,11 @@ class o2html {
             print "<script>(new Image()).src='".$src_over."';</script>\n";
             }
         if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome, 
-                                     'label', 
-                                     0, 
-                                     $o2ctrl_obj->label); 
-            }  
+            $label = $app->translate($o2ctrl_obj->nome,
+                                     'label',
+                                     0,
+                                     $o2ctrl_obj->label);
+            }
         else {
             $label = $o2ctrl_obj->label;
             }
@@ -2687,11 +2687,11 @@ class o2html {
                                      'onClick="o2jse.ctrl.multiPage(this)" tabindex="0"');
                     }
                 if ($app->multilang) {
-                    $title = $app->translate($o2ctrl_obj->nome, 
-                                             'page', 
-                                             $page_index, 
-                                             $title); 
-                    }  
+                    $title = $app->translate($o2ctrl_obj->nome,
+                                             'page',
+                                             $page_index,
+                                             $title);
+                    }
                 print '<div id="'.
                       $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'_mpb'.$page_index.
                       '" class="'.($actual ?
@@ -2702,11 +2702,11 @@ class o2html {
             }
         else {
             if ($app->multilang) {
-                $title = $app->translate($o2ctrl_obj->nome, 
-                                         'page', 
-                                         0, 
-                                         $o2ctrl_obj->label[0]); 
-                }  
+                $title = $app->translate($o2ctrl_obj->nome,
+                                         'page',
+                                         0,
+                                         $o2ctrl_obj->label[0]);
+                }
             else {
                 $title = $o2ctrl_obj->label[0];
                 }
@@ -3020,11 +3020,11 @@ class o2html {
                     }
                 if (trim($ctrl->info_padre[3]) != "") {
                     if ($app->multilang) {
-                        $titolo = jx_encode($app->translate($ctrl->nome, 
-                                                            'grid_title', 
-                                                            0, 
-                                                            $ctrl->info_padre[3])); 
-                        }  
+                        $titolo = jx_encode($app->translate($ctrl->nome,
+                                                            'grid_title',
+                                                            0,
+                                                            $ctrl->info_padre[3]));
+                        }
                     else {
                         $titolo = jx_encode($ctrl->info_padre[3]);
                         }
@@ -3067,11 +3067,11 @@ class o2html {
                 $o2ctrl_obj->colonne = max($ctrl->info_padre[2], $o2ctrl_obj->colonne);
                 $puntatore_col       = $ctrl->info_padre[2];
                 if ($app->multilang) {
-                    $tip = $app->translate($ctrl->nome, 
-                                           'grid_tip', 
-                                           0, 
-                                           $ctrl->info_padre[10]); 
-                    }  
+                    $tip = $app->translate($ctrl->nome,
+                                           'grid_tip',
+                                           0,
+                                           $ctrl->info_padre[10]);
+                    }
                 else {
                     $tip = $ctrl->info_padre[10];
                     }
@@ -3140,7 +3140,6 @@ class o2html {
         $css_cella      = ($o2ctrl_obj->riga_corrente ?
                            $o2ctrl_obj->sele_class :
                            $o2ctrl_obj->corpo_class);
-        $last_values    = array();
         foreach ($o2ctrl_obj->form_obj->controlli as $indice_controllo => &$ctrl) {
             // ______________________________ Controls (no navigator) inside the table ___
             if ($ctrl->padre == $o2ctrl_obj->nome && $ctrl->tipo_ctrl != 'navigator') {
@@ -3260,44 +3259,39 @@ class o2html {
                 // ______________________________________________ Disegno il controllo ___
                 $ultimo_val_local = (isset($last_values[$indice_controllo]) ?
                                            $last_values[$indice_controllo] : "");
-                if ($o2ctrl_obj->riga_corrente ||
-                    !isset($ctrl->info_padre[6]) || !$ctrl->info_padre[6] ||
-                    $ctrl->valore != $ultimo_val_local) {
-                    if ((!$o2ctrl_obj->riga_corrente || !$o2ctrl_obj->modificabile) &&
-                        ($ctrl->tipo_ctrl == "edit"  ||
-                         $ctrl->tipo_ctrl == "text"  ||
-                         $ctrl->tipo_ctrl == "file")) {
-                        $valore_local = $ctrl->sql2ctrl();
-                        if (trim($valore_local) == "") {
-                            $valore_local = "&nbsp;";
-                            }
-                        print '<div style="max-width:'.$col_size.
-                                      'px;height:'.$ctrl->altezza.'px;'.
-                                      ($ctrl->maschera->allineamento == "Right" ?
-                                       'float:right;" ' : '" ').
-                                      $ctrl->js_props().'>'.$valore_local."</div>";
+                if ((!$o2ctrl_obj->riga_corrente || !$o2ctrl_obj->modificabile) &&
+                    ($ctrl->tipo_ctrl == "edit"  ||
+                     $ctrl->tipo_ctrl == "text"  ||
+                     $ctrl->tipo_ctrl == "file")) {
+                    $valore_local = $ctrl->sql2ctrl();
+                    if (trim($valore_local) == "") {
+                        $valore_local = "&nbsp;";
                         }
-                    else {
-                        $ctrl->active_by_tab = ($o2ctrl_obj->modificabile &&
-                                                $o2ctrl_obj->riga_corrente);
-                        $ctrl->tab_row       = !$o2ctrl_obj->riga_corrente;
-                        // _____________________________ Client-sizeable controls only ___
-                        if ($ctrl->tipo_ctrl == "edit"      ||
-                            $ctrl->tipo_ctrl == "listcombo" ||
-                            $ctrl->tipo_ctrl == "html"      ||
-                            $ctrl->tipo_ctrl == "text"      ||
-                            $ctrl->tipo_ctrl == "file") {
-                            $ctrl->larghezza = $col_size;
-                            }
-                        $ctrl->disegna();
-                        $ctrl->active_by_tab = true;
-                        $ctrl->tab_row       = false;
+                    print '<div style="max-width:'.$col_size.
+                                  'px;height:'.$ctrl->altezza.'px;'.
+                                  ($ctrl->maschera->allineamento == "Right" ?
+                                   'float:right;" ' : '" ').
+                                  $ctrl->js_props().'>'.$valore_local."</div>";
+                    }
+                else {
+                    $ctrl->active_by_tab = ($o2ctrl_obj->modificabile &&
+                                            $o2ctrl_obj->riga_corrente);
+                    $ctrl->tab_row       = !$o2ctrl_obj->riga_corrente;
+                    // _________________________________ Client-sizeable controls only ___
+                    if ($ctrl->tipo_ctrl == "edit"      ||
+                        $ctrl->tipo_ctrl == "listcombo" ||
+                        $ctrl->tipo_ctrl == "html"      ||
+                        $ctrl->tipo_ctrl == "text"      ||
+                        $ctrl->tipo_ctrl == "file") {
+                        $ctrl->larghezza = $col_size;
                         }
+                    $ctrl->disegna();
+                    $ctrl->active_by_tab = true;
+                    $ctrl->tab_row       = false;
                     }
                 print "</td>\n";
                 $puntatore_col = $info_col_end;
                 $coda          = "</tr>";
-                $last_values[$indice_controllo] = $ctrl->valore;
                 }
             }
         print $coda;
@@ -3643,11 +3637,11 @@ class o2html {
 
         $app = $_SESSION['o2_app'];
         if ($app->multilang) {
-            $msg = $app->translate($o2ctrl_obj->nome, 
-                                   'msg_new', 
-                                   0, 
-                                   $o2ctrl_obj->msg_new); 
-            }  
+            $msg = $app->translate($o2ctrl_obj->nome,
+                                   'msg_new',
+                                   0,
+                                   $o2ctrl_obj->msg_new);
+            }
         else {
             $msg = $o2ctrl_obj->msg_new;
             }
@@ -3682,11 +3676,11 @@ class o2html {
 
         $app = $_SESSION['o2_app'];
         if ($app->multilang) {
-            $msg = $app->translate($o2ctrl_obj->nome, 
-                                   'msg_new', 
-                                   0, 
-                                   $o2ctrl_obj->msg_del); 
-            }  
+            $msg = $app->translate($o2ctrl_obj->nome,
+                                   'msg_new',
+                                   0,
+                                   $o2ctrl_obj->msg_del);
+            }
         else {
             $msg = $o2ctrl_obj->msg_del;
             }
@@ -3724,11 +3718,11 @@ class o2html {
 
         $app = $_SESSION['o2_app'];
         if ($app->multilang) {
-            $msg = $app->translate($o2ctrl_obj->nome, 
-                                   'msg_new', 
-                                   0, 
-                                   $o2ctrl_obj->msg_save); 
-            }  
+            $msg = $app->translate($o2ctrl_obj->nome,
+                                   'msg_new',
+                                   0,
+                                   $o2ctrl_obj->msg_save);
+            }
         else {
             $msg = $o2ctrl_obj->msg_save;
             }
@@ -3763,11 +3757,11 @@ class o2html {
 
         $app = $_SESSION['o2_app'];
         if ($app->multilang) {
-            $msg = $app->translate($o2ctrl_obj->nome, 
-                                   'msg_new', 
-                                   0, 
-                                   $o2ctrl_obj->msg_undo); 
-            }  
+            $msg = $app->translate($o2ctrl_obj->nome,
+                                   'msg_new',
+                                   0,
+                                   $o2ctrl_obj->msg_undo);
+            }
         else {
             $msg = $o2ctrl_obj->msg_undo;
             }
@@ -3803,11 +3797,11 @@ class o2html {
 
         $app = $_SESSION['o2_app'];
         if ($app->multilang) {
-            $msg = $app->translate($o2ctrl_obj->nome, 
-                                   'msg_new', 
-                                   0, 
-                                   $o2ctrl_obj->msg_select); 
-            }  
+            $msg = $app->translate($o2ctrl_obj->nome,
+                                   'msg_new',
+                                   0,
+                                   $o2ctrl_obj->msg_select);
+            }
         else {
             $msg = $o2ctrl_obj->msg_select;
             }
@@ -3846,11 +3840,11 @@ class o2html {
 
         $app = $_SESSION['o2_app'];
         if ($app->multilang) {
-            $msg = $app->translate($o2ctrl_obj->nome, 
-                                   'msg_new', 
-                                   0, 
-                                   $o2ctrl_obj->msg_detail); 
-            }  
+            $msg = $app->translate($o2ctrl_obj->nome,
+                                   'msg_new',
+                                   0,
+                                   $o2ctrl_obj->msg_detail);
+            }
         else {
             $msg = $o2ctrl_obj->msg_detail;
             }

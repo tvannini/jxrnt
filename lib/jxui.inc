@@ -29,7 +29,7 @@
  *
  * @name      jxui
  * @package   janox/jxui.inc
- * @version   2.3
+ * @version   2.4
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -2037,13 +2037,13 @@ class o2_ctrl {
             }
         // _________________________________________________ Multilanguage translation ___
         if ($app->multilang) {
-            $msg = $app->translate($o2ctrl_obj->nome, 
-                                   'msg_message', 
-                                   0, 
-                                   $o2ctrl_obj->confirm_message); 
-            }  
+            $msg = $app->translate($o2ctrl_obj->nome,
+                                   'msg_message',
+                                   0,
+                                   $o2ctrl_obj->confirm_message);
+            }
         else {
-            $msg = $o2ctrl_obj->confirm_message; 
+            $msg = $o2ctrl_obj->confirm_message;
             }
         return  ($as_obj ? "{" : "o2=\"").
                     "e:".$this->id_esecuzione.
@@ -3158,10 +3158,10 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 while (list($item_code, $item_desc) = each($this->valori)) {
                     if ($value == trim($item_code)) {
                         if ($app->multilang && !$o2ctrl_obj->untranslate) {
-                            $ret = $app->translate($o2ctrl_obj->nome, 
-                                                   'item', 
-                                                   $item_code, 
-                                                   $item_desc); 
+                            $ret = $app->translate($o2ctrl_obj->nome,
+                                                   'item',
+                                                   $item_code,
+                                                   $item_desc);
                             }
                         else {
                             $ret = $item_desc;
