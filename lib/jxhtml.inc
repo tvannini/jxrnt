@@ -961,10 +961,30 @@ class o2html {
                             $ctrl_obj->valore = $_REQUEST[$ctrl_name];
                             }
                         $ctrl_obj->valore = $ctrl_obj->ctrl2sql();
-                        $view_obj->imposta($ctrl_obj->campo_in_ctrl, $ctrl_obj->valore);
-                        // _____________________ Execution of action on control change ___
-                        if ($ctrl_obj->azione_submit) {
-                            $prg_local->esegui_azione($ctrl_obj->azione_submit);
+                        // _______ Treeview: manage value, selection and submit action ___
+                        if ($ctrl_obj->tipo_ctrl == 'tree') {
+                            $field = (get_class($view_obj) == 'o2_virtualview' ?
+                                      $view_obj->variabili[$ctrl_obj->campo_in_ctrl] :
+                                      $view_obj->campi[$ctrl_obj->campo_in_ctrl]);
+                            // _____________________ Structure field: set to node item ___
+                            if ($field->maschera->tipo == 'S') {
+                                $value = $ctrl_obj->list[$ctrl_obj->valore];
+                                }
+                            // ____________________ Other fields: set to node ID value ___
+                            else {
+                                $value = $ctrl_obj->valore;
+                                }
+                            $view_obj->imposta($ctrl_obj->campo_in_ctrl, $value);
+                            $ctrl_obj->node_select($ctrl_obj->valore);
+                            }
+                        // _____________________________________ Other valued controls ___
+                        else {
+                            $view_obj->imposta($ctrl_obj->campo_in_ctrl,
+                                               $ctrl_obj->valore);
+                            // _________________ Execution of action on control change ___
+                            if ($ctrl_obj->azione_submit) {
+                                $prg_local->esegui_azione($ctrl_obj->azione_submit);
+                                }
                             }
                         }
                     switch ($ctrl_obj->tipo_ctrl) {
@@ -1183,13 +1203,23 @@ class o2html {
                 return $ctrl_obj->zoom();
                 }
             }
-        // __________________________________________________________ Treeview control ___
+        // ______________________________________ Treeview control (old scripting way) ___
         elseif ($_REQUEST['jxtree']) {
             $tree_ctrl = $_REQUEST['jxtree'];
             $ctrl_obj  = false;
             // __________________________________________________ Get treeview control ___
             if (isset($prg_local->tree_ctrls[$tree_ctrl])) {
                 $ctrl_obj = $prg_local->tree_ctrls[$tree_ctrl];
+                }
+            else {
+                foreach ($prg_local->form as &$single_form) {
+                    if (isset($single_form->controlli[$tree_ctrl])) {
+                        $ctrl_obj = $single_form->controlli[$tree_ctrl];
+                        break;
+                        }
+                    }
+                }
+            if ($ctrl_obj) {
                 // _______________________________________________ Fold/unfold request ___
                 if ($_REQUEST['jxtreefold']) {
                     $node_id = $_REQUEST['jxtreefold'];
@@ -1215,7 +1245,7 @@ class o2html {
                 elseif ($_REQUEST['jxtreeunfoldall']) {
                     $ctrl_obj->unfold_all();
                     }
-                // _________________________________________ Unfold all foldable nodes ___
+                // _________________________________________________ Export tree nodes ___
                 elseif ($_REQUEST['jxtreeexport']) {
                     o2_send(o2_path($ctrl_obj->export()));
                     }
@@ -4238,31 +4268,45 @@ JANOX_PAGE_SCRIPT;
     /**
      * Return HTML code for a tree view interface
      *
-     * @param string $name   Control unique name
-    */
-    static function ctrl_tree($name) {
+     * @param o2_ctrl_tree $o2ctrl_obj   Related o2_ctrl_tree object
+     */
+    static function ctrl_tree($o2ctrl_obj) {
 
-        $app   = $_SESSION['o2_app'];
-        $tree  = $app->istanze_prg[$app->progressivo_istanze]->tree_ctrls[$name];
-        $jsp   = "o2=\"e:".$app->progressivo_istanze.
-                     ",c:'".$name."',sorted:".($tree->sorted ? "!0" : "!1").
-                     ",aL:".($tree->act_level).
-                     ",cT:'tree',pT:'html',fret:!1\"\n";
-        $style = " style=\"width:100%;height:100%\"";
-        $focus = "";
-        $act   = "";
-        // _________________________________________ Focus has been set by last action ___
-        if ($_REQUEST['jxtvlastctrl'] == $name) {
-            // ____________________________________ Override standard focus management ___
-            unset($app->caret_position[$app->progressivo_istanze]);
-            $focus = "<script>(fC = document.getElementById('".$name.
-                     "_jxFocusNode')) && fC.focus();</script>";
-            }
+        $app = $_SESSION['o2_app'];
         // ______________________________________________________ If no focus node set ___
-        if (!$tree->focus_node) {
+        if (!$o2ctrl_obj->focus_node) {
             $act = 'tabindex="0" onKeyDown="o2jse.tv.k(event, true);" ';
             }
-        return "<div ".$act.$jsp.$style.">".$tree->get_node_code(0, -1)."</div>".$focus;
+        if ($o2ctrl_obj->scripting) {
+            $style = ' style="width:100%;height:100%"';
+            $focus = "";
+            $jsp   = "o2=\"e:".$o2ctrl_obj->id_esecuzione.
+                         ",c:'".$o2ctrl_obj->nome.
+                         "',std:!1,sorted:".($o2ctrl_obj->sorted ? "!0" : "!1").
+                         ",aL:".($o2ctrl_obj->act_level).
+                         ",cT:'tree',pT:'html',fret:!1\"\n";
+            // _____________________________________ Focus has been set by last action ___
+            if ($_REQUEST['jxtvlastctrl'] == $o2ctrl_obj->nome) {
+                // ________________________________ Override standard focus management ___
+                unset($app->caret_position[$app->progressivo_istanze]);
+                $focus = "<script>(fC = document.getElementById('".$o2ctrl_obj->nome.
+                         "_jxFocusNode')) && fC.focus();</script>";
+                }
+            return '<div '.$act.$jsp.$style.'>'.$o2ctrl_obj->get_node_code(0, -1).
+                   '</div>'.$focus;
+            }
+        else {
+            $jsp = $o2ctrl_obj->js_props('std:!0,sorted:'.
+                                         ($o2ctrl_obj->sorted ? "!0" : "!1").
+                                         ',aL:'.($o2ctrl_obj->act_level));
+            print '<div'.($o2ctrl_obj->active_by_tab ?
+                          ' id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
+                       ' class="'.$o2ctrl_obj->css.
+                      '" style="width:'.$o2ctrl_obj->larghezza.
+                            'px;height:'.$o2ctrl_obj->altezza.'px;'.
+                         ($o2ctrl_obj->visibile ? '' : 'display:none;').
+                  '" '.$act.$jsp.' >'.$o2ctrl_obj->get_node_code(0, -1).'</div>';
+            }
 
         }
 
@@ -4270,29 +4314,39 @@ JANOX_PAGE_SCRIPT;
     /**
      * Return HTML code for an images lister interface
      *
-     * @param string $name   Control unique name
-    */
-    static function ctrl_imglist($name) {
+     * @param o2_ctrl_imglist $o2ctrl_obj   Related o2_ctrl_imglist object
+     */
+    static function ctrl_imglist($o2ctrl_obj) {
 
-        $app    = $_SESSION['o2_app'];
-        $lister = $app->istanze_prg[$app->progressivo_istanze]->imglist_ctrls[$name];
-        $jsp    = "o2=\"e:".$app->progressivo_istanze.
-                     ",c:'".$name."',cT:'imglist',pT:'html',fret:!1\"\n";
-        $style = " style=\"width:100%;height:100%\"";
-        $focus = "";
-        $act   = "";
-        // _________________________________________ Focus has been set by last action ___
-        if ($_REQUEST['jxillastctrl'] == $name) {
-            // ____________________________________ Override standard focus management ___
-            unset($app->caret_position[$app->progressivo_istanze]);
-            $focus = "<script>(fC = document.getElementById('".$name.
-                     "_jxFocusItem')) && fC.focus();</script>";
+        if ($o2ctrl_obj->scripting) {
+            $app    = $_SESSION['o2_app'];
+            $jsp    = "o2=\"e:".$o2ctrl_obj->id_esecuzione.
+                         ",c:'".$o2ctrl_obj->nome."',cT:'imglist',pT:'html',fret:!1\"\n";
+            $style = " style=\"width:100%;height:100%\"";
+            $focus = "";
+            $act   = "";
+            // _____________________________________ Focus has been set by last action ___
+            if ($_REQUEST['jxillastctrl'] == $o2ctrl_obj->nome) {
+                // ________________________________ Override standard focus management ___
+                unset($app->caret_position[$app->progressivo_istanze]);
+                $focus = "<script>(fC = document.getElementById('".$name.
+                         "_jxFocusItem')) && fC.focus();</script>";
+                }
+            // __________________________________________________ If no focus item set ___
+            if (!$o2ctrl_obj->focus_item) {
+    //            $act = 'tabindex="0" onKeyDown="o2jse.il.k(event, true);" ';
+                }
+            return "<div ".$act.$jsp.$style.">".$o2ctrl_obj->get_code()."</div>".$focus;
             }
-        // ______________________________________________________ If no focus item set ___
-        if (!$lister->focus_item) {
-//            $act = 'tabindex="0" onKeyDown="o2jse.il.k(event, true);" ';
+        else {
+            print '<div'.($o2ctrl_obj->active_by_tab ?
+                          ' id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
+                       ' class="'.$o2ctrl_obj->css.
+                      '" style="width:'.$o2ctrl_obj->larghezza.
+                            'px;height:'.$o2ctrl_obj->altezza.'px;'.
+                         ($o2ctrl_obj->visibile ? '' : 'display:none;').
+                  '">'.$o2ctrl_obj->get_code().'</div>';
             }
-        return "<div ".$act.$jsp.$style.">".$lister->get_code()."</div>".$focus;
 
         }
 

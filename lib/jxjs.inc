@@ -819,6 +819,32 @@ class jxjs {
 
 
     /**
+     * Define treeview control in full AJAX WEB 2.0 context
+     *
+     * @param o2_ctrl_tree $o2ctrl_obj   Janox treeview object related to control
+     */
+    static function ctrl_tree($o2ctrl_obj) {
+
+        $app    = $_SESSION['o2_app'];
+        $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
+        $jsp    = $o2ctrl_obj->js_props('std:'.($o2ctrl_obj->scripting ? '!1' : '!0').
+                                        ',sorted:'.($o2ctrl_obj->sorted ? "!0" : "!1").
+                                        ',aL:'.($o2ctrl_obj->act_level),
+                                        true);
+        $html   = $o2ctrl_obj->get_node_code(0, -1);
+        print jxjs::ctrl($o2ctrl_obj,
+                         "code:".jxjs::html_embed($html).
+                         ",s:'".$o2ctrl_obj->css.
+                        "',x:".$o2ctrl_obj->x.
+                         ',y:'.$o2ctrl_obj->y.
+                         ',w:'.$o2ctrl_obj->larghezza.
+                         ',h:'.$o2ctrl_obj->altezza,
+                         $jsp);
+
+        }
+
+
+    /**
      * Define document control in full AJAX WEB 2.0 context
      *
      * @param o2_ctrl_doc $o2ctrl_obj   Janox document control object related to control

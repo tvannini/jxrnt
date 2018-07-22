@@ -803,6 +803,12 @@ class o2_form {
                 case "text":
                     $this->controlli[$alias_ctrl] = new o2_ctrl_text();
                     break;
+                case "tree":
+                    $this->controlli[$alias_ctrl] = new o2_ctrl_tree();
+                    break;
+                case "imglist":
+                    $this->controlli[$alias_ctrl] = new o2_ctrl_imglist();
+                    break;
                 }
             $new_ctrl                = $this->controlli[$alias_ctrl];
             $new_ctrl->nome          = $alias_ctrl;
@@ -4619,35 +4625,42 @@ class o2_ctrl_tab extends o2_ctrl {
  */
 class o2_ctrl_tree extends o2_ctrl {
 
-    public $list       = array(); /* Array of items                                     */
-    public $open_nodes = array(); /* Array of open nodes                                */
-    public $indent     = "";      /* Code to get one indentation level                  */
-    public $last_node  = false;   /* Last selected node ID                              */
-    public $focus_node = false;   /* Focus node when moving by keyboard                 */
-    public $act_level  = 0;       /* Active nodes: 0=Nothing|1=All|2=Leaves|3=Folders   */
-    public $sorted     = false;   /* If TRUE tree elements are sorted by label          */
-    public $filter_txt = false;   /* Text to use for filtering elements labels by       */
+    public $list       = array();  /* Array of items                                    */
+    public $open_nodes = array();  /* Array of open nodes                               */
+    public $indent     = "";       /* Code to get one indentation level                 */
+    public $last_node  = false;    /* Last selected node ID                             */
+    public $focus_node = false;    /* Focus node when moving by keyboard                */
+    public $act_level  = 0;        /* Active nodes: 0=Nothing|1=All|2=Leaves|3=Folders  */
+    public $sorted     = false;    /* If TRUE tree elements are sorted by label         */
+    public $filter_txt = false;    /* Text to use for filtering elements labels by      */
+    public $scripting  = false;    /* If control is defined in old scripting style      */
+    /*     _____ CSS CLASSES __________________________________________________________ */
+    public $css        = "jxtree"; /* Whole control space <DIV>                   */
 
 
     /**
      * Return a treeview object
      *
-     * @param  string $name  Unique object name
+     * @param  string $name  Unique object name (old scripting style definition only)
      * @param  array $list   Sub-items structure as array
      * @return o2_ctrl_tree
      */
-    function __construct($name, $list = false) {
+    function __construct($name = false, $list = false) {
 
-        $app                 = $_SESSION['o2_app'];
-        $this->id_esecuzione = $app->progressivo_istanze;
-        $this->nome          = $name;
         $this->tipo_ctrl     = "tree";
         $this->indent        = "<span class='jx_tree_indent'></span>";
-        if ($list) {
-            $this->list = $list;
+        // _______________________________________________________ Old scripting style ___
+        if ($name) {
+            $this->nome      = $name;
+            $this->scripting = true;
+            if ($list) {
+                $this->list = $list;
+                }
+            $app                    = $_SESSION['o2_app'];
+            $this->id_esecuzione    = $app->progressivo_istanze;
+            $prg                    = $app->istanze_prg[$this->id_esecuzione];
+            $prg->tree_ctrls[$name] = $this;
             }
-        $prg                    = $app->istanze_prg[$this->id_esecuzione];
-        $prg->tree_ctrls[$name] = $this;
 
         }
 
@@ -4775,10 +4788,11 @@ class o2_ctrl_tree extends o2_ctrl {
     /**
      * Select a node and make it visible
      *
-     * @param  string $node_id   Node to be selected
+     * @param  string  $node_id     Node to be selected
+     * @param  boolean $no_action   Hinibits action execution
      * @return boolean
      */
-    function node_select($node_id) {
+    function node_select($node_id, $no_action = false) {
 
         if (!$node_id) {
             $this->last_node  = false;
@@ -4788,7 +4802,7 @@ class o2_ctrl_tree extends o2_ctrl {
             $this->last_node  = $node_id;
             $this->focus_node = $node_id;
             $this->node_show($node_id);
-            if ($this->azione_submit) {
+            if (!$no_action && $this->azione_submit) {
                 $prg = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
                 $prg->esegui_azione($this->azione_submit, true);
                 }
@@ -4959,7 +4973,7 @@ class o2_ctrl_tree extends o2_ctrl {
                 }
             }
         else {
-            $icon = "";
+            $icon = "<span></span>";
             }
         // _________________________________________ Nodes JS activation and selection ___
         $css_txt = "";
@@ -4987,15 +5001,14 @@ class o2_ctrl_tree extends o2_ctrl {
                 else {
                     $css_txt = "class='jx_treenode_focus' ";
                     $tab_idx = 'id="'.$this->nome.'_jxFocusNode" tabindex="0" ';
-                    $act     = " onclick='o2jse.tv.a(\"".$this->nome.'","'.
-                                                         $node_id."\");'";
+                    $act     = " onclick='o2jse.tv.a(this,\"".$node_id."\");'";
                     }
                 $act    .= " onKeyDown='o2jse.tv.k(event);'";
                 }
             // _____________________________ Standard node (no selection and no focus) ___
             else {
                 $tab_idx = "";
-                $act     = " onclick='o2jse.tv.a(\"".$this->nome.'","'.$node_id."\");'";
+                $act     = " onclick='o2jse.tv.a(this,\"".$node_id."\");'";
                 }
             }
         $code.= ($node_id ?
@@ -5157,6 +5170,60 @@ class o2_ctrl_tree extends o2_ctrl {
 
         }
 
+
+    /**
+     * Sets nodes list for treeview control
+     *
+     * @param array $nodes_list
+     */
+    function nodes($nodes_list) {
+
+        $this->list = $nodes_list;
+
+        }
+
+
+    /**
+     * Sets activation level for treeview control
+     *
+     * 0 = None
+     * 1 = All
+     * 2 = Leaves
+     * 3 = Folders
+     *
+     * @param integer $nodes_list
+     */
+    function activation($act_level) {
+
+        $this->act_level = $act_level;
+
+        }
+
+
+    function css($css = '') {
+
+        $this->css = ($css ? $css : 'jxtree');
+        return true;
+
+        }
+
+
+    /**
+     * Visualizza il controllo
+     *
+     * @return boolean
+     */
+    function disegna() {
+
+        if ($GLOBALS['jxjs']) {
+            jxjs::ctrl_tree($this);
+            }
+        else {
+            o2html::ctrl_tree($this);
+            }
+
+        }
+
     }
 
 
@@ -5171,15 +5238,15 @@ class o2_ctrl_imglist extends o2_ctrl {
     public $last_item  = false;   /* Last selected item ID                              */
     public $focus_item = false;   /* Focus item when moving by keyboard                 */
     public $action_del = false;   /* Action to be executed on click on delete image btn */
-    public $act_level  = 0;       /* Active nodes: 0=Nothing|1=All|2=Leaves|3=Folders   */
     public $items_w    = false;   /* Items width (if FALSE width wides as needed)       */
     public $items_h    = false;   /* Items height (if FALSE height wides as needed)     */
+    public $scripting  = false;   /* If control is defined in old scripting style       */
 
 
     /**
      * Return a imglist object
      *
-     * @param  string  $name     Unique object name
+     * @param  string  $name     Unique object name (old scripting style definition only)
      * @param  array   $list     Items as array($img_file, $text)
      * @param  integer $width    Items width
      * @param  integer $height   Items height
@@ -5187,41 +5254,44 @@ class o2_ctrl_imglist extends o2_ctrl {
      * @param  string  $delete   Action to be executed on click on image delete button
      * @return o2_ctrl_imglist
      */
-    function __construct($name,
+    function __construct($name   = false,
                          $list   = false,
                          $width  = 0,
                          $height = 0,
                          $click  = false,
                          $delete = false) {
 
-        $app                 = $_SESSION['o2_app'];
-        $this->id_esecuzione = $app->progressivo_istanze;
-        $this->nome          = $name;
-        $this->tipo_ctrl     = "imglist";
-        if ($list) {
-            $items = array();
-            foreach ($list as $key => $value) {
-                // _______________________________ Add pseudo-parameter for refreshing ___
-                $img         = rtrim($value[0]);
-                $img        .= (strpos($img, "?") ? "&" : "?")."jxrs=".microtime(true);
-                $items[$key] = array($img, $value[1]);
+        $this->tipo_ctrl = "imglist";
+        if ($name) {
+            $this->nome      = $name;
+            $this->scripting = true;
+            if ($list) {
+                $items = array();
+                foreach ($list as $key => $value) {
+                    // ___________________________ Add pseudo-parameter for refreshing ___
+                    $img         = rtrim($value[0]);
+                    $img        .= (strpos($img, "?") ? "&" :"?")."jxrs=".microtime(true);
+                    $items[$key] = array($img, $value[1]);
+                    }
+                $this->list = $items;
                 }
-            $this->list = $items;
+            if ($width) {
+                $this->items_w = intval($width);
+                }
+            if ($height) {
+                $this->items_h = intval($height);
+                }
+            if ($click) {
+                $this->azione_submit = $click;
+                }
+            if ($delete) {
+                $this->action_del = $delete;
+                }
+            $app                       = $_SESSION['o2_app'];
+            $this->id_esecuzione       = $app->progressivo_istanze;
+            $prg                       = $app->istanze_prg[$this->id_esecuzione];
+            $prg->imglist_ctrls[$name] = $this;
             }
-        if ($width) {
-            $this->items_w = intval($width);
-            }
-        if ($height) {
-            $this->items_h = intval($height);
-            }
-        if ($click) {
-            $this->azione_submit = $click;
-            }
-        if ($delete) {
-            $this->action_del = $delete;
-            }
-        $prg                       = $app->istanze_prg[$this->id_esecuzione];
-        $prg->imglist_ctrls[$name] = $this;
 
         }
 
@@ -5442,6 +5512,82 @@ class o2_ctrl_imglist extends o2_ctrl {
                     '</div>';
             }
         return $code;
+
+        }
+
+
+    /**
+     * Sets items list for images-lister control
+     *
+     * @param array $items_list
+     */
+    function items($items_list) {
+
+        $this->list = $items_list;
+
+        }
+
+
+    /**
+     * Sets click action on items for images-lister control
+     *
+     * @param string $action
+     */
+    function azione($action) {
+
+        $this->azione_submit = $action;
+
+        }
+
+
+    /**
+     * Sets delete action for images-lister control
+     *
+     * @param string $action
+     */
+    function delete($action) {
+
+        $this->action_del = $action;
+
+        }
+
+
+    /**
+     * Sets items width for images-lister control (zero for dynamic width)
+     *
+     * @param integer $width
+     */
+    function items_w($width = 0) {
+
+        $this->items_w = $width;
+
+        }
+
+
+    /**
+     * Sets items height for images-lister control (zero for dynamic height)
+     *
+     * @param integer $height
+     */
+    function items_h($height = 0) {
+
+        $this->items_h = $height;
+
+        }
+
+    /**
+     * Visualizza il controllo
+     *
+     * @return boolean
+     */
+    function disegna() {
+
+        if ($GLOBALS['jxjs']) {
+            jxjs::ctrl_imglist($this);
+            }
+        else {
+            o2html::ctrl_imglist($this);
+            }
 
         }
 

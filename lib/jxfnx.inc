@@ -7625,7 +7625,7 @@ function o2tree_get_code($name) {
     $app = $_SESSION['o2_app'];
     $prg = $app->istanze_prg[$app->progressivo_istanze];
     if (isset($prg->tree_ctrls[$name])) {
-        return o2html::ctrl_tree($name);
+        return o2html::ctrl_tree($prg->tree_ctrls[$name]);
         }
     else {
         throw new o2_exception("Unknown Treeview control <i>".$name."</i> in program <i>".
@@ -7935,7 +7935,7 @@ function o2imglist_get_code($name) {
     $app = $_SESSION['o2_app'];
     $prg = $app->istanze_prg[$app->progressivo_istanze];
     if (isset($prg->imglist_ctrls[$name])) {
-        return o2html::ctrl_imglist($name);
+        return o2html::ctrl_imglist($prg->imglist_ctrls[$name]);
         }
     else {
         throw new o2_exception("Unknown ImagesLister control <i>".$name.

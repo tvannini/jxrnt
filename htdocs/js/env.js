@@ -4560,6 +4560,12 @@ o2jse.cmd.focus = function(ctrlName, seleMode) {
                     ctrlLocal.select();
                     }
                 }
+            // ______________________________________________________________ Treeview ___
+            else if (ctrlLocal.o2.cT == "tree") {
+                if (ctrlLocal = document.getElementById(ctrlLocal.o2.c + '_jxFocusNode')){
+                    ctrlLocal.focus();
+                    }
+                }
             // ____________________________________________________ All other controls ___
             else {
                 ctrlLocal.focus();
@@ -6400,11 +6406,16 @@ o2jse.tv = {};
 /**
  * Manage click on icon events in treeview for fold/unfold
  *
- * @param string ctrl   Treeview control name
- * @param string node   Node id to be open/close
+ * @param string target   Treeview node object that fired the event
+ * @param string ctrl     Treeview control name
+ * @param string node     Node id to be open/close
  */
 o2jse.tv.c = function(target, ctrl, node) {
 
+    o2jse.ctrl.init(target);
+    var o2Info                         = target.o2;
+    o2jse.infoForm['o2lastform'].value = o2Info.f;
+    o2jse.infoForm['o2lastctrl'].value = o2Info.c;
     o2jse.ctrl.make_waiting(target);
     var treeCtrl = o2jse.createInput(o2jse.infoForm,
                                      "hidden",
@@ -6431,10 +6442,67 @@ o2jse.tv.c = function(target, ctrl, node) {
 /**
  * Manage click on item events in treeview for activate
  *
+ * @param string TreeObj   Treeview control node object that fired the event
+ * @param string node      Node id to be activated
+ */
+o2jse.tv.a = function(TreeObj, node) {
+
+    o2jse.ctrl.init(TreeObj);
+    var o2Info = TreeObj.o2;
+    // ______________________________________________________________ Standard control ___
+    if (o2Info.std) {
+        o2jse.infoForm['o2lastform'].value = o2Info.f;
+        o2jse.infoForm['o2lastctrl'].value = o2Info.c;
+        var stdCtrl                        = o2jse.createInput(o2jse.infoForm,
+                                                                false,
+                                                                false,
+                                                                node,
+                                                                o2Info.c + o2Info.e);
+        stdCtrl.o2                         = o2Info;
+        if (o2jse.cliMode) {
+            jxjs.request(stdCtrl, node);
+            o2jse.removeEl(stdCtrl);
+            }
+        }
+    // ___________________________________________ Scripting defined control (old way) ___
+    else {
+        // ________________________________________ Override standard focus management ___
+        var tvFocus  = o2jse.createInput(o2jse.infoForm,
+                                         false,
+                                         false,
+                                         o2Info.c,
+                                         "jxtvlastctrl");
+        var treeCtrl = o2jse.createInput(o2jse.infoForm,
+                                         false,
+                                         false,
+                                         o2Info.c,
+                                         "jxtree");
+        var nodeCtrl = o2jse.createInput(o2jse.infoForm,
+                                         false,
+                                         false,
+                                         node,
+                                         "jxtreenode");
+        if (o2jse.cliMode) {
+            jxjs.request();
+            o2jse.removeEl(tvFocus);
+            o2jse.removeEl(treeCtrl);
+            o2jse.removeEl(nodeCtrl);
+            }
+        }
+    if (!o2jse.cliMode) {
+        o2jse.cmd.submit();
+        }
+
+    };
+
+
+/**
+ * Manage click on item events in treeview for activate
+ *
  * @param string ctrl   Treeview control name
  * @param string node   Node id to be activated
  */
-o2jse.tv.a = function(ctrl, node) {
+o2jse.tv.a_old = function(ctrl, node) {
 
     // ____________________________________________ Override standard focus management ___
     var tvFocus  = o2jse.createInput(o2jse.infoForm,
@@ -6617,16 +6685,6 @@ o2jse.tv.k = function(eventObj, fromContainer) {
             targetObj.click();
             }
         }
-    /*
-    // *************************************************************************** TAB ***
-    else if (stdEvent.keyCode == KEY_TAB) {
-        // ___ SELECT ITEM IF SELECTABLE OR RESTORE ACTUAL VALUE ? ___
-        }
-    // *************************************************************************** ESC ***
-    else if (stdEvent.keyCode == KEY_ESC) {
-        // ___ RESTORE ACTUAL VALUE ? (TRAP ESC EVENT FROM FORM?) ___
-        }
-    */
     return false;
 
     };
@@ -8334,6 +8392,30 @@ jxc = function(defObj) {
                     if (ctrlObj.innerHTML != defObj.code) {
                         ctrlObj.innerHTML = defObj.code;
                         jxjs.runScripts(ctrlObj);
+                        }
+                    }
+                else {
+                    ctrlObj.style.display = "none";
+                    }
+                break;
+            // ============================================================== TREEVIEW ===
+            case "tree":
+                // ____________________________________________________ Set visibility ___
+                if (defObj.v) {
+                    ctrlObj.style.display = "";
+                    ctrlObj.style.width   = defObj.w + 'px';
+                    ctrlObj.style.height  = defObj.h + 'px';
+                    if (defObj.p.pT != 'tab') {
+                        ctrlObj.parentNode.style.left = defObj.x + 'px';
+                        ctrlObj.parentNode.style.top  = defObj.y + 'px';
+                        }
+                    // _______________________________________________ Set style class ___
+                    if (ctrlObj.className != defObj.s) {
+                        ctrlObj.className = defObj.s;
+                        }
+                    // _____________________________________________________ Set value ___
+                    if (ctrlObj.innerHTML != defObj.code) {
+                        ctrlObj.innerHTML = defObj.code;
                         }
                     }
                 else {
