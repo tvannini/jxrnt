@@ -1223,7 +1223,7 @@ class o2html {
                 // _______________________________________________ Fold/unfold request ___
                 if ($_REQUEST['jxtreefold']) {
                     $node_id = $_REQUEST['jxtreefold'];
-                    if ($ctrl_obj->open_nodes[$node_id]) {
+                    if (isset($ctrl_obj->open_nodes[$node_id])) {
                         unset ($ctrl_obj->open_nodes[$node_id]);
                         }
                     else {
@@ -4273,13 +4273,14 @@ JANOX_PAGE_SCRIPT;
     static function ctrl_tree($o2ctrl_obj) {
 
         $app = $_SESSION['o2_app'];
+        $act = '';
         // ______________________________________________________ If no focus node set ___
         if (!$o2ctrl_obj->focus_node) {
             $act = 'tabindex="0" onKeyDown="o2jse.tv.k(event, true);" ';
             }
         if ($o2ctrl_obj->scripting) {
             $style = ' style="width:100%;height:100%"';
-            $focus = "";
+            $focus = '';
             $jsp   = "o2=\"e:".$o2ctrl_obj->id_esecuzione.
                          ",c:'".$o2ctrl_obj->nome.
                          "',std:!1,sorted:".($o2ctrl_obj->sorted ? "!0" : "!1").
@@ -4296,6 +4297,10 @@ JANOX_PAGE_SCRIPT;
                    '</div>'.$focus;
             }
         else {
+            $value = $o2ctrl_obj->sql2ctrl();
+            if ($o2ctrl_obj->sele_node != $value) {
+                $o2ctrl_obj->node_select($value, true);
+                }
             $jsp = $o2ctrl_obj->js_props('std:!0,sorted:'.
                                          ($o2ctrl_obj->sorted ? "!0" : "!1").
                                          ',aL:'.($o2ctrl_obj->act_level));

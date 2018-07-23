@@ -4628,7 +4628,7 @@ class o2_ctrl_tree extends o2_ctrl {
     public $list       = array();  /* Array of items                                    */
     public $open_nodes = array();  /* Array of open nodes                               */
     public $indent     = "";       /* Code to get one indentation level                 */
-    public $last_node  = false;    /* Last selected node ID                             */
+    public $sele_node  = false;    /* Last selected node ID                             */
     public $focus_node = false;    /* Focus node when moving by keyboard                */
     public $act_level  = 0;        /* Active nodes: 0=Nothing|1=All|2=Leaves|3=Folders  */
     public $sorted     = false;    /* If TRUE tree elements are sorted by label         */
@@ -4795,11 +4795,11 @@ class o2_ctrl_tree extends o2_ctrl {
     function node_select($node_id, $no_action = false) {
 
         if (!$node_id) {
-            $this->last_node  = false;
+            $this->sele_node  = false;
             $this->focus_node = false;
             }
         elseif (isset($this->list[$node_id])) {
-            $this->last_node  = $node_id;
+            $this->sele_node  = $node_id;
             $this->focus_node = $node_id;
             $this->node_show($node_id);
             if (!$no_action && $this->azione_submit) {
@@ -4981,7 +4981,7 @@ class o2_ctrl_tree extends o2_ctrl {
         if ($this->act_level == 1 ||
             ($this->act_level == 2 && !$has_child) ||
             ($this->act_level == 3 && $has_child)) {
-            $sele_node  = $node_id && ($this->last_node == $node_id);
+            $sele_node  = $node_id && ($this->sele_node == $node_id);
             $focus_node = $node_id && ($this->focus_node == $node_id);
             // _______________________________________________ Selection or focus node ___
             if ($sele_node || $focus_node) {

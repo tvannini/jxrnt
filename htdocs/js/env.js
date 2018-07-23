@@ -6497,43 +6497,6 @@ o2jse.tv.a = function(TreeObj, node) {
 
 
 /**
- * Manage click on item events in treeview for activate
- *
- * @param string ctrl   Treeview control name
- * @param string node   Node id to be activated
- */
-o2jse.tv.a_old = function(ctrl, node) {
-
-    // ____________________________________________ Override standard focus management ___
-    var tvFocus  = o2jse.createInput(o2jse.infoForm,
-                                     false,
-                                     false,
-                                     ctrl,
-                                     "jxtvlastctrl");
-    var treeCtrl = o2jse.createInput(o2jse.infoForm,
-                                     false,
-                                     false,
-                                     ctrl,
-                                     "jxtree");
-    var nodeCtrl = o2jse.createInput(o2jse.infoForm,
-                                     false,
-                                     false,
-                                     node,
-                                     "jxtreenode");
-    if (o2jse.cliMode) {
-        jxjs.request();
-        }
-    else {
-        o2jse.cmd.submit();
-        }
-    o2jse.removeEl(treeCtrl);
-    o2jse.removeEl(nodeCtrl);
-    o2jse.removeEl(tvFocus);
-
-    };
-
-
-/**
  * Handler for key entry events (onKeyDown) on treeview control.
  *
  * @param {Object}  eventObj        Event object fired on treeview control

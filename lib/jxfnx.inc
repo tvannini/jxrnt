@@ -7310,6 +7310,10 @@ function o2robot_task($id, $freq, $prg_name) {
 
 
 /**
+ *
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Defines a treeview control in the current program.
  * $structure can be an array of nodes to fill-up treeview on creation. Array is in the
  * form:
@@ -7333,6 +7337,9 @@ function o2tree_def($name, $structure = false, $activation = 0, $action = false)
 
 
 /**
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Destroys an existing treeview control in the current program
  *
  * @package treeview
@@ -7363,18 +7370,28 @@ function o2tree_destroy($name) {
  */
 function o2tree_fold($name, $level = 0) {
 
-    $app = $_SESSION['o2_app'];
-    $prg = $app->istanze_prg[$app->progressivo_istanze];
-    if (isset($prg->tree_ctrls[$name])) {
-        $prg->tree_ctrls[$name]->fold_all($level);
-        return true;
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $tree = false;
+    foreach ($prg->form as $form) {
+        if (isset($form->controlli[$name])) {
+            $tree = $form->controlli[$name];
+            break;
+            }
         }
-    else {
-        throw new o2_exception("Unknown Treeview control <i>".$name."</i> in program <i>".
-                               $prg->nome."</i>",
-                               o2error_UNKNOWNCTRL);
+    if (!$tree) {
+        if (isset($prg->tree_ctrls[$name])) {
+            $tree = $prg->tree_ctrls[$name];
+            }
+        else {
+            throw new o2_exception("Unknown Treeview control <i>".$name.
+                                   "</i> in program <i>".$prg->nome."</i>",
+                                   o2error_UNKNOWNCTRL);
+            return false;
+            }
         }
-    return false;
+    $tree->fold_all($level);
+    return true;
 
     }
 
@@ -7388,18 +7405,28 @@ function o2tree_fold($name, $level = 0) {
  */
 function o2tree_unfold($name) {
 
-    $app = $_SESSION['o2_app'];
-    $prg = $app->istanze_prg[$app->progressivo_istanze];
-    if (isset($prg->tree_ctrls[$name])) {
-        $prg->tree_ctrls[$name]->unfold_all();
-        return true;
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $tree = false;
+    foreach ($prg->form as $form) {
+        if (isset($form->controlli[$name])) {
+            $tree = $form->controlli[$name];
+            break;
+            }
         }
-    else {
-        throw new o2_exception("Unknown Treeview control <i>".$name."</i> in program <i>".
-                               $prg->nome."</i>",
-                               o2error_UNKNOWNCTRL);
+    if (!$tree) {
+        if (isset($prg->tree_ctrls[$name])) {
+            $tree = $prg->tree_ctrls[$name];
+            }
+        else {
+            throw new o2_exception("Unknown Treeview control <i>".$name.
+                                   "</i> in program <i>".$prg->nome."</i>",
+                                   o2error_UNKNOWNCTRL);
+            return false;
+            }
         }
-    return false;
+    $tree->unfold_all();
+    return true;
 
     }
 
@@ -7414,18 +7441,28 @@ function o2tree_unfold($name) {
  */
 function o2tree_node_fold($name, $node_id) {
 
-    $app = $_SESSION['o2_app'];
-    $prg = $app->istanze_prg[$app->progressivo_istanze];
-    if (isset($prg->tree_ctrls[$name])) {
-        $prg->tree_ctrls[$name]->node_fold($node_id);
-        return true;
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $tree = false;
+    foreach ($prg->form as $form) {
+        if (isset($form->controlli[$name])) {
+            $tree = $form->controlli[$name];
+            break;
+            }
         }
-    else {
-        throw new o2_exception("Unknown Treeview control <i>".$name."</i> in program <i>".
-                               $prg->nome."</i>",
-                               o2error_UNKNOWNCTRL);
+    if (!$tree) {
+        if (isset($prg->tree_ctrls[$name])) {
+            $tree = $prg->tree_ctrls[$name];
+            }
+        else {
+            throw new o2_exception("Unknown Treeview control <i>".$name.
+                                   "</i> in program <i>".$prg->nome."</i>",
+                                   o2error_UNKNOWNCTRL);
+            return false;
+            }
         }
-    return false;
+    $tree->node_fold($node_id);
+    return true;
 
     }
 
@@ -7440,23 +7477,36 @@ function o2tree_node_fold($name, $node_id) {
  */
 function o2tree_node_unfold($name, $node_id) {
 
-    $app = $_SESSION['o2_app'];
-    $prg = $app->istanze_prg[$app->progressivo_istanze];
-    if (isset($prg->tree_ctrls[$name])) {
-        $prg->tree_ctrls[$name]->node_unfold($node_id);
-        return true;
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $tree = false;
+    foreach ($prg->form as $form) {
+        if (isset($form->controlli[$name])) {
+            $tree = $form->controlli[$name];
+            break;
+            }
         }
-    else {
-        throw new o2_exception("Unknown Treeview control <i>".$name."</i> in program <i>".
-                               $prg->nome."</i>",
-                               o2error_UNKNOWNCTRL);
+    if (!$tree) {
+        if (isset($prg->tree_ctrls[$name])) {
+            $tree = $prg->tree_ctrls[$name];
+            }
+        else {
+            throw new o2_exception("Unknown Treeview control <i>".$name.
+                                   "</i> in program <i>".$prg->nome."</i>",
+                                   o2error_UNKNOWNCTRL);
+            return false;
+            }
         }
-    return false;
+    $tree->node_unfold($node_id);
+    return true;
 
     }
 
 
 /**
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Select a node in treeview and make it visible
  *
  * @package treeview
@@ -7482,6 +7532,9 @@ function o2tree_node_select($name, $node_id) {
 
 
 /**
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Add a new node to treeview.
  * If Node ID is zero a progressive numeric ID will be assigned to node.
  * If Parent ID is zero node will be top level.
@@ -7515,6 +7568,9 @@ function o2tree_node_add($name, $node_id, $parent_id, $node_code, $node_icon = "
 
 
 /**
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Removes a node and all its sub-nodes from a treeview.
  * Function returns tha array of all removed nodes.
  *
@@ -7550,22 +7606,36 @@ function o2tree_node_remove($name, $node_id) {
  */
 function o2tree_node_show($name, $node_id) {
 
-    $app = $_SESSION['o2_app'];
-    $prg = $app->istanze_prg[$app->progressivo_istanze];
-    if (isset($prg->tree_ctrls[$name])) {
-        return $prg->tree_ctrls[$name]->node_show($node_id);
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $tree = false;
+    foreach ($prg->form as $form) {
+        if (isset($form->controlli[$name])) {
+            $tree = $form->controlli[$name];
+            break;
+            }
         }
-    else {
-        throw new o2_exception("Unknown Treeview control <i>".$name."</i> in program <i>".
-                               $prg->nome."</i>",
-                               o2error_UNKNOWNCTRL);
+    if (!$tree) {
+        if (isset($prg->tree_ctrls[$name])) {
+            $tree = $prg->tree_ctrls[$name];
+            }
+        else {
+            throw new o2_exception("Unknown Treeview control <i>".$name.
+                                   "</i> in program <i>".$prg->nome."</i>",
+                                   o2error_UNKNOWNCTRL);
+            return false;
+            }
         }
-    return false;
+    $tree->node_show($node_id);
+    return true;
 
     }
 
 
 /**
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Returns an array of the treeview nodes structure
  *
  * @package treeview
@@ -7590,6 +7660,9 @@ function o2tree_get_nodes($name) {
 
 
 /**
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Returns the ID of the selected node in treeview
  *
  * @package treeview
@@ -7601,7 +7674,7 @@ function o2tree_get_selection($name) {
     $app = $_SESSION['o2_app'];
     $prg = $app->istanze_prg[$app->progressivo_istanze];
     if (isset($prg->tree_ctrls[$name])) {
-        return $prg->tree_ctrls[$name]->last_node;
+        return $prg->tree_ctrls[$name]->sele_node;
         }
     else {
         throw new o2_exception("Unknown Treeview control <i>".$name."</i> in program <i>".
@@ -7614,6 +7687,9 @@ function o2tree_get_selection($name) {
 
 
 /**
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Returns the HTML code for defined Treeview control $name
  *
  * @package treeview
@@ -7639,6 +7715,9 @@ function o2tree_get_code($name) {
 
 
 /**
+ * ATTENTION: Treeview scripting definition and usage are DEPRECATED. Use a Treeview
+ *            control from development interface (JXOB) instead.
+ *
  * Filter Treeview control $name elements using $text.
  * Only elements containing $text in their description, and their ancestors, are left in.
  *
@@ -7684,19 +7763,28 @@ function o2tree_export($tree_name,
                        $fields_separator  = ",",
                        $text_delimiter    = '"') {
 
-    $app = $_SESSION['o2_app'];
-    $prg = $app->istanze_prg[$app->progressivo_istanze];
-    if (isset($prg->tree_ctrls[$tree_name])) {
-        return $prg->tree_ctrls[$tree_name]->export($csv_file_name,
-                                                    $fields_separator,
-                                                    $text_delimiter);
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $tree = false;
+    foreach ($prg->form as $form) {
+        if (isset($form->controlli[$name])) {
+            $tree = $form->controlli[$name];
+            break;
+            }
         }
-    else {
-        throw new o2_exception("Unknown Treeview control <i>".$tree_name.
-                               "</i> in program <i>".$prg->nome."</i>",
-                               o2error_UNKNOWNCTRL);
-        return false;
+    if (!$tree) {
+        if (isset($prg->tree_ctrls[$name])) {
+            $tree = $prg->tree_ctrls[$name];
+            }
+        else {
+            throw new o2_exception("Unknown Treeview control <i>".$name.
+                                   "</i> in program <i>".$prg->nome."</i>",
+                                   o2error_UNKNOWNCTRL);
+            return false;
+            }
         }
+    $tree->export($csv_file_name, $fields_separator, $text_delimiter);
+    return true;
 
     }
 

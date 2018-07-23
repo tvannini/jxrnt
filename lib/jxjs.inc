@@ -831,6 +831,10 @@ class jxjs {
                                         ',sorted:'.($o2ctrl_obj->sorted ? "!0" : "!1").
                                         ',aL:'.($o2ctrl_obj->act_level),
                                         true);
+        $value = $o2ctrl_obj->sql2ctrl();
+        if ($o2ctrl_obj->sele_node != $value) {
+            $o2ctrl_obj->node_select($value, true);
+            }
         $html   = $o2ctrl_obj->get_node_code(0, -1);
         print jxjs::ctrl($o2ctrl_obj,
                          "code:".jxjs::html_embed($html).
