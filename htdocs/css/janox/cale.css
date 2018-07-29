@@ -4,64 +4,63 @@
 	background-color: #D3D3D3;
 	padding: 3px 3px 3px 3px;
 	}
-	
+
 .caleFrame {
 	padding: 5px 5px 5px 5px;
 	border-collapse: separate;
 	border-spacing: 0px;
 	}
-	
+
 .caleLabel {
 	color: #19181A;
-	font: normal 11px Arial, sans-serif;
 	line-height: 14px;
 	white-space: nowrap;
 	overflow: hidden;
-	padding: 1px 2px 1px 2px;
+	padding: 2px 3px 2px 3px;
 	}
 
 .caleTitle {
 	color: #990000;
-	font: bold 12px Arial, sans-serif;
+	font-weight: bold;
 	text-align: center;
 	white-space: nowrap;
 	cursor: default;
 	margin: 0 0 0 0;
 	padding: 3px 0 3px 0;
 	}
-	
+
 .caleImBtn {
 	color: #990000;
-	font: bold 11px Arial, sans-serif;
+	font-weight: bold;
 	padding: 1px 1px 1px 1px;
 	margin: 0 0 0 0;
 	cursor: pointer;
 	text-align: center;
 	}
-	
+
 .caleDmBtn {
 	color: #990000;
-	font: bold 11px Arial, sans-serif;
+	font-weight: bold;
 	padding: 1px 1px 1px 1px;
 	margin: 0 0 0 0;
 	cursor: pointer;
 	text-align: center;
 	}
-	
+
 .caleTodayBtn {
 	background-image: url(tools/cale_today.gif);
 	background-position: center;
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	border: none;
 	background-color: transparent;
 	width: 40px;
 	cursor: pointer;
 	}
-	
+
 .caleCloseBtn {
 	background-image: url(tools/cale_close.gif);
 	background-position: center;
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	border: none;
 	background-color: transparent;
 	width: 15px;

@@ -759,9 +759,6 @@
     }
 
 .transparent_sele {
-    color: #19181A;
-    font: normal 11px Arial, sans-serif;
-    letter-spacing: 1px;
     white-space: nowrap;
     overflow: hidden;
     padding: 0 3px 0 3px;

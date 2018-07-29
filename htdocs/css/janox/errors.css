@@ -6,15 +6,12 @@
     background-color: #A9A9A9;
     border: 1px solid #999999;
     border-radius: 10px;
-    box-shadow: 0px 6px 15px #6B6661;
-    -moz-box-shadow: 0px 6px 15px #6B6661;
-    -webkit-box-shadow: 0px 6px 10px #6B6661;
+    box-shadow: 0px 6px 10px #6B6661;
     }
 
 .o2_error_info {
     background-color: #EAEAEA;
     padding: 2px 10px 2px 10px;
-    font-size: 11px;
     color: #8B0000;
     border-radius: 5px;
     }
@@ -29,7 +26,6 @@
     width: 1%;
     color: Black;
     background-color: #EAEAEA;
-    font-size: 12px;
     cursor: pointer;
     padding: 0 5px 0 5px;
     border-radius: 5px;
@@ -38,7 +34,6 @@
 .o2_error_text {
     color: Black;
     padding: 10px 0 15px 0;
-    font-size: 12px;
     text-align: justify;
     line-height: 15px;
     }
