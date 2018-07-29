@@ -39,13 +39,13 @@
     box-sizing:         border-box;
     }
 
-* { font-family: "Gudea", sans-serif; color: #000000; font-size: 12px; }
+* { font-family: "Gudea", sans-serif; color: #595959; font-size: 13px; }
 
 em, i { font-style: italic; }
 
 /* ============================== SFONDO ================================== */
 .o2_sfondo {
-    background-color: #DCDCDC;
+    background-color: #fcfbfa;
     }
 
 /* =============================== CONTROLLI =============================== */
@@ -56,148 +56,143 @@ em, i { font-style: italic; }
     }
 
 .o2_ctrl_edit {
-    background-color: #ffffff;
-    border: 1px solid #BDB5AE;
+    background-color: #fcfbfa;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
     overflow: hidden;
+    border-radius: 3px;
     }
 
 .o2_ctrl_edit:focus {
-    background-color: #ffffff;
-    border-top: 1px solid #6B6661;
-    border-right: 1px solid #a19a93;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    background-color: #fcfbfa;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
+    border-radius: 3px;
     }
 
 .o2_ctrl_edit_dis {
-    background-color: #E1DAD4;
-    border: 1px solid #BDB5AE;
+    color: #a19a93;
+    background-color: #f0efed;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
     overflow: hidden;
+    border-radius: 3px;
     }
 
 .o2_ctrl_text {
-    background-color: #ffffff;
-    border: 1px solid #BDB5AE;
+    background-color: #fcfbfa;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
+    border-radius: 3px;
     }
 
 .o2_ctrl_text:focus {
-    background-color: #ffffff;
-    border-top: 1px solid #6B6661;
-    border-right: 1px solid #a19a93;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    background-color: #fcfbfa;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
+    border-radius: 3px;
     }
 
 .o2_ctrl_text_dis {
-    background-color: #E1DAD4;
-    border: 1px solid #BDB5AE;
+    color: #a19a93;
+    background-color: #f0efed;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
     white-space: normal;
+    border-radius: 3px;
     }
 
 .o2_ctrl_text_edit {
-    background-color: #ffffff;
-    border: 1px solid #BDB5AE;
+    background-color: #fcfbfa;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
+    border-radius: 3px;
     }
 
 .o2_ctrl_text_edit:focus {
-    background-color: #ffffff;
-    border-top: 1px solid #6B6661;
-    border-right: 1px solid #a19a93;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    background-color: #fcfbfa;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
+    border-radius: 3px;
     }
 
 .o2_ctrl_listcombo {
-    background-color: #ffffff;
-    border: 1px solid #BDB5AE;
+    background-color: #fcfbfa;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
-    }
-
-.o2_ctrl_listcombo_dis {
-    background-color: #E1DAD4;
-    border: 1px solid #BDB5AE;
-    padding-left: 1px;
-    padding-right: 1px;
-    overflow: auto;
-    }
-
-.o2_ctrl_listcombo_field {
-    background-color: #ffffff;
-    background-image: url(janox/listcombo/down.png);
-    background-position: right;
-    background-repeat: no-repeat;
-    border: 1px solid #BDB5AE;
-    padding-left: 1px;
-    padding-right: 14px;
-    overflow: hidden;
+    border-radius: 3px;
     }
 
 .o2_ctrl_listcombo_field_dis {
-    background-color: #E1DAD4;
-    border: 1px solid #BDB5AE;
+    color: #a19a93;
+    background-color: #f0efed;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 1px;
-    white-space: nowrap;
+    overflow: auto;
+    border-radius: 3px;
+    }
+
+.o2_ctrl_listcombo_field {
+    background-color: #fcfbfa;
+    background-image: url(janox/listcombo/down.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    border: 1px solid #cccccc;
+    padding-left: 1px;
+    padding-right: 14px;
     overflow: hidden;
+    border-radius: 3px;
     }
 
 .o2_ctrl_listcombo_field:focus {
-    background-color: #ffffff;
+    background-color: #fcfbfa;
     background-image: url(janox/listcombo/down.png);
     background-position: right;
     background-repeat: no-repeat;
-    border-top: 1px solid #6B6661;
-    border-right: 1px solid #a19a93;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    border: 1px solid #cccccc;
     padding-left: 1px;
     padding-right: 14px;
+    border-radius: 3px;
     }
 
 div.o2_ctrl_listcombo_field {
-    background-color: #ffffff;
+    background-color: #fcfbfa;
     background-image: url(janox/listcombo/down.png);
     background-position: right;
     background-repeat: no-repeat;
-    border: 1px solid #BDB5AE;
+    border: 1px solid #cccccc;
     padding: 2px 14px 0 2px;
     white-space: nowrap;
     overflow: hidden;
+    border-radius: 3px;
     }
 
 .o2_ctrl_listcombo_list {
     max-height: 250px;
-    background-color: #ffffff;
+    background-color: #fcfbfa;
     border: none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     overflow: auto;
-    box-shadow: 0px 6px 15px #6B6661;
-    -moz-box-shadow: 0px 6px 15px #6B6661;
-    -webkit-box-shadow: 0px 6px 10px #6B6661;
+    box-shadow: 0px 6px 10px #6B6661;
     }
 
 option:hover {
-    background-color: #E1DAD4;
+    background-color: #f0efed;
     }
 
 .o2lu_sysppg, .o2lu_sysnpg {
@@ -208,33 +203,31 @@ option:hover {
 .o2_ctrl_listcombo_dis div,
 .o2_ctrl_listcombo_list div {
     padding: 1px 3px 1px 3px;
-    min-height: 16px;
     }
 
 .o2_ctrl_listcombo div:hover,
 .o2_ctrl_listcombo_list div:hover {
-    background-color: #E1DAD4;
+    background-color: #f0efed;
     padding: 1px 3px 1px 3px;
     cursor: pointer;
     }
 
 .jxlsr {
-    background-color: #FC7939;
+    background-color: #ff8a4d;
     }
 
 .o2_ctrl_file {
-    background: #ffffff url(janox/upload/file.png) no-repeat 3px;
+    background: #fcfbfa url(janox/upload/file.png) no-repeat 3px;
     border: 1px solid #BDB5AE;
     overflow: hidden;
+    border-radius: 3px;
     }
 
 .o2_ctrl_file:focus {
-    background: #ffffff url(janox/upload/file.png) no-repeat 3px;
-    border-top: 1px solid #6B6661;
-    border-right: 1px solid #a19a93;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    background: #fcfbfa url(janox/upload/file.png) no-repeat 3px;
+    border: 1px solid #cccccc;
     overflow: hidden;
+    border-radius: 3px;
     }
 
 .o2_ctrl_file_txt {
@@ -256,21 +249,13 @@ option:hover {
     cursor: pointer;
     }
 
-.o2_ctrl_file_dis {
-    background: #E1DAD4 url(janox/upload/file.png) no-repeat 3px;
-    border: 1px solid #BDB5AE;
-    overflow: hidden;
-    }
-
 .o2_ctrl_line {
-    border-top: 1px solid #6B6661;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
+    border: 1px solid #cccccc;
     }
 
 .o2_ctrl_img {
     vertical-align: middle;
+    border-radius: 3px;
     }
 
 /* ============================== SYSTEM ============================ */
@@ -345,7 +330,7 @@ option:hover {
     right: 10px;
     }
 
-.jxfastmsg span {
+.jxfastmsg {
     color: #f5f5f5;
     background-color: #bb0000;
     font-weight: bold;
@@ -369,7 +354,7 @@ option:hover {
 
 /* ============================= EXTRA =========================== */
 .jxzoom {
-    border-left: 2px solid #E18331;
+    border-left: 2px solid #ff8a4d;
     }
 
 .jxsoc {}
@@ -395,9 +380,9 @@ option:hover {
 
 .nav_big {
     height: 32px;
-    background-color: #BDB5AE;
+    background-color: #e0ddd9;
     border: none;
-    border-bottom: #A19A93 1px solid;
+    border-bottom: 1px solid #cccccc;
     padding-left: 10px;
     padding-right: 10px;
     }

@@ -1,14 +1,9 @@
 /* =============================== TABLE =================================== */
 .o2_tab_space {
-    background-color: #E1DAD4;
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
-    border-radius:  5px;
-    box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    overflow: hidden;
     }
 
 .o2_tab_tab {
@@ -21,19 +16,28 @@
 
 thead .o2_tab_marker,
 .o2_tab_testa {
-    background-color: #E1DAD4;
+    background-color: #e0ddd9;
+    height: 24px;
+    padding-top: 3px;
+    border-bottom: 1px solid #cccccc;
+    border-left: none;
+    font-size: 11px;
     white-space: nowrap;
-    height: 20px;
-    border-bottom: 1px solid #a19a93;
-    cursor: default;
-    overflow: hidden;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 2px;
     }
 
 TH + thead .o2_tab_marker,
 .o2_tab_testa {
     border-top-left-radius: 0;
-    padding-right: 3px;
+    border-left: 1px solid #cccccc;
+    }
+
+thead .jxord:hover {
+    background-color: #D1C8C0;
+    height: 24px;
+    padding-top: 3px;
+    border-bottom: 1px solid #BDB5AE;
+    font-size: 11px;
     }
 
 .o2_tab_corpo {
@@ -42,18 +46,24 @@ TH + thead .o2_tab_marker,
     vertical-align: middle;
     white-space: nowrap;
     overflow: hidden;
-    border-left: 1px dotted #E1DAD4;
+    border-left: 1px dotted #e0ddd9;
+    border-bottom: 1px dotted #f0efed;
+    }
+
+.o2_tab_space tfoot {
+    background-color: #e0ddd9;
     }
 
 tfoot .o2_tab_marker,
 .o2_tab_foot {
-    background-color: #E1DAD4;
+    background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #BDB5AE;
+    border-top: 1px solid #cccccc;
     cursor: default;
     overflow: hidden;
-    border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 2px;
+    padding-left: 3px;
     }
 
 TD + tfoot .o2_tab_marker,
@@ -67,60 +77,62 @@ TD + tfoot .o2_tab_marker,
     }
 
 .o2_tab_alt {
-    background-color: #eeeeee;
+    background-color: #ffffff;
     }
 
 .o2_tab_point {
-    background-color: #E1DAD4;
+    background-color: #f0efed;
     white-space: nowrap;
     cursor: pointer;
     }
 
 .o2_tab_point .o2_tab_corpo {
-    border-left: 1px dotted #D1C8C0;
+    border-left: 1px dotted #e0ddd9;
     }
 
 .o2_tab_sele {
-    background: #FC7939;
-    background: -moz-linear-gradient(top, #FEC09F, #FC7837);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FEC09F), to(#FC7837));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FEC09F', EndColorStr='#FC7837');
+    background: #ff8a4d;
     line-height: 20px;
     vertical-align: middle;
     padding: 0 3px 0 2px;
     white-space: nowrap;
     overflow: hidden;
-    border-left: 1px dotted #E1A068;
+    border-left: 1px dotted #e0ddd9;
     }
 
 .jxtabedit .o2_tab_sele {
     padding: 0 2px 0 2px;
     }
 
-.jxtabedit .o2_tab_sele INPUT[Type="button"], .jxtabedit .o2_tab_sele IMG {
-    /* margin: 0 3px 0 3px; */
-    }
-
 .o2_tab_sort {
     background: url(tab/sort.png) no-repeat;
-    margin-left: 3px;
-    padding-right: 5px;
+    margin-left: 4px;
+    padding-right: 4px;
+    vertical-align: middle;
+    cursor: pointer;
+    }
+
+.o2menu .o2_tab_sort {
+    background: url(tab/marker.png) no-repeat;
+    width: 12px;
+    margin-left: 4px;
+    margin-right: 4px;
     vertical-align: middle;
     cursor: pointer;
     }
 
 .o2_tab_sorta {
     background: url(tab/asc.png) no-repeat;
-    margin-left: 3px;
-    padding-right: 5px;
+    margin-left: 4px;
+    padding-right: 4px;
     vertical-align: middle;
     cursor: pointer;
     }
 
 .o2_tab_sortd {
     background: url(tab/desc.png) no-repeat;
-    margin-left: 3px;
-    padding-right: 5px;
+    margin-left: 4px;
+    padding-right: 4px;
     vertical-align: middle;
     cursor: pointer;
     }
@@ -134,65 +146,54 @@ TD + tfoot .o2_tab_marker,
 .o2_tab_popup {
     padding: 5px;
     background-color: #D1C8C0;
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
+    border: 1px solid #cccccc;
     border-radius: 3px;
     box-shadow: 0px 6px 15px #6B6661;
     }
 
 .o2_tab_fcol {
     width: 16px;
+    border-bottom: 1px dotted #e0ddd9;
     }
 
 .o2_tab_marker {
-    width: 16px;
+    width: 13px;
     }
 
 .o2_tab_marker_a {
     background: url(tab/marker.png) no-repeat center;
-    width: 8px;
-    height: 100%;
+    width: 20px;
     border: none;
-    margin-left: 20%;
     }
 
 .o2_tab_marker_focus {
     background: url(tab/marker_focus.png) no-repeat center;
-    width: 8px;
-    height: 100%;
+    width: 20px;
     border: none;
-    margin-left: 20%;
     }
 
 .o2_tab_resize {
     font-size: 1px;
-    width: 1px;
-    height: 70%;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #c4c4c4;
+    width: 2px;
+    height: 100%;
+    border-left: none;
+    border-right: 1px dotted #BDB5AE;
     display: inline-block;
     float: left;
     cursor: col-resize;
     }
 
 .o2_tab_resize_line {
-    border-left: 1px dotted #a19a93;
-    }
-
-.o2_tab_pinned {
-    border-right: 1px dotted #6B6661;
-    background-color: #ffffff;
+    border-left: 1px dotted #cccccc;
     }
 
 /* =============================== EXTRA =================================== */
 
 .tab_testa_sx {
-    background-color: #E1DAD4;
+    background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #a19a93;
+    border-bottom: 1px solid #cccccc;
     cursor: default;
     overflow: hidden;
     }
@@ -217,19 +218,19 @@ TD + tfoot .o2_tab_marker,
     }
 
 .tab_foot_sx {
-    background-color: #E1DAD4;
+    background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #BDB5AE;
+    border-top: 1px solid #cccccc;
     cursor: default;
     overflow: hidden;
     }
 
 .tab_testa_nb {
-    background-color: #E1DAD4;
+    background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #a19a93;
+    border-bottom: 1px solid #cccccc;
     cursor: default;
     overflow: hidden;
     }
@@ -254,19 +255,19 @@ TD + tfoot .o2_tab_marker,
     }
 
 .tab_foot_nb {
-    background-color: #E1DAD4;
+    background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #BDB5AE;
+    border-top: 1px solid #cccccc;
     cursor: default;
     overflow: hidden;
     }
 
 .tab_testa_dx {
-    background-color: #E1DAD4;
+    background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #a19a93;
+    border-bottom: 1px solid #cccccc;
     cursor: default;
     overflow: hidden;
     }
@@ -291,10 +292,10 @@ TD + tfoot .o2_tab_marker,
     }
 
 .tab_foot_dx {
-    background-color: #E1DAD4;
+    background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #BDB5AE;
+    border-top: 1px solid #cccccc;
     cursor: default;
     overflow: hidden;
     }

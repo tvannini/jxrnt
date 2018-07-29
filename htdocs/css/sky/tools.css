@@ -576,9 +576,6 @@
     border-left: 1px solid #a7bde4;
     border-right: 1px solid #a7bde4;
     border-radius:  5px;
-    box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
     }
 
 .fsb_tab thead, .fsb_header {

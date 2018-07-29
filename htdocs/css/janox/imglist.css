@@ -1,6 +1,6 @@
 .jximglist {
     background-color: #ffffff;
-    border: 1px solid #BDB5AE;
+    border: 1px solid #cccccc;
     padding: 5px;
     overflow: auto;
     }
@@ -21,7 +21,6 @@
     }
 
 .jximglist_text {
-    color: #666666;
     display: block;
     white-space: normal;
     }
@@ -32,5 +31,5 @@
     right: 1px;
     cursor: pointer;
     background-color: #ffffff;
-    border: 1px solid #BDB5AE;
+    border: 1px solid #cccccc;
     }

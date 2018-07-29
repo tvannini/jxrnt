@@ -1,6 +1,6 @@
 .jxtree {
     background-color: #ffffff;
-    border: 1px solid #BDB5AE;
+    border: 1px solid #cccccc;
     padding: 5px;
     overflow: auto;
     }
@@ -48,7 +48,7 @@
 
 .jx_treenode_sele .jx_treenode_text {
     color: #403C3A;
-    background-color: #FF884C;
+    background-color: #ff8a4d;
     display: inline-block;
     padding-left: 2px;
     padding-right: 2px;
@@ -56,7 +56,6 @@
     }
 
 .jx_treenode_focus .jx_treenode_text {
-    color: #403C3A;
     background-color: #FFE2A6;
     display: inline-block;
     padding-left: 2px;

@@ -9,29 +9,29 @@ function o2sys_confirm§§prg§_§var_def(&$task_prg§_§var) {
 function o2sys_confirm§§sys_confirm_form_def(&$form_sys_confirm) {
 	$form_sys_confirm->x(200);
 	$form_sys_confirm->y(200);
+	$form_sys_confirm->y_exp(o2sys_confirm_exp_13());
+	$form_sys_confirm->x_exp(o2sys_confirm_exp_12());
 	$form_sys_confirm->larghezza(400);
 	$form_sys_confirm->altezza(250);
+	$form_sys_confirm->altezza_exp(o2sys_confirm_exp_5());
+	$form_sys_confirm->larghezza_exp(o2sys_confirm_exp_8());
+	$form_sys_confirm->align_v("Middle");
+	$form_sys_confirm->align_o("Center");
 	$form_sys_confirm->titolo("");
+	$form_sys_confirm->frm_status(o2sys_confirm_exp_1());
 	$form_sys_confirm->css_title("sys_alert_title");
 	$form_sys_confirm->css_doc("sys_alert_doc");
 	$form_sys_confirm->css_close("hidden");
 	$form_sys_confirm->css_open("hidden");
 	$form_sys_confirm->css_exit("sys_alert_close");
 	$form_sys_confirm->close_action("act_no");
-	$form_sys_confirm->align_v("Middle");
-	$form_sys_confirm->align_o("Center");
-	$form_sys_confirm->y_exp(o2sys_confirm_exp_13());
-	$form_sys_confirm->x_exp(o2sys_confirm_exp_12());
-	$form_sys_confirm->altezza_exp(o2sys_confirm_exp_5());
-	$form_sys_confirm->larghezza_exp(o2sys_confirm_exp_8());
-	$form_sys_confirm->frm_status(o2sys_confirm_exp_1());
 	$ctrl_sys_confirm_area = &$form_sys_confirm->ctrldef("sys_confirm_area", "htmlarea", "", "", "");
 		$ctrl_sys_confirm_area->x(20);
 		$ctrl_sys_confirm_area->y(0);
 		$ctrl_sys_confirm_area->larghezza(370);
 		$ctrl_sys_confirm_area->altezza(220);
-		$ctrl_sys_confirm_area->html(o2sys_confirm_exp_11());
 		$ctrl_sys_confirm_area->expand("B");
+		$ctrl_sys_confirm_area->html(o2sys_confirm_exp_11());
 		}
 
 function o2sys_confirm§§act_no_act(&$o2exe) {
@@ -115,7 +115,7 @@ function o2sys_confirm_exp_11() {
               '       if(e.altKey){
                        if(e.keyCode == 89){'.o2_act4js(0, 'act_yes').'}
                        else if(e.keyCode == 78){'.o2_act4js(0, 'act_no').'}}">
-          <hr style="width:94%;height:2px;color:#19181a;"/>
+          <hr style="width:94%;height:2px;" class="o2_ctrl_line"/>
           <div id="jx_confirm_yes_bnt"
                class="o2_ctrl_button"
                onclick="'.o2_act4js(0, 'act_yes').'"

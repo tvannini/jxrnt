@@ -1,30 +1,27 @@
 /* =============================== NAVIGATORE ================================== */
 .o2_ctrl_nav_space {
     height: 20px;
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
+    border: 1px solid #cccccc;
     }
 
 .o2_ctrl_nav_space_int {
-    border-top: 1px solid #BDB5AE;
+    background-color: #f5f4f2;
+    border-top: 1px solid #cccccc;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    height: 18px;
     }
 
 .o2_ctrl_nav_i {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #E6DFD9, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#E6DFD9), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#E6DFD9', EndColorStr='#BDB5AE');
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
-    border-radius: 3px;
+    display: none;
     }
 
 .o2_ctrl_nav_e {
-    cursor: pointer;
+    display: none;
+    }
+
+.o2_ctrl_nav_sep {
+    width: 100%;
     }
 
 .o2_ctrl_nav_new {
@@ -126,17 +123,11 @@
     }
 
 .o2_ctrl_nav_prev {
-    width: 18px;
-    height: 18px;
-    background: url(nav/oriz/prev.png) no-repeat top center;
-    cursor: pointer;
+    display: none;
     }
 
 .o2_ctrl_nav_next {
-    width: 18px;
-    height: 18px;
-    background: url(nav/oriz/next.png) no-repeat top center;
-    cursor: pointer;
+    display: none;
     }
 
 .o2_ctrl_nav_nextpg {
@@ -198,31 +189,27 @@
 /* ====================== NAVIGATORE VERTICALE ============================ */
 .o2_ctrl_navv_space {
     width: 20px;
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
+    border: 1px solid #cccccc;
     }
 
 .o2_ctrl_navv_space_int {
-    border-left: 1px solid #a19a93;
+    background-color: #f0efed;
+    border-left: 1px solid #cccccc;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
     width: 18px;
     }
 
 .o2_ctrl_navv_i {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #E6DFD9, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#E6DFD9), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#E6DFD9', EndColorStr='#BDB5AE');
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
-    border-radius: 3px;
+    display: none;
     }
 
 .o2_ctrl_navv_e {
-    cursor: pointer;
+    display: none;
+    }
+
+.o2_ctrl_navv_sep {
+    height: 100%;
     }
 
 .o2_ctrl_navv_new {
@@ -330,17 +317,11 @@
     }
 
 .o2_ctrl_navv_prev {
-    width: 100%;
-    height: 18px;
-    background: url(nav/vert/prev.png) no-repeat top center;
-    cursor: pointer;
+    display: none;
     }
 
 .o2_ctrl_navv_next {
-    width: 100%;
-    height: 18px;
-    background: url(nav/vert/next.png) no-repeat top center;
-    cursor: pointer;
+    display: none;
     }
 
 .o2_ctrl_navv_nextpg {
@@ -427,7 +408,7 @@
     height: 24px;
     background: url(nav/big/first.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     }
 
@@ -455,7 +436,7 @@
     height: 24px;
     background: url(nav/big/prev.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     display: block;
     }
@@ -480,7 +461,7 @@
     height: 24px;
     background: url(nav/big/last.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     }
 
@@ -508,7 +489,7 @@
     height: 24px;
     background: url(nav/big/next.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     display: block;
     }
@@ -533,7 +514,7 @@
     height: 24px;
     background: url(nav/big/new.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     }
 
@@ -556,7 +537,7 @@
     height: 24px;
     background: url(nav/big/save.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     }
 
@@ -579,7 +560,7 @@
     height: 24px;
     background: url(nav/big/del.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     }
 
@@ -602,7 +583,7 @@
     height: 24px;
     background: url(nav/big/det.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     }
 
@@ -625,7 +606,7 @@
     height: 24px;
     background: url(nav/big/sele.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     }
 
@@ -648,7 +629,7 @@
     height: 24px;
     background: url(nav/big/undo.png) no-repeat top;
     background-color: #D1C8C0;
-    border: 1px solid #a19a93;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     }
 
@@ -659,9 +640,20 @@
     border: 1px solid transparent;
     }
 
-.nav_big .o2_ctrl_nav_sep {
-    width: 100%;
+.tool_btn {
+    width: 32px;
+    height: 24px;
+    border: 1px solid transparent;
     }
+
+.tool_btn:hover {
+    width: 32px;
+    height: 24px;
+    background-color: #D1C8C0;
+    border: 1px solid #BDB5AE;
+    border-radius: 3px;
+    }
+
 
 /* ========================== BUTTONS EFFECT ON MOUSE OVER ============================ */
 .ctrl_nav_effect, .ctrl_nav_effect:hover {

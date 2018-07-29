@@ -1,29 +1,18 @@
 /* ========================== BUTTON/REF =========================== */
 
 .o2_ctrl_button {
-	text-align: center;
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
-    border-bottom: 1px solid #a19a93;
-    border-top: 1px solid #D1C9C1;
-    border-left: 1px solid #BDB5AE;
-    border-right: 1px solid #BDB5AE;
+    text-align: center;
+    background: #e0ddd9;
+    border: 1px solid #cccccc;
     border-radius: 3px;
     }
 
 .o2_ctrl_button:hover, .o2_ctrl_button:focus {
-    color: #442204;
-	text-align: center;
+    text-align: center;
     background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #CAC1BA);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#CAC1BA));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#CAC1BA');
-    border: 1px solid #E18331;
+    border: 1px solid #BDB5AE;
     border-radius: 3px;
     cursor: pointer;
-    box-shadow: 0px 2px 4px #6B6661;
     }
 
 .o2_ctrl_button:hover *, .o2_ctrl_button:focus * {
@@ -34,7 +23,7 @@
     color: #a19a93;
 	text-align: center;
     background: #E1DAD4;
-    border: 1px solid #a19a93;
+    border: 1px solid #cccccc;
     border-radius: 3px;
     }
 
@@ -43,7 +32,6 @@
     }
 
 .o2_ctrl_ref {
-    color: #442204;
     background-color: transparent;
     text-decoration: underline;
     text-align: left;
@@ -52,7 +40,7 @@
     }
 
 .o2_ctrl_ref:hover, .o2_ctrl_ref:focus {
-    color: #E18331;
+    color: #ff8a4d;
     background-color: transparent;
     text-decoration: underline;
     text-align: left;

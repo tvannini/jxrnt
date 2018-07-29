@@ -1,87 +1,65 @@
 /* ====================================== NEW MENU ==================================== */
 
 .o2menuBar {
-    background-color: #D1C8C0;
+    background-color: #e0ddd9;
     top: 0;
     left: 0;
     width: 100%;
-    line-height: 24px;
-    padding-left: 2px;
-    box-shadow: 0px 3px 10px #6B6661;
-    -moz-box-shadow: 0px 3px 10px #6B6661;
-    -webkit-box-shadow: 0px 1px 10px #6B6661;
-    }
-
-.o2menuBarV {
-    background-color: #D1C8C0;
-    top: 0;
-    left: 0;
-    height: 100%;
-    line-height: 24px;
-    padding-left: 2px;
-    box-shadow: 0px 3px 10px #6B6661;
-    -moz-box-shadow: 0px 3px 10px #6B6661;
-    -webkit-box-shadow: 0px 1px 10px #6B6661;
+    line-height: 32px;
+    padding-left: 20px;
+    padding-top: 4px;
+    border-bottom: 1px solid #cccccc;
     }
 
 .o2menu {
-    background-color: #E1DAD4;
-    border-bottom: 1px solid #6B6661;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
+    background-color: #f5f4f2;
+    border: 1px solid #cccccc;
+    border-top-color: #f5f4f2;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    }
+
+.o2menuFloat {
+    border-top-color: #cccccc;
     }
 
 .o2menuItem {
-    border: 1px solid #E1DAD4;
-    padding: 5px 0 5px 0;
-    line-height: 18px;
+    border: 1px solid #cccccc;
+    border-bottom: none;
+    line-height: 24px;
     cursor: pointer;
     }
 
 .o2menuBar .o2menuItem {
-    border: 1px solid #D1C8C0;
+    border: 1px solid #e0ddd9;
     border-bottom: none;
-    padding: 5px 0 3px 0;
+    margin-right: 20px;
     display: inline;
-    cursor: pointer;
-    }
-
-.o2menuBarV .o2menuItem {
-    border: 1px solid #D1C8C0;
-    border-right: none;
-    padding: 5px 10px 5px 10px;
-    display: block;
     cursor: pointer;
     }
 
 .o2menuItemOn {
-    background-color: #D1C8C0;
-    padding: 5px 0 5px 0;
-    line-height: 18px;
+    background-color: #cccccc;
+    border-bottom: none;
+    line-height: 24px;
     cursor: pointer;
     }
 
 .o2menuBar .o2menuItemOn {
-    background-color: #E1DAD4;
-    border: 1px solid #a19a93;
+    background-color: #f5f4f2;
+    border: 1px solid #cccccc;
     border-bottom: none;
-    padding: 5px 0 5px 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 8px 0 9px 0;
+    margin-right: 20px;
     display: inline;
-    cursor: pointer;
-    }
-
-.o2menuBarV .o2menuItemOn {
-    background-color: #E1DAD4;
-    border: 1px solid #a19a93;
-    border-right: none;
-    padding: 5px 10px 5px 10px;
-    display: block;
     cursor: pointer;
     }
 
 .o2menuImg {
     padding-left: 5px;
-    display: inline;
     }
 
 .o2menuImg IMG {
@@ -121,17 +99,12 @@
     }
 
 .o2menuSep {
-    border-bottom: 1px dotted #a19a93;
-    height: 5px;
-    }
-
-.o2menuBarV .o2menuSep {
-    border-bottom: 2px groove #D1C8C0;
+    border-bottom: 1px solid #cccccc;
     height: 5px;
     }
 
 .o2menuSepV {
-    border-left: 1px dotted #a19a93;
+    border-left: 1px solid #cccccc;
     width: 1px;
     display: inline;
     }

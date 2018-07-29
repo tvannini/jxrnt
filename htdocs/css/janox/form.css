@@ -1,61 +1,50 @@
 /* ================================ FORM ===================================== */
 .winshadow {
-    box-shadow: 0px 6px 15px #6B6661;
-    border-radius: 5px;
     }
 
 .o2_form_window {
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
-    border-radius: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
     }
 
 .o2_form_body {
-    background-color: #D1C8C0;
-    border-top: 1px solid #a19a93;
+    background-color: #f5f4f2;
+    border: none;
+    border-top: 1px solid #cccccc;
     overflow: hidden;
     }
 
 .o2_form_title {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
-    height: 25px;
+    background: #e0ddd9;
+    height: 24px;
     text-align: center;
+    border-bottom: none;
     }
 
 .o2_form_title * {
     font-weight: bold;
-    text-shadow: #ffffff 0px 0px 10px;
+    font-size: 11px;
+    text-shadow: none;
     }
 
 .o2_form_title_no {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
-    height: 25px;
+    background: #e0ddd9;
+    height: 24px;
     text-align: center;
     }
 
 .o2_form_title_no * {
-    color: #a19a93;
+    color: #aaaaaa;
     font-weight: bold;
-    text-shadow: #ffffff 0px 0px 10px;
+    text-shadow: none;
     }
 
 .o2_form_doc {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
-    border-top-left-radius: 5px;
-    cursor: pointer;
+    background: #e0ddd9;
     width: 30px;
     line-height: 1px;
+    border-top-left-radius: 4px;
+    cursor: pointer;
     }
 
 .o2_form_doc:before {
@@ -68,47 +57,8 @@
     margin-left: 5px;
     }
 
-.o2_form_full {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
-    width: 20px;
-    line-height: 1px;
-    cursor: pointer;
-    }
-
-.o2_form_full:before {
-    content: url(form/full.png);
-    }
-
-.o2_form_full:hover:before {
-    content: url(form/full_on.png);
-    }
-
-.o2_form_restore {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
-    width: 20px;
-    line-height: 1px;
-    cursor: pointer;
-    }
-
-.o2_form_restore:before {
-    content: url(form/restore.png);
-    }
-
-.o2_form_restore:hover:before {
-    content: url(form/restore_on.png);
-    }
-
 .o2_form_close {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
+    background: #e0ddd9;
     width: 20px;
     line-height: 1px;
     cursor: pointer;
@@ -123,30 +73,24 @@
     }
 
 .o2_form_open {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
+    background: #e0ddd9;
     width: 20px;
     line-height: 1px;
     cursor: pointer;
     }
 
 .o2_form_open:before {
-    content: url(form/open.png);
+    content: url(form/max.png);
     }
 
 .o2_form_open:hover:before {
-    content: url(form/open_on.png);
+    content: url(form/max_on.png);
     }
 
 .o2_form_exit {
-    background: #D1C8C0;
-    background: -moz-linear-gradient(top, #ffffff, #BDB5AE);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#BDB5AE));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#BDB5AE');
-    border-top-right-radius: 5px;
+    background: #e0ddd9;
     width: 22px;
+    border-top-right-radius: 4px;
     line-height: 1px;
     cursor: pointer;
     }
@@ -159,20 +103,52 @@
     content: url(form/close_on.png);
     }
 
+
+.o2_form_full {
+    background: #e0ddd9;
+    width: 20px;
+    line-height: 1px;
+    cursor: pointer;
+    }
+
+.o2_form_full:before {
+    content: url(form/full.png);
+    }
+
+.o2_form_full:hover:before {
+    content: url(form/full_on.png);
+    }
+
+.o2_form_restore {
+    background: #e0ddd9;
+    width: 20px;
+    line-height: 1px;
+    cursor: pointer;
+    }
+
+.o2_form_restore:before {
+    content: url(form/full.png);
+    }
+
+.o2_form_restore:hover:before {
+    content: url(form/full_on.png);
+    }
+
+
 .o2_form_status {
-    background-color: #D1C8C0;
+    background-color: #eeeeee;
     width: 100%;
     line-height: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
     }
 
 .o2_form_status_dis {
-    background-color: #D1C8C0;
+    background-color: #eeeeee;
     width: 100%;
     line-height: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
     }
 
 .o2_form_corner {
@@ -183,10 +159,10 @@
 
 .o2_form_resize {
     background-image: url(form/grip.png);
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    border-top: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
     border-top-left-radius: 20px;
-    border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 4px;
     width: 30px;
     height: 6px;
     cursor: se-resize;
@@ -195,10 +171,10 @@
 .o2_form_resize:hover {
     background-color: #ff9438;
     background-image: url(form/grip.png);
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    border-top: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
     border-top-left-radius: 20px;
-    border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 4px;
     width: 30px;
     height: 6px;
     cursor: se-resize;
