@@ -793,6 +793,20 @@ class upgrades_collection {
                 }
             }
 
+        }
+
+
+    /**
+     * Upgrades application to release 2.4
+     *
+     *  NOTHING TO DO
+     *
+     * @param string $app_name Application name
+     * @param jxdir  $app_dir  Application root directory
+     */
+    static function to2_4($app_name, $app_dir) {
+
+        // _____________________________________________________________ Nothing to do ___
 
         }
 
