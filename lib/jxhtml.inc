@@ -977,6 +977,27 @@ class o2html {
                             $view_obj->imposta($ctrl_obj->campo_in_ctrl, $value);
                             $ctrl_obj->node_select($ctrl_obj->valore);
                             }
+                        // ____________________ Imgs-lister: manage value, and actions ___
+                        if ($ctrl_obj->tipo_ctrl == 'imglist') {
+                            $field = (get_class($view_obj) == 'o2_virtualview' ?
+                                      $view_obj->variabili[$ctrl_obj->campo_in_ctrl] :
+                                      $view_obj->campi[$ctrl_obj->campo_in_ctrl]);
+                            // __________________________ Structure field: set to item ___
+                            if ($field->maschera->tipo == 'S') {
+                                $value = $ctrl_obj->list[$ctrl_obj->valore];
+                                }
+                            // ____________________ Other fields: set to item ID value ___
+                            else {
+                                $value = $ctrl_obj->valore;
+                                }
+                            $view_obj->imposta($ctrl_obj->campo_in_ctrl, $value);
+                            if (isset($_REQUEST[$ctrl_name.'_delete'])) {
+                                $ctrl_obj->item_delete($ctrl_obj->valore);
+                                }
+                            else {
+                                $ctrl_obj->item_activate($ctrl_obj->valore);
+                                }
+                            }
                         // _____________________________________ Other valued controls ___
                         else {
                             $view_obj->imposta($ctrl_obj->campo_in_ctrl,
@@ -1255,7 +1276,7 @@ class o2html {
                     }
                 }
             }
-        // _____________________________________________________ Images lister control ___
+        // _________________________________ Images lister control (old scripting way) ___
         elseif ($_REQUEST['jximglist']) {
             $imglist_ctrl = $_REQUEST['jximglist'];
             $ctrl_obj     = false;
@@ -3342,6 +3363,7 @@ class o2html {
         $prg            = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
         $view           = $o2ctrl_obj->view_obj;
         $form           = $o2ctrl_obj->form_obj;
+        $sizable        = $app->grid_plus && $o2ctrl_obj->gp_size_cols;
         print "<tfoot>\n";
         foreach ($form->controlli as $ctrl) {
             // ________ If control is inside of table, it is visible and not navigator ___
@@ -3382,6 +3404,11 @@ class o2html {
                           '"' : '').$style.">".$footer."</td>\n";
                 $puntatore_col = $ctrl->info_padre[2];
                 }
+            }
+        // _________________________________________________________ Last column sizer ___
+        if ($sizable) {
+            print '<td class="'.$o2ctrl_obj->footer_class.
+                '"> &nbsp; '."</th>\n";
             }
         print "</tfoot>\n";
 
@@ -4284,8 +4311,7 @@ JANOX_PAGE_SCRIPT;
             $jsp   = "o2=\"e:".$o2ctrl_obj->id_esecuzione.
                          ",c:'".$o2ctrl_obj->nome.
                          "',std:!1,sorted:".($o2ctrl_obj->sorted ? "!0" : "!1").
-                         ",aL:".($o2ctrl_obj->act_level).
-                         ",cT:'tree',pT:'html',fret:!1\"\n";
+                         ",aL:".($o2ctrl_obj->act_level).",cT:'tree',pT:'html'\"\n";
             // _____________________________________ Focus has been set by last action ___
             if ($_REQUEST['jxtvlastctrl'] == $o2ctrl_obj->nome) {
                 // ________________________________ Override standard focus management ___
@@ -4326,7 +4352,7 @@ JANOX_PAGE_SCRIPT;
         if ($o2ctrl_obj->scripting) {
             $app    = $_SESSION['o2_app'];
             $jsp    = "o2=\"e:".$o2ctrl_obj->id_esecuzione.
-                         ",c:'".$o2ctrl_obj->nome."',cT:'imglist',pT:'html',fret:!1\"\n";
+                         ",c:'".$o2ctrl_obj->nome."',cT:'imglist',std:!1,pT:'html'\"\n";
             $style = " style=\"width:100%;height:100%\"";
             $focus = "";
             $act   = "";
@@ -4344,13 +4370,14 @@ JANOX_PAGE_SCRIPT;
             return "<div ".$act.$jsp.$style.">".$o2ctrl_obj->get_code()."</div>".$focus;
             }
         else {
+            $jsp = $o2ctrl_obj->js_props('std:!0');
             print '<div'.($o2ctrl_obj->active_by_tab ?
                           ' id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
                        ' class="'.$o2ctrl_obj->css.
                       '" style="width:'.$o2ctrl_obj->larghezza.
                             'px;height:'.$o2ctrl_obj->altezza.'px;'.
-                         ($o2ctrl_obj->visibile ? '' : 'display:none;').
-                  '">'.$o2ctrl_obj->get_code().'</div>';
+                         ($o2ctrl_obj->visibile ? '' : 'display:none;').'" '.$jsp.'>'.
+                  $o2ctrl_obj->get_code().'</div>';
             }
 
         }

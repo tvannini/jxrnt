@@ -6454,10 +6454,10 @@ o2jse.tv.a = function(TreeObj, node) {
         o2jse.infoForm['o2lastform'].value = o2Info.f;
         o2jse.infoForm['o2lastctrl'].value = o2Info.c;
         var stdCtrl                        = o2jse.createInput(o2jse.infoForm,
-                                                                false,
-                                                                false,
-                                                                node,
-                                                                o2Info.c + o2Info.e);
+                                                               false,
+                                                               false,
+                                                               node,
+                                                               o2Info.c + o2Info.e);
         stdCtrl.o2                         = o2Info;
         if (o2jse.cliMode) {
             jxjs.request(stdCtrl, node);
@@ -6882,29 +6882,49 @@ o2jse.il = {};
 /**
  * Manage click on item events in images lister control
  *
- * @param string ctrl   Images lister control name
- * @param string item   Item unique ID
+ * @param object imglistObj   Images lister control
+ * @param string item         Item unique ID
  */
-o2jse.il.c = function(ctrl, item) {
+o2jse.il.c = function(imglistObj, item) {
 
-    var listerCtrl = o2jse.createInput(o2jse.infoForm,
-                                       "hidden",
-                                       "",
-                                       ctrl,
-                                       "jximglist");
-    var itemCtrl   = o2jse.createInput(o2jse.infoForm,
-                                       "hidden",
-                                       "",
-                                       item,
-                                       "jximglistitem");
-    if (o2jse.cliMode) {
-        jxjs.request();
+    o2jse.ctrl.init(imglistObj);
+    var o2Info = imglistObj.o2;
+    // ______________________________________________________________ Standard control ___
+    if (o2Info.std) {
+        o2jse.infoForm['o2lastform'].value = o2Info.f;
+        o2jse.infoForm['o2lastctrl'].value = o2Info.c;
+        var stdCtrl                        = o2jse.createInput(o2jse.infoForm,
+                                                               false,
+                                                               false,
+                                                               item,
+                                                               o2Info.c + o2Info.e);
+        stdCtrl.o2                         = o2Info;
+        if (o2jse.cliMode) {
+            jxjs.request(stdCtrl, item);
+            o2jse.removeEl(stdCtrl);
+            }
         }
+    // ___________________________________________ Scripting defined control (old way) ___
     else {
+        var listerCtrl = o2jse.createInput(o2jse.infoForm,
+                                           "hidden",
+                                           "",
+                                           o2Info.c,
+                                           "jximglist");
+        var itemCtrl   = o2jse.createInput(o2jse.infoForm,
+                                           "hidden",
+                                           "",
+                                           item,
+                                           "jximglistitem");
+        if (o2jse.cliMode) {
+            jxjs.request();
+            o2jse.removeEl(listerCtrl);
+            o2jse.removeEl(itemCtrl);
+            }
+        }
+    if (!o2jse.cliMode) {
         o2jse.cmd.submit();
         }
-    o2jse.removeEl(listerCtrl);
-    o2jse.removeEl(itemCtrl);
 
     };
 
@@ -6912,30 +6932,56 @@ o2jse.il.c = function(ctrl, item) {
 /**
  * Manage click on delete button events in images lister control
  *
- * @param string ctrl   Images lister control name
- * @param string item   Item unique ID
+ * @param object imglistObj   Images lister control
+ * @param string item         Item unique ID
  */
-o2jse.il.d = function(ctrl, item) {
+o2jse.il.d = function(imglistObj, item) {
 
-    var listerCtrl = o2jse.createInput(o2jse.infoForm,
-                                       "hidden",
-                                       "",
-                                       ctrl,
-                                       "jximglist");
-    var itemCtrl   = o2jse.createInput(o2jse.infoForm,
-                                       "hidden",
-                                       "",
-                                       item,
-                                       "jximglistdelete");
-    if (o2jse.cliMode) {
-        jxjs.request();
+    o2jse.ctrl.init(imglistObj);
+    var o2Info = imglistObj.o2;
+    // ______________________________________________________________ Standard control ___
+    if (o2Info.std) {
+        o2jse.infoForm['o2lastform'].value = o2Info.f;
+        o2jse.infoForm['o2lastctrl'].value = o2Info.c;
+        var stdCtrl                        = o2jse.createInput(o2jse.infoForm,
+                                                               false,
+                                                               false,
+                                                               item,
+                                                               o2Info.c + o2Info.e);
+        var delCtrl                        = o2jse.createInput(o2jse.infoForm,
+                                                               false,
+                                                               false,
+                                                               '1',
+                                                               o2Info.c + o2Info.e +
+                                                               '_delete');
+        stdCtrl.o2                         = o2Info;
+        if (o2jse.cliMode) {
+            jxjs.request(stdCtrl, item);
+            o2jse.removeEl(stdCtrl);
+            o2jse.removeEl(delCtrl);
+            }
         }
+    // ___________________________________________ Scripting defined control (old way) ___
     else {
+        var listerCtrl = o2jse.createInput(o2jse.infoForm,
+                                           "hidden",
+                                           "",
+                                           ctrl,
+                                           "jximglist");
+        var itemCtrl   = o2jse.createInput(o2jse.infoForm,
+                                           "hidden",
+                                           "",
+                                           item,
+                                           "jximglistdelete");
+        if (o2jse.cliMode) {
+            jxjs.request();
+            o2jse.removeEl(listerCtrl);
+            o2jse.removeEl(itemCtrl);
+            }
+        }
+    if (!o2jse.cliMode) {
         o2jse.cmd.submit();
         }
-    o2jse.removeEl(listerCtrl);
-    o2jse.removeEl(itemCtrl);
-    return true;
 
     };
 
@@ -8376,7 +8422,31 @@ jxc = function(defObj) {
                     if (ctrlObj.className != defObj.s) {
                         ctrlObj.className = defObj.s;
                         }
-                    // _____________________________________________________ Set value ___
+                    // _________________________________________________ Set HTML code ___
+                    if (ctrlObj.innerHTML != defObj.code) {
+                        ctrlObj.innerHTML = defObj.code;
+                        }
+                    }
+                else {
+                    ctrlObj.style.display = "none";
+                    }
+                break;
+            // ========================================================= IMAGES-LISTER ===
+            case "imglist":
+                // ____________________________________________________ Set visibility ___
+                if (defObj.v) {
+                    ctrlObj.style.display = "";
+                    ctrlObj.style.width   = defObj.w + 'px';
+                    ctrlObj.style.height  = defObj.h + 'px';
+                    if (defObj.p.pT != 'tab') {
+                        ctrlObj.parentNode.style.left = defObj.x + 'px';
+                        ctrlObj.parentNode.style.top  = defObj.y + 'px';
+                        }
+                    // _______________________________________________ Set style class ___
+                    if (ctrlObj.className != defObj.s) {
+                        ctrlObj.className = defObj.s;
+                        }
+                    // _________________________________________________ Set HTML code ___
                     if (ctrlObj.innerHTML != defObj.code) {
                         ctrlObj.innerHTML = defObj.code;
                         }
@@ -8751,6 +8821,9 @@ o2jse.menu.addMenu = function(menuId, label) {
                 newMenu.outBox.style.top = (o2jse.cli.height - newMenu.outBox.offsetHeight
                                             - 10) + "px";
                 }
+            if (newMenu.inBox.className.indexOf('o2menuFloat') < 0) {
+                newMenu.inBox.className+= ' o2menuFloat';
+                }
             }
         // ________________________________________ Menu opened from right click point ___
         else {
@@ -8767,6 +8840,9 @@ o2jse.menu.addMenu = function(menuId, label) {
             else {
                 newMenu.outBox.style.top = (o2jse.cli.height - newMenu.outBox.offsetHeight
                                             - 10) + "px";
+                }
+            if (newMenu.inBox.className.indexOf('o2menuFloat') < 0) {
+                newMenu.inBox.className+= ' o2menuFloat';
                 }
             }
         // ____________________________________________ Vertical scroll for high menus ___

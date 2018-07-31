@@ -6795,6 +6795,7 @@ function o2file_ico($file_path, $large = false, $internal_use = false) {
                 $ico_file = "excel.png";
                 break;
             case "doc":
+            case "docx":
             case "odt":
                 $ico_file = "word.png";
                 break;
@@ -8036,6 +8037,9 @@ function o2imglist_get_code($name) {
 
 
 /**
+ * ATTENTION: Images-lister scripting definition and usage are DEPRECATED. Use a
+ *            Images-lister control from development interface (JXOB) instead.
+ *
  * Returns the ID of the selected item in images lister
  *
  * @package imglist

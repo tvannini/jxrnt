@@ -5,15 +5,15 @@
     overflow: auto;
     }
 
-.jximglist * {
-    font-size: 9px;
+.jximglist b {
+    font-size: 120%;
     }
 
 .jximglist_frame {
     position: relative;
     float: left;
     margin: 2px;
-    border: 1px solid #000000;
+    border: 1px solid #cccccc;
     text-align: center;
     padding: 2px;
     background-color: #ffffff;
@@ -21,6 +21,7 @@
     }
 
 .jximglist_text {
+    font-size: 90%;
     display: block;
     white-space: normal;
     }

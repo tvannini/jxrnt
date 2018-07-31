@@ -5241,6 +5241,8 @@ class o2_ctrl_imglist extends o2_ctrl {
     public $items_w    = false;   /* Items width (if FALSE width wides as needed)       */
     public $items_h    = false;   /* Items height (if FALSE height wides as needed)     */
     public $scripting  = false;   /* If control is defined in old scripting style       */
+    /*     _____ CSS CLASSES __________________________________________________________ */
+    public $css        = "jximglist"; /* Whole control space <DIV>                      */
 
 
     /**
@@ -5489,24 +5491,24 @@ class o2_ctrl_imglist extends o2_ctrl {
             $style.= "height:".$this->items_h."px;";
             }
         if ($this->azione_submit) {
-            $cc = ' onclick="o2jse.il.c(\''.$this->nome.'\',\'';
+            $cc = ' onclick="o2jse.il.c(this,\'';
             }
         if ($this->action_del) {
-            $cd = ' onclick="o2jse.il.d(\''.$this->nome.'\',\'';
+            $cd = ' onclick="o2jse.il.d(this,\'';
             $ce = '\');e=o2jse.event.std(event);e.stop()"';
             }
         foreach ($this->list as $key => $item) {
             $code.= '<div class="jximglist_frame" style="'.$style.'"'.
                     ($cc ? $cc.$key.'\');"' : "").
                     ($cd ?
-                     ' onmouseover="document.getElementById(\'del_btn_'.$key.
-                     '\').style.display=\'block\'"'.
-                     ' onmouseout="document.getElementById(\'del_btn_'.$key.
-                     '\').style.display=\'none\'"' : "").
+                     ' onmouseover="document.getElementById(\''.
+                       $this->nome.'_del_btn_'.$key.'\').style.display=\'block\'"'.
+                     ' onmouseout="document.getElementById(\''.
+                       $this->nome.'_del_btn_'.$key.'\').style.display=\'none\'"' : "").
                     '><img src="'.$item[0].
                     '"><div class="jximglist_text">'.$item[1].'</div>'.
                     ($cd ?
-                     '<div id="del_btn_'.$key.
+                     '<div id="'.$this->nome.'_del_btn_'.$key.
                      '" class="jximglist_del" style="display:none"'.$cd.$key.$ce.
                      '><img src="'.$del_img.'"></div>' : "").
                     '</div>';
