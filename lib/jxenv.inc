@@ -3684,6 +3684,8 @@ class o2_dbview extends o2_view {
         foreach ($this->formule as &$singola_formula) {
             $app->defining_check = null;
             $espressione_local   = false;
+            // _________ To be used inside expression: used for progress-bar record ID ___
+            $thisview            = $this;
             eval("\$espressione_local = ".$singola_formula->formula.";");
             if ($app->defining_check === $this->nome) {
                 $singola_formula->selector = true;
@@ -3691,6 +3693,7 @@ class o2_dbview extends o2_view {
             $app->defining_check                    = null;
             $this->corrente[$singola_formula->nome] = $espressione_local;
             }
+        unset ($thisview);
 
         }
 
@@ -4048,6 +4051,8 @@ class o2_dbview extends o2_view {
      * @param  boolean $backward
      * @param  boolean $no_custom_sort   Used by ->modifica_corrente & ->cancella_corrente
      * @param  boolean $hide_table       Used by ->inserisci/modifica/cancella_corrente
+     * @param  boolean $use_pkey         Use Primary Key instead on current index
+     * @param  boolean $for_record_id    Return key values as a record unique ID
      * @return string
      */
     function chiave_corrente($file,
@@ -4056,7 +4061,8 @@ class o2_dbview extends o2_view {
                              $backward       = false,
                              $no_custom_sort = false,
                              $hide_table     = false,
-                             $use_pkey       = false) {
+                             $use_pkey       = false,
+                             $for_record_id  = false) {
 
         $app              = $_SESSION['o2_app'];
         $condizione_local = array();
@@ -4170,6 +4176,10 @@ class o2_dbview extends o2_view {
                     $prev_segm_cond.= "(".$field_name."=".$valore_local.") AND ";
                     }
                 }
+            // ______________________________ Store values to compose record unique ID ___
+            elseif ($for_record_id) {
+                $text_local = trim($valore_local);
+                }
             // _______________________________________________ Manage blank ('') value ___
             elseif ($valore_local === "''") {
                 $text_local = "(RTRIM(".$field_name.
@@ -4189,6 +4199,9 @@ class o2_dbview extends o2_view {
                                   "O2ASPID='".$valore_local."' AND (".$ret_text_local.")";
                 }
             return $ret_text_local;
+            }
+        elseif ($for_record_id) {
+            return implode('|', $condizione_local);
             }
         else {
             if ($file->asp == 'C') {

@@ -873,6 +873,29 @@ class jxjs {
 
 
     /**
+     * Define progress-bar control in full AJAX WEB 2.0 context
+     *
+     * @param o2_ctrl_progress $o2ctrl_obj   Janox progress-bar object related to control
+     */
+    static function ctrl_progress($o2ctrl_obj) {
+
+        $val  = intval($o2ctrl_obj->valore);
+        $jsp  = $o2ctrl_obj->js_props('std:!0', true);
+        print jxjs::ctrl($o2ctrl_obj,
+                         "vl:".$val.
+                         ",a:".($o2ctrl_obj->modificabile ? '!0' : '!1').
+                         ",s:'".$o2ctrl_obj->css_out.($o2ctrl_obj->modificabile ?
+                                                      '' : '_dis').
+                        "',x:".$o2ctrl_obj->x.
+                         ',y:'.$o2ctrl_obj->y.
+                         ',w:'.$o2ctrl_obj->larghezza.
+                         ',h:'.$o2ctrl_obj->altezza,
+                         $jsp);
+
+        }
+
+
+    /**
      * Define document control in full AJAX WEB 2.0 context
      *
      * @param o2_ctrl_doc $o2ctrl_obj   Janox document control object related to control

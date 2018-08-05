@@ -4382,6 +4382,53 @@ JANOX_PAGE_SCRIPT;
 
         }
 
+
+    /**
+     * Return HTML code for a progress-bar interface
+     *
+     * @param o2_ctrl_progress $o2ctrl_obj   Related o2_ctrl_progress object
+     */
+    static function ctrl_progress($o2ctrl_obj) {
+
+        if ($o2ctrl_obj->scripting) {
+            return $o2ctrl_obj->get_code();
+            }
+        else {
+            $app  = $_SESSION['o2_app'];
+            $prg  = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
+            $form = $prg->form[$o2ctrl_obj->form];
+            if ($o2ctrl_obj->padre &&
+                $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl == 'tab') {
+
+                $view_name = $form->controlli[$o2ctrl_obj->padre]->task;
+                $view_obj  = $prg->contesto[$view_name];
+                $o2ctrl_obj->prepare_view($view_obj);
+
+                $id  = $o2ctrl_obj->nome.$view_obj->corrente['JXPBI'].
+                       $o2ctrl_obj->id_esecuzione;
+                $o2ctrl_obj->set_value($view_obj->corrente['JXPBV']);
+                $val = $o2ctrl_obj->valore;
+
+                }
+            else {
+                $id  = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
+                $val = intval($o2ctrl_obj->valore);
+                }
+            $act = ($o2ctrl_obj->modificabile && $val < 100 ?
+                    "<script> o2jse.progress.start(); </script>\n" : "");
+            $jsp = $o2ctrl_obj->js_props('std:!0');
+            print '<div id="'.$id.'" class="'.
+                  $o2ctrl_obj->css_out.($o2ctrl_obj->modificabile ? "" : "_dis").
+                  '" style="width:'.$o2ctrl_obj->larghezza.
+                        'px;height:'.$o2ctrl_obj->altezza.'px;'.
+                  ($o2ctrl_obj->visibile ? '' : 'display:none;').'" '.$jsp.
+                  '><div class="'.$o2ctrl_obj->css_bar.'" style="width:'.$val.
+                  '%">&nbsp;</div><div class="'.$o2ctrl_obj->css_txt.'">'.$val.
+                  "%</div></div>".$act;
+            }
+
+        }
+
     }
 
 ?>

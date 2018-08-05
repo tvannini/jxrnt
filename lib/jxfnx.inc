@@ -8066,6 +8066,9 @@ function o2imglist_get_selection($name) {
 // =============================== PROGRESS BAR CONTROL ==================================
 
 /**
+ * ATTENTION: Progress-bar scripting definition and usage are DEPRECATED. Use a
+ *            Progress-bar control from development interface (JXOB) instead.
+ *
  * Define a bar-control and returns its HTML code, to be displayed in a HTML-area control.
  * Function calling this method (usually a Janox expression) is used each time to update
  * value.
@@ -8094,6 +8097,9 @@ function o2progress_bar($bar_name,
 
 
 /**
+ * ATTENTION: Progress-bar scripting definition and usage are DEPRECATED. Use a
+ *            Progress-bar control from development interface (JXOB) instead.
+ *
  * Defines a bar-ctrl and returns its HTML code, to be displayed in a HTML-area control.
  * This method is primary intended to be used in a grid.
  * Control name must be unique: in a grid a unique column value can be used as name.

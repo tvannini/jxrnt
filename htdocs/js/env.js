@@ -8455,6 +8455,32 @@ jxc = function(defObj) {
                     ctrlObj.style.display = "none";
                     }
                 break;
+            // ========================================================== PROGRESS-BAR ===
+            case "progress":
+                // ____________________________________________________ Set visibility ___
+                if (defObj.v) {
+                    ctrlObj.style.display = "";
+                    ctrlObj.style.width   = defObj.w + 'px';
+                    ctrlObj.style.height  = defObj.h + 'px';
+                    if (defObj.p.pT != 'tab') {
+                        ctrlObj.parentNode.style.left = defObj.x + 'px';
+                        ctrlObj.parentNode.style.top  = defObj.y + 'px';
+                        }
+                    // _______________________________________________ Set style class ___
+                    if (ctrlObj.className != defObj.s) {
+                        ctrlObj.className = defObj.s;
+                        }
+                    // _____________________________________________________ Set value ___
+                    o2jse.progress.set(ctrlObj.id, defObj.vl);
+                    // ______________________________________________ Activate refresh ___
+                    if (defObj.a) {
+                        o2jse.progress.start();
+                        }
+                    }
+                else {
+                    ctrlObj.style.display = "none";
+                    }
+                break;
             // ============================================================= NAVIGATOR ===
             case "navigator":
                 // ________________________________________________________ Get object ___
