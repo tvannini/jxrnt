@@ -879,8 +879,8 @@ class jxjs {
      */
     static function ctrl_progress($o2ctrl_obj) {
 
-        $val  = intval($o2ctrl_obj->valore);
-        $jsp  = $o2ctrl_obj->js_props('std:!0', true);
+        $val = intval($o2ctrl_obj->valore);
+        $jsp = $o2ctrl_obj->js_props('std:!0', true);
         print jxjs::ctrl($o2ctrl_obj,
                          "vl:".$val.
                          ",a:".($o2ctrl_obj->modificabile ? '!0' : '!1').

@@ -5608,8 +5608,8 @@ class o2_ctrl_progress extends o2_ctrl {
     public $id_field        = "JXPBI"; /* Field containing bar-ctrl ID when view-based  */
     public $progress_field  = "JXPBV"; /* Field containing bar-ctrl val when view-based */
     public $caller          = "";      /* Caller-function for refreshing by expression  */
-    public $completed       = false;   /* Completion flag                               */
-    public $started         = false;   /* Start flag                                    */
+    public $completed       = array(); /* Completion flag                               */
+    public $started         = array(); /* Start flag                                    */
     public $complete_action = "";      /* Action to be executed on complete             */
     public $start_action    = "";      /* Action to be executed on start (from 0 to >0) */
     public $scripting       = false;   /* If control is defined in old scripting style  */
@@ -5643,17 +5643,19 @@ class o2_ctrl_progress extends o2_ctrl {
      * Sets value normalized to 0-100
      *
      * @param integer $value
+     * @param string  $ctrl_id
      */
-    function set_value($value) {
+    function set_value($value, $ctrl_id) {
 
         $value        = min(100, max(0, intval($value)));
         $this->valore = $value;
         if ($value == 0) {
-            $this->started = false;
+            $this->started[$ctrl_id] = false;
             }
         if ($value < 100) {
-            $this->completed = false;
+            $this->completed[$ctrl_id] = false;
             }
+        return $value;
 
         }
 
@@ -5673,15 +5675,15 @@ class o2_ctrl_progress extends o2_ctrl {
         $view = $prg->contesto[$this->task];
         foreach ($view->recordset as $rec) {
             if ($this->nome == "PB".$rec[$this->id_field]) {
-                $this->set_value($rec[$this->progress_field]);
+                $this->set_value($rec[$this->progress_field], '');
                 break;
                 }
             }
         if ($this->valore > 0) {
-            $this->started = true;
+            $this->started[''] = true;
             }
         if ($this->valore == 100) {
-            $this->completed = true;
+            $this->completed[''] = true;
             }
 
         }
@@ -5728,7 +5730,6 @@ class o2_ctrl_progress extends o2_ctrl {
             $view->calcola('JXPBV', $this->caller.'()', null, null, null, null);
             $view->record_primo();
             }
-        $this->task = $view->nome;
 
         }
 
@@ -5773,17 +5774,17 @@ class o2_ctrl_progress extends o2_ctrl {
                     if (!isset($list[$ctrl_obj->task])) {
                         $list[$ctrl_obj->task] = array();
                         }
-                    $list[$ctrl_obj->task]['JXPBC'] = $ctrl_obj;
-                    $list[$ctrl_obj->task]['JXPBI'] = $ctrl_obj->id_field;
-                    $list[$ctrl_obj->task]['JXPBV'] = $ctrl_obj->progress_field;
+                    $list[$ctrl_obj->task]['JXPBC'][] = $ctrl_obj;
+                    $list[$ctrl_obj->task]['JXPBI']   = $ctrl_obj->id_field;
+                    $list[$ctrl_obj->task]['JXPBV']   = $ctrl_obj->progress_field;
                     }
                 // ____________________________ Bar from view (standard Janox control) ___
                 elseif ($form->controlli[$ctrl_obj->padre]->tipo_ctrl == 'tab') {
                     $view_name = $form->controlli[$ctrl_obj->padre]->task;
+                    $view_obj  = $prg->contesto[$view_name];
                     if (!isset($list[$view_name])) {
                         $list[$view_name] = array();
                         }
-                    $view_obj = $prg->contesto[$view_name];
                     // __________________ Add formulas to view for ID and VALUE fields ___
                     $ctrl_obj->prepare_view($view_obj);
                     $list[$view_name]['JXPBC'] = $ctrl_obj;
@@ -5802,18 +5803,18 @@ class o2_ctrl_progress extends o2_ctrl {
                         }
                     // ________________________________________ Standard Janox control ___
                     else {
-                        // __________ ->caller contains xpression name to be evaluated ___
-                        $ctrl_obj->set_value(($ctrl_obj->caller)());
+                        // _________ ->caller contains expression name to be evaluated ___
+                        $ctrl_obj->set_value(($ctrl_obj->caller)(), '');
                         }
                     $code.= "o2jse.progress.set('".
                             $ctrl_name.$app->progressivo_istanze."',".
                             $ctrl_obj->valore.");\n";
                     // ______________________________________________ Run start action ___
-                    if ($ctrl_obj->valore > 0 && !$ctrl_obj->started) {
-                        $ctrl_obj->started = true;
+                    if ($ctrl_obj->valore > 0 && !$ctrl_obj->started['']) {
+                        $ctrl_obj->started[''] = true;
                         if ($ctrl_obj->start_action) {
                             $act    = $ctrl_obj->start_action;
-                            $act_id = substr($ctrl_obj->nome, 2);
+                            $act_id = $ctrl_name;
                             }
                         }
                     // _______________________ Stop refreshing when all bars completed ___
@@ -5821,8 +5822,8 @@ class o2_ctrl_progress extends o2_ctrl {
                         $stop = false;
                         }
                     // ___________________________________________ Run complete action ___
-                    elseif (!$ctrl_obj->completed) {
-                        $ctrl_obj->completed = true;
+                    elseif (!$ctrl_obj->completed['']) {
+                        $ctrl_obj->completed[''] = true;
                         if ($ctrl_obj->complete_action) {
                             $act    = $ctrl_obj->complete_action;
                             $act_id = substr($ctrl_obj->nome, 2);
@@ -5841,34 +5842,43 @@ class o2_ctrl_progress extends o2_ctrl {
                 $view->record_primo();
                 // _____________________________________ Loop on view related controls ___
                 foreach ($view->recordset as $rec) {
-                    $ctrl = $view_ctrls['JXPBC'];
-                    if ($ctrl->scripting) {
-                        $ctrl_name = "PB".$rec[$f_id];
-                        }
-                    else {
-                        $ctrl_name = $ctrl->nome.$rec[$f_id];
-                        }
-                    $ctrl->set_value($rec[$f_val]);
-                    $code.= "o2jse.progress.set('".$ctrl_name.$ctrl->id_esecuzione.
-                                              "',".$ctrl->valore.");\n";
-                    // __________________________________________ Run start action ___
-                    if ($ctrl->valore > 0 && !$ctrl->started) {
-                        $ctrl->started = true;
-                        if ($ctrl->start_action) {
-                            $act    = $ctrl->start_action;
-                            $act_id = substr($ctrl->nome, 2);
+                    // __________________________ Scripting defined controls (old way) ___
+                    if (is_array($view_ctrls['JXPBC'])) {
+                        foreach ($view_ctrls['JXPBC'] as $old_ctrl) {
+                            $ctrl_name = "PB".$rec[$f_id];
+                            if ($old_ctrl->nome == $ctrl_name) {
+                                $ctrl   = $old_ctrl;
+                                $rec_id = '';
+                                break;
+                                }
                             }
                         }
-                    // ___________________ Stop refreshing when all bars completed ___
+                    else {
+                        $ctrl      = $view_ctrls['JXPBC'];
+                        $ctrl_name = $ctrl->nome.$rec[$f_id];
+                        $rec_id    = $rec[$f_id];
+                        }
+                    $ctrl->set_value($rec[$f_val], $rec_id);
+                    $code.= "o2jse.progress.set('".$ctrl_name.$ctrl->id_esecuzione.
+                                              "',".$ctrl->valore.");\n";
+                    // ______________________________________________ Run start action ___
+                    if ($ctrl->valore > 0 && !$ctrl->started[$rec_id]) {
+                        $ctrl->started[$rec_id] = true;
+                        if ($ctrl->start_action) {
+                            $act    = $ctrl->start_action;
+                            $act_id = $rec[$f_id];
+                            }
+                        }
+                    // _______________________ Stop refreshing when all bars completed ___
                     if ($ctrl->valore < 100) {
                         $stop = false;
                         }
-                    // _______________________________________ Run complete action ___
-                    elseif (!$ctrl->completed) {
-                        $ctrl->completed = true;
+                    // ___________________________________________ Run complete action ___
+                    elseif (!$ctrl->completed[$rec_id]) {
+                        $ctrl->completed[$rec_id] = true;
                         if ($ctrl->complete_action) {
                             $act    = $ctrl->complete_action;
-                            $act_id = substr($ctrl->nome, 2);
+                            $act_id = $rec[$f_id];
                             }
                         }
 
@@ -5933,7 +5943,7 @@ class o2_ctrl_progress extends o2_ctrl {
             $bar->start_action    = $start_action;
             }
         $bar->modificabile($active);
-        $bar->set_value($value);
+        $bar->set_value($value, '');
         return $bar->get_code();
 
         }

@@ -4397,22 +4397,21 @@ JANOX_PAGE_SCRIPT;
             $app  = $_SESSION['o2_app'];
             $prg  = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
             $form = $prg->form[$o2ctrl_obj->form];
+            // _________________________ Progress-bar control in table: linked to view ___
             if ($o2ctrl_obj->padre &&
                 $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl == 'tab') {
-
                 $view_name = $form->controlli[$o2ctrl_obj->padre]->task;
                 $view_obj  = $prg->contesto[$view_name];
                 $o2ctrl_obj->prepare_view($view_obj);
-
                 $id  = $o2ctrl_obj->nome.$view_obj->corrente['JXPBI'].
                        $o2ctrl_obj->id_esecuzione;
-                $o2ctrl_obj->set_value($view_obj->corrente['JXPBV']);
-                $val = $o2ctrl_obj->valore;
-
+                $val = $o2ctrl_obj->set_value($view_obj->corrente['JXPBV'],
+                                              $view_obj->corrente['JXPBI']);
                 }
+            // ___________________________________________ Single progress-bar control ___
             else {
                 $id  = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
-                $val = intval($o2ctrl_obj->valore);
+                $val = $o2ctrl_obj->valore;
                 }
             $act = ($o2ctrl_obj->modificabile && $val < 100 ?
                     "<script> o2jse.progress.start(); </script>\n" : "");

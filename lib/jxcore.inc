@@ -492,7 +492,7 @@ class o2_exception extends Exception {
                        "<b>Execution terminated</b></center></td>\n</tr>\n").
                       "</table></div>\n";
         // ___________________________________________ Unrem to add full PHP backtrace ___
-//        $error_text.= "<pre>".print_r(debug_backtrace(), 1)."</pre>";
+        $error_text.= "<pre>".print_r(debug_backtrace(), 1)."</pre>";
         return $error_text;
 
         }

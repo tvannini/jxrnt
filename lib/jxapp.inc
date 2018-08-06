@@ -4853,7 +4853,7 @@ class o2_run_job {
             $bar->start_action    = $start_action;
             }
         $bar->modificabile($this->progress == 100 || $run || $queued || $wait);
-        $bar->set_value($this->progress);
+        $bar->set_value($this->progress, '');
         return $bar->get_code();
 
         }
