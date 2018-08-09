@@ -19,293 +19,294 @@ function jxinspector§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("tab_name", "o2sys_long_str");
 		}
 function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
-	$form_jxinspector_1->x(350);
+	$form_jxinspector_1->x(400);
 	$form_jxinspector_1->y(50);
-	$form_jxinspector_1->larghezza(690);
-	$form_jxinspector_1->altezza(578);
+	$form_jxinspector_1->larghezza(800);
+	$form_jxinspector_1->altezza(600);
+	$form_jxinspector_1->align_o("Center");
 	$form_jxinspector_1->titolo("Inspector");
 	$form_jxinspector_1->css_doc("sys_inspector_doc");
-	$form_jxinspector_1->align_o("Center");
-	$ctrl_o2label50 = &$form_jxinspector_1->ctrldef("o2label50", "label", "", "", "");
-		$ctrl_o2label50->x(20);
-		$ctrl_o2label50->y(16);
-		$ctrl_o2label50->larghezza(650);
-		$ctrl_o2label50->altezza(28);
-		$ctrl_o2label50->label("");
-		$ctrl_o2label50->css(jxinspector_exp_14());
-	$ctrl_o2htmlarea2 = &$form_jxinspector_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(270);
-		$ctrl_o2htmlarea2->y(50);
-		$ctrl_o2htmlarea2->larghezza(400);
-		$ctrl_o2htmlarea2->altezza(470);
-		$ctrl_o2htmlarea2->html(jxinspector_exp_3());
-		$ctrl_o2htmlarea2->css(jxinspector_exp_1());
-	$ctrl_o2image3 = &$form_jxinspector_1->ctrldef("o2image3", "img", "", "", "");
-		$ctrl_o2image3->x(636);
-		$ctrl_o2image3->y(18);
-		$ctrl_o2image3->larghezza(24);
-		$ctrl_o2image3->altezza(24);
-		$ctrl_o2image3->azione("unfold_all");
-		$ctrl_o2image3->label("Collapse all");
-		$ctrl_o2image3->css(jxinspector_exp_15());
-		$ctrl_o2image3->imgexp(jxinspector_exp_17());
-	$ctrl_o2image4 = &$form_jxinspector_1->ctrldef("o2image4", "img", "", "", "");
-		$ctrl_o2image4->x(270);
-		$ctrl_o2image4->y(18);
-		$ctrl_o2image4->larghezza(24);
-		$ctrl_o2image4->altezza(24);
-		$ctrl_o2image4->azione("export");
-		$ctrl_o2image4->label("Export result data");
-		$ctrl_o2image4->css(jxinspector_exp_15());
-		$ctrl_o2image4->imgexp(jxinspector_exp_21());
-	$ctrl_o2image2 = &$form_jxinspector_1->ctrldef("o2image2", "img", "", "", "");
-		$ctrl_o2image2->x(612);
-		$ctrl_o2image2->y(18);
-		$ctrl_o2image2->larghezza(24);
-		$ctrl_o2image2->altezza(24);
-		$ctrl_o2image2->azione("fold_all");
-		$ctrl_o2image2->label("Expand all");
-		$ctrl_o2image2->css(jxinspector_exp_15());
-		$ctrl_o2image2->imgexp(jxinspector_exp_16());
-	$ctrl_o2multipage2 = &$form_jxinspector_1->ctrldef("o2multipage2", "multipage", "", "", "");
-		$ctrl_o2multipage2->x(20);
-		$ctrl_o2multipage2->y(50);
-		$ctrl_o2multipage2->larghezza(240);
-		$ctrl_o2multipage2->altezza(470);
-		$ctrl_o2multipage2->label(array("Search"));
-		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2button3 = &$form_jxinspector_1->ctrldef("o2button3", "button", "", "", "");
-		$ctrl_o2button3->x(330);
-		$ctrl_o2button3->y(18);
-		$ctrl_o2button3->larghezza(40);
-		$ctrl_o2button3->altezza(24);
-		$ctrl_o2button3->azione("export_json");
-		$ctrl_o2button3->label("JSON");
-	$ctrl_o2htmlarea3 = &$form_jxinspector_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea3->x(20);
-		$ctrl_o2htmlarea3->y(40);
-		$ctrl_o2htmlarea3->larghezza(200);
-		$ctrl_o2htmlarea3->altezza(200);
-		$ctrl_o2htmlarea3->info_padre(array(0));
-		$ctrl_o2htmlarea3->html(jxinspector_exp_26());
-		$ctrl_o2htmlarea3->css(jxinspector_exp_1());
-	$ctrl_o2label10 = &$form_jxinspector_1->ctrldef("o2label10", "label", "o2multipage2", "", "");
+	$ctrl_o2label10 = &$form_jxinspector_1->ctrldef("o2label10", "label", "", "", "");
 		$ctrl_o2label10->x(20);
-		$ctrl_o2label10->y(310);
+		$ctrl_o2label10->y(400);
 		$ctrl_o2label10->larghezza(60);
 		$ctrl_o2label10->altezza(20);
 		$ctrl_o2label10->visibile(jxinspector_exp_36());
-		$ctrl_o2label10->info_padre(array(0));
 		$ctrl_o2label10->label("View:");
-	$ctrl_o2label9 = &$form_jxinspector_1->ctrldef("o2label9", "label", "o2multipage2", "", "");
+	$ctrl_o2label9 = &$form_jxinspector_1->ctrldef("o2label9", "label", "", "", "");
 		$ctrl_o2label9->x(20);
-		$ctrl_o2label9->y(310);
+		$ctrl_o2label9->y(400);
 		$ctrl_o2label9->larghezza(80);
 		$ctrl_o2label9->altezza(20);
 		$ctrl_o2label9->visibile(jxinspector_exp_34());
-		$ctrl_o2label9->info_padre(array(0));
 		$ctrl_o2label9->label("Parameter:");
-	$ctrl_o2button2 = &$form_jxinspector_1->ctrldef("o2button2", "button", "o2multipage2", "", "");
-		$ctrl_o2button2->x(130);
-		$ctrl_o2button2->y(420);
-		$ctrl_o2button2->larghezza(90);
-		$ctrl_o2button2->altezza(30);
-		$ctrl_o2button2->azione("find");
-		$ctrl_o2button2->info_padre(array(0));
-		$ctrl_o2button2->label("&Find");
-	$ctrl_o2label13 = &$form_jxinspector_1->ctrldef("o2label13", "label", "o2multipage2", "", "");
+	$ctrl_o2label13 = &$form_jxinspector_1->ctrldef("o2label13", "label", "", "", "");
 		$ctrl_o2label13->x(20);
-		$ctrl_o2label13->y(260);
+		$ctrl_o2label13->y(350);
 		$ctrl_o2label13->larghezza(150);
 		$ctrl_o2label13->altezza(20);
 		$ctrl_o2label13->visibile(jxinspector_exp_41());
-		$ctrl_o2label13->info_padre(array(0));
 		$ctrl_o2label13->label("Search string:");
-	$ctrl_o2label4 = &$form_jxinspector_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
+	$ctrl_o2label4 = &$form_jxinspector_1->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(20);
-		$ctrl_o2label4->y(310);
+		$ctrl_o2label4->y(400);
 		$ctrl_o2label4->larghezza(60);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->visibile(jxinspector_exp_9());
-		$ctrl_o2label4->info_padre(array(0));
 		$ctrl_o2label4->label("Index:");
-	$ctrl_o2label6 = &$form_jxinspector_1->ctrldef("o2label6", "label", "o2multipage2", "", "");
+	$ctrl_o2label6 = &$form_jxinspector_1->ctrldef("o2label6", "label", "", "", "");
 		$ctrl_o2label6->x(20);
-		$ctrl_o2label6->y(260);
+		$ctrl_o2label6->y(350);
 		$ctrl_o2label6->larghezza(150);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->visibile(jxinspector_exp_4());
-		$ctrl_o2label6->info_padre(array(0));
 		$ctrl_o2label6->label("Search string:");
-	$ctrl_o2label2 = &$form_jxinspector_1->ctrldef("o2label2", "label", "o2multipage2", "", "");
+	$ctrl_o2label2 = &$form_jxinspector_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(20);
-		$ctrl_o2label2->y(260);
+		$ctrl_o2label2->y(350);
 		$ctrl_o2label2->larghezza(60);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->visibile(jxinspector_exp_22());
-		$ctrl_o2label2->info_padre(array(0));
 		$ctrl_o2label2->label("Table:");
-	$ctrl_o2label8 = &$form_jxinspector_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
+	$ctrl_o2label8 = &$form_jxinspector_1->ctrldef("o2label8", "label", "", "", "");
 		$ctrl_o2label8->x(20);
-		$ctrl_o2label8->y(310);
+		$ctrl_o2label8->y(400);
 		$ctrl_o2label8->larghezza(80);
 		$ctrl_o2label8->altezza(20);
 		$ctrl_o2label8->visibile(jxinspector_exp_31());
-		$ctrl_o2label8->info_padre(array(0));
 		$ctrl_o2label8->label("Expression:");
-	$ctrl_o2label7 = &$form_jxinspector_1->ctrldef("o2label7", "label", "o2multipage2", "", "");
+	$ctrl_o2label7 = &$form_jxinspector_1->ctrldef("o2label7", "label", "", "", "");
 		$ctrl_o2label7->x(20);
-		$ctrl_o2label7->y(260);
+		$ctrl_o2label7->y(350);
 		$ctrl_o2label7->larghezza(60);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->visibile(jxinspector_exp_28());
-		$ctrl_o2label7->info_padre(array(0));
 		$ctrl_o2label7->label("Data model:");
-	$ctrl_o2label3 = &$form_jxinspector_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
+	$ctrl_o2label3 = &$form_jxinspector_1->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(20);
-		$ctrl_o2label3->y(310);
+		$ctrl_o2label3->y(400);
 		$ctrl_o2label3->larghezza(60);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->visibile(jxinspector_exp_8());
-		$ctrl_o2label3->info_padre(array(0));
 		$ctrl_o2label3->label("Field:");
-	$ctrl_o2label5 = &$form_jxinspector_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
+	$ctrl_o2label5 = &$form_jxinspector_1->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(20);
-		$ctrl_o2label5->y(260);
+		$ctrl_o2label5->y(350);
 		$ctrl_o2label5->larghezza(60);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->visibile(jxinspector_exp_33());
-		$ctrl_o2label5->info_padre(array(0));
 		$ctrl_o2label5->label("Program:");
-	$ctrl_o2label11 = &$form_jxinspector_1->ctrldef("o2label11", "label", "o2multipage2", "", "");
+	$ctrl_o2label11 = &$form_jxinspector_1->ctrldef("o2label11", "label", "", "", "");
 		$ctrl_o2label11->x(20);
-		$ctrl_o2label11->y(360);
+		$ctrl_o2label11->y(450);
 		$ctrl_o2label11->larghezza(60);
 		$ctrl_o2label11->altezza(20);
 		$ctrl_o2label11->visibile(jxinspector_exp_36());
-		$ctrl_o2label11->info_padre(array(0));
 		$ctrl_o2label11->label("Field:");
-	$ctrl_o2label12 = &$form_jxinspector_1->ctrldef("o2label12", "label", "o2multipage2", "", "");
+	$ctrl_o2label12 = &$form_jxinspector_1->ctrldef("o2label12", "label", "", "", "");
 		$ctrl_o2label12->x(20);
-		$ctrl_o2label12->y(310);
+		$ctrl_o2label12->y(400);
 		$ctrl_o2label12->larghezza(60);
 		$ctrl_o2label12->altezza(20);
 		$ctrl_o2label12->visibile(jxinspector_exp_38());
-		$ctrl_o2label12->info_padre(array(0));
 		$ctrl_o2label12->label("Action:");
-	$ctrl_o2ListBox3 = &$form_jxinspector_1->ctrldef("o2ListBox3", "listcombo", "o2multipage2", "prg§_§var", "tab_name");
+	$ctrl_o2label14 = &$form_jxinspector_1->ctrldef("o2label14", "label", "", "", "");
+		$ctrl_o2label14->x(20);
+		$ctrl_o2label14->y(50);
+		$ctrl_o2label14->larghezza(190);
+		$ctrl_o2label14->altezza(20);
+		$ctrl_o2label14->label("Search for application element:");
+	$ctrl_o2tree2 = &$form_jxinspector_1->ctrldef("o2tree2", "tree", "", "prg§_§var", "element_type");
+		$ctrl_o2tree2->x(20);
+		$ctrl_o2tree2->y(70);
+		$ctrl_o2tree2->larghezza(200);
+		$ctrl_o2tree2->altezza(260);
+		$ctrl_o2tree2->expand("V");
+		$ctrl_o2tree2->azione("search_tree_sele");
+		$ctrl_o2tree2->activation(1);
+		$ctrl_o2tree2->nodes(jxinspector_exp_25());
+	$ctrl_o2htmlarea2 = &$form_jxinspector_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(240);
+		$ctrl_o2htmlarea2->y(40);
+		$ctrl_o2htmlarea2->larghezza(560);
+		$ctrl_o2htmlarea2->altezza(530);
+		$ctrl_o2htmlarea2->expand("B");
+		$ctrl_o2htmlarea2->html(jxinspector_exp_3());
+		$ctrl_o2htmlarea2->css(jxinspector_exp_1());
+	$ctrl_o2multipage3 = &$form_jxinspector_1->ctrldef("o2multipage3", "multipage", "", "", "");
+		$ctrl_o2multipage3->x(0);
+		$ctrl_o2multipage3->y(0);
+		$ctrl_o2multipage3->larghezza(800);
+		$ctrl_o2multipage3->altezza(40);
+		$ctrl_o2multipage3->expand("H");
+		$ctrl_o2multipage3->label(array("Page1"));
+		$ctrl_o2multipage3->css_space_out(jxinspector_exp_45());
+		$ctrl_o2multipage3->css_space_in(jxinspector_exp_44());
+		$ctrl_o2multipage3->css_label_on(jxinspector_exp_43());
+		$ctrl_o2multipage3->css_label_off(jxinspector_exp_43());
+		$ctrl_o2multipage3->buttons("T");
+	$ctrl_o2button2 = &$form_jxinspector_1->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(130);
+		$ctrl_o2button2->y(530);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->modificabile(jxinspector_exp_46());
+		$ctrl_o2button2->azione("find");
+		$ctrl_o2button2->label("&Find");
+	$ctrl_o2ListBox3 = &$form_jxinspector_1->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "tab_name");
 		$ctrl_o2ListBox3->x(20);
-		$ctrl_o2ListBox3->y(280);
+		$ctrl_o2ListBox3->y(370);
 		$ctrl_o2ListBox3->larghezza(200);
 		$ctrl_o2ListBox3->altezza(20);
 		$ctrl_o2ListBox3->visibile(jxinspector_exp_22());
 		$ctrl_o2ListBox3->azione("change_table");
 		$ctrl_o2ListBox3->on_change(jxinspector_exp_5());
-		$ctrl_o2ListBox3->info_padre(array(0));
 		$ctrl_o2ListBox3->valori(jxinspector_exp_6());
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2ListBox4 = &$form_jxinspector_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "tab_field_name");
+	$ctrl_o2ListBox4 = &$form_jxinspector_1->ctrldef("o2ListBox4", "listcombo", "", "prg§_§var", "tab_field_name");
 		$ctrl_o2ListBox4->x(20);
-		$ctrl_o2ListBox4->y(330);
+		$ctrl_o2ListBox4->y(420);
 		$ctrl_o2ListBox4->larghezza(200);
 		$ctrl_o2ListBox4->altezza(20);
 		$ctrl_o2ListBox4->visibile(jxinspector_exp_8());
 		$ctrl_o2ListBox4->on_change(jxinspector_exp_5());
-		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(jxinspector_exp_7());
 		$ctrl_o2ListBox4->righe(1);
-	$ctrl_o2ListBox5 = &$form_jxinspector_1->ctrldef("o2ListBox5", "listcombo", "o2multipage2", "prg§_§var", "tab_key_name");
+	$ctrl_o2ListBox5 = &$form_jxinspector_1->ctrldef("o2ListBox5", "listcombo", "", "prg§_§var", "tab_key_name");
 		$ctrl_o2ListBox5->x(20);
-		$ctrl_o2ListBox5->y(330);
+		$ctrl_o2ListBox5->y(420);
 		$ctrl_o2ListBox5->larghezza(200);
 		$ctrl_o2ListBox5->altezza(20);
 		$ctrl_o2ListBox5->visibile(jxinspector_exp_9());
-		$ctrl_o2ListBox5->info_padre(array(0));
 		$ctrl_o2ListBox5->valori(jxinspector_exp_10());
 		$ctrl_o2ListBox5->righe(1);
-	$ctrl_o2ListBox6 = &$form_jxinspector_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "program");
+	$ctrl_o2ListBox6 = &$form_jxinspector_1->ctrldef("o2ListBox6", "listcombo", "", "prg§_§var", "program");
 		$ctrl_o2ListBox6->x(20);
-		$ctrl_o2ListBox6->y(280);
+		$ctrl_o2ListBox6->y(370);
 		$ctrl_o2ListBox6->larghezza(200);
 		$ctrl_o2ListBox6->altezza(20);
 		$ctrl_o2ListBox6->visibile(jxinspector_exp_33());
 		$ctrl_o2ListBox6->on_change(jxinspector_exp_5());
-		$ctrl_o2ListBox6->info_padre(array(0));
 		$ctrl_o2ListBox6->valori(jxinspector_exp_24());
 		$ctrl_o2ListBox6->righe(1);
-	$ctrl_o2edit2 = &$form_jxinspector_1->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "string");
+	$ctrl_o2edit2 = &$form_jxinspector_1->ctrldef("o2edit2", "edit", "", "prg§_§var", "string");
 		$ctrl_o2edit2->x(20);
-		$ctrl_o2edit2->y(280);
+		$ctrl_o2edit2->y(370);
 		$ctrl_o2edit2->larghezza(200);
 		$ctrl_o2edit2->altezza(20);
 		$ctrl_o2edit2->visibile(jxinspector_exp_4());
-		$ctrl_o2edit2->info_padre(array(0));
-	$ctrl_o2ListBox2 = &$form_jxinspector_1->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "data_model");
+	$ctrl_o2ListBox2 = &$form_jxinspector_1->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "data_model");
 		$ctrl_o2ListBox2->x(20);
-		$ctrl_o2ListBox2->y(280);
+		$ctrl_o2ListBox2->y(370);
 		$ctrl_o2ListBox2->larghezza(200);
 		$ctrl_o2ListBox2->altezza(20);
 		$ctrl_o2ListBox2->visibile(jxinspector_exp_28());
-		$ctrl_o2ListBox2->info_padre(array(0));
 		$ctrl_o2ListBox2->valori(jxinspector_exp_29());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2ListBox7 = &$form_jxinspector_1->ctrldef("o2ListBox7", "listcombo", "o2multipage2", "prg§_§var", "exp_id");
+	$ctrl_o2ListBox7 = &$form_jxinspector_1->ctrldef("o2ListBox7", "listcombo", "", "prg§_§var", "exp_id");
 		$ctrl_o2ListBox7->x(20);
-		$ctrl_o2ListBox7->y(330);
+		$ctrl_o2ListBox7->y(420);
 		$ctrl_o2ListBox7->larghezza(200);
 		$ctrl_o2ListBox7->altezza(20);
 		$ctrl_o2ListBox7->visibile(jxinspector_exp_31());
-		$ctrl_o2ListBox7->info_padre(array(0));
 		$ctrl_o2ListBox7->valori(jxinspector_exp_32());
 		$ctrl_o2ListBox7->righe(1);
-	$ctrl_o2ListBox8 = &$form_jxinspector_1->ctrldef("o2ListBox8", "listcombo", "o2multipage2", "prg§_§var", "par_id");
+	$ctrl_o2ListBox8 = &$form_jxinspector_1->ctrldef("o2ListBox8", "listcombo", "", "prg§_§var", "par_id");
 		$ctrl_o2ListBox8->x(20);
-		$ctrl_o2ListBox8->y(330);
+		$ctrl_o2ListBox8->y(420);
 		$ctrl_o2ListBox8->larghezza(200);
 		$ctrl_o2ListBox8->altezza(20);
 		$ctrl_o2ListBox8->visibile(jxinspector_exp_34());
-		$ctrl_o2ListBox8->info_padre(array(0));
 		$ctrl_o2ListBox8->valori(jxinspector_exp_35());
 		$ctrl_o2ListBox8->righe(1);
-	$ctrl_o2ListBox9 = &$form_jxinspector_1->ctrldef("o2ListBox9", "listcombo", "o2multipage2", "prg§_§var", "prg_view");
+	$ctrl_o2ListBox9 = &$form_jxinspector_1->ctrldef("o2ListBox9", "listcombo", "", "prg§_§var", "prg_view");
 		$ctrl_o2ListBox9->x(20);
-		$ctrl_o2ListBox9->y(330);
+		$ctrl_o2ListBox9->y(420);
 		$ctrl_o2ListBox9->larghezza(200);
 		$ctrl_o2ListBox9->altezza(20);
 		$ctrl_o2ListBox9->visibile(jxinspector_exp_36());
 		$ctrl_o2ListBox9->on_change(jxinspector_exp_5());
-		$ctrl_o2ListBox9->info_padre(array(0));
 		$ctrl_o2ListBox9->valori(jxinspector_exp_37());
 		$ctrl_o2ListBox9->righe(1);
-	$ctrl_o2ListBox10 = &$form_jxinspector_1->ctrldef("o2ListBox10", "listcombo", "o2multipage2", "prg§_§var", "prg_field");
+	$ctrl_o2ListBox10 = &$form_jxinspector_1->ctrldef("o2ListBox10", "listcombo", "", "prg§_§var", "prg_field");
 		$ctrl_o2ListBox10->x(20);
-		$ctrl_o2ListBox10->y(380);
+		$ctrl_o2ListBox10->y(470);
 		$ctrl_o2ListBox10->larghezza(200);
 		$ctrl_o2ListBox10->altezza(20);
 		$ctrl_o2ListBox10->visibile(jxinspector_exp_36());
 		$ctrl_o2ListBox10->on_change(jxinspector_exp_5());
-		$ctrl_o2ListBox10->info_padre(array(0));
 		$ctrl_o2ListBox10->valori(jxinspector_exp_39());
 		$ctrl_o2ListBox10->righe(1);
-	$ctrl_o2ListBox11 = &$form_jxinspector_1->ctrldef("o2ListBox11", "listcombo", "o2multipage2", "prg§_§var", "prg_act");
+	$ctrl_o2ListBox11 = &$form_jxinspector_1->ctrldef("o2ListBox11", "listcombo", "", "prg§_§var", "prg_act");
 		$ctrl_o2ListBox11->x(20);
-		$ctrl_o2ListBox11->y(330);
+		$ctrl_o2ListBox11->y(420);
 		$ctrl_o2ListBox11->larghezza(200);
 		$ctrl_o2ListBox11->altezza(20);
 		$ctrl_o2ListBox11->visibile(jxinspector_exp_38());
 		$ctrl_o2ListBox11->on_change(jxinspector_exp_5());
-		$ctrl_o2ListBox11->info_padre(array(0));
 		$ctrl_o2ListBox11->valori(jxinspector_exp_40());
 		$ctrl_o2ListBox11->righe(1);
-	$ctrl_o2ListBox12 = &$form_jxinspector_1->ctrldef("o2ListBox12", "listcombo", "o2multipage2", "prg§_§var", "app_var");
+	$ctrl_o2ListBox12 = &$form_jxinspector_1->ctrldef("o2ListBox12", "listcombo", "", "prg§_§var", "app_var");
 		$ctrl_o2ListBox12->x(20);
-		$ctrl_o2ListBox12->y(280);
+		$ctrl_o2ListBox12->y(370);
 		$ctrl_o2ListBox12->larghezza(200);
 		$ctrl_o2ListBox12->altezza(20);
 		$ctrl_o2ListBox12->visibile(jxinspector_exp_41());
-		$ctrl_o2ListBox12->info_padre(array(0));
 		$ctrl_o2ListBox12->valori(jxinspector_exp_42());
 		$ctrl_o2ListBox12->righe(1);
+	$ctrl_o2image3 = &$form_jxinspector_1->ctrldef("o2image3", "img", "o2multipage3", "", "");
+		$ctrl_o2image3->x(756);
+		$ctrl_o2image3->y(8);
+		$ctrl_o2image3->larghezza(24);
+		$ctrl_o2image3->altezza(24);
+		$ctrl_o2image3->azione("unfold_all");
+		$ctrl_o2image3->info_padre(array(0));
+		$ctrl_o2image3->label("Collapse all");
+		$ctrl_o2image3->css(jxinspector_exp_15());
+		$ctrl_o2image3->imgexp(jxinspector_exp_17());
+	$ctrl_o2image4 = &$form_jxinspector_1->ctrldef("o2image4", "img", "o2multipage3", "", "");
+		$ctrl_o2image4->x(635);
+		$ctrl_o2image4->y(8);
+		$ctrl_o2image4->larghezza(24);
+		$ctrl_o2image4->altezza(24);
+		$ctrl_o2image4->azione("export");
+		$ctrl_o2image4->info_padre(array(0));
+		$ctrl_o2image4->label("Export result data");
+		$ctrl_o2image4->css(jxinspector_exp_15());
+		$ctrl_o2image4->imgexp(jxinspector_exp_21());
+	$ctrl_o2image2 = &$form_jxinspector_1->ctrldef("o2image2", "img", "o2multipage3", "", "");
+		$ctrl_o2image2->x(732);
+		$ctrl_o2image2->y(8);
+		$ctrl_o2image2->larghezza(24);
+		$ctrl_o2image2->altezza(24);
+		$ctrl_o2image2->azione("fold_all");
+		$ctrl_o2image2->info_padre(array(0));
+		$ctrl_o2image2->label("Expand all");
+		$ctrl_o2image2->css(jxinspector_exp_15());
+		$ctrl_o2image2->imgexp(jxinspector_exp_16());
+	$ctrl_o2button3 = &$form_jxinspector_1->ctrldef("o2button3", "button", "o2multipage3", "", "");
+		$ctrl_o2button3->x(669);
+		$ctrl_o2button3->y(8);
+		$ctrl_o2button3->larghezza(40);
+		$ctrl_o2button3->altezza(24);
+		$ctrl_o2button3->azione("export_json");
+		$ctrl_o2button3->info_padre(array(0));
+		$ctrl_o2button3->label("JSON");
+		$ctrl_o2button3->css(jxinspector_exp_15());
+	$ctrl_o2image7 = &$form_jxinspector_1->ctrldef("o2image7", "img", "o2multipage3", "", "");
+		$ctrl_o2image7->x(719);
+		$ctrl_o2image7->y(11);
+		$ctrl_o2image7->larghezza(3);
+		$ctrl_o2image7->altezza(17);
+		$ctrl_o2image7->info_padre(array(0));
+		$ctrl_o2image7->imgexp(jxinspector_exp_13());
+	$ctrl_o2htmlarea3 = &$form_jxinspector_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage3", "", "");
+		$ctrl_o2htmlarea3->x(240);
+		$ctrl_o2htmlarea3->y(10);
+		$ctrl_o2htmlarea3->larghezza(140);
+		$ctrl_o2htmlarea3->altezza(20);
+		$ctrl_o2htmlarea3->expand("H");
+		$ctrl_o2htmlarea3->info_padre(array(0));
 		}
 
 function jxinspector§§change_element_type_act(&$o2exe) {
@@ -339,13 +340,12 @@ function jxinspector§§fold_all_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxinspector§§search_tree_sele_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::set("prg§_§var", "element_type", jxinspector_exp_27()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("prg§_§var", "tab_name", jxinspector_exp_12()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::set("prg§_§var", "tab_field_name", jxinspector_exp_12()) && $o2exe->e();
-	$o2exe->s(4) && True && o2act::set("prg§_§var", "tab_key_name", jxinspector_exp_12()) && $o2exe->e();
-	$o2exe->s(5) && True && o2act::set("prg§_§var", "program", jxinspector_exp_12()) && $o2exe->e();
-	$o2exe->s(6) && True && o2act::set("prg§_§var", "string", jxinspector_exp_12()) && $o2exe->e();
-	$o2exe->s(7) && True && o2act::set("prg§_§var", "data_model", jxinspector_exp_12()) && $o2exe->e();
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "tab_name", jxinspector_exp_12()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "tab_field_name", jxinspector_exp_12()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "tab_key_name", jxinspector_exp_12()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "program", jxinspector_exp_12()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "string", jxinspector_exp_12()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "data_model", jxinspector_exp_12()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxinspector§§start_act(&$o2exe) {
@@ -409,7 +409,7 @@ return ($fields);
 
 function jxinspector_exp_8() {
 	$type = o2val('prg§_§var','element_type');
-$cond = $type == "field"  || 
+$cond = $type == "field"  ||
         $type == "update" ||
         $type == "param";
 return ($cond);
@@ -423,7 +423,7 @@ return (o2val('prg§_§var','element_type') == "key");
 function jxinspector_exp_10() {
 	if (o2val('prg§_§var','element_type') == "key") {
    $tab_name = o2val('prg§_§var','tab_name');
-   $keys     = array("" => "", "[exp]" => "[By expression]") + 
+   $keys     = array("" => "", "[exp]" => "[By expression]") +
                o2_inspector::get_tab_keys($tab_name);
    }
 else {
@@ -433,8 +433,8 @@ return ($keys);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_11() {
-	$model_name = o2val('prg§_§var','data_model'); 
-$app_var    = o2val('prg§_§var','app_var'); 
+	$model_name = o2val('prg§_§var','data_model');
+$app_var    = o2val('prg§_§var','app_var');
 $tab_name   = o2val('prg§_§var','tab_name');
 $tab_field  = o2val('prg§_§var','tab_field_name');
 $tab_key    = o2val('prg§_§var','tab_key_name');
@@ -458,13 +458,13 @@ switch (o2val('prg§_§var','element_type')) {
       $list = $insp->find_table($tab_name);
       break;
    case "post":
-      $list = $insp->find_table_event($tab_name, "SAVE"); 
+      $list = $insp->find_table_event($tab_name, "SAVE");
       break;
    case "insert":
-      $list = $insp->find_table_event($tab_name, "INSERT"); 
+      $list = $insp->find_table_event($tab_name, "INSERT");
       break;
    case "delete":
-      $list = $insp->find_table_event($tab_name, "DELETE"); 
+      $list = $insp->find_table_event($tab_name, "DELETE");
       break;
    case "field":
       $list = $insp->find_table_field($tab_name, $tab_field);
@@ -473,37 +473,37 @@ switch (o2val('prg§_§var','element_type')) {
       $list = $insp->find_table_key($tab_name, $tab_key);
       break;
    case "update":
-      $list = $insp->find_act_field_update($tab_name, $tab_field); 
+      $list = $insp->find_act_field_update($tab_name, $tab_field);
       break;
    case "param":
-      $list = $insp->find_field_as_param($tab_name, $tab_field); 
+      $list = $insp->find_field_as_param($tab_name, $tab_field);
       break;
    case "prg":
-      $list = $insp->find_prg($prg_name); 
+      $list = $insp->find_prg($prg_name);
       break;
    case "prg_par":
-      $list = $insp->find_prg_par($prg_name, $par_id); 
+      $list = $insp->find_prg_par($prg_name, $par_id);
       break;
    case "prg_act":
-      $list = $insp->find_prg_act($prg_name, $prg_act); 
+      $list = $insp->find_prg_act($prg_name, $prg_act);
       break;
    case "prg_field":
-      $list = $insp->find_prg_field($prg_name, $view, $prg_field); 
+      $list = $insp->find_prg_field($prg_name, $view, $prg_field);
       break;
    case "prg_unused_exps":
-      $list = $insp->find_prg_unused_exps($prg_name); 
+      $list = $insp->find_prg_unused_exps($prg_name);
       break;
    case "prg_duplic_exps":
-      $list = $insp->find_prg_duplicated_exps($prg_name); 
+      $list = $insp->find_prg_duplicated_exps($prg_name);
       break;
    case "prg_exp":
-      $list = $insp->find_prg_exp($prg_name, $exp_id); 
+      $list = $insp->find_prg_exp($prg_name, $exp_id);
       break;
    case "string":
-      $list = $insp->find_string($string); 
+      $list = $insp->find_string($string);
       break;
    case "duplic":
-      $list = $insp->find_duplicated_exps(); 
+      $list = $insp->find_duplicated_exps();
       break;
    }
 if ($list == array()) {
@@ -522,12 +522,7 @@ return ("");
 
 function jxinspector_exp_13() {
 	
-return (o2val('prg§_§var','element_type') == "prg");
-	} //|o2_fine_exp|
-
-function jxinspector_exp_14() {
-	
-return ("jxtoolbar");
+return ("<jx>/img/jobs/separator.png");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_15() {
@@ -567,13 +562,13 @@ return ("<jx>/img/tools/tree/export.png");
 
 function jxinspector_exp_22() {
 	$type = o2val('prg§_§var','element_type');
-$cond = $type == "tab"    || 
-        $type == "post"   || 
-        $type == "insert" || 
-        $type == "delete" || 
-        $type == "field"  || 
-        $type == "param"  || 
-        $type == "key"    || 
+$cond = $type == "tab"    ||
+        $type == "post"   ||
+        $type == "insert" ||
+        $type == "delete" ||
+        $type == "field"  ||
+        $type == "param"  ||
+        $type == "key"    ||
         $type == "update";
 return ($cond);
 	} //|o2_fine_exp|
@@ -611,18 +606,8 @@ $list["prg_duplic_exps"] = array("prg", "Duplicated expressions");
 $list["prg_exp"]         = array("prg", "Expression uses");
 $list["string"]          = array(0, "String in exps");
 $list["duplic"]          = array(0, "Exps duplicated in prgs");
-o2tree_def("search", $list, 1, "search_tree_sele");
-return (true);
-	} //|o2_fine_exp|
-
-function jxinspector_exp_26() {
-	
-return (o2tree_get_code("search"));
-	} //|o2_fine_exp|
-
-function jxinspector_exp_27() {
-	
-return (o2tree_get_selection("search"));
+/* o2tree_def("search", $list, 1, "search_tree_sele"); */
+return ($list);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_28() {
@@ -672,11 +657,11 @@ return ($exps);
 function jxinspector_exp_33() {
 	$type = o2val('prg§_§var','element_type');
 $cond = $type == "prg"  ||
-        $type == "prg_par" || 
-        $type == "prg_act" || 
-        $type == "prg_field" || 
-        $type == "prg_unused_exps" || 
-        $type == "prg_duplic_exps" || 
+        $type == "prg_par" ||
+        $type == "prg_act" ||
+        $type == "prg_field" ||
+        $type == "prg_unused_exps" ||
+        $type == "prg_duplic_exps" ||
         $type == "prg_exp";
 return ($cond);
 	} //|o2_fine_exp|
@@ -715,7 +700,7 @@ if ($prg_name && o2exp(36)) {
    $views = array("" => "") + o2_inspector::get_prg_views_list($prg_name);
    }
 else {
-   $views = array(); 
+   $views = array();
    }
 return ($views);
 	} //|o2_fine_exp|
@@ -729,7 +714,7 @@ return ($cond);
 function jxinspector_exp_39() {
 	$prg_name  = o2val('prg§_§var','program');
 $view_name = o2val('prg§_§var','prg_view');
-if ($prg_name && $view_name && o2exp(36)) { 
+if ($prg_name && $view_name && o2exp(36)) {
    $fields = array("" => "") + o2_inspector::get_prg_view_fields_list($prg_name, $view_name);
    }
 else {
@@ -744,7 +729,7 @@ if ($prg_name && o2exp(38)) {
    $acts = array("" => "") + o2_inspector::get_prg_acts_list($prg_name);
    }
 else {
-   $acts = array(); 
+   $acts = array();
    }
 return ($acts);
 	} //|o2_fine_exp|
@@ -766,5 +751,25 @@ else {
    $vars = array();
    }
 return ($vars);
+	} //|o2_fine_exp|
+
+function jxinspector_exp_43() {
+	
+return ('hidden');
+	} //|o2_fine_exp|
+
+function jxinspector_exp_44() {
+	
+return ('nowindow');
+	} //|o2_fine_exp|
+
+function jxinspector_exp_45() {
+	
+return ('nav_big');
+	} //|o2_fine_exp|
+
+function jxinspector_exp_46() {
+	
+return (!o2zero('prg§_§var','element_type'));
 	} //|o2_fine_exp|
 ?>

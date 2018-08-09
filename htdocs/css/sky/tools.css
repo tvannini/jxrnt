@@ -568,6 +568,21 @@
 
 /* File system browser */
 
+.fsb_tree {
+    background-color: #ffffff;
+    border: 1px solid #a7bde4;
+    padding: 5px;
+    overflow: auto;
+    }
+
+.fsb_tree .jx_treenode_icon {
+    vertical-align: text-bottom;
+    }
+
+.fsb_tree .jx_treenode_text {
+    margin-bottom: 2px;
+    }
+
 .fsb_tab {
     width: 100%;
     background-color: #E1DAD4;

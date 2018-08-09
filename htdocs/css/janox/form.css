@@ -14,6 +14,10 @@
     overflow: hidden;
     }
 
+.open_body {
+    border-top: none;
+    }
+
 .o2_form_title {
     background: #e0ddd9;
     height: 24px;

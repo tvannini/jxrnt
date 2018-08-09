@@ -526,6 +526,21 @@
 
 /* File system browser */
 
+.fsb_tree {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    padding: 5px;
+    overflow: auto;
+    }
+
+.fsb_tree .jx_treenode_icon {
+    vertical-align: text-bottom;
+    }
+
+.fsb_tree .jx_treenode_text {
+    margin-bottom: 2px;
+    }
+
 .fsb_space {
     background-color: #ffffff;
     border-top: 1px solid #cccccc;
@@ -544,7 +559,6 @@
     height: 20px;
     border-bottom: 1px solid #cccccc;
     border-left: 1px dotted #cccccc;
-    cursor: default;
     overflow: hidden;
     }
 

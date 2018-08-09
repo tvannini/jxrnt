@@ -152,7 +152,7 @@ TD + tfoot .o2_tab_marker,
 
 .o2_tab_fcol {
     width: 16px;
-    border-bottom: 1px dotted #e0ddd9;
+    border-bottom: 1px dotted #f0efed;
     }
 
 .o2_tab_marker {
@@ -184,6 +184,11 @@ TD + tfoot .o2_tab_marker,
 
 .o2_tab_resize_line {
     border-left: 1px dotted #cccccc;
+    }
+
+.o2_tab_pinned {
+    border-right: 1px dotted #cccccc;
+    background-color: #ffffff;
     }
 
 /* =============================== EXTRA =================================== */

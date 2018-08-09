@@ -17,9 +17,10 @@ function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
 	$form_table_browser->y(10);
 	$form_table_browser->larghezza(800);
 	$form_table_browser->altezza(600);
-	$form_table_browser->titolo(o2sys_table_browser_exp_1());
-	$form_table_browser->css_doc("sys_tables_doc");
 	$form_table_browser->align_o("Center");
+	$form_table_browser->titolo(o2sys_table_browser_exp_1());
+	$form_table_browser->css_body("o2_form_body open_body");
+	$form_table_browser->css_doc("sys_tables_doc");
 	$ctrl_bar = &$form_table_browser->ctrldef("bar", "navigator", "", "browser", "");
 		$ctrl_bar->x(0);
 		$ctrl_bar->y(0);
