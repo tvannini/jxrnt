@@ -7760,32 +7760,31 @@ function o2tree_filter($name, $text, $hide_down = false) {
  * @return  string
  */
 function o2tree_export($tree_name,
-                       $csv_file_name     = "",
-                       $fields_separator  = ",",
-                       $text_delimiter    = '"') {
+                       $csv_file_name    = '',
+                       $fields_separator = ',',
+                       $text_delimiter   = '"') {
 
     $app  = $_SESSION['o2_app'];
     $prg  = $app->istanze_prg[$app->progressivo_istanze];
     $tree = false;
     foreach ($prg->form as $form) {
-        if (isset($form->controlli[$name])) {
-            $tree = $form->controlli[$name];
+        if (isset($form->controlli[$tree_name])) {
+            $tree = $form->controlli[$tree_name];
             break;
             }
         }
     if (!$tree) {
-        if (isset($prg->tree_ctrls[$name])) {
-            $tree = $prg->tree_ctrls[$name];
+        if (isset($prg->tree_ctrls[$tree_name])) {
+            $tree = $prg->tree_ctrls[$tree_name];
             }
         else {
-            throw new o2_exception("Unknown Treeview control <i>".$name.
+            throw new o2_exception("Unknown Treeview control <i>".$tree_name.
                                    "</i> in program <i>".$prg->nome."</i>",
                                    o2error_UNKNOWNCTRL);
             return false;
             }
         }
-    $tree->export($csv_file_name, $fields_separator, $text_delimiter);
-    return true;
+    return $tree->export($csv_file_name, $fields_separator, $text_delimiter);
 
     }
 
