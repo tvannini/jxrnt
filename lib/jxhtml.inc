@@ -2921,7 +2921,7 @@ class o2html {
              // __________________________________________ No records within selection ___
              else {
                 print "<tr class='".$o2ctrl_obj->riga_class."'><td colspan='".
-                      ($o2ctrl_obj->colonne + $rm_col).
+                      ($o2ctrl_obj->colonne + $rm_col + 2).
                       "' style='background-color: transparent;'>\n<center><em>".
                       $o2ctrl_obj->norec_msg."</em></center>\n</td></tr>\n";
                 }

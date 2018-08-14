@@ -50,20 +50,25 @@ function o2sys_log_browser§§source_tab_def(&$task_source_tab, $_o2viewalias = ""
 
 }
 function o2sys_log_browser§§o2sys_log_browser_form_def(&$form_o2sys_log_browser) {
-	$form_o2sys_log_browser->x(350);
+	$form_o2sys_log_browser->x(309);
 	$form_o2sys_log_browser->y(10);
-	$form_o2sys_log_browser->larghezza(730);
-	$form_o2sys_log_browser->altezza(590);
-	$form_o2sys_log_browser->titolo(o2sys_log_browser_exp_13());
-	$form_o2sys_log_browser->close_action("close_all");
+	$form_o2sys_log_browser->larghezza(800);
+	$form_o2sys_log_browser->altezza(600);
 	$form_o2sys_log_browser->align_o("Center");
+	$form_o2sys_log_browser->titolo(o2sys_log_browser_exp_13());
+	$form_o2sys_log_browser->css_body("o2_form_body open_body");
+	$form_o2sys_log_browser->close_action("close_all");
 	$ctrl_o2multipage2 = &$form_o2sys_log_browser->ctrldef("o2multipage2", "multipage", "", "", "");
-		$ctrl_o2multipage2->x(20);
-		$ctrl_o2multipage2->y(20);
-		$ctrl_o2multipage2->larghezza(690);
-		$ctrl_o2multipage2->altezza(80);
+		$ctrl_o2multipage2->x(0);
+		$ctrl_o2multipage2->y(0);
+		$ctrl_o2multipage2->larghezza(800);
+		$ctrl_o2multipage2->altezza(60);
 		$ctrl_o2multipage2->expand("H");
 		$ctrl_o2multipage2->label(array("Filters"));
+		$ctrl_o2multipage2->css_space_out(o2sys_log_browser_exp_37());
+		$ctrl_o2multipage2->css_space_in(o2sys_log_browser_exp_36());
+		$ctrl_o2multipage2->css_label_on(o2sys_log_browser_exp_38());
+		$ctrl_o2multipage2->css_label_off(o2sys_log_browser_exp_38());
 		$ctrl_o2multipage2->buttons("T");
 	$ctrl_o2htmlarea2 = &$form_o2sys_log_browser->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(20);
@@ -72,14 +77,14 @@ function o2sys_log_browser§§o2sys_log_browser_form_def(&$form_o2sys_log_browser)
 		$ctrl_o2htmlarea2->altezza(30);
 		$ctrl_o2htmlarea2->expand("H");
 	$ctrl_ctrl_table = &$form_o2sys_log_browser->ctrldef("ctrl_table", "tab", "", "log_view", "");
-		$ctrl_ctrl_table->x(20);
-		$ctrl_ctrl_table->y(110);
-		$ctrl_ctrl_table->larghezza(690);
-		$ctrl_ctrl_table->altezza(400);
-		$ctrl_ctrl_table->modificabile(o2sys_log_browser_exp_9999());
+		$ctrl_ctrl_table->x(0);
+		$ctrl_ctrl_table->y(60);
+		$ctrl_ctrl_table->larghezza(800);
+		$ctrl_ctrl_table->altezza(450);
 		$ctrl_ctrl_table->expand("B");
+		$ctrl_ctrl_table->modificabile(o2sys_log_browser_exp_9999());
 	$ctrl_o2button5 = &$form_o2sys_log_browser->ctrldef("o2button5", "button", "", "", "");
-		$ctrl_o2button5->x(600);
+		$ctrl_o2button5->x(670);
 		$ctrl_o2button5->y(520);
 		$ctrl_o2button5->larghezza(110);
 		$ctrl_o2button5->altezza(30);
@@ -99,52 +104,45 @@ function o2sys_log_browser§§o2sys_log_browser_form_def(&$form_o2sys_log_browser)
 		$ctrl_o2dbnavigator2->visible_undo(o2sys_log_browser_exp_9999());
 		$ctrl_o2dbnavigator2->visible_detail(o2sys_log_browser_exp_9999());
 		$ctrl_o2dbnavigator2->visible_select(o2sys_log_browser_exp_9999());
-	$ctrl_o2htmlarea3 = &$form_o2sys_log_browser->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea3->x(465);
-		$ctrl_o2htmlarea3->y(30);
-		$ctrl_o2htmlarea3->larghezza(20);
-		$ctrl_o2htmlarea3->altezza(40);
-		$ctrl_o2htmlarea3->expand("H");
-		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2label7 = &$form_o2sys_log_browser->ctrldef("o2label7", "label", "o2multipage2", "", "");
-		$ctrl_o2label7->x(260);
-		$ctrl_o2label7->y(50);
-		$ctrl_o2label7->larghezza(50);
+		$ctrl_o2label7->x(280);
+		$ctrl_o2label7->y(30);
+		$ctrl_o2label7->larghezza(80);
 		$ctrl_o2label7->altezza(18);
 		$ctrl_o2label7->info_padre(array(0));
 		$ctrl_o2label7->label("Action:");
-	$ctrl_o2edit2 = &$form_o2sys_log_browser->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "date_from");
-		$ctrl_o2edit2->x(100);
-		$ctrl_o2edit2->y(30);
-		$ctrl_o2edit2->larghezza(60);
-		$ctrl_o2edit2->altezza(18);
-		$ctrl_o2edit2->azione("check_range");
-		$ctrl_o2edit2->on_change(o2sys_log_browser_exp_12());
-		$ctrl_o2edit2->info_padre(array(0));
 	$ctrl_o2label2 = &$form_o2sys_log_browser->ctrldef("o2label2", "label", "o2multipage2", "", "");
 		$ctrl_o2label2->x(10);
-		$ctrl_o2label2->y(30);
-		$ctrl_o2label2->larghezza(90);
+		$ctrl_o2label2->y(10);
+		$ctrl_o2label2->larghezza(110);
 		$ctrl_o2label2->altezza(18);
 		$ctrl_o2label2->info_padre(array(0));
 		$ctrl_o2label2->label("From date-time:");
 	$ctrl_o2label6 = &$form_o2sys_log_browser->ctrldef("o2label6", "label", "o2multipage2", "", "");
-		$ctrl_o2label6->x(260);
-		$ctrl_o2label6->y(30);
-		$ctrl_o2label6->larghezza(50);
+		$ctrl_o2label6->x(280);
+		$ctrl_o2label6->y(10);
+		$ctrl_o2label6->larghezza(80);
 		$ctrl_o2label6->altezza(18);
 		$ctrl_o2label6->info_padre(array(0));
 		$ctrl_o2label6->label("User:");
 	$ctrl_o2label3 = &$form_o2sys_log_browser->ctrldef("o2label3", "label", "o2multipage2", "", "");
 		$ctrl_o2label3->x(10);
-		$ctrl_o2label3->y(50);
-		$ctrl_o2label3->larghezza(90);
+		$ctrl_o2label3->y(30);
+		$ctrl_o2label3->larghezza(110);
 		$ctrl_o2label3->altezza(18);
 		$ctrl_o2label3->info_padre(array(0));
 		$ctrl_o2label3->label("To date-time:");
+	$ctrl_o2edit2 = &$form_o2sys_log_browser->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "date_from");
+		$ctrl_o2edit2->x(120);
+		$ctrl_o2edit2->y(10);
+		$ctrl_o2edit2->larghezza(80);
+		$ctrl_o2edit2->altezza(18);
+		$ctrl_o2edit2->azione("check_range");
+		$ctrl_o2edit2->on_change(o2sys_log_browser_exp_12());
+		$ctrl_o2edit2->info_padre(array(0));
 	$ctrl_o2edit4 = &$form_o2sys_log_browser->ctrldef("o2edit4", "edit", "o2multipage2", "prg§_§var", "time_from");
-		$ctrl_o2edit4->x(160);
-		$ctrl_o2edit4->y(30);
+		$ctrl_o2edit4->x(200);
+		$ctrl_o2edit4->y(10);
 		$ctrl_o2edit4->larghezza(50);
 		$ctrl_o2edit4->altezza(18);
 		$ctrl_o2edit4->modificabile(o2sys_log_browser_exp_14());
@@ -152,16 +150,16 @@ function o2sys_log_browser§§o2sys_log_browser_form_def(&$form_o2sys_log_browser)
 		$ctrl_o2edit4->on_change(o2sys_log_browser_exp_12());
 		$ctrl_o2edit4->info_padre(array(0));
 	$ctrl_o2edit3 = &$form_o2sys_log_browser->ctrldef("o2edit3", "edit", "o2multipage2", "prg§_§var", "date_to");
-		$ctrl_o2edit3->x(100);
-		$ctrl_o2edit3->y(50);
-		$ctrl_o2edit3->larghezza(60);
+		$ctrl_o2edit3->x(120);
+		$ctrl_o2edit3->y(30);
+		$ctrl_o2edit3->larghezza(80);
 		$ctrl_o2edit3->altezza(18);
 		$ctrl_o2edit3->azione("check_range");
 		$ctrl_o2edit3->on_change(o2sys_log_browser_exp_12());
 		$ctrl_o2edit3->info_padre(array(0));
 	$ctrl_o2edit5 = &$form_o2sys_log_browser->ctrldef("o2edit5", "edit", "o2multipage2", "prg§_§var", "time_to");
-		$ctrl_o2edit5->x(160);
-		$ctrl_o2edit5->y(50);
+		$ctrl_o2edit5->x(200);
+		$ctrl_o2edit5->y(30);
 		$ctrl_o2edit5->larghezza(50);
 		$ctrl_o2edit5->altezza(18);
 		$ctrl_o2edit5->modificabile(o2sys_log_browser_exp_15());
@@ -169,34 +167,41 @@ function o2sys_log_browser§§o2sys_log_browser_form_def(&$form_o2sys_log_browser)
 		$ctrl_o2edit5->on_change(o2sys_log_browser_exp_12());
 		$ctrl_o2edit5->info_padre(array(0));
 	$ctrl_o2ListBox2 = &$form_o2sys_log_browser->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "user_filter");
-		$ctrl_o2ListBox2->x(310);
-		$ctrl_o2ListBox2->y(30);
-		$ctrl_o2ListBox2->larghezza(150);
+		$ctrl_o2ListBox2->x(360);
+		$ctrl_o2ListBox2->y(10);
+		$ctrl_o2ListBox2->larghezza(180);
 		$ctrl_o2ListBox2->altezza(18);
 		$ctrl_o2ListBox2->on_change(o2sys_log_browser_exp_12());
 		$ctrl_o2ListBox2->info_padre(array(0));
 		$ctrl_o2ListBox2->valori(o2_view2list("users", "o2user", "o2user"));
 		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2htmlarea3 = &$form_o2sys_log_browser->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea3->x(565);
+		$ctrl_o2htmlarea3->y(10);
+		$ctrl_o2htmlarea3->larghezza(20);
+		$ctrl_o2htmlarea3->altezza(40);
+		$ctrl_o2htmlarea3->expand("H");
+		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2ListBox5 = &$form_o2sys_log_browser->ctrldef("o2ListBox5", "listcombo", "o2multipage2", "prg§_§var", "act_filter");
-		$ctrl_o2ListBox5->x(310);
-		$ctrl_o2ListBox5->y(50);
-		$ctrl_o2ListBox5->larghezza(150);
+		$ctrl_o2ListBox5->x(360);
+		$ctrl_o2ListBox5->y(30);
+		$ctrl_o2ListBox5->larghezza(180);
 		$ctrl_o2ListBox5->altezza(20);
 		$ctrl_o2ListBox5->on_change(o2sys_log_browser_exp_12());
 		$ctrl_o2ListBox5->info_padre(array(0));
 		$ctrl_o2ListBox5->valori(array("" => "","C" => "Changed","D" => "Deleted","I" => "Inserted","U" => "Updated"));
 		$ctrl_o2ListBox5->righe(1);
 	$ctrl_o2button2 = &$form_o2sys_log_browser->ctrldef("o2button2", "button", "o2multipage2", "", "");
-		$ctrl_o2button2->x(490);
-		$ctrl_o2button2->y(35);
+		$ctrl_o2button2->x(590);
+		$ctrl_o2button2->y(15);
 		$ctrl_o2button2->larghezza(90);
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("log_level");
 		$ctrl_o2button2->info_padre(array(0));
 		$ctrl_o2button2->label("&Log level");
 	$ctrl_o2button3 = &$form_o2sys_log_browser->ctrldef("o2button3", "button", "o2multipage2", "", "");
-		$ctrl_o2button3->x(590);
-		$ctrl_o2button3->y(35);
+		$ctrl_o2button3->x(690);
+		$ctrl_o2button3->y(15);
 		$ctrl_o2button3->larghezza(90);
 		$ctrl_o2button3->altezza(30);
 		$ctrl_o2button3->azione("filter");
@@ -208,8 +213,8 @@ function o2sys_log_browser§§o2sys_log_browser_2_form_def(&$form_o2sys_log_browse
 	$form_o2sys_log_browser_2->y(189);
 	$form_o2sys_log_browser_2->larghezza(395);
 	$form_o2sys_log_browser_2->altezza(205);
-	$form_o2sys_log_browser_2->titolo("Change log level");
 	$form_o2sys_log_browser_2->align_o("Center");
+	$form_o2sys_log_browser_2->titolo("Change log level");
 	$ctrl_o2ListBox4 = &$form_o2sys_log_browser_2->ctrldef("o2ListBox4", "listcombo", "", "logged_tables", "log_level");
 		$ctrl_o2ListBox4->x(100);
 		$ctrl_o2ListBox4->y(70);
@@ -511,6 +516,21 @@ if ((($to_date > '00000000') && ($to_date < $from_date)) ||
    $cond = true;
    }
 return ($cond);
+	} //|o2_fine_exp|
+
+function o2sys_log_browser_exp_36() {
+	
+return ('nowindow');
+	} //|o2_fine_exp|
+
+function o2sys_log_browser_exp_37() {
+	
+return ('nav_big');
+	} //|o2_fine_exp|
+
+function o2sys_log_browser_exp_38() {
+	
+return ('hidden');
 	} //|o2_fine_exp|
 
 function o2sys_log_browser_exp_9999() {

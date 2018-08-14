@@ -4144,7 +4144,7 @@ class o2_ctrl_tab extends o2_ctrl {
         }
 
 
-    function pinned_cols($num = "") {
+    function pinned_cols($num = 0) {
 
         $this->pinned_cols = ($num ? $num : false);
         return true;

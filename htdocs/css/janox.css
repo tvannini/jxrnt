@@ -136,6 +136,16 @@ em, i { font-style: italic; }
     border-radius: 3px;
     }
 
+.o2_ctrl_listcombo_dis {
+    color: #a19a93;
+    background-color: #f0efed;
+    border: 1px solid #cccccc;
+    padding-left: 1px;
+    padding-right: 1px;
+    overflow: auto;
+    border-radius: 3px;
+    }
+
 .o2_ctrl_listcombo_field_dis {
     color: #a19a93;
     background-color: #f0efed;

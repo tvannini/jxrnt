@@ -31,6 +31,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 	$form_filters->altezza(562);
 	$form_filters->align_o("Center");
 	$form_filters->titolo("Filters");
+	$form_filters->css_body("o2_form_body open_body");
 	$ctrl_bar = &$form_filters->ctrldef("bar", "navigator", "", "tmp_where", "");
 		$ctrl_bar->x(0);
 		$ctrl_bar->y(0);

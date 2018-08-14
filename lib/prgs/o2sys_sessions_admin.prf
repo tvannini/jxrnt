@@ -34,185 +34,210 @@ function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "")
 	$task_sessions->calcola("descr", "o2sys_sessions_admin_exp_5()",null,null,null,null);
 }
 function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
-	$form_sessions_admin->x(538);
+	$form_sessions_admin->x(444);
 	$form_sessions_admin->y(47);
-	$form_sessions_admin->larghezza(1080);
-	$form_sessions_admin->altezza(630);
-	$form_sessions_admin->titolo("Manage sessions");
+	$form_sessions_admin->larghezza(800);
+	$form_sessions_admin->altezza(632);
 	$form_sessions_admin->align_o("Center");
-	$ctrl_o2htmlarea2 = &$form_sessions_admin->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(320);
-		$ctrl_o2htmlarea2->y(560);
-		$ctrl_o2htmlarea2->larghezza(500);
-		$ctrl_o2htmlarea2->altezza(20);
-		$ctrl_o2htmlarea2->expand("H");
+	$form_sessions_admin->titolo("Manage sessions");
+	$form_sessions_admin->css_body("o2_form_body open_body");
 	$ctrl_o2table2 = &$form_sessions_admin->ctrldef("o2table2", "tab", "", "sessions", "");
-		$ctrl_o2table2->x(20);
-		$ctrl_o2table2->y(100);
-		$ctrl_o2table2->larghezza(1040);
-		$ctrl_o2table2->altezza(440);
-		$ctrl_o2table2->modificabile(o2sys_sessions_admin_exp_9999());
+		$ctrl_o2table2->x(0);
+		$ctrl_o2table2->y(72);
+		$ctrl_o2table2->larghezza(800);
+		$ctrl_o2table2->altezza(530);
 		$ctrl_o2table2->expand("B");
+		$ctrl_o2table2->modificabile(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2table2->css_riga(o2sys_sessions_admin_exp_9());
 		$ctrl_o2table2->css_alt(o2sys_sessions_admin_exp_9());
-	$ctrl_o2button2 = &$form_sessions_admin->ctrldef("o2button2", "button", "", "", "");
-		$ctrl_o2button2->x(970);
-		$ctrl_o2button2->y(550);
-		$ctrl_o2button2->larghezza(90);
-		$ctrl_o2button2->altezza(30);
-		$ctrl_o2button2->azione("refresh");
-		$ctrl_o2button2->label("Refresh");
-	$ctrl_o2multipage2 = &$form_sessions_admin->ctrldef("o2multipage2", "multipage", "", "", "");
-		$ctrl_o2multipage2->x(20);
-		$ctrl_o2multipage2->y(20);
-		$ctrl_o2multipage2->larghezza(1040);
-		$ctrl_o2multipage2->altezza(70);
-		$ctrl_o2multipage2->expand("H");
-		$ctrl_o2multipage2->label(array("Filters"));
-		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2button3 = &$form_sessions_admin->ctrldef("o2button3", "button", "", "", "");
-		$ctrl_o2button3->x(20);
-		$ctrl_o2button3->y(550);
-		$ctrl_o2button3->larghezza(140);
-		$ctrl_o2button3->altezza(30);
-		$ctrl_o2button3->azione("app_lock");
-		$ctrl_o2button3->label("Application lock");
-	$ctrl_o2label5 = &$form_sessions_admin->ctrldef("o2label5", "label", "o2multipage2", "", "");
-		$ctrl_o2label5->x(425);
-		$ctrl_o2label5->y(40);
-		$ctrl_o2label5->larghezza(60);
-		$ctrl_o2label5->altezza(20);
-		$ctrl_o2label5->info_padre(array(0));
-		$ctrl_o2label5->label("minutes");
-	$ctrl_o2label7 = &$form_sessions_admin->ctrldef("o2label7", "label", "o2multipage2", "", "");
-		$ctrl_o2label7->x(870);
-		$ctrl_o2label7->y(40);
-		$ctrl_o2label7->larghezza(140);
-		$ctrl_o2label7->altezza(20);
-		$ctrl_o2label7->info_padre(array(0));
-		$ctrl_o2label7->label("Show system sessions:");
-	$ctrl_o2label6 = &$form_sessions_admin->ctrldef("o2label6", "label", "o2multipage2", "", "");
-		$ctrl_o2label6->x(520);
-		$ctrl_o2label6->y(40);
-		$ctrl_o2label6->larghezza(110);
-		$ctrl_o2label6->altezza(20);
-		$ctrl_o2label6->info_padre(array(0));
-		$ctrl_o2label6->label("Application name:");
-	$ctrl_o2label2 = &$form_sessions_admin->ctrldef("o2label2", "label", "o2multipage2", "", "");
-		$ctrl_o2label2->x(20);
-		$ctrl_o2label2->y(40);
-		$ctrl_o2label2->larghezza(100);
-		$ctrl_o2label2->altezza(20);
-		$ctrl_o2label2->info_padre(array(0));
-		$ctrl_o2label2->label("Logged in last:");
-	$ctrl_o2label4 = &$form_sessions_admin->ctrldef("o2label4", "label", "o2multipage2", "", "");
-		$ctrl_o2label4->x(175);
-		$ctrl_o2label4->y(40);
-		$ctrl_o2label4->larghezza(60);
-		$ctrl_o2label4->altezza(20);
-		$ctrl_o2label4->info_padre(array(0));
-		$ctrl_o2label4->label("minutes");
-	$ctrl_o2label3 = &$form_sessions_admin->ctrldef("o2label3", "label", "o2multipage2", "", "");
-		$ctrl_o2label3->x(270);
-		$ctrl_o2label3->y(40);
-		$ctrl_o2label3->larghezza(100);
-		$ctrl_o2label3->altezza(20);
-		$ctrl_o2label3->info_padre(array(0));
-		$ctrl_o2label3->label("Activity in last:");
-	$ctrl_o2edit8 = &$form_sessions_admin->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "create_minutes");
-		$ctrl_o2edit8->x(120);
-		$ctrl_o2edit8->y(40);
-		$ctrl_o2edit8->larghezza(50);
-		$ctrl_o2edit8->altezza(20);
-		$ctrl_o2edit8->azione("refresh");
-		$ctrl_o2edit8->on_change(o2sys_sessions_admin_exp_4());
-		$ctrl_o2edit8->info_padre(array(0));
-	$ctrl_o2edit9 = &$form_sessions_admin->ctrldef("o2edit9", "edit", "o2multipage2", "prg§_§var", "since_minutes");
-		$ctrl_o2edit9->x(370);
-		$ctrl_o2edit9->y(40);
-		$ctrl_o2edit9->larghezza(50);
-		$ctrl_o2edit9->altezza(20);
-		$ctrl_o2edit9->azione("refresh");
-		$ctrl_o2edit9->on_change(o2sys_sessions_admin_exp_4());
-		$ctrl_o2edit9->info_padre(array(0));
-	$ctrl_o2ListBox2 = &$form_sessions_admin->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "filter_app");
-		$ctrl_o2ListBox2->x(630);
-		$ctrl_o2ListBox2->y(40);
-		$ctrl_o2ListBox2->larghezza(200);
-		$ctrl_o2ListBox2->altezza(20);
-		$ctrl_o2ListBox2->on_change(o2sys_sessions_admin_exp_4());
-		$ctrl_o2ListBox2->info_padre(array(0));
-		$ctrl_o2ListBox2->valori(o2sys_sessions_admin_exp_3());
-		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2checkbox2 = &$form_sessions_admin->ctrldef("o2checkbox2", "check", "o2multipage2", "prg§_§var", "scheduler_sessions");
-		$ctrl_o2checkbox2->x(1010);
-		$ctrl_o2checkbox2->y(40);
-		$ctrl_o2checkbox2->larghezza(20);
-		$ctrl_o2checkbox2->altezza(20);
-		$ctrl_o2checkbox2->on_change(o2sys_sessions_admin_exp_4());
-		$ctrl_o2checkbox2->info_padre(array(0));
-	$ctrl_o2dbnavigator2 = &$form_sessions_admin->ctrldef("o2dbnavigator2", "navigator", "o2table2", "sessions", "");
-		$ctrl_o2dbnavigator2->x(1010);
-		$ctrl_o2dbnavigator2->y(10);
-		$ctrl_o2dbnavigator2->larghezza(18);
-		$ctrl_o2dbnavigator2->altezza(200);
-		$ctrl_o2dbnavigator2->vertical();
+	$ctrl_o2dbnavigator2 = &$form_sessions_admin->ctrldef("o2dbnavigator2", "navigator", "", "sessions", "");
+		$ctrl_o2dbnavigator2->x(0);
+		$ctrl_o2dbnavigator2->y(40);
+		$ctrl_o2dbnavigator2->larghezza(800);
+		$ctrl_o2dbnavigator2->altezza(32);
+		$ctrl_o2dbnavigator2->expand("H");
+		$ctrl_o2dbnavigator2->css_space(o2sys_sessions_admin_exp_15());
 		$ctrl_o2dbnavigator2->visible_new(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2dbnavigator2->visible_save(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2dbnavigator2->visible_undo(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2dbnavigator2->visible_detail(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2dbnavigator2->visible_select(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2dbnavigator2->act_del("sessions_delete");
+	$ctrl_o2image2 = &$form_sessions_admin->ctrldef("o2image2", "img", "", "", "");
+		$ctrl_o2image2->x(42);
+		$ctrl_o2image2->y(47);
+		$ctrl_o2image2->larghezza(3);
+		$ctrl_o2image2->altezza(17);
+		$ctrl_o2image2->imgexp(o2sys_sessions_admin_exp_16());
+	$ctrl_btn_refresh = &$form_sessions_admin->ctrldef("btn_refresh", "img", "", "", "");
+		$ctrl_btn_refresh->x(48);
+		$ctrl_btn_refresh->y(43);
+		$ctrl_btn_refresh->larghezza(32);
+		$ctrl_btn_refresh->altezza(25);
+		$ctrl_btn_refresh->azione("refresh");
+		$ctrl_btn_refresh->label("Refresh");
+		$ctrl_btn_refresh->css(o2sys_sessions_admin_exp_19());
+		$ctrl_btn_refresh->imgexp(o2sys_sessions_admin_exp_17());
+	$ctrl_o2multipage2 = &$form_sessions_admin->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(0);
+		$ctrl_o2multipage2->y(0);
+		$ctrl_o2multipage2->larghezza(800);
+		$ctrl_o2multipage2->altezza(40);
+		$ctrl_o2multipage2->expand("H");
+		$ctrl_o2multipage2->label(array("Page1"));
+		$ctrl_o2multipage2->css_space_out(o2sys_sessions_admin_exp_15());
+		$ctrl_o2multipage2->css_space_in(o2sys_sessions_admin_exp_20());
+		$ctrl_o2multipage2->css_label_on(o2sys_sessions_admin_exp_21());
+		$ctrl_o2multipage2->css_label_off(o2sys_sessions_admin_exp_21());
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2label4 = &$form_sessions_admin->ctrldef("o2label4", "label", "o2multipage2", "", "");
+		$ctrl_o2label4->x(215);
+		$ctrl_o2label4->y(10);
+		$ctrl_o2label4->larghezza(30);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->info_padre(array(0));
+		$ctrl_o2label4->label("min.");
+	$ctrl_o2label3 = &$form_sessions_admin->ctrldef("o2label3", "label", "o2multipage2", "", "");
+		$ctrl_o2label3->x(270);
+		$ctrl_o2label3->y(10);
+		$ctrl_o2label3->larghezza(60);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->info_padre(array(0));
+		$ctrl_o2label3->label("Activity:");
+	$ctrl_o2label5 = &$form_sessions_admin->ctrldef("o2label5", "label", "o2multipage2", "", "");
+		$ctrl_o2label5->x(375);
+		$ctrl_o2label5->y(10);
+		$ctrl_o2label5->larghezza(30);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->info_padre(array(0));
+		$ctrl_o2label5->label("min.");
+	$ctrl_o2label6 = &$form_sessions_admin->ctrldef("o2label6", "label", "o2multipage2", "", "");
+		$ctrl_o2label6->x(430);
+		$ctrl_o2label6->y(10);
+		$ctrl_o2label6->larghezza(80);
+		$ctrl_o2label6->altezza(20);
+		$ctrl_o2label6->info_padre(array(0));
+		$ctrl_o2label6->label("Application:");
+	$ctrl_o2label7 = &$form_sessions_admin->ctrldef("o2label7", "label", "o2multipage2", "", "");
+		$ctrl_o2label7->x(690);
+		$ctrl_o2label7->y(10);
+		$ctrl_o2label7->larghezza(70);
+		$ctrl_o2label7->altezza(20);
+		$ctrl_o2label7->info_padre(array(0));
+		$ctrl_o2label7->label("Scheduler:");
+	$ctrl_o2label2 = &$form_sessions_admin->ctrldef("o2label2", "label", "o2multipage2", "", "");
+		$ctrl_o2label2->x(110);
+		$ctrl_o2label2->y(10);
+		$ctrl_o2label2->larghezza(60);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->info_padre(array(0));
+		$ctrl_o2label2->label("Logged:");
+	$ctrl_o2htmlarea2 = &$form_sessions_admin->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea2->x(80);
+		$ctrl_o2htmlarea2->y(10);
+		$ctrl_o2htmlarea2->larghezza(10);
+		$ctrl_o2htmlarea2->altezza(20);
+		$ctrl_o2htmlarea2->expand("H");
+		$ctrl_o2htmlarea2->info_padre(array(0));
+	$ctrl_o2htmlarea4 = &$form_sessions_admin->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea4->x(780);
+		$ctrl_o2htmlarea4->y(10);
+		$ctrl_o2htmlarea4->larghezza(10);
+		$ctrl_o2htmlarea4->altezza(20);
+		$ctrl_o2htmlarea4->expand("H");
+		$ctrl_o2htmlarea4->info_padre(array(0));
+	$ctrl_o2edit8 = &$form_sessions_admin->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "create_minutes");
+		$ctrl_o2edit8->x(170);
+		$ctrl_o2edit8->y(10);
+		$ctrl_o2edit8->larghezza(40);
+		$ctrl_o2edit8->altezza(20);
+		$ctrl_o2edit8->azione("refresh");
+		$ctrl_o2edit8->on_change(o2sys_sessions_admin_exp_4());
+		$ctrl_o2edit8->info_padre(array(0));
+	$ctrl_o2edit9 = &$form_sessions_admin->ctrldef("o2edit9", "edit", "o2multipage2", "prg§_§var", "since_minutes");
+		$ctrl_o2edit9->x(330);
+		$ctrl_o2edit9->y(10);
+		$ctrl_o2edit9->larghezza(40);
+		$ctrl_o2edit9->altezza(20);
+		$ctrl_o2edit9->azione("refresh");
+		$ctrl_o2edit9->on_change(o2sys_sessions_admin_exp_4());
+		$ctrl_o2edit9->info_padre(array(0));
+	$ctrl_o2ListBox2 = &$form_sessions_admin->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "filter_app");
+		$ctrl_o2ListBox2->x(510);
+		$ctrl_o2ListBox2->y(10);
+		$ctrl_o2ListBox2->larghezza(150);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->on_change(o2sys_sessions_admin_exp_4());
+		$ctrl_o2ListBox2->info_padre(array(0));
+		$ctrl_o2ListBox2->valori(o2sys_sessions_admin_exp_3());
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2checkbox2 = &$form_sessions_admin->ctrldef("o2checkbox2", "check", "o2multipage2", "prg§_§var", "scheduler_sessions");
+		$ctrl_o2checkbox2->x(760);
+		$ctrl_o2checkbox2->y(10);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(20);
+		$ctrl_o2checkbox2->on_change(o2sys_sessions_admin_exp_4());
+		$ctrl_o2checkbox2->info_padre(array(0));
+	$ctrl_o2image3 = &$form_sessions_admin->ctrldef("o2image3", "img", "o2multipage2", "", "");
+		$ctrl_o2image3->x(20);
+		$ctrl_o2image3->y(6);
+		$ctrl_o2image3->larghezza(24);
+		$ctrl_o2image3->altezza(24);
+		$ctrl_o2image3->azione("app_lock");
+		$ctrl_o2image3->info_padre(array(0));
+		$ctrl_o2image3->label("Application lock");
+		$ctrl_o2image3->css(o2sys_sessions_admin_exp_22());
+		$ctrl_o2image3->imgexp(o2sys_sessions_admin_exp_23());
 	$ctrl_o2edit2 = &$form_sessions_admin->ctrldef("o2edit2", "edit", "o2table2", "sessions", "sid");
 		$ctrl_o2edit2->x(10);
 		$ctrl_o2edit2->y(10);
-		$ctrl_o2edit2->larghezza(200);
+		$ctrl_o2edit2->larghezza(220);
 		$ctrl_o2edit2->altezza(20);
-		$ctrl_o2edit2->info_padre(array("01" ,"01" ,"01" ,"Session ID" ,False ,"" ,False ,"" ,"" ,""));
+		$ctrl_o2edit2->info_padre(array("01", "01", "01", "Session ID", False, "", False, "", "", ""));
 	$ctrl_o2edit11 = &$form_sessions_admin->ctrldef("o2edit11", "edit", "o2table2", "sessions", "app_name");
-		$ctrl_o2edit11->x(210);
+		$ctrl_o2edit11->x(230);
 		$ctrl_o2edit11->y(10);
-		$ctrl_o2edit11->larghezza(150);
+		$ctrl_o2edit11->larghezza(160);
 		$ctrl_o2edit11->altezza(20);
 		$ctrl_o2edit11->expand("H");
-		$ctrl_o2edit11->info_padre(array("01" ,"02" ,"02" ,"Application name" ,False ,"" ,False ,"" ,"" ,"" ,""));
+		$ctrl_o2edit11->info_padre(array("01", "02", "02", "Application name", False, "", False, "", "", "", ""));
 	$ctrl_o2edit3 = &$form_sessions_admin->ctrldef("o2edit3", "edit", "o2table2", "sessions", "o2user");
-		$ctrl_o2edit3->x(360);
+		$ctrl_o2edit3->x(390);
 		$ctrl_o2edit3->y(10);
-		$ctrl_o2edit3->larghezza(150);
+		$ctrl_o2edit3->larghezza(160);
 		$ctrl_o2edit3->altezza(20);
 		$ctrl_o2edit3->expand("H");
-		$ctrl_o2edit3->info_padre(array("01" ,"03" ,"03" ,"User" ,False ,"" ,False ,"" ,"" ,"tab_foot_nb" ,""));
+		$ctrl_o2edit3->info_padre(array("01", "03", "03", "User", False, "", False, "", "", "tab_foot_nb", ""));
 	$ctrl_o2edit10 = &$form_sessions_admin->ctrldef("o2edit10", "edit", "o2table2", "sessions", "terminal_id");
-		$ctrl_o2edit10->x(510);
+		$ctrl_o2edit10->x(550);
 		$ctrl_o2edit10->y(10);
 		$ctrl_o2edit10->larghezza(80);
 		$ctrl_o2edit10->altezza(20);
-		$ctrl_o2edit10->info_padre(array("01" ,"04" ,"04" ,"Terminal" ,False ,"" ,False ,"" ,"" ,"tab_foot_nb" ,""));
+		$ctrl_o2edit10->info_padre(array("01", "04", "04", "Terminal", False, "", False, "", "", "tab_foot_nb", ""));
 	$ctrl_o2edit7 = &$form_sessions_admin->ctrldef("o2edit7", "edit", "o2table2", "sessions", "descr");
-		$ctrl_o2edit7->x(590);
+		$ctrl_o2edit7->x(630);
 		$ctrl_o2edit7->y(10);
-		$ctrl_o2edit7->larghezza(80);
+		$ctrl_o2edit7->larghezza(90);
 		$ctrl_o2edit7->altezza(20);
-		$ctrl_o2edit7->info_padre(array("01" ,"05" ,"05" ,"Status" ,False ,"" ,False ,"" ,"" ,"tab_foot_nb" ,""));
+		$ctrl_o2edit7->info_padre(array("01", "05", "05", "Status", False, "", False, "", "", "tab_foot_nb", ""));
 	$ctrl_o2edit5 = &$form_sessions_admin->ctrldef("o2edit5", "edit", "o2table2", "sessions", "update");
-		$ctrl_o2edit5->x(670);
+		$ctrl_o2edit5->x(720);
 		$ctrl_o2edit5->y(10);
-		$ctrl_o2edit5->larghezza(110);
+		$ctrl_o2edit5->larghezza(130);
 		$ctrl_o2edit5->altezza(20);
-		$ctrl_o2edit5->info_padre(array("01" ,"06" ,"06" ,"Updated" ,False ,"" ,False ,"" ,"" ,"tab_foot_nb" ,""));
+		$ctrl_o2edit5->info_padre(array("01", "06", "06", "Updated", False, "", False, "", "", "tab_foot_nb", ""));
 	$ctrl_o2edit4 = &$form_sessions_admin->ctrldef("o2edit4", "edit", "o2table2", "sessions", "creation");
-		$ctrl_o2edit4->x(780);
+		$ctrl_o2edit4->x(850);
 		$ctrl_o2edit4->y(10);
-		$ctrl_o2edit4->larghezza(110);
+		$ctrl_o2edit4->larghezza(130);
 		$ctrl_o2edit4->altezza(20);
-		$ctrl_o2edit4->info_padre(array("01" ,"07" ,"07" ,"Creation" ,False ,"" ,False ,"" ,o2sys_sessions_admin_exp_11() ,"tab_foot_nb" ,""));
+		$ctrl_o2edit4->info_padre(array("01", "07", "07", "Creation", False, "", False, "", o2sys_sessions_admin_exp_11(), "tab_foot_nb", ""));
 	$ctrl_o2edit6 = &$form_sessions_admin->ctrldef("o2edit6", "edit", "o2table2", "sessions", "expire");
-		$ctrl_o2edit6->x(890);
+		$ctrl_o2edit6->x(980);
 		$ctrl_o2edit6->y(10);
-		$ctrl_o2edit6->larghezza(110);
+		$ctrl_o2edit6->larghezza(130);
 		$ctrl_o2edit6->altezza(20);
-		$ctrl_o2edit6->info_padre(array("01" ,"08" ,"08" ,"Expiration" ,False ,"" ,False ,"" ,o2sys_sessions_admin_exp_10() ,"tab_foot_dx" ,""));
+		$ctrl_o2edit6->info_padre(array("01", "08", "08", "Expiration", False, "", False, "", o2sys_sessions_admin_exp_10(), "tab_foot_dx", ""));
 		}
 
 function o2sys_sessions_admin§§app_lock_act(&$o2exe) {
@@ -338,6 +363,21 @@ function o2sys_sessions_admin_exp_14() {
 return (o2val('prg§_§var','scheduler_sessions') ? null : 'jxsys');
 	} //|o2_fine_exp|
 
+function o2sys_sessions_admin_exp_15() {
+	
+return ('nav_big');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_16() {
+	
+return ('<jx>/img/tabadmin/separator.png');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_17() {
+	
+return ('<jx>/img/tools/blank.png');
+	} //|o2_fine_exp|
+
 function o2sys_sessions_admin_exp_18() {
 	$mins = o2val('prg§_§var','since_minutes');
 $logm = o2val('prg§_§var','create_minutes');
@@ -367,6 +407,31 @@ if ($mins || $logm) {
    $tab  = "SELECT * FROM ".o2tab_qname($t).' WHERE '.$where;            
    }
 return ($tab);
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_19() {
+	
+return ('tool_btn_refresh');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_20() {
+	
+return ('nowindow');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_21() {
+	
+return ('hidden');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_22() {
+	
+return ('jximgbtn');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_23() {
+	
+return ('<jx>/img/tabadmin/lock.png');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_9999() {

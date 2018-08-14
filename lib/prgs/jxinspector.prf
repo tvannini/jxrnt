@@ -13,18 +13,20 @@ function jxinspector§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("prg_view", "o2sys_long_str");
 	$task_prg§_§var->definisci("prgs_list", "_o2structure");
 	$task_prg§_§var->definisci("program", "o2sys_long_str");
+	$task_prg§_§var->definisci("result", "_o2structure");
 	$task_prg§_§var->definisci("string", "o2sys_long_str");
 	$task_prg§_§var->definisci("tab_field_name", "o2sys_long_str");
 	$task_prg§_§var->definisci("tab_key_name", "o2sys_long_str");
 	$task_prg§_§var->definisci("tab_name", "o2sys_long_str");
 		}
 function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
-	$form_jxinspector_1->x(400);
+	$form_jxinspector_1->x(383);
 	$form_jxinspector_1->y(50);
 	$form_jxinspector_1->larghezza(800);
 	$form_jxinspector_1->altezza(600);
 	$form_jxinspector_1->align_o("Center");
 	$form_jxinspector_1->titolo("Inspector");
+	$form_jxinspector_1->css_body("o2_form_body open_body");
 	$form_jxinspector_1->css_doc("sys_inspector_doc");
 	$ctrl_o2label10 = &$form_jxinspector_1->ctrldef("o2label10", "label", "", "", "");
 		$ctrl_o2label10->x(20);
@@ -116,23 +118,13 @@ function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
 		$ctrl_o2label14->larghezza(190);
 		$ctrl_o2label14->altezza(20);
 		$ctrl_o2label14->label("Search for application element:");
-	$ctrl_o2tree2 = &$form_jxinspector_1->ctrldef("o2tree2", "tree", "", "prg§_§var", "element_type");
-		$ctrl_o2tree2->x(20);
-		$ctrl_o2tree2->y(70);
-		$ctrl_o2tree2->larghezza(200);
-		$ctrl_o2tree2->altezza(260);
-		$ctrl_o2tree2->expand("V");
-		$ctrl_o2tree2->azione("search_tree_sele");
-		$ctrl_o2tree2->activation(1);
-		$ctrl_o2tree2->nodes(jxinspector_exp_25());
-	$ctrl_o2htmlarea2 = &$form_jxinspector_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(240);
-		$ctrl_o2htmlarea2->y(40);
-		$ctrl_o2htmlarea2->larghezza(560);
-		$ctrl_o2htmlarea2->altezza(530);
-		$ctrl_o2htmlarea2->expand("B");
-		$ctrl_o2htmlarea2->html(jxinspector_exp_3());
-		$ctrl_o2htmlarea2->css(jxinspector_exp_1());
+	$ctrl_result = &$form_jxinspector_1->ctrldef("result", "tree", "", "", "");
+		$ctrl_result->x(240);
+		$ctrl_result->y(40);
+		$ctrl_result->larghezza(560);
+		$ctrl_result->altezza(530);
+		$ctrl_result->activation(0);
+		$ctrl_result->nodes(jxinspector_exp_14());
 	$ctrl_o2multipage3 = &$form_jxinspector_1->ctrldef("o2multipage3", "multipage", "", "", "");
 		$ctrl_o2multipage3->x(0);
 		$ctrl_o2multipage3->y(0);
@@ -237,6 +229,15 @@ function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
 		$ctrl_o2ListBox10->on_change(jxinspector_exp_5());
 		$ctrl_o2ListBox10->valori(jxinspector_exp_39());
 		$ctrl_o2ListBox10->righe(1);
+	$ctrl_o2tree2 = &$form_jxinspector_1->ctrldef("o2tree2", "tree", "", "prg§_§var", "element_type");
+		$ctrl_o2tree2->x(20);
+		$ctrl_o2tree2->y(70);
+		$ctrl_o2tree2->larghezza(200);
+		$ctrl_o2tree2->altezza(260);
+		$ctrl_o2tree2->expand("V");
+		$ctrl_o2tree2->azione("search_tree_sele");
+		$ctrl_o2tree2->activation(1);
+		$ctrl_o2tree2->nodes(jxinspector_exp_25());
 	$ctrl_o2ListBox11 = &$form_jxinspector_1->ctrldef("o2ListBox11", "listcombo", "", "prg§_§var", "prg_act");
 		$ctrl_o2ListBox11->x(20);
 		$ctrl_o2ListBox11->y(420);
@@ -332,7 +333,7 @@ function jxinspector§§export_json_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxinspector§§find_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::script(jxinspector_exp_11()) && $o2exe->e();
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "result", jxinspector_exp_11()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxinspector§§fold_all_act(&$o2exe) {
@@ -352,7 +353,7 @@ function jxinspector§§start_act(&$o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Define searches tree") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(jxinspector_exp_25()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Define result tree") && $o2exe->e();
-	$o2exe->s(4) && True && o2act::script(jxinspector_exp_2()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "result", jxinspector_exp_2()) && $o2exe->e();
 //	$o2exe->s(5) && True && o2act::remark("Load programs list") && $o2exe->e();
 	$o2exe->s(6) && True && o2act::set("prg§_§var", "prgs_list", jxinspector_exp_23()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -367,13 +368,8 @@ return ("jxtree");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_2() {
-	o2tree_def("result");
-return (true);
-	} //|o2_fine_exp|
-
-function jxinspector_exp_3() {
 	
-return (o2tree_get_code("result"));
+return (array('[root]' => array(0, '')));
 	} //|o2_fine_exp|
 
 function jxinspector_exp_4() {
@@ -509,10 +505,9 @@ switch (o2val('prg§_§var','element_type')) {
 if ($list == array()) {
    $list["[info]"] = array(0, "No valid search");
    }
-o2tree_def("result", $list);
-o2tree_unfold("result");
-o2tree_fold("result", 1);
-return (true);
+o2tree_fold('result', 1);   
+
+return ($list);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_12() {
@@ -523,6 +518,11 @@ return ("");
 function jxinspector_exp_13() {
 	
 return ("<jx>/img/jobs/separator.png");
+	} //|o2_fine_exp|
+
+function jxinspector_exp_14() {
+	
+return (o2val('prg§_§var','result'));
 	} //|o2_fine_exp|
 
 function jxinspector_exp_15() {
@@ -606,7 +606,7 @@ $list["prg_duplic_exps"] = array("prg", "Duplicated expressions");
 $list["prg_exp"]         = array("prg", "Expression uses");
 $list["string"]          = array(0, "String in exps");
 $list["duplic"]          = array(0, "Exps duplicated in prgs");
-/* o2tree_def("search", $list, 1, "search_tree_sele"); */
+
 return ($list);
 	} //|o2_fine_exp|
 
@@ -627,7 +627,7 @@ return ($mods);
 
 function jxinspector_exp_30() {
 	$json  = "{";
-$nodes = o2tree_get_nodes("result");
+$nodes = o2val('prg§_§var','result');
 foreach ($nodes as $node_id => $info) {
    $json.= '"'.$node_id.'":["'.$info[0].'","'.addslashes($info[1]).'","'.$info[2].'","'.$info[3].'"],';
    }
