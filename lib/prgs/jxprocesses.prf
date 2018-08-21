@@ -126,7 +126,7 @@ function jxprocesses§§detail_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxprocesses§§get_attach_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::call(jxprocesses_exp_3(), False, jxprocesses_exp_8()) && $o2exe->e();
+	$o2exe->s(1) && True && o2act::call(jxprocesses_exp_3(), False, jxprocesses_exp_13()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxprocesses§§goto_jobs_act(&$o2exe) {

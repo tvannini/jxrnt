@@ -29,10 +29,10 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 	$form_jxprocess_1->y(50);
 	$form_jxprocess_1->larghezza(400);
 	$form_jxprocess_1->altezza(494);
-	$form_jxprocess_1->titolo("Process");
-	$form_jxprocess_1->css_doc("sys_runjobs_doc");
 	$form_jxprocess_1->align_o("Center");
+	$form_jxprocess_1->titolo("Process");
 	$form_jxprocess_1->frm_status(jxprocess_exp_18());
+	$form_jxprocess_1->css_doc("sys_runjobs_doc");
 	$ctrl_o2label12 = &$form_jxprocess_1->ctrldef("o2label12", "label", "", "", "");
 		$ctrl_o2label12->x(20);
 		$ctrl_o2label12->y(305);
@@ -274,11 +274,11 @@ function jxprocess§§jxprocess_2_form_def(&$form_jxprocess_2) {
 	$form_jxprocess_2->y(230);
 	$form_jxprocess_2->larghezza(340);
 	$form_jxprocess_2->altezza(420);
+	$form_jxprocess_2->align_o("Center");
 	$form_jxprocess_2->titolo("Process error");
+	$form_jxprocess_2->frm_status(jxprocess_exp_18());
 	$form_jxprocess_2->css_doc("sys_runjobs_doc");
 	$form_jxprocess_2->close_action("close_error");
-	$form_jxprocess_2->align_o("Center");
-	$form_jxprocess_2->frm_status(jxprocess_exp_18());
 	$ctrl_o2textarea2 = &$form_jxprocess_2->ctrldef("o2textarea2", "text", "", "prg§_§var", "run_error");
 		$ctrl_o2textarea2->x(20);
 		$ctrl_o2textarea2->y(20);
@@ -303,10 +303,10 @@ function jxprocess§§jxprocess_3_form_def(&$form_jxprocess_3) {
 	$form_jxprocess_3->y(230);
 	$form_jxprocess_3->larghezza(340);
 	$form_jxprocess_3->altezza(420);
+	$form_jxprocess_3->align_o("Center");
 	$form_jxprocess_3->titolo("Process attached files");
 	$form_jxprocess_3->css_doc("sys_runjobs_doc");
 	$form_jxprocess_3->close_action("close_files");
-	$form_jxprocess_3->align_o("Center");
 	$ctrl_o2htmlarea3 = &$form_jxprocess_3->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea3->x(20);
 		$ctrl_o2htmlarea3->y(20);
@@ -783,8 +783,7 @@ return (o2app_user() == 'root' || o2app_runlevel() == 'DEV');
 	} //|o2_fine_exp|
 
 function jxprocess_exp_51() {
-	o2log(o2_reqpar(1));
-o2_send(o2_path(o2_reqpar(1), 1));
+	o2_send(o2_path(o2_reqpar(1), 1));
 return (true);
 	} //|o2_fine_exp|
 
