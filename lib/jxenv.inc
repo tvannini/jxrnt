@@ -757,12 +757,10 @@ class o2_prg {
         $exp_str = substr($str2add, 0, -1)."\n";
         $exp_len = strlen($str2add);
         // ___________________________________________________ Loops until end of file ___
-        $exp_view->looping_on = true;
-        $exp_view->record_primo();
-        do {
+        while ($row = o2view_fetch($view_name)) {
             $str2add = "";
             foreach ($vis_fields as $field_name) {
-                $field_value = $exp_view->corrente[$field_name];
+                $field_value = $row[$field_name];
                 $mask        = $exp_view->campi[$field_name]->maschera;
                 switch ($mask->tipo) {
                     case "N":
@@ -835,8 +833,7 @@ class o2_prg {
                 $exp_str = "";
                 $exp_len = 0;
                 }
-            } while ($exp_view->record_avanti());
-        $exp_view->looping_on = false;
+            };
         fwrite($fh_local, $exp_str);
         fclose($fh_local);
         $exp_view->prefisso = $prefix_save;
