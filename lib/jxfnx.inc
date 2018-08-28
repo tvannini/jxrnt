@@ -110,12 +110,19 @@ function o2val($view_name, $field_name) {
         if ($view_local->campo_per_controllo($field_name)->maschera->tipo == "D") {
             switch (strtolower(func_get_arg(2))) {
                 case "d":
+                case "D":
                     $value_local = substr($value_local, 6, 2);
                     break;
                 case "m":
+                case "M":
                     $value_local = substr($value_local, 4, 2);
                     break;
+                // _____________________________________________________ 2 digits year ___
                 case "y":
+                    $value_local = substr($value_local, 2, 2);
+                    break;
+                // _____________________________________________________ 4 digits year ___
+                case "Y":
                     $value_local = substr($value_local, 0, 4);
                     break;
                }
@@ -124,12 +131,15 @@ function o2val($view_name, $field_name) {
         elseif ($view_local->campo_per_controllo($field_name)->maschera->tipo == "O") {
             switch (strtolower(func_get_arg(2))) {
                 case "h":
+                case "H":
                     $value_local = substr($value_local, 0, 2);
                     break;
                 case "i":
+                case "I":
                     $value_local = substr($value_local, 2, 2);
                     break;
                 case "s":
+                case "S":
                     $value_local = substr($value_local, 4, 2);
                     break;
                 }
@@ -814,10 +824,13 @@ function o2_translate($code, $string) {
     array_shift($params);
     array_shift($params);
     $param_n = 1;
+    // ________________________________ Preserve slashed dollar sign (not a parameter) ___
+    $lang_str = str_replace('\\$', '[jxpreserve]', $lang_str);
     foreach ($params as $param) {
-        $lang_str = str_replace('#'.$param_n, $param, $lang_str);
+        $lang_str = str_replace('$'.$param_n, $param, $lang_str);
         $param_n++;
         }
+    $lang_str = str_replace('[jxpreserve]', '$', $lang_str);
     return $lang_str;
 
     }
