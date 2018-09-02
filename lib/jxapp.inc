@@ -1040,16 +1040,16 @@ class o2_app {
 
 
     /**
-     * Gestisce la compatibilità  tra la versione dell'applicazione e quella delle classi
+     * Gestisce la compatibilitÃ Â  tra la versione dell'applicazione e quella delle classi
      *
      *                              GESTIONE DELLE VERSIONI
      *
      *   La versione viene indicata con una stringa nella forma [ver].[sub].[rel]
-     *   Il tipo di dato versione è un array composto da tre interi numerici:
+     *   Il tipo di dato versione Ã¨ un array composto da tre interi numerici:
      *      [ver] = Macro-versione commerciale
-     *              Non compatibilità nelle due direzioni
+     *              Non compatibilitÃ  nelle due direzioni
      *      [sub] = Versione sintattica
-     *              Non compatibilità nelle due direzioni
+     *              Non compatibilitÃ  nelle due direzioni
      *      [rel] = Release
      *              indica una diversa release delle classi ma sintatticamente
      *              compatibile nelle due direzioni
@@ -2630,7 +2630,7 @@ class o2_app {
 
 
     /**
-     * Toglie un'azione dall'elenco delle azioni in esecuzione se si è conclusa in ogni
+     * Toglie un'azione dall'elenco delle azioni in esecuzione se si Ã¨ conclusa in ogni
      * suo passo
      *
      * @return boolean
@@ -7313,8 +7313,8 @@ class o2_inspector {
         $views = array_keys($views);
         $list  = array();
         foreach ($views as $view_name) {
-            if ($view_name == 'prg§_§var') {
-                $list['prg§_§var'] = "[Local variables]";
+            if ($view_name == 'prgÂ§_Â§var') {
+                $list['prgÂ§_Â§var'] = "[Local variables]";
                 }
             else {
                 $list[$view_name] = $view_name;
@@ -7345,7 +7345,7 @@ class o2_inspector {
         $insp = new self;
         $prgs = $insp->get_app_prgs();
         $list = array();
-        if ($view_name == 'prg§_§var') {
+        if ($view_name == 'prgÂ§_Â§var') {
             $fields = self::get_prg_variables(file_get_contents($prgs[$prg_name]));
             foreach ($fields as $field_name => $field_model) {
                 $list[$field_name] = $field_name;
@@ -7378,7 +7378,7 @@ class o2_inspector {
 
         // ________________________________________________________ Search action name ___
         $parts  = array();
-        $res    = preg_match_all('/function \w*§§(\w*)_act\(/',
+        $res    = preg_match_all('/function \w*Â§Â§(\w*)_act\(/',
                                  substr($prf_code, 0, $offset), $parts);
         // _____________________________________ Get last action defined before string ___
         return array_pop($parts[1]);
@@ -7504,7 +7504,7 @@ class o2_inspector {
     public function get_prg_variables($prf_code) {
 
         $parts = array();
-        $res  = preg_match_all('/\$task_prg§_§var\-\>definisci\("([^"]*)",'.
+        $res  = preg_match_all('/\$task_prgÂ§_Â§var\-\>definisci\("([^"]*)",'.
                                '\s*"([^"]*)"\);/',
                                $prf_code, $parts);
         $ret = array();
@@ -7584,9 +7584,9 @@ class o2_inspector {
         $ret = array();
         if (file_exists($prg)) {
             $prg_code = file_get_contents($prg);
-            // __________________________________________________ Check prg§_§var view ___
-            if (strpos($prg_code, 'o2def::view(\'prg§_§var\');')) {
-                $ret['prg§_§var'] = array('prefix' => '', 'suffix' => '');
+            // __________________________________________________ Check prgÂ§_Â§var view ___
+            if (strpos($prg_code, 'o2def::view(\'prgÂ§_Â§var\');')) {
+                $ret['prgÂ§_Â§var'] = array('prefix' => '', 'suffix' => '');
                 }
             $parts = array();
             $res   = preg_match_all('/o2def::view\("(\w*)",\s*[^,]+,\s*'.
@@ -7719,7 +7719,7 @@ class o2_inspector {
 
         $parts = array();
         $res   = preg_match_all('/\$task_(\w*)->aggregate\("(\w*)",\s*"(\w*)",\s*'.
-                                '"prg§_§var",\s*"(\w*)"\);/',
+                                '"prgÂ§_Â§var",\s*"(\w*)"\);/',
                                 $prf_code, $parts);
         $ret   = array();
         if ($res) {
@@ -8033,7 +8033,7 @@ class o2_inspector {
                         // _______________________________ Look backward for view name ___
                         for ($i = count($lines); $i > 0; $i--) {
                             $line     = $lines[$i - 1];
-                            $view_pos = strpos($line, 'function '.$prg_name.'§§');
+                            $view_pos = strpos($line, 'function '.$prg_name.'Â§Â§');
                             if ($view_pos !== false) {
                                 $view = substr($line,
                                                $view_pos + $prg_len + 11,
@@ -8093,7 +8093,7 @@ class o2_inspector {
                         // _____________________________ Look backward for action name ___
                         for ($i = count($lines); $i > 0; $i--) {
                             $line    = $lines[$i - 1];
-                            $act_pos = strpos($line, 'function '.$prg_name.'§§');
+                            $act_pos = strpos($line, 'function '.$prg_name.'Â§Â§');
                             if ($act_pos !== false) {
                                 $act = substr($line, $act_pos + $prg_len + 11, -16);
                                 break;
@@ -8117,7 +8117,7 @@ class o2_inspector {
                             // ___________________________ Look backward for form name ___
                             for ($i = count($lines); $i > 0; $i--) {
                                 $line     = $lines[$i - 1];
-                                $form_pos = strpos($line, 'function '.$prg_name.'§§');
+                                $form_pos = strpos($line, 'function '.$prg_name.'Â§Â§');
                                 if ($form_pos !== false) {
                                     $form = substr($line,
                                                    $form_pos + $prg_len + 11,
@@ -8388,7 +8388,7 @@ class o2_inspector {
                     // ________________________________________ Parameter by reference ___
                     else {
                         $raw_par = trim(trim(trim($raw_par), ")"), '"');
-                        list($view, $field) = explode("§§", $raw_par);
+                        list($view, $field) = explode("Â§Â§", $raw_par);
                         $pars[$par_pos] = $field."@".$view;
                         }
                     }
@@ -9642,7 +9642,7 @@ class o2_inspector {
                                            self::$w_aggregate);
                         }
                     // ________________________ Variable is aggregation target in view ___
-                    if ($view == 'prg§_§var' && $aggr_var == $field) {
+                    if ($view == 'prgÂ§_Â§var' && $aggr_var == $field) {
                         if (!isset($ret['p'])) {
                             $ret['p'] = array($root,
                                               $prg,
@@ -9853,7 +9853,7 @@ class o2_inspector {
                 }
             }
         if (count($ret)) {
-            if ($view == 'prg§_§var') {
+            if ($view == 'prgÂ§_Â§var') {
                 $ret[$root] = array(0, 'Find occurences of variable ('.$field.
                                        ') in program "'.$prg.'"',
                                     $this->img_path."folder.png");
@@ -9865,7 +9865,7 @@ class o2_inspector {
                 }
             }
         else {
-            if ($view == 'prg§_§var') {
+            if ($view == 'prgÂ§_Â§var') {
                 $ret = array($root    => array(0,
                                                'Find occurences of variable ('.$field.
                                                ') in program "'.$prg.'"',
@@ -10099,42 +10099,42 @@ class o2_inspector {
                     $idx++;
                     $new_var = 'v'.$idx;
                     // ________________________________ Replace in variable definition ___
-                    $prf_code = preg_replace('/(\$task_prg§_§var->definisci\(")'.$var.
+                    $prf_code = preg_replace('/(\$task_prgÂ§_Â§var->definisci\(")'.$var.
                                              '(",\s*"\w*"\);)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ______________________________ Replace variable in aggregations ___
                     $prf_code = preg_replace('/(\$task_\w*->aggregate\("\w*",\s*"\w*",'.
-                                             '\s*"prg§_§var",\s*")'.$var.'("\);)/',
+                                             '\s*"prgÂ§_Â§var",\s*")'.$var.'("\);)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // _____________________ Replace parameter in CALL or GOTO actions ___
-                    $prf_code = str_replace('"prg§_§var§§'.$var.'"',
-                                            '"prg§_§var§§'.$new_var.'"',
+                    $prf_code = str_replace('"prgÂ§_Â§varÂ§Â§'.$var.'"',
+                                            '"prgÂ§_Â§varÂ§Â§'.$new_var.'"',
                                             $prf_code);
                     // _____________________________________ Replace in UPDATE actions ___
                     $prf_code = preg_replace('/(\$o2exe->s\(\d*\)[^:]*o2act::set\('.
-                                             '"prg§_§var",\s*")'.$var.'(",)/',
+                                             '"prgÂ§_Â§var",\s*")'.$var.'(",)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ____________________________________ Replace in CONFIRM actions ___
                     $prf_code = preg_replace('/(\$o2exe->s\(\d*\)[^:]*o2act::confirm\('.
-                                             '"prg§_§var",\s*")'.$var.'(",)/',
+                                             '"prgÂ§_Â§var",\s*")'.$var.'(",)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ______________________________________ Replace uses in controls ___
                     $prf_code = preg_replace('/(\$ctrl_\w*\s*=\s*&\$form_\w*->ctrldef\('.
                                              '"[^"]*",\s*"[^"]*",\s*"[^"]*",\s*'.
-                                             '"prg§_§var",\s*")'.$var.'("\);)/',
+                                             '"prgÂ§_Â§var",\s*")'.$var.'("\);)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // _____________________________________ Replace uses in protocols ___
                     $prf_code = preg_replace('/(\$protocollo_\w*\-\>usa\('.
-                                             '"\w*",\s*"prg§_§var",\s*")'.$var.'(",)/',
+                                             '"\w*",\s*"prgÂ§_Â§var",\s*")'.$var.'(",)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ______ Replace uses in expressions (o2val(), o2zero(), o2pre()) ___
-                    $prf_code = preg_replace('/(o2\w+\s*\(\s*["\']prg§_§var["\']\s*,'.
+                    $prf_code = preg_replace('/(o2\w+\s*\(\s*["\']prgÂ§_Â§var["\']\s*,'.
                                              '\s*["\'])'.$var.'(["\'])/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
@@ -10627,7 +10627,7 @@ class o2_inspector {
                                                  '$1'.$new_act.'$2',
                                                  $prg_code);
                         // _________________________________ Replace action definition ___
-                        $prf_code = preg_replace('/(function \w*§§)'.$act.
+                        $prf_code = preg_replace('/(function \w*Â§Â§)'.$act.
                                                  '(_act\(&\$o2exe\) {)/',
                                                  '$1'.$new_act.'$2',
                                                  $prf_code);
@@ -10782,6 +10782,12 @@ class o2_inspector {
 
 
     // ==================================================== MULTI LANGUAGE TRANSLATION ===
+    /**
+     * Executes an harvest of all used strings from base version (development language) of
+     * the requested program (and its descendants???)
+     *
+     * @param string $prg_name
+     */
     function mlt_harvest($prg_name) {
 
         $list  = array();
@@ -10872,87 +10878,12 @@ class o2_inspector {
         }
 
 
-    function mlt_process_list($prg_name, $list) {
-
-//        $lang = $this->option_get('lang');
-        $lang = 'eng';
-        if (!is_array($list)) {
-            throw new o2_exception("Multilanguage Translation: Cannot process items list",
-                                   o2error_EXECUTION);
-            return false;
-            }
-        $app    = $_SESSION['o2_app'];
-        $tab    = $app->get_table(self::$mlt_table);
-        $db     = $tab->db;
-        $server = $db->server;
-        $co     = constant('o2_'.$server->type.'_o');
-        $cc     = constant('o2_'.$server->type.'_c');
-        $f      = $tab->campi;
-        $select = $f['mlt_base_str'].' '.$co.'BASE_STR'.$cc.','.
-                  $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
-        foreach ($list as $ctrl => $properties) {
-            foreach ($properties as $prop => $prop_values) {
-                foreach ($prop_values as $prop_val => $string) {
-                    if ($string) {
-                        $where   = $f['mlt_lang']."='".$lang."' AND ".
-                                   $f['mlt_prg']."='".$prg_name."' AND ".
-                                   $f['mlt_ctrl']."='".$ctrl."' AND ".
-                                   $f['mlt_property']."='".$prop."' AND ".
-                                   $f['mlt_prop_value']."='".$prop_val."'";
-                        $mlt_rec = o2_gateway::recordset($server->type,
-                                                         $server->server,
-                                                         $server->user,
-                                                         $server->password,
-                                                         $db->nome,
-                                                         $db->proprietario,
-                                                         $tab->nome,
-                                                         'jx_translations',
-                                                         $select,
-                                                         $where,
-                                                         '',
-                                                         1);
-                        // ______________________ String doesn't exists in translation ___
-                        if (count($mlt_rec) < 1) {
-                            $fields = array($f['mlt_lang'],
-                                            $f['mlt_prg'],
-                                            $f['mlt_ctrl'],
-                                            $f['mlt_property'],
-                                            $f['mlt_prop_value'],
-                                            $f['mlt_base_str']);
-                            $values = array("'".$lang."'",
-                                            "'".$prg_name."'",
-                                            "'".$ctrl."'",
-                                            "'".$prop."'",
-                                            "'".$prop_val."'",
-                                            "'".o2_gateway::normalize($server->type,
-                                                                      $string)."'");
-                            o2_gateway::insertrec($server->type,
-                                                  $server->server,
-                                                  $server->user,
-                                                  $server->password,
-                                                  $db->nome,
-                                                  $db->proprietario,
-                                                  $tab->nome,
-                                                  'jx_translations',
-                                                  $fields,
-                                                  $values);
-                            }
-                        // _______ String already exists in translation and it changed ___
-                        elseif ($mlt_rec[0]['mlt_base_str'] != $string) {
-
-                            //  ================================================= TODO ===
-
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-
-
-    function mlt_produce_lang($lang) {
-
+    /**
+     * Removes control properties missing in list (removed from program) from all
+     * dictionaries (all languages)
+     *
+     */
+    function mlt_delete_removed_controls($prg_name, $list) {
 
         $app  = $_SESSION['o2_app'];
         $tab  = $app->get_table(self::$mlt_table);
@@ -10971,14 +10902,11 @@ class o2_inspector {
                                      $db->nome,
                                      $db->proprietario,
                                      $tab->nome);
-        $query = "SELECT ".$f['mlt_prg'].' '.$co.'PRG'.$cc.','.
-                           $f['mlt_ctrl'].' '.$co.'CTRL'.$cc.','.
+        $query = "SELECT ".$f['mlt_ctrl'].' '.$co.'CTRL'.$cc.','.
                            $f['mlt_property'].' '.$co.'PROPERTY'.$cc.','.
-                           $f['mlt_prop_value'].' '.$co.'PROP_VALUE'.$cc.','.
-                           $f['mlt_base_str'].' '.$co.'BASE_STR'.$cc.','.
-                           $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc.
-                 " FROM ".$qtab." WHERE ".$f['mlt_lang']."='".$lang.
-                 "' ORDER BY ".$f['mlt_lang'].' ASC,'.$f['mlt_prg'].' ASC';
+                           $f['mlt_prop_value'].' '.$co.'PROP_VALUE'.$cc.
+                 " FROM ".$qtab.
+                 " WHERE ".$f['mlt_lang']."='' AND ".$f['mlt_prg']."='".$prg_name."'";
         // _________________________________________________________________ Statement ___
         if (!$GLOBALS["jxlasterror"]) {
             $stm = false;
@@ -10988,29 +10916,99 @@ class o2_inspector {
                throw new o2_exception($err[2], o2error_DBDATAQUERY);
                return false;
                }
-
-            // ______________________________________________________ /app/lang/<lang> ___
-            $lang_dir = new o2_dir($app->dir_home."/lang/".$lang);
-            $lang_dir->crea();
-            $prg  = false;
-            $text = '';
             while ($row = $stm->fetch(PDO::FETCH_ASSOC)) {
-                // _____________________________ Write single program translation file ___
-                if ($prg && ($prg != $row['PRG'])) {
-                    file_put_contents($lang_dir.$prg, $text);
-                    $text = '';
+                $ctrl = $row['CTRL'];
+                $prop = $row['PROPERTY'];
+                $val  = $row['PROP_VALUE'];
+                // ___________________________ If missing remove from all dictionaries ___
+                if (!isset($list[$ctrl][$prop][$val])) {
+                    $where = $f['mlt_prg']."='".$prg_name."' AND ".
+                             $f['mlt_ctrl']."='".$ctrl."' AND ".
+                             $f['mlt_property']."='".$prop."' AND ".
+                             $f['mlt_prop_value']."='".$val."'";
+                    o2_gateway::deleterec($srv->type,
+                                          $srv->server,
+                                          $srv->user,
+                                          $srv->password,
+                                          $db->nome,
+                                          $db->proprietario,
+                                          $tab->nome,
+                                          'jx_translations',
+                                          $where);
                     }
-                $prg      = $row['PRG'];
-                $ctrl     = $row['CTRL'];
-                $prop     = $row['PROPERTY'];
-                $prop_val = (($prop == 'item') || ($prop == 'page') ?
-                             '_'.$row['PROP_VALUE'] : '');
-                $text.= '; --- '.str_replace("\n", "\\n", $row['BASE_STR'])."\n".
-                        '"'.$ctrl.'#'.$prop.$prop_val.'" = "'.
-                        str_replace("\n", "\\n", $row['LANG_STR']).'"'."\n";
                 }
-            file_put_contents($lang_dir.$prg, $text);
 
+            }
+
+        }
+
+
+    /**
+     * Processes harvested strings list and write it into system translation table for
+     * base-dictionary (lang='')
+     *
+     */
+    function mlt_process_list($prg_name, $list) {
+
+        if (!is_array($list)) {
+            throw new o2_exception("Multilanguage Translation: Cannot process items list",
+                                   o2error_EXECUTION);
+            return false;
+            }
+        $app    = $_SESSION['o2_app'];
+        $tab    = $app->get_table(self::$mlt_table);
+        $db     = $tab->db;
+        $server = $db->server;
+        $co     = constant('o2_'.$server->type.'_o');
+        $cc     = constant('o2_'.$server->type.'_c');
+        $f      = $tab->campi;
+        // ___________________ Remove missing control properties from all dictionaries ___
+        $this->mlt_delete_removed_controls($prg_name, $list);
+        // ___________________________________________ Clear base-dictionary (lang='') ___
+        $where = $f['mlt_lang']."='' AND ".$f['mlt_prg']."='".$prg_name."'";
+        o2_gateway::deleterec($server->type,
+                              $server->server,
+                              $server->user,
+                              $server->password,
+                              $db->nome,
+                              $db->proprietario,
+                              $tab->nome,
+                              'jx_translations',
+                              $where);
+
+        // ______________________________________________________________ Process list ___
+        $select = $f['mlt_base_str'].' '.$co.'BASE_STR'.$cc.','.
+                  $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
+        foreach ($list as $ctrl => $properties) {
+            foreach ($properties as $prop => $prop_values) {
+                foreach ($prop_values as $prop_val => $string) {
+                    if ($string) {
+                        $fields = array($f['mlt_lang'],
+                                        $f['mlt_prg'],
+                                        $f['mlt_ctrl'],
+                                        $f['mlt_property'],
+                                        $f['mlt_prop_value'],
+                                        $f['mlt_lang_str']);
+                        $values = array("''",
+                                        "'".$prg_name."'",
+                                        "'".$ctrl."'",
+                                        "'".$prop."'",
+                                        "'".$prop_val."'",
+                                        "'".o2_gateway::normalize($server->type,
+                                                                  $string)."'");
+                        o2_gateway::insertrec($server->type,
+                                              $server->server,
+                                              $server->user,
+                                              $server->password,
+                                              $db->nome,
+                                              $db->proprietario,
+                                              $tab->nome,
+                                              'jx_translations',
+                                              $fields,
+                                              $values);
+                        }
+                    }
+                }
             }
 
         }
@@ -11032,6 +11030,7 @@ class o2_inspector {
                   $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
         // __________________________________________________________ /app/lang/<lang> ___
         $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
+        // ___________________________________________ Loop on all translated programs ___
         foreach ($lang_dir->all_elements() as $prg_name => $prg_dict) {
             $dict  = jx_parse_conf($prg_dict);
             $where = $f['mlt_lang']."='".$lang."' AND ".
@@ -11053,7 +11052,6 @@ class o2_inspector {
                         ($rec['PROPERTY'] == 'item' || $rec['PROPERTY'] == 'page' ?
                          '_'.$rec['PROP_VALUE'] : '');
                 if ($rec['LANG_STR'] != $dict[$item]) {
-
                     $where_i = $where.' AND '.
                                $f['mlt_ctrl']."='".$rec['CTRL']."' AND ".
                                $f['mlt_property']."='".$rec['PROPERTY']."' AND ".

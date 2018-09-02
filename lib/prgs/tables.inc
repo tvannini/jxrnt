@@ -252,5 +252,6 @@ o2def::tab("jx_translations", "default", "jx_translations", "lang_ctrl");
 	o2def::field("mlt_lang_str", "mlt_lang_str", "o2sys_full_str");
 
 	o2def::index("lang_ctrl", "mlt_lang","A", "mlt_prg","A", "mlt_ctrl","A", "mlt_property","A", "mlt_prop_value","A");
+	o2def::index("lang_string", "mlt_lang","A", "mlt_base_str","A", "mlt_prg","A", "mlt_ctrl","A", "mlt_property","A", "mlt_prop_value","A");
 
 ?>
