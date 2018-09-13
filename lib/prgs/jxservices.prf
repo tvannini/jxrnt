@@ -296,7 +296,7 @@ return ('<jx>/img/jobs/jobs24.png');
 
 function jxservices_exp_9() {
 	
-return ('jxtree');
+return ('jxtree jxtree_bottom');
 	} //|o2_fine_exp|
 
 function jxservices_exp_10() {

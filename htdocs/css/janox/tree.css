@@ -5,6 +5,17 @@
     overflow: auto;
     }
 
+.jxtree_bottom {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    }
+
+.jxtree_bottom_left {
+    border-top: none;
+    border-right: none;
+    }
+
 .jx_tree_indent {
     width: 10px;
     display: inline-block;

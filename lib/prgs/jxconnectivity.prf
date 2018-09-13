@@ -360,13 +360,6 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image36->label(jxconnectivity_exp_122());
 		$ctrl_o2image36->css(jxconnectivity_exp_65());
 		$ctrl_o2image36->imgexp(jxconnectivity_exp_120());
-	$ctrl_o2htmlarea11 = &$form_gestione->ctrldef("o2htmlarea11", "htmlarea", "o2multipage17", "", "");
-		$ctrl_o2htmlarea11->x(220);
-		$ctrl_o2htmlarea11->y(10);
-		$ctrl_o2htmlarea11->larghezza(30);
-		$ctrl_o2htmlarea11->altezza(20);
-		$ctrl_o2htmlarea11->expand("H");
-		$ctrl_o2htmlarea11->info_padre(array(0));
 	$ctrl_o2image33 = &$form_gestione->ctrldef("o2image33", "img", "o2multipage17", "", "");
 		$ctrl_o2image33->x(645);
 		$ctrl_o2image33->y(8);
@@ -386,13 +379,6 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2edit4->azione("define_treeview");
 		$ctrl_o2edit4->on_change(jxconnectivity_exp_40());
 		$ctrl_o2edit4->info_padre(array(0));
-	$ctrl_o2htmlarea12 = &$form_gestione->ctrldef("o2htmlarea12", "htmlarea", "o2multipage17", "", "");
-		$ctrl_o2htmlarea12->x(350);
-		$ctrl_o2htmlarea12->y(10);
-		$ctrl_o2htmlarea12->larghezza(190);
-		$ctrl_o2htmlarea12->altezza(20);
-		$ctrl_o2htmlarea12->expand("H");
-		$ctrl_o2htmlarea12->info_padre(array(0));
 	$ctrl_o2edit3 = &$form_gestione->ctrldef("o2edit3", "edit", "o2multipage17", "prg§_§var", "area_local");
 		$ctrl_o2edit3->x(670);
 		$ctrl_o2edit3->y(10);
@@ -414,6 +400,20 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(jxconnectivity_exp_28());
 		$ctrl_o2ListBox4->righe(1);
+	$ctrl_o2htmlarea11 = &$form_gestione->ctrldef("o2htmlarea11", "htmlarea", "o2multipage17", "", "");
+		$ctrl_o2htmlarea11->x(220);
+		$ctrl_o2htmlarea11->y(10);
+		$ctrl_o2htmlarea11->larghezza(30);
+		$ctrl_o2htmlarea11->altezza(20);
+		$ctrl_o2htmlarea11->expand("H");
+		$ctrl_o2htmlarea11->info_padre(array(0));
+	$ctrl_o2htmlarea12 = &$form_gestione->ctrldef("o2htmlarea12", "htmlarea", "o2multipage17", "", "");
+		$ctrl_o2htmlarea12->x(350);
+		$ctrl_o2htmlarea12->y(10);
+		$ctrl_o2htmlarea12->larghezza(190);
+		$ctrl_o2htmlarea12->altezza(20);
+		$ctrl_o2htmlarea12->expand("H");
+		$ctrl_o2htmlarea12->info_padre(array(0));
 	$ctrl_o2label11 = &$form_gestione->ctrldef("o2label11", "label", "o2multipage2", "", "");
 		$ctrl_o2label11->x(10);
 		$ctrl_o2label11->y(10);
@@ -2813,7 +2813,7 @@ return (true);
 
 function jxconnectivity_exp_26() {
 	
-return ("jxtree");
+return ("jxtree jxtree_bottom");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_27() {

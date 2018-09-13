@@ -10,7 +10,7 @@ function jxprocesses§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("win_width", "_o2number");
 		}
 function jxprocesses§§jxprocesses_1_form_def(&$form_jxprocesses_1) {
-	$form_jxprocesses_1->x(50);
+	$form_jxprocesses_1->x(51);
 	$form_jxprocesses_1->y(60);
 	$form_jxprocesses_1->larghezza(550);
 	$form_jxprocesses_1->altezza(430);
@@ -98,13 +98,6 @@ function jxprocesses§§jxprocesses_1_form_def(&$form_jxprocesses_1) {
 		$ctrl_o2ListBox3->info_padre(array(0));
 		$ctrl_o2ListBox3->valori(jxprocesses_exp_21());
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2htmlarea3 = &$form_jxprocesses_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea3->x(455);
-		$ctrl_o2htmlarea3->y(10);
-		$ctrl_o2htmlarea3->larghezza(10);
-		$ctrl_o2htmlarea3->altezza(20);
-		$ctrl_o2htmlarea3->expand("H");
-		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2ListBox4 = &$form_jxprocesses_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "days_filter");
 		$ctrl_o2ListBox4->x(320);
 		$ctrl_o2ListBox4->y(10);
@@ -114,6 +107,13 @@ function jxprocesses§§jxprocesses_1_form_def(&$form_jxprocesses_1) {
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(array("0" => "Always","1" => "Today","3" => "Last 3 days","7" => "Last week"));
 		$ctrl_o2ListBox4->righe(1);
+	$ctrl_o2htmlarea3 = &$form_jxprocesses_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea3->x(455);
+		$ctrl_o2htmlarea3->y(10);
+		$ctrl_o2htmlarea3->larghezza(10);
+		$ctrl_o2htmlarea3->altezza(20);
+		$ctrl_o2htmlarea3->expand("H");
+		$ctrl_o2htmlarea3->info_padre(array(0));
 		}
 
 function jxprocesses§§btn_click_act(&$o2exe) {
@@ -164,7 +164,7 @@ return ($code);
 
 function jxprocesses_exp_2() {
 	
-return ("jxtree");
+return ("jxtree jxtree_bottom");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_3() {

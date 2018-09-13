@@ -728,7 +728,7 @@ return ($list);
 
 function o2sys_fs_browser_exp_45() {
 	
-return ("fsb_tree");
+return ("fsb_tree jxtree_bottom");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_46() {

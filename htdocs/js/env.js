@@ -3325,7 +3325,7 @@ o2jse.tab.colExe = function(eventObj, prgID, actName, ctrlName) {
                                         "",
                                         actName,
                                         targetObj.o2.c + "_jxcexe" + targetObj.o2.e);
-    // ______________________________________________ Add external parameter as fields ___
+    // _______________________________________________ Add external parameter as field ___
     var ctrlObj = o2jse.createInput(o2jse.infoForm,
                                     "hidden",
                                     "",
@@ -4494,13 +4494,13 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
         }
     // ______________________________________________ Add external parametrs as fields ___
     if (arguments.length > 3) {
-        var extPars = [];
+        o2jse.extPars = [];
         for (var argID = 3; argID < arguments.length; argID++) {
-            extPars[argID - 3] = o2jse.createInput(o2jse.infoForm,
-                                                   "hidden",
-                                                   "",
-                                                   arguments[argID],
-                                                   "extp_" + (argID - 2));
+            o2jse.extPars[argID - 3] = o2jse.createInput(o2jse.infoForm,
+                                                         "hidden",
+                                                         "",
+                                                         arguments[argID],
+                                                         "extp_" + (argID - 2));
             }
         }
     // __________________________ If NOT fired from inside table row (not current row) ___
@@ -4509,12 +4509,6 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
         stdEvent.stop();
         if (o2jse.cliMode) {
             jxjs.request();
-            if (extPars) {
-                for (var i = extPars.length - 1; i >= 0; i--) {
-                    o2jse.removeEl(extPars[i]);
-                    }
-                delete extPars;
-                }
             }
         else {
             o2jse.cmd.submit(prgID);
@@ -4523,6 +4517,7 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
     if (stdEvent.target && stdEvent.target.tagName) {
         o2jse.ctrl.make_waiting(stdEvent.target);
         }
+
 
     };
 
@@ -7382,7 +7377,8 @@ var jxjs = {
     respTimeOut : null, /* Time-out for response to return                              */
     cachedCmd   : '',   /* Commands cached by sub-on-change to be executed on response  */
     cachedObj   : null, /* Target cached by sub-on-change to be processed on response   */
-    cachedEvent : null  /* Cached event by sub-on-change to be processed on response    */
+    cachedEvent : null, /* Cached event by sub-on-change to be processed on response    */
+    extPars     : []    /* List of fields used as extra-parameters by actions           */
 
     };
 
@@ -7460,6 +7456,13 @@ jxjs.request = function(reqObj, reqValue, refrAct) {
     o2jse.infoForm['win_list'].value     = "";
     o2jse.infoForm['win_pos'].value      = "";
     o2jse.infoForm['win_size'].value     = "";
+    // ____________________________________ Free extra parameters fields for next uses ___
+    if (o2jse.extPars) {
+        for (var i = o2jse.extPars.length - 1; i >= 0; i--) {
+            o2jse.removeEl(o2jse.extPars[i]);
+            }
+        o2jse.extPars = [];
+        }
 
     };
 

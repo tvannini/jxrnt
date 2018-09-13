@@ -175,7 +175,7 @@ return ("<jx>/img/jobs/separator.png");
 
 function jxscheduler_exp_7() {
 	
-return ("jxtree");
+return ("jxtree jxtree_bottom");
 	} //|o2_fine_exp|
 
 function jxscheduler_exp_8() {

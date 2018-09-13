@@ -337,13 +337,6 @@ function jxjobs§§jxjobs_1_form_def(&$form_jxjobs_1) {
 		$ctrl_o2image7->altezza(17);
 		$ctrl_o2image7->info_padre(array(0));
 		$ctrl_o2image7->imgexp(jxjobs_exp_41());
-	$ctrl_o2htmlarea10 = &$form_jxjobs_1->ctrldef("o2htmlarea10", "htmlarea", "o2multipage5", "", "");
-		$ctrl_o2htmlarea10->x(190);
-		$ctrl_o2htmlarea10->y(10);
-		$ctrl_o2htmlarea10->larghezza(10);
-		$ctrl_o2htmlarea10->altezza(20);
-		$ctrl_o2htmlarea10->expand("H");
-		$ctrl_o2htmlarea10->info_padre(array(0));
 	$ctrl_o2image2 = &$form_jxjobs_1->ctrldef("o2image2", "img", "o2multipage5", "", "");
 		$ctrl_o2image2->x(675);
 		$ctrl_o2image2->y(8);
@@ -432,6 +425,13 @@ function jxjobs§§jxjobs_1_form_def(&$form_jxjobs_1) {
 		$ctrl_o2edit5->azione("filter_tree");
 		$ctrl_o2edit5->on_change(jxjobs_exp_17());
 		$ctrl_o2edit5->info_padre(array(0));
+	$ctrl_o2htmlarea10 = &$form_jxjobs_1->ctrldef("o2htmlarea10", "htmlarea", "o2multipage5", "", "");
+		$ctrl_o2htmlarea10->x(190);
+		$ctrl_o2htmlarea10->y(10);
+		$ctrl_o2htmlarea10->larghezza(10);
+		$ctrl_o2htmlarea10->altezza(20);
+		$ctrl_o2htmlarea10->expand("H");
+		$ctrl_o2htmlarea10->info_padre(array(0));
 	$ctrl_o2image35 = &$form_jxjobs_1->ctrldef("o2image35", "img", "o2multipage7", "", "");
 		$ctrl_o2image35->x(310);
 		$ctrl_o2image35->y(370);
@@ -594,7 +594,7 @@ return ($code);
 
 function jxjobs_exp_3() {
 	
-return ("jxtree");
+return ("jxtree jxtree_bottom");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_4() {

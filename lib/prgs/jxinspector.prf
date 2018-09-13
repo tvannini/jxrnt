@@ -118,13 +118,6 @@ function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
 		$ctrl_o2label14->larghezza(190);
 		$ctrl_o2label14->altezza(20);
 		$ctrl_o2label14->label("Search for application element:");
-	$ctrl_result = &$form_jxinspector_1->ctrldef("result", "tree", "", "", "");
-		$ctrl_result->x(240);
-		$ctrl_result->y(40);
-		$ctrl_result->larghezza(560);
-		$ctrl_result->altezza(530);
-		$ctrl_result->activation(0);
-		$ctrl_result->nodes(jxinspector_exp_14());
 	$ctrl_o2multipage3 = &$form_jxinspector_1->ctrldef("o2multipage3", "multipage", "", "", "");
 		$ctrl_o2multipage3->x(0);
 		$ctrl_o2multipage3->y(0);
@@ -229,15 +222,14 @@ function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
 		$ctrl_o2ListBox10->on_change(jxinspector_exp_5());
 		$ctrl_o2ListBox10->valori(jxinspector_exp_39());
 		$ctrl_o2ListBox10->righe(1);
-	$ctrl_o2tree2 = &$form_jxinspector_1->ctrldef("o2tree2", "tree", "", "prg§_§var", "element_type");
-		$ctrl_o2tree2->x(20);
-		$ctrl_o2tree2->y(70);
-		$ctrl_o2tree2->larghezza(200);
-		$ctrl_o2tree2->altezza(260);
-		$ctrl_o2tree2->expand("V");
-		$ctrl_o2tree2->azione("search_tree_sele");
-		$ctrl_o2tree2->activation(1);
-		$ctrl_o2tree2->nodes(jxinspector_exp_25());
+	$ctrl_result = &$form_jxinspector_1->ctrldef("result", "tree", "", "", "");
+		$ctrl_result->x(240);
+		$ctrl_result->y(40);
+		$ctrl_result->larghezza(560);
+		$ctrl_result->altezza(530);
+		$ctrl_result->activation(0);
+		$ctrl_result->nodes(jxinspector_exp_14());
+		$ctrl_result->css(jxinspector_exp_1());
 	$ctrl_o2ListBox11 = &$form_jxinspector_1->ctrldef("o2ListBox11", "listcombo", "", "prg§_§var", "prg_act");
 		$ctrl_o2ListBox11->x(20);
 		$ctrl_o2ListBox11->y(420);
@@ -255,6 +247,15 @@ function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
 		$ctrl_o2ListBox12->visibile(jxinspector_exp_41());
 		$ctrl_o2ListBox12->valori(jxinspector_exp_42());
 		$ctrl_o2ListBox12->righe(1);
+	$ctrl_o2tree2 = &$form_jxinspector_1->ctrldef("o2tree2", "tree", "", "prg§_§var", "element_type");
+		$ctrl_o2tree2->x(20);
+		$ctrl_o2tree2->y(70);
+		$ctrl_o2tree2->larghezza(200);
+		$ctrl_o2tree2->altezza(260);
+		$ctrl_o2tree2->expand("V");
+		$ctrl_o2tree2->azione("search_tree_sele");
+		$ctrl_o2tree2->activation(1);
+		$ctrl_o2tree2->nodes(jxinspector_exp_25());
 	$ctrl_o2image3 = &$form_jxinspector_1->ctrldef("o2image3", "img", "o2multipage3", "", "");
 		$ctrl_o2image3->x(756);
 		$ctrl_o2image3->y(8);
@@ -364,7 +365,7 @@ function jxinspector§§unfold_all_act(&$o2exe) {
 
 function jxinspector_exp_1() {
 	
-return ("jxtree");
+return ("jxtree jxtree_bottom_left");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_2() {
@@ -505,8 +506,7 @@ switch (o2val('prg§_§var','element_type')) {
 if ($list == array()) {
    $list["[info]"] = array(0, "No valid search");
    }
-o2tree_fold('result', 1);   
-
+o2tree_fold('result', 1);
 return ($list);
 	} //|o2_fine_exp|
 
@@ -606,7 +606,6 @@ $list["prg_duplic_exps"] = array("prg", "Duplicated expressions");
 $list["prg_exp"]         = array("prg", "Expression uses");
 $list["string"]          = array(0, "String in exps");
 $list["duplic"]          = array(0, "Exps duplicated in prgs");
-
 return ($list);
 	} //|o2_fine_exp|
 
