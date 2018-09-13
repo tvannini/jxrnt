@@ -51,8 +51,10 @@
  *  o2val("view", "field", 1, "c")
  *
  * If returned value is a Date or Time format, single parts of the value can be retrieved
- * passing a single, key-unsensitive letter as supplementary parameter:
- * "y"=Year, "m"=Month, "d"=Day, "h"=Hours, "i"=Minutes and "s"=Seconds.
+ * passing a single letter as supplementary parameter:
+ * "y"=Year(2 digits), "Y"=Year(4 digits), "m"=Month, "d"=Day, "h"=Hours, "i"=Minutes and
+ * "s"=Seconds.
+ * Excepted "y/Y" paramter for year, all other letters are key-unsensitive.
  * For example if you have:
  *  o2val("view", "field") = (Date)"20130531" (31/05/2013)
  * you can get the month value directly by calling:
@@ -108,7 +110,7 @@ function o2val($view_name, $field_name) {
     if (func_num_args() > 2) {
         // ____________________________________________________________ Date variables ___
         if ($view_local->campo_per_controllo($field_name)->maschera->tipo == "D") {
-            switch (strtolower(func_get_arg(2))) {
+            switch (func_get_arg(2)) {
                 case "d":
                 case "D":
                     $value_local = substr($value_local, 6, 2);
@@ -129,7 +131,7 @@ function o2val($view_name, $field_name) {
            }
         // ____________________________________________________________ Time variables ___
         elseif ($view_local->campo_per_controllo($field_name)->maschera->tipo == "O") {
-            switch (strtolower(func_get_arg(2))) {
+            switch (func_get_arg(2)) {
                 case "h":
                 case "H":
                     $value_local = substr($value_local, 0, 2);
