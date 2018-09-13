@@ -1040,16 +1040,16 @@ class o2_app {
 
 
     /**
-     * Gestisce la compatibilitÃ Â  tra la versione dell'applicazione e quella delle classi
+     * Gestisce la compatibilità tra la versione dell'applicazione e quella delle classi
      *
      *                              GESTIONE DELLE VERSIONI
      *
      *   La versione viene indicata con una stringa nella forma [ver].[sub].[rel]
-     *   Il tipo di dato versione Ã¨ un array composto da tre interi numerici:
+     *   Il tipo di dato versione è un array composto da tre interi numerici:
      *      [ver] = Macro-versione commerciale
-     *              Non compatibilitÃ  nelle due direzioni
+     *              Non compatibilità nelle due direzioni
      *      [sub] = Versione sintattica
-     *              Non compatibilitÃ  nelle due direzioni
+     *              Non compatibilità nelle due direzioni
      *      [rel] = Release
      *              indica una diversa release delle classi ma sintatticamente
      *              compatibile nelle due direzioni
@@ -2630,7 +2630,7 @@ class o2_app {
 
 
     /**
-     * Toglie un'azione dall'elenco delle azioni in esecuzione se si Ã¨ conclusa in ogni
+     * Toglie un'azione dall'elenco delle azioni in esecuzione se si è conclusa in ogni
      * suo passo
      *
      * @return boolean
@@ -7313,8 +7313,8 @@ class o2_inspector {
         $views = array_keys($views);
         $list  = array();
         foreach ($views as $view_name) {
-            if ($view_name == 'prgÂ§_Â§var') {
-                $list['prgÂ§_Â§var'] = "[Local variables]";
+            if ($view_name == 'prg§_§var') {
+                $list['prg§_§var'] = "[Local variables]";
                 }
             else {
                 $list[$view_name] = $view_name;
@@ -7345,7 +7345,7 @@ class o2_inspector {
         $insp = new self;
         $prgs = $insp->get_app_prgs();
         $list = array();
-        if ($view_name == 'prgÂ§_Â§var') {
+        if ($view_name == 'prg§_§var') {
             $fields = self::get_prg_variables(file_get_contents($prgs[$prg_name]));
             foreach ($fields as $field_name => $field_model) {
                 $list[$field_name] = $field_name;
@@ -7378,8 +7378,8 @@ class o2_inspector {
 
         // ________________________________________________________ Search action name ___
         $parts  = array();
-        $res    = preg_match_all('/function \w*Â§Â§(\w*)_act\(/',
-                                 substr($prf_code, 0, $offset), $parts);
+        preg_match_all('/function \w*§§(\w*)_act\(/',
+                       substr($prf_code, 0, $offset), $parts);
         // _____________________________________ Get last action defined before string ___
         return array_pop($parts[1]);
 
@@ -7504,7 +7504,7 @@ class o2_inspector {
     public function get_prg_variables($prf_code) {
 
         $parts = array();
-        $res  = preg_match_all('/\$task_prgÂ§_Â§var\-\>definisci\("([^"]*)",'.
+        $res  = preg_match_all('/\$task_prg§_§var\-\>definisci\("([^"]*)",'.
                                '\s*"([^"]*)"\);/',
                                $prf_code, $parts);
         $ret = array();
@@ -7584,9 +7584,9 @@ class o2_inspector {
         $ret = array();
         if (file_exists($prg)) {
             $prg_code = file_get_contents($prg);
-            // __________________________________________________ Check prgÂ§_Â§var view ___
-            if (strpos($prg_code, 'o2def::view(\'prgÂ§_Â§var\');')) {
-                $ret['prgÂ§_Â§var'] = array('prefix' => '', 'suffix' => '');
+            // __________________________________________________ Check prg§_§var view ___
+            if (strpos($prg_code, 'o2def::view(\'prg§_§var\');')) {
+                $ret['prg§_§var'] = array('prefix' => '', 'suffix' => '');
                 }
             $parts = array();
             $res   = preg_match_all('/o2def::view\("(\w*)",\s*[^,]+,\s*'.
@@ -7719,7 +7719,7 @@ class o2_inspector {
 
         $parts = array();
         $res   = preg_match_all('/\$task_(\w*)->aggregate\("(\w*)",\s*"(\w*)",\s*'.
-                                '"prgÂ§_Â§var",\s*"(\w*)"\);/',
+                                '"prg§_§var",\s*"(\w*)"\);/',
                                 $prf_code, $parts);
         $ret   = array();
         if ($res) {
@@ -8033,7 +8033,7 @@ class o2_inspector {
                         // _______________________________ Look backward for view name ___
                         for ($i = count($lines); $i > 0; $i--) {
                             $line     = $lines[$i - 1];
-                            $view_pos = strpos($line, 'function '.$prg_name.'Â§Â§');
+                            $view_pos = strpos($line, 'function '.$prg_name.'§§');
                             if ($view_pos !== false) {
                                 $view = substr($line,
                                                $view_pos + $prg_len + 11,
@@ -8093,7 +8093,7 @@ class o2_inspector {
                         // _____________________________ Look backward for action name ___
                         for ($i = count($lines); $i > 0; $i--) {
                             $line    = $lines[$i - 1];
-                            $act_pos = strpos($line, 'function '.$prg_name.'Â§Â§');
+                            $act_pos = strpos($line, 'function '.$prg_name.'§§');
                             if ($act_pos !== false) {
                                 $act = substr($line, $act_pos + $prg_len + 11, -16);
                                 break;
@@ -8117,7 +8117,7 @@ class o2_inspector {
                             // ___________________________ Look backward for form name ___
                             for ($i = count($lines); $i > 0; $i--) {
                                 $line     = $lines[$i - 1];
-                                $form_pos = strpos($line, 'function '.$prg_name.'Â§Â§');
+                                $form_pos = strpos($line, 'function '.$prg_name.'§§');
                                 if ($form_pos !== false) {
                                     $form = substr($line,
                                                    $form_pos + $prg_len + 11,
@@ -8388,7 +8388,7 @@ class o2_inspector {
                     // ________________________________________ Parameter by reference ___
                     else {
                         $raw_par = trim(trim(trim($raw_par), ")"), '"');
-                        list($view, $field) = explode("Â§Â§", $raw_par);
+                        list($view, $field) = explode("§§", $raw_par);
                         $pars[$par_pos] = $field."@".$view;
                         }
                     }
@@ -9642,7 +9642,7 @@ class o2_inspector {
                                            self::$w_aggregate);
                         }
                     // ________________________ Variable is aggregation target in view ___
-                    if ($view == 'prgÂ§_Â§var' && $aggr_var == $field) {
+                    if ($view == 'prg§_§var' && $aggr_var == $field) {
                         if (!isset($ret['p'])) {
                             $ret['p'] = array($root,
                                               $prg,
@@ -9853,7 +9853,7 @@ class o2_inspector {
                 }
             }
         if (count($ret)) {
-            if ($view == 'prgÂ§_Â§var') {
+            if ($view == 'prg§_§var') {
                 $ret[$root] = array(0, 'Find occurences of variable ('.$field.
                                        ') in program "'.$prg.'"',
                                     $this->img_path."folder.png");
@@ -9865,7 +9865,7 @@ class o2_inspector {
                 }
             }
         else {
-            if ($view == 'prgÂ§_Â§var') {
+            if ($view == 'prg§_§var') {
                 $ret = array($root    => array(0,
                                                'Find occurences of variable ('.$field.
                                                ') in program "'.$prg.'"',
@@ -10099,42 +10099,42 @@ class o2_inspector {
                     $idx++;
                     $new_var = 'v'.$idx;
                     // ________________________________ Replace in variable definition ___
-                    $prf_code = preg_replace('/(\$task_prgÂ§_Â§var->definisci\(")'.$var.
+                    $prf_code = preg_replace('/(\$task_prg§_§var->definisci\(")'.$var.
                                              '(",\s*"\w*"\);)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ______________________________ Replace variable in aggregations ___
                     $prf_code = preg_replace('/(\$task_\w*->aggregate\("\w*",\s*"\w*",'.
-                                             '\s*"prgÂ§_Â§var",\s*")'.$var.'("\);)/',
+                                             '\s*"prg§_§var",\s*")'.$var.'("\);)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // _____________________ Replace parameter in CALL or GOTO actions ___
-                    $prf_code = str_replace('"prgÂ§_Â§varÂ§Â§'.$var.'"',
-                                            '"prgÂ§_Â§varÂ§Â§'.$new_var.'"',
+                    $prf_code = str_replace('"prg§_§var§§'.$var.'"',
+                                            '"prg§_§var§§'.$new_var.'"',
                                             $prf_code);
                     // _____________________________________ Replace in UPDATE actions ___
                     $prf_code = preg_replace('/(\$o2exe->s\(\d*\)[^:]*o2act::set\('.
-                                             '"prgÂ§_Â§var",\s*")'.$var.'(",)/',
+                                             '"prg§_§var",\s*")'.$var.'(",)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ____________________________________ Replace in CONFIRM actions ___
                     $prf_code = preg_replace('/(\$o2exe->s\(\d*\)[^:]*o2act::confirm\('.
-                                             '"prgÂ§_Â§var",\s*")'.$var.'(",)/',
+                                             '"prg§_§var",\s*")'.$var.'(",)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ______________________________________ Replace uses in controls ___
                     $prf_code = preg_replace('/(\$ctrl_\w*\s*=\s*&\$form_\w*->ctrldef\('.
                                              '"[^"]*",\s*"[^"]*",\s*"[^"]*",\s*'.
-                                             '"prgÂ§_Â§var",\s*")'.$var.'("\);)/',
+                                             '"prg§_§var",\s*")'.$var.'("\);)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // _____________________________________ Replace uses in protocols ___
                     $prf_code = preg_replace('/(\$protocollo_\w*\-\>usa\('.
-                                             '"\w*",\s*"prgÂ§_Â§var",\s*")'.$var.'(",)/',
+                                             '"\w*",\s*"prg§_§var",\s*")'.$var.'(",)/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ______ Replace uses in expressions (o2val(), o2zero(), o2pre()) ___
-                    $prf_code = preg_replace('/(o2\w+\s*\(\s*["\']prgÂ§_Â§var["\']\s*,'.
+                    $prf_code = preg_replace('/(o2\w+\s*\(\s*["\']prg§_§var["\']\s*,'.
                                              '\s*["\'])'.$var.'(["\'])/',
                                              '$1'.$new_var.'$2',
                                              $prf_code);
@@ -10627,7 +10627,7 @@ class o2_inspector {
                                                  '$1'.$new_act.'$2',
                                                  $prg_code);
                         // _________________________________ Replace action definition ___
-                        $prf_code = preg_replace('/(function \w*Â§Â§)'.$act.
+                        $prf_code = preg_replace('/(function \w*§§)'.$act.
                                                  '(_act\(&\$o2exe\) {)/',
                                                  '$1'.$new_act.'$2',
                                                  $prf_code);
