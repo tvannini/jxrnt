@@ -1,5 +1,5 @@
 <?php
-//2.2
+//2.4
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -15,6 +15,7 @@ o2def::view("model_roles", False, "", "", 1);
 o2def::view("model_users", False, "", "", 1);
 o2def::act("area_code_select", "");
 o2def::act("cancel", "");
+o2def::act("check_name", "");
 o2def::act("copy_role", "");
 o2def::act("copy_roles", "");
 o2def::act("create", "");

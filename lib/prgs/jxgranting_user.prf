@@ -58,24 +58,18 @@ function jxgranting_user§§user_form_def(&$form_user) {
 	$form_user->y(250);
 	$form_user->larghezza(310);
 	$form_user->altezza(350);
-	$form_user->titolo("Create user");
-	$form_user->css_doc("sys_users_doc");
-	$form_user->close_action("cancel");
 	$form_user->align_v("Middle");
 	$form_user->align_o("Center");
+	$form_user->titolo("Create user");
 	$form_user->frm_status(jxgranting_user_exp_1());
+	$form_user->css_doc("sys_users_doc");
+	$form_user->close_action("cancel");
 	$ctrl_o2label18 = &$form_user->ctrldef("o2label18", "label", "", "", "");
 		$ctrl_o2label18->x(30);
 		$ctrl_o2label18->y(55);
 		$ctrl_o2label18->larghezza(100);
 		$ctrl_o2label18->altezza(20);
 		$ctrl_o2label18->label("User name:");
-	$ctrl_o2edit10 = &$form_user->ctrldef("o2edit10", "edit", "", "prg§_§var", "asp_area");
-		$ctrl_o2edit10->x(160);
-		$ctrl_o2edit10->y(30);
-		$ctrl_o2edit10->larghezza(120);
-		$ctrl_o2edit10->altezza(20);
-		$ctrl_o2edit10->visibile(jxgranting_user_exp_6());
 	$ctrl_o2label2 = &$form_user->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(30);
 		$ctrl_o2label2->y(200);
@@ -117,11 +111,19 @@ function jxgranting_user§§user_form_def(&$form_user) {
 		$ctrl_o2label4->larghezza(130);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->label("Validation type:");
+	$ctrl_o2edit10 = &$form_user->ctrldef("o2edit10", "edit", "", "prg§_§var", "asp_area");
+		$ctrl_o2edit10->x(160);
+		$ctrl_o2edit10->y(30);
+		$ctrl_o2edit10->larghezza(120);
+		$ctrl_o2edit10->altezza(20);
+		$ctrl_o2edit10->visibile(jxgranting_user_exp_6());
 	$ctrl_o2edit5 = &$form_user->ctrldef("o2edit5", "edit", "", "prg§_§var", "user_name");
 		$ctrl_o2edit5->x(160);
 		$ctrl_o2edit5->y(55);
 		$ctrl_o2edit5->larghezza(120);
 		$ctrl_o2edit5->altezza(20);
+		$ctrl_o2edit5->azione("check_name");
+		$ctrl_o2edit5->on_change(jxgranting_user_exp_8());
 	$ctrl_o2edit6 = &$form_user->ctrldef("o2edit6", "edit", "", "prg§_§var", "password");
 		$ctrl_o2edit6->x(160);
 		$ctrl_o2edit6->y(80);
@@ -188,6 +190,10 @@ function jxgranting_user§§area_code_select_act(&$o2exe) {
 function jxgranting_user§§cancel_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::ret(6, jxgranting_user_exp_1()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_user§§check_name_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_name", jxgranting_user_exp_33()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§copy_role_act(&$o2exe) {
@@ -409,5 +415,10 @@ return (o2zero('prg§_§var','user_name'));
 function jxgranting_user_exp_32() {
 	
 return ("Insert a valid user name");
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_33() {
+	
+return (strtr(o2val('prg§_§var','user_name'), " /\\", "___"));
 	} //|o2_fine_exp|
 ?>
