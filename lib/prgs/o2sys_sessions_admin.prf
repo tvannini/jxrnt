@@ -132,20 +132,6 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->info_padre(array(0));
 		$ctrl_o2label2->label("Logged:");
-	$ctrl_o2htmlarea2 = &$form_sessions_admin->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea2->x(80);
-		$ctrl_o2htmlarea2->y(10);
-		$ctrl_o2htmlarea2->larghezza(10);
-		$ctrl_o2htmlarea2->altezza(20);
-		$ctrl_o2htmlarea2->expand("H");
-		$ctrl_o2htmlarea2->info_padre(array(0));
-	$ctrl_o2htmlarea4 = &$form_sessions_admin->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea4->x(780);
-		$ctrl_o2htmlarea4->y(10);
-		$ctrl_o2htmlarea4->larghezza(10);
-		$ctrl_o2htmlarea4->altezza(20);
-		$ctrl_o2htmlarea4->expand("H");
-		$ctrl_o2htmlarea4->info_padre(array(0));
 	$ctrl_o2edit8 = &$form_sessions_admin->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "create_minutes");
 		$ctrl_o2edit8->x(170);
 		$ctrl_o2edit8->y(10);
@@ -188,6 +174,20 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2image3->label("Application lock");
 		$ctrl_o2image3->css(o2sys_sessions_admin_exp_22());
 		$ctrl_o2image3->imgexp(o2sys_sessions_admin_exp_23());
+	$ctrl_o2htmlarea2 = &$form_sessions_admin->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea2->x(80);
+		$ctrl_o2htmlarea2->y(10);
+		$ctrl_o2htmlarea2->larghezza(10);
+		$ctrl_o2htmlarea2->altezza(20);
+		$ctrl_o2htmlarea2->expand("H");
+		$ctrl_o2htmlarea2->info_padre(array(0));
+	$ctrl_o2htmlarea4 = &$form_sessions_admin->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea4->x(780);
+		$ctrl_o2htmlarea4->y(10);
+		$ctrl_o2htmlarea4->larghezza(10);
+		$ctrl_o2htmlarea4->altezza(20);
+		$ctrl_o2htmlarea4->expand("H");
+		$ctrl_o2htmlarea4->info_padre(array(0));
 	$ctrl_o2edit2 = &$form_sessions_admin->ctrldef("o2edit2", "edit", "o2table2", "sessions", "sid");
 		$ctrl_o2edit2->x(10);
 		$ctrl_o2edit2->y(10);
@@ -250,7 +250,10 @@ function o2sys_sessions_admin§§refresh_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_sessions_admin§§sessions_delete_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::view("sessions", "C", "") && $o2exe->e();
+//	$o2exe->s(1) && True && o2act::remark("Try to remove session file too") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_sessions_admin_exp_24()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("sessions", "C", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("refresh", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_sessions_admin§§start_act(&$o2exe) {
@@ -432,6 +435,13 @@ return ('jximgbtn');
 function o2sys_sessions_admin_exp_23() {
 	
 return ('<jx>/img/tabadmin/lock.png');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_24() {
+	$sid = o2val('sessions','sid');
+$dir = session_save_path().DIRECTORY_SEPARATOR;
+o2file_delete($dir.'sess_'.$sid);
+return (true);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_9999() {
