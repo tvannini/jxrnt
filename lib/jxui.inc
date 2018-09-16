@@ -5580,6 +5580,15 @@ class o2_ctrl_imglist extends o2_ctrl {
 
         }
 
+
+    function css($css = '') {
+
+        $this->css = ($css ? $css : 'jximglist');
+        return true;
+
+        }
+
+
     /**
      * Visualizza il controllo
      *
