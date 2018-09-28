@@ -7021,7 +7021,7 @@ function o2_view2list($view_name, $code_field, $desc_field, $preset = array()) {
             }
         $righe_vis_save = $view_local->righe_vis;
         if (!$app->defining_combo || $app->defining_combo->righe > 1) {
-            $view_local->righe_vis = 1000;
+            $view_local->righe_vis = 100000;
             }
         $refreshed = false;
         // ________________________________________________ Redirect on lookup control ___
