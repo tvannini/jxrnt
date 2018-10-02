@@ -5534,18 +5534,6 @@ class o2_ctrl_imglist extends o2_ctrl {
 
 
     /**
-     * Sets click action on items for images-lister control
-     *
-     * @param string $action
-     */
-    function azione($action) {
-
-        $this->azione_submit = $action;
-
-        }
-
-
-    /**
      * Sets delete action for images-lister control
      *
      * @param string $action
