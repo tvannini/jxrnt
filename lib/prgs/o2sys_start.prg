@@ -1,5 +1,5 @@
 <?php
-//2.3
+//2.4
 //o2def::module("");
 //o2def::folder("triggers");
 /*
@@ -38,9 +38,10 @@ o2def::act("login_std", "");
 o2def::act("session", "");
 o2def::act("start", "");
 o2def::act("terminal_id", "");
-o2def::par(1, "user_roles","_o2structure");
-o2def::par(2, "user_rights","_o2structure");
-o2def::par(3, "app_options","_o2structure");
-o2def::par(4, "user_options","_o2structure");
-o2def::par(5, "logged_tabs","_o2structure");
+o2def::par(1, "user_roles", "_o2structure");
+o2def::par(2, "user_rights", "_o2structure");
+o2def::par(3, "app_options", "_o2structure");
+o2def::par(4, "user_options", "_o2structure");
+o2def::par(5, "logged_tabs", "_o2structure");
+o2def::par(6, "password_change", "_o2logical");
 ?>

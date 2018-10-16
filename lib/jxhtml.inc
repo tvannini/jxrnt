@@ -118,6 +118,12 @@ class o2html {
             }
         // _______________________________________________________________ Page prefix ___
         o2html::page_prefix($app->allow_history ? 0 : $pmark);
+        // _____________________________________________________ Force password change ___
+        if ($app->force_pwd_change) {
+            $app->force_pwd_change = false;
+            $app->menu_attivo      = false;
+            o2act::gotoprg('tools/jxgranting_pwd', false, $app->user, true);
+            }
         /* _________________________________________________________________ Execution ___
          * Request unique page-mark is checked to avoid re-executions of old pages (from
          * browser cache). Request is considered new and executed if:

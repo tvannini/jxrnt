@@ -84,6 +84,9 @@ class o2_app {
     public $session_id         = '';        /* Session unique id                        */
     public $user               = 'default'; /* Logged user ID                           */
     public $password           = '';        /* Logged user password                     */
+    public $password_strength  = 0;         /* Rules to enforce password strength       */
+    public $password_change    = false;     /* Force password to be changed every N days*/
+    public $force_pwd_change   = false;     /* Password must be changed to login        */
     public $ldap_server        = false;     /* LDAP authority server for user validation*/
     public $ldap_search_domain = false;     /* LDAP search domain for user validation   */
     public $ldap_base_dn       = false;     /* LDAP base DN for user validation         */
@@ -1197,6 +1200,12 @@ class o2_app {
         if (isset($conf['validate'])) {
             $this->validazione = intval($conf['validate']);
             }
+        if (isset($conf['password_strength'])) {
+            $this->password_strength = intval($conf['password_strength']);
+            }
+        if (isset($conf['password_change'])) {
+            $this->password_change = intval($conf['password_change']);
+            }
         if (isset($conf['ldap_server'])) {
             $this->ldap_server = $conf['ldap_server'];
             }
@@ -1482,7 +1491,8 @@ class o2_app {
              $this->user_rights,
              $this->app_options,
              $this->user_options,
-             $this->logged_tabs) = $this->intcall("tools/o2sys_start");
+             $this->logged_tabs,
+             $this->force_pwd_change) = $this->intcall("tools/o2sys_start");
         // ________________________________________________ Lock for Under Maintenance ___
         if ($this->option_get("lock")) {
             if ($this->user != "root" && $this->run_level != "DEV") {

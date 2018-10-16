@@ -734,9 +734,12 @@ class upgrades_collection {
 
     /**
      * Upgrades application to release 2.3
+     *
      * Add fields to system tables:
      *  - o2_sessions:
      *     - app_name
+     *
+     * In controls replace property "wide" with property "expand"
      *
      * @param string $app_name Application name
      * @param jxdir  $app_dir  Application root directory
@@ -799,14 +802,53 @@ class upgrades_collection {
     /**
      * Upgrades application to release 2.4
      *
-     *  NOTHING TO DO
+     * Add fields to system tables:
+     *  - o2_users:
+     *     - last_pwd_date      Last date when password was changed
+     *     - force_pwd_change   Force user to change password at next login
+     *     - pwds_history       History of last N passsowrds to check a new one against
+     *     - no_pwd_change      Password never expires for user, regardless INI settings
      *
      * @param string $app_name Application name
      * @param jxdir  $app_dir  Application root directory
      */
     static function to2_4($app_name, $app_dir) {
 
-        // _____________________________________________________________ Nothing to do ___
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
+        // ________________________________________________ Get tables definition code ___
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        // ____________________________________________________________ Add new fields ___
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'last_pwd_date',
+                              'last_pwd_date',
+                              '_o2date');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'force_pwd_change',
+                              'force_pwd_change',
+                              '_o2logical');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'pwds_history',
+                              'pwds_history',
+                              'o2sys_long_str');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'no_pwd_change',
+                              'no_pwd_change',
+                              '_o2logical');
+        // ____________________________________________ Write down new repository code ___
+        file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
         }
 

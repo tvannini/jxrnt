@@ -26,6 +26,9 @@ function o2sys_start§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("last_date","users","last_date",null,null,null,null);
 	$task_users->usa("last_time","users","last_time",null,null,null,null);
 	$task_users->usa("login_type","users","login_type",null,null,null,null);
+	$task_users->usa("last_pwd_date","users","last_pwd_date",null,null,null,null);
+	$task_users->usa("force_pwd_change","users","force_pwd_change",null,null,null,null);
+	$task_users->usa("no_pwd_change","users","no_pwd_change",null,null,null,null);
 	$task_users->calcola("active", "o2sys_start_exp_46()",null,null,"o2sys_start_exp_18()",null);
 }
 
@@ -205,6 +208,7 @@ function o2sys_start§§login_correct_act(&$o2exe) {
 	$o2exe->s(2) && True && o2act::set("users", "last_date", o2sys_start_exp_6()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("users", "last_time", o2sys_start_exp_7()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::view("users", "S", "") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_correct_ldap_act(&$o2exe) {
@@ -218,6 +222,7 @@ function o2sys_start§§login_correct_ldap_act(&$o2exe) {
 //	$o2exe->s(8) && True && o2act::remark("Override app password with clear one in $_REQUEST") && $o2exe->e();
 	$o2exe->s(9) && True && o2act::set("users", "o2password", o2sys_start_exp_50()) && $o2exe->e();
 	$o2exe->s(10) && True && o2act::view("users", "S", "") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::ret(6, o2sys_start_exp_18()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_failed_act(&$o2exe) {
@@ -738,5 +743,37 @@ return (!o2val('prg§_§var','login_correct') && (strpos(o2val('prg§_§var','user_n
 function o2sys_start_exp_56() {
 	
 return (substr(o2val('prg§_§var','user_name'), 0, strpos(o2val('prg§_§var','user_name'), '@')));
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_57() {
+	/* ________________________ Password change forced on user: overrides all ___ */
+if (o2val('users','force_pwd_change')) {
+   $f = true;
+   }
+/* ______________ Password change disabled on user: override app settings ___ */
+elseif (o2val('users','no_pwd_change')) {
+   $f = false;
+   }
+/* ______________________ App settings: password change by number of days ___ */
+elseif ($_SESSION['o2_app']->password_change) {
+   /* _________________ Missing last password date: always reset password ___ */
+   if (o2zero('users','last_pwd_date')) {
+      $f = true;   
+      }
+   else {
+      /* __________________________________________________ Expiring days ___ */
+      $e = $_SESSION['o2_app']->password_change;
+      $l = o2_date_obj(o2val('users','last_pwd_date'));
+      $n = new DateTime();
+      $d = $l->diff($n)->d;
+      /* ____________________________________________ If password expired ___ */
+      $f = ($d >= $e);
+      }
+   }
+/* __________________________________________ No password change required ___ */
+else {
+   $f = false;
+   }
+return ($f);
 	} //|o2_fine_exp|
 ?>

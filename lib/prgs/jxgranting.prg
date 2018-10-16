@@ -1,5 +1,5 @@
 <?php
-//2.3
+//2.4
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -58,12 +58,13 @@ o2def::act("user_add_role", "");
 o2def::act("user_create", "");
 o2def::act("user_delete", "");
 o2def::act("user_delete_role", "");
+o2def::act("user_detail", "");
 o2def::act("user_role_write", "");
 o2def::act("user_write", "");
 o2def::form("jxgranting", "", False, "true", false);
-o2def::par(1, "asp_code","_o2alpha");
-o2def::par(2, "user_name","_o2alpha");
-o2def::par(3, "role_name","o2sys_role");
-o2def::par(4, "right_name","o2sys_right");
+o2def::par(1, "asp_code", "_o2alpha");
+o2def::par(2, "user_name", "_o2alpha");
+o2def::par(3, "role_name", "o2sys_role");
+o2def::par(4, "right_name", "o2sys_right");
 
 ?>

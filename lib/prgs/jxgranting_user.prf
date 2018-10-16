@@ -5,10 +5,11 @@ function jxgranting_user§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("asp_area", "_o2alpha");
 	$task_prg§_§var->definisci("asp_list", "_o2structure");
 	$task_prg§_§var->definisci("expire_date", "_o2date");
+	$task_prg§_§var->definisci("force_pwd_change", "_o2logical");
 	$task_prg§_§var->definisci("free_area_code", "_o2logical");
 	$task_prg§_§var->definisci("login_type", "o2sys_login_type");
-	$task_prg§_§var->definisci("password", "_o2alpha");
-	$task_prg§_§var->definisci("password_repeat", "_o2alpha");
+	$task_prg§_§var->definisci("no_pwd_change", "_o2logical");
+	$task_prg§_§var->definisci("pwds_history", "o2sys_long_str");
 	$task_prg§_§var->definisci("user_exists", "_o2logical");
 	$task_prg§_§var->definisci("user_name", "_o2alpha");
 	$task_prg§_§var->definisci("user_roles_model", "_o2alpha");
@@ -20,6 +21,10 @@ function jxgranting_user§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa_file("o2_users","o2_users","o2user",null,null);
 
 	$task_users->usa("o2user","o2_users","o2user","jxgranting_user_exp_10()","jxgranting_user_exp_10()",null,null);
+	$task_users->usa("last_pwd_date","o2_users","last_pwd_date",null,null,null,null);
+	$task_users->usa("last_date","o2_users","last_date",null,null,null,null);
+	$task_users->usa("last_time","o2_users","last_time",null,null,null,null);
+	$task_users->calcola("last_login", "jxgranting_user_exp_57()",null,null,null,null);
 }
 
 function jxgranting_user§§role_per_user_def(&$task_role_per_user, $_o2viewalias = "") {
@@ -54,133 +59,195 @@ function jxgranting_user§§model_users_def(&$task_model_users, $_o2viewalias = ""
 	$task_model_users->calcola("model_user_desc", "jxgranting_user_exp_22()",null,null,null,null);
 }
 function jxgranting_user§§user_form_def(&$form_user) {
-	$form_user->x(-100);
-	$form_user->y(250);
-	$form_user->larghezza(310);
+	$form_user->x(22);
+	$form_user->y(231);
+	$form_user->larghezza(400);
 	$form_user->altezza(350);
 	$form_user->align_v("Middle");
 	$form_user->align_o("Center");
-	$form_user->titolo("Create user");
+	$form_user->titolo(jxgranting_user_exp_38());
 	$form_user->frm_status(jxgranting_user_exp_1());
+	$form_user->css_body("o2_form_body open_body");
 	$form_user->css_doc("sys_users_doc");
 	$form_user->close_action("cancel");
 	$ctrl_o2label18 = &$form_user->ctrldef("o2label18", "label", "", "", "");
-		$ctrl_o2label18->x(30);
-		$ctrl_o2label18->y(55);
-		$ctrl_o2label18->larghezza(100);
+		$ctrl_o2label18->x(20);
+		$ctrl_o2label18->y(65);
+		$ctrl_o2label18->larghezza(160);
 		$ctrl_o2label18->altezza(20);
 		$ctrl_o2label18->label("User name:");
 	$ctrl_o2label2 = &$form_user->ctrldef("o2label2", "label", "", "", "");
-		$ctrl_o2label2->x(30);
-		$ctrl_o2label2->y(200);
-		$ctrl_o2label2->larghezza(250);
+		$ctrl_o2label2->x(20);
+		$ctrl_o2label2->y(230);
+		$ctrl_o2label2->larghezza(160);
 		$ctrl_o2label2->altezza(20);
-		$ctrl_o2label2->label("You can copy roles from an existing user:");
-	$ctrl_o2label20 = &$form_user->ctrldef("o2label20", "label", "", "", "");
-		$ctrl_o2label20->x(30);
-		$ctrl_o2label20->y(105);
-		$ctrl_o2label20->larghezza(100);
-		$ctrl_o2label20->altezza(20);
-		$ctrl_o2label20->label("Repeat password:");
+		$ctrl_o2label2->visibile(jxgranting_user_exp_48());
+		$ctrl_o2label2->label("Copy roles from user:");
 	$ctrl_o2label17 = &$form_user->ctrldef("o2label17", "label", "", "", "");
-		$ctrl_o2label17->x(30);
-		$ctrl_o2label17->y(30);
-		$ctrl_o2label17->larghezza(100);
+		$ctrl_o2label17->x(20);
+		$ctrl_o2label17->y(90);
+		$ctrl_o2label17->larghezza(160);
 		$ctrl_o2label17->altezza(20);
-		$ctrl_o2label17->label("Area:");
+		$ctrl_o2label17->label("Area code (ASPID):");
 	$ctrl_o2separator3 = &$form_user->ctrldef("o2separator3", "line", "", "", "");
-		$ctrl_o2separator3->x(30);
-		$ctrl_o2separator3->y(250);
-		$ctrl_o2separator3->larghezza(250);
+		$ctrl_o2separator3->x(20);
+		$ctrl_o2separator3->y(260);
+		$ctrl_o2separator3->larghezza(360);
 		$ctrl_o2separator3->altezza(2);
-	$ctrl_o2label19 = &$form_user->ctrldef("o2label19", "label", "", "", "");
-		$ctrl_o2label19->x(30);
-		$ctrl_o2label19->y(80);
-		$ctrl_o2label19->larghezza(100);
-		$ctrl_o2label19->altezza(20);
-		$ctrl_o2label19->label("Password:");
 	$ctrl_o2label3 = &$form_user->ctrldef("o2label3", "label", "", "", "");
-		$ctrl_o2label3->x(30);
-		$ctrl_o2label3->y(130);
-		$ctrl_o2label3->larghezza(130);
+		$ctrl_o2label3->x(20);
+		$ctrl_o2label3->y(150);
+		$ctrl_o2label3->larghezza(160);
 		$ctrl_o2label3->altezza(20);
-		$ctrl_o2label3->label("Expires (blank=never):");
+		$ctrl_o2label3->label("User expires (blank=never):");
 	$ctrl_o2label4 = &$form_user->ctrldef("o2label4", "label", "", "", "");
-		$ctrl_o2label4->x(30);
-		$ctrl_o2label4->y(155);
-		$ctrl_o2label4->larghezza(130);
+		$ctrl_o2label4->x(20);
+		$ctrl_o2label4->y(115);
+		$ctrl_o2label4->larghezza(160);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->label("Validation type:");
-	$ctrl_o2edit10 = &$form_user->ctrldef("o2edit10", "edit", "", "prg§_§var", "asp_area");
-		$ctrl_o2edit10->x(160);
-		$ctrl_o2edit10->y(30);
-		$ctrl_o2edit10->larghezza(120);
-		$ctrl_o2edit10->altezza(20);
-		$ctrl_o2edit10->visibile(jxgranting_user_exp_6());
+	$ctrl_o2label5 = &$form_user->ctrldef("o2label5", "label", "", "", "");
+		$ctrl_o2label5->x(20);
+		$ctrl_o2label5->y(180);
+		$ctrl_o2label5->larghezza(160);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->label("Password never expires:");
+	$ctrl_o2label6 = &$form_user->ctrldef("o2label6", "label", "", "", "");
+		$ctrl_o2label6->x(20);
+		$ctrl_o2label6->y(200);
+		$ctrl_o2label6->larghezza(160);
+		$ctrl_o2label6->altezza(20);
+		$ctrl_o2label6->label("Force password change:");
+	$ctrl_o2label7 = &$form_user->ctrldef("o2label7", "label", "", "", "");
+		$ctrl_o2label7->x(210);
+		$ctrl_o2label7->y(200);
+		$ctrl_o2label7->larghezza(170);
+		$ctrl_o2label7->altezza(20);
+		$ctrl_o2label7->visibile(jxgranting_user_exp_39());
+		$ctrl_o2label7->label(jxgranting_user_exp_46());
+	$ctrl_o2label8 = &$form_user->ctrldef("o2label8", "label", "", "", "");
+		$ctrl_o2label8->x(210);
+		$ctrl_o2label8->y(180);
+		$ctrl_o2label8->larghezza(170);
+		$ctrl_o2label8->altezza(20);
+		$ctrl_o2label8->visibile(jxgranting_user_exp_47());
+		$ctrl_o2label8->label(jxgranting_user_exp_45());
+	$ctrl_o2label9 = &$form_user->ctrldef("o2label9", "label", "", "", "");
+		$ctrl_o2label9->x(20);
+		$ctrl_o2label9->y(230);
+		$ctrl_o2label9->larghezza(160);
+		$ctrl_o2label9->altezza(20);
+		$ctrl_o2label9->visibile(jxgranting_user_exp_39());
+		$ctrl_o2label9->label("Last login:");
+	$ctrl_o2label10 = &$form_user->ctrldef("o2label10", "label", "", "", "");
+		$ctrl_o2label10->x(180);
+		$ctrl_o2label10->y(230);
+		$ctrl_o2label10->larghezza(200);
+		$ctrl_o2label10->altezza(20);
+		$ctrl_o2label10->visibile(jxgranting_user_exp_39());
+		$ctrl_o2label10->label(jxgranting_user_exp_58());
 	$ctrl_o2edit5 = &$form_user->ctrldef("o2edit5", "edit", "", "prg§_§var", "user_name");
-		$ctrl_o2edit5->x(160);
-		$ctrl_o2edit5->y(55);
-		$ctrl_o2edit5->larghezza(120);
+		$ctrl_o2edit5->x(180);
+		$ctrl_o2edit5->y(65);
+		$ctrl_o2edit5->larghezza(200);
 		$ctrl_o2edit5->altezza(20);
+		$ctrl_o2edit5->modificabile(jxgranting_user_exp_48());
 		$ctrl_o2edit5->azione("check_name");
 		$ctrl_o2edit5->on_change(jxgranting_user_exp_8());
-	$ctrl_o2edit6 = &$form_user->ctrldef("o2edit6", "edit", "", "prg§_§var", "password");
-		$ctrl_o2edit6->x(160);
-		$ctrl_o2edit6->y(80);
-		$ctrl_o2edit6->larghezza(120);
-		$ctrl_o2edit6->altezza(20);
-		$ctrl_o2edit6->pswd(true);
-	$ctrl_o2edit7 = &$form_user->ctrldef("o2edit7", "edit", "", "prg§_§var", "password_repeat");
-		$ctrl_o2edit7->x(160);
-		$ctrl_o2edit7->y(105);
-		$ctrl_o2edit7->larghezza(120);
-		$ctrl_o2edit7->altezza(20);
-		$ctrl_o2edit7->pswd(true);
-	$ctrl_o2edit2 = &$form_user->ctrldef("o2edit2", "edit", "", "prg§_§var", "expire_date");
-		$ctrl_o2edit2->x(160);
-		$ctrl_o2edit2->y(130);
-		$ctrl_o2edit2->larghezza(120);
-		$ctrl_o2edit2->altezza(20);
-	$ctrl_o2ListBox4 = &$form_user->ctrldef("o2ListBox4", "listcombo", "", "prg§_§var", "login_type");
-		$ctrl_o2ListBox4->x(160);
-		$ctrl_o2ListBox4->y(155);
-		$ctrl_o2ListBox4->larghezza(120);
-		$ctrl_o2ListBox4->altezza(20);
-		$ctrl_o2ListBox4->valori(jxgranting_user_exp_30());
-		$ctrl_o2ListBox4->righe(1);
-	$ctrl_o2ListBox3 = &$form_user->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "user_roles_model");
-		$ctrl_o2ListBox3->x(30);
-		$ctrl_o2ListBox3->y(220);
-		$ctrl_o2ListBox3->larghezza(250);
-		$ctrl_o2ListBox3->altezza(20);
-		$ctrl_o2ListBox3->valori(o2_view2list("model_users", "o2user", "model_user_desc"));
-		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2button5 = &$form_user->ctrldef("o2button5", "button", "", "", "");
-		$ctrl_o2button5->x(190);
-		$ctrl_o2button5->y(270);
-		$ctrl_o2button5->larghezza(90);
-		$ctrl_o2button5->altezza(30);
-		$ctrl_o2button5->azione("create");
-		$ctrl_o2button5->label("     Create");
-		$ctrl_o2button5->css(jxgranting_user_exp_3());
-	$ctrl_o2button4 = &$form_user->ctrldef("o2button4", "button", "", "", "");
-		$ctrl_o2button4->x(90);
-		$ctrl_o2button4->y(270);
-		$ctrl_o2button4->larghezza(90);
-		$ctrl_o2button4->altezza(30);
-		$ctrl_o2button4->azione("cancel");
-		$ctrl_o2button4->label("     Cancel");
-		$ctrl_o2button4->css(jxgranting_user_exp_2());
 	$ctrl_o2ListBox2 = &$form_user->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "asp_area");
-		$ctrl_o2ListBox2->x(160);
-		$ctrl_o2ListBox2->y(30);
-		$ctrl_o2ListBox2->larghezza(120);
+		$ctrl_o2ListBox2->x(180);
+		$ctrl_o2ListBox2->y(90);
+		$ctrl_o2ListBox2->larghezza(200);
 		$ctrl_o2ListBox2->altezza(20);
 		$ctrl_o2ListBox2->visibile(jxgranting_user_exp_5());
 		$ctrl_o2ListBox2->azione("area_code_select");
 		$ctrl_o2ListBox2->on_change(jxgranting_user_exp_8());
 		$ctrl_o2ListBox2->valori(jxgranting_user_exp_24());
 		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2ListBox4 = &$form_user->ctrldef("o2ListBox4", "listcombo", "", "prg§_§var", "login_type");
+		$ctrl_o2ListBox4->x(180);
+		$ctrl_o2ListBox4->y(115);
+		$ctrl_o2ListBox4->larghezza(200);
+		$ctrl_o2ListBox4->altezza(20);
+		$ctrl_o2ListBox4->valori(jxgranting_user_exp_30());
+		$ctrl_o2ListBox4->righe(1);
+	$ctrl_o2edit2 = &$form_user->ctrldef("o2edit2", "edit", "", "prg§_§var", "expire_date");
+		$ctrl_o2edit2->x(180);
+		$ctrl_o2edit2->y(150);
+		$ctrl_o2edit2->larghezza(100);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->maschera("o2sys_long_date");
+	$ctrl_o2checkbox2 = &$form_user->ctrldef("o2checkbox2", "check", "", "prg§_§var", "no_pwd_change");
+		$ctrl_o2checkbox2->x(180);
+		$ctrl_o2checkbox2->y(180);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(20);
+		$ctrl_o2checkbox2->modificabile(jxgranting_user_exp_49());
+	$ctrl_o2checkbox3 = &$form_user->ctrldef("o2checkbox3", "check", "", "prg§_§var", "force_pwd_change");
+		$ctrl_o2checkbox3->x(180);
+		$ctrl_o2checkbox3->y(200);
+		$ctrl_o2checkbox3->larghezza(20);
+		$ctrl_o2checkbox3->altezza(20);
+	$ctrl_o2ListBox3 = &$form_user->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "user_roles_model");
+		$ctrl_o2ListBox3->x(180);
+		$ctrl_o2ListBox3->y(230);
+		$ctrl_o2ListBox3->larghezza(200);
+		$ctrl_o2ListBox3->altezza(20);
+		$ctrl_o2ListBox3->visibile(jxgranting_user_exp_48());
+		$ctrl_o2ListBox3->valori(o2_view2list("model_users", "o2user", "model_user_desc"));
+		$ctrl_o2ListBox3->righe(1);
+	$ctrl_o2button5 = &$form_user->ctrldef("o2button5", "button", "", "", "");
+		$ctrl_o2button5->x(290);
+		$ctrl_o2button5->y(280);
+		$ctrl_o2button5->larghezza(90);
+		$ctrl_o2button5->altezza(30);
+		$ctrl_o2button5->azione("save");
+		$ctrl_o2button5->label(jxgranting_user_exp_44());
+		$ctrl_o2button5->css(jxgranting_user_exp_3());
+	$ctrl_o2button4 = &$form_user->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(190);
+		$ctrl_o2button4->y(280);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->azione("cancel");
+		$ctrl_o2button4->label("Cancel");
+		$ctrl_o2button4->css(jxgranting_user_exp_2());
+	$ctrl_o2edit10 = &$form_user->ctrldef("o2edit10", "edit", "", "prg§_§var", "asp_area");
+		$ctrl_o2edit10->x(180);
+		$ctrl_o2edit10->y(90);
+		$ctrl_o2edit10->larghezza(120);
+		$ctrl_o2edit10->altezza(20);
+		$ctrl_o2edit10->visibile(jxgranting_user_exp_6());
+	$ctrl_o2multipage2 = &$form_user->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(0);
+		$ctrl_o2multipage2->y(0);
+		$ctrl_o2multipage2->larghezza(400);
+		$ctrl_o2multipage2->altezza(40);
+		$ctrl_o2multipage2->expand("H");
+		$ctrl_o2multipage2->label(array("Page1"));
+		$ctrl_o2multipage2->css_space_out(jxgranting_user_exp_17());
+		$ctrl_o2multipage2->css_space_in(jxgranting_user_exp_15());
+		$ctrl_o2multipage2->css_label_on(jxgranting_user_exp_34());
+		$ctrl_o2multipage2->css_label_off(jxgranting_user_exp_34());
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2image27 = &$form_user->ctrldef("o2image27", "img", "o2multipage2", "", "");
+		$ctrl_o2image27->x(34);
+		$ctrl_o2image27->y(11);
+		$ctrl_o2image27->larghezza(3);
+		$ctrl_o2image27->altezza(17);
+		$ctrl_o2image27->info_padre(array(0));
+		$ctrl_o2image27->imgexp(jxgranting_user_exp_37());
+	$ctrl_o2image4 = &$form_user->ctrldef("o2image4", "img", "o2multipage2", "", "");
+		$ctrl_o2image4->x(10);
+		$ctrl_o2image4->y(8);
+		$ctrl_o2image4->larghezza(24);
+		$ctrl_o2image4->altezza(24);
+		$ctrl_o2image4->modificabile(jxgranting_user_exp_56());
+		$ctrl_o2image4->azione("clear_pwd_history");
+		$ctrl_o2image4->info_padre(array(0));
+		$ctrl_o2image4->label("Clear passwords history");
+		$ctrl_o2image4->css(jxgranting_user_exp_36());
+		$ctrl_o2image4->imgexp(jxgranting_user_exp_35());
 		}
 
 function jxgranting_user§§area_code_select_act(&$o2exe) {
@@ -188,12 +255,16 @@ function jxgranting_user§§area_code_select_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting_user§§cancel_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::ret(6, jxgranting_user_exp_1()) && $o2exe->e();
+	$o2exe->s(1) && True && o2act::ret(8, jxgranting_user_exp_1()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§check_name_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_name", jxgranting_user_exp_33()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_user§§clear_pwd_history_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "pwds_history", jxgranting_user_exp_9()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§copy_role_act(&$o2exe) {
@@ -207,13 +278,9 @@ function jxgranting_user§§copy_roles_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::exe("copy_role", False, "model_roles") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_user§§create_act(&$o2exe) {
-	$o2exe->s(1) && (jxgranting_user_exp_31() || $o2exe->e()) && o2act::exe("user_name_missing", True, "") && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_exists", jxgranting_user_exp_11()) && $o2exe->e();
-	$o2exe->s(3) && (jxgranting_user_exp_12() || $o2exe->e()) && o2act::exe("user_exists", True, "") && $o2exe->e();
-	$o2exe->s(4) && (jxgranting_user_exp_14() || $o2exe->e()) && o2act::exe("copy_roles", True, "") && $o2exe->e();
-	$o2exe->s(5) && (jxgranting_user_exp_14() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
-	$o2exe->s(6) && (jxgranting_user_exp_17() || $o2exe->e()) && o2act::exe("password_wrong", True, "") && $o2exe->e();
+function jxgranting_user§§create_new_act(&$o2exe) {
+	$o2exe->s(1) && (jxgranting_user_exp_26() || $o2exe->e()) && o2act::set("prg§_§var", "asp_area", jxgranting_user_exp_27()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "force_pwd_change", jxgranting_user_exp_8()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§free_area_code_act(&$o2exe) {
@@ -222,23 +289,29 @@ function jxgranting_user§§free_area_code_act(&$o2exe) {
 	$o2exe->s(3) && True && o2act::script(jxgranting_user_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_user§§password_wrong_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::set("prg§_§var", "password", jxgranting_user_exp_9()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("prg§_§var", "password_repeat", jxgranting_user_exp_9()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::alert(jxgranting_user_exp_18(), 0) && $o2exe->e();
-	$o2exe->s(4) && True && o2act::script(jxgranting_user_exp_19()) && $o2exe->e();
+function jxgranting_user§§save_act(&$o2exe) {
+	$o2exe->s(1) && (jxgranting_user_exp_31() || $o2exe->e()) && o2act::exe("user_name_missing", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_exists", jxgranting_user_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && (jxgranting_user_exp_12() || $o2exe->e()) && o2act::exe("user_exists", True, "") && $o2exe->e();
+	$o2exe->s(4) && (jxgranting_user_exp_14() || $o2exe->e()) && o2act::exe("copy_roles", True, "") && $o2exe->e();
+	$o2exe->s(5) && (jxgranting_user_exp_40() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§start_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::set("prg§_§var", "asp_list", jxgranting_user_exp_4()) && $o2exe->e();
-	$o2exe->s(2) && (jxgranting_user_exp_26() || $o2exe->e()) && o2act::set("prg§_§var", "asp_area", jxgranting_user_exp_27()) && $o2exe->e();
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_name", jxgranting_user_exp_39()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "asp_area", jxgranting_user_exp_50()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "expire_date", jxgranting_user_exp_51()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "login_type", jxgranting_user_exp_52()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "pwds_history", jxgranting_user_exp_53()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "force_pwd_change", jxgranting_user_exp_54()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "no_pwd_change", jxgranting_user_exp_55()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "asp_list", jxgranting_user_exp_4()) && $o2exe->e();
+	$o2exe->s(9) && (jxgranting_user_exp_48() || $o2exe->e()) && o2act::exe("create_new", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§user_exists_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_name", jxgranting_user_exp_9()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("prg§_§var", "password", jxgranting_user_exp_9()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::set("prg§_§var", "password_repeat", jxgranting_user_exp_9()) && $o2exe->e();
-	$o2exe->s(4) && True && o2act::alert(jxgranting_user_exp_13(), 0) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::alert(jxgranting_user_exp_13(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§user_name_missing_act(&$o2exe) {
@@ -248,11 +321,13 @@ function jxgranting_user§§user_name_missing_act(&$o2exe) {
 function jxgranting_user§§user_write_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::ret(1, jxgranting_user_exp_10()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::ret(2, jxgranting_user_exp_16()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::ret(3, jxgranting_user_exp_15()) && $o2exe->e();
-	$o2exe->s(4) && True && o2act::ret(4, jxgranting_user_exp_28()) && $o2exe->e();
-	$o2exe->s(5) && True && o2act::ret(5, jxgranting_user_exp_29()) && $o2exe->e();
-	$o2exe->s(6) && True && o2act::ret(6, jxgranting_user_exp_8()) && $o2exe->e();
-	$o2exe->s(7) && True && o2act::close()&& $o2exe->e();
+	$o2exe->s(3) && True && o2act::ret(3, jxgranting_user_exp_28()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::ret(4, jxgranting_user_exp_29()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::ret(5, jxgranting_user_exp_41()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::ret(6, jxgranting_user_exp_42()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::ret(7, jxgranting_user_exp_43()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::ret(8, jxgranting_user_exp_8()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user_exp_1() {
@@ -262,12 +337,12 @@ return (false);
 
 function jxgranting_user_exp_2() {
 	
-return ("jxwiz_cancel");
+return ('o2_ctrl_button jxbtn_cancel');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_3() {
 	
-return ("jxwiz_save");
+return ('o2_ctrl_button jxbtn_save');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_4() {
@@ -298,7 +373,7 @@ return (true);
 
 function jxgranting_user_exp_9() {
 	
-return ("");
+return ('');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_10() {
@@ -313,7 +388,7 @@ return (o2view_rec("users"));
 
 function jxgranting_user_exp_12() {
 	
-return (o2val('prg§_§var','user_exists'));
+return (!o2par(1) && o2val('prg§_§var','user_exists'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_13() {
@@ -323,12 +398,12 @@ return ("User ".o2val('prg§_§var','user_name')." already exists!");
 
 function jxgranting_user_exp_14() {
 	
-return (!o2zero('prg§_§var','user_name') && !o2val('prg§_§var','user_exists') && (o2val('prg§_§var','password') == o2val('prg§_§var','password_repeat')));
+return (!o2par(1) && !o2zero('prg§_§var','user_name') && !o2val('prg§_§var','user_exists'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_15() {
 	
-return ((o2zero('prg§_§var','password') ? "" : md5(o2val('prg§_§var','password'))));
+return ('nowindow');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_16() {
@@ -338,7 +413,7 @@ return (o2val('prg§_§var','asp_area'));
 
 function jxgranting_user_exp_17() {
 	
-return (!o2val('prg§_§var','user_exists') && (o2val('prg§_§var','password') != o2val('prg§_§var','password_repeat')));
+return ('nav_big');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_18() {
@@ -404,7 +479,7 @@ return (o2val('prg§_§var','login_type'));
 
 function jxgranting_user_exp_30() {
 	
-return (array('' => '[Standard]', 'LDAP' => 'LDAP'));
+return (array('' => '[Internal]', 'LDAP' => 'LDAP'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_31() {
@@ -420,5 +495,146 @@ return ("Insert a valid user name");
 function jxgranting_user_exp_33() {
 	
 return (strtr(o2val('prg§_§var','user_name'), " /\\", "___"));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_34() {
+	
+return ('hidden');
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_35() {
+	
+return ('<jx>/img/grant/history_del'.(o2exp(56) ? '' : '_dis').'.png');
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_36() {
+	
+return ('jximgbtn');
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_37() {
+	
+return ('<jx>/img/jobs/separator.png');
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_38() {
+	
+return ((o2par(1) ? 'User' : 'Create new user'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_39() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_40() {
+	
+return (!o2zero('prg§_§var','user_name') && (o2par(1) || !o2val('prg§_§var','user_exists')));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_41() {
+	
+return (o2val('prg§_§var','pwds_history'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_42() {
+	
+return (o2val('prg§_§var','force_pwd_change'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_43() {
+	
+return (o2val('prg§_§var','no_pwd_change'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_44() {
+	
+return ((o2par(1) ? 'Save' : 'Create'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_45() {
+	$msg = 'No password expiration';
+$app = $_SESSION['o2_app'];
+if ($app->password_change) {
+   $d = o2user_pwd_expires(o2val('prg§_§var','user_name'));
+   if ($d === 0) {
+      $msg = 'Password expired';   
+      }
+   elseif ($d > 0) {
+      $msg = 'Missing '.$d.' days to expiration';   
+      }
+   else {
+      $msg = 'Password expired '.abs($d).' days ago';   
+      }
+   }
+ 
+return ($msg);
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_46() {
+	
+return ((o2zero('users','last_pwd_date') ? 'Never changed' : 'Last change: '.o2format(o2val('users','last_pwd_date'), 'o2sys_long_date')));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_47() {
+	
+return ($_SESSION['o2_app']->password_change && !o2zero('users','last_pwd_date'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_48() {
+	
+return (!o2par(1));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_49() {
+	
+return ($_SESSION['o2_app']->password_change);
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_50() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_51() {
+	
+return (o2par(3));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_52() {
+	
+return (o2par(4));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_53() {
+	
+return (o2par(5));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_54() {
+	
+return (o2par(6));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_55() {
+	
+return (o2par(7));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_56() {
+	
+return (o2par(5));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_57() {
+	$ll = (o2zero('users','last_date') ? 'Never' : 
+       o2format(o2val('users','last_date'), 'o2sys_long_date').' '.
+       o2format(o2val('users','last_time'), 'jxsched_time'));
+return ($ll);
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_58() {
+	
+return (o2val('users','last_login'));
 	} //|o2_fine_exp|
 ?>

@@ -151,12 +151,6 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2button4->label("&Apply");
 		$ctrl_o2button4->confirm_message(o2sys_iniconf_exp_32());
 		$ctrl_o2button4->css(o2sys_iniconf_exp_28());
-	$ctrl_o2htmlarea3 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea3->x(220);
-		$ctrl_o2htmlarea3->y(490);
-		$ctrl_o2htmlarea3->larghezza(80);
-		$ctrl_o2htmlarea3->altezza(30);
-		$ctrl_o2htmlarea3->expand("H");
 	$ctrl_o2button2 = &$form_o2sys_iniconf_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(530);
 		$ctrl_o2button2->y(490);
@@ -171,12 +165,18 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2multipage2->larghezza(650);
 		$ctrl_o2multipage2->altezza(40);
 		$ctrl_o2multipage2->expand("H");
-		$ctrl_o2multipage2->label(array("Page1"));
+		$ctrl_o2multipage2->label(array("Frame"));
 		$ctrl_o2multipage2->css_space_out(o2sys_iniconf_exp_51());
 		$ctrl_o2multipage2->css_space_in(o2sys_iniconf_exp_50());
 		$ctrl_o2multipage2->css_label_on(o2sys_iniconf_exp_49());
 		$ctrl_o2multipage2->css_label_off(o2sys_iniconf_exp_49());
 		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2htmlarea3 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea3->x(220);
+		$ctrl_o2htmlarea3->y(490);
+		$ctrl_o2htmlarea3->larghezza(80);
+		$ctrl_o2htmlarea3->altezza(30);
+		$ctrl_o2htmlarea3->expand("H");
 	$ctrl_o2htmlarea2 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(220);
 		$ctrl_o2htmlarea2->y(230);
@@ -843,6 +843,29 @@ $list = array(
                                  "others will be logged in as \"default\"",
                        "default" => 0,
                        "values" => array(0, 1, 2)),
+   "password_change" => array("rntval" => null,
+                              "appval" => null,
+                              "desc" => "   *** Password expiration days ***\n\n".
+                                        "Set the number of days for passwords to expire.\n".
+                                        "Users will be forced to enter a new password every expiration days to login.\n".
+                                        "Set 0 (zero) days to make passwords never expire.\n",
+                              "default" => 0),
+   "password_strength" => array("rntval" => null,
+                                "appval" => null,
+                                "desc" => "   *** Password strength ***\n\n".
+                                          "Rules to enforce password strength. ".
+                                          "Only passwords matching defined rules will be accepted.\n\n".
+                                          "Password strength can be set to one of this values:\n\n".
+                                          " 0. No rules\nAccept any password.\n\n".
+                                          " 1. Password rules\nPassowrd can't be shorter then 8 characters and ".
+                                          "it must contain at least ".
+                                          "1 lowercase character, 1 uppercase character, 1 digit and ".
+                                          "1 special character.\n\n".
+                                          " 2. Password and history rules\n".
+                                          "Password must match rules from point 1 and it can't be one of ".
+                                          "the last 4 used passwords.\n",
+                                "default" => 0,
+                                "values" => array(0, 1, 2)),
    "ldap_server" => array("rntval" => null,
                           "appval" => null,
                           "desc" => "   *** LDAP authority server for validation ***\n\n".
@@ -1267,6 +1290,8 @@ function o2sys_iniconf_exp_34() {
               "errorinc",
               "",
               "validate",
+              "password_strength",
+              "password_change",
               "ldap_server",
               "ldap_search_domain",
               "ldap_base_dn",

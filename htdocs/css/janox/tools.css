@@ -529,6 +529,34 @@
     }
 
 
+/* Actions classes, to be added to standard classes like buttons
+   (Will replace wizard buttons ".jxwiz_*") */
+
+.jxbtn_save, .jxbtn_save:hover, .jxbtn_save:focus {
+    text-align: left;
+    }
+
+.jxbtn_save:before {
+    content: url("tools/stock/apply.png");
+    float: left;
+    margin-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    }
+
+.jxbtn_cancel, .jxbtn_cancel:hover, .jxbtn_cancel:focus {
+    text-align: left;
+    }
+
+.jxbtn_cancel:before {
+    content: url("tools/stock/clear.png");
+    float: left;
+    margin-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    }
+
+
 /* File system browser */
 
 .fsb_tree {

@@ -2005,6 +2005,67 @@ function o2user_delete($user) {
     }
 
 
+/**
+ * Returns number of days before user password expiring.
+ *
+ * Function can return a negative value, if password already expired.
+ * If no expiration time is set for application or if password never expires for requested
+ * user, then function returns (strict) FALSE.
+ * If "last password change" date is not set or flag "force password change" is set for
+ * user, then function returns 0 (zero).
+ *
+ * If no any user will be passed as parameter then currently logged user will be used.
+ *
+ * @package user
+ * @param   string $user   User to be check password of
+ * @return  integer
+ * @see     o2user_is(), o2user_has()
+ */
+function o2user_pwd_expires($user = false) {
+
+    $app = $_SESSION['o2_app'];
+    if (!$app->password_change) {
+        return false;
+        }
+    if (!$user) {
+        $user = $app->user;
+        }
+    $users  = $app->get_table('o2_users');
+    $db     = $users->db;
+    $server = $db->server;
+    $co     = constant("o2_".$server->type."_o");
+    $cc     = constant("o2_".$server->type."_c");
+    $select = $users->campi['last_pwd_date'].' '.$co.'LCDATE'.$cc.', '.
+              $users->campi['no_pwd_change'].' '.$co.'NOCHANGE'.$cc.', '.
+              $users->campi['force_pwd_change'].' '.$co.'FORCE'.$cc;
+    $where  = $users->campi['o2user']." = '".$user."'";
+    $res    = o2_gateway::recordset($server->type,
+                                    $server->server,
+                                    $server->user,
+                                    $server->password,
+                                    $db->nome,
+                                    $db->proprietario,
+                                    $users->nome,
+                                    $users->nome,
+                                    $select,
+                                    $where,
+                                    false,
+                                    1)[0];
+    if ($res['NOCHANGE']) {
+        return false;
+        }
+    elseif ($res['FORCE'] || !$res['LCDATE']) {
+        return 0;
+        }
+    else {
+        $lcdate = o2_date_obj($res['LCDATE']);
+        $today  = new DateTime();
+        return $app->password_change - $lcdate->diff($today)->days;
+        }
+
+    }
+
+
 // ===================================== JAVASCRIPT =======================================
 /**
  * Executes arbitrary JavaScript code on client browser
@@ -2982,13 +3043,24 @@ function o2app_dir_uploads() {
  * Execute session logout: delete session record and destroy WEB session related context.
  * If any, after logout navigation will be redirected to provided URL.
  *
+ * If $exit_url is passed as (strict) TRUE then client will be redirected to a new session
+ *
  * @package application
  * @param   string $exit_url
  * @return  boolean
  */
 function o2app_logout($exit_url = false) {
 
-    $_SESSION['o2_app']->logout($exit_url);
+    $app = $_SESSION['o2_app'];
+    if ($exit_url === true) {
+        $exit_url = '?user='.$app->user.'&password='.$app->password.'&auth=local'.
+                            ($app->client_width ? '&jxcsw='.$app->client_width : '').
+                            ($app->client_height ? '&jxcsh='.$app->client_height : '').
+                            ($app->runtime->developer ?
+                             '&dev='.$app->runtime->developer.
+                             '&key='.$app->runtime->dev_key : '');
+        }
+    $app->logout($exit_url);
 
     }
 

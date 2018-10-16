@@ -6432,9 +6432,9 @@ class o2act {
         array_shift($pars);
         $o2pars = array();
         foreach ($pars as $i => $single_par) {
-            $o2pars[$i]['tipo']   = "E";
-            $o2pars[$i]['task']   = "";
-            $o2pars[$i]['campo']  = "";
+            $o2pars[$i]['tipo']   = 'E';
+            $o2pars[$i]['task']   = '';
+            $o2pars[$i]['campo']  = '';
             $o2pars[$i]['valore'] = $single_par;
             }
         if ($app->extcall_level) {
@@ -6442,15 +6442,14 @@ class o2act {
                 $app->termina_prg($exe_id);
                 }
             array_unshift($pars, $program);
-            call_user_func_array(array($app, "intcall"), $pars);
+            call_user_func_array(array($app, 'intcall'), $pars);
             }
         else {
             // ________________________________ Reset calls list and create first call ___
-            $app->chiamate    = array();
-            $app->chiamate[1] = array('id'          => 1,
-                                      'prg'         => trim($program),
-                                      'parametri_n' => $pars_n,
-                                      'parametri'   => $o2pars);
+            $app->chiamate = array(1 => array('id'          => 1,
+                                              'prg'         => trim($program),
+                                              'parametri_n' => $pars_n,
+                                              'parametri'   => $o2pars));
             switch ($app->runtime->interface) {
                 case "HTML":
                     ob_clean();
