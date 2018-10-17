@@ -213,7 +213,8 @@ function o2_oracle_execute($query,
         while ((!$limit || $counter < $limit) && ($row = @oci_fetch_assoc($stmt))) {
             $counter++;
             $arr_local = array();
-            while (list($field, $value) = each($row)) {
+
+            foreach ($row as $field => $value) {
                 if (is_object($value) && get_class($value) == "OCI-Lob") {
                     while (!$value->eof()) {
                         $arr_local[$field].= $value->read(2000);

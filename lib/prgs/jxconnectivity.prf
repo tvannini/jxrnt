@@ -2839,21 +2839,16 @@ return (o2val('prg§_§var','node_type') == "table" || o2val('prg§_§var','node_typ
 function jxconnectivity_exp_31() {
 	$list = array();
 $root_folder = o2app_dir_home()."data".DIRECTORY_SEPARATOR;
-$list[$root_folder] = $root_folder;
-reset($list);
-while ((list($folder_name, $folder_path) = each($list))) {
-      foreach (o2dir_list($folder_path) as $single_element) {
-              if (o2file_type($single_element) == "D") {
-                 $list[$single_element] = $single_element.DIRECTORY_SEPARATOR;
-                 }
-              }
+$list[$root_folder] = '/';
+$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root_folder), 
+                                       RecursiveIteratorIterator::SELF_FIRST);
+foreach ($files as $file) {
+   if ($file->isDir() && $file->getBasename() != '.' && $file->getBasename() != '..') {
+      $name = str_replace("\\", "/", $file->getPathname()).'/';
+      $list[$name] = substr($name, strlen($root_folder) - 1);
       }
-$list_copy = $list;
-$list = array();
-foreach ($list_copy as $i => $single_element) {
-    $name        = str_replace("\\", "/", $i);
-    $list[$name] = substr($name, strlen($root_folder) - 1);
-    }
+   }
+
 return ($list);
 	} //|o2_fine_exp|
 

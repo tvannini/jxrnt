@@ -3163,11 +3163,10 @@ class o2_ctrl_listcombo extends o2_ctrl {
                                                                                $singvalue;
                         }
                     }
-                reset($this->valori);
-                while (list($item_code, $item_desc) = each($this->valori)) {
+                foreach ($this->valori as $item_code => $item_desc) {
                     if ($value == trim($item_code)) {
-                        if ($app->multilang && !$o2ctrl_obj->untranslate) {
-                            $ret = $app->translate($o2ctrl_obj->nome,
+                        if ($app->multilang && !$this->untranslate) {
+                            $ret = $app->translate($this->nome,
                                                    'item',
                                                    $item_code,
                                                    $item_desc);

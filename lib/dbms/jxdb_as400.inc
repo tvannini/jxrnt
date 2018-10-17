@@ -135,7 +135,7 @@ function o2_as400_execute($query, $server, $user, $password) {
         $arr_return = array();
         while($row = @odbc_fetch_array($res_local)) {
             $arr_local = array();
-            while (list($field, $value) = each($row)) {
+            foreach ($row as $field => $value) {
                 $arr_local[$field] = rtrim($value);
                 }
             $arr_return[] = $arr_local;

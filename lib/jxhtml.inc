@@ -2232,7 +2232,6 @@ class o2html {
         elseif ($zoom && $active) {
             $jsl = 'onDblClick="o2jse.ctrl.zoom(event);" ';
             }
-        reset($o2ctrl_obj->valori);
         if ($enabled_in_tab) {
             $cod_default = false;
             print '<div id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.
@@ -2247,7 +2246,7 @@ class o2html {
             // _____________________________ Draw items list and verify code existence ___
             $o2ctrl_obj->error = true;
             $list              = '';
-            while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
+            foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
                 if ($app->multilang && !$o2ctrl_obj->untranslate) {
                     $descrizione = $app->translate($o2ctrl_obj->nome,
                                                    'item',
@@ -2279,7 +2278,7 @@ class o2html {
             }
         else {
             $valore_local = "";
-            while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
+            foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
                 if ($app->multilang && !$o2ctrl_obj->untranslate) {
                     $descrizione = $app->translate($o2ctrl_obj->nome,
                                                    'item',
@@ -2330,8 +2329,7 @@ class o2html {
                 $cod_default   = false;
                 $desc_default  = false;
                 $static_list   = array();
-                reset($o2ctrl_obj->valori);
-                while (list($codice, $descrizione) = each($o2ctrl_obj->valori)) {
+                foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
                     if ($app->multilang && !$o2ctrl_obj->untranslate) {
                         $descrizione = $app->translate($o2ctrl_obj->nome,
                                                        'item',
