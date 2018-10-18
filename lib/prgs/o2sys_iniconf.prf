@@ -809,7 +809,7 @@ $list = array(
                          "appval" => null,
                          "desc" => "   *** URL to logout to ***\n\n".
                                    "Set HTML page where users will be redirected to, after logout.\n".
-                                   "URL will be used by function o2app_logout(), when called without parameters.\n".                                   
+                                   "URL will be used by function o2app_logout(), when called without parameters.\n".
                                    "If URL starts with \"http://\" then it's absolute, else it's considered ".
                                    "relative to application alias.",
                          "default" => ""),
@@ -1028,8 +1028,9 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_5() {
-	
-return (o2val('prg§_§var','set_value') && count(o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values")));
+	$l = o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values");
+$v = o2val('prg§_§var','set_value') && is_array($l) && count($l);
+return ($v);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_6() {
@@ -1044,7 +1045,7 @@ return (o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "des
 
 function o2sys_iniconf_exp_8() {
 	$values = o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values");
-$list = (count($values) ? array_combine($values, $values) : array());
+$list = (is_array($values) && count($values) ? array_combine($values, $values) : array());
 return ($list);
 	} //|o2_fine_exp|
 
