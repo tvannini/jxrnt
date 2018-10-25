@@ -1159,7 +1159,8 @@ $values   = parse_ini_file($ini);
 $struct   = o2val('prg§_§var','ini_struct');
 foreach (array_keys($struct) as $key) {
    if (isset($values[$key])) {
-      if (count($struct[$key]['values']) == 2 &&
+      if (is_array($struct[$key]['values']) && 
+          count($struct[$key]['values']) == 2 &&
           in_array("on", $struct[$key]['values']) &&
           in_array("off", $struct[$key]['values'])) {
          $struct[$key]["rntval"] = ($values[$key] ? "on" : "off");
@@ -1181,7 +1182,8 @@ $values = parse_ini_file($ini);
 $struct = o2val('prg§_§var','ini_struct');
 foreach (array_keys($struct) as $key) {
    if (isset($values[$key])) {
-      if (count($struct[$key]['values']) == 2 &&
+      if (is_array($struct[$key]['values']) && 
+          count($struct[$key]['values']) == 2 &&
           in_array("on", $struct[$key]['values'], true) &&
           in_array("off", $struct[$key]['values'], true)) {
          $struct[$key]["appval"] = ($values[$key] ? "on" : "off");
