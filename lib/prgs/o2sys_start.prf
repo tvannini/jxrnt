@@ -746,33 +746,33 @@ return (substr(o2val('prg§_§var','user_name'), 0, strpos(o2val('prg§_§var','user
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_57() {
-	/* ________________________ Password change forced on user: overrides all ___ */
+	/* _______________ Password change forced on user: overrides all (code 2) ___ */
 if (o2val('users','force_pwd_change')) {
-   $f = true;
+   $f = 2;
    }
 /* ______________ Password change disabled on user: override app settings ___ */
 elseif (o2val('users','no_pwd_change')) {
-   $f = false;
+   $f = 0;
    }
-/* ______________________ App settings: password change by number of days ___ */
+/* _____________ App settings: password change by number of days (code 1) ___ */
 elseif ($_SESSION['o2_app']->password_change) {
    /* _________________ Missing last password date: always reset password ___ */
    if (o2zero('users','last_pwd_date')) {
-      $f = true;   
+      $f = 1;   
       }
    else {
       /* __________________________________________________ Expiring days ___ */
       $e = $_SESSION['o2_app']->password_change;
       $l = o2_date_obj(o2val('users','last_pwd_date'));
       $n = new DateTime();
-      $d = $l->diff($n)->d;
+      $d = $l->diff($n)->days;     
       /* ____________________________________________ If password expired ___ */
-      $f = ($d >= $e);
+      $f = ($d >= $e ? 1 : 0);
       }
    }
 /* __________________________________________ No password change required ___ */
 else {
-   $f = false;
+   $f = 0;
    }
 return ($f);
 	} //|o2_fine_exp|

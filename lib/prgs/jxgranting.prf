@@ -271,7 +271,7 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2image5->altezza(24);
 		$ctrl_o2image5->azione("user_detail");
 		$ctrl_o2image5->info_padre(array(0));
-		$ctrl_o2image5->label("Add user");
+		$ctrl_o2image5->label("User details");
 		$ctrl_o2image5->css(jxgranting_exp_17());
 		$ctrl_o2image5->imgexp(jxgranting_exp_109());
 	$ctrl_o2image7 = &$form_jxgranting->ctrldef("o2image7", "img", "o2multipage2", "", "");
@@ -310,13 +310,6 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2image9->label("Add role to user");
 		$ctrl_o2image9->css(jxgranting_exp_17());
 		$ctrl_o2image9->imgexp(jxgranting_exp_14());
-	$ctrl_o2htmlarea3 = &$form_jxgranting->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea3->x(310);
-		$ctrl_o2htmlarea3->y(50);
-		$ctrl_o2htmlarea3->larghezza(110);
-		$ctrl_o2htmlarea3->altezza(10);
-		$ctrl_o2htmlarea3->expand("H");
-		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2image10 = &$form_jxgranting->ctrldef("o2image10", "img", "o2multipage2", "", "");
 		$ctrl_o2image10->x(581);
 		$ctrl_o2image10->y(42);
@@ -347,6 +340,13 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2edit4->altezza(20);
 		$ctrl_o2edit4->on_change(jxgranting_exp_5());
 		$ctrl_o2edit4->info_padre(array(0));
+	$ctrl_o2htmlarea3 = &$form_jxgranting->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea3->x(310);
+		$ctrl_o2htmlarea3->y(50);
+		$ctrl_o2htmlarea3->larghezza(110);
+		$ctrl_o2htmlarea3->altezza(10);
+		$ctrl_o2htmlarea3->expand("H");
+		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2table3 = &$form_jxgranting->ctrldef("o2table3", "tab", "o2multipage2", "roles_per_user", "");
 		$ctrl_o2table3->x(20);
 		$ctrl_o2table3->y(350);

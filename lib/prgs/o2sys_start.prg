@@ -43,5 +43,5 @@ o2def::par(2, "user_rights", "_o2structure");
 o2def::par(3, "app_options", "_o2structure");
 o2def::par(4, "user_options", "_o2structure");
 o2def::par(5, "logged_tabs", "_o2structure");
-o2def::par(6, "password_change", "_o2logical");
+o2def::par(6, "password_change", "_o2number");
 ?>
