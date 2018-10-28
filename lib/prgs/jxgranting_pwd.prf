@@ -21,7 +21,7 @@ function jxgranting_pwd§§user_def(&$task_user, $_o2viewalias = "") {
 	$task_user->usa("force_pwd_change","o2_users","force_pwd_change",null,null,null,null);
 }
 function jxgranting_pwd§§password_form_def(&$form_password) {
-	$form_password->x(155);
+	$form_password->x(121);
 	$form_password->y(200);
 	$form_password->larghezza(310);
 	$form_password->altezza(260);
@@ -110,12 +110,6 @@ function jxgranting_pwd§§password_form_def(&$form_password) {
 		$ctrl_o2image2->visibile(jxgranting_pwd_exp_15());
 		$ctrl_o2image2->label(jxgranting_pwd_exp_14());
 		$ctrl_o2image2->imgexp(jxgranting_pwd_exp_13());
-	$ctrl_o2htmlarea3 = &$form_password->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea3->x(30);
-		$ctrl_o2htmlarea3->y(60);
-		$ctrl_o2htmlarea3->larghezza(250);
-		$ctrl_o2htmlarea3->altezza(40);
-		$ctrl_o2htmlarea3->html(jxgranting_pwd_exp_31());
 	$ctrl_o2button3 = &$form_password->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(90);
 		$ctrl_o2button3->y(185);
@@ -124,6 +118,12 @@ function jxgranting_pwd§§password_form_def(&$form_password) {
 		$ctrl_o2button3->azione("cancel");
 		$ctrl_o2button3->label("&Cancel");
 		$ctrl_o2button3->css(jxgranting_pwd_exp_17());
+	$ctrl_o2htmlarea3 = &$form_password->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea3->x(30);
+		$ctrl_o2htmlarea3->y(60);
+		$ctrl_o2htmlarea3->larghezza(250);
+		$ctrl_o2htmlarea3->altezza(40);
+		$ctrl_o2htmlarea3->html(jxgranting_pwd_exp_31());
 		}
 
 function jxgranting_pwd§§cancel_act(&$o2exe) {
@@ -276,19 +276,20 @@ return ('o2_ctrl_button jxbtn_save');
 
 function jxgranting_pwd_exp_17() {
 	
-return ('o2_ctrl_button jxbtn_cancel');
+return (' jxbtn_cancel');
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_18() {
 	o2js_load_script(o2rnt_alias().'js/md5.js');
+$idx = count(o2app_prg());
 $btn = '<div class="o2_ctrl_button jxbtn_save" style="width:100%;height:100%;line-height:30px;" '.
        'onkeyup="e=o2jse.event.std(event);if(e.keyCode==32||e.keyCode==13||(e.keyCode==83&&e.altKey)){'.
-       'this.click();}" tabindex="0" onclick="jxlgncheck(event);"><u>S</u>ave</div>';
+       'this.click();}" tabindex="0" onclick="jxpwdcheck(event);"><u>S</u>ave</div>';
 
-$btn.= '<script>function jxlgncheck(event) {'.
-       'var pwd  = o2jse.infoForm["pwd'.count(o2app_prg()).'"];'.
-       'var pwdr = o2jse.infoForm["pwd_repeat'.count(o2app_prg()).'"];'.
-       'var pwdo = o2jse.infoForm["pwd_old'.count(o2app_prg()).'"];'.
+$btn.= '<script>function jxpwdcheck(event) {'.
+       'var pwd  = o2jse.infoForm["pwd'.$idx.'"];'.
+       'var pwdr = o2jse.infoForm["pwd_repeat'.$idx.'"];'.
+       'var pwdo = o2jse.infoForm["pwd_old'.$idx.'"];'.
        'var re   = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])(?=.{8,})");'.
        'if (!'.($_SESSION['o2_app']->password_strength ? 'true' : 'false').'|| re.test(pwd.value)) {'.
        'pwd.value  = hex_md5(pwd.value);o2jse.ctrl.c(pwd);'.
@@ -304,6 +305,12 @@ $btn.= '<script>function jxlgncheck(event) {'.
               " - 1 special character (!#*^...).");'.
        'pwd.value="";pwdo.value="";pwdr.value="";o2jse.ctrl.c(pwd);pwd.focus();'.    
        '}};</script>';
+o2js_doc_ready('var pwd  = o2jse.infoForm["pwd'.$idx.'"];'.
+               'var pwdr = o2jse.infoForm["pwd_repeat'.$idx.'"];'.
+               'var pwdo = o2jse.infoForm["pwd_old'.$idx.'"];'.
+               'if(pwd.value==""){pwd.type="text";pwd.onfocus=function(){this.type="password";};pwd.onkeydown=function(){this.type="password";};}'.
+               'if(pwdr.value==""){pwdr.type="text";pwdr.onfocus=function(){this.type="password";};pwdr.onkeydown=function(){this.type="password";};}'.
+               'if(pwdo.value==""){pwdo.type="text";pwdo.onfocus=function(){this.type="password";};pwdo.onkeydown=function(){this.type="password";};}');
 return ($btn);
 	} //|o2_fine_exp|
 
@@ -401,8 +408,6 @@ switch ($GLOBALS['jxPwdChangeCode']) {
       break;
    }
 $msg.= '</center>';
-
-   
 return ($msg);
 	} //|o2_fine_exp|
 ?>
