@@ -340,13 +340,6 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2edit4->altezza(20);
 		$ctrl_o2edit4->on_change(jxgranting_exp_5());
 		$ctrl_o2edit4->info_padre(array(0));
-	$ctrl_o2htmlarea3 = &$form_jxgranting->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea3->x(310);
-		$ctrl_o2htmlarea3->y(50);
-		$ctrl_o2htmlarea3->larghezza(110);
-		$ctrl_o2htmlarea3->altezza(10);
-		$ctrl_o2htmlarea3->expand("H");
-		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2table3 = &$form_jxgranting->ctrldef("o2table3", "tab", "o2multipage2", "roles_per_user", "");
 		$ctrl_o2table3->x(20);
 		$ctrl_o2table3->y(350);
@@ -373,6 +366,13 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2textarea5->expand("B");
 		$ctrl_o2textarea5->modificabile(jxgranting_exp_9999());
 		$ctrl_o2textarea5->info_padre(array(0));
+	$ctrl_o2htmlarea3 = &$form_jxgranting->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
+		$ctrl_o2htmlarea3->x(310);
+		$ctrl_o2htmlarea3->y(50);
+		$ctrl_o2htmlarea3->larghezza(110);
+		$ctrl_o2htmlarea3->altezza(10);
+		$ctrl_o2htmlarea3->expand("H");
+		$ctrl_o2htmlarea3->info_padre(array(0));
 	$ctrl_o2textarea4 = &$form_jxgranting->ctrldef("o2textarea4", "text", "o2multipage2", "user_role_desc", "element_desc");
 		$ctrl_o2textarea4->x(20);
 		$ctrl_o2textarea4->y(540);
@@ -665,13 +665,14 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2htmlarea5->expand("H");
 		$ctrl_o2htmlarea5->info_padre(array(2));
 	$ctrl_o2button2 = &$form_jxgranting->ctrldef("o2button2", "button", "o2multipage2", "", "");
-		$ctrl_o2button2->x(440);
+		$ctrl_o2button2->x(410);
 		$ctrl_o2button2->y(180);
-		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->larghezza(120);
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("fix");
 		$ctrl_o2button2->info_padre(array(3));
-		$ctrl_o2button2->label("Check and fix");
+		$ctrl_o2button2->label("Check and &fix");
+		$ctrl_o2button2->css(jxgranting_exp_112());
 	$ctrl_o2htmlarea2 = &$form_jxgranting->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea2->x(30);
 		$ctrl_o2htmlarea2->y(70);
@@ -1783,6 +1784,11 @@ return (o2val('users','last_pwd_date'));
 function jxgranting_exp_111() {
 	
 return (md5(microtime()));
+	} //|o2_fine_exp|
+
+function jxgranting_exp_112() {
+	
+return (' jxbtn_save');
 	} //|o2_fine_exp|
 
 function jxgranting_exp_113() {

@@ -60,6 +60,7 @@ function o2dev_runner§§o2dev_runner_form_def(&$form_o2dev_runner) {
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("execute");
 		$ctrl_o2button2->label("Execute");
+		$ctrl_o2button2->css(o2dev_runner_exp_24());
 	$ctrl_o2checkbox2 = &$form_o2dev_runner->ctrldef("o2checkbox2", "check", "", "prg§_§var", "extended_options");
 		$ctrl_o2checkbox2->x(150);
 		$ctrl_o2checkbox2->y(110);
@@ -353,7 +354,7 @@ $model  = $app->maschere[$m_name];
 if ($model->tipo == "L") {
    $ctrl_type = "c";
    }
-elseif (count($model->valori)) {
+elseif (is_array($model->valori) && count($model->valori)) {
    $ctrl_type = "l";
    }
 elseif ($model->tipo == "S") {
@@ -444,6 +445,11 @@ switch (o2val('prg§_§var','param_field')) {
 return ($list);
 	} //|o2_fine_exp|
 
+function o2dev_runner_exp_24() {
+	
+return (' jxbtn_save');
+	} //|o2_fine_exp|
+
 function o2dev_runner_exp_30() {
 	$par  = null;
 $list = o2val('prg§_§var','params_list');
@@ -451,7 +457,7 @@ $id   = intval($GLOBALS['jxdr_parid']);
 if (o2val('prg§_§var','extended_options') && isset($list[$id])) {
    $par = $list[$id]['value'];
    }
-$GLOBALS['jxdr_parid'] = $id + 1; 
+$GLOBALS['jxdr_parid'] = $id + 1;
 return ($par);
 	} //|o2_fine_exp|
 

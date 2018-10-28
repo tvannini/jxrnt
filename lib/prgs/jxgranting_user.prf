@@ -210,7 +210,7 @@ function jxgranting_user§§user_form_def(&$form_user) {
 		$ctrl_o2button4->larghezza(90);
 		$ctrl_o2button4->altezza(30);
 		$ctrl_o2button4->azione("cancel");
-		$ctrl_o2button4->label("Cancel");
+		$ctrl_o2button4->label("&Cancel");
 		$ctrl_o2button4->css(jxgranting_user_exp_2());
 	$ctrl_o2edit10 = &$form_user->ctrldef("o2edit10", "edit", "", "prg§_§var", "asp_area");
 		$ctrl_o2edit10->x(180);
@@ -549,7 +549,7 @@ return (o2val('prg§_§var','no_pwd_change'));
 
 function jxgranting_user_exp_44() {
 	
-return ((o2par(1) ? 'Save' : 'Create'));
+return ((o2par(1) ? '&Save' : '&Add'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_45() {
@@ -567,7 +567,6 @@ if ($app->password_change) {
       $msg = 'Password expired '.abs($d).' days ago';   
       }
    }
- 
 return ($msg);
 	} //|o2_fine_exp|
 

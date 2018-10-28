@@ -1,5 +1,5 @@
 <?php
-//2.1
+//2.4
 //o2def::module("");
 //o2def::folder("options");
 /*
@@ -9,7 +9,7 @@ o2def::prgnotes("");
 o2def::prg("o2sys_options_admin", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
-o2def::view("options", False, "", "");
+o2def::view("options", False, "", "", 1);
 o2def::act("add_skin", "");
 o2def::act("load_options", "");
 o2def::act("load_skins", "");

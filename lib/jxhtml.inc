@@ -134,21 +134,21 @@ class o2html {
          *  - Coming from a goto: page-mark has already been checked at the very start
          */
         try {
-          if ($app->allow_history) {
-              $app->page_mark = 0;
-              $app->esecutivo();
-              }
-          elseif ($goto || !$req_pmark || $req_pmark == $app->page_mark) {
-              $app->page_mark = $pmark;
-              $app->esecutivo();
-              }
-          // _______________________ Old request: resend actual HTML without execution ___
-          else {
-              $app->statusbar_text = "ATTENTION! This pages are dinamic context. ".
-                                     "Avoid using browser history!";
-              $app->page_mark      = $pmark;
-              $app->esecutivo(true);
-              }
+            if ($app->allow_history) {
+                $app->page_mark = 0;
+                $app->esecutivo();
+                }
+            elseif ($goto || !$req_pmark || $req_pmark == $app->page_mark) {
+                $app->page_mark = $pmark;
+                $app->esecutivo();
+                }
+            // _____________________ Old request: resend actual HTML without execution ___
+            else {
+                $app->statusbar_text = "ATTENTION! This pages are dinamic context. ".
+                                       "Avoid using browser history!";
+                $app->page_mark      = $pmark;
+                $app->esecutivo(true);
+                }
             }
         catch (o2_exception $o2e) {
             $o2e->send();

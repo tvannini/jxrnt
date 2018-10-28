@@ -1530,13 +1530,6 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 		$ctrl_o2label8->larghezza(100);
 		$ctrl_o2label8->altezza(20);
 		$ctrl_o2label8->label(jxconnectivity_exp_131());
-	$ctrl_o2htmlarea7 = &$form_m_expimp_dialog->ctrldef("o2htmlarea7", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea7->x(120);
-		$ctrl_o2htmlarea7->y(190);
-		$ctrl_o2htmlarea7->larghezza(305);
-		$ctrl_o2htmlarea7->altezza(50);
-		$ctrl_o2htmlarea7->html(jxconnectivity_exp_203());
-		$ctrl_o2htmlarea7->css(jxconnectivity_exp_208());
 	$ctrl_o2ListBox2 = &$form_m_expimp_dialog->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "folder");
 		$ctrl_o2ListBox2->x(20);
 		$ctrl_o2ListBox2->y(20);
@@ -1546,6 +1539,13 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 		$ctrl_o2ListBox2->on_change(jxconnectivity_exp_40());
 		$ctrl_o2ListBox2->valori(jxconnectivity_exp_33());
 		$ctrl_o2ListBox2->righe(10);
+	$ctrl_o2htmlarea7 = &$form_m_expimp_dialog->ctrldef("o2htmlarea7", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea7->x(120);
+		$ctrl_o2htmlarea7->y(190);
+		$ctrl_o2htmlarea7->larghezza(305);
+		$ctrl_o2htmlarea7->altezza(50);
+		$ctrl_o2htmlarea7->html(jxconnectivity_exp_203());
+		$ctrl_o2htmlarea7->css(jxconnectivity_exp_208());
 	$ctrl_o2ListBox3 = &$form_m_expimp_dialog->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "selected_file");
 		$ctrl_o2ListBox3->x(215);
 		$ctrl_o2ListBox3->y(20);
@@ -1571,19 +1571,21 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 		$ctrl_o2checkbox2->altezza(20);
 		$ctrl_o2checkbox2->visibile(jxconnectivity_exp_129());
 	$ctrl_o2button3 = &$form_m_expimp_dialog->ctrldef("o2button3", "button", "", "", "");
-		$ctrl_o2button3->x(245);
+		$ctrl_o2button3->x(235);
 		$ctrl_o2button3->y(250);
 		$ctrl_o2button3->larghezza(90);
 		$ctrl_o2button3->altezza(30);
 		$ctrl_o2button3->azione("export_import");
 		$ctrl_o2button3->label(jxconnectivity_exp_46());
+		$ctrl_o2button3->css(jxconnectivity_exp_254());
 	$ctrl_o2button6 = &$form_m_expimp_dialog->ctrldef("o2button6", "button", "", "", "");
 		$ctrl_o2button6->x(335);
 		$ctrl_o2button6->y(250);
 		$ctrl_o2button6->larghezza(90);
 		$ctrl_o2button6->altezza(30);
 		$ctrl_o2button6->azione("clear_operation");
-		$ctrl_o2button6->label("Close");
+		$ctrl_o2button6->label("&Close");
+		$ctrl_o2button6->css(jxconnectivity_exp_253());
 		}
 function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 	$form_n_rebuild_dialog->x(250);
@@ -1643,11 +1645,11 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 	$ctrl_o2button2 = &$form_n_rebuild_dialog->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(185);
 		$ctrl_o2button2->y(150);
-		$ctrl_o2button2->larghezza(80);
+		$ctrl_o2button2->larghezza(90);
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->modificabile(jxconnectivity_exp_74());
 		$ctrl_o2button2->azione("match");
-		$ctrl_o2button2->label("Match");
+		$ctrl_o2button2->label("&Match");
 	$ctrl_list_phisical = &$form_n_rebuild_dialog->ctrldef("list_phisical", "listcombo", "", "prg§_§var", "field_dummy");
 		$ctrl_list_phisical->x(20);
 		$ctrl_list_phisical->y(220);
@@ -1665,22 +1667,24 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 		$ctrl_list_structure->valori(jxconnectivity_exp_6());
 		$ctrl_list_structure->righe(10);
 	$ctrl_btn_rebuild = &$form_n_rebuild_dialog->ctrldef("btn_rebuild", "button", "", "", "");
-		$ctrl_btn_rebuild->x(270);
+		$ctrl_btn_rebuild->x(240);
 		$ctrl_btn_rebuild->y(450);
-		$ctrl_btn_rebuild->larghezza(80);
+		$ctrl_btn_rebuild->larghezza(90);
 		$ctrl_btn_rebuild->altezza(30);
 		$ctrl_btn_rebuild->azione("rebuild");
-		$ctrl_btn_rebuild->label("Rebuild");
+		$ctrl_btn_rebuild->label("&Rebuild");
+		$ctrl_btn_rebuild->css(jxconnectivity_exp_254());
 	$ctrl_o2button12 = &$form_n_rebuild_dialog->ctrldef("o2button12", "button", "", "", "");
-		$ctrl_o2button12->x(350);
+		$ctrl_o2button12->x(340);
 		$ctrl_o2button12->y(450);
-		$ctrl_o2button12->larghezza(80);
+		$ctrl_o2button12->larghezza(90);
 		$ctrl_o2button12->altezza(30);
 		$ctrl_o2button12->azione("clear_operation");
-		$ctrl_o2button12->label("Close");
+		$ctrl_o2button12->label("&Close");
+		$ctrl_o2button12->css(jxconnectivity_exp_253());
 		}
 function jxconnectivity§§aspclone_form_def(&$form_aspclone) {
-	$form_aspclone->x(154);
+	$form_aspclone->x(106);
 	$form_aspclone->y(168);
 	$form_aspclone->larghezza(300);
 	$form_aspclone->altezza(150);
@@ -1689,6 +1693,12 @@ function jxconnectivity§§aspclone_form_def(&$form_aspclone) {
 	$form_aspclone->frm_status(jxconnectivity_exp_22());
 	$form_aspclone->css_doc("sys_tables_doc");
 	$form_aspclone->close_action("clear_operation");
+	$ctrl_o2label10 = &$form_aspclone->ctrldef("o2label10", "label", "", "", "");
+		$ctrl_o2label10->x(30);
+		$ctrl_o2label10->y(30);
+		$ctrl_o2label10->larghezza(130);
+		$ctrl_o2label10->altezza(20);
+		$ctrl_o2label10->label("Target ASP area:");
 	$ctrl_o2edit5 = &$form_aspclone->ctrldef("o2edit5", "edit", "", "prg§_§var", "clone_target_area");
 		$ctrl_o2edit5->x(160);
 		$ctrl_o2edit5->y(30);
@@ -1696,28 +1706,24 @@ function jxconnectivity§§aspclone_form_def(&$form_aspclone) {
 		$ctrl_o2edit5->altezza(20);
 		$ctrl_o2edit5->on_change(jxconnectivity_exp_40());
 		$ctrl_o2edit5->maschera(jxconnectivity_exp_61());
-	$ctrl_o2label10 = &$form_aspclone->ctrldef("o2label10", "label", "", "", "");
-		$ctrl_o2label10->x(30);
-		$ctrl_o2label10->y(30);
-		$ctrl_o2label10->larghezza(130);
-		$ctrl_o2label10->altezza(20);
-		$ctrl_o2label10->label("Target ASP area:");
 	$ctrl_o2button4 = &$form_aspclone->ctrldef("o2button4", "button", "", "", "");
-		$ctrl_o2button4->x(100);
+		$ctrl_o2button4->x(70);
 		$ctrl_o2button4->y(70);
-		$ctrl_o2button4->larghezza(80);
-		$ctrl_o2button4->altezza(25);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
 		$ctrl_o2button4->modificabile(jxconnectivity_exp_135());
 		$ctrl_o2button4->azione("do_clone");
-		$ctrl_o2button4->label("Copy");
+		$ctrl_o2button4->label("Co&py");
 		$ctrl_o2button4->confirm_message(jxconnectivity_exp_151());
+		$ctrl_o2button4->css(jxconnectivity_exp_254());
 	$ctrl_o2button5 = &$form_aspclone->ctrldef("o2button5", "button", "", "", "");
-		$ctrl_o2button5->x(180);
+		$ctrl_o2button5->x(170);
 		$ctrl_o2button5->y(70);
-		$ctrl_o2button5->larghezza(80);
-		$ctrl_o2button5->altezza(25);
+		$ctrl_o2button5->larghezza(90);
+		$ctrl_o2button5->altezza(30);
 		$ctrl_o2button5->azione("clear_operation");
-		$ctrl_o2button5->label("Close");
+		$ctrl_o2button5->label("&Close");
+		$ctrl_o2button5->css(jxconnectivity_exp_253());
 		}
 function jxconnectivity§§getdef_form_def(&$form_getdef) {
 	$form_getdef->x(290);
@@ -1775,22 +1781,22 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2multipage13->altezza(80);
 		$ctrl_o2multipage13->label(array("Constraint name"));
 		$ctrl_o2multipage13->buttons("T");
-	$ctrl_o2button11 = &$form_constr_add->ctrldef("o2button11", "button", "", "", "");
-		$ctrl_o2button11->x(740);
-		$ctrl_o2button11->y(580);
-		$ctrl_o2button11->larghezza(90);
-		$ctrl_o2button11->altezza(30);
-		$ctrl_o2button11->azione("close_constr_details");
-		$ctrl_o2button11->label("     Cancel");
-		$ctrl_o2button11->css(jxconnectivity_exp_253());
 	$ctrl_o2button13 = &$form_constr_add->ctrldef("o2button13", "button", "", "", "");
 		$ctrl_o2button13->x(840);
 		$ctrl_o2button13->y(580);
 		$ctrl_o2button13->larghezza(90);
 		$ctrl_o2button13->altezza(30);
 		$ctrl_o2button13->azione("check_create_new_constr");
-		$ctrl_o2button13->label("     Create");
+		$ctrl_o2button13->label("&Add");
 		$ctrl_o2button13->css(jxconnectivity_exp_254());
+	$ctrl_o2button11 = &$form_constr_add->ctrldef("o2button11", "button", "", "", "");
+		$ctrl_o2button11->x(740);
+		$ctrl_o2button11->y(580);
+		$ctrl_o2button11->larghezza(90);
+		$ctrl_o2button11->altezza(30);
+		$ctrl_o2button11->azione("close_constr_details");
+		$ctrl_o2button11->label("&Cancel");
+		$ctrl_o2button11->css(jxconnectivity_exp_253());
 	$ctrl_o2ListBox7 = &$form_constr_add->ctrldef("o2ListBox7", "listcombo", "o2multipage10", "prg§_§var", "new_c_main_all_field");
 		$ctrl_o2ListBox7->x(20);
 		$ctrl_o2ListBox7->y(40);
@@ -1882,7 +1888,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2edit6->info_padre(array(0));
 		}
 function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
-	$form_eixdx_add->x(250);
+	$form_eixdx_add->x(208);
 	$form_eixdx_add->y(30);
 	$form_eixdx_add->larghezza(500);
 	$form_eixdx_add->altezza(660);
@@ -1905,23 +1911,23 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2multipage14->altezza(450);
 		$ctrl_o2multipage14->label(array("Index segments"));
 		$ctrl_o2multipage14->buttons("T");
-	$ctrl_o2button16 = &$form_eixdx_add->ctrldef("o2button16", "button", "", "", "");
-		$ctrl_o2button16->x(380);
-		$ctrl_o2button16->y(580);
-		$ctrl_o2button16->larghezza(90);
-		$ctrl_o2button16->altezza(30);
-		$ctrl_o2button16->azione("close_exidx_details");
-		$ctrl_o2button16->label("     Cancel");
-		$ctrl_o2button16->css(jxconnectivity_exp_253());
 	$ctrl_o2button17 = &$form_eixdx_add->ctrldef("o2button17", "button", "", "", "");
-		$ctrl_o2button17->x(280);
+		$ctrl_o2button17->x(380);
 		$ctrl_o2button17->y(580);
 		$ctrl_o2button17->larghezza(90);
 		$ctrl_o2button17->altezza(30);
 		$ctrl_o2button17->modificabile(jxconnectivity_exp_386());
 		$ctrl_o2button17->azione("create_new_idx");
-		$ctrl_o2button17->label("     Create");
+		$ctrl_o2button17->label("&Add");
 		$ctrl_o2button17->css(jxconnectivity_exp_254());
+	$ctrl_o2button16 = &$form_eixdx_add->ctrldef("o2button16", "button", "", "", "");
+		$ctrl_o2button16->x(280);
+		$ctrl_o2button16->y(580);
+		$ctrl_o2button16->larghezza(90);
+		$ctrl_o2button16->altezza(30);
+		$ctrl_o2button16->azione("close_exidx_details");
+		$ctrl_o2button16->label("&Cancel");
+		$ctrl_o2button16->css(jxconnectivity_exp_253());
 	$ctrl_o2ListBox10 = &$form_eixdx_add->ctrldef("o2ListBox10", "listcombo", "o2multipage14", "prg§_§var", "new_ei_all_field");
 		$ctrl_o2ListBox10->x(20);
 		$ctrl_o2ListBox10->y(40);
@@ -2848,7 +2854,6 @@ foreach ($files as $file) {
       $list[$name] = substr($name, strlen($root_folder) - 1);
       }
    }
-
 return ($list);
 	} //|o2_fine_exp|
 
@@ -2941,7 +2946,7 @@ return ("*.o2x");
 
 function jxconnectivity_exp_46() {
 	
-return ((o2val('prg§_§var','operation') == "export" || o2val('prg§_§var','operation') == "export_all" ? "Export" : "Import"));
+return ((o2val('prg§_§var','operation') == "export" || o2val('prg§_§var','operation') == "export_all" ? "&Export" : "&Import"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_47() {
@@ -4764,12 +4769,12 @@ return (o2val('prg§_§var','new_c_link_all_fields'));
 
 function jxconnectivity_exp_253() {
 	
-return ("jxwiz_cancel");
+return (" jxbtn_cancel");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_254() {
 	
-return ("jxwiz_save");
+return (" jxbtn_save");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_255() {

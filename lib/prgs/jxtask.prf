@@ -30,13 +30,13 @@ function jxtask§§jobs_combo_def(&$task_jobs_combo, $_o2viewalias = "") {
 	$task_jobs_combo->calcola("job_desc", "jxtask_exp_3()",null,null,null,null);
 }
 function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
-	$form_jxtask_1->x(280);
+	$form_jxtask_1->x(240);
 	$form_jxtask_1->y(50);
 	$form_jxtask_1->larghezza(450);
 	$form_jxtask_1->altezza(500);
+	$form_jxtask_1->align_o("Center");
 	$form_jxtask_1->titolo("Scheduled task");
 	$form_jxtask_1->css_doc("sys_sched_doc");
-	$form_jxtask_1->align_o("Center");
 	$ctrl_o2label14 = &$form_jxtask_1->ctrldef("o2label14", "label", "", "", "");
 		$ctrl_o2label14->x(150);
 		$ctrl_o2label14->y(370);
@@ -104,6 +104,15 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("save");
 		$ctrl_o2button2->label("&Save");
+		$ctrl_o2button2->css(jxtask_exp_43());
+	$ctrl_o2button3 = &$form_jxtask_1->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(230);
+		$ctrl_o2button3->y(420);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("close");
+		$ctrl_o2button3->label("&Cancel");
+		$ctrl_o2button3->css(jxtask_exp_42());
 	$ctrl_o2label5 = &$form_jxtask_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
 		$ctrl_o2label5->x(20);
 		$ctrl_o2label5->y(40);
@@ -313,6 +322,10 @@ function jxtask§§clear_recurrence_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "sched_recurrence", jxtask_exp_20()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "sched_week_day", jxtask_exp_20()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "sched_month_day", jxtask_exp_20()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
 function jxtask§§create_act(&$o2exe) {
@@ -620,5 +633,15 @@ return (o2asp_code_get());
 function jxtask_exp_41() {
 	
 return (!o2par(2));
+	} //|o2_fine_exp|
+
+function jxtask_exp_42() {
+	
+return (' jxbtn_cancel');
+	} //|o2_fine_exp|
+
+function jxtask_exp_43() {
+	
+return (' jxbtn_save');
 	} //|o2_fine_exp|
 ?>

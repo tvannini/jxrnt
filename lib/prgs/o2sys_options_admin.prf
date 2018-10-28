@@ -38,10 +38,10 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 	$form_options_admin->y(91);
 	$form_options_admin->larghezza(429);
 	$form_options_admin->altezza(373);
-	$form_options_admin->titolo("Preferences");
-	$form_options_admin->css_doc("sys_options_doc");
 	$form_options_admin->align_o("Center");
+	$form_options_admin->titolo("Preferences");
 	$form_options_admin->frm_status(o2sys_options_admin_exp_8());
+	$form_options_admin->css_doc("sys_options_doc");
 	$ctrl_o2multipage7 = &$form_options_admin->ctrldef("o2multipage7", "multipage", "", "prg§_§var", "page");
 		$ctrl_o2multipage7->x(30);
 		$ctrl_o2multipage7->y(20);
@@ -56,6 +56,8 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("reset");
 		$ctrl_o2button2->label("&Reset");
+		$ctrl_o2button2->confirm_message("Reset all settings to application default?");
+		$ctrl_o2button2->css(o2sys_options_admin_exp_24());
 	$ctrl_o2button3 = &$form_options_admin->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(310);
 		$ctrl_o2button3->y(300);
@@ -64,6 +66,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2button3->modificabile(o2sys_options_admin_exp_21());
 		$ctrl_o2button3->azione("save_options");
 		$ctrl_o2button3->label("&Set");
+		$ctrl_o2button3->css(o2sys_options_admin_exp_25());
 	$ctrl_o2label17 = &$form_options_admin->ctrldef("o2label17", "label", "o2multipage7", "", "");
 		$ctrl_o2label17->x(30);
 		$ctrl_o2label17->y(170);
@@ -431,13 +434,34 @@ function o2sys_options_admin§§reset_act(&$o2exe) {
 //	$o2exe->s(4) && True && o2act::remark("language") && $o2exe->e();
 	$o2exe->s(5) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_22()) && $o2exe->e();
 	$o2exe->s(6) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
-//	$o2exe->s(7) && True && o2act::remark("new session in context menu") && $o2exe->e();
-	$o2exe->s(8) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_20()) && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("client language") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_48()) && $o2exe->e();
 	$o2exe->s(9) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
-//	$o2exe->s(10) && True && o2act::remark("application menu in context menu") && $o2exe->e();
-	$o2exe->s(11) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_27()) && $o2exe->e();
+//	$o2exe->s(10) && True && o2act::remark("new session in context menu") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_20()) && $o2exe->e();
 	$o2exe->s(12) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
-	$o2exe->s(13) && True && o2act::exe("load_options", True, "") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("application menu in context menu") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_27()) && $o2exe->e();
+	$o2exe->s(15) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
+//	$o2exe->s(16) && True && o2act::remark("help item in context menu") && $o2exe->e();
+	$o2exe->s(17) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_3()) && $o2exe->e();
+	$o2exe->s(18) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
+//	$o2exe->s(19) && True && o2act::remark("open menu on") && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_36()) && $o2exe->e();
+	$o2exe->s(21) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
+//	$o2exe->s(22) && True && o2act::remark("Grid settings save autoamatic/manual") && $o2exe->e();
+	$o2exe->s(23) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_39()) && $o2exe->e();
+	$o2exe->s(24) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
+//	$o2exe->s(25) && True && o2act::remark("Grid double click action") && $o2exe->e();
+	$o2exe->s(26) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_42()) && $o2exe->e();
+	$o2exe->s(27) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
+//	$o2exe->s(28) && True && o2act::remark("Grid mouse wheel") && $o2exe->e();
+	$o2exe->s(29) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_46()) && $o2exe->e();
+	$o2exe->s(30) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
+//	$o2exe->s(31) && True && o2act::remark("Navigator buttons effects") && $o2exe->e();
+	$o2exe->s(32) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_50()) && $o2exe->e();
+	$o2exe->s(33) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
+	$o2exe->s(34) && True && o2act::exe("load_options", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_options_admin§§save_options_act(&$o2exe) {
@@ -684,6 +708,16 @@ return ("lang");
 function o2sys_options_admin_exp_23() {
 	
 return ($_SESSION['o2_app']->doc_enabled);
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_24() {
+	
+return (' jxbtn_cancel');
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_25() {
+	
+return (' jxbtn_save');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_26() {

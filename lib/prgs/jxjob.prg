@@ -1,5 +1,5 @@
 <?php
-//2.2
+//2.4
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -18,6 +18,6 @@ o2def::act("set_param", "");
 o2def::act("set_value", "");
 o2def::act("start", "");
 o2def::form("jxjob_1", "", False, "true", false);
-o2def::par(1, "job_id","jxjob_id");
+o2def::par(1, "job_id", "jxjob_id");
 
 ?>

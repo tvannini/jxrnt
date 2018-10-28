@@ -18,12 +18,12 @@ function jxgranting_right§§right_form_def(&$form_right) {
 	$form_right->y(250);
 	$form_right->larghezza(310);
 	$form_right->altezza(350);
-	$form_right->titolo("Create right");
-	$form_right->css_doc("sys_right_doc");
-	$form_right->close_action("cancel");
 	$form_right->align_v("Middle");
 	$form_right->align_o("Center");
+	$form_right->titolo("Create right");
 	$form_right->frm_status(jxgranting_right_exp_1());
+	$form_right->css_doc("sys_right_doc");
+	$form_right->close_action("cancel");
 	$ctrl_o2separator5 = &$form_right->ctrldef("o2separator5", "line", "", "", "");
 		$ctrl_o2separator5->x(30);
 		$ctrl_o2separator5->y(250);
@@ -63,7 +63,7 @@ function jxgranting_right§§right_form_def(&$form_right) {
 		$ctrl_o2button8->larghezza(90);
 		$ctrl_o2button8->altezza(30);
 		$ctrl_o2button8->azione("cancel");
-		$ctrl_o2button8->label("     Cancel");
+		$ctrl_o2button8->label("&Cancel");
 		$ctrl_o2button8->css(jxgranting_right_exp_2());
 	$ctrl_o2button9 = &$form_right->ctrldef("o2button9", "button", "", "", "");
 		$ctrl_o2button9->x(190);
@@ -71,7 +71,7 @@ function jxgranting_right§§right_form_def(&$form_right) {
 		$ctrl_o2button9->larghezza(90);
 		$ctrl_o2button9->altezza(30);
 		$ctrl_o2button9->azione("check");
-		$ctrl_o2button9->label("     Create");
+		$ctrl_o2button9->label("&Add");
 		$ctrl_o2button9->css(jxgranting_right_exp_3());
 		}
 
@@ -100,12 +100,12 @@ return (false);
 
 function jxgranting_right_exp_2() {
 	
-return ("jxwiz_cancel");
+return (" jxbtn_cancel");
 	} //|o2_fine_exp|
 
 function jxgranting_right_exp_3() {
 	
-return ("jxwiz_save");
+return (" jxbtn_save");
 	} //|o2_fine_exp|
 
 function jxgranting_right_exp_4() {

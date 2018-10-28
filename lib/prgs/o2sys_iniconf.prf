@@ -1208,12 +1208,12 @@ return ($struct);
 
 function o2sys_iniconf_exp_28() {
 	
-return ("jxwiz_save");
+return (' jxbtn_save');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_29() {
 	
-return ("jxwiz_cancel");
+return (' jxbtn_cancel');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_30() {

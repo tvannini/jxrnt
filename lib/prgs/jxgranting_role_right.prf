@@ -47,33 +47,17 @@ function jxgranting_role_right§§jxgranting_role_right_1_form_def(&$form_jxgranti
 	$form_jxgranting_role_right_1->y(230);
 	$form_jxgranting_role_right_1->larghezza(750);
 	$form_jxgranting_role_right_1->altezza(470);
-	$form_jxgranting_role_right_1->titolo("Add right to role");
-	$form_jxgranting_role_right_1->css_doc("sys_right_doc");
-	$form_jxgranting_role_right_1->close_action("cancel");
 	$form_jxgranting_role_right_1->align_v("Middle");
 	$form_jxgranting_role_right_1->align_o("Center");
+	$form_jxgranting_role_right_1->titolo("Add right to role");
 	$form_jxgranting_role_right_1->frm_status(jxgranting_role_right_exp_1());
+	$form_jxgranting_role_right_1->css_doc("sys_right_doc");
+	$form_jxgranting_role_right_1->close_action("cancel");
 	$ctrl_o2separator7 = &$form_jxgranting_role_right_1->ctrldef("o2separator7", "line", "", "", "");
 		$ctrl_o2separator7->x(20);
 		$ctrl_o2separator7->y(370);
 		$ctrl_o2separator7->larghezza(700);
 		$ctrl_o2separator7->altezza(2);
-	$ctrl_o2button12 = &$form_jxgranting_role_right_1->ctrldef("o2button12", "button", "", "", "");
-		$ctrl_o2button12->x(530);
-		$ctrl_o2button12->y(390);
-		$ctrl_o2button12->larghezza(90);
-		$ctrl_o2button12->altezza(30);
-		$ctrl_o2button12->azione("cancel");
-		$ctrl_o2button12->label("     &Cancel");
-		$ctrl_o2button12->css(jxgranting_role_right_exp_3());
-	$ctrl_o2button13 = &$form_jxgranting_role_right_1->ctrldef("o2button13", "button", "", "", "");
-		$ctrl_o2button13->x(630);
-		$ctrl_o2button13->y(390);
-		$ctrl_o2button13->larghezza(90);
-		$ctrl_o2button13->altezza(30);
-		$ctrl_o2button13->azione("add");
-		$ctrl_o2button13->label("     &Add");
-		$ctrl_o2button13->css(jxgranting_role_right_exp_4());
 	$ctrl_o2multipage2 = &$form_jxgranting_role_right_1->ctrldef("o2multipage2", "multipage", "", "prg§_§var", "page");
 		$ctrl_o2multipage2->x(20);
 		$ctrl_o2multipage2->y(20);
@@ -81,6 +65,22 @@ function jxgranting_role_right§§jxgranting_role_right_1_form_def(&$form_jxgranti
 		$ctrl_o2multipage2->altezza(340);
 		$ctrl_o2multipage2->label(array("Add single right","Add multiple rights"));
 		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2button13 = &$form_jxgranting_role_right_1->ctrldef("o2button13", "button", "", "", "");
+		$ctrl_o2button13->x(630);
+		$ctrl_o2button13->y(390);
+		$ctrl_o2button13->larghezza(90);
+		$ctrl_o2button13->altezza(30);
+		$ctrl_o2button13->azione("add");
+		$ctrl_o2button13->label("&Add");
+		$ctrl_o2button13->css(jxgranting_role_right_exp_4());
+	$ctrl_o2button12 = &$form_jxgranting_role_right_1->ctrldef("o2button12", "button", "", "", "");
+		$ctrl_o2button12->x(530);
+		$ctrl_o2button12->y(390);
+		$ctrl_o2button12->larghezza(90);
+		$ctrl_o2button12->altezza(30);
+		$ctrl_o2button12->azione("cancel");
+		$ctrl_o2button12->label("&Cancel");
+		$ctrl_o2button12->css(jxgranting_role_right_exp_3());
 	$ctrl_o2label27 = &$form_jxgranting_role_right_1->ctrldef("o2label27", "label", "o2multipage2", "", "");
 		$ctrl_o2label27->x(20);
 		$ctrl_o2label27->y(70);
@@ -88,6 +88,13 @@ function jxgranting_role_right§§jxgranting_role_right_1_form_def(&$form_jxgranti
 		$ctrl_o2label27->altezza(20);
 		$ctrl_o2label27->info_padre(array(0));
 		$ctrl_o2label27->label("Right:");
+	$ctrl_o2label28 = &$form_jxgranting_role_right_1->ctrldef("o2label28", "label", "o2multipage2", "", "");
+		$ctrl_o2label28->x(20);
+		$ctrl_o2label28->y(40);
+		$ctrl_o2label28->larghezza(250);
+		$ctrl_o2label28->altezza(20);
+		$ctrl_o2label28->info_padre(array(0));
+		$ctrl_o2label28->label(jxgranting_role_right_exp_2());
 	$ctrl_o2ListBox4 = &$form_jxgranting_role_right_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "right_name");
 		$ctrl_o2ListBox4->x(120);
 		$ctrl_o2ListBox4->y(70);
@@ -96,13 +103,6 @@ function jxgranting_role_right§§jxgranting_role_right_1_form_def(&$form_jxgranti
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(o2_view2list("rights4combo", "right_code", "right_code"));
 		$ctrl_o2ListBox4->righe(1);
-	$ctrl_o2label28 = &$form_jxgranting_role_right_1->ctrldef("o2label28", "label", "o2multipage2", "", "");
-		$ctrl_o2label28->x(20);
-		$ctrl_o2label28->y(40);
-		$ctrl_o2label28->larghezza(250);
-		$ctrl_o2label28->altezza(20);
-		$ctrl_o2label28->info_padre(array(0));
-		$ctrl_o2label28->label(jxgranting_role_right_exp_2());
 	$ctrl_o2label4 = &$form_jxgranting_role_right_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
 		$ctrl_o2label4->x(20);
 		$ctrl_o2label4->y(40);
@@ -157,20 +157,20 @@ function jxgranting_role_right§§jxgranting_role_right_1_form_def(&$form_jxgranti
 		$ctrl_o2checkbox2->y(10);
 		$ctrl_o2checkbox2->larghezza(20);
 		$ctrl_o2checkbox2->altezza(20);
-		$ctrl_o2checkbox2->info_padre(array("01" ,"01" ,"01"));
+		$ctrl_o2checkbox2->info_padre(array("01", "01", "01"));
 	$ctrl_o2label3 = &$form_jxgranting_role_right_1->ctrldef("o2label3", "label", "o2table2", "", "");
 		$ctrl_o2label3->x(30);
 		$ctrl_o2label3->y(10);
 		$ctrl_o2label3->larghezza(200);
 		$ctrl_o2label3->altezza(20);
-		$ctrl_o2label3->info_padre(array("01" ,"02" ,"02" ,"Right" ,False ,"" ,False ,"" ,"" ,""));
+		$ctrl_o2label3->info_padre(array("01", "02", "02", "Right", False, "", False, "", "", ""));
 		$ctrl_o2label3->label(jxgranting_role_right_exp_12());
 	$ctrl_o2label2 = &$form_jxgranting_role_right_1->ctrldef("o2label2", "label", "o2table2", "", "");
 		$ctrl_o2label2->x(230);
 		$ctrl_o2label2->y(10);
 		$ctrl_o2label2->larghezza(400);
 		$ctrl_o2label2->altezza(20);
-		$ctrl_o2label2->info_padre(array("01" ,"03" ,"03"));
+		$ctrl_o2label2->info_padre(array("01", "03", "03"));
 		$ctrl_o2label2->label(jxgranting_role_right_exp_14());
 		}
 
@@ -222,12 +222,12 @@ return ("Select right to add to role ".o2par(1));
 
 function jxgranting_role_right_exp_3() {
 	
-return ("jxwiz_cancel");
+return (" jxbtn_cancel");
 	} //|o2_fine_exp|
 
 function jxgranting_role_right_exp_4() {
 	
-return ("jxwiz_save");
+return (" jxbtn_save");
 	} //|o2_fine_exp|
 
 function jxgranting_role_right_exp_5() {

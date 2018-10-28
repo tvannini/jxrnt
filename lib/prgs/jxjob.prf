@@ -27,21 +27,16 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 	$form_jxjob_1->y(50);
 	$form_jxjob_1->larghezza(440);
 	$form_jxjob_1->altezza(610);
-	$form_jxjob_1->titolo("Job details");
-	$form_jxjob_1->css_doc("sys_jobs_doc");
 	$form_jxjob_1->align_o("Center");
+	$form_jxjob_1->titolo("Job details");
 	$form_jxjob_1->frm_status(jxjob_exp_10());
+	$form_jxjob_1->css_doc("sys_jobs_doc");
 	$ctrl_o2label4 = &$form_jxjob_1->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(20);
 		$ctrl_o2label4->y(90);
 		$ctrl_o2label4->larghezza(100);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->label("Description:");
-	$ctrl_o2checkbox2 = &$form_jxjob_1->ctrldef("o2checkbox2", "check", "", "prg§_§var", "job_disabled");
-		$ctrl_o2checkbox2->x(320);
-		$ctrl_o2checkbox2->y(30);
-		$ctrl_o2checkbox2->larghezza(20);
-		$ctrl_o2checkbox2->altezza(20);
 	$ctrl_o2label12 = &$form_jxjob_1->ctrldef("o2label12", "label", "", "", "");
 		$ctrl_o2label12->x(230);
 		$ctrl_o2label12->y(170);
@@ -109,6 +104,11 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2label13->larghezza(100);
 		$ctrl_o2label13->altezza(20);
 		$ctrl_o2label13->label("Service:");
+	$ctrl_o2checkbox2 = &$form_jxjob_1->ctrldef("o2checkbox2", "check", "", "prg§_§var", "job_disabled");
+		$ctrl_o2checkbox2->x(320);
+		$ctrl_o2checkbox2->y(30);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(20);
 	$ctrl_o2edit3 = &$form_jxjob_1->ctrldef("o2edit3", "edit", "", "prg§_§var", "job_name");
 		$ctrl_o2edit3->x(120);
 		$ctrl_o2edit3->y(60);
@@ -161,6 +161,7 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2button3->altezza(30);
 		$ctrl_o2button3->azione("save_job");
 		$ctrl_o2button3->label("&Save");
+		$ctrl_o2button3->css(jxjob_exp_39());
 	$ctrl_o2button4 = &$form_jxjob_1->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(230);
 		$ctrl_o2button4->y(540);
@@ -168,6 +169,7 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2button4->altezza(30);
 		$ctrl_o2button4->azione("close");
 		$ctrl_o2button4->label("&Cancel");
+		$ctrl_o2button4->css(jxjob_exp_38());
 	$ctrl_o2edit2 = &$form_jxjob_1->ctrldef("o2edit2", "edit", "", "prg§_§var", "job_id");
 		$ctrl_o2edit2->x(120);
 		$ctrl_o2edit2->y(30);
@@ -181,6 +183,14 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2ListBox5->altezza(20);
 		$ctrl_o2ListBox5->valori(jxjob_exp_32());
 		$ctrl_o2ListBox5->righe(1);
+	$ctrl_o2label8 = &$form_jxjob_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
+		$ctrl_o2label8->x(20);
+		$ctrl_o2label8->y(210);
+		$ctrl_o2label8->larghezza(40);
+		$ctrl_o2label8->altezza(20);
+		$ctrl_o2label8->visibile(jxjob_exp_22());
+		$ctrl_o2label8->info_padre(array(0));
+		$ctrl_o2label8->label("Value:");
 	$ctrl_o2ListBox4 = &$form_jxjob_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "param_id");
 		$ctrl_o2ListBox4->x(20);
 		$ctrl_o2ListBox4->y(40);
@@ -191,14 +201,6 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(jxjob_exp_12());
 		$ctrl_o2ListBox4->righe(10);
-	$ctrl_o2label8 = &$form_jxjob_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
-		$ctrl_o2label8->x(20);
-		$ctrl_o2label8->y(210);
-		$ctrl_o2label8->larghezza(40);
-		$ctrl_o2label8->altezza(20);
-		$ctrl_o2label8->visibile(jxjob_exp_22());
-		$ctrl_o2label8->info_padre(array(0));
-		$ctrl_o2label8->label("Value:");
 	$ctrl_o2ListBox6 = &$form_jxjob_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "param_value");
 		$ctrl_o2ListBox6->x(60);
 		$ctrl_o2ListBox6->y(210);
@@ -413,7 +415,7 @@ $model  = $app->maschere[$m_name];
 if ($model->tipo == "L") {
    $ctrl_type = "c";
    }
-elseif (count($model->valori)) {
+elseif (is_array($model->valori) && count($model->valori)) {
    $ctrl_type = "l";
    }
 else {
@@ -453,7 +455,7 @@ $m_name = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model
 $model  = $app->maschere[$m_name];
 $len    = $model->dimensione;
 $items  = array();
-if (count($model->valori)) {
+if (is_array($model->valori) && count($model->valori)) {
    foreach ($model->valori as $item) {
       $items[substr($item, 0, $len)] = $item;
       }
@@ -574,5 +576,15 @@ return ('Please set name and module to run');
 function jxjob_exp_37() {
 	
 return (!o2val('prg§_§var','check_ok'));
+	} //|o2_fine_exp|
+
+function jxjob_exp_38() {
+	
+return (' jxbtn_cancel');
+	} //|o2_fine_exp|
+
+function jxjob_exp_39() {
+	
+return (' jxbtn_save');
 	} //|o2_fine_exp|
 ?>

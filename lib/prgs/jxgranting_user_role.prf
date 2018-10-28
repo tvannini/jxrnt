@@ -23,12 +23,12 @@ function jxgranting_user_role§§user_role_form_def(&$form_user_role) {
 	$form_user_role->y(250);
 	$form_user_role->larghezza(310);
 	$form_user_role->altezza(250);
-	$form_user_role->titolo("Add role to user");
-	$form_user_role->css_doc("sys_roles_doc");
-	$form_user_role->close_action("cancel");
 	$form_user_role->align_v("Middle");
 	$form_user_role->align_o("Center");
+	$form_user_role->titolo("Add role to user");
 	$form_user_role->frm_status(jxgranting_user_role_exp_1());
+	$form_user_role->css_doc("sys_roles_doc");
+	$form_user_role->close_action("cancel");
 	$ctrl_o2label21 = &$form_user_role->ctrldef("o2label21", "label", "", "", "");
 		$ctrl_o2label21->x(30);
 		$ctrl_o2label21->y(30);
@@ -59,7 +59,7 @@ function jxgranting_user_role§§user_role_form_def(&$form_user_role) {
 		$ctrl_o2button6->larghezza(90);
 		$ctrl_o2button6->altezza(30);
 		$ctrl_o2button6->azione("cancel");
-		$ctrl_o2button6->label("     Cancel");
+		$ctrl_o2button6->label("&Cancel");
 		$ctrl_o2button6->css(jxgranting_user_role_exp_3());
 	$ctrl_o2button7 = &$form_user_role->ctrldef("o2button7", "button", "", "", "");
 		$ctrl_o2button7->x(190);
@@ -67,7 +67,7 @@ function jxgranting_user_role§§user_role_form_def(&$form_user_role) {
 		$ctrl_o2button7->larghezza(90);
 		$ctrl_o2button7->altezza(30);
 		$ctrl_o2button7->azione("add");
-		$ctrl_o2button7->label("     Add");
+		$ctrl_o2button7->label("&Add");
 		$ctrl_o2button7->css(jxgranting_user_role_exp_4());
 		}
 
@@ -94,12 +94,12 @@ return ("Select role to add to user ".o2par(1));
 
 function jxgranting_user_role_exp_3() {
 	
-return ("jxwiz_cancel");
+return (" jxbtn_cancel");
 	} //|o2_fine_exp|
 
 function jxgranting_user_role_exp_4() {
 	
-return ("jxwiz_save");
+return (" jxbtn_save");
 	} //|o2_fine_exp|
 
 function jxgranting_user_role_exp_5() {
