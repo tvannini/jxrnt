@@ -308,9 +308,9 @@ $btn.= '<script>function jxpwdcheck(event) {'.
 o2js_doc_ready('var pwd  = o2jse.infoForm["pwd'.$idx.'"];'.
                'var pwdr = o2jse.infoForm["pwd_repeat'.$idx.'"];'.
                'var pwdo = o2jse.infoForm["pwd_old'.$idx.'"];'.
-               'if(pwd.value==""){pwd.type="text";pwd.onfocus=function(){this.type="password";};pwd.onkeydown=function(){this.type="password";};}'.
-               'if(pwdr.value==""){pwdr.type="text";pwdr.onfocus=function(){this.type="password";};pwdr.onkeydown=function(){this.type="password";};}'.
-               'if(pwdo.value==""){pwdo.type="text";pwdo.onfocus=function(){this.type="password";};pwdo.onkeydown=function(){this.type="password";};}');
+               'pwd.value="";pwd.type="text";pwd.onfocus=function(){this.type="password";};pwd.onkeydown=function(){this.type="password";};'.
+               'pwdr.value="";pwdr.type="text";pwdr.onfocus=function(){this.type="password";};pwdr.onkeydown=function(){this.type="password";};'.
+               'pwdo.value="";pwdo.type="text";pwdo.onfocus=function(){this.type="password";};pwdo.onkeydown=function(){this.type="password";};');
 return ($btn);
 	} //|o2_fine_exp|
 
