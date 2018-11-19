@@ -307,6 +307,34 @@ class o2_exception extends Exception {
 
 
     /**
+     * Handler for not-exception errors like warning, deprecated, ecc...
+     *
+     * @return boolean
+     */
+    public static function errors_handler($severity, $message, $file, $line) {
+
+        if (isset($_SESSION['o2_app']) && $_SESSION['o2_app']->error_mode == 'DEV') {
+            if ($severity === E_WARNING) {
+                (new o2_exception($message.'<br>File: '.$file.' Line: '.$line,
+                                  o2error_WARNING))->send();
+                }
+            elseif ($severity === E_DEPRECATED) {
+                (new o2_exception($message.'<br>File: '.$file.' Line: '.$line,
+                                  o2error_DEPRECATED))->send();
+                }
+            elseif ($severity != E_STRICT && $severity != E_NOTICE) {
+                (new o2_exception($message.'<br>File: '.$file.' Line: '.$line))->send();
+                }
+            else {
+                return false;
+                }
+            }
+        return true;
+
+        }
+
+
+    /**
      * This is the public method to get private property ->code
      *
      * @return integer
@@ -899,15 +927,24 @@ class o2_fsitem {
         $this->ext           = (isset($parts['extension']) ? $parts['extension'] : '');
         $this->nome          = $parts['filename'];
         $this->path          = $parts['dirname'].DIRECTORY_SEPARATOR;
-        $timestamp_local     = @filemtime($this->nome_completo);
-        $this->data_modifica = date("Ymd", $timestamp_local);
-        $this->ora_modifica  = date("His", $timestamp_local);
+        $exists              = file_exists($this->nome_completo);
+        if ($exists) {
+            $timestamp_local     = @filemtime($this->nome_completo);
+            $this->data_modifica = date("Ymd", $timestamp_local);
+            $this->ora_modifica  = date("His", $timestamp_local);
+            }
+        else {
+            $this->data_modifica = '00000000';
+            $this->ora_modifica  = '000000';
+            }
         if (is_dir($this->nome_completo)) {
             $this->tipo = "D";
             }
         else {
-            $this->tipo       = "F";
-            $this->dimensioni = @filesize($this->nome_completo);
+            $this->tipo = "F";
+            if ($exists) {
+                $this->dimensioni = @filesize($this->nome_completo);
+                }
             }
 
         }
@@ -964,9 +1001,15 @@ class o2_dir extends o2_fsitem {
         $this->nome_completo = $dir.(substr($dir, -1) != DIRECTORY_SEPARATOR ?
                                      DIRECTORY_SEPARATOR : "");
         $this->esistenza     = file_exists($this->nome_completo);
-        $timestamp_local     = @filemtime($this->nome_completo);
-        $this->data_modifica = date("Ymd", $timestamp_local);
-        $this->ora_modifica  = date("His", $timestamp_local);
+        if ($this->esistenza) {
+            $timestamp_local     = @filemtime($this->nome_completo);
+            $this->data_modifica = date("Ymd", $timestamp_local);
+            $this->ora_modifica  = date("His", $timestamp_local);
+            }
+        else {
+            $this->data_modifica = '00000000';
+            $this->ora_modifica  = '000000';
+            }
 
         }
 
@@ -5885,6 +5928,8 @@ class o2_runtime {
         // ________________________________________________ Error constants definition ___
         o2_exception::def_errors();
         // ___________________________________________________ Top level error handler ___
+        set_error_handler(array('o2_exception', 'errors_handler'));
+        // _______________________________________________ Top level exception handler ___
         set_exception_handler(array('o2_exception', 'autosend'));
         $this->id          = "jxrnt_".$this->microtime();
         $this->release     = $GLOBALS['jxrel'];

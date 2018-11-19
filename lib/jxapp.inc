@@ -1062,21 +1062,22 @@ class o2_app {
      */
     function versione($versione = "") {
 
-        $release_type              = array('ver' => 0, 'sub' => 0, 'rel' => 0);
-        $rnt_release               = $release_type;
-        $app_release               = $release_type;
-        @list($rnt_release['ver'],
-              $rnt_release['sub'],
-              $rnt_release['rel']) = explode(".", $this->runtime->release, 3);
-        @list($app_release['ver'],
-              $app_release['sub'],
-              $app_release['rel']) = explode(".", $versione, 3);
-        $rnt_release['ver']        = intval($rnt_release['ver']);
-        $rnt_release['sub']        = intval($rnt_release['sub']);
-        $rnt_release['rel']        = intval($rnt_release['rel']);
-        $app_release['ver']        = intval($app_release['ver']);
-        $app_release['sub']        = intval($app_release['sub']);
-        $app_release['rel']        = intval($app_release['rel']);
+        $release_type             = array('ver' => 0, 'sub' => 0, 'rel' => 0);
+        $rnt_release              = $release_type;
+        $app_release              = $release_type;
+        list($rnt_release['ver'],
+             $rnt_release['sub'],
+             $rnt_release['rel']) = array_pad(explode(".", $this->runtime->release, 3),
+                                              3, 0);
+        list($app_release['ver'],
+             $app_release['sub'],
+             $app_release['rel']) = array_pad(explode(".", $versione, 3), 3, 0);
+        $rnt_release['ver']       = intval($rnt_release['ver']);
+        $rnt_release['sub']       = intval($rnt_release['sub']);
+        $rnt_release['rel']       = intval($rnt_release['rel']);
+        $app_release['ver']       = intval($app_release['ver']);
+        $app_release['sub']       = intval($app_release['sub']);
+        $app_release['rel']       = intval($app_release['rel']);
         if ($rnt_release['ver'] > $app_release['ver'] ||
             ($rnt_release['ver'] == $app_release['ver'] &&
              $rnt_release['sub'] > $app_release['sub'])) {
