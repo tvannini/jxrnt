@@ -8931,7 +8931,7 @@ o2jse.menu.menuBtn = function() {
         menuBar.style.display = 'none';
         }
 
-    }
+    };
 
 
 /**
