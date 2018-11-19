@@ -20,5 +20,6 @@ o2def::act("wrong_repeat", "");
 o2def::form("password", "", False, "true", false);
 o2def::par(1, "user_name", "_o2alpha");
 o2def::par(2, "old_password", "_o2logical");
+o2def::par(3, "set_get_result", "_o2logical");
 
 ?>

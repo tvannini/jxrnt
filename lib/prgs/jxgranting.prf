@@ -1011,7 +1011,7 @@ function jxgranting§§goto_user_act(&$o2exe) {
 function jxgranting§§password_edit_act(&$o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Preserve flag throw password set") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "force_pwd_change_save", jxgranting_exp_113()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::call(jxgranting_exp_36(), False, jxgranting_exp_7()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::call(jxgranting_exp_36(), False, jxgranting_exp_7(), jxgranting_exp_9999(), jxgranting_exp_5()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::view("users", "0", "") && $o2exe->e();
 	$o2exe->s(5) && True && o2act::set("users", "force_pwd_change", jxgranting_exp_114()) && $o2exe->e();
 	$o2exe->s(6) && True && o2act::exe("user_write", True, "") && $o2exe->e();
