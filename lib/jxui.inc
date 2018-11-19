@@ -862,6 +862,10 @@ class o2_form {
                 $this->larghezza = $app->client_width - $app->menu_width;
                 $this->altezza   = $app->client_height - $app->status_height;
                 }
+            elseif ($app->menu_style == 'H') {
+                $this->larghezza = $app->client_width;
+                $this->altezza   = $app->client_height - $app->status_height;
+                }
             else {
                 $this->larghezza = $app->client_width;
                 $this->altezza   = $app->client_height -

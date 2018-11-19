@@ -8915,6 +8915,26 @@ o2jse.menu.addMenu = function(menuId, label) {
 
 
 /**
+ * Show/hide menu bar when style is "Hide"
+ *
+ */
+o2jse.menu.menuBtn = function() {
+
+    menuBar = document.getElementById('jxMenuBar');
+    menuBtn = document.getElementById('jxMenuButton');
+    if (menuBar.style.display == 'none') {
+        menuBtn.className     = 'o2menuClose';
+        menuBar.style.display = 'block';
+        }
+    else {
+        menuBtn.className     = 'o2menuButton';
+        menuBar.style.display = 'none';
+        }
+
+    }
+
+
+/**
  * Event handler for onMouseOver events on menu bar items
  *
  */

@@ -738,10 +738,12 @@ class o2html {
     static function menu_bar($o2ctrl_obj, $as_code = false) {
 
         $app       = $_SESSION['o2_app'];
-        $left      = $app->menu_style == 'L';
+        $hide      = $app->menu_style == 'H';
+        $left      = $app->menu_style == 'L' || $hide;
         $html      = "<!-- menu start -->\n<div id=\"jxMenuBar\" class=\"o2menuBar".
-                     ($left ? 'V' : '').
-                   "\" onMouseOut='o2jse.menu.closeByTime();' style='position:fixed;'>\n";
+                     ($hide ? 'H' : ($left ? 'V' : '')).
+                   "\" onMouseOut='o2jse.menu.closeByTime();' style='position:fixed;".
+                   ($hide ? 'display:none;' : '')."'>\n";
         $with_list = ($app->profiling == "M" || $app->profiling == "B");
         foreach ($o2ctrl_obj->voci as $item) {
             if ($item->tipo == "S") {
@@ -776,6 +778,26 @@ class o2html {
             }
         $html.= "</div>\n<script> o2jse.menu.appMainMenu='".$o2ctrl_obj->nome.
                 "'; </script>\n<!-- menu end -->\n";
+        if (!$as_code) {
+            print $html;
+            }
+        if ($hide) {
+            $html.= o2html::menu_bar_button($as_code);
+            }
+        return $html;
+
+        }
+
+
+    /**
+     * Display button to show/hide menu bar
+     *
+     * @param boolean    $as_code
+     */
+    static function menu_bar_button($as_code =  false) {
+
+        $html = '<div id="jxMenuButton" class="o2menuButton" style="position:fixed" '.
+                'onClick="o2jse.menu.menuBtn();">&nbsp;</div>';
         if (!$as_code) {
             print $html;
             }
@@ -1623,18 +1645,18 @@ class o2html {
         // ____________________________________ Register window open in Full-AJAX mode ___
         $app->open_wins[$o2form_obj->id_esecuzione][$o2form_obj->nome] =
                                                           array("V" => true, "A" => true);
-        $repos = "";
+        $repos  = "";
+        $menu_v = $app->menu_attivo && $app->menu_style == 'L';
+        $menu_o = $app->menu_attivo && $app->menu_style == 'T';
         // ___________________________________________________________ NOT linked form ___
         if (!$o2form_obj->linkto) {
             $div_name = $o2form_obj->nome."_".$o2form_obj->id_esecuzione;
             // ______________________________________________________________ Position ___
-            $cli_w  = $app->client_width;
-            $cli_h  = $app->client_height;
-            $menu_v = $app->menu_attivo && $app->menu_style != 'T';
-            $menu_o = $app->menu_attivo && $app->menu_style == 'T';
-            $bar_w  = ($menu_v ? $app->menu_width : 0);
-            $bar_h  = ($menu_o ? $app->menu_height : 0);
-            $stb_h  = $app->status_height;
+            $cli_w = $app->client_width;
+            $cli_h = $app->client_height;
+            $bar_w = ($menu_v ? $app->menu_width : 0);
+            $bar_h = ($menu_o ? $app->menu_height : 0);
+            $stb_h = $app->status_height;
             // _______________ Repos is needed if client size informations are missing ___
             if (!$cli_w || ($menu_o && !$bar_v) || ($menu_v && !$bar_w)) {
                 $repos = "<script> o2jse.win.needRepos('".$div_name."'); </script>\n";
@@ -1676,10 +1698,8 @@ class o2html {
             }
         // _______________________________________________________________ Linked form ___
         else {
-            $bar_h      = ($app->menu_attivo && $app->menu_style != 'L' ?
-                           ($app->menu_height ? $app->menu_height : 25) : 0);
-            $bar_w      = ($app->menu_attivo && $app->menu_style == 'L' ?
-                           ($app->menu_width ? $app->menu_width : 100) : 0);
+            $bar_h      = ($menu_o ? ($app->menu_height ? $app->menu_height : 25) : 0);
+            $bar_w      = ($menu_v ? ($app->menu_width ? $app->menu_width : 100) : 0);
             $parent_win = $prg->form[$o2form_obj->linkto];
             // _____________________________________________________ Relative position ___
             $align_buffer = "left:".($parent_win->absolute_x + $o2form_obj->x + $bar_w).

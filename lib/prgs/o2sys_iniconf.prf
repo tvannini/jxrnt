@@ -722,10 +722,10 @@ $list = array(
                          "appval" => null,
                          "desc" => "   *** Application main menu style ***\n\n".
                                    "Default application main menu position.\n".
-                                   "Menu style can be [T]op or [L]eft.\n".
+                                   "Menu style can be [T]op, [L]eft or [H]idden.\n".
                                    "Default style is [T]op.",
                          "default" => "Top",
-                         "values" => array("Top", "Left")),
+                         "values" => array("Top", "Left", "Hidden")),
    "encoding" => array("rntval" => null,
                        "appval" => null,
                        "desc" => "   *** Application encoding ***\n\n".

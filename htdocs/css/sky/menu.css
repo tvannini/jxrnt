@@ -21,9 +21,49 @@
     overflow-y: auto;
     }
 
+.o2menuBarH {
+    background-color: #e8eef7;
+    border-right: 1px solid #a7bde4;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-bottom: 22px solid transparent;
+    padding-top: 30px;
+    overflow-x: none;
+    overflow-y: auto;
+    }
+
 .o2menu {
     background-color: #e8eef7;
     border: 1px solid #a7bde4;
+    }
+
+.o2menuButton {
+    width: 50px;
+    height: 24px;
+    top: 1px;
+    left: 24px;
+    border: 1px solid #a7bde4;
+    border-radius: 3px;
+    background-image: url(menu/btn.png);
+    background-color: #ffffff;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    }
+
+.o2menuClose {
+    width: 50px;
+    height: 24px;
+    top: 1px;
+    left: 24px;
+    border: 1px solid #a7bde4;
+    border-radius: 3px;
+    background-image: url(menu/close.png);
+    background-color: #ffffff;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
     }
 
 .o2menuItem {
@@ -44,7 +84,7 @@
     cursor: pointer;
     }
 
-.o2menuBarV .o2menuItem {
+.o2menuBarV .o2menuItem, .o2menuBarH .o2menuItem {
     border: 1px solid transparent;
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
@@ -72,7 +112,7 @@
     cursor: pointer;
     }
 
-.o2menuBarV .o2menuItemOn {
+.o2menuBarV .o2menuItemOn, .o2menuBarH .o2menuItemOn {
     background-color: #c0d0eb;
     border: 1px solid #a7bde4;
     border-right: 1px solid transparent;
