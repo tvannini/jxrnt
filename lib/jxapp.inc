@@ -715,9 +715,10 @@ class o2_app {
         if ($this->tables_log && count($this->logged_tabs)) {
             foreach ($this->logged_tabs as $tab_name => $log_level) {
                 if ($tab_name) {
-                    $tab_obj            = $this->get_table($tab_name);
-                    $tab_obj->log_level = $log_level;
-                    $tab_obj->create_logtable($this->tables_create);
+                    if ($tab_obj = $this->get_table($tab_name)) {
+                        $tab_obj->log_level = $log_level;
+                        $tab_obj->create_logtable($this->tables_create);
+                        }
                     }
                 }
             }
