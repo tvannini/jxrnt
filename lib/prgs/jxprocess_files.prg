@@ -15,6 +15,6 @@ o2def::act("download_file", "");
 o2def::act("show_file", "");
 o2def::act("start", "");
 o2def::form("jxprocess_files_1", "", False, "true", false);
-o2def::par(1, "runjob_id","_o2sid");
+o2def::par(1, "runjob_id", "_o2sid");
 
 ?>

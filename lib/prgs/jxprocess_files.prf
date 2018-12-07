@@ -18,18 +18,7 @@ function jxprocess_files§§jxprocess_files_1_form_def(&$form_jxprocess_files_1) {
 		$ctrl_o2separator4->y(330);
 		$ctrl_o2separator4->larghezza(300);
 		$ctrl_o2separator4->altezza(2);
-	$ctrl_o2htmlarea3 = &$form_jxprocess_files_1->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea3->x(20);
-		$ctrl_o2htmlarea3->y(20);
-		$ctrl_o2htmlarea3->larghezza(300);
-		$ctrl_o2htmlarea3->altezza(300);
-		$ctrl_o2htmlarea3->html(jxprocess_files_exp_1());
-	$ctrl_o2htmlarea2 = &$form_jxprocess_files_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(120);
-		$ctrl_o2htmlarea2->y(350);
-		$ctrl_o2htmlarea2->larghezza(90);
-		$ctrl_o2htmlarea2->altezza(30);
-		$ctrl_o2htmlarea2->expand("H");
+		$ctrl_o2separator4->expand("H");
 	$ctrl_o2button4 = &$form_jxprocess_files_1->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(230);
 		$ctrl_o2button4->y(350);
@@ -37,6 +26,14 @@ function jxprocess_files§§jxprocess_files_1_form_def(&$form_jxprocess_files_1) {
 		$ctrl_o2button4->altezza(30);
 		$ctrl_o2button4->azione("close");
 		$ctrl_o2button4->label("&Hide");
+	$ctrl_o2htmlarea3 = &$form_jxprocess_files_1->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea3->x(20);
+		$ctrl_o2htmlarea3->y(20);
+		$ctrl_o2htmlarea3->larghezza(300);
+		$ctrl_o2htmlarea3->altezza(300);
+		$ctrl_o2htmlarea3->expand("B");
+		$ctrl_o2htmlarea3->html(jxprocess_files_exp_1());
+		$ctrl_o2htmlarea3->css(jxprocess_files_exp_9());
 	$ctrl_o2button2 = &$form_jxprocess_files_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(20);
 		$ctrl_o2button2->y(350);
@@ -44,6 +41,12 @@ function jxprocess_files§§jxprocess_files_1_form_def(&$form_jxprocess_files_1) {
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("download_all");
 		$ctrl_o2button2->label("&Download all");
+	$ctrl_o2htmlarea2 = &$form_jxprocess_files_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(120);
+		$ctrl_o2htmlarea2->y(350);
+		$ctrl_o2htmlarea2->larghezza(90);
+		$ctrl_o2htmlarea2->altezza(30);
+		$ctrl_o2htmlarea2->expand("H");
 		}
 
 function jxprocess_files§§close_act(&$o2exe) {
@@ -70,7 +73,7 @@ function jxprocess_files§§start_act(&$o2exe) {
 
 function jxprocess_files_exp_1() {
 	$code = '<table style="width:100%"><tr><td>';
-foreach (o2par(1) as $path) {
+foreach (o2val('prg§_§var','files') as $path) {
    $file  = basename($path);
    $style = 'style="background-color:#ffffff;border:1px solid #bbbbbb;cursor:pointer;padding:3px;"';
    $div   = '<div '.$style.' onclick="'.o2_act4js(0, "show_file", $path).'">'.$file.'</div>';  
@@ -79,7 +82,6 @@ foreach (o2par(1) as $path) {
    $code .= '<tr><td>'.$div.'</td><td>'.$dwnl.'</td></tr>';
    }
 $code.= '</table>';
-
 return ($code);
 	} //|o2_fine_exp|
 
@@ -129,5 +131,10 @@ return ($name);
 function jxprocess_files_exp_8() {
 	o2_send(o2_path(o2_reqpar(1), 1));
 return (true);
+	} //|o2_fine_exp|
+
+function jxprocess_files_exp_9() {
+	
+return ('disp_area');
 	} //|o2_fine_exp|
 ?>
