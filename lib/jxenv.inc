@@ -6662,8 +6662,29 @@ class o2act {
                 $text = $app->translation[$ctext];
                 }
             }
+        // ______________________________________ CMD-line and batch executions (jobs) ___
         if ($app->runtime->interface != "HTML") {
-            print "\n".$text."\n";
+            // __________________________________________ Jobs and scheduler processes ___
+            if (isset($_REQUEST[o2_run_job::$run_word]) ||
+                isset($_REQUEST[o2_run_job::$job_word]) ||
+                isset($_REQUEST[o2_scheduler::$sched_word])) {
+                if ($media === 1) {
+                    $type = 'a status-bar text';
+                    }
+                elseif ($media === 2) {
+                    $type = 'a popup';
+                    }
+                else {
+                    $type = 'an alert-box';
+                    }
+                o2_exception::warning("Batch execution emitted ".$type.
+                                      " with message:<br>".$text);
+                }
+            // _______________________________________ CMD-line (no jobs or scheduler) ___
+            else {
+                print "\n".$text."\n";
+                }
+            return true;
             }
         // ________________________________________________________________ Status bar ___
         elseif ($media === 1) {
