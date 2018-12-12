@@ -2219,13 +2219,13 @@ class o2_ctrl {
             }
         // _________________________________________________ Multilanguage translation ___
         if ($app->multilang) {
-            $msg = $app->translate($o2ctrl_obj->nome,
+            $msg = $app->translate($this->nome,
                                    'msg_message',
                                    0,
-                                   $o2ctrl_obj->confirm_message);
+                                   $this->confirm_message);
             }
         else {
-            $msg = $o2ctrl_obj->confirm_message;
+            $msg = $this->confirm_message;
             }
         return  ($as_obj ? "{" : "o2=\"").
                     "e:".$this->id_esecuzione.
