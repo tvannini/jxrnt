@@ -6487,7 +6487,7 @@ function o2view_selector_get_selected($view_name) {
         $segs = array();
         foreach (explode('AND', $str_key) as $seg) {
             list($field, $value) = explode('=', $seg);
-            $segs[$fields[trim($field, ' "[]`')]] = trim($value, "'");
+            $segs[$fields[trim($field, ' "[]`')]] = trim(trim($value), "'");
             }
         $list[] = $segs;
         }
