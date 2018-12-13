@@ -6229,7 +6229,9 @@ function o2view_fetch($view_name) {
             throw new o2_exception($err[2], o2error_DBDATAQUERY);
             return false;
             }
-        return $row;
+        // ___________________ Set row as current record in view and evaluate formulas ___
+        $view_obj->imposta_corrente($row);
+        return $view_obj->corrente;
         }
     // __________________________________________________ First call: create statement ___
     elseif ($view_obj) {
