@@ -227,16 +227,29 @@ function o2_mssql_execute($query,
         }
     // _____________________________________________ Execution only, no dataset return ___
     if ($only_exe) {
-        // __________________________________________________ Get connection to server ___
-        $conn = o2_mssql_connect($server, $user, $password, $trans);
-        $res  = $conn->exec($query);
-        // ______________________________________________________ On execution failure ___
+		try {
+            // ______________________________________________ Get connection to server ___
+            $conn = o2_mssql_connect($server, $user, $password, $trans);
+			$res = $conn->exec($query);
+			}
+        // ____________________________________________________ On execution exception ___
+		catch (Exception $o2e) {
+            $err = $conn->errorInfo();
+            $conn->rollBack && @$conn->rollBack();
+			$res = false;
+            throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
+                                   "</i> (as Exception)<br>query: <code>".$query.
+                                   "</code><hr>".$err[2],
+                                   o2error_DBEXECUTE);
+            return false;
+			}
+        // _______________________________________ On other execution failure (NEVER!) ___
         if ($res === false) {
             $err = $conn->errorInfo();
             $conn->rollBack && @$conn->rollBack();
             throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                   "</i><br />query: <code>".$query."</code><hr />".
-                                   $err[2],
+                                   "</i> (as Error)<br>query: <code>".$query.
+                                   "</code><hr>".$err[2],
                                    o2error_DBEXECUTE);
             return false;
             }
@@ -246,16 +259,28 @@ function o2_mssql_execute($query,
     else {
         $loop = ($stm || ($stm === 0));
         if (!$stm) {
-            // ______________________________________________ Get connection to server ___
-            $conn = o2_mssql_connect($server, $user, $password, $trans);
-            // __________________________ Create statement and check execution failure ___
-            if (!($stm = $conn->query($query))) {
+            try {
+                // __________________________________________ Get connection to server ___
+                $conn = o2_mssql_connect($server, $user, $password, $trans);
+                // _____________ Create statement and check execution failure (NEVER!) ___
+                if (!($stm = $conn->query($query))) {
+                    $err = $conn->errorInfo();
+                    $conn->rollBack && @$conn->rollBack();
+                    throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
+                                           "</i> (as Error)<br>query: <code>".$query.
+                                           "</code><hr>".$err[2],
+                                           o2error_DBDATAQUERY);
+                    return false;
+                    }
+                }
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
                 $err = $conn->errorInfo();
                 $conn->rollBack && @$conn->rollBack();
                 throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                       "</i><br />query: <code>".$query."</code><hr />".
-                                       $err[2],
-                                       o2error_DBDATAQUERY);
+                                       "</i> (as Exception)<br>query: <code>".$query.
+                                       "</code><hr>".$err[2],
+                                       o2error_DBEXECUTE);
                 return false;
                 }
             }
@@ -263,39 +288,66 @@ function o2_mssql_execute($query,
         if ($loop) {
             $set = array();
             $num = 0;
-			// _____________________________________ Needed for some stored procedures ___
-            while($stm->columnCount() === 0 && $stm->nextRowset()) {
-                // _________________ Advance rowset until we get to a rowset with data ___
+            try {
+    			// _________________________________ Needed for some stored procedures ___
+                while($stm->columnCount() === 0 && $stm->nextRowset()) {
+                    // _____________ Advance rowset until we get to a rowset with data ___
+                    }
+                while ((!$limit || $num < $limit) &&
+                       ($row = $stm->fetch(PDO::FETCH_ASSOC))) {
+                    $num++;
+                    $set[] = $row;
+                    }
+                if ($limit && $num < $limit) {
+                    $stm->closeCursor();
+                    $stm = null;
+                    }
+                return $set;
                 }
-            while ((!$limit || $num < $limit) && ($row = $stm->fetch(PDO::FETCH_ASSOC))) {
-                $num++;
-                $set[] = $row;
-                }
-            if ($limit && $num < $limit) {
-                $stm->closeCursor();
-                $stm = null;
-                }
-            return $set;
-            }
-        else {
-            // _____________________________________ Needed for some stored procedures ___
-            while($stm->columnCount() === 0 && $stm->nextRowset()) {
-                // _________________ Advance rowset until we get to a rowset with data ___
-                }
-            $data  = $stm->fetchAll(PDO::FETCH_ASSOC);
-			$err_c = $stm->errorCode();
-            // _____________________________________ Error on statement (during fetch) ___
-            if ($err_c != '00000') {
-                $err = $stm->errorInfo();
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
+                $err = $conn->errorInfo();
                 $conn->rollBack && @$conn->rollBack();
                 throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                       "</i><br />query: <code>".$query."</code><hr />".
-                                       $err[2],
+                                       "</i> (as Exception)<br>query: <code>".$query.
+                                       "</code><hr>".$err[2],
                                        o2error_DBDATAQUERY);
+                return false;
                 }
-            $stm->closeCursor();
-            $stm = null;
-            return $data;
+            }
+        else {
+            try {
+                // _________________________________ Needed for some stored procedures ___
+                while($stm->columnCount() === 0 && $stm->nextRowset()) {
+                    // _____________ Advance rowset until we get to a rowset with data ___
+                    }
+                $data  = $stm->fetchAll(PDO::FETCH_ASSOC);
+    			$err_c = $stm->errorCode();
+                // __ Error on statement (during fetch) (NEVER: catched as exception!) ___
+                if ($err_c != '00000') {
+                    $err = $stm->errorInfo();
+                    $conn->rollBack && @$conn->rollBack();
+                    throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
+                                           "</i> (as Error)<br>query: <code>".$query.
+                                           "</code><hr>".$err[2],
+                                           o2error_DBDATAQUERY);
+                    }
+                $stm->closeCursor();
+                $stm = null;
+                return $data;
+                }
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
+                $err = $conn->errorInfo();
+                $stm->closeCursor();
+                $stm = null;
+                $conn->rollBack && @$conn->rollBack();
+                throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
+                                       "</i> (as Exception)<br>query: <code>".$query.
+                                       "</code><hr>".$err[2],
+                                       o2error_DBDATAQUERY);
+                return false;
+                }
             }
         }
 
