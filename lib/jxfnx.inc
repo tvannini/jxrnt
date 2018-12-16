@@ -6231,7 +6231,12 @@ function o2view_fetch($view_name) {
             }
         // ___________________ Set row as current record in view and evaluate formulas ___
         $view_obj->imposta_corrente($row);
-        return $view_obj->corrente;
+        if ($view_obj->verifica_record()) {
+            return $view_obj->corrente;
+            }
+        else {
+            return o2view_fetch($view_name);
+            }
         }
     // __________________________________________________ First call: create statement ___
     elseif ($view_obj) {
