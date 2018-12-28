@@ -715,9 +715,14 @@ class o2_app {
         if ($this->tables_log && count($this->logged_tabs)) {
             foreach ($this->logged_tabs as $tab_name => $log_level) {
                 if ($tab_name) {
-                    if ($tab_obj = $this->get_table($tab_name)) {
+                    try {
+                        $tab_obj            = $this->get_table($tab_name);
                         $tab_obj->log_level = $log_level;
                         $tab_obj->create_logtable($this->tables_create);
+                        }
+                    catch (o2_exception $o2e) {
+                        o2_exception::warning("Unknown table <i>".$tab_name.
+                                              "</i> requested for log-table creation.");
                         }
                     }
                 }
