@@ -786,6 +786,88 @@ class jxjs {
 
 
     /**
+     * Define flowbox control in full AJAX WEB 2.0 context
+     *
+     * @param o2_ctrl_flowbox $o2ctrl_obj   Janox flowbox control object related to
+     *                                      control
+     */
+    static function ctrl_flowbox($o2ctrl_obj) {
+
+        $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+        $form_obj  = $prg_local->form[$o2ctrl_obj->form];
+        foreach ($form_obj->controlli as &$singolo_ctrl) {
+            // ___________________________________________________ Controls in flowbox ___
+            if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
+                $singolo_ctrl->disegna();
+                }
+            }
+        // _________________________________________ Only first time HTML code is sent ___
+        print jxjs::ctrl($o2ctrl_obj,
+                         'x:'.$o2ctrl_obj->x.
+                         ',y:'.$o2ctrl_obj->y.
+                         ',w:'.$o2ctrl_obj->larghezza.
+                         ',h:'.$o2ctrl_obj->altezza,
+                         $o2ctrl_obj->js_props("", true));
+
+        }
+
+
+    /**
+     * Define frame control in full AJAX WEB 2.0 context
+     *
+     * @param o2_ctrl_frame $o2ctrl_obj   Janox frame control object related to control
+     */
+    static function ctrl_frame($o2ctrl_obj) {
+
+        $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+        $form_obj  = $prg_local->form[$o2ctrl_obj->form];
+        foreach ($form_obj->controlli as &$singolo_ctrl) {
+            // _____________________________________________________ Controls in frame ___
+            if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
+                // ___________________________________________________ Read-only frame ___
+                if (!$o2ctrl_obj->modificabile) {
+                    switch ($singolo_ctrl->tipo_ctrl) {
+                        case "tab":
+                            $singolo_ctrl->modificabile = false;
+                            foreach ($form_obj->controlli as &$tmp_ctrl) {
+                                if ($tmp_ctrl->tipo_ctrl == "navigator" &&
+                                    $tmp_ctrl->padre == $singolo_ctrl->nome) {
+                                    $tmp_ctrl->enable_del(false);
+                                    $tmp_ctrl->enable_detail(false);
+                                    $tmp_ctrl->enable_new(false);
+                                    $tmp_ctrl->enable_save(false);
+                                    $tmp_ctrl->enable_select(false);
+                                    $tmp_ctrl->enable_undo(false);
+                                    break;
+                                    }
+                                }
+                            break;
+                        case "navigator":
+                            $singolo_ctrl->enable_del(false);
+                            $singolo_ctrl->enable_detail(false);
+                            $singolo_ctrl->enable_new(false);
+                            $singolo_ctrl->enable_save(false);
+                            $singolo_ctrl->enable_select(false);
+                            $singolo_ctrl->enable_undo(false);
+                            break;
+                        default:
+                            $singolo_ctrl->modificabile = false;
+                            break;
+                        }
+                    }
+                $singolo_ctrl->disegna();
+                }
+            }
+        // _________________________________________ Only first time HTML code is sent ___
+        print jxjs::ctrl($o2ctrl_obj,
+                         'w:'.$o2ctrl_obj->larghezza.
+                         ',h:'.$o2ctrl_obj->altezza,
+                         $o2ctrl_obj->js_props("", true));
+
+        }
+
+
+    /**
      * Define area control in full AJAX WEB 2.0 context
      *
      * @param o2_ctrl_area $o2ctrl_obj   Janox area control object related to control

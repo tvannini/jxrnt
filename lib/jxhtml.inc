@@ -2650,8 +2650,93 @@ class o2html {
     /**
      * Creates HTML interface related to o2 control.
      *
-     * @param o2_ctrl_multipage $o2ctrl_obj   Related o2_ctrl_multipage object
+     * @param o2_ctrl_flowbox $o2ctrl_obj   Related o2_ctrl_flowbox object
      */
+    static function ctrl_flowbox($o2ctrl_obj) {
+
+        $html_name          = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
+        $o2ctrl_obj->pagine = count($o2ctrl_obj->label);
+        print '<div id="'.$html_name.'" class="'.$o2ctrl_obj->css.'" style="width:'.
+              $o2ctrl_obj->larghezza.'px;height:'.$o2ctrl_obj->altezza.'px;'.
+              ($o2ctrl_obj->visibile ? "" : "display:none;")."\">\n";
+        $prg  = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+        $form = $prg->form[$o2ctrl_obj->form];
+        foreach ($form->controlli as &$singolo_ctrl) {
+            // ___________________________________________________ Controls in flowbox ___
+            if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
+                $singolo_ctrl->disegna();
+                }
+            }
+        print "</div>\n";
+
+        }
+
+
+    /**
+     * Creates HTML interface related to o2 control.
+     *
+     * @param o2_ctrl_frame $o2ctrl_obj   Related o2_ctrl_frame object
+     */
+    static function ctrl_frame($o2ctrl_obj) {
+
+        $html_name = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
+        $prg       = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+        $form      = $prg->form[$o2ctrl_obj->form];
+        print '<div id="'.$html_name.'" class="'.$o2ctrl_obj->css.'" style="'.
+              ($o2ctrl_obj->visibile ? "" : "display:none;")."\">\n";
+        print '<table class="o2_ctrl_box_title"><tr><th>'.
+              $form->controlli[$o2ctrl_obj->padre]->label[$o2ctrl_obj->info_padre[0]].
+              '</th></tr></table><div style="position:relative;width:'.
+              $o2ctrl_obj->larghezza.'px;height:'.$o2ctrl_obj->altezza.'px;">';
+        foreach ($form->controlli as &$singolo_ctrl) {
+            // ___________________________________________________ Controls in flowbox ___
+            if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
+                print '<div style="position:absolute;left:'.$singolo_ctrl->x.
+                      'px;top:'.$singolo_ctrl->y.
+                      "px;padding:0;margin:0;white-space:nowrap;\">\n";
+                if (!$o2ctrl_obj->modificabile) {
+                    switch ($singolo_ctrl->tipo_ctrl) {
+                        case "tab":
+                            $singolo_ctrl->modificabile  = false;
+                            $singolo_ctrl->dis_by_parent = true;
+                            foreach ($form->controlli as &$tmp_ctrl) {
+                                if ($tmp_ctrl->tipo_ctrl == "navigator" &&
+                                    $tmp_ctrl->padre == $singolo_ctrl->nome) {
+                                    $tmp_ctrl->enable_del(false);
+                                    $tmp_ctrl->enable_detail(false);
+                                    $tmp_ctrl->enable_new(false);
+                                    $tmp_ctrl->enable_save(false);
+                                    $tmp_ctrl->enable_select(false);
+                                    $tmp_ctrl->enable_undo(false);
+                                    break;
+                                    }
+                                }
+                            break;
+                        case "navigator":
+                            $singolo_ctrl->enable_del(false);
+                            $singolo_ctrl->enable_detail(false);
+                            $singolo_ctrl->enable_new(false);
+                            $singolo_ctrl->enable_save(false);
+                            $singolo_ctrl->enable_select(false);
+                            $singolo_ctrl->enable_undo(false);
+                            break;
+                        default:
+                            $singolo_ctrl->modificabile = false;
+                            break;
+                        }
+                    }
+                elseif ($singolo_ctrl->tipo_ctrl == "tab") {
+                    $singolo_ctrl->dis_by_parent = false;
+                    }
+                $singolo_ctrl->disegna();
+                print "</div>\n";
+                }
+            }
+        print "</div></div>\n";
+
+        }
+
+
     static function ctrl_multipage($o2ctrl_obj) {
 
         $html_name          = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
@@ -2879,7 +2964,7 @@ class o2html {
                   $o2ctrl_obj->js_props($js_props ? $js_props : false).
                       " class='".$o2ctrl_obj->spazio_class.
                                  ($o2ctrl_obj->modificabile ? " jxtabedit" : "").
-                     "' style='position:absolute;width:".$o2ctrl_obj->larghezza.
+                     "' style='width:".$o2ctrl_obj->larghezza.
                            "px;height:".$o2ctrl_obj->altezza."px;".
                       ($o2ctrl_obj->visibile ? "" : "display:none;")."'>\n";
             // ______________________________________________________ Form input field ___

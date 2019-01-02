@@ -4,6 +4,7 @@
 @import url(janox/form.css);
 @import url(janox/button.css);
 @import url(janox/multipg.css);
+@import url(janox/flowbox.css);
 @import url(janox/tools.css);
 @import url(janox/table.css);
 @import url(janox/nav.css);
@@ -260,7 +261,8 @@ option:hover {
     }
 
 .o2_ctrl_line {
-    border: 1px solid #cccccc;
+    border: none;
+    border-top: 1px solid #cccccc;
     }
 
 .o2_ctrl_img {

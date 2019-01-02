@@ -985,6 +985,12 @@ class o2_form {
                 case "progress":
                     $this->controlli[$alias_ctrl] = new o2_ctrl_progress();
                     break;
+                case "flowbox":
+                    $this->controlli[$alias_ctrl] = new o2_ctrl_flowbox();
+                    break;
+                case "frame":
+                    $this->controlli[$alias_ctrl] = new o2_ctrl_frame();
+                    break;
                 }
             $new_ctrl                = $this->controlli[$alias_ctrl];
             $new_ctrl->nome          = $alias_ctrl;
@@ -4387,6 +4393,160 @@ class o2_ctrl_multipage extends o2_ctrl {
             // _________________________________________________ Reset sent pages list ___
             $this->sent_pages = array();
             o2html::ctrl_multipage($this);
+            }
+
+        }
+
+    }
+
+
+/**
+ * Flowbox control
+ *
+ */
+class o2_ctrl_flowbox extends o2_ctrl {
+
+    /*     ===== PROPERTIES =========================================================== */
+    public $label = array(); /* Pages labels list in the form:
+                                 ->label[page_index] = [label_text]                     */
+    /*     _____ CSS CLASSES __________________________________________________________ */
+    public $css   = "o2_ctrl_box_out"; /*                                               */
+
+
+    /**
+     * Costruttore
+     *
+     */
+    function __construct() {
+
+        $this->tipo_ctrl    = "flowbox";
+        $this->label        = array("default");
+
+        }
+
+
+    /**
+     * Imposta la classe di stile per il <div> che contiene il controllo
+     *
+     * @param  string $css
+     * @return boolean
+     */
+    function css($css = "") {
+
+        if ($css) {
+            // _______________________ If starts with space then add to standard class ___
+            if ($css{0} === ' ') {
+                $this->css = 'o2_ctrl_box_out'.$css;
+                }
+            // ________________________________________________ Replace standard class ___
+            else {
+                $this->css = $css;
+                }
+            }
+        // ____________________________________________________________ Standard class ___
+        else {
+            $this->css = 'o2_ctrl_box_out';
+            }
+        return true;
+
+        }
+
+
+    /**
+     * Imposta l'array dei titoli delle pagine
+     *
+     * @param  array $label
+     * @return boolean
+     */
+    function label($label = null) {
+
+        if (!$label) {
+            $label = array("Page1");
+            }
+        $this->label = $label;
+        return true;
+
+        }
+
+
+    /**
+     * Disegna il controllo flowbox
+     *
+     */
+    function disegna() {
+
+        if ($GLOBALS['jxjs']) {
+            jxjs::ctrl_flowbox($this);
+            }
+        else {
+            o2html::ctrl_flowbox($this);
+            }
+
+        }
+
+    }
+
+
+/**
+ * Frame control
+ *
+ */
+class o2_ctrl_frame extends o2_ctrl {
+
+    /*     ===== PROPERTIES =========================================================== */
+    /*     _____ CSS CLASSES __________________________________________________________ */
+    public $css   = "o2_ctrl_box_in"; /*                                                */
+
+
+    /**
+     * Costruttore
+     *
+     */
+    function __construct() {
+
+        $this->tipo_ctrl    = "frame";
+
+        }
+
+
+    /**
+     * Imposta la classe di stile per il <div> che contiene il controllo
+     *
+     * @param  string $css
+     * @return boolean
+     */
+    function css($css = "") {
+
+        if ($css) {
+            // _______________________ If starts with space then add to standard class ___
+            if ($css{0} === ' ') {
+                $this->css = 'o2_ctrl_box_in'.$css;
+                }
+            // ________________________________________________ Replace standard class ___
+            else {
+                $this->css = $css;
+                }
+            }
+        // ____________________________________________________________ Standard class ___
+        else {
+            $this->css = 'o2_ctrl_box_in';
+            }
+        return true;
+
+        }
+
+
+    /**
+     * Disegna il controllo frame
+     *
+     */
+    function disegna() {
+
+        if ($GLOBALS['jxjs']) {
+            jxjs::ctrl_frame($this);
+            }
+        else {
+            o2html::ctrl_frame($this);
             }
 
         }
