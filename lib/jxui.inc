@@ -6748,7 +6748,8 @@ class o2_ctrl_progress extends o2_ctrl {
                     // ________________________________________ Standard Janox control ___
                     else {
                         // _________ ->caller contains expression name to be evaluated ___
-                        $ctrl_obj->set_value(($ctrl_obj->caller)(), '');
+                        $local_caller = $ctrl_obj->caller;
+                        $ctrl_obj->set_value($local_caller(), '');
                         }
                     $code.= "o2jse.progress.set('".
                             $ctrl_name.$app->progressivo_istanze."',".
