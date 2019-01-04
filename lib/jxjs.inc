@@ -801,12 +801,12 @@ class jxjs {
                 $singolo_ctrl->disegna();
                 }
             }
-        // _________________________________________ Only first time HTML code is sent ___
         print jxjs::ctrl($o2ctrl_obj,
                          'x:'.$o2ctrl_obj->x.
                          ',y:'.$o2ctrl_obj->y.
                          ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
+                         ',h:'.$o2ctrl_obj->altezza.
+                         ",s:'".$o2ctrl_obj->css."'",
                          $o2ctrl_obj->js_props("", true));
 
         }
@@ -858,10 +858,10 @@ class jxjs {
                 $singolo_ctrl->disegna();
                 }
             }
-        // _________________________________________ Only first time HTML code is sent ___
         print jxjs::ctrl($o2ctrl_obj,
                          'w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
+                         ',h:'.$o2ctrl_obj->altezza.
+                         ",s:'".$o2ctrl_obj->css."'",
                          $o2ctrl_obj->js_props("", true));
 
         }

@@ -8483,6 +8483,44 @@ jxc = function(defObj) {
                     ctrlObj.style.display = "none";
                     }
                 break;
+            // =============================================================== FLOWBOX ===
+            case "flowbox":
+                // ____________________________________________________ Set visibility ___
+                if (defObj.v) {
+                    ctrlObj.style.display = "";
+                    ctrlObj.style.width   = defObj.w + 'px';
+                    ctrlObj.style.height  = defObj.h + 'px';
+                    if (defObj.p.pT != 'tab') {
+                        ctrlObj.parentNode.style.left = defObj.x + 'px';
+                        ctrlObj.parentNode.style.top  = defObj.y + 'px';
+                        }
+                    // _______________________________________________ Set style class ___
+                    if (ctrlObj.className != defObj.s) {
+                        ctrlObj.className = defObj.s;
+                        }
+                    }
+                else {
+                    ctrlObj.style.display = "none";
+                    }
+                break;
+            // ================================================================= FRAME ===
+            case "frame":
+                // ____________________________________________________ Set visibility ___
+                if (defObj.v) {
+                    ctrlObj.style.display = "";
+                    // _______________________________ Size is set in the internal DIV ___
+                    intDiv                = document.getElementsByTagName('div')[0];
+                    intDiv.style.width    = defObj.w + 'px';
+                    intDiv.style.height   = defObj.h + 'px';
+                    // _______________________________________________ Set style class ___
+                    if (ctrlObj.className != defObj.s) {
+                        ctrlObj.className = defObj.s;
+                        }
+                    }
+                else {
+                    ctrlObj.style.display = "none";
+                    }
+                break;
             // ============================================================= NAVIGATOR ===
             case "navigator":
                 // ________________________________________________________ Get object ___
