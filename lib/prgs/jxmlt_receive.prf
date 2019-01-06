@@ -1,0 +1,13 @@
+<?php
+
+function jxmlt_receive§§receive_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxmlt_receive_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_receive_exp_1() {
+	$lang = o2par(1);
+$insp = new o2_inspector();
+$insp->mlt_get_lang($lang);
+return (true);
+	} //|o2_fine_exp|
+?>

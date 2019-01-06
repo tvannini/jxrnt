@@ -7253,6 +7253,36 @@ class o2_inspector {
         }
 
 
+    static function get_app_menus() {
+
+        $app   = $_SESSION['o2_app'];
+        $bar   = $app->menu_attivo;
+        $list  = array();
+        $code  = file_get_contents($app->dir_progs->element($app->file_menu));
+        $parts = array();
+        $res   = preg_match_all('/o2def::menu_item\("([^"]*)",\s*"([^"]*)",\s*"([^"]*)",'.
+                                '\s*"([^"]*)",\s*"([^"]*)"/',
+                                $code, $parts);
+        /*
+         1 = padre
+         2 = tipo [M|P|...]
+         3 = menu name
+         4 = Menu label
+         5 = prg-name
+        */
+        if ($res) {
+            for ($i = 0; $i < $res; $i++) {
+                // _________________________________________________ Only first level! ___
+                if (($parts[2][$i] != 'S') && ($parts[1][$i] == $bar)) {
+                    $list[$parts[3][$i]] = $parts[4][$i];
+                    }
+                }
+            }
+        return $list;
+
+        }
+
+
     static function get_app_tabs() {
 
         $app  = $_SESSION['o2_app'];
@@ -7431,6 +7461,78 @@ class o2_inspector {
                 }
             }
         return $ret;
+
+        }
+
+
+    /**
+     * Reads all descentant menus from a given one and returns all called programs:
+     *
+     * @return array
+     */
+    public function get_prgs_by_menu($menu = '', $menus = false, $result = array()) {
+
+        if (!$menus) {
+            $menus = array();
+            $code  = file_get_contents($this->menu_repos);
+            preg_match_all('/o2def::menu_item\("([^"]*)",\s*"([^"]*)",'.
+                           '\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)"/',
+                           $code, $menus);
+            /*
+             1 = padre
+             2 = tipo [M|P|...]
+             3 = menu name
+             4 = Menu label
+             5 = prg-name
+            */
+            }
+        $ms = count($menus[0]);
+        if ($ms) {
+            for ($i = 0; $i < $ms; $i++) {
+                if ($menus[1][$i] == $menu) {
+                    if ($menus[2][$i] == 'P') {
+                        if (!in_array($menus[5][$i], $result)) {
+                            $result[] = $menus[5][$i];
+                            }
+                        }
+                    elseif ($menus[2][$i] == 'M') {
+                        $result+= $this->get_prgs_by_menu($menus[3][$i],
+                                                          $menus,
+                                                          $result);
+                        }
+                    }
+                }
+            }
+        return $result;
+
+        }
+
+
+    /**
+     * Reads all descentant programs called from a given one
+     *
+     * @return array
+     */
+    public function get_prgs_by_prg($prg    = '',
+                                    $depth  = 0,
+                                    $result = array(),
+                                    $level  = 0) {
+
+        if (($prg != '[exp]') && !in_array($prg, $result)) {
+            $result[] = $prg;
+            }
+        $level++;
+        // _______________________________________ Look for CALLs and GOTOs in program ___
+        if ((!$depth || ($level <= $depth)) && $this->prgs_list[$prg]) {
+            $code  = file_get_contents($this->prgs_list[$prg]);
+            $calls = $this->get_prg_acts_call($code);
+            foreach ($calls as $prg_name => $action) {
+                if (($prg_name != '[exp]') && !in_array($prg_name, $result)) {
+                    $result+= $this->get_prgs_by_prg($prg_name, $depth, $result, $level);
+                    }
+                }
+            }
+        return $result;
 
         }
 
@@ -10801,14 +10903,17 @@ class o2_inspector {
     // ==================================================== MULTI LANGUAGE TRANSLATION ===
     /**
      * Executes an harvest of all used strings from base version (development language) of
-     * the requested program (and its descendants???)
+     * the requested program
      *
      * @param string $prg_name
      */
     function mlt_harvest($prg_name) {
 
-        $list  = array();
+        if (!file_exists($this->dir_prgs.$prg_name.'.prf')) {
+            return;
+            }
         $code  = file_get_contents($this->dir_prgs.$prg_name.'.prf');
+        $list  = array();
         $parts = array();
         // _____________________________________________________________ Windows title ___
         preg_match_all('/^\s*\$form_(\w+)->titolo\(["\'](.+)["\']\);\s*$/m',
@@ -11010,7 +11115,8 @@ class o2_inspector {
                                         "'".$prg_name."'",
                                         "'".$ctrl."'",
                                         "'".$prop."'",
-                                        "'".$prop_val."'",
+                                        "'".o2_gateway::normalize($server->type,
+                                                                  $prop_val)."'",
                                         "'".o2_gateway::normalize($server->type,
                                                                   $string)."'");
                         o2_gateway::insertrec($server->type,
@@ -11047,11 +11153,14 @@ class o2_inspector {
                   $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
         // __________________________________________________________ /app/lang/<lang> ___
         $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
+        $prgs     = $lang_dir->all_elements();
+        $tot      = count($prgs);
+        $idx      = 0;
         // ___________________________________________ Loop on all translated programs ___
-        foreach ($lang_dir->all_elements() as $prg_name => $prg_dict) {
+        foreach ($prgs as $prg_dict) {
             $dict  = jx_parse_conf($prg_dict);
             $where = $f['mlt_lang']."='".$lang."' AND ".
-                     $f['mlt_prg']."='".$prg_name."'";
+                     $f['mlt_prg']."='".$prg_dict->nome."'";
             $recs  = o2_gateway::recordset($server->type,
                                            $server->server,
                                            $server->user,
@@ -11072,7 +11181,9 @@ class o2_inspector {
                     $where_i = $where.' AND '.
                                $f['mlt_ctrl']."='".$rec['CTRL']."' AND ".
                                $f['mlt_property']."='".$rec['PROPERTY']."' AND ".
-                               $f['mlt_prop_value']."='".$rec['PROP_VALUE']."'";
+                               $f['mlt_prop_value']."='".
+                                            o2_gateway::normalize($server->type,
+                                                                  $rec['PROP_VALUE'])."'";
                     $sets    = array($f['mlt_lang_str']->nome_fisico =>
                                      "'".o2_gateway::normalize($server->type,
                                                                $dict[$item])."'");
@@ -11088,6 +11199,10 @@ class o2_inspector {
                                           $where_i);
 
                     }
+                }
+            $idx++;
+            if (o2session_is_job()) {
+                o2job_set_progress($idx * 100 / $tot);
                 }
             }
 

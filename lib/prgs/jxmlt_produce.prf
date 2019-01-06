@@ -1,0 +1,491 @@
+<?php
+
+function jxmlt_produce§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("blank_translation", "_o2logical");
+	$task_prg§_§var->definisci("check_default", "_o2logical");
+	$task_prg§_§var->definisci("lang_from", "o2sys_language");
+	$task_prg§_§var->definisci("lang_to", "o2sys_language");
+	$task_prg§_§var->definisci("prg", "_o2alpha");
+	$task_prg§_§var->definisci("prg_idx", "_o2number");
+	$task_prg§_§var->definisci("prgs_list", "_o2structure");
+	$task_prg§_§var->definisci("start_time", "_o2sid");
+	$task_prg§_§var->definisci("tot_prgs", "_o2number");
+	$task_prg§_§var->definisci("translation_exists", "_o2logical");
+	$task_prg§_§var->definisci("txt_changed", "_o2text");
+	$task_prg§_§var->definisci("txt_new", "_o2text");
+	$task_prg§_§var->definisci("txt_unchanged", "_o2text");
+	$task_prg§_§var->definisci("use_default", "_o2logical");
+		}
+
+function jxmlt_produce§§base_lang_def(&$task_base_lang, $_o2viewalias = "") {
+	$task_base_lang->righe_vis = 10;
+
+	$task_base_lang->usa_file("jx_translations","base_lang","lang_ctrl",null,null);
+
+	$task_base_lang->usa("base_lang","base_lang","mlt_lang","jxmlt_produce_exp_9()","jxmlt_produce_exp_9()",null,null);
+	$task_base_lang->usa("prg","base_lang","mlt_prg","jxmlt_produce_exp_10()","jxmlt_produce_exp_10()",null,null);
+	$task_base_lang->usa("ctrl","base_lang","mlt_ctrl",null,null,null,null);
+	$task_base_lang->usa("property","base_lang","mlt_property",null,null,null,null);
+	$task_base_lang->usa("prop_value","base_lang","mlt_prop_value",null,null,null,null);
+	$task_base_lang->usa("base_str","base_lang","mlt_lang_str",null,null,null,null);
+}
+
+function jxmlt_produce§§translation_def(&$task_translation, $_o2viewalias = "") {
+	$task_translation->righe_vis = 10;
+
+	$task_translation->usa_file("jx_translations","jx_translations","lang_ctrl",null,null);
+
+	$task_translation->usa("mlt_lang","jx_translations","mlt_lang","jxmlt_produce_exp_11()","jxmlt_produce_exp_11()",null,null);
+	$task_translation->usa("mlt_prg","jx_translations","mlt_prg","jxmlt_produce_exp_12()","jxmlt_produce_exp_12()",null,null);
+	$task_translation->usa("mlt_ctrl","jx_translations","mlt_ctrl","jxmlt_produce_exp_13()","jxmlt_produce_exp_13()",null,null);
+	$task_translation->usa("mlt_property","jx_translations","mlt_property","jxmlt_produce_exp_14()","jxmlt_produce_exp_14()",null,null);
+	$task_translation->usa("mlt_prop_value","jx_translations","mlt_prop_value","jxmlt_produce_exp_15()","jxmlt_produce_exp_15()",null,null);
+	$task_translation->usa("mlt_base_str","jx_translations","mlt_base_str",null,null,null,null);
+	$task_translation->usa("mlt_lang_str","jx_translations","mlt_lang_str",null,null,null,null);
+}
+
+function jxmlt_produce§§default_translation_def(&$task_default_translation, $_o2viewalias = "") {
+	$task_default_translation->righe_vis = 1;
+
+	$task_default_translation->usa_file("jx_translations","jx_translations","lang_string",null,null);
+
+	$task_default_translation->usa("mlt_lang","jx_translations","mlt_lang","jxmlt_produce_exp_11()","jxmlt_produce_exp_11()",null,null);
+	$task_default_translation->usa("mlt_prg","jx_translations","mlt_prg",null,null,null,null);
+	$task_default_translation->usa("mlt_ctrl","jx_translations","mlt_ctrl",null,null,null,null);
+	$task_default_translation->usa("mlt_property","jx_translations","mlt_property",null,null,null,null);
+	$task_default_translation->usa("mlt_prop_value","jx_translations","mlt_prop_value",null,null,null,null);
+	$task_default_translation->usa("mlt_base_str","jx_translations","mlt_base_str","jxmlt_produce_exp_19()","jxmlt_produce_exp_19()",null,null);
+	$task_default_translation->usa("mlt_lang_str","jx_translations","mlt_lang_str",null,null,"jxmlt_produce_exp_23()",null);
+}
+
+function jxmlt_produce§§prgs_def(&$task_prgs, $_o2viewalias = "") {
+	$task_prgs->righe_vis = 10;
+
+	$task_prgs->usa_file("jx_translations","prgs","lang_ctrl",null,null);
+	$task_prgs->usa_file_link("jx_translations","prg_unique","lang_ctrl",null,null);
+
+	$task_prgs->unisci("prg_unique_mlt_lang_join_","prg_unique","mlt_lang","jxmlt_produce_exp_7()","jxmlt_produce_exp_7()",null,null);
+	$task_prgs->unisci("prg_unique_mlt_prg_join_","prg_unique","mlt_prg","jxmlt_produce_exp_36()","jxmlt_produce_exp_36()",null,null);
+
+	$task_prgs->usa("mlt_lang","prgs","mlt_lang",null,null,null,null);
+	$task_prgs->usa("mlt_prg","prgs","mlt_prg",null,null,null,null);
+	$task_prgs->usa("mlt_ctrl","prgs","mlt_ctrl",null,null,null,null);
+	$task_prgs->usa("mlt_property","prgs","mlt_property",null,null,null,null);
+	$task_prgs->usa("mlt_prop_value","prgs","mlt_prop_value",null,null,null,null);
+	$task_prgs->usa("link_ctrl","prg_unique","mlt_ctrl",null,null,null,null);
+	$task_prgs->usa("link_property","prg_unique","mlt_property",null,null,null,null);
+	$task_prgs->usa("link_prop_value","prg_unique","mlt_prop_value",null,null,null,null);
+	$task_prgs->calcola("check_unique", "jxmlt_produce_exp_24()",null,null,"jxmlt_produce_exp_31()",null);
+}
+
+function jxmlt_produce§§check_update_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "prg", jxmlt_produce_exp_32()) && $o2exe->e();
+	$o2exe->s(2) && (jxmlt_produce_exp_43() || $o2exe->e()) && o2act::exe("produce_prg", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "prg_idx", jxmlt_produce_exp_39()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§process_base_string_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "translation_exists", jxmlt_produce_exp_4()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "use_default", jxmlt_produce_exp_26()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "blank_translation", jxmlt_produce_exp_27()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::view("default_translation", "1", "") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Control property not in translation: USE DEFAULT") && $o2exe->e();
+	$o2exe->s(6) && (jxmlt_produce_exp_29() || $o2exe->e()) && o2act::exe("string_new_default", True, "") && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Control property not in translation: NEW") && $o2exe->e();
+	$o2exe->s(8) && (jxmlt_produce_exp_25() || $o2exe->e()) && o2act::exe("string_new", True, "") && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("Control property in translation as blank: USE DEFAULT") && $o2exe->e();
+	$o2exe->s(10) && (jxmlt_produce_exp_30() || $o2exe->e()) && o2act::exe("string_blank_default", True, "") && $o2exe->e();
+//	$o2exe->s(11) && True && o2act::remark("Control property in translation as blank: NEW") && $o2exe->e();
+	$o2exe->s(12) && (jxmlt_produce_exp_5() || $o2exe->e()) && o2act::exe("string_blank", True, "") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("Control property in translation NOT CHANGED") && $o2exe->e();
+	$o2exe->s(14) && (jxmlt_produce_exp_17() || $o2exe->e()) && o2act::exe("string_unchanged", True, "") && $o2exe->e();
+//	$o2exe->s(15) && True && o2act::remark("Control property in translation CHANGED") && $o2exe->e();
+	$o2exe->s(16) && (jxmlt_produce_exp_16() || $o2exe->e()) && o2act::exe("string_changed", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§produce_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "start_time", jxmlt_produce_exp_40()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "lang_from", jxmlt_produce_exp_33()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "lang_to", jxmlt_produce_exp_34()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "check_default", jxmlt_produce_exp_35()) && $o2exe->e();
+	$o2exe->s(5) && (jxmlt_produce_exp_1() || $o2exe->e()) && o2act::set("prg§_§var", "prg", jxmlt_produce_exp_6()) && $o2exe->e();
+	$o2exe->s(6) && (jxmlt_produce_exp_1() || $o2exe->e()) && o2act::exe("produce_prg", True, "") && $o2exe->e();
+	$o2exe->s(7) && (jxmlt_produce_exp_2() || $o2exe->e()) && o2act::exe("produce_all", True, "") && $o2exe->e();
+	$o2exe->s(8) && (jxmlt_produce_exp_3() || $o2exe->e()) && o2act::exe("produce_update", True, "") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::script(jxmlt_produce_exp_41()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§produce_all_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "tot_prgs", jxmlt_produce_exp_37()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "prg_idx", jxmlt_produce_exp_38()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("single_prg", False, "prgs") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§produce_prg_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "txt_new", jxmlt_produce_exp_23()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "txt_changed", jxmlt_produce_exp_23()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "txt_unchanged", jxmlt_produce_exp_23()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("process_base_string", False, "base_lang") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Produce dictionary file") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::script(jxmlt_produce_exp_22()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "prgs_list", jxmlt_produce_exp_42()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§produce_update_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "tot_prgs", jxmlt_produce_exp_37()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "prg_idx", jxmlt_produce_exp_38()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("check_update", False, "prgs") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§single_prg_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "prg", jxmlt_produce_exp_32()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("produce_prg", True, "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "prg_idx", jxmlt_produce_exp_39()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§string_blank_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "txt_new", jxmlt_produce_exp_18()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§string_blank_default_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("translation", "mlt_lang_str", jxmlt_produce_exp_28()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("translation", "S", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "txt_unchanged", jxmlt_produce_exp_21()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§string_changed_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("translation", "mlt_base_str", jxmlt_produce_exp_19()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("translation", "S", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "txt_changed", jxmlt_produce_exp_20()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§string_new_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("translation", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("translation", "mlt_lang", jxmlt_produce_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("translation", "mlt_prg", jxmlt_produce_exp_12()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("translation", "mlt_ctrl", jxmlt_produce_exp_13()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("translation", "mlt_property", jxmlt_produce_exp_14()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("translation", "mlt_prop_value", jxmlt_produce_exp_15()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("translation", "mlt_base_str", jxmlt_produce_exp_19()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::view("translation", "S", "") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "txt_new", jxmlt_produce_exp_18()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§string_new_default_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("translation", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("translation", "mlt_lang", jxmlt_produce_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("translation", "mlt_prg", jxmlt_produce_exp_12()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("translation", "mlt_ctrl", jxmlt_produce_exp_13()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("translation", "mlt_property", jxmlt_produce_exp_14()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("translation", "mlt_prop_value", jxmlt_produce_exp_15()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("translation", "mlt_base_str", jxmlt_produce_exp_19()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("translation", "mlt_lang_str", jxmlt_produce_exp_28()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::view("translation", "S", "") && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "txt_unchanged", jxmlt_produce_exp_21()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce§§string_unchanged_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "txt_unchanged", jxmlt_produce_exp_21()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_produce_exp_1() {
+	
+return (o2par(1) == 'P');
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_2() {
+	
+return (o2par(1) == 'A');
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_3() {
+	
+return (o2par(1) == 'U');
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_4() {
+	
+return (o2view_rec("translation"));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_5() {
+	
+return (o2val('prg§_§var','translation_exists') && o2val('prg§_§var','blank_translation') && !o2val('prg§_§var','use_default'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_6() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_7() {
+	
+return (o2val('prgs','mlt_lang'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_8() {
+	
+return (!o2zero('prg§_§var','lang_to'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_9() {
+	
+return (o2val('prg§_§var','lang_from'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_10() {
+	
+return ((o2zero('prg§_§var','prg') ? null : o2val('prg§_§var','prg')));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_11() {
+	
+return (o2val('prg§_§var','lang_to'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_12() {
+	
+return (o2val('base_lang','prg'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_13() {
+	
+return (o2val('base_lang','ctrl'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_14() {
+	
+return (o2val('base_lang','property'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_15() {
+	
+return (o2val('base_lang','prop_value'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_16() {
+	
+return (o2val('prg§_§var','translation_exists') && !o2val('prg§_§var','blank_translation') && (o2val('translation','mlt_base_str') != o2val('base_lang','base_str')));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_17() {
+	
+return (o2val('prg§_§var','translation_exists') && !o2val('prg§_§var','blank_translation') && (o2val('translation','mlt_base_str') == o2val('base_lang','base_str')));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_18() {
+	$txt      = o2val('prg§_§var','txt_new');
+$ctrl     = o2val('base_lang','ctrl');
+$prop     = o2val('base_lang','property');
+$prop_val = (($prop == 'item') || ($prop == 'page') ?
+            '_'.o2val('base_lang','prop_value') : '');
+$txt     .= '; --- '.str_replace("\n", "\\n", o2val('base_lang','base_str'))."\n".
+            '"'.$ctrl.'#'.$prop.$prop_val.'" = ""'."\n\n";
+return ($txt);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_19() {
+	
+return (o2val('base_lang','base_str'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_20() {
+	$txt      = o2val('prg§_§var','txt_changed');
+$ctrl     = o2val('base_lang','ctrl');
+$prop     = o2val('base_lang','property');
+$prop_val = (($prop == 'item') || ($prop == 'page') ?
+            '_'.o2val('base_lang','prop_value') : '');
+$txt     .= '; --- '.str_replace("\n", "\\n", o2val('base_lang','base_str'))."\n".
+            '"'.$ctrl.'#'.$prop.$prop_val.'" = "'.
+            str_replace("\n", "\\n", o2val('translation','mlt_lang_str'))."\"\n\n";
+return ($txt);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_21() {
+	$txt      = o2val('prg§_§var','txt_unchanged');
+$ctrl     = o2val('base_lang','ctrl');
+$prop     = o2val('base_lang','property');
+$prop_val = (($prop == 'item') || ($prop == 'page') ?
+            '_'.o2val('base_lang','prop_value') : '');
+$txt     .= '; --- '.str_replace("\n", "\\n", o2val('base_lang','base_str'))."\n".
+            '"'.$ctrl.'#'.$prop.$prop_val.'" = "'.
+            str_replace("\n", "\\n", o2val('translation','mlt_lang_str'))."\"\n\n";
+return ($txt);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_22() {
+	/* _____________________________________________________ /app/lang/<lang> ___ */
+$lang     = o2val('prg§_§var','lang_to');
+$lang_dir = new o2_dir(o2app_dir_home()."/lang/".$lang);
+$lang_dir->crea();
+$prg     = o2val('base_lang','prg');
+$changed = o2val('prg§_§var','txt_changed');
+$new     = o2val('prg§_§var','txt_new');
+$cha_n   = substr_count($changed, "\n");
+$new_n   = substr_count($new, "\n");
+$txt     = "; Janox translation dictionary\n".
+           "; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n".
+           "; Application:   ".o2app_name()."\n".
+           "; Program:       ".$prg."\n".
+           "; Language:      ".$lang."\n".
+           "; Base language: ".(o2zero('prg§_§var','lang_from') ? 
+                                '[Base]' : 
+                                o2val('prg§_§var','lang_from'))."\n".
+           "; Date:          ".date("d.m.Y")."\n\n".
+           (($cha_n + $new_n) > 0 ? 
+            ('; '.($cha_n + $new_n) / 3)." expressions need translation!\n\n" : 
+             '')."\n".
+           o2val('prg§_§var','txt_unchanged')."\n".
+           (($new_n / 3) ? 
+           ";    NEW EXPRESSIONS TO TRANSLATE\n".
+           ";    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n".$new."\n\n" : ''). 
+           (($cha_n / 3) ? 
+           ";    CHANGED EXPRESSIONS TO CHECK\n".
+           ";    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n".$changed : ''); 
+file_put_contents($lang_dir.$prg.'.lng', $txt);
+return (true);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_23() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_24() {
+	$c = (o2val('prgs','mlt_ctrl') == o2val('prgs','link_ctrl')) && 
+     (o2val('prgs','mlt_property') == o2val('prgs','link_property')) &&
+     (o2val('prgs','mlt_prop_value') == o2val('prgs','link_prop_value'));
+return ($c);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_25() {
+	
+return (!o2val('prg§_§var','translation_exists') && !o2val('prg§_§var','use_default'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_26() {
+	
+return (o2val('prg§_§var','check_default') && o2view_rec("default_translation"));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_27() {
+	
+return (o2zero('translation','mlt_lang_str'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_28() {
+	
+return (o2val('default_translation','mlt_lang_str'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_29() {
+	
+return (!o2val('prg§_§var','translation_exists') && o2val('prg§_§var','use_default'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_30() {
+	
+return (o2val('prg§_§var','translation_exists') && o2val('prg§_§var','blank_translation') && o2val('prg§_§var','use_default'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_31() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_32() {
+	
+return (o2val('prgs','mlt_prg'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_33() {
+	
+return (o2par(3));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_34() {
+	
+return (o2par(4));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_35() {
+	
+return (o2par(5));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_36() {
+	
+return (o2val('prgs','mlt_prg'));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_37() {
+	
+return (o2view_total("prgs"));
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_38() {
+	
+return (1);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_39() {
+	$i = o2val('prg§_§var','prg_idx');
+$t = o2val('prg§_§var','tot_prgs');
+$i++;
+o2job_set_progress($i * 100 / $t);
+return ($i);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_40() {
+	
+return (time());
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_41() {
+	$mode  = o2par(1);
+$item  = o2par(2);
+$desc  = o2par(3);
+$descl = o2par(4);
+$prgs  = o2val('prg§_§var','prgs_list'); 
+$time  = time() - o2val('prg§_§var','start_time');
+$error = o2error_getlastcode();
+$txt   = date('d.m.Y H:m:s').
+         ' - From '.($mode == 'P' ? 'program "'.$item.'"' : 
+                    ($mode == 'A' ? 'all' : 'updates'))."\n".
+         count($prgs).' programs produced '.
+         ($error ? '(with errors) ' : '').'in '.$time." sec.\n".
+         ' '.implode("\n ", $prgs)."\nLog end\n\n";
+if (o2session_is_job()) {
+   $log = o2app_dir_logs().'mlt_produce_'.date('YmdHis').'.log';
+   file_put_contents($log, $txt);
+   o2job_add_file($log);
+   }         
+elseif (o2rnt_interface() == 'BAT') {
+   print "\n\n".$txt;
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_42() {
+	$l   = o2val('prg§_§var','prgs_list');
+$l[] = o2val('base_lang','prg'); 
+return ($l);
+	} //|o2_fine_exp|
+
+function jxmlt_produce_exp_43() {
+	$p = o2val('prg§_§var','prg'); 
+$c = false;
+/* __________________________________ Get production date from dictionary ___ */
+$f = file_get_contents(o2app_dir_home().'lang'.DIRECTORY_SEPARATOR.o2par(4).
+                       DIRECTORY_SEPARATOR.$p.'.lng');
+$a = array();
+preg_match('/;\s*Date:\s*(\d\d)\W(\d\d)\W(\d\d\d\d)/', $f, $a);
+$dd = $a[3].$a[2].$a[1];
+/* _____________________________________________ Get mpdify date from prf ___ */
+$md = o2file_date(o2app_dir_prgs().$p.'.prf');
+$c  = ($md >= $dd);
+
+return ($c);
+	} //|o2_fine_exp|
+?>
