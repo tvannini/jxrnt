@@ -1211,8 +1211,9 @@ class o2_prg {
             // ______________________________________________________ /app/lang/<lang> ___
             $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
             // _____________________________________________________ Translation table ___
-            if ($lang_dir->exists($this->nome)) {
-                $app->translation[$this->nome] = jx_parse_conf($lang_dir.$this->nome);
+            if ($lang_dir->exists($this->nome.'.lng')) {
+                $app->translation[$this->nome] = jx_parse_conf($lang_dir.$this->nome.
+                                                               '.lng');
                 }
             }
 

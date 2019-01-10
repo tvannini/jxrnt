@@ -1670,7 +1670,7 @@ class o2_app {
                                         ($prop == 'item' || $prop == 'page' ?
                                          '_'.$prop_value : '')];
         // ____________________________________ Look for translation in prg dictionary ___
-        if ($res) {
+        if (trim($res)) {
             return $res;
             }
         else {
@@ -1678,7 +1678,7 @@ class o2_app {
                                           ($prop == 'item' || $prop == 'page' ?
                                            '_'.$prop_value : '')];
             // _____________________________ Look for translation in global dictionary ___
-            if ($res) {
+            if (trim($res)) {
                 return $res;
                 }
             // _______________________________________________ Fallback to base string ___
@@ -10990,7 +10990,7 @@ class o2_inspector {
             }
         // ___________________________________________________ Function o2_translate() ___
         preg_match_all(
-                   '/o2_translate\(\s*["\'](.+?)["\']\s*,\s*["\'](.+?)["\']\s*([^)]*)\)/',
+                '/o2_translate\s*\(\s*["\'](.+?)["\']\s*,\s*["\'](.+?)["\']\s*([^)]*)\)/',
                        $code, $parts);
         foreach ($parts[2] as $idx => $base_string) {
             $list[$parts[1][$idx]]['string'][0] = $base_string;
