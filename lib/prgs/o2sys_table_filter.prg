@@ -22,8 +22,8 @@ o2def::act("tmp_where_fill", "");
 o2def::act("tmp_where_post", "");
 o2def::act("tmp_where_undo", "");
 o2def::form("filters", "", False, "true", false);
-o2def::par(1, "prgid","_o2number");
-o2def::par(2, "form_name","_o2alpha");
-o2def::par(3, "table_name","_o2alpha");
+o2def::par(1, "prgid", "_o2number");
+o2def::par(2, "form_name", "_o2alpha");
+o2def::par(3, "table_name", "_o2alpha");
 
 ?>
