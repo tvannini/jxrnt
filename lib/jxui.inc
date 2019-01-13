@@ -1981,6 +1981,27 @@ class o2_ctrl {
         }
 
 
+    /**
+     * Control properties for container
+     *
+     * Container Multipage & Flowbox
+     *  - list of pages
+     *
+     * Container Table
+     *  [0]  : Row
+     *  [1]  : Start column
+     *  [2]  : End column
+     *  [3]  : Title
+     *  [4]  : Hide sort button
+     *  [5]  : CSS cell
+     *  [6]  : ??? Not used ???
+     *  [7]  : CSS hader
+     *  [8]  : Footer
+     *  [9]  : CSS footer
+     *  [10] : Tooltip
+     *  [11] : Action
+     *
+     */
     function info_padre($info_padre = null){
 
         $app = $_SESSION['o2_app'];

@@ -7965,7 +7965,7 @@ class o2_inspector {
      * @param  string $prg_name
      * @return array
      */
-    public function get_prg_exps($prf_code, $prg_name) {
+    static function get_prg_exps($prf_code, $prg_name) {
 
         $ret = array();
         $res = preg_split('/function '.$prg_name.'_exp_(\d+)\(\) \{/', $prf_code, -1,
@@ -8224,7 +8224,7 @@ class o2_inspector {
                         if (!isset($ret['A'][$act])) {
                             $ret['A'][$act] = array();
                             }
-                        // ___________________________________________ Add action step ___
+                        // _________________________________ Add action step condition ___
                         $ret['A'][$act][] = $step;
                         }
                     // ___ Check if expression is used in a form or control definition ___
@@ -10905,42 +10905,74 @@ class o2_inspector {
      * Executes an harvest of all used strings from base version (development language) of
      * the requested program
      *
-     * @param string $prg_name
+     * @param string $prg_name   Name of program to process
      */
-    function mlt_harvest($prg_name) {
+    function mlt_harvest($prg_name, $check_expressions = true) {
 
         if (!file_exists($this->dir_prgs.$prg_name.'.prf')) {
             return;
             }
         $code  = file_get_contents($this->dir_prgs.$prg_name.'.prf');
         $list  = array();
+        $exps  = array();
         $parts = array();
-        // _____________________________________________________________ Windows title ___
-        preg_match_all('/^\s*\$form_(\w+)->titolo\(["\'](.+)["\']\);\s*$/m',
+        // ____________________________________ Windows title (can contain expression) ___
+        preg_match_all(
+                 '/^\s*\$form_(\w+)->titolo\((["\'](.+)["\']|\w+_exp_(\d+)\(\))\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $form_name) {
-            if (!isset($list[$form_name])) {
-                $list[$form_name] = array();
+            // ___________________________________________________ Title by espression ___
+            if ($parts[4][$idx]) {
+                if ($check_expressions) {
+                    $exps[$parts[4][$idx]] = 'Title of form '.$form_name;
+                    }
                 }
-            $list[$form_name]['title'][0] = $parts[2][$idx];
+            // _______________________________________________________ Title by string ___
+            else {
+                if (!isset($list[$form_name])) {
+                    $list[$form_name] = array();
+                    }
+                $list[$form_name]['title'][0] = $parts[3][$idx];
+                }
             }
-        // ____________________________________________ Labels, buttons and imgs label ___
-        preg_match_all('/^\s*\$ctrl_(\w+)->label\(["\'](.+)["\']\);\s*$/m',
+        // ___________________ Labels, buttons and imgs label (can contain expression) ___
+        preg_match_all(
+                  '/^\s*\$ctrl_(\w+)->label\((["\'](.+)["\']|\w+_exp_(\d+)\(\))\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $ctrl_name) {
-            if (!isset($list[$ctrl_name])) {
-                $list[$ctrl_name] = array();
+            // ___________________________________________________ Label by espression ___
+            if ($parts[4][$idx]) {
+                if ($check_expressions) {
+                    $exps[$parts[4][$idx]] = 'Label of control '.$ctrl_name;
+                    }
                 }
-            $list[$ctrl_name]['label'][0] = $parts[2][$idx];
+            // _______________________________________________________ Label by string ___
+            else {
+                if (!isset($list[$ctrl_name])) {
+                    $list[$ctrl_name] = array();
+                    }
+                $list[$ctrl_name]['label'][0] = $parts[3][$idx];
+                }
             }
-        // ___________________________________________ Confirm and navigators messages ___
-        preg_match_all('/^\s*\$ctrl_(\w+)->confirm_(\w*)\(["\'](.+)["\']\);\s*$/m',
+        // __________________ Confirm and navigators messages (can contain expression) ___
+        preg_match_all(
+          '/^\s*\$ctrl_(\w+)->confirm_(\w*)\((["\'](.+)["\']|\w+_exp_(\d+)\(\))\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $ctrl_name) {
-            if (!isset($list[$ctrl_name])) {
-                $list[$ctrl_name] = array();
+            // _________________________________________________ Message by espression ___
+            if ($parts[5][$idx]) {
+                if ($check_expressions) {
+                    $exps[$parts[5][$idx]] = 'Message ('.$parts[2][$idx].
+                                             ') of control '.$ctrl_name;
+                    }
                 }
-            $list[$ctrl_name]['msg_'.$parts[2][$idx]][0] = $parts[3][$idx];
+            // _____________________________________________________ Message by string ___
+            else {
+                if (!isset($list[$ctrl_name])) {
+                    $list[$ctrl_name] = array();
+                    }
+                $list[$ctrl_name]['msg_'.$parts[2][$idx]][0] = $parts[4][$idx];
+                }
             }
         // _____________________________________________________ List/combo-box values ___
         preg_match_all('/^\s*\$ctrl_(\w+)->valori\(array\(\s*(.+)\s*\)\);\s*$/m',
@@ -10969,19 +11001,47 @@ class o2_inspector {
                 $list[$ctrl_name]['page'][$valid] = $value;
                 }
             }
-        // _____________________________________________ Grid column title and tooltip ___
-        preg_match_all('/^\s*\$ctrl_(\w+)->info_padre\(array\((["\'].+["\'])\)\);\s*$/m',
+        // ____________________ Grid column title and tooltip (can contain expression) ___
+        preg_match_all('/^\s*\$ctrl_(\w+)->info_padre\(array\((.+)\)\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $ctrl_name) {
             $parts2 = array();
-            preg_match_all('/["\'](.*?)["\']/', $parts[2][$idx], $parts2);
-            if (isset($parts2[1][3])) {
+            preg_match_all('/["\'](.*?)["\']|\w+_exp_(\d+)\(\)|\d+|False|True/i',
+                           $parts[2][$idx], $parts2);
+            // ____________________________________________ Column title by expression ___
+            if ($parts2[2][3]) {
+                if ($check_expressions) {
+                    $exps[$parts2[2][3]] = 'Column title of control '.$ctrl_name;
+                    }
+                }
+            // ________________________________________________ Column title by string ___
+            elseif ($parts2[1][3]) {
                 if (!isset($list[$ctrl_name])) {
                     $list[$ctrl_name] = array();
                     }
                 $list[$ctrl_name]['grid_title'][0] = $parts2[1][3];
                 }
-            if (isset($parts2[1][10])) {
+            // ___________________________________________ Column footer by expression ___
+            if ($parts2[2][8]) {
+                if ($check_expressions) {
+                    $exps[$parts2[2][8]] = 'Column footer of control '.$ctrl_name;
+                    }
+                }
+            // _______________________________________________ Column footer by string ___
+            elseif ($parts2[1][8]) {
+                if (!isset($list[$ctrl_name])) {
+                    $list[$ctrl_name] = array();
+                    }
+                $list[$ctrl_name]['grid_foot'][0] = $parts2[1][8];
+                }
+            // __________________________________________ Column tooltip by expression ___
+            if ($parts2[2][10]) {
+                if ($check_expressions) {
+                    $exps[$parts2[2][10]] = 'Column tooltip of control '.$ctrl_name;
+                    }
+                }
+            // ______________________________________________ Column tooltip by string ___
+            elseif ($parts2[1][8]) {
                 if (!isset($list[$ctrl_name])) {
                     $list[$ctrl_name] = array();
                     }
@@ -10996,6 +11056,39 @@ class o2_inspector {
             $list[$parts[1][$idx]]['string'][0] = $base_string;
             }
         $this->mlt_process_list($prg_name, $list);
+        if ($check_expressions) {
+            // ________________________________ Check expressions for msg-box messages ___
+            preg_match_all('/&& o2act::alert\(\s*\w+_exp_(\d+)\(\),/', $code, $parts);
+            foreach ($parts[1] as $idx => $exp) {
+                $exps[$exp] = 'Message statement';
+                }
+            // ____________________________ Check expressions for confirm-box messages ___
+            preg_match_all(
+         '/&& o2act::confirm\(["\'].+?["\']\s*,\s*["\'].+?["\']\s*,\s*\w+_exp_(\d+)\(\)/',
+                           $code, $parts);
+            foreach ($parts[1] as $idx => $exp) {
+                $exps[$exp] = 'Confirm statement message';
+                }
+            // ___________________ Remove expressions with translation and compose log ___
+            $log  = '';
+            $file = $_SESSION['o2_app']->dir_home.'/lang/'.$prg_name.'.check';
+            if (count($exps)) {
+                ksort($exps);
+                $exps_code = $this->get_prg_exps($code, $prg_name);
+                foreach ($exps as $exp => $desc) {
+                    if (!preg_match('o2_translate\s*(', $exps_code[$exp])) {
+                        $log.= $exp.' : '.$desc."\n";
+                        }
+                    }
+                $log = "These expressions need to be checked for translation:\n\n".$log;
+                file_put_contents($file, $log);
+                }
+            else {
+                if (file_exists($file)) {
+                    unlink($file);
+                    }
+                }
+            }
 
         }
 
@@ -11004,6 +11097,8 @@ class o2_inspector {
      * Removes control properties missing in list (removed from program) from all
      * dictionaries (all languages)
      *
+     * @param string $prg_name   Name of programm to check
+     * @param array  $list       List of harvested strings
      */
     function mlt_delete_removed_controls($prg_name, $list) {
 
@@ -11069,6 +11164,8 @@ class o2_inspector {
      * Processes harvested strings list and write it into system translation table for
      * base-dictionary (lang='')
      *
+     * @param string $prg_name   Name of program to process
+     * @param array  $list       List of harvested strings
      */
     function mlt_process_list($prg_name, $list) {
 
@@ -11137,6 +11234,13 @@ class o2_inspector {
         }
 
 
+    /**
+     * Executes "receive" action for requested language.
+     * Reads .lng files from lang directory and writes translations in system translation
+     * table.
+     *
+     * @param string $lang   Lang code to receive
+     */
     function mlt_get_lang($lang) {
 
         $app    = $_SESSION['o2_app'];
@@ -11153,7 +11257,7 @@ class o2_inspector {
                   $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
         // __________________________________________________________ /app/lang/<lang> ___
         $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
-        $prgs     = $lang_dir->all_elements();
+        $prgs     = $lang_dir->all_elements('*.lng');
         $tot      = count($prgs);
         $idx      = 0;
         // ___________________________________________ Loop on all translated programs ___

@@ -3480,7 +3480,15 @@ class o2html {
             if ($ctrl->padre == $o2ctrl_obj->nome && $ctrl->tipo_ctrl != 'navigator') {
                 // _________________________________________________ Footer expression ___
                 if (isset($ctrl->info_padre[8]) && $ctrl->info_padre[8]) {
-                    $footer = trim($ctrl->info_padre[8]);
+                    if ($app->multilang) {
+                        $footer = jx_encode($app->translate($ctrl->nome,
+                                                            'grid_foot',
+                                                            0,
+                                                            $ctrl->info_padre[8]));
+                        }
+                    else {
+                        $footer = jx_encode($ctrl->info_padre[8]);
+                        }
                     }
                 // ______________________________________________________ Empty footer ___
                 else {
