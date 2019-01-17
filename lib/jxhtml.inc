@@ -2268,7 +2268,7 @@ class o2html {
             $o2ctrl_obj->error = true;
             $list              = '';
             foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
-                if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                if ($app->multilang) {
                     $descrizione = $app->translate($o2ctrl_obj->nome,
                                                    'item',
                                                    $codice,
@@ -2300,7 +2300,7 @@ class o2html {
         else {
             $valore_local = "";
             foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
-                if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                if ($app->multilang) {
                     $descrizione = $app->translate($o2ctrl_obj->nome,
                                                    'item',
                                                    $codice,
@@ -2351,7 +2351,7 @@ class o2html {
                 $desc_default  = false;
                 $static_list   = array();
                 foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
-                    if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                    if ($app->multilang) {
                         $descrizione = $app->translate($o2ctrl_obj->nome,
                                                        'item',
                                                        $codice,

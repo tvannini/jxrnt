@@ -3664,7 +3664,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
                     }
                 foreach ($this->valori as $item_code => $item_desc) {
                     if ($value == trim($item_code)) {
-                        if ($app->multilang && !$this->untranslate) {
+                        if ($app->multilang) {
                             $ret = $app->translate($this->nome,
                                                    'item',
                                                    $item_code,
@@ -3675,6 +3675,10 @@ class o2_ctrl_listcombo extends o2_ctrl {
                             }
                         break;
                         }
+                    }
+                if (!$ret && $value) {
+                    $this->error = true;
+                    $ret         = '['.$value.'] Value not in list';
                     }
                 }
             }

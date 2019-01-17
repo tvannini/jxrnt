@@ -464,7 +464,7 @@ class jxjs {
                     $desc_default  = false;
                     $static_list   = array();
                     foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
-                        if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                        if ($app->multilang) {
                             $descrizione = $app->translate($o2ctrl_obj->nome,
                                                            'item',
                                                            $codice,
@@ -526,7 +526,7 @@ class jxjs {
             $items             = "";
             $o2ctrl_obj->error = true;
             foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
-                if ($app->multilang && !$o2ctrl_obj->untranslate) {
+                if ($app->multilang) {
                     $descrizione = $app->translate($o2ctrl_obj->nome,
                                                    'value',
                                                    $codice,
