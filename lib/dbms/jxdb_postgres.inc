@@ -1487,7 +1487,7 @@ function o2_postgres_recordset($server,
         return array();
         }
     if ($lock) {
-        $query.= ' FOR UPDATE';
+        $query.= ' FOR UPDATE OF '.o2_postgres_o.$table_alias.o2_postgres_c;
         }
     try {
         $res = o2_postgres_execute($query,
