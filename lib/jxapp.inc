@@ -3451,32 +3451,29 @@ class o2_cron {
         }
 
 
-    /**
-     * Registers and unregisters application scheduler on Linux crontab
-     *
-     * @param  boolean $on   ON to register, OFF to unregister
-     * @return boolean
-     */
     static function register_linux($on = true) {
 
         $app      = $_SESSION['o2_app'];
         $rnt      = $app->runtime;
         $php      = $rnt->php_engine;
+        // ____________________________ Part of script used to look for scheduled task ___
         $script   = $app->dir_htdocs.$app->nome.'.php jxrnt="'.$rnt->rnt_script.
                     '" user=jxsys '.o2_scheduler::$sched_word;
-        // _____________________________________________ String to be added in crontab ___
-        $cron_str = "* * * * * ".$php." ".$script."\n";
         // ________________________ Create a php script to be used as crontab "editor" ___
         $code     = "<?php\n".
                     '$tmp_cron = (isset($argv[1]) ? $argv[1] : "");'."\n".
                     'if (!is_writable($tmp_cron)) {'."\n".
                     '    exit("Can\'t write to ".$tmp_cron);'."\n    }\n".
                     '$crontab = file($tmp_cron);'."\n".
-                    '$key     = array_search(\''.$cron_str.'\', $crontab);'."\n";
+                    '$key     = false;'."\n".
+                    'foreach($crontab as $k=>$l){'.
+                    'if(strpos($l,\''.$script.'\')!==false){$key=$k;break;}}'."\n";
         // _________________________________ Set ON: only if job is already registered ___
         if ($on) {
-            $code.= 'if ($key === false) {'."\n".
-                    '    $crontab[] = \''.$cron_str.'\';'."\n";
+            // _________________________________________ String to be added in crontab ___
+            $cron_str = "* * * * * ".$php." ".$script." >/dev/null 2>&1 || true\n";
+            $code    .= 'if ($key === false) {'."\n".
+                        '    $crontab[] = \''.$cron_str.'\';'."\n";
             }
         // ________________________________ Set OFF: only if job is not registered yet ___
         else {
