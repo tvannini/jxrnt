@@ -1642,17 +1642,18 @@ class o2_maschera {
                                                       $this->maschera);
                     $this->allineamento = (stripos($rep_str, "r") !== false ?
                                            "Right" : "Left");
-                    $this->valori       = preg_split ('/\|/', $ris_local[1][0]);
+                    $this->valori       = array();
+                    foreach (preg_split ('/\|/', $ris_local[1][0]) as $value) {
+                        $this->valori[substr($value,
+                                             0,
+                                             $this->dimensione)] = ($value === '' ?
+                                                                    ' ' : $value);
+                        }
                     }
                 else {
                     $this->allineamento = (stripos($this->maschera, "r") !== false ?
                                            "Right" : "Left");
                     $this->valori       = array();
-                    }
-                foreach ($this->valori as $value_index => $single_value) {
-                    if ($single_value === "") {
-                        $this->valori[$value_index] = " ";
-                        }
                     }
                 break;
             case "S": // ___________________________________________________ Structure ___

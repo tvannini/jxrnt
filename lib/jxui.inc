@@ -1623,7 +1623,7 @@ class o2_ctrl {
                     $sql_valore_local = substr($this->valore, 0, $mask->dimensione);
                     }
                 else {
-                    $sql_valore_local = (trim($this->valore) == "" ?
+                    $sql_valore_local = (trim($this->valore) == '' ?
                                          $mask->default : $this->valore);
                     }
                 break;
@@ -1818,9 +1818,8 @@ class o2_ctrl {
                 // ============================== ALFA ===================================
                 case "A":
                     if (count($mask->valori) > 0) {
-                        foreach ($mask->valori as $singolo_valore) {
-                            if (substr($singolo_valore, 0, $mask->dimensione) ==
-                                substr($this->valore, 0, $mask->dimensione)) {
+                        foreach ($mask->valori as $idx => $singolo_valore) {
+                            if ($idx == substr($this->valore, 0, $mask->dimensione)) {
                                 $ctrl_valore_local = $singolo_valore;
                                 break;
                                 }
@@ -3657,10 +3656,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 $mask = $this->maschera;
                 // __________________________________________ Values list from picture ___
                 if (!count($this->valori) && is_array($mask->valori)) {
-                    foreach ($mask->valori as $singvalue) {
-                        $this->valori[substr($singvalue, 0, $mask->dimensione)] =
-                                                                               $singvalue;
-                        }
+                    $this->valori = $mask->valori;
                     }
                 foreach ($this->valori as $item_code => $item_desc) {
                     if ($value == trim($item_code)) {

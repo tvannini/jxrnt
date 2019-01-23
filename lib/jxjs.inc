@@ -517,10 +517,7 @@ class jxjs {
             $mask = $o2ctrl_obj->maschera;
             // ______________________________________________ Values list from picture ___
             if (!count($o2ctrl_obj->valori) && is_array($mask->valori)) {
-                foreach ($mask->valori as $sing_value) {
-                    $o2ctrl_obj->valori[substr($sing_value, 0, $mask->dimensione)] =
-                     $sing_value;
-                    }
+                $o2ctrl_obj->valori = $mask->valori;
                 }
             $cod_default       = false;
             $items             = "";

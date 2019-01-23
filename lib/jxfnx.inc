@@ -3907,9 +3907,7 @@ function o2model_values4combo($model_name, $add_blank = false, $blank_label = ""
         $list = array();
         // __________________________________________________ Values list from picture ___
         if (is_array($mask->valori)) {
-            foreach ($mask->valori as $singvalue) {
-                $list[substr($singvalue, 0, $mask->dimensione)] = $singvalue;
-                }
+            $list = $mask->valori;
             }
         if ($add_blank && !isset($list[" "])) {
             $list = array(" " => ($blank_label ? $blank_label : "")) + $list;

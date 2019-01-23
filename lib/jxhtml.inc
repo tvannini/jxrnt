@@ -2238,10 +2238,7 @@ class o2html {
         $zoom           = $o2ctrl_obj->is_zoomable();
         // __________________________________________________ Values list from picture ___
         if (!count($o2ctrl_obj->valori) && is_array($mask->valori)) {
-            foreach ($mask->valori as $sing_value) {
-                $o2ctrl_obj->valori[substr($sing_value, 0, $mask->dimensione)] =
-                 $sing_value;
-                }
+            $o2ctrl_obj->valori = $mask->valori;
             }
         $jsl = "";
         $jsi = "";
