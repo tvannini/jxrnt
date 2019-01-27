@@ -1663,9 +1663,14 @@ class o2_app {
      * @param string $prop_value
      * @param string $string
      */
-    function translate($ctrl, $prop, $prop_value, $string) {
+    function translate($ctrl, $prop, $prop_value, $string, $rep = false) {
 
-        $prg = $this->istanze_prg[$this->progressivo_istanze]->nome;
+        if ($rep) {
+            $prg = $rep;
+            }
+        else {
+            $prg = $this->istanze_prg[$this->progressivo_istanze]->nome;
+            }
         $res = $this->translation[$prg][$ctrl.'#'.$prop.
                                         ($prop == 'item' || $prop == 'page' ?
                                          '_'.$prop_value : '')];
@@ -2078,6 +2083,29 @@ class o2_app {
                 throw new o2_exception("Cannot find file <i>".$repository.
                                        "</i> requested as repository.",
                                        o2error_MISSINGFILE);
+                }
+            // ______________________ MODELS repository: translate values from picture ___
+            if ($this->multilang && !isset($this->translation['#MODELS'])) {
+                // __________________________________________________ /app/lang/<lang> ___
+                $lang_dir = new o2_dir($this->dir_home.'/lang/'.$this->multilang.'/');
+                // _________________________________________________ Translation table ___
+                if ($lang_dir->exists('#MODELS.lng')) {
+                    $this->translation['#MODELS'] = jx_parse_conf($lang_dir.
+                                                                  '#MODELS.lng');
+                    foreach ($this->maschere as $mod_name => $model) {
+                        if (count($model->valori)) {
+                            foreach ($model->valori as $code => $desc) {
+                                $this->maschere[$mod_name]->valori[$code] =
+                                                              $this->translate($mod_name,
+                                                                               'item',
+                                                                               $code,
+                                                                               $desc,
+                                                                               '#MODELS');
+                                }
+                            }
+                        }
+                    }
+                unset($this->translation['#MODELS']);
                 }
             }
         return true;
@@ -11053,7 +11081,52 @@ class o2_inspector {
             $list[$parts[1][$idx]]['string'][0] = $base_string;
             }
         $this->mlt_process_list($prg_name, $list);
+        // _________________________________________________________ CHECK EXPRESSIONS ___
         if ($check_expressions) {
+            $app  = $_SESSION['o2_app'];
+            $log  = array();
+            $file = $app->dir_home.'/lang/'.$prg_name.'.check';
+            $exps_code = $this->get_prg_exps($code, $prg_name);
+            foreach ($exps_code as $exp => $desc) {
+                // _______________________________ Remove expressions with translation ___
+                if (!preg_match('/o2_translate\s*\(/', $desc)) {
+                    foreach (token_get_all("<?php\n".$desc."\n?>") as $token) {
+                        if (is_array($token)) {
+                            // ___________________________ Look for "language" strings ___
+                            if (($token[0] == T_CONSTANT_ENCAPSED_STRING) &&
+                                (strpos($token[1], ' ') !== false) &&
+                                (preg_match('/\w+/', $token[1]))) {
+                                $log[] = $exp.' : '.
+                                         (strlen($token[1]) <= 70 ?
+                                          $token[1] :
+                                          substr($token[1], 0, 65).'[...]')."\n";
+                                break;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            $tot = count($log);
+            if ($tot) {
+                file_put_contents($file,
+                                  "Janox translation - support to development\n".
+                                  str_repeat('~', 42)."\n\n".
+                                  'Application:   '.$app->nome."\n".
+                                  'Program:       '.$prg_name."\n".
+                                  'Date:          '.date('d.m.Y')."\n\n".$tot.
+                                  " expressions need to be checked for translation:\n".
+                                  str_repeat('-', strlen($tot) + 48)."\n\n".
+                                  implode('', $log));
+                }
+            else {
+                if (file_exists($file)) {
+                    unlink($file);
+                    }
+                }
+            }
+        // ================================================================== NOT USED ===
+        if ($check_expressionsOLD) {
             // ________________________________ Check expressions for msg-box messages ___
             preg_match_all('/&& o2act::alert\(\s*\w+_exp_(\d+)\(\),/', $code, $parts);
             foreach ($parts[1] as $idx => $exp) {
@@ -11073,7 +11146,7 @@ class o2_inspector {
                 ksort($exps);
                 $exps_code = $this->get_prg_exps($code, $prg_name);
                 foreach ($exps as $exp => $desc) {
-                    if (!preg_match('o2_translate\s*(', $exps_code[$exp])) {
+                    if (!preg_match('/o2_translate\s*\(/', $exps_code[$exp])) {
                         $log.= $exp.' : '.$desc."\n";
                         }
                     }
@@ -11086,6 +11159,32 @@ class o2_inspector {
                     }
                 }
             }
+
+        }
+
+
+    /**
+     * Executes an harvest of the models repository strings
+     *
+     */
+    function mlt_harvest_models() {
+
+        $app  = $_SESSION['o2_app'];
+        $code = file_get_contents($app->dir_progs.$app->file_modelli);
+        $list = array();
+        foreach ($app->maschere as $mod_name => $model) {
+            if (count($model->valori) &&
+                substr($mod_name, 0, 3) != "_o2" &&
+                substr($mod_name, 0, 2) != "o2"  &&
+                substr($mod_name, 0, 2) != "jx") {
+                foreach ($model->valori as $code => $desc) {
+                    if (trim($desc)) {
+                        $list[$mod_name]['item'][$code] = $desc;
+                        }
+                    }
+                }
+            }
+        $this->mlt_process_list('#MODELS', $list);
 
         }
 

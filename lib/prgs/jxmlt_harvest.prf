@@ -42,6 +42,10 @@ function jxmlt_harvest§§harvest_prg_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "prgs_list", jxmlt_harvest_exp_4()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function jxmlt_harvest§§harvest_repos_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxmlt_harvest_exp_19()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function jxmlt_harvest§§harvest_update_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "tot_prgs", jxmlt_harvest_exp_12()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "prg_idx", jxmlt_harvest_exp_13()) && $o2exe->e();
@@ -54,7 +58,8 @@ function jxmlt_harvest§§start_act(&$o2exe) {
 	$o2exe->s(3) && (jxmlt_harvest_exp_1() || $o2exe->e()) && o2act::exe("harvest_prg", True, "") && $o2exe->e();
 	$o2exe->s(4) && (jxmlt_harvest_exp_2() || $o2exe->e()) && o2act::exe("harvest_menu", True, "") && $o2exe->e();
 	$o2exe->s(5) && (jxmlt_harvest_exp_3() || $o2exe->e()) && o2act::exe("harvest_update", True, "") && $o2exe->e();
-	$o2exe->s(6) && True && o2act::script(jxmlt_harvest_exp_6()) && $o2exe->e();
+	$o2exe->s(6) && (jxmlt_harvest_exp_18() || $o2exe->e()) && o2act::exe("harvest_repos", True, "") && $o2exe->e();
+	$o2exe->s(7) && True && o2act::script(jxmlt_harvest_exp_6()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxmlt_harvest_exp_1() {
@@ -133,10 +138,12 @@ $time  = time() - o2val('prg§_§var','start_time');
 $error = o2error_getlastcode();
 $txt   = date('d.m.Y H:m:s').
          ' - From '.($mode == 'P' ? 'program "'.$item.'"' : 
-                    ($mode == 'M' ? 'menu "'.$item.'"' : 'updates')).
-         ($desc && ($mode != 'U') ? 
-          ' (descending '.($descl ? $descl : 'all').' levels)' : '')."\n".      
-         count($prgs).' programs harvested '.
+                    ($mode == 'M' ? 'menu "'.$item.'"' : 
+                    ($mode == 'R' ? 'repositories' : 'updates'))).
+         ($desc && ($mode != 'U') && ($mode != 'R') ? 
+          ' (descending '.($descl ? $descl : 'all').' levels)' : '')."\n".
+         ($mode == 'R' ? 'Repositories harvested' :       
+          count($prgs).' programs harvested ').
          ($error ? '(with errors) ' : '').'in '.$time." sec.\n".
          ' '.implode("\n ", $prgs)."\nLog end\n\n";
 if (o2session_is_job()) {
@@ -192,7 +199,7 @@ function jxmlt_harvest_exp_14() {
 $done = o2val('prg§_§var','prgs_list');
 $prg  = o2val('prgs','mlt_prg');
 $insp->mlt_harvest($prg);
-$done[] = $prg;    
+$done[] = $prg;
 return ($done);
 	} //|o2_fine_exp|
 
@@ -206,7 +213,6 @@ function jxmlt_harvest_exp_16() {
 $idx = o2val('prg§_§var','prg_idx');
 o2job_set_progress($idx * 100 / $tot);
 $idx++;
-
 return ($idx);
 	} //|o2_fine_exp|
 
@@ -224,5 +230,17 @@ $dd = $a[3].$a[2].$a[1];
 $md = o2file_date(o2app_dir_prgs().$p.'.prf');
 $c  = ($md >= $dd);
 return ($c);
+	} //|o2_fine_exp|
+
+function jxmlt_harvest_exp_18() {
+	
+return (o2par(1) == 'R');
+	} //|o2_fine_exp|
+
+function jxmlt_harvest_exp_19() {
+	$insp = new o2_inspector();
+$insp->mlt_harvest_models();
+
+return (true);
 	} //|o2_fine_exp|
 ?>

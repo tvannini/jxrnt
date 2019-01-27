@@ -122,10 +122,10 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 	$ctrl_o2ListBox3 = &$form_jxtranslate_1->ctrldef("o2ListBox3", "listcombo", "o2flowbox2_Panel0", "prg§_§var", "harvest_mode");
 		$ctrl_o2ListBox3->x(90);
 		$ctrl_o2ListBox3->y(10);
-		$ctrl_o2ListBox3->larghezza(80);
+		$ctrl_o2ListBox3->larghezza(100);
 		$ctrl_o2ListBox3->altezza(20);
 		$ctrl_o2ListBox3->on_change(jxtranslate_exp_6());
-		$ctrl_o2ListBox3->valori(array("M" => "Menu","P" => "Program","U" => "Updates"));
+		$ctrl_o2ListBox3->valori(array("M" => "Menu","P" => "Program","R" => "Repositories","U" => "Updates"));
 		$ctrl_o2ListBox3->righe(1);
 	$ctrl_o2ListBox2 = &$form_jxtranslate_1->ctrldef("o2ListBox2", "listcombo", "o2flowbox2_Panel0", "prg§_§var", "prg");
 		$ctrl_o2ListBox2->x(90);
@@ -223,17 +223,11 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 	$ctrl_o2ListBox7 = &$form_jxtranslate_1->ctrldef("o2ListBox7", "listcombo", "o2flowbox2_Panel1", "prg§_§var", "harvest_mode");
 		$ctrl_o2ListBox7->x(90);
 		$ctrl_o2ListBox7->y(10);
-		$ctrl_o2ListBox7->larghezza(80);
+		$ctrl_o2ListBox7->larghezza(100);
 		$ctrl_o2ListBox7->altezza(20);
 		$ctrl_o2ListBox7->on_change(jxtranslate_exp_6());
-		$ctrl_o2ListBox7->valori(array("M" => "Menu","P" => "Program","U" => "Updates"));
+		$ctrl_o2ListBox7->valori(array("M" => "Menu","P" => "Program","R" => "Repositories","U" => "Updates"));
 		$ctrl_o2ListBox7->righe(1);
-	$ctrl_o2htmlarea2 = &$form_jxtranslate_1->ctrldef("o2htmlarea2", "htmlarea", "o2flowbox2_Panel1", "", "");
-		$ctrl_o2htmlarea2->x(20);
-		$ctrl_o2htmlarea2->y(180);
-		$ctrl_o2htmlarea2->larghezza(310);
-		$ctrl_o2htmlarea2->altezza(50);
-		$ctrl_o2htmlarea2->html(jxtranslate_exp_11());
 	$ctrl_o2ListBox8 = &$form_jxtranslate_1->ctrldef("o2ListBox8", "listcombo", "o2flowbox2_Panel1", "prg§_§var", "menu");
 		$ctrl_o2ListBox8->x(90);
 		$ctrl_o2ListBox8->y(40);
@@ -281,6 +275,12 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2edit8->altezza(20);
 		$ctrl_o2edit8->visibile(jxtranslate_exp_10());
 		$ctrl_o2edit8->on_change(jxtranslate_exp_6());
+	$ctrl_o2htmlarea2 = &$form_jxtranslate_1->ctrldef("o2htmlarea2", "htmlarea", "o2flowbox2_Panel1", "", "");
+		$ctrl_o2htmlarea2->x(20);
+		$ctrl_o2htmlarea2->y(180);
+		$ctrl_o2htmlarea2->larghezza(310);
+		$ctrl_o2htmlarea2->altezza(50);
+		$ctrl_o2htmlarea2->html(jxtranslate_exp_11());
 	$ctrl_o2label11 = &$form_jxtranslate_1->ctrldef("o2label11", "label", "o2flowbox2_Panel2", "", "");
 		$ctrl_o2label11->x(10);
 		$ctrl_o2label11->y(10);
@@ -315,7 +315,7 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 	$ctrl_o2ListBox5 = &$form_jxtranslate_1->ctrldef("o2ListBox5", "listcombo", "o2flowbox2_Panel2", "prg§_§var", "prod_mode");
 		$ctrl_o2ListBox5->x(90);
 		$ctrl_o2ListBox5->y(10);
-		$ctrl_o2ListBox5->larghezza(80);
+		$ctrl_o2ListBox5->larghezza(100);
 		$ctrl_o2ListBox5->altezza(20);
 		$ctrl_o2ListBox5->on_change(jxtranslate_exp_6());
 		$ctrl_o2ListBox5->valori(array("A" => "All","P" => "Program","U" => "Updates"));
@@ -393,17 +393,11 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 	$ctrl_o2ListBox10 = &$form_jxtranslate_1->ctrldef("o2ListBox10", "listcombo", "o2flowbox2_Panel3", "prg§_§var", "prod_mode");
 		$ctrl_o2ListBox10->x(90);
 		$ctrl_o2ListBox10->y(10);
-		$ctrl_o2ListBox10->larghezza(80);
+		$ctrl_o2ListBox10->larghezza(100);
 		$ctrl_o2ListBox10->altezza(20);
 		$ctrl_o2ListBox10->on_change(jxtranslate_exp_6());
 		$ctrl_o2ListBox10->valori(array("A" => "All","P" => "Program","U" => "Updates"));
 		$ctrl_o2ListBox10->righe(1);
-	$ctrl_o2htmlarea3 = &$form_jxtranslate_1->ctrldef("o2htmlarea3", "htmlarea", "o2flowbox2_Panel3", "", "");
-		$ctrl_o2htmlarea3->x(20);
-		$ctrl_o2htmlarea3->y(180);
-		$ctrl_o2htmlarea3->larghezza(310);
-		$ctrl_o2htmlarea3->altezza(50);
-		$ctrl_o2htmlarea3->html(jxtranslate_exp_22());
 	$ctrl_o2ListBox11 = &$form_jxtranslate_1->ctrldef("o2ListBox11", "listcombo", "o2flowbox2_Panel3", "prg§_§var", "prg");
 		$ctrl_o2ListBox11->x(90);
 		$ctrl_o2ListBox11->y(40);
@@ -438,6 +432,12 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2button6->modificabile(jxtranslate_exp_8());
 		$ctrl_o2button6->azione("produce");
 		$ctrl_o2button6->label("&Produce");
+	$ctrl_o2htmlarea3 = &$form_jxtranslate_1->ctrldef("o2htmlarea3", "htmlarea", "o2flowbox2_Panel3", "", "");
+		$ctrl_o2htmlarea3->x(20);
+		$ctrl_o2htmlarea3->y(180);
+		$ctrl_o2htmlarea3->larghezza(310);
+		$ctrl_o2htmlarea3->altezza(50);
+		$ctrl_o2htmlarea3->html(jxtranslate_exp_22());
 	$ctrl_o2label10 = &$form_jxtranslate_1->ctrldef("o2label10", "label", "o2flowbox2_Panel4", "", "");
 		$ctrl_o2label10->x(10);
 		$ctrl_o2label10->y(10);
@@ -469,12 +469,6 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2label25->larghezza(150);
 		$ctrl_o2label25->altezza(20);
 		$ctrl_o2label25->label("Translation language:");
-	$ctrl_o2htmlarea4 = &$form_jxtranslate_1->ctrldef("o2htmlarea4", "htmlarea", "o2flowbox2_Panel5", "", "");
-		$ctrl_o2htmlarea4->x(20);
-		$ctrl_o2htmlarea4->y(110);
-		$ctrl_o2htmlarea4->larghezza(310);
-		$ctrl_o2htmlarea4->altezza(50);
-		$ctrl_o2htmlarea4->html(jxtranslate_exp_26());
 	$ctrl_o2edit11 = &$form_jxtranslate_1->ctrldef("o2edit11", "edit", "o2flowbox2_Panel5", "prg§_§var", "lang_to");
 		$ctrl_o2edit11->x(160);
 		$ctrl_o2edit11->y(10);
@@ -489,6 +483,12 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2button7->modificabile(jxtranslate_exp_25());
 		$ctrl_o2button7->azione("receive");
 		$ctrl_o2button7->label("&Receive");
+	$ctrl_o2htmlarea4 = &$form_jxtranslate_1->ctrldef("o2htmlarea4", "htmlarea", "o2flowbox2_Panel5", "", "");
+		$ctrl_o2htmlarea4->x(20);
+		$ctrl_o2htmlarea4->y(110);
+		$ctrl_o2htmlarea4->larghezza(310);
+		$ctrl_o2htmlarea4->altezza(50);
+		$ctrl_o2htmlarea4->html(jxtranslate_exp_26());
 		}
 
 function jxtranslate§§get_processes_act(&$o2exe) {
@@ -500,7 +500,6 @@ function jxtranslate§§get_processes_act(&$o2exe) {
 function jxtranslate§§harvest_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxtranslate_exp_40()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("get_processes", True, "") && $o2exe->e();
-	$o2exe->s(3) && (jxtranslate_exp_14() || $o2exe->e()) && o2act::call(jxtranslate_exp_35(), False) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxtranslate§§proc_detail_act(&$o2exe) {
@@ -510,13 +509,11 @@ function jxtranslate§§proc_detail_act(&$o2exe) {
 function jxtranslate§§produce_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxtranslate_exp_38()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("get_processes", True, "") && $o2exe->e();
-	$o2exe->s(3) && (jxtranslate_exp_14() || $o2exe->e()) && o2act::call(jxtranslate_exp_35(), False) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxtranslate§§receive_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxtranslate_exp_9()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("get_processes", True, "") && $o2exe->e();
-	$o2exe->s(3) && (jxtranslate_exp_14() || $o2exe->e()) && o2act::call(jxtranslate_exp_35(), False) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxtranslate§§start_act(&$o2exe) {
@@ -565,12 +562,13 @@ function jxtranslate_exp_7() {
 	$m = o2val('prg§_§var','harvest_mode');
 $e = ($m == 'P' && !o2zero('prg§_§var','prg')) || 
      ($m == 'M' && !o2zero('prg§_§var','menu')) || 
-     ($m == 'U');
+     ($m == 'U') ||
+     ($m == 'R');
 /* ________________________________________________ Check process running ___ */
 $p = o2val('prg§_§var','proc_harvest');
 if ($p) {
    $e = $e && ($p->status == 'C' || $p->status == 'E');
-   } 
+   }
 return ($e);
 	} //|o2_fine_exp|
 
@@ -582,7 +580,7 @@ $e = !o2zero('prg§_§var','lang_to') &&
 $p = o2val('prg§_§var','proc_produce');
 if ($p) {
    $e = $e && ($p->status == 'C' || $p->status == 'E');
-   } 
+   }
 return ($e);
 	} //|o2_fine_exp|
 
@@ -681,7 +679,7 @@ if ($p) {
    }
 else {
    $v = false;
-   } 
+   }
 return ($v);
 	} //|o2_fine_exp|
 
@@ -692,7 +690,7 @@ if ($p) {
    }
 else {
    $v = true;
-   } 
+   }
 return ($v);
 	} //|o2_fine_exp|
 
@@ -703,7 +701,7 @@ if ($p) {
    }
 else {
    $v = false;
-   } 
+   }
 return ($v);
 	} //|o2_fine_exp|
 
@@ -714,7 +712,7 @@ if ($p) {
    }
 else {
    $v = true;
-   } 
+   }
 return ($v);
 	} //|o2_fine_exp|
 
@@ -757,7 +755,7 @@ if ($p) {
    }
 else {
    $v = false;
-   } 
+   }
 return ($v);
 	} //|o2_fine_exp|
 
@@ -768,7 +766,7 @@ if ($p) {
    }
 else {
    $v = true;
-   } 
+   }
 return ($v);
 	} //|o2_fine_exp|
 
@@ -778,7 +776,7 @@ function jxtranslate_exp_25() {
 $p = o2val('prg§_§var','proc_receive');
 if ($p) {
    $e = $e && ($p->status == 'C' || $p->status == 'E');
-   } 
+   }
 return ($e);
 	} //|o2_fine_exp|
 

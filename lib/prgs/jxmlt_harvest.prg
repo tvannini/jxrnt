@@ -13,6 +13,7 @@ o2def::view("prgs", False, "", "", 0);
 o2def::act("check_update", "");
 o2def::act("harvest_menu", "");
 o2def::act("harvest_prg", "");
+o2def::act("harvest_repos", "");
 o2def::act("harvest_update", "");
 o2def::act("start", "");
 o2def::par(1, "mode", "o2sys_generic_opt");
