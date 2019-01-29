@@ -6710,7 +6710,7 @@ function o2form_height($form_name, $level = 0) {
  * @param   boolean $maximized
  * @return  boolean
  */
-function o2form_maximize($form_name = "", $maximized = true) {
+function o2form_maximize($form_name, $maximized = true) {
 
     $app       = $_SESSION['o2_app'];
     $form_name = trim($form_name)."_form";
