@@ -1096,14 +1096,14 @@ function o2_sqlite3_recordset($server,
     // ____________________________________________ Statement recall in case of paging ___
     if ($page_where) {
         if ($stm_id && isset($GLOBALS['o2_sqlite3_stms'][$stm_id])) {
-            return o2_postgres_execute(false,
-                                       false,
-                                       false,
-                                       false,
-                                       false,
-                                       false,
-                                       $recs,
-                                       $GLOBALS['o2_sqlite3_stms'][$stm_id]);
+            return o2_sqlite3_execute(false,
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      false,
+                                      $recs,
+                                      $GLOBALS['o2_sqlite3_stms'][$stm_id]);
             }
         $where = $page_where.$where;
         }
