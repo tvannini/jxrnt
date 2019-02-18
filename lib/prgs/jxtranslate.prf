@@ -567,7 +567,7 @@ $e = ($m == 'P' && !o2zero('prg§_§var','prg')) ||
 /* ________________________________________________ Check process running ___ */
 $p = o2val('prg§_§var','proc_harvest');
 if ($p) {
-   $e = $e && ($p->status == 'C' || $p->status == 'E');
+   $e = $e && !$p->is_running();
    }
 return ($e);
 	} //|o2_fine_exp|
@@ -579,7 +579,7 @@ $e = !o2zero('prg§_§var','lang_to') &&
 /* ________________________________________________ Check process running ___ */
 $p = o2val('prg§_§var','proc_produce');
 if ($p) {
-   $e = $e && ($p->status == 'C' || $p->status == 'E');
+   $e = $e && !$p->is_running();
    }
 return ($e);
 	} //|o2_fine_exp|
@@ -775,7 +775,7 @@ function jxtranslate_exp_25() {
 /* ________________________________________________ Check process running ___ */
 $p = o2val('prg§_§var','proc_receive');
 if ($p) {
-   $e = $e && ($p->status == 'C' || $p->status == 'E');
+   $e = $e && !$p->is_running();
    }
 return ($e);
 	} //|o2_fine_exp|
