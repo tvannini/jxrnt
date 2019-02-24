@@ -169,6 +169,8 @@ function jxgranting_user§§user_form_def(&$form_user) {
 		$ctrl_o2ListBox4->y(115);
 		$ctrl_o2ListBox4->larghezza(200);
 		$ctrl_o2ListBox4->altezza(20);
+		$ctrl_o2ListBox4->azione("change_type");
+		$ctrl_o2ListBox4->on_change(jxgranting_user_exp_8());
 		$ctrl_o2ListBox4->valori(jxgranting_user_exp_30());
 		$ctrl_o2ListBox4->righe(1);
 	$ctrl_o2edit2 = &$form_user->ctrldef("o2edit2", "edit", "", "prg§_§var", "expire_date");
@@ -257,6 +259,11 @@ function jxgranting_user§§area_code_select_act(&$o2exe) {
 function jxgranting_user§§cancel_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::ret(8, jxgranting_user_exp_1()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_user§§change_type_act(&$o2exe) {
+	$o2exe->s(1) && (jxgranting_user_exp_59() || $o2exe->e()) && o2act::set("prg§_§var", "no_pwd_change", jxgranting_user_exp_8()) && $o2exe->e();
+	$o2exe->s(2) && (jxgranting_user_exp_59() || $o2exe->e()) && o2act::set("prg§_§var", "force_pwd_change", jxgranting_user_exp_1()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§check_name_act(&$o2exe) {
@@ -635,5 +642,10 @@ return ($ll);
 function jxgranting_user_exp_58() {
 	
 return (o2val('users','last_login'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_59() {
+	
+return (o2val('prg§_§var','login_type') == 'LDAP');
 	} //|o2_fine_exp|
 ?>

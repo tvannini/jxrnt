@@ -15,6 +15,7 @@ o2def::view("model_roles", False, "", "", 1);
 o2def::view("model_users", False, "", "", 1);
 o2def::act("area_code_select", "");
 o2def::act("cancel", "");
+o2def::act("change_type", "");
 o2def::act("check_name", "");
 o2def::act("clear_pwd_history", "");
 o2def::act("copy_role", "");
