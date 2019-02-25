@@ -6651,18 +6651,6 @@ class o2act {
     static function alert($text, $media = 0) {
 
         $app = $_SESSION['o2_app'];
-        // _____________________________________________________________ Multilanguage ___
-        if ($app->multilang) {
-            $ctext = str_replace("\n", "\\n", $text);
-            // __________________________________________ Collect text for translation ___
-            if ($app->harvest_labels) {
-                $app->harvest_list[] = $ctext;
-                }
-            // __________________________________________________ Retrieve translation ___
-            if (trim($app->translation[$ctext])) {
-                $text = $app->translation[$ctext];
-                }
-            }
         // ______________________________________ CMD-line and batch executions (jobs) ___
         if ($app->runtime->interface != "HTML") {
             // __________________________________________ Jobs and scheduler processes ___
@@ -6727,12 +6715,6 @@ class o2act {
     static function confirm($view, $field, $testo) {
 
         $app = $_SESSION['o2_app'];
-        if ($app->multilang) {
-            $ctext = str_replace("\n", "\\n", $testo);
-            if (trim($app->translation[$ctext])) {
-                $testo = $app->translation[$ctext];
-                }
-            }
         return o2act::call("tools/o2sys_confirm", false, $testo, $view."§§".$field);
 
         }

@@ -240,7 +240,7 @@ return (o2par(1) == 'R');
 function jxmlt_harvest_exp_19() {
 	$insp = new o2_inspector();
 $insp->mlt_harvest_models();
-
+$insp->mlt_harvest_menu();
 return (true);
 	} //|o2_fine_exp|
 ?>

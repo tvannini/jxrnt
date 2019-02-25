@@ -13,7 +13,7 @@ o2def::act("act_no", "");
 o2def::act("act_yes", "");
 o2def::act("start", "");
 o2def::form("sys_confirm", "", False, "true", false);
-o2def::par(1, "msg_txt","_o2text");
-o2def::par(2, "return_value","_o2logical");
+o2def::par(1, "msg_txt", "_o2text");
+o2def::par(2, "return_value", "_o2logical");
 
 ?>

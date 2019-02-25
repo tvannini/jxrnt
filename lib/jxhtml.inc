@@ -166,10 +166,6 @@ class o2html {
             }
         // ______________________________________________________ Output buffering end ___
         ob_end_flush();
-        // _________________________________________________ Multilanguage translation ___
-        if ($app->multilang && $app->harvest_labels) {
-            $app->collect_labels();
-            }
         }
 
 
@@ -549,6 +545,20 @@ class o2html {
         // ____________________________________________________________ Prints out bar ___
         if ($menu_name) {
             if (!$app->menu_cache) {
+                if ($app->multilang) {
+                    // ______________________________________________ /app/lang/<lang> ___
+                    $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
+                    // __________________ MENU repository: translate values from label ___
+                    if (!isset($app->translation['#MENU'])) {
+                        // _________________________________________ Translation table ___
+                        if ($lang_dir->exists('#MENU.lng')) {
+                            $app->translation['#MENU'] = jx_parse_conf($lang_dir.
+                                                                        '#MENU.lng');
+                            $app->translate_menu();
+                            }
+                        unset($app->translation['#MENU']);
+                        }
+                    }
                 if ($with_list) {
                     $app->menu_prgs = array();
                     }
@@ -616,7 +626,7 @@ class o2html {
         // _______________________________________ Labels collection for multilanguage ___
         $lang_menu->voce("P",
                          "jxlabelcoll",
-                         ($app->harvest_labels ? "Stop" : "Start")." labels collection",
+                         "Start labels collection",
                          "tools/o2sys_collect_labels",
                          true,
                          true,

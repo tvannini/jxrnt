@@ -56,15 +56,8 @@ return (false);
 	} //|o2_fine_exp|
 
 function o2sys_confirm_exp_2() {
-	$app = $_SESSION['o2_app'];
-$txt = stripcslashes(o2par(1));
-if ($app->multilang) {
-   $ctxt = str_replace("\n", "\\n", $txt);
-   if (trim($app->translation[$ctxt])) {
-      $txt = $app->translation[$ctxt];
-      }
-   }
-return ($txt);
+	
+return (stripcslashes(o2par(1)));
 	} //|o2_fine_exp|
 
 function o2sys_confirm_exp_5() {

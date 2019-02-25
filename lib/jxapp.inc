@@ -210,8 +210,6 @@ class o2_app {
     public $multilang       = false;   /* If labels internazionalization is enabled:
                                           when enabled it is set to lang code (eng...)  */
     public $translation     = array(); /* Transaltion words list                        */
-    public $harvest_labels  = false;   /* If labels harvesting (collection) is active   */
-    public $harvest_list    = array(); /* List of strings to add (o2_translate)         */
     /*     _____ Development __________________________________________________________ */
     public $run_level       = 'EXE';   /* Runtime execution level [DEV]/[EXE]           */
     public $developer       = '';      /* Developer name (got from runtime)             */
@@ -1538,9 +1536,30 @@ class o2_app {
         // ______________________________________________ Filesystem profiled settings ___
         $this->crea_cartelle_pers();
         // _________________________________________________ Multilanguage translation ___
-        $this->multilang = $this->option_get("lang");
-        if ($this->multilang) {
-            // __________________________________________ TODO: Load global dictionary ___
+        if ($this->multilang = $this->option_get("lang")) {
+            // _________________________________________ Load data-models translations ___
+            $lang_dir = new o2_dir($this->dir_home.'/lang/'.$this->multilang.'/');
+            // ______________________ MODELS repository: translate values from picture ___
+            if (!isset($this->translation['#MODELS'])) {
+                // _________________________________________________ Translation table ___
+                if ($lang_dir->exists('#MODELS.lng')) {
+                    $this->translation['#MODELS'] = jx_parse_conf($lang_dir.
+                                                                  '#MODELS.lng');
+                    foreach ($this->maschere as $mod_name => $model) {
+                        if (count($model->valori)) {
+                            foreach ($model->valori as $code => $desc) {
+                                $this->maschere[$mod_name]->valori[$code] =
+                                                          $this->translate($mod_name,
+                                                                           'item',
+                                                                           $code,
+                                                                           $desc,
+                                                                           '#MODELS');
+                                }
+                            }
+                        }
+                    }
+                unset($this->translation['#MODELS']);
+                }
             }
         $this->commit_all(false);
         return true;
@@ -1628,11 +1647,6 @@ class o2_app {
             if ($this->profiling == "M" || $this->profiling == "B") {
                 $this->intcall("tools/o2sys_filter_menu");
                 }
-            // ______________________________________________________ Menu translation ___
-            if ($this->multilang) {
-                // ________________________________________ TODO: Load menu dictionary ___
-//                $this->translate_menu($this->load_menu_translation());
-                }
             }
         else {
             throw new o2_exception("Unknown menu <i>".$menu_name.
@@ -1696,288 +1710,28 @@ class o2_app {
 
 
     /**
-     * Load menu translation table for current language and returns it as array.
+     * Translate current menu and its sub-menus
      *
+     * @param string $start_menu   Used by recursive call
      * @return array
      */
-    function load_menu_translation() {
-
-        $translation = array();
-        // _________________________________________________________________ /app/lang ___
-        $lang_dir    = new o2_dir($this->dir_home."/lang/");
-        $lang_dir->crea();
-        // ____________________________________________________ Menu translation table ___
-        if ($lang_dir->exists($this->multilang.".menu")) {
-            $translation = jx_parse_conf($lang_dir.$this->multilang.".menu");
-            }
-        return $translation;
-
-        }
-
-
-    /**
-     * Translate current menu and its sub-menus by given translation table
-     *
-     * @return array
-     */
-    function translate_menu($transl_tab, $start_menu = false) {
+    function translate_menu($start_menu = false) {
 
         if (!$start_menu || !isset($this->menu[$start_menu])) {
             $start_menu = $this->menu_attivo;
             }
         if ($start_menu && isset($this->menu[$start_menu])) {
             foreach ($this->menu[$start_menu]->voci as $item) {
-                if (trim($transl_tab[$item->label])) {
-                    $item->label = $transl_tab[$item->label];
-                    }
+                $item->label = $this->translate($item->nome,
+                                                'label',
+                                                0,
+                                                $item->label,
+                                                '#MENU');
                 if ($item->tipo == "M") {
-                    $this->translate_menu($transl_tab, $item->nome);
+                    $this->translate_menu($item->nome);
                     }
                 }
             }
-
-        }
-
-
-    /**
-     * Start/stop labels collection
-     *
-     */
-    function labels_collection() {
-
-        if ($this->multilang) {
-            $this->harvest_labels = !$this->harvest_labels;
-            }
-        else {
-            $this->harvest_labels = false;
-            }
-        $this->harvest_list = array();
-
-        }
-
-
-    /**
-     * Collects labels from interface
-     *
-     */
-    function collect_labels() {
-
-        if (!$this->progressivo_istanze) {
-            return;
-            }
-        $list = array();
-        $prg  = $this->istanze_prg[$this->progressivo_istanze];
-        // _______________________________________________ Confirm system program text ___
-        if ($prg->nome == "o2sys_confirm") {
-            $label = str_replace("\n", "\\n", $prg->get_par(1));
-            if ($label) {
-                $list[$label] = $label;
-                }
-            }
-        // ____________________________________________ Labels added by o2_translate() ___
-        if (count($this->harvest_list)) {
-            foreach ($this->harvest_list as $label) {
-                $list[$label] = $label;
-                }
-            $this->harvest_list = array();
-            }
-        // _______________________________________________________ Labels from windows ___
-        if (count($prg->form)) {
-            foreach ($prg->form as $form) {
-                // ______________________________________________________ Forms titles ___
-                if ($form->titolo) {
-                    $list[$form->titolo] = $form->titolo;
-                    }
-                // ______________________________________________ Labels from controls ___
-                foreach ($form->controlli as $ctrl) {
-                    // _____________________________________ Manage labels on controls ___
-                    switch ($ctrl->tipo_ctrl) {
-                        // _________________________ Labels, buttons and images titles ___
-                        case "label":
-                        case "button":
-                        case "img":
-                            if ($ctrl->label) {
-                                $list[$ctrl->label] = $ctrl->label;
-                                }
-                            if ($ctrl->confirm_message) {
-                                $list[$ctrl->confirm_message] = $ctrl->confirm_message;
-                                }
-                            break;
-                        // _________________________________________ Multipages labels ___
-                        case "multipage":
-                            foreach ($ctrl->label as $single_label) {
-                                if ($single_label) {
-                                    $list[$single_label] = $single_label;
-                                    }
-                                }
-                            if ($ctrl->confirm_message) {
-                                $list[$ctrl->confirm_message] = $ctrl->confirm_message;
-                                }
-                            break;
-                        // ____________________________________ List/combo-boxes items ___
-                        case "listcombo":
-                            if (!$ctrl->untraslate) {
-                                foreach ($ctrl->valori as $single_label) {
-                                    if ($single_label) {
-                                        $list[$single_label] = $single_label;
-                                        }
-                                    }
-                                }
-                            if ($ctrl->confirm_message) {
-                                $list[$ctrl->confirm_message] = $ctrl->confirm_message;
-                                }
-                            break;
-                        case "navigator":
-                            if ($ctrl->msg_new) {
-                                $list[$ctrl->msg_new] = $ctrl->msg_new;
-                                }
-                            if ($ctrl->msg_del) {
-                                $list[$ctrl->msg_del] = $ctrl->msg_del;
-                                }
-                            if ($ctrl->msg_save) {
-                                $list[$ctrl->msg_save] = $ctrl->msg_save;
-                                }
-                            if ($ctrl->msg_undo) {
-                                $list[$ctrl->msg_undo] = $ctrl->msg_undo;
-                                }
-                            if ($ctrl->msg_select) {
-                                $list[$ctrl->msg_select] = $ctrl->msg_select;
-                                }
-                            if ($ctrl->msg_detail) {
-                                $list[$ctrl->msg_detail] = $ctrl->msg_detail;
-                                }
-                            break;
-                        default:
-                            if ($ctrl->confirm_message) {
-                                $list[$ctrl->confirm_message] = $ctrl->confirm_message;
-                                }
-                            break;
-                        }
-                    // ________________________________ Manage columns titles in table ___
-                    if ($ctrl->tipo_ctrl == "tab") {
-                        foreach ($form->controlli as $subctrl) {
-                            // _________________________________ All controls in table ___
-                            if ($subctrl->padre == $ctrl->nome) {
-                                if ($subctrl->info_padre[3]) {
-                                    $list[$subctrl->info_padre[3]] =
-                                                                  $subctrl->info_padre[3];
-                                    }
-                                if ($subctrl->info_padre[10]) {
-                                    $list[$subctrl->info_padre[10]] =
-                                                                 $subctrl->info_padre[10];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        $file = $this->dir_home.DIRECTORY_SEPARATOR."lang".
-                                DIRECTORY_SEPARATOR.$this->multilang;
-        $this->translation = $this->write_labels_file($list,
-                                                      $this->translation,
-                                                      $file);
-
-        }
-
-
-    /**
-     * Collects labels from a menu and its submenus
-     *
-     */
-    function collect_menu_labels($start_menu = false, $nested = false) {
-
-        if (!$start_menu || !isset($this->menu[$start_menu])) {
-            $start_menu = $this->menu_attivo;
-            }
-        if ($this->menu == array()) {
-            $this->includi_repository($this->file_menu);
-            }
-        // ________________________________________________________ No menu to harvest ___
-        if (!isset($this->menu[$start_menu])) {
-            return;
-            }
-        $list = array();
-        foreach ($this->menu[$start_menu]->voci as $item) {
-            $list[$item->label] = $item->label;
-            if ($item->tipo == "M") {
-                $list+= $this->collect_menu_labels($item->nome, true);
-                }
-            }
-        if ($nested) {
-            return $list;
-            }
-        else {
-            $this->write_labels_file($list,
-                                     $this->load_menu_translation(),
-                                     $this->dir_home.DIRECTORY_SEPARATOR."lang".
-                                     DIRECTORY_SEPARATOR.$this->multilang.".menu");
-            }
-
-        }
-
-
-    /**
-     * Write labels translation file, arranging $list with existing $trasl_tab.
-     * Returns new translation table.
-     *
-     * @param  array  $list
-     * @param  array  $trasl_tab
-     * @param  string $file_name
-     * @return array
-     */
-    function write_labels_file($list, $trasl_tab, $file_name) {
-
-        foreach ($list as $word) {
-            // ___________________ Filter words in key and value to avoid duplications ___
-            if (!in_array($word, $trasl_tab) && !array_key_exists($word, $trasl_tab)) {
-                $trasl_tab[$word] = $word;
-                }
-            }
-        ksort($trasl_tab, SORT_LOCALE_STRING);
-        $words      = "";
-        $new_words  = "";
-        $safe_words = "";
-        $translated = 0;
-        foreach ($trasl_tab as $key => $word) {
-            if (trim($word) === "") {
-                $translated++;
-                $safe_words.= '"'.$key.'" = "'.$word."\"\n";
-                }
-            elseif ($key !== $word) {
-                $translated++;
-                $words.= '"'.$key.'" = "'.$word."\"\n";
-                }
-            else {
-                $new_words.= '"'.$key.'" = "'.$word."\"\n";
-                }
-            }
-        $intro = "; Janox translation table\n".
-                 "; ~~~~~~~~~~~~~~~~~~~~~~~\n\n".
-                 "; Application: ".$this->nome."\n".
-                 "; Language:    ".$this->multilang."\n".
-                 "; Words:       ".count($trasl_tab)."\n".
-                 "; Translated:  ".$translated."\n".
-                 "; Date:        ".date("d.m.Y")."\n\n\n".
-                 ";    NEW WORDS TO TRANSLATE\n".
-                 ";    ~~~~~~~~~~~~~~~~~~~~~~\n\n";
-        file_put_contents($file_name,
-                          $intro.$new_words."\n\n;    TRANSLATED WORDS\n".
-                                                ";    ~~~~~~~~~~~~~~~~\n\n".
-                                     $words."\n\n;    SAFE WORDS\n".
-                                                ";    ~~~~~~~~~~\n\n".$safe_words);
-        return $trasl_tab;
-
-        }
-
-
-    /**
-     * Call system program for translation tables management
-     *
-     */
-    function transl_tab() {
-
-        $this->intcall("tools/o2sys_transltab");
 
         }
 
@@ -2083,29 +1837,6 @@ class o2_app {
                 throw new o2_exception("Cannot find file <i>".$repository.
                                        "</i> requested as repository.",
                                        o2error_MISSINGFILE);
-                }
-            // ______________________ MODELS repository: translate values from picture ___
-            if ($this->multilang && !isset($this->translation['#MODELS'])) {
-                // __________________________________________________ /app/lang/<lang> ___
-                $lang_dir = new o2_dir($this->dir_home.'/lang/'.$this->multilang.'/');
-                // _________________________________________________ Translation table ___
-                if ($lang_dir->exists('#MODELS.lng')) {
-                    $this->translation['#MODELS'] = jx_parse_conf($lang_dir.
-                                                                  '#MODELS.lng');
-                    foreach ($this->maschere as $mod_name => $model) {
-                        if (count($model->valori)) {
-                            foreach ($model->valori as $code => $desc) {
-                                $this->maschere[$mod_name]->valori[$code] =
-                                                              $this->translate($mod_name,
-                                                                               'item',
-                                                                               $code,
-                                                                               $desc,
-                                                                               '#MODELS');
-                                }
-                            }
-                        }
-                    }
-                unset($this->translation['#MODELS']);
                 }
             }
         return true;
@@ -6851,7 +6582,7 @@ class o2_scheduler {
                     break;
                 // ___________________________________________________ Run by Interval ___
                 case "I":
-                    // ___ Set 1 minute as "safe" time to avoid axecutions overlapping ___
+                    // ___ Set 1 minute as "safe" time to avoid executions overlapping ___
                     $last->modify("+".$sched_rec["SCHED_INTERVAL"]." min");
                             // _____________ IF: last run + $int minutes is before now ___
                     $todo = ($last->getTimestamp() < $now->getTimestamp());
@@ -7278,7 +7009,7 @@ class o2_inspector {
         }
 
 
-    static function get_app_menus() {
+    static function get_app_menus($first_level_only = true) {
 
         $app   = $_SESSION['o2_app'];
         $bar   = $app->menu_attivo;
@@ -7298,7 +7029,8 @@ class o2_inspector {
         if ($res) {
             for ($i = 0; $i < $res; $i++) {
                 // _________________________________________________ Only first level! ___
-                if (($parts[2][$i] != 'S') && ($parts[1][$i] == $bar)) {
+                if (($parts[2][$i] != 'S') &&
+                    (!$first_level_only || $parts[1][$i] == $bar)) {
                     $list[$parts[3][$i]] = $parts[4][$i];
                     }
                 }
@@ -11170,7 +10902,6 @@ class o2_inspector {
     function mlt_harvest_models() {
 
         $app  = $_SESSION['o2_app'];
-        $code = file_get_contents($app->dir_progs.$app->file_modelli);
         $list = array();
         foreach ($app->maschere as $mod_name => $model) {
             if (count($model->valori) &&
@@ -11185,6 +10916,21 @@ class o2_inspector {
                 }
             }
         $this->mlt_process_list('#MODELS', $list);
+
+        }
+
+
+    /**
+     * Executes an harvest of the menu repository labels
+     *
+     */
+    function mlt_harvest_menu() {
+
+        $list = array();
+        foreach (o2_inspector::get_app_menus(false) as $menu => $label) {
+            $list[$menu]['label'][0] = $label;
+            }
+        $this->mlt_process_list('#MENU', $list);
 
         }
 

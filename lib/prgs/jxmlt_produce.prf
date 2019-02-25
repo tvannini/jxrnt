@@ -469,23 +469,34 @@ return (true);
 
 function jxmlt_produce_exp_42() {
 	$l   = o2val('prg§_§var','prgs_list');
-$l[] = o2val('base_lang','prg'); 
+$l[] = o2val('base_lang','prg');
 return ($l);
 	} //|o2_fine_exp|
 
 function jxmlt_produce_exp_43() {
-	$p = o2val('prg§_§var','prg'); 
+	$s = $_SESSION['o2_app'];
+$p = o2val('prg§_§var','prg'); 
 $c = false;
 /* __________________________________ Get production date from dictionary ___ */
-$f = file_get_contents(o2app_dir_home().'lang'.DIRECTORY_SEPARATOR.o2par(4).
+$d = file_get_contents(o2app_dir_home().'lang'.DIRECTORY_SEPARATOR.o2par(4).
                        DIRECTORY_SEPARATOR.$p.'.lng');
 $a = array();
-preg_match('/;\s*Date:\s*(\d\d)\W(\d\d)\W(\d\d\d\d)/', $f, $a);
+preg_match('/;\s*Date:\s*(\d\d)\W(\d\d)\W(\d\d\d\d)/', $d, $a);
 $dd = $a[3].$a[2].$a[1];
 /* _____________________________________________ Get mpdify date from prf ___ */
-$md = o2file_date(o2app_dir_prgs().$p.'.prf');
+switch ($p) {
+  case '#MODELS':
+    $f = $s->file_modelli;
+    break;
+  case '#MENU':
+    $f = $s->file_menu;
+    break;
+  default:
+    $f = $p.'.prf'; 
+    break;    
+  }
+$md = o2file_date(o2app_dir_prgs().$f);
 $c  = ($md >= $dd);
-
 return ($c);
 	} //|o2_fine_exp|
 ?>

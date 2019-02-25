@@ -150,10 +150,6 @@ class jxjs {
             }
         // _________________________________________________________ Set actual exe-ID ___
         print "o2jse.setExeId(".$exeid.");\n}\n";
-        // _________________________________________________ Multilanguage translation ___
-        if ($app->multilang && $app->harvest_labels) {
-            $app->collect_labels();
-            }
 
         }
 
@@ -563,6 +559,7 @@ class jxjs {
      */
     static function ctrl_button($o2ctrl_obj) {
 
+        $app = $_SESSION['o2_app'];
         if ($app->multilang) {
             $label = $app->translate($o2ctrl_obj->nome,
                                      'label',
