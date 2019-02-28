@@ -73,7 +73,7 @@ return (o2app_user() == "root");
 function o2sys_filter_ctrl_exp_5() {
 	$ctrl_local = o2val('objs_rights','obj_name');
 $app        = $_SESSION['o2_app'];
-$prg        = $app->istanze_prg[$app->progressivo_istanze];
+$prg        = $app->istanze_prg[$app->progressivo_istanze - 1];
 foreach ($prg->profiling[o2par(1)] as $ctrl_name => $ctrl_prof) {
    if ($ctrl_prof["V"]) {
       $prg->form[o2par(1)]->controlli[$ctrl_name]->visibile = false;
@@ -125,7 +125,6 @@ return (o2val('prg§_§var','cached_prof'));
 function o2sys_filter_ctrl_exp_11() {
 	$app  = $_SESSION['o2_app'];
 $name = $app->istanze_prg[$app->progressivo_istanze - 1]->nome;
-
 return ($name);
 	} //|o2_fine_exp|
 
