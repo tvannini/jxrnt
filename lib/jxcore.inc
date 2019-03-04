@@ -1644,10 +1644,11 @@ class o2_maschera {
                                            "Right" : "Left");
                     $this->valori       = array();
                     foreach (preg_split ('/\|/', $ris_local[1][0]) as $value) {
-                        $this->valori[substr($value,
-                                             0,
-                                             $this->dimensione)] = ($value === '' ?
-                                                                    ' ' : $value);
+                        $key = substr($value, 0, $this->dimensione);
+                        if ($key === false) {
+                            $key = '';
+                            }
+                        $this->valori[$key] = ($value === '' ? ' ' : $value);
                         }
                     }
                 else {
