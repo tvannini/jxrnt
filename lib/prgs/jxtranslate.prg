@@ -9,12 +9,15 @@ o2def::prgnotes("");
 o2def::prg("jxtranslate", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
+o2def::act("do_all", "");
 o2def::act("get_processes", "");
 o2def::act("harvest", "");
 o2def::act("proc_detail", "");
 o2def::act("produce", "");
 o2def::act("receive", "");
 o2def::act("start", "");
-o2def::form("jxtranslate_1", "", False, "true", false);
+o2def::form("jxtranslate_1", "", False, "jxtranslate_exp_30()", false);
+o2def::form("jxtranslate_2", "", False, "jxtranslate_exp_29()", false);
+
 
 ?>

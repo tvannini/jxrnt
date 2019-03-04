@@ -1,0 +1,86 @@
+<?php
+
+function jxmlt_do_all§§start_act(&$o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Harvest") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::call(jxmlt_do_all_exp_10(), False, jxmlt_do_all_exp_1(), jxmlt_do_all_exp_2(), jxmlt_do_all_exp_3(), jxmlt_do_all_exp_4(), jxmlt_do_all_exp_5(), jxmlt_do_all_exp_15(), jxmlt_do_all_exp_16()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Receive") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::call(jxmlt_do_all_exp_11(), False, jxmlt_do_all_exp_5(), jxmlt_do_all_exp_16(), jxmlt_do_all_exp_16()) && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Produce") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::call(jxmlt_do_all_exp_12(), False, jxmlt_do_all_exp_13(), jxmlt_do_all_exp_14(), jxmlt_do_all_exp_6(), jxmlt_do_all_exp_5(), jxmlt_do_all_exp_7(), jxmlt_do_all_exp_17(), jxmlt_do_all_exp_16()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_do_all_exp_1() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_2() {
+	
+return (o2par(2));
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_3() {
+	
+return (o2par(3));
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_4() {
+	
+return (o2par(4));
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_5() {
+	
+return (o2par(5));
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_6() {
+	
+return (o2par(6));
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_7() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_10() {
+	
+return ('tools/jxmlt_harvest');
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_11() {
+	
+return ('tools/jxmlt_receive');
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_12() {
+	
+return ('tools/jxmlt_produce');
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_13() {
+	
+return ('A');
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_14() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_15() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_16() {
+	
+return (33);
+	} //|o2_fine_exp|
+
+function jxmlt_do_all_exp_17() {
+	
+return (67);
+	} //|o2_fine_exp|
+?>

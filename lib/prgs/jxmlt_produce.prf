@@ -432,8 +432,10 @@ return (1);
 function jxmlt_produce_exp_39() {
 	$i = o2val('prg§_§var','prg_idx');
 $t = o2val('prg§_§var','tot_prgs');
+$b = (o2par(7) ? o2par(6) : 0);
+$p = (o2par(7) ? o2par(7) : 100);
 $i++;
-o2job_set_progress($i * 100 / $t);
+o2job_set_progress(($i * $p / $t) + $b);
 return ($i);
 	} //|o2_fine_exp|
 

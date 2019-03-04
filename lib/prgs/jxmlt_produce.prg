@@ -31,4 +31,6 @@ o2def::par(2, "prg", "_o2alpha");
 o2def::par(3, "lang_from", "o2sys_language");
 o2def::par(4, "lang_to", "o2sys_language");
 o2def::par(5, "use_default", "_o2logical");
+o2def::par(6, "base_progress", "jxjob_progress");
+o2def::par(7, "tot_progress", "jxjob_progress");
 ?>

@@ -86,11 +86,13 @@ if (o2par(3)) {
 else {
    $prgs = array($prg_name);
    }
-$tot = count($prgs);
-$idx = 1;   
+$tot  = count($prgs);
+$idx  = 1;
+$pbas = (o2par(7) ? o2par(6) : 0);
+$ptot = (o2par(7) ? o2par(7) : 100);   
 foreach ($prgs as $prg) {
-   o2job_set_progress($idx * 100 / $tot);
    $insp->mlt_harvest($prg);
+   o2job_set_progress(($idx * $ptot / $tot) + $pbas);
    $idx++;
    }
 return ($prgs);
@@ -105,6 +107,8 @@ $mps  = $insp->get_prgs_by_menu($menu);
 $done = $mps;
 $done = array();
 $tot  = count($mps) * ($desc ? $lev + 3 : 1);
+$pbas = (o2par(7) ? o2par(6) : 0);
+$ptot = (o2par(7) ? o2par(7) : 100);
 $idx  = 1;
 foreach ($mps as $mp) {
    if ($desc) {
@@ -118,13 +122,13 @@ foreach ($mps as $mp) {
       }
    $tot+= count($prgs);
    foreach ($prgs as $prg) {
-      o2job_set_progress($idx * 100 / $tot);
+      o2job_set_progress(($idx * $ptot / $tot) + $pbas);
       $insp->mlt_harvest($prg);
       $idx++;
       }
-   $done+= $prgs;    
+   $done = array_merge($done, $prgs);
    }
-o2job_set_progress(100);
+o2job_set_progress($ptot + $pbas);
 return ($done);
 	} //|o2_fine_exp|
 
@@ -209,9 +213,11 @@ return (array());
 	} //|o2_fine_exp|
 
 function jxmlt_harvest_exp_16() {
-	$tot = o2val('prg§_§var','tot_prgs');
-$idx = o2val('prg§_§var','prg_idx');
-o2job_set_progress($idx * 100 / $tot);
+	$tot  = o2val('prg§_§var','tot_prgs');
+$pbas = (o2par(7) ? o2par(6) : 0);
+$ptot = (o2par(7) ? o2par(7) : 100);
+$idx  = o2val('prg§_§var','prg_idx');
+o2job_set_progress(($idx * $ptot / $tot) + $pbas);
 $idx++;
 return ($idx);
 	} //|o2_fine_exp|
@@ -238,9 +244,13 @@ return (o2par(1) == 'R');
 	} //|o2_fine_exp|
 
 function jxmlt_harvest_exp_19() {
-	$insp = new o2_inspector();
+	$pbas = (o2par(7) ? o2par(6) : 0);
+$ptot = (o2par(7) ? o2par(7) : 100);
+$insp = new o2_inspector();
 $insp->mlt_harvest_models();
+o2job_set_progress(($ptot / 2) + $pbas);
 $insp->mlt_harvest_menu();
+o2job_set_progress($ptot + $pbas);
 return (true);
 	} //|o2_fine_exp|
 ?>

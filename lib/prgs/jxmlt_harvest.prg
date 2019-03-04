@@ -21,4 +21,6 @@ o2def::par(2, "item", "_o2alpha");
 o2def::par(3, "descendant_prgs", "_o2logical");
 o2def::par(4, "descend_to_level", "_o2number");
 o2def::par(5, "lang", "o2sys_language");
+o2def::par(6, "base_progress", "jxjob_progress");
+o2def::par(7, "tot_progress", "jxjob_progress");
 ?>

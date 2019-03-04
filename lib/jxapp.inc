@@ -11081,9 +11081,11 @@ class o2_inspector {
      * Reads .lng files from lang directory and writes translations in system translation
      * table.
      *
-     * @param string $lang   Lang code to receive
+     * @param string  $lang          Lang code to receive
+     * @param integer $tot_progress  Total progress to reach (when in multiple jobs chain)
+     * @param integer $base_progress Base progress to add (when in multiple jobs chain)
      */
-    function mlt_get_lang($lang) {
+    function mlt_get_lang($lang, $base_progress = 0, $tot_progress = 100) {
 
         $app    = $_SESSION['o2_app'];
         $tab    = $app->get_table(self::$mlt_table);
@@ -11148,7 +11150,7 @@ class o2_inspector {
                 }
             $idx++;
             if (o2session_is_job()) {
-                o2job_set_progress($idx * 100 / $tot);
+                o2job_set_progress(($idx * $tot_progress / $tot) + $base_progress);
                 }
             }
 
