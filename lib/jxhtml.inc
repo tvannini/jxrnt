@@ -614,31 +614,31 @@ class o2html {
         // _____________________________________________________________ Language menu ___
         $app->menu["jxmultilang"] = new o2_menubar("jxmultilang", "lang.png");
         $lang_menu                = $app->menu["jxmultilang"];
-        // _________________________________________________ Manage translation tables ___
+        // ______________________________________________________ Translations manager ___
         $lang_menu->voce("P",
-                         "jxtransltab",
-                         "Manage translation tables",
-                         "tools/o2sys_transltab",
+                         "jxmlt_manager",
+                         "Translations manager",
+                         "tools/jxtranslate",
                          true,
                          true,
-                         "fs.png");
-        $lang_menu->voce("S", "jxlangsep");
-        // _______________________________________ Labels collection for multilanguage ___
+                         "mlt_manager.png");
+        $lang_menu->voce("S", "jxmltsep");
+        // ________________________________________________ Manage dictionaries folder ___
         $lang_menu->voce("P",
-                         "jxlabelcoll",
-                         "Start labels collection",
-                         "tools/o2sys_collect_labels",
+                         "jxmlt_dict",
+                         "Dictionaries folder",
+                         "tools/jxmlt_folder",
                          true,
                          true,
-                         "labels.png");
-        // __________________________________ Menu labels collection for multilanguage ___
+                         "mlt_folder.png");
+        // _________________________________________________ Browse translations table ___
         $lang_menu->voce("P",
-                         "jxmenucoll",
-                         "Collect menu labels",
-                         "tools/o2sys_collect_menu_labels",
+                         "jxmlt_table",
+                         "Browse translations data",
+                         "tools/jxmlt_data",
                          true,
                          true,
-                         "appmenu.gif");
+                         "mlt_data.png");
         // ___________________________________________ Add language menu to admin menu ___
         $o2ctrl_obj->voce("M", "jxmultilang", "Language", "", true, true, "lang.png");
 
