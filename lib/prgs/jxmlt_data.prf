@@ -1,0 +1,321 @@
+<?php
+
+function jxmlt_data§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("base_string", "_o2alpha");
+	$task_prg§_§var->definisci("lang_string", "_o2alpha");
+	$task_prg§_§var->definisci("language", "o2sys_language");
+	$task_prg§_§var->definisci("languages", "_o2structure");
+	$task_prg§_§var->definisci("program", "_o2alpha");
+	$task_prg§_§var->definisci("programs", "_o2structure");
+		}
+
+function jxmlt_data§§translations_def(&$task_translations, $_o2viewalias = "") {
+	$task_translations->righe_vis = 100;
+
+	$task_translations->usa_file("jx_translations","jx_translations","lang_ctrl",null,null);
+
+	$task_translations->usa("mlt_lang","jx_translations","mlt_lang","jxmlt_data_exp_1()","jxmlt_data_exp_1()",null,null);
+	$task_translations->usa("mlt_prg","jx_translations","mlt_prg","jxmlt_data_exp_2()","jxmlt_data_exp_2()",null,null);
+	$task_translations->usa("mlt_ctrl","jx_translations","mlt_ctrl",null,null,null,null);
+	$task_translations->usa("mlt_property","jx_translations","mlt_property",null,null,null,null);
+	$task_translations->usa("mlt_prop_value","jx_translations","mlt_prop_value",null,null,null,null);
+	$task_translations->usa("mlt_base_str","jx_translations","mlt_base_str",null,null,null,"jxmlt_data_exp_3()");
+	$task_translations->usa("mlt_lang_str","jx_translations","mlt_lang_str",null,null,null,"jxmlt_data_exp_4()");
+}
+function jxmlt_data§§jxmlt_data_1_form_def(&$form_jxmlt_data_1) {
+	$form_jxmlt_data_1->x(350);
+	$form_jxmlt_data_1->y(100);
+	$form_jxmlt_data_1->larghezza(700);
+	$form_jxmlt_data_1->altezza(500);
+	$form_jxmlt_data_1->align_o("Center");
+	$form_jxmlt_data_1->titolo("Translations data");
+	$ctrl_o2multipage2 = &$form_jxmlt_data_1->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(0);
+		$ctrl_o2multipage2->y(0);
+		$ctrl_o2multipage2->larghezza(700);
+		$ctrl_o2multipage2->altezza(60);
+		$ctrl_o2multipage2->expand("H");
+		$ctrl_o2multipage2->label(array("Page1"));
+		$ctrl_o2multipage2->css_space_out(jxmlt_data_exp_5());
+		$ctrl_o2multipage2->css_space_in(jxmlt_data_exp_6());
+		$ctrl_o2multipage2->css_label_on(jxmlt_data_exp_7());
+		$ctrl_o2multipage2->css_label_off(jxmlt_data_exp_7());
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2table2 = &$form_jxmlt_data_1->ctrldef("o2table2", "tab", "", "translations", "");
+		$ctrl_o2table2->x(0);
+		$ctrl_o2table2->y(92);
+		$ctrl_o2table2->larghezza(700);
+		$ctrl_o2table2->altezza(378);
+		$ctrl_o2table2->expand("B");
+	$ctrl_o2dbnavigator2 = &$form_jxmlt_data_1->ctrldef("o2dbnavigator2", "navigator", "", "translations", "");
+		$ctrl_o2dbnavigator2->x(0);
+		$ctrl_o2dbnavigator2->y(60);
+		$ctrl_o2dbnavigator2->larghezza(700);
+		$ctrl_o2dbnavigator2->altezza(32);
+		$ctrl_o2dbnavigator2->expand("H");
+		$ctrl_o2dbnavigator2->css_space(jxmlt_data_exp_5());
+		$ctrl_o2dbnavigator2->visible_detail(jxmlt_data_exp_9999());
+		$ctrl_o2dbnavigator2->visible_select(jxmlt_data_exp_9999());
+		$ctrl_o2dbnavigator2->act_new("translations_insert");
+		$ctrl_o2dbnavigator2->act_save("translations_post");
+		$ctrl_o2dbnavigator2->act_del("translations_delete");
+		$ctrl_o2dbnavigator2->act_undo("translations_undo");
+	$ctrl_o2label2 = &$form_jxmlt_data_1->ctrldef("o2label2", "label", "o2multipage2", "", "");
+		$ctrl_o2label2->x(20);
+		$ctrl_o2label2->y(10);
+		$ctrl_o2label2->larghezza(70);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->info_padre(array(0));
+		$ctrl_o2label2->label("Language:");
+	$ctrl_o2label3 = &$form_jxmlt_data_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
+		$ctrl_o2label3->x(20);
+		$ctrl_o2label3->y(30);
+		$ctrl_o2label3->larghezza(70);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->info_padre(array(0));
+		$ctrl_o2label3->label("Module:");
+	$ctrl_o2label4 = &$form_jxmlt_data_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
+		$ctrl_o2label4->x(290);
+		$ctrl_o2label4->y(10);
+		$ctrl_o2label4->larghezza(180);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->info_padre(array(0));
+		$ctrl_o2label4->label("Search in base language:");
+	$ctrl_o2label5 = &$form_jxmlt_data_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
+		$ctrl_o2label5->x(290);
+		$ctrl_o2label5->y(30);
+		$ctrl_o2label5->larghezza(180);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->info_padre(array(0));
+		$ctrl_o2label5->label("Search in translation language:");
+	$ctrl_o2ListBox2 = &$form_jxmlt_data_1->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "language");
+		$ctrl_o2ListBox2->x(90);
+		$ctrl_o2ListBox2->y(10);
+		$ctrl_o2ListBox2->larghezza(160);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->expand("H");
+		$ctrl_o2ListBox2->on_change(jxmlt_data_exp_9());
+		$ctrl_o2ListBox2->info_padre(array(0));
+		$ctrl_o2ListBox2->valori(jxmlt_data_exp_12());
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2ListBox3 = &$form_jxmlt_data_1->ctrldef("o2ListBox3", "listcombo", "o2multipage2", "prg§_§var", "program");
+		$ctrl_o2ListBox3->x(90);
+		$ctrl_o2ListBox3->y(30);
+		$ctrl_o2ListBox3->larghezza(160);
+		$ctrl_o2ListBox3->altezza(20);
+		$ctrl_o2ListBox3->expand("H");
+		$ctrl_o2ListBox3->on_change(jxmlt_data_exp_9());
+		$ctrl_o2ListBox3->info_padre(array(0));
+		$ctrl_o2ListBox3->valori(jxmlt_data_exp_13());
+		$ctrl_o2ListBox3->righe(1);
+	$ctrl_o2edit2 = &$form_jxmlt_data_1->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "base_string");
+		$ctrl_o2edit2->x(470);
+		$ctrl_o2edit2->y(10);
+		$ctrl_o2edit2->larghezza(200);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->expand("H");
+		$ctrl_o2edit2->on_change(jxmlt_data_exp_9());
+		$ctrl_o2edit2->info_padre(array(0));
+	$ctrl_o2edit3 = &$form_jxmlt_data_1->ctrldef("o2edit3", "edit", "o2multipage2", "prg§_§var", "lang_string");
+		$ctrl_o2edit3->x(470);
+		$ctrl_o2edit3->y(30);
+		$ctrl_o2edit3->larghezza(200);
+		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->expand("H");
+		$ctrl_o2edit3->on_change(jxmlt_data_exp_9());
+		$ctrl_o2edit3->info_padre(array(0));
+	$ctrl_o2edit4 = &$form_jxmlt_data_1->ctrldef("o2edit4", "edit", "o2table2", "translations", "mlt_lang");
+		$ctrl_o2edit4->x(10);
+		$ctrl_o2edit4->y(10);
+		$ctrl_o2edit4->larghezza(60);
+		$ctrl_o2edit4->altezza(20);
+		$ctrl_o2edit4->info_padre(array("01", "01", "01", "Language", False, "", 0, "", "", "", "", ""));
+	$ctrl_o2edit5 = &$form_jxmlt_data_1->ctrldef("o2edit5", "edit", "o2table2", "translations", "mlt_prg");
+		$ctrl_o2edit5->x(70);
+		$ctrl_o2edit5->y(10);
+		$ctrl_o2edit5->larghezza(100);
+		$ctrl_o2edit5->altezza(20);
+		$ctrl_o2edit5->expand("H");
+		$ctrl_o2edit5->info_padre(array("01", "02", "02", "Module", False, "", 0, "", "", "", "", ""));
+	$ctrl_o2edit6 = &$form_jxmlt_data_1->ctrldef("o2edit6", "edit", "o2table2", "translations", "mlt_ctrl");
+		$ctrl_o2edit6->x(190);
+		$ctrl_o2edit6->y(10);
+		$ctrl_o2edit6->larghezza(100);
+		$ctrl_o2edit6->altezza(20);
+		$ctrl_o2edit6->expand("H");
+		$ctrl_o2edit6->info_padre(array("01", "03", "03", "Control", False, "", 0, "", "", "", "", ""));
+	$ctrl_o2edit7 = &$form_jxmlt_data_1->ctrldef("o2edit7", "edit", "o2table2", "translations", "mlt_property");
+		$ctrl_o2edit7->x(290);
+		$ctrl_o2edit7->y(10);
+		$ctrl_o2edit7->larghezza(70);
+		$ctrl_o2edit7->altezza(20);
+		$ctrl_o2edit7->info_padre(array("01", "04", "04", "Property", False, "", 0, "", "", "", "", ""));
+	$ctrl_o2edit8 = &$form_jxmlt_data_1->ctrldef("o2edit8", "edit", "o2table2", "translations", "mlt_prop_value");
+		$ctrl_o2edit8->x(380);
+		$ctrl_o2edit8->y(10);
+		$ctrl_o2edit8->larghezza(80);
+		$ctrl_o2edit8->altezza(20);
+		$ctrl_o2edit8->expand("H");
+		$ctrl_o2edit8->info_padre(array("01", "05", "05", "Value", False, "", 0, "", "", "", "", ""));
+	$ctrl_o2edit9 = &$form_jxmlt_data_1->ctrldef("o2edit9", "edit", "o2table2", "translations", "mlt_base_str");
+		$ctrl_o2edit9->x(460);
+		$ctrl_o2edit9->y(10);
+		$ctrl_o2edit9->larghezza(100);
+		$ctrl_o2edit9->altezza(20);
+		$ctrl_o2edit9->expand("H");
+		$ctrl_o2edit9->info_padre(array("01", "06", "06", "Base string", False, "", 0, "", "", "", "", ""));
+	$ctrl_o2edit10 = &$form_jxmlt_data_1->ctrldef("o2edit10", "edit", "o2table2", "translations", "mlt_lang_str");
+		$ctrl_o2edit10->x(560);
+		$ctrl_o2edit10->y(10);
+		$ctrl_o2edit10->larghezza(100);
+		$ctrl_o2edit10->altezza(20);
+		$ctrl_o2edit10->expand("H");
+		$ctrl_o2edit10->info_padre(array("01", "07", "07", "Translation", False, "", 0, "", "", "", "", ""));
+		}
+
+function jxmlt_data§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "languages", jxmlt_data_exp_10()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "programs", jxmlt_data_exp_11()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::script(jxmlt_data_exp_8()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_data§§translations_delete_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("translations", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_data§§translations_insert_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("translations", "I", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_data§§translations_post_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("translations", "S", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_data§§translations_undo_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("translations", "A", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmlt_data_exp_1() {
+	
+return ((o2zero('prg§_§var','language') ? null : o2val('prg§_§var','language')));
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_2() {
+	
+return ((o2zero('prg§_§var','program') ? null : o2val('prg§_§var','program')));
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_3() {
+	
+return ((o2zero('prg§_§var','base_string') ? null : o2val('prg§_§var','base_string')));
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_4() {
+	
+return ((o2zero('prg§_§var','lang_string') ? null : o2val('prg§_§var','lang_string')));
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_5() {
+	
+return ('nav_big');
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_6() {
+	
+return ('nowindow');
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_7() {
+	
+return ('hidden');
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_8() {
+	o2form_maximize('jxmlt_data_1');
+return (true);
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_9() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_10() {
+	$app    = $_SESSION['o2_app'];
+$tab    = $app->get_table('jx_translations');
+$db     = $tab->db;
+$server = $db->server;
+$co     = constant('o2_'.$server->type.'_o');
+$cc     = constant('o2_'.$server->type.'_c');
+$select = 'DISTINCT '.$tab->campi['mlt_lang'].' '.$co.'LANG'.$cc;            
+$langs  = o2_gateway::recordset($server->type,
+                                $server->server,
+                                $server->user,
+                                $server->password,
+                                $db->nome,
+                                $db->proprietario,
+                                $tab->nome,
+                                'jx_translations',
+                                $select,
+                                '',
+                                '',
+                                1000);
+$l = array('' => '[All languages]');
+foreach ($langs as $lang) {
+   if ($lang['LANG']) {
+      $l[$lang['LANG']] = $lang['LANG'];
+      }
+   }                                
+ksort($l);   
+
+return ($l);
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_11() {
+	$app    = $_SESSION['o2_app'];
+$tab    = $app->get_table('jx_translations');
+$db     = $tab->db;
+$server = $db->server;
+$co     = constant('o2_'.$server->type.'_o');
+$cc     = constant('o2_'.$server->type.'_c');
+$select = 'DISTINCT '.$tab->campi['mlt_prg'].' '.$co.'PRG'.$cc;
+$where  = $tab->campi['mlt_lang']."='' OR ".$tab->campi['mlt_lang']." IS NULL";            
+$prgs   = o2_gateway::recordset($server->type,
+                                $server->server,
+                                $server->user,
+                                $server->password,
+                                $db->nome,
+                                $db->proprietario,
+                                $tab->nome,
+                                'jx_translations',
+                                $select,
+                                $where,
+                                '',
+                                1000000);
+$p = array('' => '[All modules]');
+foreach ($prgs as $prg) {
+   if ($prg['PRG']) {
+      $p[$prg['PRG']] = $prg['PRG'];
+      }
+   }                                      
+ksort($p);                             
+
+return ($p);
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_12() {
+	
+return (o2val('prg§_§var','languages'));
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_13() {
+	
+return (o2val('prg§_§var','programs'));
+	} //|o2_fine_exp|
+
+function jxmlt_data_exp_9999() {
+	
+return (false);
+	} //|o2_fine_exp|
+?>
