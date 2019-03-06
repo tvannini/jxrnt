@@ -472,7 +472,7 @@ class jxjs {
                             }
                         $static_list[] = "['".addslashes($codice)."','".
                                               addslashes($descrizione)."']";
-                        if ($code_value == trim($codice)) {
+                        if ((string) $code_value === trim($codice)) {
                             $esiste_valore = true;
                             }
                         }
@@ -529,7 +529,7 @@ class jxjs {
                 $v_local     = substr($o2ctrl_obj->ctrl2sql(), 0, $mask->dimensione);
                 $items      .= "['".addslashes(trim($codice))."','".
                                     addcslashes($descrizione, "'\\\n\r\"")."'],";
-                if (trim($v_local) == trim($codice)) {
+                if (trim($v_local) === trim($codice)) {
                     $code_value        = $codice;
                     $o2ctrl_obj->error = false;
                     }

@@ -2283,7 +2283,7 @@ class o2html {
                     }
                 $cod_default = ($cod_default !== false ? $cod_default : $codice);
                 $list.= '<div id="jxdata:'.$codice.'" ';
-                if ($v_local == trim($codice)) {
+                if ($v_local === trim($codice)) {
                     $list             .= "class='jxlsr'";
                     $o2ctrl_obj->error = false;
                     }
@@ -2374,7 +2374,7 @@ class o2html {
                                           htmlspecialchars(addcslashes($descrizione, "'"),
                                                            ENT_QUOTES,
                                                            $app->chr_encoding)."']";
-                    if ($code_value == trim($codice)) {
+                    if ((string) $code_value === trim($codice)) {
                         $esiste_valore = true;
                         }
                     }

@@ -3659,7 +3659,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
                     $this->valori = $mask->valori;
                     }
                 foreach ($this->valori as $item_code => $item_desc) {
-                    if ($value == trim($item_code)) {
+                    if ((string) $value === trim($item_code)) {
                         if ($app->multilang) {
                             $ret = $app->translate($this->nome,
                                                    'item',
