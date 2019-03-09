@@ -5470,6 +5470,9 @@ function o2viewtab_exists($view_name, $table_alias) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->exists();
         }
@@ -5492,6 +5495,9 @@ function o2viewtab_data($view_name, $table_alias) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->data();
         }
@@ -5514,6 +5520,9 @@ function o2viewtab_create($view_name, $table_alias) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->crea();
         }
@@ -5536,6 +5545,9 @@ function o2viewtab_drop($view_name, $table_alias) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->elimina();
         }
@@ -5558,6 +5570,9 @@ function o2viewtab_info($view_name, $table_alias) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->info(true, true);
         }
@@ -5582,6 +5597,9 @@ function o2viewtab_rebuild($view_name, $table_alias, $matches = null) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->ricostruisci($matches);
         }
@@ -5604,6 +5622,9 @@ function o2viewtab_rename($view_name, $table_alias, $new_name) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->rinomina($new_name);
         }
@@ -5628,6 +5649,9 @@ function o2viewtab_export($view_name, $table_alias, $file_name, $asp_mode = fals
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->export($file_name, $asp_mode);
         }
@@ -5652,6 +5676,9 @@ function o2viewtab_import($view_name, $table_alias, $file_name, $asp_mode = fals
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->import($file_name, $asp_mode);
         }
@@ -5677,6 +5704,9 @@ function o2viewtab_browse($view_name, $table_alias, $index = "") {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->data_browser($index);
         }
@@ -5700,6 +5730,9 @@ function o2viewtab_aspclear($view_name, $table_alias) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->asp_clear();
         }
@@ -5725,6 +5758,9 @@ function o2viewtab_aspclone($view_name, $table_alias, $target_asp) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if (!$view_obj->structured || $view_obj->custom_from) {
+        $view_obj->struttura();
+        }
     if ($table = $view_obj->files[$table_alias]) {
         return $table->asp_clone($target_asp);
         }
