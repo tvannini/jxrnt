@@ -608,9 +608,9 @@ class o2html {
     static function lang_menu($o2ctrl_obj) {
 
         $app = $_SESSION['o2_app'];
-        unset($app->menu["jxmultilang"]);
-        unset($app->menu["jxlabelcoll"]);
-        unset($app->menu["jxmenucoll"]);
+        unset($app->menu["jxmlt_manager"]);
+        unset($app->menu["jxmlt_dict"]);
+        unset($app->menu["jxmlt_table"]);
         // _____________________________________________________________ Language menu ___
         $app->menu["jxmultilang"] = new o2_menubar("jxmultilang", "lang.png");
         $lang_menu                = $app->menu["jxmultilang"];
