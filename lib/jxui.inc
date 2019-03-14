@@ -1072,7 +1072,10 @@ class o2_form {
         if (is_callable($def_function)) {
             $def_function($this);
             $this->defined = true;
+            // ____________________________________________________ Controls profiling ___
             if (($app->profiling == "C" || $app->profiling == "B") &&
+                ($this->id_esecuzione == count($app->istanze_prg)) &&
+                ($app->user != 'root') &&
                 !$app->istanze_prg[$this->id_esecuzione]->internal_tool) {
                 $app->intcall("tools/o2sys_filter_ctrl", $this->nome);
                 }
