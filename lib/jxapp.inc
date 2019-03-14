@@ -10678,7 +10678,7 @@ class o2_inspector {
                  '/^\s*\$form_(\w+)->titolo\((["\'](.+)["\']|\w+_exp_(\d+)\(\))\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $form_name) {
-            // ___________________________________________________ Title by espression ___
+            // ___________________________________________________ Title by expression ___
             if ($parts[4][$idx]) {
                 if ($check_expressions) {
                     $exps[$parts[4][$idx]] = 'Title of form '.$form_name;
@@ -10697,7 +10697,7 @@ class o2_inspector {
                   '/^\s*\$ctrl_(\w+)->label\((["\'](.+)["\']|\w+_exp_(\d+)\(\))\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $ctrl_name) {
-            // ___________________________________________________ Label by espression ___
+            // ___________________________________________________ Label by expression ___
             if ($parts[4][$idx]) {
                 if ($check_expressions) {
                     $exps[$parts[4][$idx]] = 'Label of control '.$ctrl_name;
@@ -10716,7 +10716,7 @@ class o2_inspector {
           '/^\s*\$ctrl_(\w+)->confirm_(\w*)\((["\'](.+)["\']|\w+_exp_(\d+)\(\))\);\s*$/m',
                        $code, $parts);
         foreach ($parts[1] as $idx => $ctrl_name) {
-            // _________________________________________________ Message by espression ___
+            // _________________________________________________ Message by expression ___
             if ($parts[5][$idx]) {
                 if ($check_expressions) {
                     $exps[$parts[5][$idx]] = 'Message ('.$parts[2][$idx].
@@ -10736,9 +10736,9 @@ class o2_inspector {
                        $code, $parts);
         foreach ($parts[1] as $idx => $ctrl_name) {
             $parts2 = array();
-            preg_match_all('/["\']?(.*?)["\']?\s*=>\s*["\'](.*?)["\']\s*,?\s*/',
+            preg_match_all('/["\']?(.*?)["\']?\s*=>\s*(["\'])(.*?)\2\s*,?\s*/',
                            $parts[2][$idx], $parts2);
-            foreach ($parts2[2] as $valid => $value) {
+            foreach ($parts2[3] as $valid => $value) {
                 if (!isset($list[$ctrl_name])) {
                     $list[$ctrl_name] = array('item' => array());
                     }
@@ -10850,40 +10850,6 @@ class o2_inspector {
                                   " expressions need to be checked for translation:\n".
                                   str_repeat('-', strlen($tot) + 48)."\n\n".
                                   implode('', $log));
-                }
-            else {
-                if (file_exists($file)) {
-                    unlink($file);
-                    }
-                }
-            }
-        // ================================================================== NOT USED ===
-        if ($check_expressionsOLD) {
-            // ________________________________ Check expressions for msg-box messages ___
-            preg_match_all('/&& o2act::alert\(\s*\w+_exp_(\d+)\(\),/', $code, $parts);
-            foreach ($parts[1] as $idx => $exp) {
-                $exps[$exp] = 'Message statement';
-                }
-            // ____________________________ Check expressions for confirm-box messages ___
-            preg_match_all(
-         '/&& o2act::confirm\(["\'].+?["\']\s*,\s*["\'].+?["\']\s*,\s*\w+_exp_(\d+)\(\)/',
-                           $code, $parts);
-            foreach ($parts[1] as $idx => $exp) {
-                $exps[$exp] = 'Confirm statement message';
-                }
-            // ___________________ Remove expressions with translation and compose log ___
-            $log  = '';
-            $file = $_SESSION['o2_app']->dir_home.'/lang/'.$prg_name.'.check';
-            if (count($exps)) {
-                ksort($exps);
-                $exps_code = $this->get_prg_exps($code, $prg_name);
-                foreach ($exps as $exp => $desc) {
-                    if (!preg_match('/o2_translate\s*\(/', $exps_code[$exp])) {
-                        $log.= $exp.' : '.$desc."\n";
-                        }
-                    }
-                $log = "These expressions need to be checked for translation:\n\n".$log;
-                file_put_contents($file, $log);
                 }
             else {
                 if (file_exists($file)) {
