@@ -5115,6 +5115,10 @@ class o2_dbview extends o2_view {
         if (!$this->modificato && $this->status != "D") {
             return;
             }
+        // _____________________________________ Custom FROM (table name or SQL query) ___
+        if ($this->custom_from) {
+            $this->struttura();
+            }
         // _____________________________________ Record WRITE --- N.B. Only main file! ___
         switch ($this->status) {
             case "I": // _______________________________________________ Insert record ___
