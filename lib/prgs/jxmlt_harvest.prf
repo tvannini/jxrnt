@@ -126,7 +126,7 @@ foreach ($mps as $mp) {
       $insp->mlt_harvest($prg);
       $idx++;
       }
-   $done = array_merge($done, $prgs);
+   $done = array_unique(array_merge($done, $prgs));
    }
 o2job_set_progress($ptot + $pbas);
 return ($done);
