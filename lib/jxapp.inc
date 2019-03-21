@@ -10950,7 +10950,8 @@ class o2_inspector {
                     $where = $f['mlt_prg']."='".$prg_name."' AND ".
                              $f['mlt_ctrl']."='".$ctrl."' AND ".
                              $f['mlt_property']."='".$prop."' AND ".
-                             $f['mlt_prop_value']."='".$val."'";
+                             $f['mlt_prop_value']."='".o2_gateway::normalize($srv->type,
+                                                                             $val)."'";
                     o2_gateway::deleterec($srv->type,
                                           $srv->server,
                                           $srv->user,
