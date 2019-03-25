@@ -11067,7 +11067,7 @@ class o2_inspector {
                   $f['mlt_base_str'].' '.$co.'BASE_STR'.$cc.','.
                   $f['mlt_lang_str'].' '.$co.'LANG_STR'.$cc;
         // __________________________________________________________ /app/lang/<lang> ___
-        $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
+        $lang_dir = new o2_dir($app->dir_home.'/lang/'.$lang.'/');
         $prgs     = $lang_dir->all_elements('*.lng');
         $tot      = count($prgs);
         $idx      = 0;
