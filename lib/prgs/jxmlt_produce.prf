@@ -68,7 +68,7 @@ function jxmlt_produce§§prgs_def(&$task_prgs, $_o2viewalias = "") {
 	$task_prgs->unisci("prg_unique_mlt_lang_join_","prg_unique","mlt_lang","jxmlt_produce_exp_7()","jxmlt_produce_exp_7()",null,null);
 	$task_prgs->unisci("prg_unique_mlt_prg_join_","prg_unique","mlt_prg","jxmlt_produce_exp_36()","jxmlt_produce_exp_36()",null,null);
 
-	$task_prgs->usa("mlt_lang","prgs","mlt_lang",null,null,null,null);
+	$task_prgs->usa("mlt_lang","prgs","mlt_lang","jxmlt_produce_exp_23()","jxmlt_produce_exp_23()",null,null);
 	$task_prgs->usa("mlt_prg","prgs","mlt_prg",null,null,null,null);
 	$task_prgs->usa("mlt_ctrl","prgs","mlt_ctrl",null,null,null,null);
 	$task_prgs->usa("mlt_property","prgs","mlt_property",null,null,null,null);
@@ -344,6 +344,7 @@ $txt     = "; Janox translation dictionary\n".
            ";    CHANGED EXPRESSIONS TO CHECK\n".
            ";    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n".$changed : ''); 
 file_put_contents($lang_dir.$prg.'.lng', $txt);
+
 return (true);
 	} //|o2_fine_exp|
 
