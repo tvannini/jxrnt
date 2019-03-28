@@ -2400,6 +2400,7 @@ class o2html {
         if ($enabled && $enabled_in_tab && $active) {
             $js_change = 'onKeyDown="o2jse.lu.k(event, this);" '.
                          'onClick="o2jse.lu.ck(this);" '.
+                         'onPaste="o2jse.lu.p(this);" '.
                          ($zoom ? 'onDblClick="o2jse.ctrl.zoom(event);" ' : '').
                          'onFocus="o2jse.lu.f(this);" onBlur="o2jse.lu.b(this);"';
             print '<input type="text" id="'.$htmlname.

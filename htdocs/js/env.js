@@ -5564,6 +5564,21 @@ o2jse.lu.f = function(targetObj) {
 
 
 /**
+ * Handler for on-paste events on lookup control.
+ * This method is applied to lookup edit field (description).
+ *
+ * @param object targetObj   Lookup editable INPUT field
+ */
+o2jse.lu.p = function(targetObj) {
+
+    setTimeout(function() {
+                    o2jse.lu.list(targetObj, false, true);
+                    }, 0);
+
+    }
+
+
+/**
  * Handler for blur events on lookup control
  *
  * @param object targetObj   Lookup editable INPUT field
@@ -8205,6 +8220,7 @@ jxc = function(defObj) {
                                 newEl.o2           = defObj.p;
                                 descField.onkeydown = function(e){ o2jse.lu.k(e, this); };
                                 descField.onclick   = function() { o2jse.lu.ck(this); };
+                                descField.onpaste   = function() { o2jse.lu.p(this); };
                                 descField.onfocus   = function() { o2jse.lu.f(this); };
                                 descField.onblur    = function() { o2jse.lu.b(this); };
                                 if (defObj.p.puexp) {
@@ -8253,6 +8269,7 @@ jxc = function(defObj) {
                             descField.o2.rows   = defObj.p.rows;
                             descField.onkeydown = function(e) { o2jse.lu.k(e, this); };
                             descField.onclick   = function() { o2jse.lu.ck(this); };
+                            descField.onpaste   = function() { o2jse.lu.p(this); };
                             descField.onfocus   = function() { o2jse.lu.f(this); };
                             descField.onblur    = function() { o2jse.lu.b(this); };
                             }
