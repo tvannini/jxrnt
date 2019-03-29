@@ -5490,8 +5490,30 @@ o2jse.lu.k = function(eventObj, targetObj) {
         }
     // _______________________________________________________________________ * TAB * ___
     else if (stdEvent.keyCode == KEY_TAB) {
+        // _________________________________________________ Event fired on desc field ___
+        if (targetObj.nodeName.toLowerCase() == "input") {
+            if (o2jse.lu.visible) {
+                var list = o2jse.lu.listObj.childNodes[0];
+                // ________________________ If blank select blank item, if present ... ___
+                if ((targetObj.value.trim() == '' &&
+                     list.childNodes[0].innerText.trim() == '') ||
+                    // _____________________ ... or select element if just one in list ___
+                    (list.childNodes.length == 1)) {
+                    o2jse.lu.m(eventObj, list.childNodes[0]);
+                    // __________________________________ Find next focus-able control ___
+                    var nextFocusCtrl = o2jse.cmd.getNextFocusCtrl(targetObj);
+                    nextFocusCtrl.focus();
+                    if (nextFocusCtrl.select) {
+                        nextFocusCtrl.select();
+                        }
+                    }
+                else if (o2jse.lu.listObj) {
+                    o2jse.lu.e(targetObj, stdEvent);
+                    }
+                }
+            }
         // _______________________________________________________ Event fired on list ___
-        if (targetObj.nodeName.toLowerCase() != "input") {
+        else {
             var nF;
             // ___________________________________________________ Preserve focus flow ___
             nF = o2jse.createInput(o2jse.infoForm, "hidden", "", "1", "jxnofocus");
