@@ -5805,6 +5805,10 @@ o2jse.lu.list = function(targetObj, complete, immediate, stdEvent) {
         }
     // ______________________________________________________________ Static data list ___
     else {
+        if (targetObj.selectionEnd > targetObj.selectionStart) {
+            targetObj.value = targetObj.value.substr(0, targetObj.selectionStart) +
+                              targetObj.value.substr(targetObj.selectionEnd);
+            }
         var filterValue = targetObj.value.toLowerCase();
         // _______________________________________________________ Manage actual value ___
         if (stdEvent) {
