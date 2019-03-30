@@ -3768,6 +3768,10 @@ class o2_ctrl_listcombo extends o2_ctrl {
         // ___________________________ Add items from preset, if any and if first page ___
         if ($this->preset_list && !$items_view->offset_ini) {
             foreach ($this->preset_list as $item_code => $item_desc) {
+                // __________________________ Fileter preset items by description text ___
+                if ($filter_txt && strpos($item_desc, $filter_txt) === false) {
+                    continue;
+                    }
                 if (!$unique_code[$item_code]) {
                     $unique_code[$item_code] = true;
                     $body_local.= "'".addslashes($item_code)."',";
