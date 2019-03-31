@@ -5805,13 +5805,14 @@ o2jse.lu.list = function(targetObj, complete, immediate, stdEvent) {
         }
     // ______________________________________________________________ Static data list ___
     else {
-        if (targetObj.selectionEnd > targetObj.selectionStart) {
-            targetObj.value = targetObj.value.substr(0, targetObj.selectionStart) +
-                              targetObj.value.substr(targetObj.selectionEnd);
-            }
-        var filterValue = targetObj.value.toLowerCase();
         // _______________________________________________________ Manage actual value ___
         if (stdEvent) {
+            // ____________________________________ Blank selected text when key-press ___
+            if (targetObj.selectionEnd > targetObj.selectionStart) {
+                targetObj.value = targetObj.value.substr(0, targetObj.selectionStart) +
+                                  targetObj.value.substr(targetObj.selectionEnd);
+                }
+            var filterValue = targetObj.value.toLowerCase();
             if (stdEvent.keyCode == 8) {
                 filterValue = filterValue.substr(0, filterValue.length - 1);
                 }
