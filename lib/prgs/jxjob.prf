@@ -17,6 +17,7 @@ function jxjob§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("param_ctrl_type", "_o2alpha");
 	$task_prg§_§var->definisci("param_id", "_o2number");
 	$task_prg§_§var->definisci("param_value", "_o2text");
+	$task_prg§_§var->definisci("param_value_combo", "_o2alpha");
 	$task_prg§_§var->definisci("param_value_logic", "_o2logical");
 	$task_prg§_§var->definisci("params_list", "_o2structure");
 	$task_prg§_§var->definisci("prgs_list", "_o2structure");
@@ -201,7 +202,7 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(jxjob_exp_12());
 		$ctrl_o2ListBox4->righe(10);
-	$ctrl_o2ListBox6 = &$form_jxjob_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "param_value");
+	$ctrl_o2ListBox6 = &$form_jxjob_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "param_value_combo");
 		$ctrl_o2ListBox6->x(60);
 		$ctrl_o2ListBox6->y(210);
 		$ctrl_o2ListBox6->larghezza(260);
@@ -271,7 +272,8 @@ function jxjob§§save_job_act(&$o2exe) {
 function jxjob§§set_param_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "param_ctrl_type", jxjob_exp_15()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "param_value", jxjob_exp_16()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::set("prg§_§var", "param_value_logic", jxjob_exp_16()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "param_value_combo", jxjob_exp_41()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "param_value_logic", jxjob_exp_40()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxjob§§set_value_act(&$o2exe) {
@@ -350,11 +352,27 @@ return (o2val('prg§_§var','prgs_list'));
 	} //|o2_fine_exp|
 
 function jxjob_exp_12() {
-	$list   = array();
+	/*
+$list   = array();
 $params = o2val('prg§_§var','params_list');
 foreach ($params as $par_id => $param) {
    $list[] = $param['par'].": ".o2format($param['value'], $param['model']);
    }
+*/   
+$list = array();
+foreach (o2val('prg§_§var','params_list') as $par_id => $param) {
+   if (o2model_type($param['model']) == "S") {
+      if (isset($param['value'])) {
+         $list[] = $param['par'].": [Structure]";
+         }
+      else {
+         $list[] = $param['par'].": ";
+         }
+      }
+   else {
+      $list[] = $param['par'].": ".o2format($param['value'], $param['model']);
+      }
+   }   
 return ($list);
 	} //|o2_fine_exp|
 
@@ -418,6 +436,9 @@ if ($model->tipo == "L") {
 elseif (is_array($model->valori) && count($model->valori)) {
    $ctrl_type = "l";
    }
+elseif ($model->tipo == "S") {
+   $ctrl_type = "s";
+   }
 else {
    $ctrl_type = "e";
    }
@@ -425,13 +446,21 @@ return ($ctrl_type);
 	} //|o2_fine_exp|
 
 function jxjob_exp_16() {
-	
-return (o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'value'));
+	$val = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'value');
+if (o2val('prg§_§var','param_ctrl_type') == "s") {
+   $val = preg_replace('/\s+/', ' ', str_replace(array("\n", "'"), array(" ", '"'), var_export($val, 1)));
+   }
+return ($val);
 	} //|o2_fine_exp|
 
 function jxjob_exp_17() {
-	
-return (o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model'));
+	if (o2val('prg§_§var','param_ctrl_type') == "s") {
+   $model = '_o2text';
+   }
+else {
+   $model = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model');
+   }
+return ($model);
 	} //|o2_fine_exp|
 
 function jxjob_exp_18() {
@@ -469,14 +498,33 @@ return (count(o2val('prg§_§var','params_list')));
 	} //|o2_fine_exp|
 
 function jxjob_exp_23() {
-	$list = o2val('prg§_§var','params_list');
-if (o2val('prg§_§var','param_ctrl_type') == "c") {
-   $val = o2val('prg§_§var','param_value_logic');      
+	$list  = o2val('prg§_§var','params_list');
+$parid = o2val('prg§_§var','param_id');
+switch (o2val('prg§_§var','param_ctrl_type')) {
+   case "c":
+      $list[$parid]['value'] = o2val('prg§_§var','value_logic');
+      break;   
+   case "l":
+      $list[$parid]['value'] = o2val('prg§_§var','param_value_combo');
+      break;   
+   case "s":
+      $value = o2val('prg§_§var','param_value');
+      if (!$value) {
+         if (isset($list[$parid]['value'])) {
+            unset($list[$parid]['value']);
+            }
+         }
+      else {
+         if (@eval('$val='.$value.";") === false) {
+            $val = "[Error] ".$value;
+            }  
+         $list[$parid]['value'] = $val;
+         }
+      break;   
+   default:
+      $list[$parid]['value'] = o2val('prg§_§var','param_value');
+      break;
    }
-else {
-   $val = o2val('prg§_§var','param_value');
-   }
-$list[o2val('prg§_§var','param_id')]['value'] = $val;
 return ($list);
 	} //|o2_fine_exp|
 
@@ -586,5 +634,21 @@ return (' jxbtn_cancel');
 function jxjob_exp_39() {
 	
 return (' jxbtn_save');
+	} //|o2_fine_exp|
+
+function jxjob_exp_40() {
+	$val = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'value');
+if (o2val('prg§_§var','param_ctrl_type') == "s") {
+   $val = false;
+   }
+return ($val);
+	} //|o2_fine_exp|
+
+function jxjob_exp_41() {
+	$val = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'value');
+if (o2val('prg§_§var','param_ctrl_type') == "s") {
+   $val = '';
+   }
+return ($val);
 	} //|o2_fine_exp|
 ?>
