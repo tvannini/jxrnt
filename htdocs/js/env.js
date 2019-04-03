@@ -211,7 +211,7 @@ o2jse.init = function() {
                         // __________________ Blur control to save last modified value ___
                         var id = o2jse.infoForm['o2lastctrl'].value +
                                  document.forms.o2form['o2_prgexeid'].value;
-                        if (o2jse.infoForm[id].blur) {
+                        if (o2jse.infoForm[id] && o2jse.infoForm[id].blur) {
                             o2jse.infoForm[id].blur();
                             }
                         o2jse.cmd.submit();
