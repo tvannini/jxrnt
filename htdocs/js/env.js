@@ -5312,10 +5312,11 @@ o2jse.win.repos = function(win_id) {
  */
 o2jse.lu = {
 
-    listObj    : null,  /* Active list panel (DIV)                                      */
-    visible    : false, /* If items list is actually visible                            */
-    openTimer  : null,  /* Timeout object for delayed popup                             */
-    closeTimer : null   /* Timeout object for items list closing                        */
+    listObj     : null,  /* Active list panel (DIV)                                     */
+    visible     : false, /* If items list is actually visible                           */
+    openTimer   : null,  /* Timeout object for delayed popup                            */
+    closeTimer  : null,  /* Timeout object for items list closing                       */
+    tabbedValue : false  /* Value selected by TAB while requesting list                 */
 
     };
 
@@ -5490,16 +5491,30 @@ o2jse.lu.k = function(eventObj, targetObj) {
         }
     // _______________________________________________________________________ * TAB * ___
     else if (stdEvent.keyCode == KEY_TAB) {
-        // _________________________________________________ Event fired on desc field ___
+        // _____________________________________________ TAB event fired on desc field ___
         if (targetObj.nodeName.toLowerCase() == "input") {
             if (o2jse.lu.visible) {
                 var list = o2jse.lu.listObj.childNodes[0];
-                // ________________________ If blank select blank item, if present ... ___
-                if ((targetObj.value.trim() == '' &&
-                     list.childNodes[0].innerText.trim() == '') ||
-                    // _____________________ ... or select element if just one in list ___
-                    (list.childNodes.length == 1)) {
-                    o2jse.lu.m(eventObj, list.childNodes[0]);
+                // ____________________________________ If waiting for a list response ___
+                if (o2jse.waitObj) {
+                    o2jse.lu.tabbedValue = targetObj.value.trim();
+                    stdEvent.stop();
+                    o2jse.lu.listObj.style.display = 'none';
+                    // __________________________________ Find next focus-able control ___
+                    var nextFocusCtrl = o2jse.cmd.getNextFocusCtrl(targetObj);
+                    nextFocusCtrl.focus();
+                    if (nextFocusCtrl.select) {
+                        nextFocusCtrl.select();
+                        }
+                    return false;
+                    }
+                // ______________________________________ If description field blanked ___
+                else if ((targetObj.value.trim() == '' &&
+                          list.childNodes[0] &&
+                          list.childNodes[0].innerText.trim() == '') ||
+                         // ________________ ... or select element if just one in list ___
+                         (list.childNodes.length == 1)) {
+                    o2jse.lu.m(eventObj, list.childNodes[0], true);
                     // __________________________________ Find next focus-able control ___
                     var nextFocusCtrl = o2jse.cmd.getNextFocusCtrl(targetObj);
                     nextFocusCtrl.focus();
@@ -5512,13 +5527,16 @@ o2jse.lu.k = function(eventObj, targetObj) {
                     }
                 }
             }
-        // _______________________________________________________ Event fired on list ___
+        // ___________________________________________________ TAB event fired on list ___
         else {
+            /*
+             * Selection from items-list: TO BE REMOVED
+             *
             var nF;
             // ___________________________________________________ Preserve focus flow ___
             nF = o2jse.createInput(o2jse.infoForm, "hidden", "", "1", "jxnofocus");
             o2jse.submitCtrl = targetObj.o2.c + targetObj.o2.e;
-            o2jse.lu.m(eventObj, targetObj.selectedItem);
+            o2jse.lu.m(eventObj, targetObj.selectedItem, true);
             // _____________________________________________ Remove no-focus directive ___
             if (nF) {
                 o2jse.removeEl(nF);
@@ -5529,6 +5547,8 @@ o2jse.lu.k = function(eventObj, targetObj) {
             if (nextFocusCtrl.select) {
                 nextFocusCtrl.select();
                 }
+            */
+            o2jse.lu.e(targetObj, stdEvent);
             }
         }
     // _______________________________________________________________________ * ESC * ___
@@ -5597,7 +5617,7 @@ o2jse.lu.p = function(targetObj) {
                     o2jse.lu.list(targetObj, false, true);
                     }, 0);
 
-    }
+    };
 
 
 /**
@@ -5627,9 +5647,11 @@ o2jse.lu.b = function(targetObj) {
 /**
  * Handler for selection events on items list for combo-lookup
  *
- * @param {object} eventObj   Event fired on list element
+ * @param {object}  eventObj   Event fired on list element
+ * @param {object}  targetObj
+ * @param {boolean} notFocus   If TRUE focus is not set to desc field
  */
-o2jse.lu.m = function(eventObj, targetObj) {
+o2jse.lu.m = function(eventObj, targetObj, notFocus) {
 
     var stdEvent = o2jse.event.std(eventObj);
     if (!targetObj) {
@@ -5661,7 +5683,10 @@ o2jse.lu.m = function(eventObj, targetObj) {
         // ___________________________________________ Reset "value not in list" error ___
         descField.className = descField.className.replace(' jxerror', '');
         o2jse.lu.listOff();
-        descField.focus();
+        // _________________________________ TAB events let focus flow to next control ___
+        if (typeof notFocus === 'undefined') {
+            descField.focus();
+            }
         descField.scrollTop  = 0;
         descField.scrollLeft = 0;
         if (o2jse.cliMode && o2data.fret) {
@@ -5767,6 +5792,7 @@ o2jse.lu.list = function(targetObj, complete, immediate, stdEvent) {
         targetObj.name = o2data.c + o2data.e + "_desc";
         }
     if (o2jse.lu.listObj) {
+        o2jse.lu.listObj.style.display = 'block';
         o2jse.elBody.appendChild(o2jse.lu.listObj);
         listElement           = o2jse.lu.listObj.childNodes[0];
         listElement.innerHTML = "";
@@ -5868,7 +5894,6 @@ o2jse.lu.listOff = function(descField) {
     if (o2jse.lu.closeTimer) {
         clearTimeout(o2jse.lu.closeTimer);
         }
-
     if (o2jse.lu.listObj) {
         o2jse.removeEl(o2jse.lu.listObj);
         }
@@ -5890,12 +5915,13 @@ o2jse.lu.exeReq = function(act) {
 
     var luAct = (act == 1 ? "lunextpg" : (act == 2 ? "luprevpg" : "lulist"));
     if (o2jse.lu.listObj) {
-        o2jse.requester.exe("lookup",
-                            "jxluact=" + luAct,
-                            (act == 1 || act == 2 ?
-                             o2jse.lu.listObj.childNodes[0] :
-                             o2jse.lu.listObj.childNodes[0].descField),
-                            o2jse.lu.getList);
+        var firedCtrl                      = (act == 1 || act == 2 ?
+                                              o2jse.lu.listObj.childNodes[0] :
+                                              o2jse.lu.listObj.childNodes[0].descField);
+        var lastCtrlSave                   = o2jse.infoForm['o2lastctrl'].value;
+        o2jse.infoForm['o2lastctrl'].value = firedCtrl.o2.c;
+        o2jse.requester.exe("lookup", "jxluact=" + luAct, firedCtrl, o2jse.lu.getList);
+        o2jse.infoForm['o2lastctrl'].value = lastCtrlSave;
         }
 
     };
@@ -5919,34 +5945,33 @@ o2jse.lu.getList = function(ctrlObj, listText) {
     itemsList.style.height = null;
     itemsList.innerHTML = "";
     itemsList.jxSeleId  = -1;
-    if (!listText) {
-        return false;
-        }
-    var listObjLocal = {};
-    var optLocal     = {};
-    var itemTxt;
-    eval("listObjLocal = " + listText + ";");
-    // ____________________________________________________________ Previous page link ___
-    if (!listObjLocal.f) {
-        optLocal         = o2jse.createEl(itemsList, "DIV", "", "\u00ab");
-        optLocal.value   = "@luu";
-        optLocal.onclick = function(e) { o2jse.lu.m(e) };
-        optLocal.className = "o2lu_sysppg";
-        }
-    // _________________________________________________________________ Loop on items ___
-    for (var singleItem in listObjLocal.v) {
-        itemTxt          = listObjLocal.d[singleItem].trim();
-        itemTxt          = (itemTxt ? itemTxt : "&nbsp;");
-        optLocal         = o2jse.createEl(itemsList, "DIV", "", itemTxt);
-        optLocal.value   = listObjLocal.v[singleItem];
-        optLocal.onclick = function(e) { o2jse.lu.m(e); };
-        }
-    // ________________________________________________________________ Next page link ___
-    if (!listObjLocal.l) {
-        optLocal         = o2jse.createEl(itemsList, "DIV", "", "\u00bb");
-        optLocal.value   = "@lud";
-        optLocal.onclick = function(e) { o2jse.lu.m(e) };
-        optLocal.className = "o2lu_sysnpg";
+    if (listText) {
+        var listObjLocal = {};
+        var optLocal     = {};
+        var itemTxt;
+        eval("listObjLocal = " + listText + ";");
+         // ____________________________________________________________ Previous page link ___
+        if (!listObjLocal.f) {
+            optLocal         = o2jse.createEl(itemsList, "DIV", "", "\u00ab");
+            optLocal.value   = "@luu";
+            optLocal.onclick = function(e) { o2jse.lu.m(e) };
+            optLocal.className = "o2lu_sysppg";
+            }
+        // _________________________________________________________________ Loop on items ___
+        for (var singleItem in listObjLocal.v) {
+            itemTxt          = listObjLocal.d[singleItem].trim();
+            itemTxt          = (itemTxt ? itemTxt : "&nbsp;");
+            optLocal         = o2jse.createEl(itemsList, "DIV", "", itemTxt);
+            optLocal.value   = listObjLocal.v[singleItem];
+            optLocal.onclick = function(e) { o2jse.lu.m(e); };
+            }
+        // ________________________________________________________________ Next page link ___
+        if (!listObjLocal.l) {
+            optLocal         = o2jse.createEl(itemsList, "DIV", "", "\u00bb");
+            optLocal.value   = "@lud";
+            optLocal.onclick = function(e) { o2jse.lu.m(e) };
+            optLocal.className = "o2lu_sysnpg";
+            }
         }
     // ______________________________________________________ If event fired from list ___
     if (itemsList == ctrlObj) {
@@ -5969,6 +5994,19 @@ o2jse.lu.getList = function(ctrlObj, listText) {
         codeField.o2         = o2data;
         // ___________________________________________ Ensure selected item visibility ___
         o2jse.showByScroll(seleItem);
+        }
+    // _____________________________________ Event fired on desc field and TABbed away ___
+    else if (o2jse.lu.tabbedValue !== false) {
+        if ((o2jse.lu.tabbedValue == '' &&
+             itemsList.childNodes[0].innerText.trim() == '') ||
+             // ____________________________ ... or select element if just one in list ___
+             (itemsList.childNodes.length == 1)) {
+            o2jse.lu.m(null, itemsList.childNodes[0], true);
+            }
+        else {
+            o2jse.lu.listOff(ctrlObj);
+            }
+        o2jse.lu.tabbedValue = false;
         }
 
     };
