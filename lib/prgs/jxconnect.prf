@@ -20,10 +20,10 @@ function jxconnect§§as400_form_def(&$form_as400) {
 	$form_as400->y(150);
 	$form_as400->larghezza(460);
 	$form_as400->altezza(300);
-	$form_as400->titolo(jxconnect_exp_30());
-	$form_as400->css_doc("sys_tables_doc");
 	$form_as400->align_o("Center");
+	$form_as400->titolo(jxconnect_exp_30());
 	$form_as400->frm_status(jxconnect_exp_9999());
+	$form_as400->css_doc("sys_tables_doc");
 	$ctrl_o2label35 = &$form_as400->ctrldef("o2label35", "label", "", "", "");
 		$ctrl_o2label35->x(30);
 		$ctrl_o2label35->y(40);
@@ -142,10 +142,10 @@ function jxconnect§§db2_form_def(&$form_db2) {
 	$form_db2->y(150);
 	$form_db2->larghezza(460);
 	$form_db2->altezza(300);
-	$form_db2->titolo(jxconnect_exp_31());
-	$form_db2->css_doc("sys_tables_doc");
 	$form_db2->align_o("Center");
+	$form_db2->titolo(jxconnect_exp_31());
 	$form_db2->frm_status(jxconnect_exp_9999());
+	$form_db2->css_doc("sys_tables_doc");
 	$ctrl_o2label44 = &$form_db2->ctrldef("o2label44", "label", "", "", "");
 		$ctrl_o2label44->x(30);
 		$ctrl_o2label44->y(50);
@@ -251,10 +251,10 @@ function jxconnect§§mssql_form_def(&$form_mssql) {
 	$form_mssql->y(150);
 	$form_mssql->larghezza(460);
 	$form_mssql->altezza(300);
-	$form_mssql->titolo(jxconnect_exp_32());
-	$form_mssql->css_doc("sys_tables_doc");
 	$form_mssql->align_o("Center");
+	$form_mssql->titolo(jxconnect_exp_32());
 	$form_mssql->frm_status(jxconnect_exp_9999());
+	$form_mssql->css_doc("sys_tables_doc");
 	$ctrl_o2label50 = &$form_mssql->ctrldef("o2label50", "label", "", "", "");
 		$ctrl_o2label50->x(30);
 		$ctrl_o2label50->y(30);
@@ -360,10 +360,10 @@ function jxconnect§§mysql_form_def(&$form_mysql) {
 	$form_mysql->y(150);
 	$form_mysql->larghezza(460);
 	$form_mysql->altezza(260);
-	$form_mysql->titolo(jxconnect_exp_33());
-	$form_mysql->css_doc("sys_tables_doc");
 	$form_mysql->align_o("Center");
+	$form_mysql->titolo(jxconnect_exp_33());
 	$form_mysql->frm_status(jxconnect_exp_9999());
+	$form_mysql->css_doc("sys_tables_doc");
 	$ctrl_o2label71 = &$form_mysql->ctrldef("o2label71", "label", "", "", "");
 		$ctrl_o2label71->x(30);
 		$ctrl_o2label71->y(30);
@@ -458,10 +458,10 @@ function jxconnect§§oracle_form_def(&$form_oracle) {
 	$form_oracle->y(150);
 	$form_oracle->larghezza(460);
 	$form_oracle->altezza(260);
-	$form_oracle->titolo(jxconnect_exp_34());
-	$form_oracle->css_doc("sys_tables_doc");
 	$form_oracle->align_o("Center");
+	$form_oracle->titolo(jxconnect_exp_34());
 	$form_oracle->frm_status(jxconnect_exp_9999());
+	$form_oracle->css_doc("sys_tables_doc");
 	$ctrl_o2label58 = &$form_oracle->ctrldef("o2label58", "label", "", "", "");
 		$ctrl_o2label58->x(30);
 		$ctrl_o2label58->y(50);
@@ -556,10 +556,10 @@ function jxconnect§§postgres_form_def(&$form_postgres) {
 	$form_postgres->y(150);
 	$form_postgres->larghezza(460);
 	$form_postgres->altezza(300);
-	$form_postgres->titolo(jxconnect_exp_37());
-	$form_postgres->css_doc("sys_tables_doc");
 	$form_postgres->align_o("Center");
+	$form_postgres->titolo(jxconnect_exp_37());
 	$form_postgres->frm_status(jxconnect_exp_9999());
+	$form_postgres->css_doc("sys_tables_doc");
 	$ctrl_o2label65 = &$form_postgres->ctrldef("o2label65", "label", "", "", "");
 		$ctrl_o2label65->x(30);
 		$ctrl_o2label65->y(50);
@@ -665,10 +665,10 @@ function jxconnect§§sqlite_form_def(&$form_sqlite) {
 	$form_sqlite->y(150);
 	$form_sqlite->larghezza(460);
 	$form_sqlite->altezza(240);
-	$form_sqlite->titolo(jxconnect_exp_39());
-	$form_sqlite->css_doc("sys_tables_doc");
 	$form_sqlite->align_o("Center");
+	$form_sqlite->titolo(jxconnect_exp_39());
 	$form_sqlite->frm_status(jxconnect_exp_9999());
+	$form_sqlite->css_doc("sys_tables_doc");
 	$ctrl_o2label78 = &$form_sqlite->ctrldef("o2label78", "label", "", "", "");
 		$ctrl_o2label78->x(30);
 		$ctrl_o2label78->y(50);
@@ -748,11 +748,11 @@ function jxconnect§§engine_form_def(&$form_engine) {
 	$form_engine->y(200);
 	$form_engine->larghezza(360);
 	$form_engine->altezza(200);
+	$form_engine->align_o("Center");
 	$form_engine->titolo(jxconnect_exp_40());
+	$form_engine->frm_status(jxconnect_exp_9999());
 	$form_engine->css_doc("sys_tables_doc");
 	$form_engine->close_action("quit");
-	$form_engine->align_o("Center");
-	$form_engine->frm_status(jxconnect_exp_9999());
 	$ctrl_o2label80 = &$form_engine->ctrldef("o2label80", "label", "", "", "");
 		$ctrl_o2label80->x(30);
 		$ctrl_o2label80->y(40);
@@ -1018,10 +1018,11 @@ return (o2par(2));
 function jxconnect_exp_29() {
 	$check = false;
 $_SESSION['o2_app']->runtime->load_gateway(o2val('prg§_§var','conn_type'));
-$check = o2_gateway::connect(o2val('prg§_§var','conn_type'),
-                             o2val('prg§_§var','conn_host'),
-                             o2val('prg§_§var','conn_user'),
-                             o2val('prg§_§var','conn_password'));
+$check = (o2_gateway::connect(o2val('prg§_§var','conn_type'),
+                              o2val('prg§_§var','conn_host'),
+                              o2val('prg§_§var','conn_user'),
+                              o2val('prg§_§var','conn_password')) ? 
+          true : false);
 return ($check);
 	} //|o2_fine_exp|
 

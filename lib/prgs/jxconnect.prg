@@ -1,5 +1,5 @@
 <?php
-//2.1
+//2.4
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -25,10 +25,10 @@ o2def::form("oracle", "", False, "jxconnect_exp_12()", false);
 o2def::form("postgres", "", False, "jxconnect_exp_13()", false);
 o2def::form("sqlite", "", False, "jxconnect_exp_14()", false);
 o2def::form("engine", "", False, "jxconnect_exp_15()", false);
-o2def::par(1, "jxconnection","_o2structure");
-o2def::par(2, "check_connection","_o2logical");
-o2def::par(3, "extra_data","_o2logical");
-o2def::par(4, "title","_o2alpha");
+o2def::par(1, "jxconnection", "_o2structure");
+o2def::par(2, "check_connection", "_o2logical");
+o2def::par(3, "extra_data", "_o2logical");
+o2def::par(4, "title", "_o2alpha");
 
 
 
