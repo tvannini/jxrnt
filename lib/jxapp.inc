@@ -11049,10 +11049,14 @@ class o2_inspector {
      * table.
      *
      * @param string  $lang          Lang code to receive
+     * @param string  $base_lang     Base language to match changes against
      * @param integer $tot_progress  Total progress to reach (when in multiple jobs chain)
      * @param integer $base_progress Base progress to add (when in multiple jobs chain)
      */
-    function mlt_get_lang($lang, $base_progress = 0, $tot_progress = 100) {
+    function mlt_get_lang($lang,
+                          $base_lang     = '',
+                          $base_progress = 0,
+                          $tot_progress  = 100) {
 
         $app    = $_SESSION['o2_app'];
         $tab    = $app->get_table(self::$mlt_table);
@@ -11073,7 +11077,24 @@ class o2_inspector {
         $idx      = 0;
         // ___________________________________________ Loop on all translated programs ___
         foreach ($prgs as $prg_dict) {
+            // _________________________ Read translations from dictionary file (.lng) ___
             $dict  = jx_parse_conf($prg_dict);
+            // ________________________________________ Retrieve base language records ___
+            $where = $f['mlt_lang']."='".$base_lang."' AND ".
+                     $f['mlt_prg']."='".$prg_dict->nome."'";
+            $base  = o2_gateway::recordset($server->type,
+                                           $server->server,
+                                           $server->user,
+                                           $server->password,
+                                           $db->nome,
+                                           $db->proprietario,
+                                           $tab->nome,
+                                           'jx_translations',
+                                           $select,
+                                           $where,
+                                           '',
+                                           100000);
+            // __________________________________________ Retrieve translation records ___
             $where = $f['mlt_lang']."='".$lang."' AND ".
                      $f['mlt_prg']."='".$prg_dict->nome."'";
             $recs  = o2_gateway::recordset($server->type,
@@ -11092,16 +11113,41 @@ class o2_inspector {
                 $item = $rec['CTRL'].'#'.$rec['PROPERTY'].
                         ($rec['PROPERTY'] == 'item' || $rec['PROPERTY'] == 'page' ?
                          '_'.$rec['PROP_VALUE'] : '');
-                if ($rec['LANG_STR'] != $dict[$item]) {
+                if (trim($dict[$item]) &&
+                    (trim($rec['LANG_STR']) != trim($dict[$item]))) {
                     $where_i = $where.' AND '.
                                $f['mlt_ctrl']."='".$rec['CTRL']."' AND ".
                                $f['mlt_property']."='".$rec['PROPERTY']."' AND ".
                                $f['mlt_prop_value']."='".
                                             o2_gateway::normalize($server->type,
                                                                   $rec['PROP_VALUE'])."'";
-                    $sets    = array($f['mlt_lang_str']->nome_fisico =>
-                                     "'".o2_gateway::normalize($server->type,
-                                                               $dict[$item])."'");
+                    // _____________________________________ Retrieve base-lang string ___
+                    $base_str = '';
+                    foreach ($base as $b_rec) {
+                        if ($b_rec['CTRL']       == $rec['CTRL'] &&
+                            $b_rec['PROPERTY']   == $rec['PROPERTY'] &&
+                            $b_rec['PROP_VALUE'] == $rec['PROP_VALUE']) {
+                            $base_str = $b_rec['LANG_STR'];
+                            break;
+                            }
+                        }
+                    // _______________ Remove "changed" status from translation record ___
+                    if ($base_str != $rec['BASE_STR']) {
+                        $sets = array($f['mlt_lang_str'].'' => "'".o2_gateway::normalize(
+                                                                            $server->type,
+                                                                            $dict[$item]).
+                                                            "'",
+                                      $f['mlt_base_str'].'' => "'".o2_gateway::normalize(
+                                                                            $server->type,
+                                                                            $base_str).
+                                                            "'");
+                        }
+                    else {
+                        $sets = array($f['mlt_lang_str'].'' => "'".o2_gateway::normalize(
+                                                                            $server->type,
+                                                                            $dict[$item]).
+                                                            "'");
+                        }
                     o2_gateway::modifyrec($server->type,
                                           $server->server,
                                           $server->user,

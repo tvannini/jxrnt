@@ -6,10 +6,11 @@ function jxmlt_receive§§receive_act(&$o2exe) {
 
 function jxmlt_receive_exp_1() {
 	$lang = o2par(1);
-$pbas = (o2par(3) ? o2par(2) : 0);
-$ptot = (o2par(3) ? o2par(3) : 100);
+$base = o2par(2);
+$pbas = (o2par(4) ? o2par(3) : 0);
+$ptot = (o2par(4) ? o2par(4) : 100);
 $insp = new o2_inspector();
-$insp->mlt_get_lang($lang, $pbas, $ptot);
+$insp->mlt_get_lang($lang, $base, $pbas, $ptot);
 return (true);
 	} //|o2_fine_exp|
 ?>

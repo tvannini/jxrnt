@@ -83,14 +83,14 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2flowbox2_Panel4->x(2);
 		$ctrl_o2flowbox2_Panel4->y(22);
 		$ctrl_o2flowbox2_Panel4->larghezza(350);
-		$ctrl_o2flowbox2_Panel4->altezza(90);
+		$ctrl_o2flowbox2_Panel4->altezza(100);
 		$ctrl_o2flowbox2_Panel4->visibile(jxtranslate_exp_24());
 		$ctrl_o2flowbox2_Panel4->info_padre(array(4));
 	$ctrl_o2flowbox2_Panel5 = &$form_jxtranslate_1->ctrldef("o2flowbox2_Panel5", "frame", "o2flowbox2", "", "");
 		$ctrl_o2flowbox2_Panel5->x(2);
 		$ctrl_o2flowbox2_Panel5->y(22);
 		$ctrl_o2flowbox2_Panel5->larghezza(350);
-		$ctrl_o2flowbox2_Panel5->altezza(170);
+		$ctrl_o2flowbox2_Panel5->altezza(180);
 		$ctrl_o2flowbox2_Panel5->visibile(jxtranslate_exp_23());
 		$ctrl_o2flowbox2_Panel5->info_padre(array(5));
 	$ctrl_o2label2 = &$form_jxtranslate_1->ctrldef("o2label2", "label", "o2flowbox2_Panel0", "", "");
@@ -459,6 +459,12 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2label10->larghezza(150);
 		$ctrl_o2label10->altezza(20);
 		$ctrl_o2label10->label("Translation language:");
+	$ctrl_o2label42 = &$form_jxtranslate_1->ctrldef("o2label42", "label", "o2flowbox2_Panel4", "", "");
+		$ctrl_o2label42->x(10);
+		$ctrl_o2label42->y(30);
+		$ctrl_o2label42->larghezza(150);
+		$ctrl_o2label42->altezza(20);
+		$ctrl_o2label42->label("Base language:");
 	$ctrl_o2edit5 = &$form_jxtranslate_1->ctrldef("o2edit5", "edit", "o2flowbox2_Panel4", "prg§_§var", "lang_to");
 		$ctrl_o2edit5->x(160);
 		$ctrl_o2edit5->y(10);
@@ -467,15 +473,21 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2edit5->on_change(jxtranslate_exp_6());
 	$ctrl_o2button4 = &$form_jxtranslate_1->ctrldef("o2button4", "button", "o2flowbox2_Panel4", "", "");
 		$ctrl_o2button4->x(250);
-		$ctrl_o2button4->y(50);
+		$ctrl_o2button4->y(60);
 		$ctrl_o2button4->larghezza(90);
 		$ctrl_o2button4->altezza(30);
 		$ctrl_o2button4->modificabile(jxtranslate_exp_25());
 		$ctrl_o2button4->azione("receive");
 		$ctrl_o2button4->label("&Receive");
+	$ctrl_o2edit18 = &$form_jxtranslate_1->ctrldef("o2edit18", "edit", "o2flowbox2_Panel4", "prg§_§var", "lang_from");
+		$ctrl_o2edit18->x(160);
+		$ctrl_o2edit18->y(30);
+		$ctrl_o2edit18->larghezza(100);
+		$ctrl_o2edit18->altezza(20);
+		$ctrl_o2edit18->on_change(jxtranslate_exp_6());
 	$ctrl_o2separator4 = &$form_jxtranslate_1->ctrldef("o2separator4", "line", "o2flowbox2_Panel5", "", "");
 		$ctrl_o2separator4->x(10);
-		$ctrl_o2separator4->y(90);
+		$ctrl_o2separator4->y(100);
 		$ctrl_o2separator4->larghezza(330);
 		$ctrl_o2separator4->altezza(10);
 	$ctrl_o2label25 = &$form_jxtranslate_1->ctrldef("o2label25", "label", "o2flowbox2_Panel5", "", "");
@@ -484,6 +496,12 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2label25->larghezza(150);
 		$ctrl_o2label25->altezza(20);
 		$ctrl_o2label25->label("Translation language:");
+	$ctrl_o2label43 = &$form_jxtranslate_1->ctrldef("o2label43", "label", "o2flowbox2_Panel5", "", "");
+		$ctrl_o2label43->x(10);
+		$ctrl_o2label43->y(30);
+		$ctrl_o2label43->larghezza(150);
+		$ctrl_o2label43->altezza(20);
+		$ctrl_o2label43->label("Base language:");
 	$ctrl_o2edit11 = &$form_jxtranslate_1->ctrldef("o2edit11", "edit", "o2flowbox2_Panel5", "prg§_§var", "lang_to");
 		$ctrl_o2edit11->x(160);
 		$ctrl_o2edit11->y(10);
@@ -492,15 +510,21 @@ function jxtranslate§§jxtranslate_1_form_def(&$form_jxtranslate_1) {
 		$ctrl_o2edit11->on_change(jxtranslate_exp_6());
 	$ctrl_o2button7 = &$form_jxtranslate_1->ctrldef("o2button7", "button", "o2flowbox2_Panel5", "", "");
 		$ctrl_o2button7->x(250);
-		$ctrl_o2button7->y(50);
+		$ctrl_o2button7->y(60);
 		$ctrl_o2button7->larghezza(90);
 		$ctrl_o2button7->altezza(30);
 		$ctrl_o2button7->modificabile(jxtranslate_exp_25());
 		$ctrl_o2button7->azione("receive");
 		$ctrl_o2button7->label("&Receive");
+	$ctrl_o2edit19 = &$form_jxtranslate_1->ctrldef("o2edit19", "edit", "o2flowbox2_Panel5", "prg§_§var", "lang_from");
+		$ctrl_o2edit19->x(160);
+		$ctrl_o2edit19->y(30);
+		$ctrl_o2edit19->larghezza(100);
+		$ctrl_o2edit19->altezza(20);
+		$ctrl_o2edit19->on_change(jxtranslate_exp_6());
 	$ctrl_o2htmlarea4 = &$form_jxtranslate_1->ctrldef("o2htmlarea4", "htmlarea", "o2flowbox2_Panel5", "", "");
 		$ctrl_o2htmlarea4->x(20);
-		$ctrl_o2htmlarea4->y(110);
+		$ctrl_o2htmlarea4->y(120);
 		$ctrl_o2htmlarea4->larghezza(310);
 		$ctrl_o2htmlarea4->altezza(50);
 		$ctrl_o2htmlarea4->html(jxtranslate_exp_26());
@@ -906,7 +930,8 @@ function jxtranslate_exp_9() {
                 'Import dictionaries for Multilanguage Translation',
                 30);
    }
-o2job_run('jxmlt_receive', array('lang' => o2val('prg§_§var','lang_to')));
+o2job_run('jxmlt_receive', array('lang_to'   => o2val('prg§_§var','lang_to'),
+                                 'lang_from' => o2val('prg§_§var','lang_from')));
 return (true);
 	} //|o2_fine_exp|
 

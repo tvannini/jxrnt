@@ -155,8 +155,8 @@ function jxmlt_produce§§string_blank_default_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxmlt_produce§§string_changed_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::set("translation", "mlt_base_str", jxmlt_produce_exp_19()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::view("translation", "S", "") && $o2exe->e();
+	$o2exe->s(1) && (jxmlt_produce_exp_31() || $o2exe->e()) && o2act::set("translation", "mlt_base_str", jxmlt_produce_exp_19()) && $o2exe->e();
+	$o2exe->s(2) && (jxmlt_produce_exp_31() || $o2exe->e()) && o2act::view("translation", "S", "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "txt_changed", jxmlt_produce_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
@@ -344,7 +344,6 @@ $txt     = "; Janox translation dictionary\n".
            ";    CHANGED EXPRESSIONS TO CHECK\n".
            ";    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n".$changed : ''); 
 file_put_contents($lang_dir.$prg.'.lng', $txt);
-
 return (true);
 	} //|o2_fine_exp|
 
