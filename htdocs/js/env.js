@@ -5479,9 +5479,6 @@ o2jse.lu.k = function(eventObj, targetObj) {
                 if (list.childNodes.length > 0) {
                     o2jse.lu.m(eventObj, list.childNodes[0]);
                     }
-                else {
-                    stdEvent.stop();
-                    }
                 }
             }
         // _______________________________________________________ Event fired on list ___
@@ -5494,33 +5491,20 @@ o2jse.lu.k = function(eventObj, targetObj) {
         // _____________________________________________ TAB event fired on desc field ___
         if (targetObj.nodeName.toLowerCase() == "input") {
             if (o2jse.lu.visible) {
-                var list = o2jse.lu.listObj.childNodes[0];
+                var list = o2jse.lu.listObj.childNodes[0].childNodes;
                 // ____________________________________ If waiting for a list response ___
                 if (o2jse.waitObj) {
                     o2jse.lu.tabbedValue = targetObj.value.trim();
-                    stdEvent.stop();
                     o2jse.lu.listObj.style.display = 'none';
-                    // __________________________________ Find next focus-able control ___
-                    var nextFocusCtrl = o2jse.cmd.getNextFocusCtrl(targetObj);
-                    nextFocusCtrl.focus();
-                    if (nextFocusCtrl.select) {
-                        nextFocusCtrl.select();
-                        }
                     return false;
                     }
                 // ______________________________________ If description field blanked ___
                 else if ((targetObj.value.trim() == '' &&
-                          list.childNodes[0] &&
-                          list.childNodes[0].innerText.trim() == '') ||
+                          list[0] &&
+                          list[0].innerText.trim() == '') ||
                          // ________________ ... or select element if just one in list ___
-                         (list.childNodes.length == 1)) {
-                    o2jse.lu.m(eventObj, list.childNodes[0], true);
-                    // __________________________________ Find next focus-able control ___
-                    var nextFocusCtrl = o2jse.cmd.getNextFocusCtrl(targetObj);
-                    nextFocusCtrl.focus();
-                    if (nextFocusCtrl.select) {
-                        nextFocusCtrl.select();
-                        }
+                         (list.length == 1)) {
+                    o2jse.lu.m(eventObj, list[0], true);
                     }
                 else if (o2jse.lu.listObj) {
                     o2jse.lu.e(targetObj, stdEvent);
@@ -5529,25 +5513,6 @@ o2jse.lu.k = function(eventObj, targetObj) {
             }
         // ___________________________________________________ TAB event fired on list ___
         else {
-            /*
-             * Selection from items-list: TO BE REMOVED
-             *
-            var nF;
-            // ___________________________________________________ Preserve focus flow ___
-            nF = o2jse.createInput(o2jse.infoForm, "hidden", "", "1", "jxnofocus");
-            o2jse.submitCtrl = targetObj.o2.c + targetObj.o2.e;
-            o2jse.lu.m(eventObj, targetObj.selectedItem, true);
-            // _____________________________________________ Remove no-focus directive ___
-            if (nF) {
-                o2jse.removeEl(nF);
-                }
-            // __________________________________________ Find next focus-able control ___
-            var nextFocusCtrl = o2jse.cmd.getNextFocusCtrl(targetObj.descField);
-            nextFocusCtrl.focus();
-            if (nextFocusCtrl.select) {
-                nextFocusCtrl.select();
-                }
-            */
             o2jse.lu.e(targetObj, stdEvent);
             }
         }
@@ -5682,13 +5647,18 @@ o2jse.lu.m = function(eventObj, targetObj, notFocus) {
         descField.saveValue = descField.value;
         // ___________________________________________ Reset "value not in list" error ___
         descField.className = descField.className.replace(' jxerror', '');
-        o2jse.lu.listOff();
         // _________________________________ TAB events let focus flow to next control ___
         if (typeof notFocus === 'undefined') {
             descField.focus();
             }
+        else {
+            var nF;
+            // ___________________________________________________ Preserve focus flow ___
+            nF = o2jse.createInput(o2jse.infoForm, "hidden", "", "1", "jxnofocus");
+            }
         descField.scrollTop  = 0;
         descField.scrollLeft = 0;
+        o2jse.lu.listOff();
         if (o2jse.cliMode && o2data.fret) {
             o2jse.ctrl.make_waiting(descField);
             jxjs.request(codeField, codeField.value);
@@ -5696,9 +5666,12 @@ o2jse.lu.m = function(eventObj, targetObj, notFocus) {
         else {
             o2jse.cmd.ctrlUpd(codeField);
             }
+        // _________________________________________________ Remove no-focus directive ___
+        if (nF) {
+            o2jse.removeEl(nF);
+            }
         }
     listObj.innerHTML = "";
-    stdEvent.stop();
 
     };
 
@@ -5894,13 +5867,15 @@ o2jse.lu.listOff = function(descField) {
     if (o2jse.lu.closeTimer) {
         clearTimeout(o2jse.lu.closeTimer);
         }
-    if (o2jse.lu.listObj) {
-        o2jse.removeEl(o2jse.lu.listObj);
+    if (o2jse.lu.tabbedValue === false) {
+        if (o2jse.lu.listObj) {
+            o2jse.removeEl(o2jse.lu.listObj);
+            }
+        if (descField) {
+            descField.value = descField.saveValue;
+            }
+        o2jse.lu.visible = false;
         }
-    if (descField) {
-        descField.value = descField.saveValue;
-        }
-    o2jse.lu.visible = false;
 
     };
 
@@ -5950,14 +5925,14 @@ o2jse.lu.getList = function(ctrlObj, listText) {
         var optLocal     = {};
         var itemTxt;
         eval("listObjLocal = " + listText + ";");
-         // ____________________________________________________________ Previous page link ___
+         // _______________________________________________________ Previous page link ___
         if (!listObjLocal.f) {
             optLocal         = o2jse.createEl(itemsList, "DIV", "", "\u00ab");
             optLocal.value   = "@luu";
             optLocal.onclick = function(e) { o2jse.lu.m(e) };
             optLocal.className = "o2lu_sysppg";
             }
-        // _________________________________________________________________ Loop on items ___
+        // _____________________________________________________________ Loop on items ___
         for (var singleItem in listObjLocal.v) {
             itemTxt          = listObjLocal.d[singleItem].trim();
             itemTxt          = (itemTxt ? itemTxt : "&nbsp;");
@@ -5965,7 +5940,7 @@ o2jse.lu.getList = function(ctrlObj, listText) {
             optLocal.value   = listObjLocal.v[singleItem];
             optLocal.onclick = function(e) { o2jse.lu.m(e); };
             }
-        // ________________________________________________________________ Next page link ___
+        // ____________________________________________________________ Next page link ___
         if (!listObjLocal.l) {
             optLocal         = o2jse.createEl(itemsList, "DIV", "", "\u00bb");
             optLocal.value   = "@lud";
@@ -6001,12 +5976,13 @@ o2jse.lu.getList = function(ctrlObj, listText) {
              itemsList.childNodes[0].innerText.trim() == '') ||
              // ____________________________ ... or select element if just one in list ___
              (itemsList.childNodes.length == 1)) {
+            o2jse.lu.tabbedValue = false;
             o2jse.lu.m(null, itemsList.childNodes[0], true);
             }
         else {
+            o2jse.lu.tabbedValue = false;
             o2jse.lu.listOff(ctrlObj);
             }
-        o2jse.lu.tabbedValue = false;
         }
 
     };
