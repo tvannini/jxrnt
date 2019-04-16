@@ -442,9 +442,7 @@ o2jse.stopExe = function(eventObj) {
     // _____________________________________________ Reset focus to submitting control ___
     setTimeout(function() { o2jse.cmd.focus(o2jse.submitCtrl); }, 200);
     // __________________________________________________ Close open combo-list if any ___
-    if (o2jse.lu.visible) {
-        o2jse.lu.listOff();
-        }
+    o2jse.lu.listOff();
     o2jse.fastMsg.show("<center>ACTION BLOCKED</center>" +
                        "Press TAB or ENTER to validate changed data");
     return false;
@@ -5312,11 +5310,9 @@ o2jse.win.repos = function(win_id) {
  */
 o2jse.lu = {
 
-    listObj     : null,  /* Active list panel (DIV)                                     */
-    visible     : false, /* If items list is actually visible                           */
-    openTimer   : null,  /* Timeout object for delayed popup                            */
-    closeTimer  : null,  /* Timeout object for items list closing                       */
-    tabbedValue : false  /* Value selected by TAB while requesting list                 */
+    listObj    : null,   /* Last active list (see descField.listObj)                    */
+    openTimer  : null,   /* Timeout object for delayed popup                            */
+    closeTimer : null    /* Timeout object for items list closing                       */
 
     };
 
@@ -5357,13 +5353,14 @@ o2jse.lu.k = function(eventObj, targetObj) {
         (stdEvent.keyCode < KEY_SHIFT  ||
          stdEvent.keyCode > KEY_ALT)) {
         o2jse.lu.list(targetObj, false, false, stdEvent);
+        targetObj.inEdit = true;
         }
     // _____________________________________________________________________ * KeyUp * ___
     else if (stdEvent.keyCode == KEY_UP) {
         // ________________________________________________ Event fired on input field ___
         if (targetObj.nodeName.toLowerCase() == "input") {
             // _______________________________________________________ If list is open ___
-            if (o2jse.lu.visible) {
+            if (targetObj.listObj) {
                 stdEvent.stop();
                 return true;
                 }
@@ -5392,12 +5389,12 @@ o2jse.lu.k = function(eventObj, targetObj) {
         // ________________________________________________ Event fired on input field ___
         if (targetObj.nodeName.toLowerCase() == "input") {
             // _____________________________ ALT + KeyDown (reserved to open the list) ___
-            if (stdEvent.altKey && !o2jse.lu.visible) {
+            if (stdEvent.altKey && !targetObj.listObj) {
                 o2jse.lu.list(targetObj, true, true);
                 }
             // ____________________________________ If list is open move down on items ___
-            else if (o2jse.lu.visible) {
-                var list = o2jse.lu.listObj.childNodes[0];
+            else if (targetObj.listObj) {
+                var list = targetObj.listObj.childNodes[0];
                 list.jxSeleId = -1;
                 var itemsDivs = list.getElementsByTagName("div");
                 var codeVal   = "";
@@ -5435,7 +5432,7 @@ o2jse.lu.k = function(eventObj, targetObj) {
         }
     // ____________________________________________________________________ * PageUp * ___
     else if (stdEvent.keyCode == KEY_PGUP) {
-        if (o2jse.lu.listObj && targetObj.nodeName.toLowerCase() != "input") {
+        if (targetObj.nodeName.toLowerCase() != "input") {
             var itemsDivs = targetObj.getElementsByTagName("div");
             var seleId    = parseInt(targetObj.jxSeleId);
             var codeVal   = "";
@@ -5453,7 +5450,7 @@ o2jse.lu.k = function(eventObj, targetObj) {
         }
     // __________________________________________________________________ * PageDown * ___
     else if (stdEvent.keyCode == KEY_PGDN) {
-        if (o2jse.lu.listObj && targetObj.nodeName.toLowerCase() != "input") {
+        if (targetObj.nodeName.toLowerCase() != "input") {
             var itemsDivs = targetObj.getElementsByTagName("div");
             var seleId    = parseInt(targetObj.jxSeleId);
             var codeVal   = "";
@@ -5473,13 +5470,14 @@ o2jse.lu.k = function(eventObj, targetObj) {
     else if (stdEvent.keyCode == KEY_ENTER) {
         // _________________________________________________ Event fired on desc field ___
         if (targetObj.nodeName.toLowerCase() == "input") {
-            if (o2jse.lu.visible) {
-                var list = o2jse.lu.listObj.childNodes[0];
+            if (targetObj.listObj) {
+                var list = targetObj.listObj.childNodes[0].childNodes;
                 // _______________________________________ Select first element if any ___
-                if (list.childNodes.length > 0) {
-                    o2jse.lu.m(eventObj, list.childNodes[0]);
+                if (list.length > 0) {
+                    o2jse.lu.m(eventObj, list[0]);
                     }
                 }
+            targetObj.inEdit = false;
             }
         // _______________________________________________________ Event fired on list ___
         else {
@@ -5490,12 +5488,12 @@ o2jse.lu.k = function(eventObj, targetObj) {
     else if (stdEvent.keyCode == KEY_TAB) {
         // _____________________________________________ TAB event fired on desc field ___
         if (targetObj.nodeName.toLowerCase() == "input") {
-            if (o2jse.lu.visible) {
-                var list = o2jse.lu.listObj.childNodes[0].childNodes;
+            if (targetObj.listObj) {
+                var list = targetObj.listObj.childNodes[0].childNodes;
                 // ____________________________________ If waiting for a list response ___
                 if (o2jse.waitObj) {
-                    o2jse.lu.tabbedValue = targetObj.value.trim();
-                    o2jse.lu.listObj.style.display = 'none';
+                    targetObj.tabbedValue = targetObj.value.trim();
+                    targetObj.listObj.style.display = 'none';
                     return false;
                     }
                 // ______________________________________ If description field blanked ___
@@ -5506,7 +5504,7 @@ o2jse.lu.k = function(eventObj, targetObj) {
                          (list.length == 1)) {
                     o2jse.lu.m(eventObj, list[0], true);
                     }
-                else if (o2jse.lu.listObj) {
+                else if (targetObj.listObj) {
                     o2jse.lu.e(targetObj, stdEvent);
                     }
                 }
@@ -5515,12 +5513,14 @@ o2jse.lu.k = function(eventObj, targetObj) {
         else {
             o2jse.lu.e(targetObj, stdEvent);
             }
+        targetObj.inEdit = false;
         }
     // _______________________________________________________________________ * ESC * ___
     else if (stdEvent.keyCode == KEY_ESC) {
-        if (o2jse.lu.listObj) {
+        if (targetObj.listObj) {
             o2jse.lu.e(targetObj, stdEvent);
             stdEvent.stop();
+            targetObj.inEdit = false;
             return true;
             }
         }
@@ -5562,9 +5562,12 @@ o2jse.lu.f = function(targetObj) {
 //        className here breaks onClick events!
 //        targetObj.className = infoObj.cssf + "_focus" + (infoObj.z ? " jxzoom" : "") +
 //                                                        (infoObj.fret ? " jxsoc" : "");
+        // __________________________________________________________ Reset save-value ___
         if (typeof targetObj.saveValue == "undefined") {
             targetObj.saveValue = targetObj.value;
             }
+        // ________________________________________________________ Reset TABbed value ___
+        targetObj.tabbedValue = false;
         }
 
     };
@@ -5578,8 +5581,10 @@ o2jse.lu.f = function(targetObj) {
  */
 o2jse.lu.p = function(targetObj) {
 
+    targetObj.inEdit = true;
     setTimeout(function() {
                     o2jse.lu.list(targetObj, false, true);
+                    targetObj.inEdit = false;
                     }, 0);
 
     };
@@ -5602,9 +5607,10 @@ o2jse.lu.b = function(targetObj) {
     else {
         descField = targetObj.descField;
         }
-    if (o2jse.lu.visible) {
+    if (descField.listObj) {
         o2jse.lu.closeTimer = setTimeout(function(){ o2jse.lu.listOff(descField); }, 100);
         }
+    descField.inEdit = false;
 
     };
 
@@ -5622,21 +5628,21 @@ o2jse.lu.m = function(eventObj, targetObj, notFocus) {
     if (!targetObj) {
         targetObj = stdEvent.target;
         }
-    var listObj = o2jse.lu.listObj.childNodes[0];
+    var listObj = targetObj.parentNode;
     var o2data  = listObj.o2;
     // _________________________________________________________________ Previous page ___
     if (targetObj.value == "@luu") {
         if (!o2jse.waitObj) {
             o2jse.waitObj = o2jse.createEl(listObj, "DIV", "jx_inctrl_wait", "&nbsp;");
             }
-        o2jse.lu.exeReq(2);
+        o2jse.lu.exeReq(listObj.descField, 2);
         }
     // _____________________________________________________________________ Next page ___
     else if (targetObj.value == "@lud") {
         if (!o2jse.waitObj) {
             o2jse.waitObj = o2jse.createEl(listObj, "DIV", "jx_inctrl_wait", "&nbsp;");
             }
-        o2jse.lu.exeReq(1);
+        o2jse.lu.exeReq(listObj.descField, 1);
         }
     // ________________________________________________________________ Item selection ___
     else {
@@ -5658,7 +5664,7 @@ o2jse.lu.m = function(eventObj, targetObj, notFocus) {
             }
         descField.scrollTop  = 0;
         descField.scrollLeft = 0;
-        o2jse.lu.listOff();
+        o2jse.lu.listOff(descField);
         if (o2jse.cliMode && o2data.fret) {
             o2jse.ctrl.make_waiting(descField);
             jxjs.request(codeField, codeField.value);
@@ -5672,6 +5678,7 @@ o2jse.lu.m = function(eventObj, targetObj, notFocus) {
             }
         }
     listObj.innerHTML = "";
+    descField.inEdit  = false;
 
     };
 
@@ -5685,11 +5692,11 @@ o2jse.lu.m = function(eventObj, targetObj, notFocus) {
 o2jse.lu.e = function(targetObj, eventObj) {
 
     o2jse.ctrl.init(targetObj);
-    o2jse.lu.listOff();
     var descElement;
     // ____________________________________________________ Event fired on input field ___
     if (targetObj.nodeName.toLowerCase() == "input") {
-        descElement       = targetObj;
+        descElement = targetObj;
+        o2jse.lu.listOff(descElement);
         descElement.value = descElement.saveValue;
         if (descElement.select) {
             descElement.select();
@@ -5698,9 +5705,12 @@ o2jse.lu.e = function(targetObj, eventObj) {
     // ___________________________________________________________ Event fired on list ___
     else {
         descElement = targetObj.descField;
+        o2jse.lu.listOff(descElement);
         descElement.focus();
         }
-    descElement.name = "";
+    descElement.name    = "";
+    descElement.listObj = null;
+    o2jse.lu.listObj    = null;
 
     };
 
@@ -5712,8 +5722,8 @@ o2jse.lu.e = function(targetObj, eventObj) {
  */
 o2jse.lu.ck = function(targetObj) {
 
-    if (o2jse.lu.visible) {
-        return o2jse.lu.listOff();
+    if (targetObj.listObj) {
+        return o2jse.lu.listOff(targetObj);
         }
     else {
         // ________________________ Delay click execution to solve double-click events ___
@@ -5764,22 +5774,22 @@ o2jse.lu.list = function(targetObj, complete, immediate, stdEvent) {
     else {
         targetObj.name = o2data.c + o2data.e + "_desc";
         }
-    if (o2jse.lu.listObj) {
-        o2jse.lu.listObj.style.display = 'block';
-        o2jse.elBody.appendChild(o2jse.lu.listObj);
-        listElement           = o2jse.lu.listObj.childNodes[0];
+    if (targetObj.listObj) {
+        targetObj.listObj.style.display = 'block';
+        o2jse.elBody.appendChild(targetObj.listObj);
+        listElement           = targetObj.listObj.childNodes[0];
         listElement.innerHTML = "";
         }
     else {
-        listElement                     = document.createElement("DIV");
-        listElement.tabIndex            = 0;
-        listElement.onkeydown           = function(eO) { o2jse.lu.k(eO, this); };
-        listElement.onfocus             = function() { o2jse.lu.f(this); };
-        listElement.onblur              = function() { o2jse.lu.b(this); };
-        listElement.scrollTop           = 0;
-        o2jse.lu.listObj                = o2jse.createEl(o2jse.elBody, "DIV");
-        o2jse.lu.listObj.style.position = "absolute";
-        o2jse.lu.listObj.appendChild(listElement);
+        listElement                      = document.createElement("DIV");
+        listElement.tabIndex             = 0;
+        listElement.onkeydown            = function(eO) { o2jse.lu.k(eO, this); };
+        listElement.onfocus              = function() { o2jse.lu.f(this); };
+        listElement.onblur               = function() { o2jse.lu.b(this); };
+        listElement.scrollTop            = 0;
+        targetObj.listObj                = o2jse.createEl(o2jse.elBody, "DIV");
+        targetObj.listObj.style.position = "absolute";
+        targetObj.listObj.appendChild(listElement);
         }
     listElement.descField       = targetObj;
     listElement.o2              = o2data;
@@ -5789,17 +5799,18 @@ o2jse.lu.list = function(targetObj, complete, immediate, stdEvent) {
     // _____________________________________________________________ Dynamic data list ___
     if (o2data.dyn) {
         if (!o2jse.waitObj) {
-            o2jse.waitObj = o2jse.createEl(o2jse.lu.listObj,
+            o2jse.waitObj = o2jse.createEl(targetObj.listObj,
                                            "DIV", "jx_inctrl_wait", "&nbsp;");
             }
         if (o2jse.lu.openTimer) {
             clearTimeout(o2jse.lu.openTimer);
             }
         if (immediate) {
-            o2jse.lu.exeReq();
+            o2jse.lu.exeReq(targetObj);
             }
         else {
-            o2jse.lu.openTimer = setTimeout(o2jse.lu.exeReq, 300);
+            o2jse.lu.openTimer = setTimeout(function() { o2jse.lu.exeReq(targetObj); },
+                                            300);
             }
         }
     // ______________________________________________________________ Static data list ___
@@ -5841,18 +5852,18 @@ o2jse.lu.list = function(targetObj, complete, immediate, stdEvent) {
                 }
             }
         }
-    o2jse.lu.listObj.style.left = posLocal.x + "px";
+    targetObj.listObj.style.left = posLocal.x + "px";
     // ________________________________________________________ Page vertical overflow ___
     if ((posLocal.y < (o2jse.cli.height -
                       targetObj.offsetHeight -
-                      o2jse.lu.listObj.offsetHeight)) ||
-        (posLocal.y < o2jse.lu.listObj.offsetHeight)) {
-        o2jse.lu.listObj.style.top = (posLocal.y + targetObj.offsetHeight) + "px";
+                      targetObj.listObj.offsetHeight)) ||
+        (posLocal.y < targetObj.listObj.offsetHeight)) {
+        targetObj.listObj.style.top = (posLocal.y + targetObj.offsetHeight) + "px";
         }
     else {
-        o2jse.lu.listObj.style.top = (posLocal.y - o2jse.lu.listObj.offsetHeight) + "px";
+        targetObj.listObj.style.top = (posLocal.y - targetObj.listObj.offsetHeight) +"px";
         }
-    o2jse.lu.visible = true;
+    o2jse.lu.listObj = targetObj.listObj;
 
     };
 
@@ -5867,14 +5878,26 @@ o2jse.lu.listOff = function(descField) {
     if (o2jse.lu.closeTimer) {
         clearTimeout(o2jse.lu.closeTimer);
         }
-    if (o2jse.lu.tabbedValue === false) {
-        if (o2jse.lu.listObj) {
-            o2jse.removeEl(o2jse.lu.listObj);
+    var targetObj;
+    if (descField) {
+        targetObj = descField;
+        }
+    else if (o2jse.lu.listObj) {
+        targetObj        = o2jse.lu.listObj.childNodes[0].descField;
+        o2jse.lu.listObj = null;
+        }
+    else {
+        return false;
+        }
+    if (targetObj.tabbedValue === false) {
+        if (targetObj.listObj) {
+            o2jse.removeEl(targetObj.listObj);
             }
+        targetObj.listObj = null;
+        o2jse.lu.listObj  = null;
         if (descField) {
             descField.value = descField.saveValue;
             }
-        o2jse.lu.visible = false;
         }
 
     };
@@ -5884,15 +5907,16 @@ o2jse.lu.listOff = function(descField) {
  * Executes AJAX-style request for lookup items list. Returned page is recovered by
  * callback method o2jse.lu.getList().
  *
- * @param {Integer} act   Action: 1 = Next page; 2 = Previous page; 0 (other) = List
+ * @param {Object}  descField   Input field requesting the list
+ * @param {Integer} act         Action: 1 = Next page; 2 = Previous page; 0 (other) = List
  */
-o2jse.lu.exeReq = function(act) {
+o2jse.lu.exeReq = function(descField, act) {
 
     var luAct = (act == 1 ? "lunextpg" : (act == 2 ? "luprevpg" : "lulist"));
-    if (o2jse.lu.listObj) {
+    if (descField.listObj) {
         var firedCtrl                      = (act == 1 || act == 2 ?
-                                              o2jse.lu.listObj.childNodes[0] :
-                                              o2jse.lu.listObj.childNodes[0].descField);
+                                              descField.listObj.childNodes[0] :
+                                              descField);
         var lastCtrlSave                   = o2jse.infoForm['o2lastctrl'].value;
         o2jse.infoForm['o2lastctrl'].value = firedCtrl.o2.c;
         o2jse.requester.exe("lookup", "jxluact=" + luAct, firedCtrl, o2jse.lu.getList);
@@ -5916,7 +5940,15 @@ o2jse.lu.getList = function(ctrlObj, listText) {
         o2jse.removeEl(o2jse.waitObj);
         delete o2jse.waitObj;
         }
-    var itemsList          = o2jse.lu.listObj.childNodes[0];
+    var itemsList
+    // _________________________________________________________ Fired from desc-field ___
+    if (ctrlObj.listObj) {
+        itemsList = ctrlObj.listObj.childNodes[0];
+        }
+    // _________________________________________________________ Fired from items list ___
+    else {
+        itemsList = ctrlObj;
+        }
     itemsList.style.height = null;
     itemsList.innerHTML = "";
     itemsList.jxSeleId  = -1;
@@ -5971,16 +6003,17 @@ o2jse.lu.getList = function(ctrlObj, listText) {
         o2jse.showByScroll(seleItem);
         }
     // _____________________________________ Event fired on desc field and TABbed away ___
-    else if (o2jse.lu.tabbedValue !== false) {
-        if ((o2jse.lu.tabbedValue == '' &&
+    else if (ctrlObj.tabbedValue !== false) {
+        if ((ctrlObj.tabbedValue == '' &&
+             itemsList.childNodes.length > 0 &&
              itemsList.childNodes[0].innerText.trim() == '') ||
              // ____________________________ ... or select element if just one in list ___
              (itemsList.childNodes.length == 1)) {
-            o2jse.lu.tabbedValue = false;
+            ctrlObj.tabbedValue = false;
             o2jse.lu.m(null, itemsList.childNodes[0], true);
             }
         else {
-            o2jse.lu.tabbedValue = false;
+            ctrlObj.tabbedValue = false;
             o2jse.lu.listOff(ctrlObj);
             }
         }
@@ -8317,7 +8350,7 @@ jxc = function(defObj) {
                         // __________________________________________________ Disabled ___
                         else {
                             descField.style.cursor = "default";
-                            o2jse.lu.listOff();
+                            o2jse.lu.listOff(descField);
                             // __________________________ Disactivate drop-down button ___
                             if (descField.dropDownActive) {
                                 o2jse.removeEl(descField.parentNode.
@@ -8335,7 +8368,7 @@ jxc = function(defObj) {
                             // _________________________________ Set value for ENABLED ___
                             if (defObj.e) {
                                 // _____________________________ Set description value ___
-                                if (descField.value != defObj.desc) {
+                                if (descField.value != defObj.desc && !descField.inEdit) {
                                     descField.value = defObj.desc;
                                     descField.scrollLeft = 0;
                                     }
