@@ -10807,9 +10807,9 @@ class o2_inspector {
             }
         // ___________________________________________________ Function o2_translate() ___
         preg_match_all(
-                '/o2_translate\s*\(\s*["\'](.+?)["\']\s*,\s*["\'](.+?)["\']\s*([^)]*)\)/',
+                '/o2_translate\s*\(\s*["\'](.+?)["\']\s*,\s*(["\'])(.+?)\2\s*([^)]*)\)/',
                        $code, $parts);
-        foreach ($parts[2] as $idx => $base_string) {
+        foreach ($parts[3] as $idx => $base_string) {
             $list[$parts[1][$idx]]['string'][0] = $base_string;
             }
         $this->mlt_process_list($prg_name, $list);
