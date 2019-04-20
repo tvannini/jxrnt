@@ -897,11 +897,11 @@ o2jse.conf.setProfiling = function(profLevel) {
  */
 o2jse.conf.addKey = function(keyCode, shiftBtn, ctrlBtn, altBtn, actCode) {
 
-    o2jse.keyList[o2jse.keyList.length] = {code  : keyCode,
-                                           shift : shiftBtn,
-                                           ctrl  : ctrlBtn,
-                                           alt   : altBtn,
-                                           exe   : actCode};
+    o2jse.keyList.push({code  : keyCode,
+                        shift : shiftBtn,
+                        ctrl  : ctrlBtn,
+                        alt   : altBtn,
+                        exe   : actCode});
 
     };
 
@@ -5408,6 +5408,7 @@ o2jse.lu.k = function(eventObj, targetObj) {
                     targetObj     = list;
                     list.focus();
                     }
+                stdEvent.stop();
                 }
             }
         // _________________________________________________ Event fired on items list ___
@@ -5481,7 +5482,8 @@ o2jse.lu.k = function(eventObj, targetObj) {
             }
         // _______________________________________________________ Event fired on list ___
         else {
-            o2jse.lu.m(eventObj, targetObj.selectedItem);
+            targetObj.descField.focus();
+            o2jse.lu.m(eventObj, targetObj.selectedItem, true);
             }
         }
     // _______________________________________________________________________ * TAB * ___
@@ -5517,10 +5519,18 @@ o2jse.lu.k = function(eventObj, targetObj) {
         }
     // _______________________________________________________________________ * ESC * ___
     else if (stdEvent.keyCode == KEY_ESC) {
-        if (targetObj.listObj) {
-            o2jse.lu.e(targetObj, stdEvent);
+        if (targetObj.nodeName.toLowerCase() == "input") {
+            if (targetObj.listObj) {
+                o2jse.lu.e(targetObj, stdEvent);
+                stdEvent.stop();
+                targetObj.inEdit = false;
+                return true;
+                }
+            }
+        else {
+            o2jse.lu.e(targetObj.descField, stdEvent);
             stdEvent.stop();
-            targetObj.inEdit = false;
+            targetObj.descField.inEdit = false;
             return true;
             }
         }
@@ -5940,7 +5950,7 @@ o2jse.lu.getList = function(ctrlObj, listText) {
         o2jse.removeEl(o2jse.waitObj);
         delete o2jse.waitObj;
         }
-    var itemsList
+    var itemsList;
     // _________________________________________________________ Fired from desc-field ___
     if (ctrlObj.listObj) {
         itemsList = ctrlObj.listObj.childNodes[0];
