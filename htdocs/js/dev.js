@@ -1,9 +1,9 @@
 /****************************************************************************************
  *   file: jxrnt/htdocs/js/dev.js                                                       *
  *   desc: Javascript development tools                                                 *
- *   copy: www.janox.it, 2007                                                          *
+ *   copy: www.janox.it, 2007                                                           *
  *   lang: javascript                                                                   *
- *   vers: 1.2                                                                          *
+ *   vers: 5                                                                            *
  ****************************************************************************************/
 
 
@@ -83,67 +83,9 @@ o2jse.dev.show = function(local_obj, deepLimit, indent, propName) {
         }
     if (indent < 1) {
         o2jse.dText+= "<br /><br /><br />";
-//        var div     = o2jse.createEl(o2jse.elBody, "DIV", "disp_area", o2jse.dText);
-o2jse.lab.getResult(null, o2jse.dText);
+        o2jse.lab.getResult(null, o2jse.dText);
         o2jse.dText = false;
-/*
-        if (o2jse.menuStyle == 'T') {
-            div.style.marginTop = (document.getElementById("jxMenuBar").offsetHeight + 20)
-                                  + 'px';
-            }
-        else {
-            div.style.marginLeft = (document.getElementById("jxMenuBar").offsetWidth + 20)
-                                   + 'px';
-            }
-*/
         }
-
-    };
-
-
-/**
- * Activates time analysis report
- *
- */
-o2jse.dev.setTimeAnalysis = function() {
-
-    o2jse.dev.timeAnalysis = true;
-
-    };
-
-
-/**
- * Executes client side time analysis and outputs report
- *
- * @return void
- */
-o2jse.dev.reportTimes = function() {
-
-    var frmObj               = o2jse.infoForm;
-    var now_local            = new Date();
-    var time_local           = parseFloat((now_local.valueOf() -
-                                           frmObj.o2tr_usertime.value) / 1000);
-    var clienttime_local     = parseFloat((now_local.valueOf() -
-                                           window.o2tr_windowstart) / 1000);
-    var clientperc_local     = parseFloat((clienttime_local * 100) / time_local);
-    var serverperc_local     = parseFloat((frmObj.o2tr_serverperc.value * 100) /
-                                          time_local);
-    var preserverperc_local  = parseFloat((frmObj.o2tr_preserverperc.value * 100) /
-                                          time_local);
-    var postservertime_local = parseFloat(time_local -
-                                          clienttime_local -
-                                          frmObj.o2tr_preserverperc.value -
-                                          frmObj.o2tr_serverperc.value);
-    var posttimeperc_local   = parseFloat((postservertime_local * 100) / time_local);
-    with (frmObj) {
-       o2tr_usertime.value       = time_local;
-       o2tr_clienttime.value     = clienttime_local;
-       o2tr_clientperc.value     = clientperc_local.toPrecision(3);
-       o2tr_serverperc.value     = serverperc_local.toPrecision(3);
-       o2tr_preserverperc.value  = preserverperc_local.toPrecision(3);
-       o2tr_postservertime.value = postservertime_local.toPrecision(3);
-       o2tr_postserverperc.value = posttimeperc_local.toPrecision(3);
-       }
 
     };
 
@@ -174,7 +116,7 @@ o2jse.dev.bugReport = function() {
     var mForm           = o2jse.createEl(document.body, "FORM");
     mForm.style.display = "none";
     mForm.method        = "POST";
-    mForm.action        = "mailto:info@janox.it?subject=" + mSubject;
+    mForm.action        = "mailto:support@janox.it?subject=" + mSubject;
     mForm.enctype       = "text/plain";
     var mList           = o2jse.createEl(mForm,
                                          "TEXTAREA",

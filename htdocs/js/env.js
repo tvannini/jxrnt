@@ -1,6 +1,6 @@
 /**
  * Janox JavaScript Environment
- * JavaScript 1.2
+ * JavaScript 5
  *
  *
  * This file is part of Janox.
@@ -38,6 +38,7 @@ String.prototype.trim    = function() { return this.replace(/^\s+|\s+$/g, ""); }
 String.prototype.ltrim   = function() { return this.replace(/^\s+/, ""); };
 String.prototype.rtrim   = function() { return this.replace(/\s+$/, ""); };
 
+
 /**
  * Implement string split by separator with max chunks limit
  *
@@ -54,6 +55,7 @@ String.prototype.explode = function(separator, limit) {
                                return arr;
 
                                };
+
 
 /**
  * Decode HTML entities in a text, if any, using an TEXTAREA tag
@@ -243,10 +245,6 @@ o2jse.init = function() {
                          clearTimeout(o2jse.winResizing);
                          o2jse.winResizing = setTimeout(o2jse.resizeBrowserWindow, 500);
                          };
-    // _____________________________________________________________ Set time analysis ___
-    if (o2jse.dev.timeAnalysis) {
-        o2jse.dev.reportTimes();
-        }
     // _________________________________________________________ OnLoad portable logic ___
     o2jse.waitDocReady();
     // _____________________________________________________________ Set focus control ___
@@ -4419,12 +4417,7 @@ o2jse.cmd.jvoid = function() {
  */
 o2jse.cmd.run = function(prgName) {
 
-    var extPars = "";
-    if (arguments.length > 1) {
-        for (var argID = 1; argID < arguments.length; argID++) {
-            extPars+= "&extp_" + argID + "=" + arguments[argID];
-            }
-        }
+    // _________________________________ Compose call path - descending menu hierarchy ___
     var pathStr = '';
     for (var i = 0; i < o2jse.menu.openMenus.length; i++) {
         if (typeof o2jse.menu.openMenus[i].label == 'undefined') {
@@ -4432,6 +4425,13 @@ o2jse.cmd.run = function(prgName) {
             }
         else {
             pathStr+= (pathStr ? '|' : '') + o2jse.menu.openMenus[i].label;
+            }
+        }
+    // _________________________________________________________ Add passed parameters ___
+    var extPars = '';
+    if (arguments.length > 1) {
+        for (var argID = 1; argID < arguments.length; argID++) {
+            extPars+= "&extp_" + argID + "=" + arguments[argID];
             }
         }
     // _____________________________________________________________________ Menu size ___

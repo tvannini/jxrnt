@@ -362,9 +362,7 @@ class o2html {
               ($app->run_level == "DEV" ?
                "o2jse.conf.devel('".$app->developer."');\n".$app->rights_list().
                                                             $app->roles_list().
-                                                            $app->reqdata_list() : "").
-              ($app->time_analysis ?
-               "o2jse.dev.setTimeAnalysis();\no2tr_windowstart = new Date();\n" : "");
+                                                            $app->reqdata_list() : "");
         // __________________________________________________________ Keyboard control ___
         $ctrls_list   = array("sele"   => 15,
                               "detail" => 16,
