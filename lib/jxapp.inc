@@ -553,8 +553,9 @@ class o2_app {
             $url = $exit_url;
             }
         elseif ($this->logout_url) {
-            $url = $this->logout_url;
-            if (stripos($url, 'http://') === false) {
+            $url = strtolower($this->logout_url);
+            if ((stripos($url, 'http://') === false) &&
+                (stripos($url, 'https://') === false)) {
                 $url = $this->alias.$url;
                 }
             }
