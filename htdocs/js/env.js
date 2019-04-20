@@ -4399,18 +4399,6 @@ o2jse.cmd.submit = function(exeId) {
 
 
 /**
- * Returns JavaScript void value for events disabling
- *
- */
-o2jse.cmd.jvoid = function() {
-
-    /*** Do just nothing ***/
-    return false;
-
-    };
-
-
-/**
  * Return back to server to run program prgName and pass other parameters
  *
  * @param {String} prgName   Name of program to run
