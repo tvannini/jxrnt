@@ -523,11 +523,14 @@ class o2_app {
      * Execute session logout: delete session record and destroy WEB session related
      * context.
      * If it is passed the client will be redirected to the $exit_url.
+     * A list of parameters to be POSTed to the exit-url can be passaed as associtative
+     * array, this way: ['par1'=>'val1', 'par2'=>'val2', ...]
      *
      * @param  string $exit_url
+     * @param  array  $params
      * @return boolean
      */
-    function logout($exit_url = "") {
+    function logout($exit_url = "", $params = false) {
 
         $sess_tab = $this->get_table('o2_sessions');
         o2_gateway::deleterec($sess_tab->db->server->type,
@@ -543,14 +546,14 @@ class o2_app {
         $this->commit_all(true);
         if (session_id()) {
             if (ini_get("session.use_cookies")) {
-                $params = session_get_cookie_params();
-                setcookie(session_name(), '', 1, $params["path"], $params["domain"],
-                                                 $params["secure"], $params["httponly"]);
+                $cookies = session_get_cookie_params();
+                setcookie(session_name(), '', 1, $cookies["path"], $cookies["domain"],
+                                                 $cookies["secure"],$cookies["httponly"]);
                 }
             session_destroy();
             }
         if ($exit_url) {
-            $url = $exit_url;
+            $url = strtolower($exit_url);
             }
         elseif ($this->logout_url) {
             $url = strtolower($this->logout_url);
@@ -563,11 +566,23 @@ class o2_app {
             $url = false;
             }
         if ($url) {
-            if ($GLOBALS['jxjs']) {
-                print "window.location = '".$url."';\n}";
+            if (!is_array($params) || (count($params) < 1)) {
+                $params = '';
                 }
             else {
-                print "<script> window.location = '".$url."';  </script>";
+                $params = ', '.json_encode($params);
+                }
+            if ($GLOBALS['jxjs']) {
+                print "o2jse.cmd.post('".$url."'".$params.");\n}";
+                }
+            else {
+                if (!$this->html_started) {
+                    o2html::page_prefix();
+                    }
+                print "<script> setTimeout( function() { o2jse.cmd.post('".$url."'".
+                                                                           $params.
+                                                                         "); }, 300); ".
+                      "</script></html>";
                 }
             }
         die();

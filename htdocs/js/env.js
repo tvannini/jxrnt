@@ -4399,12 +4399,93 @@ o2jse.cmd.submit = function(exeId) {
 
 
 /**
+ * Executes a Go-to-URL with parameters using POST.
+ *
+ * Parameters are a list of properties or associative array with names and values:
+ *
+ * {par1:'val1', par2:'val2', ...}
+ *
+ * If param newWindow is passed as TRUE then targetURL is opened in a new browser window.
+ *
+ * This method is intended to be used to replace window relocation that uses GET.
+ *
+ * @param {String}  targetURL
+ * @param {Object}  params
+ * @param {Boolean} newWindow
+ */
+o2jse.cmd.post = function(targetURL, params, newWindow) {
+
+    // ________________________________________________________ Compose form to submit ___
+    var form = document.createElement('form');
+    form.method  = "POST";
+    form.enctype = o2jse.infoForm.enctype;
+    if (targetURL) {
+        form.action = targetURL;
+        }
+    else {
+        form.action = o2jse.infoForm.action;
+        }
+    // _________________________________________________ Add parameters as form fields ___
+    for (n in params) {
+        f = document.createElement("input");
+        f.setAttribute("type", "hidden");
+        f.setAttribute("name", n);
+        f.setAttribute("value", params[n]);
+        form.appendChild(f);
+        f = null;
+        }
+    if (newWindow) {
+        win         = 'V' + (+new Date).toString(36).slice(-5);
+        form.target = win;
+        window.open('', win);
+        }
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+    form = null;
+
+    };
+
+
+/**
  * Return back to server to run program prgName and pass other parameters
  *
  * @param {String} prgName   Name of program to run
  */
 o2jse.cmd.run = function(prgName) {
 
+    // ________________________________________________________ Fields to be submitted ___
+    fields = [];
+    // ________________________________________________________________ Sesssion stuff ___
+    fields['o2c']        = prgName;
+    fields['JXSESSNAME'] = o2jse.sessName;
+    if (o2jse.infoForm[o2jse.sessName]) {
+        fields[o2jse.sessName] = o2jse.infoForm[o2jse.sessName].value;
+        }
+    // _________________________________________________________ Add passed parameters ___
+    if (arguments.length > 1) {
+        for (var argID = 1; argID < arguments.length; argID++) {
+            fields["extp_" + argID] = arguments[argID];
+            }
+        }
+    // _____________________________________________________________________ Menu size ___
+    if (menuBar = document.getElementById("jxMenuBar")) {
+        if (o2jse.menuStyle == 'T') {
+            fields['jxmbh'] = menuBar.offsetHeight;
+            }
+        else {
+            fields['jxmbw'] = menuBar.offsetWidth;
+            }
+        }
+    // ____________________________________________________________________ Status Bar ___
+    if (statusBar = document.getElementById("o2status")) {
+        fields['jxsbh'] = statusBar.offsetHeight;
+        }
+    // ____________________________________________________________ Client window size ___
+    fields['jxcsw'] = (window.innerWidth != null ?
+                       window.innerWidth : document.documentElement.clientWidth);
+    fields['jxcsh'] = (window.innerHeight != null ?
+                       window.innerHeight : document.documentElement.clientHeight);
     // _________________________________ Compose call path - descending menu hierarchy ___
     var pathStr = '';
     for (var i = 0; i < o2jse.menu.openMenus.length; i++) {
@@ -4415,46 +4496,9 @@ o2jse.cmd.run = function(prgName) {
             pathStr+= (pathStr ? '|' : '') + o2jse.menu.openMenus[i].label;
             }
         }
-    // _________________________________________________________ Add passed parameters ___
-    var extPars = '';
-    if (arguments.length > 1) {
-        for (var argID = 1; argID < arguments.length; argID++) {
-            extPars+= "&extp_" + argID + "=" + arguments[argID];
-            }
-        }
-    // _____________________________________________________________________ Menu size ___
-    var menuStr = '';
-    var menuH   = 0;
-    var menuW   = 0;
-    if (menuBar = document.getElementById("jxMenuBar")) {
-        if (o2jse.menuStyle == 'T') {
-            menuStr = '&jxmbh=' + menuBar.offsetHeight;
-            }
-        else {
-            menuStr = '&jxmbw=' + menuBar.offsetWidth;
-            }
-        }
-    // ____________________________________________________________________ Status Bar ___
-    var statusStr = '';
-    if (statusBar = document.getElementById("o2status")) {
-        statusStr = '&jxsbh=' + statusBar.offsetHeight;
-        }
-    // ____________________________________________________________ Client window size ___
-    var cWidth  = (window.innerWidth != null ?
-                   window.innerWidth : document.documentElement.clientWidth) - menuW;
-    var cHeight = (window.innerHeight != null ?
-                   window.innerHeight : document.documentElement.clientHeight) - menuH;
-    // ___________________________________________________________________ Compose URL ___
-    var refStr = '?o2c=' + prgName + '&JXSESSNAME=' + o2jse.sessName +
-                 (o2jse.infoForm[o2jse.sessName] ?
-                  '&' + o2jse.sessName + '=' + o2jse.infoForm[o2jse.sessName].value :
-                  '') +
-                 extPars +
-                 '&jxcsw=' + cWidth + '&jxcsh=' + cHeight +
-                 menuStr + statusStr +
-                 '&o2p=' + encodeURIComponent(pathStr);
-    window.location.href = refStr;
-
+    fields['o2p'] = encodeURIComponent(pathStr);
+    // _______________________________________________________________ Post parameters ___
+    o2jse.cmd.post(false, fields);
     };
 
 
@@ -7373,11 +7417,14 @@ o2jse.notify.getList = function(nullObj, listText) {
 o2jse.notify.clickOnDispatch = function(trObj) {
 
     if (trObj.jxMsgAct) {
-        refStr = "?JXSESSNAME=" + o2jse.sessName +
-                 "&jxact=dispatch&jxmsgid=" + trObj.jxMsgID +
-                (o2jse.infoForm[o2jse.sessName] ?
-                 "&" + o2jse.sessName + "=" + o2jse.infoForm[o2jse.sessName].value : "");
-        window.location.href = refStr;
+        var fields           = [];
+        fields['JXSESSNAME'] = o2jse.sessName;
+        if (o2jse.infoForm[o2jse.sessName]) {
+            fields[o2jse.sessName] = o2jse.infoForm[o2jse.sessName].value;
+            }
+        fields['jxact']   = 'dispatch';
+        fields['jxmsgid'] = trObj.jxMsgID;
+        o2jse.cmd.post(false, fields);
         }
     else {
         o2jse.removeEl(trObj);

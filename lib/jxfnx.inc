@@ -3043,24 +3043,38 @@ function o2app_dir_uploads() {
  * Execute session logout: delete session record and destroy WEB session related context.
  * If any, after logout navigation will be redirected to provided URL.
  *
+ * A list of parameters to be POSTed to the exit-url can be passaed as associtative array,
+ * this way: ['par1'=>'val1', 'par2'=>'val2', ...]
+ *
  * If $exit_url is passed as (strict) TRUE then client will be redirected to a new session
  *
  * @package application
  * @param   string $exit_url
+ * @param   array  $params
  * @return  boolean
  */
-function o2app_logout($exit_url = false) {
+function o2app_logout($exit_url = false, $params = false) {
 
     $app = $_SESSION['o2_app'];
+    // ______________________________________________________ Log-out to a new session ___
     if ($exit_url === true) {
-        $exit_url = '?user='.$app->user.'&password='.$app->password.'&auth=local'.
-                            ($app->client_width ? '&jxcsw='.$app->client_width : '').
-                            ($app->client_height ? '&jxcsh='.$app->client_height : '').
-                            ($app->runtime->developer ?
-                             '&dev='.$app->runtime->developer.
-                             '&key='.$app->runtime->dev_key : '');
+        $exit_url = $app->referer;
+        // ________________________________________ Add parameters to open new session ___
+        $params = array('user'     => $app->user,
+                        'password' => $app->password,
+                        'auth'     => 'local');
+        if ($app->client_width) {
+            $params['jxcsw'] = $app->client_width;
+            }
+        if ($app->client_height) {
+            $params['jxcsh'] = $app->client_height;
+            }
+        if ($app->runtime->developer) {
+            $params['dev'] = $app->runtime->developer;
+            $params['key'] = $app->runtime->dev_key;
+            }
         }
-    $app->logout($exit_url);
+    $app->logout($exit_url, $params);
 
     }
 

@@ -112,6 +112,22 @@ if (session_start()) {
             if (is_a($app, "o2_app")) {
                 // _________________________________ Clear all previous output, if any ___
                 ob_end_clean();
+                // ________________________________ Add parameters to open new session ___
+                $params = array('user'     => $app->user,
+                                'password' => $app->password,
+                                'auth'     => 'local');
+                if ($app->client_width) {
+                    $params['jxcsw'] = $app->client_width;
+                    }
+                if ($app->client_height) {
+                    $params['jxcsh'] = $app->client_height;
+                    }
+                if ($app->runtime->developer) {
+                    $params['dev'] = $app->runtime->developer;
+                    $params['key'] = $app->runtime->dev_key;
+                    }
+                print "o2jse.cmd.post(false, ".json_encode($params).", true);\n";
+/*
                 // _______________________________________________ JS open new session ___
                 print "window.open(\"?user=".$app->user."&password=".$app->password.
                       "&auth=local".
@@ -121,6 +137,7 @@ if (session_start()) {
                        "&dev=".$app->runtime->developer."&key=".$app->runtime->dev_key :
                        "").
                       "\");\n";
+*/
                 }
             break;
         case "jxdev": // _________________________________________ Development command ___
