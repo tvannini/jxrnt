@@ -8,6 +8,7 @@
 
 .o2_tab_tab {
     overflow: hidden;
+    padding-right: 2px;
     }
 
 .o2_tab_tab em {
