@@ -234,7 +234,7 @@ o2jse.init = function() {
                                                 delete o2jse.progress.timeOut;
                                                 o2jse.requester.exe("progress",
                                                                     "",
-                                                                    null,
+                                                                    o2jse.progress,
                                                                     jxjs.jsEval);
                                                 },
                                             3000);
@@ -1049,12 +1049,22 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
             if (reqObj.engine.status == 0) {
                 st = reqObj.engine.status;
                 o2jse.requester.endReq(reqId);
-                // _____________________________________________ Report network errors ___
-                if (o2jse.netErr) {
-                    alert("Network error (" + st +
-                          (reqObj.engine.responseText.trim().length > 0 ?
-                           " - With code" : " - Empty") +
-                          "): please try again.");
+                // ________________________ Exclude requests from refresh (dispatcher) ___
+                if (fromObj !== o2jse.notify) {
+                    // _________________________________________ Report network errors ___
+                    if (o2jse.netErr) {
+                        alert("Network error: please try again.");
+                        }
+                    }
+                else {
+                    // _________________________________________ Reset refresh timeout ___
+                    if (o2jse.notify.timeOut) {
+                        clearTimeout(o2jse.notify.timeOut);
+                        o2jse.notify.timeOut = null;
+                        }
+                    o2jse.notify.timeOut   = setTimeout(o2jse.notify.exeReq,
+                                                        o2jse.refreshTime);
+                    o2jse.notify.inRequest = false;
                     }
                 }
             else {
@@ -7357,7 +7367,7 @@ o2jse.notify.hideWin = function() {
  */
 o2jse.notify.exeReq = function() {
 
-    o2jse.requester.exe("notify", "", null, o2jse.notify.getList);
+    o2jse.requester.exe("notify", "", o2jse.notify, o2jse.notify.getList);
 
     };
 
@@ -7428,7 +7438,10 @@ o2jse.notify.clickOnDispatch = function(trObj) {
         }
     else {
         o2jse.removeEl(trObj);
-        o2jse.requester.exe("remdispatch", "jxmsgid=" + trObj.jxMsgID, null, null);
+        o2jse.requester.exe("remdispatch",
+                            "jxmsgid=" + trObj.jxMsgID,
+                            o2jse.notify,
+                            null);
         // ________________________________________________________ Update status icon ___
         var notifyArea   = document.getElementById("jxnotify");
         var notifyText   = notifyArea.getElementsByTagName("DIV")[0];
@@ -7577,10 +7590,10 @@ jxjs.request = function(reqObj, reqValue, refrAct) {
     o2jse.submitting = true;
     if (refrAct) {
         o2jse.infoForm['o2_action'].value = (refrAct == true ? "" : refrAct);
-        o2jse.requester.exe('refresh', 'jxjsid=' + this.reqId, null, jxjs.jsEval);
+        o2jse.requester.exe('refresh', 'jxjsid=' + this.reqId, jxjs, jxjs.jsEval);
         }
     else {
-        o2jse.requester.exe('pagepost', 'jxjsid=' + this.reqId, null, jxjs.jsEval);
+        o2jse.requester.exe('pagepost', 'jxjsid=' + this.reqId, jxjs, jxjs.jsEval);
         }
     o2jse.infoForm['o2_modfields'].value = "";
     o2jse.infoForm['o2_action'].value    = "";
@@ -9409,7 +9422,10 @@ o2jse.cMenu.loadItems = function() {
                             "jxnewsess",
                             "Open new session",
                             function() {
-                                o2jse.requester.exe("sessopen", "", null, jxjs.jsEval);
+                                o2jse.requester.exe("sessopen",
+                                                    "",
+                                                    o2jse.cMenu,
+                                                    jxjs.jsEval);
                                 return false;
                                 },
                             o2jse.rntAlias + "img/sess_new.png");
