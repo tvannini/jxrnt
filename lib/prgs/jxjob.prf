@@ -372,7 +372,7 @@ foreach (o2val('prg§_§var','params_list') as $par_id => $param) {
    else {
       $list[] = $param['par'].": ".o2format($param['value'], $param['model']);
       }
-   }   
+   }
 return ($list);
 	} //|o2_fine_exp|
 
@@ -502,7 +502,7 @@ function jxjob_exp_23() {
 $parid = o2val('prg§_§var','param_id');
 switch (o2val('prg§_§var','param_ctrl_type')) {
    case "c":
-      $list[$parid]['value'] = o2val('prg§_§var','value_logic');
+      $list[$parid]['value'] = o2val('prg§_§var','param_value_logic');
       break;   
    case "l":
       $list[$parid]['value'] = o2val('prg§_§var','param_value_combo');
