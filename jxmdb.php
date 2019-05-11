@@ -296,6 +296,7 @@ switch (trim($_SERVER['argv'][1])) {
     case 'check':
     case 'status':
     // _______________________________________________________________ Shutdown server ___
+    case 'stop':
     case 'exit':
     case 'quit':
     case 'shutdown':
