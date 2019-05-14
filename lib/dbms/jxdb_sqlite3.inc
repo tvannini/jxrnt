@@ -1301,6 +1301,29 @@ function o2_sqlite3_fkeystablist($server,
 
 
 /**
+ * Returns the list of existing foreign keys for SQLite3 db-schema and some informations
+ * about constraints
+ *
+ *  === NOT IMPLEMENTED YET ===
+ *
+ * @param  string $server
+ * @param  string $user
+ * @param  string $password
+ * @param  string $database
+ * @param  string $owner
+ * @return array
+ */
+function o2_sqlite3_fkeysinfo($server,
+                              $user,
+                              $password,
+                              $database,
+                              $owner) {
+
+    return array();
+
+    }
+
+/**
  * Commit open transaction on sqlite database
  *
  * @param string  $server

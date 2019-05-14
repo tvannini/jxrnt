@@ -796,8 +796,6 @@ function o2_jxmdb_recordset($server,
  * $main_fields and $ref_fields are list of filed names, from main and referenced
  * tables to create the key on.
  *
- *  === NOT IMPLEMENTED YET ===
- *
  * @param  string  $server
  * @param  string  $user
  * @param  string  $password
@@ -845,8 +843,6 @@ function o2_jxmdb_fkeyadd($server,
 /**
  * Alter jxmdb table to remove a foreign key.
  *
- *  === NOT IMPLEMENTED YET ===
- *
  * @param  string  $server
  * @param  string  $user
  * @param  string  $password
@@ -878,8 +874,6 @@ function o2_jxmdb_fkeyremove($server,
 
 /**
  * Validate a foreign key in jxmdb table against existing data.
- *
- *  === NOT IMPLEMENTED YET ===
  *
  * @param  string  $server
  * @param  string  $user
@@ -913,8 +907,6 @@ function o2_jxmdb_fkeyvalidate($server,
 /**
  * Returns the list of existing foreign keys for jxmdb table
  *
- *  === NOT IMPLEMENTED YET ===
- *
  * @param  string $server
  * @param  string $user
  * @param  string $password
@@ -937,6 +929,33 @@ function o2_jxmdb_fkeystablist($server,
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table);
+
+    }
+
+
+/**
+ * Returns the list of existing foreign keys for jxmdb db-schema and some informations
+ * about constraints
+ *
+ * @param  string $server
+ * @param  string $user
+ * @param  string $password
+ * @param  string $database
+ * @param  string $owner
+ * @return array
+ */
+function o2_jxmdb_fkeysinfo($server,
+                            $user,
+                            $password,
+                            $database,
+                            $owner) {
+
+    return o2_jxmdb_execute('fkeysinfo'.o2_jxmdb_s.
+                            $server.o2_jxmdb_s.
+                            $user.o2_jxmdb_s.
+                            $password.o2_jxmdb_s.
+                            $database.o2_jxmdb_s.
+                            $owner.o2_jxmdb_s);
 
     }
 

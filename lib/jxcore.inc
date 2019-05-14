@@ -5003,7 +5003,7 @@ class o2_gateway {
 
 
     /**
-     * Returns the list of existing foreign keys for database
+     * Returns the list of existing foreign keys for table
      *
      * @param  string  $type
      * @param  string  $server
@@ -5022,14 +5022,50 @@ class o2_gateway {
                                  $owner,
                                  $table) {
 
-        $o2fkeycreate = "o2_".$type."_fkeystablist";
+        $o2fkeyslist = "o2_".$type."_fkeystablist";
         try {
-            $res_val = $o2fkeycreate($server,
-                                     $user,
-                                     $password,
-                                     $database,
-                                     $owner,
-                                     $table);
+            $res_val = $o2fkeyslist($server,
+                                    $user,
+                                    $password,
+                                    $database,
+                                    $owner,
+                                    $table);
+            }
+        catch (o2_exception $o2e) {
+            $o2e->send();
+            $res_val = false;
+            $res_val = array();
+            }
+        return $res_val;
+
+        }
+
+
+    /**
+     * Returns the list of existing foreign keys for database
+     *
+     * @param  string  $type
+     * @param  string  $server
+     * @param  string  $user
+     * @param  string  $password
+     * @param  string  $database
+     * @param  string  $owner
+     * @return boolean
+     */
+    static function fkeysinfo($type,
+                              $server,
+                              $user,
+                              $password,
+                              $database,
+                              $owner) {
+
+        $o2fkeysinfo = "o2_".$type."_fkeysinfo";
+        try {
+            $res_val = $o2fkeysinfo($server,
+                                    $user,
+                                    $password,
+                                    $database,
+                                    $owner);
             }
         catch (o2_exception $o2e) {
             $o2e->send();

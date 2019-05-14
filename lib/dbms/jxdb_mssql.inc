@@ -1885,6 +1885,61 @@ function o2_mssql_fkeystablist($server,
 
 
 /**
+ * Returns the list of existing foreign keys for MSSQL db-schema and some informations
+ * about constraints
+ *
+ * @param  string $server
+ * @param  string $user
+ * @param  string $password
+ * @param  string $database
+ * @param  string $owner
+ * @return array
+ */
+function o2_mssql_fkeysinfo($server,
+                            $user,
+                            $password,
+                            $database,
+                            $owner) {
+
+    $query = "USE ".$database."; ".
+             "SELECT c.CONSTRAINT_NAME AS ".o2_mssql_o."CN".o2_mssql_c.", ".
+             "c.TABLE_NAME AS ".o2_mssql_o."ON".o2_mssql_c.", ".
+             "COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ".
+                                                          o2_mssql_o."SK".o2_mssql_c.", ".
+             "OBJECT_NAME (f.referenced_object_id) AS ".o2_mssql_o."TO".o2_mssql_c.", ".
+             "COL_NAME(fc.referenced_object_id, fc.referenced_column_id) AS ".
+                                                           o2_mssql_o."TK".o2_mssql_c." ".
+             "FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS c ".
+             "INNER JOIN sys.foreign_keys AS f ".
+             "ON c.CONSTRAINT_NAME = f.name ".
+             "INNER JOIN sys.foreign_key_columns AS fc ".
+             "ON f.OBJECT_ID = fc.constraint_object_id ".
+             "WHERE c.CONSTRAINT_CATALOG='".$database."' AND ".
+                   "c.CONSTRAINT_SCHEMA='".$owner."'";
+    try {
+        $res = o2_mssql_execute($query, $server, $user, $password, false, false);
+        }
+    catch (o2_exception $o2e) {
+        $o2e->set_error_class(o2error_DBTABLEINFO);
+        throw $o2e;
+        }
+    $list = array();
+    foreach ($res as $c) {
+        if (!isset($list[$c["CN"]])) {
+            $list[$c["CN"]] = array("ON" => $c["ON"],
+                                    "TO" => $c["TO"],
+                                    "SK" => array(),
+                                    "TK" => array());
+            }
+        $list[$c["CN"]]["SK"][] = $c["SK"];
+        $list[$c["CN"]]["TK"][] = $c["TK"];
+        }
+    return $list;
+
+    }
+
+
+/**
  * Commit open transaction on mssql database
  *
  * @param string  $server

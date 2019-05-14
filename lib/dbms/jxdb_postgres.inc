@@ -1707,6 +1707,55 @@ function o2_postgres_fkeystablist($server,
 
 
 /**
+ * Returns the list of existing foreign keys for Postgres db-schema and some informations
+ * about constraints
+ *
+ * @param  string $server
+ * @param  string $user
+ * @param  string $password
+ * @param  string $database
+ * @param  string $owner
+ * @return array
+ */
+function o2_postgres_fkeysinfo($server,
+                               $user,
+                               $password,
+                               $database,
+                               $owner) {
+
+    $query = "SELECT x.conname ".o2_postgres_o."CN".o2_postgres_c.",".
+             " x.conkey ".o2_postgres_o."SK".o2_postgres_c.",".
+             " x.confkey ".o2_postgres_o."TK".o2_postgres_c.",".
+             " pk.relname ".o2_postgres_o."ON".o2_postgres_c.",".
+             " fk.relname ".o2_postgres_o."TO".o2_postgres_c." ".
+             "FROM pg_catalog.pg_constraint x ".
+             "INNER JOIN pg_catalog.pg_class pk ON x.conrelid!=0 AND x.conrelid=pk.oid ".
+             "INNER JOIN pg_catalog.pg_class fk ON x.confrelid!=0 AND x.confrelid=fk.oid".
+             " INNER JOIN information_schema.table_constraints tc ON ".
+                         "x.conname=tc.constraint_name ".
+             "WHERE x.contype='f' AND ".
+             "tc.constraint_catalog='".$database."' AND ".
+             "tc.constraint_schema='".$owner."'";
+    try {
+        $res = o2_postgres_execute($query, $server, $user, $password, false, false);
+        }
+    catch (o2_exception $o2e) {
+        $o2e->set_error_class(o2error_DBTABLEINFO);
+        throw $o2e;
+        }
+    $list = array();
+    foreach ($res as $c) {
+        $list[$c["CN"]] = array("ON" => $c["ON"],
+                                "TO" => $c["TO"],
+                                "SK" => explode(',', substr($c["SK"], 1, -1)),
+                                "TK" => explode(',', substr($c["TK"], 1, -1)));
+        }
+    return $list;
+
+    }
+
+
+/**
  * Commit open transaction on Postgres database
  *
  * @param string  $server
