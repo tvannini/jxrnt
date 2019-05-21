@@ -4506,7 +4506,7 @@ o2jse.cmd.run = function(prgName) {
             pathStr+= (pathStr ? '|' : '') + o2jse.menu.openMenus[i].label;
             }
         }
-    fields['o2p'] = encodeURIComponent(pathStr);
+    fields['o2p'] = pathStr;
     // _______________________________________________________________ Post parameters ___
     o2jse.cmd.post(false, fields);
     };
