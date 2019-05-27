@@ -1520,6 +1520,8 @@ class o2_dbview extends o2_view {
     public $act_wait_next   = false; /* If loop on view is waiting for next row         */
     public $looping_on      = false; /* If an action is looping on view                 */
     public $custom_from     = false; /* If FROM clausole is defined by expression       */
+    public $cached_insert   = false; /* Multiple inserts cached in a single statement   */
+    public $insert_cache    = '';    /* Cached records for cached-insert mode           */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
     public $statement       = null;  /* PDO Statement opened on view (if any)           */
     public $offset_ini      = 0;     /* First recordset row index in whole file         */
@@ -4818,6 +4820,48 @@ class o2_dbview extends o2_view {
                 }
             }
         $this->totale_record++;
+        $this->precedente = $this->corrente;
+        $this->modificato = false;
+        return true;
+
+        }
+
+
+   /**
+     * Esegue l'insert into $file in maniera cached
+     *
+     * @return boolean
+     */
+    function bulk_insert($fields, $values, $flush = false) {
+
+        $app     = $_SESSION['o2_app'];
+        $db_type = $this->file->db->server->type;
+        $chunk   = $this->file->db->server->chunk_size;
+        if ($this->file->asp == 'C') {
+            $fields[]                  = 'O2ASPID';
+            $this->corrente['O2ASPID'] = o2_gateway::normalize($db_type,
+                                                             $app->vars['_area']->valore);
+            $values[]                  = "'".$this->corrente['O2ASPID']."'";
+            }
+//        if ($this->cached_insert) {
+        if ($values) {
+            $this->insert_cache.= '('.implode(',', $values).'),';
+            $this->totale_record++;
+            }
+        $cache = strlen($this->insert_cache);
+        if (($cache > 0) && ($flush || ($cache > $chunk))) {
+            o2_gateway::insertrec($db_type,
+                                  $this->file->db->server->server,
+                                  $this->file->db->server->user,
+                                  $this->file->db->server->password,
+                                  $this->file->db->nome,
+                                  $this->file->db->proprietario,
+                                  $this->file->write_name,
+                                  $this->file->indice,
+                                  $fields,
+                                  array(substr($this->insert_cache, 1, -2)));
+            $this->insert_cache = '';
+            }
         $this->precedente = $this->corrente;
         $this->modificato = false;
         return true;
