@@ -852,6 +852,42 @@ class upgrades_collection {
 
         }
 
+
+    /**
+     * Upgrades application to release 2.5
+     *
+     * Add fields to system tables:
+     *  - o2_users:
+     *     - creation_date   User creation date
+     *
+     * @param string $app_name Application name
+     * @param jxdir  $app_dir  Application root directory
+     */
+    static function to2_5($app_name, $app_dir) {
+
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
+        // ________________________________________________ Get tables definition code ___
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        // ____________________________________________________________ Add new fields ___
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'creation_date',
+                              'creation_date',
+                              '_o2date');
+        // ____________________________________________ Write down new repository code ___
+        file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
+
+        }
+
     }
 
 

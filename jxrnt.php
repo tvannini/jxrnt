@@ -37,7 +37,7 @@
  *
  * @global string $jxrel
  */
-$jxrel = "2.4.01";
+$jxrel = "2.5.00";
 
 /**
  * Janox built date string
