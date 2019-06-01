@@ -18,6 +18,7 @@ o2def::tab("o2_users", "default", "o2sys_users", "o2user");
 	o2def::field("force_pwd_change", "force_pwd_change", "_o2logical");
 	o2def::field("pwds_history", "pwds_history", "o2sys_long_str");
 	o2def::field("no_pwd_change", "no_pwd_change", "_o2logical");
+	o2def::field("creation_date", "creation_date", "_o2date");
 
 	o2def::index("o2user", "o2user","A");
 	o2def::index("asp_area", "area","A", "o2user","A");
