@@ -6,12 +6,12 @@
  *
  * @name      jxconv
  * @package   janox/bin/jxconv.php
- * @version   2.4
+ * @version   2.5
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
-$jxrel = "2.4";
+$jxrel = "2.5";
 $info  = <<<JANOX_SCRIPT_HEAD
 
                       Janox Upgrade Tool

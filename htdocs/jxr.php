@@ -31,7 +31,7 @@
  *
  * @name      jxr
  * @package   janox/htdocs/jxr.php
- * @version   2.4
+ * @version   2.5
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */

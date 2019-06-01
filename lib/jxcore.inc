@@ -31,7 +31,7 @@
  *
  * @name      jxcore
  * @package   janox/jxcore.inc
- * @version   2.4
+ * @version   2.5
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -7716,6 +7716,30 @@ function o2_upgrade($table, $rel_code, $test = false) {
             // __________________________________________________ o2_sessions - 2.3.00 ___
             case "o2_sessions":
                 $msg_txt = "Converting SESSIONS";
+                if (!$test) {
+                    $table->ricostruisci();
+                    }
+                break;
+            }
+        }
+    // ________________________________________________________ Upgrade to Rel. 2.4.00 ___
+    if ($rel_code < '2.4.00') {
+        switch ($table->indice) {
+            // _____________________________________________________ o2_users - 2.4.00 ___
+            case "o2_users":
+                $msg_txt = "Converting USERS";
+                if (!$test) {
+                    $table->ricostruisci();
+                    }
+                break;
+            }
+        }
+    // ________________________________________________________ Upgrade to Rel. 2.5.00 ___
+    if ($rel_code < '2.5.00') {
+        switch ($table->indice) {
+            // _____________________________________________________ o2_users - 2.5.00 ___
+            case "o2_users":
+                $msg_txt = "Converting USERS";
                 if (!$test) {
                     $table->ricostruisci();
                     }

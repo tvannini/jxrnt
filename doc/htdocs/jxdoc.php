@@ -9,7 +9,7 @@
  *
  * For  learning  how  to  develop   full  featured,  everywhere-running
  * applications and other informations please refer to
- * www.janox.org or mail to info@janox.org.
+ * www.janox.it or mail to info@janox.it.
  *
  * This application can be run as a Server Side  Script,  within  a  WEB
  * Server, and surfed with a standard browser.
@@ -28,7 +28,6 @@
 $jxrnt = "";
 
 
-
 // __________________________________ Command line parameter [jxrnt] ___
 if ($_SERVER["argc"] > 1) {
  foreach ($_SERVER["argv"] as $single_param) {
@@ -36,7 +35,7 @@ if ($_SERVER["argc"] > 1) {
   if ($par_name == "jxrnt") (@include $par_val) ||
                              die("Wrong Janox Runtime ".$par_val."\n");
   }
-}
+ }
 // __ $o2_runtime is defined when called from inside a Janox context ___
 if (!$o2_runtime) {
  // ___________________________________ Script coded variable $jxrnt ___
@@ -50,6 +49,6 @@ if (!$o2_runtime) {
 
 
 // ______________________________________ Application instance start ___
-o2def::app("2.4");
+o2def::app("2.5");
 
 ?>
