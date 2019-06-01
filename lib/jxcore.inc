@@ -3658,16 +3658,33 @@ class o2_gateway {
 
 
     /**
-     * Normalize a string for db writing escaping special chars
+     * Normalize a string for db writing escaping special chars.
+     * If $untrim param is FALSE or not passed then string is also blank-trimmed
      *
-     * @param  string $type
-     * @param  string $string
+     * @param  string  $type
+     * @param  string  $string
+     * @param  boolean $untrim
      * @return string
      */
-    static function normalize($type, $string) {
+    static function normalize($type, $string, $untrim = false) {
 
         $o2normalize = "o2_".$type."_normalize";
-        return $o2normalize($string);
+        return $o2normalize($string, $untrim);
+
+        }
+
+
+    /**
+     * Concatenate two or more strings and/or fields
+     *
+     * @param  string  $type
+     * @param  array   $strings
+     * @return string
+     */
+    static function concat($type, $strings) {
+
+        $o2concat = "o2_".$type."_concat";
+        return $o2concat($strings);
 
         }
 

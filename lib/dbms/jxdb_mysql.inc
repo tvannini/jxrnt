@@ -46,12 +46,26 @@ $o2_mysql_trans = array();
 /**
  * Normalize a string for db writing escaping special chars
  *
- * @param  string $string
+ * @param  string  $string
+ * @param  boolean $untrim
  * @return string
  */
-function o2_mysql_normalize($string) {
+function o2_mysql_normalize($string, $untrim = false) {
 
-    return addslashes(rtrim($string));
+    return addslashes($untrim ? $string : rtrim($string));
+
+    }
+
+
+/**
+ * Concatenate two or more strings and/or fields
+ *
+ * @param  array $strings
+ * @return string
+ */
+function o2_mysql_concat($strings) {
+
+    return 'CONCAT('.implode(',', $strings).')';
 
     }
 

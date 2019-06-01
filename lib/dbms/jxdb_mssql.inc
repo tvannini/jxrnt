@@ -55,12 +55,26 @@ $o2_mssql_error = array();
 /**
  * Normalize a string for db writing escaping special chars
  *
- * @param  string $string
+ * @param  string  $string
+ * @param  boolean $untrim
  * @return string
  */
-function o2_mssql_normalize($string) {
+function o2_mssql_normalize($string, $untrim = false) {
 
-    return strtr(trim($string), array("'" => "''"));
+    return strtr(($untrim ? $string : trim($string)), array("'" => "''"));
+
+    }
+
+
+/**
+ * Concatenate two or more strings and/or fields
+ *
+ * @param  array $strings
+ * @return string
+ */
+function o2_mssql_concat($strings) {
+
+    return 'CONCAT('.implode(',', $strings).')';
 
     }
 

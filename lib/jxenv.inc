@@ -1487,6 +1487,7 @@ class o2_dbview extends o2_view {
     public $select_str      = array(); /* SELECT string of used fields for each file    */
     public $campi           = array(); /* o2_campo objects of used fields               */
     public $formule         = array(); /* Calculated fields                             */
+    public $sql_formulas    = array(); /* SQL calculated fields                         */
     public $aggregate       = array(); /* Aggregate expressions to eval on view         */
     public $wheres          = array(); /* WHERE clauses for each file                   */
     public $esclusivi       = array(); /* Fields with strict ranges (no link criteria)  */
@@ -1685,11 +1686,20 @@ class o2_dbview extends o2_view {
                 $c_o       = constant("o2_".$file_type."_o");
                 $c_c       = constant("o2_".$file_type."_c");
                 $comma     = ($this->select_str[$singolo_campo->file] ? "," : "");
-                $this->select_str[$singolo_campo->file].= $comma.
-                                                          $c_o.$singolo_campo->file.$c_c.
-                                                          ".".
-                                                          $singolo_campo->nome_fisico." ".
-                                                          $c_o.$singolo_campo->nome.$c_c;
+                if ($singolo_campo->formula) {
+                    $this->select_str[$singolo_campo->file].= $comma.
+                                                              $singolo_campo->formula." ".
+                                                              $c_o.$singolo_campo->nome.
+                                                              $c_c;
+                    }
+                else {
+                    $this->select_str[$singolo_campo->file].= $comma.
+                                                              $c_o.$singolo_campo->file.
+                                                              $c_c.".".
+                                                              $singolo_campo->nome_fisico.
+                                                              " ".$c_o.
+                                                              $singolo_campo->nome.$c_c;
+                    }
                 }
             $this->file->batch_chunk = max(128, intval($this->file->db->chunk_size /
                                                        max($record_size, 1)));
@@ -1931,6 +1941,77 @@ class o2_dbview extends o2_view {
         if (!is_null($formula)) {
             $this->formule[$nome_formula]->formula = $formula;
             }
+
+        }
+
+
+    /**
+     * Add a SQL formula to view
+     *
+     * @param string $name
+     * @param string $formula
+     * @param string $range_min
+     * @param string $range_max
+     * @param string $not
+     * @param string $like
+     */
+    function sql_formula($name,
+                         $formula   = null,
+                         $range_min = null,
+                         $range_max = null,
+                         $not       = null,
+                         $like      = null) {
+
+        $name  = strtoupper($name);
+        $table = $this->file->indice;
+        $type  = $this->file->db->server->type;
+        $c_o   = constant("o2_".$type."_o");
+        $c_c   = constant("o2_".$type."_c");
+        $sql   = '';
+        // __________________________________________________ Compose formula SQL code ___
+        if (is_array($formula) && (count($formula) > 0)) {
+            switch (strtoupper($formula[0])) {
+                case 'CONCAT':
+                    $str = array();
+                    for ($i = 1; $i < count($formula); $i++) {
+                        if (is_array($formula[$i])) {
+                            if ($field = $this->campi[strtoupper($formula[$i][0])]) {
+                                $str[] = $c_o.$field->file.$c_c.".".$field->nome_fisico;
+                                }
+                            }
+                        else {
+                            $str[] = "'".o2_gateway::normalize($type, $formula[$i], true).
+                                     "'";
+                            }
+                        }
+                    $sql = o2_gateway::concat($type, $str);
+                    break;
+                default:
+                    throw new o2_exception("Unknown SQL function ".$formula[0].
+                                           "in view <i>".$this->nome."</i>",
+                                           o2error_UNKNOWNFIELD);
+                    break;
+                }
+            }
+        if (isset($this->campi[$name])) {
+            unset($this->campi[$name]);
+            }
+        if (!is_null($range_min) ||
+            !is_null($range_max) ||
+            !is_null($not)       ||
+            !is_null($like)) {
+            $this->esclusivi[$table][$name] = true;
+            }
+        $this->campi[$name] = new o2_campo_task($name,
+                                                $table,
+                                                new o2_campo($table,
+                                                             $name,
+                                                             $c_o.$name.$c_c),
+                                                $range_min,
+                                                $range_max,
+                                                $not,
+                                                $like);
+        $this->campi[$name]->formula = $sql;
 
         }
 
@@ -2309,6 +2390,18 @@ class o2_dbview extends o2_view {
                                                    $nome_completo_campo." IS NULL)";
                                 }
                             }
+                        elseif ($campo->tipo == "F") {
+                            if ($valore_local !== "") {
+                                $single_cond = "(".$campo->formula."='".
+                                               o2_gateway::normalize($file_type,
+                                                                     $valore_local)."')";
+                                }
+                            // _______________________________ Manage blank ('') value ___
+                            else {
+                                $single_cond = "(RTRIM(".$campo->formula.")='' OR RTRIM(".
+                                               $campo->formula.") IS NULL)";
+                                }
+                            }
                         elseif ($valore_local !== "") {
                             $single_cond = "(".$full_tab_alias.".".$nome_completo_campo.
                                            "='".o2_gateway::normalize($file_type,
@@ -2383,6 +2476,14 @@ class o2_dbview extends o2_view {
                                     $single_cond = "(".$full_tab_alias.".".
                                                        $nome_completo_campo.
                                                    ">='".$valore_local."')";
+                                    }
+                                }
+                            elseif ($campo->tipo == "F") {
+                                if ($valore_local !== "") {
+                                    $single_cond = "(".$campo->formula.">='".
+                                                   o2_gateway::normalize($file_type,
+                                                                         $valore_local).
+                                                   "')";
                                     }
                                 }
                             elseif ($valore_local !== "") {
@@ -2469,6 +2570,13 @@ class o2_dbview extends o2_view {
                                                "<='".$valore_local."' OR ".
                                                      $full_tab_alias.".".
                                                      $nome_completo_campo." IS NULL)";
+                                }
+                            elseif ($campo->tipo == "F") {
+                                // ____________________ Manage blank ('') value & NULLs___
+                                $single_cond = "(".$campo->formula."<='".
+                                                   o2_gateway::normalize($file_type,
+                                                                         $valore_local).
+                                               "' OR RTRIM(".$campo->formula.") IS NULL)";
                                 }
                             // ________________________ Manage blank ('') value & NULLs___
                             else {
@@ -2572,6 +2680,18 @@ class o2_dbview extends o2_view {
                                                    $nome_completo_campo."<>'000000')";
                                 }
                             }
+                        elseif ($campo->tipo == "F") {
+                            if ($valore_local !== "") {
+                                $single_cond = "(".$campo->formula."<>'".
+                                               o2_gateway::normalize($file_type,
+                                                                    $valore_local).
+                                               "' OR ".$campo->formula." IS NULL)";
+                                }
+                            // _______________________________ Manage blank ('') value ___
+                            else {
+                                $single_cond = "(RTRIM(".$camp->formula.")>'')";
+                                }
+                            }
                         elseif ($valore_local !== "") {
                             $single_cond = "(".$full_tab_alias.".".$nome_completo_campo.
                                            "<>'".o2_gateway::normalize($file_type,
@@ -2630,9 +2750,17 @@ class o2_dbview extends o2_view {
                             $valore_local = strtr($valore_local, array('\\' => '\\\\'));
                             }
                         $valore_local = o2_gateway::normalize($file_type, $valore_local);
-                        // ______________________ SQL UPPER for key-insensitive search ___
-                        $single_cond = "UPPER(".$full_tab_alias.".".$nome_completo_campo.
-                                       ") LIKE '".$sf.strtoupper($valore_local)."%'";
+                        if ($campo->tipo == "F") {
+                            // ______________________ SQL UPPER for key-insensitive search ___
+                            $single_cond = "UPPER(".$campo->formula.
+                                           ") LIKE '".$sf.strtoupper($valore_local)."%'";
+                            }
+                        else {
+                            // __________________ SQL UPPER for key-insensitive search ___
+                            $single_cond = "UPPER(".$full_tab_alias.".".
+                                                    $nome_completo_campo.
+                                           ") LIKE '".$sf.strtoupper($valore_local)."%'";
+                            }
                         if (isset($this->esclusivi[$file_in_esame][$campo->nome])) {
                             $this->esclusivi[$file_in_esame][0] =
                             $this->esclusivi[$file_in_esame][$campo->nome];
