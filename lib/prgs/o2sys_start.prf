@@ -274,7 +274,7 @@ function o2sys_start§§start_act(&$o2exe) {
 	$o2exe->s(10) && True && o2act::exe("load_options", True, "") && $o2exe->e();
 	$o2exe->s(11) && True && o2act::ret(1, o2sys_start_exp_5()) && $o2exe->e();
 	$o2exe->s(12) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
-	$o2exe->s(13) && (o2sys_start_exp_32() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
+	$o2exe->s(13) && (o2sys_start_exp_58() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
 	$o2exe->s(14) && True && o2act::exe("load_logged", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
@@ -775,5 +775,10 @@ else {
    $f = 0;
    }
 return ($f);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_58() {
+	
+return (o2app_user() != "root" && o2app_user() != "jxsys");
 	} //|o2_fine_exp|
 ?>
