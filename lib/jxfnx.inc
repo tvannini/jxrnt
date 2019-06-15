@@ -1991,6 +1991,22 @@ function o2user_is($role_name) {
 
 
 /**
+ * Reloads user rights and roles
+ *
+ * @package user
+ * @return  boolean
+ * @see     o2user_rights(), o2user_roles()
+ */
+function o2user_load_granting() {
+
+    $app = $_SESSION['o2_app'];
+    list($app->user_roles, $app->user_rights) = $app->intcall("tools/o2sys_start");
+    return true;
+
+    }
+
+
+/**
  * Deletes a registered user and all related context (roles, rights, options, ...)
  *
  * @package user
