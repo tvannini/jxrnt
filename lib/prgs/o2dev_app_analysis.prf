@@ -22,8 +22,9 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 	$ctrl_o2ListBox2 = &$form_o2dev_app_analysis->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "analysis_model");
 		$ctrl_o2ListBox2->x(130);
 		$ctrl_o2ListBox2->y(30);
-		$ctrl_o2ListBox2->larghezza(200);
+		$ctrl_o2ListBox2->larghezza(300);
 		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->expand("H");
 		$ctrl_o2ListBox2->azione("on_model_change");
 		$ctrl_o2ListBox2->on_change(o2dev_app_analysis_exp_3());
 		$ctrl_o2ListBox2->valori(o2dev_app_analysis_exp_1());
@@ -41,6 +42,7 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 		$ctrl_o2multipage2->y(70);
 		$ctrl_o2multipage2->larghezza(620);
 		$ctrl_o2multipage2->altezza(520);
+		$ctrl_o2multipage2->expand("B");
 		$ctrl_o2multipage2->label(array("Result"));
 		$ctrl_o2multipage2->buttons("T");
 	$ctrl_o2button3 = &$form_o2dev_app_analysis->ctrldef("o2button3", "button", "", "", "");
@@ -56,6 +58,7 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 		$ctrl_o2htmlarea2->y(30);
 		$ctrl_o2htmlarea2->larghezza(600);
 		$ctrl_o2htmlarea2->altezza(480);
+		$ctrl_o2htmlarea2->expand("B");
 		$ctrl_o2htmlarea2->info_padre(array(0));
 		$ctrl_o2htmlarea2->html(o2dev_app_analysis_exp_6());
 		$ctrl_o2htmlarea2->css(o2dev_app_analysis_exp_5());
@@ -73,8 +76,16 @@ function o2dev_app_analysis§§a_check_links_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2dev_app_analysis§§a_duplicated_fileds_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_34()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2dev_app_analysis§§a_session_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_30()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_app_analysis§§a_sql_formulas_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_32()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§a_unused_fields_act(&$o2exe) {
@@ -112,7 +123,9 @@ function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(8) && (o2dev_app_analysis_exp_25() || $o2exe->e()) && o2act::exe("a_views_in_loop", True, "") && $o2exe->e();
 	$o2exe->s(9) && (o2dev_app_analysis_exp_27() || $o2exe->e()) && o2act::exe("a_check_exps", True, "") && $o2exe->e();
 	$o2exe->s(10) && (o2dev_app_analysis_exp_29() || $o2exe->e()) && o2act::exe("a_session", True, "") && $o2exe->e();
-	$o2exe->s(11) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
+	$o2exe->s(11) && (o2dev_app_analysis_exp_31() || $o2exe->e()) && o2act::exe("a_sql_formulas", True, "") && $o2exe->e();
+	$o2exe->s(12) && (o2dev_app_analysis_exp_33() || $o2exe->e()) && o2act::exe("a_duplicated_fileds", True, "") && $o2exe->e();
+	$o2exe->s(13) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§export_act(&$o2exe) {
@@ -156,8 +169,9 @@ function o2dev_app_analysis_exp_4() {
               "CHECKLINKS" => "Check links criteria",
               "CHECKLOOP"  => "Check view rebuilds while looping",
               "CHECKEXPS"  => "Check for columns (;) in return expressions",
-              "SESSION"    => "Analyze session weights");
-              
+              "SESSION"    => "Analyze session weights",
+              "SQLFORMULA" => "Convert formulas to SQL CONCAT in views",
+              "DUPFILEDS"  => "Check for duplicated aliases in views");
 return ($list);
 	} //|o2_fine_exp|
 
@@ -1078,6 +1092,248 @@ list($res, $s) = jx_sizeof($_SESSION['o2_app']);
 
 ksort($res);                         
 o2tree_def("jxresult", $res);
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_31() {
+	
+return (o2val('prg§_§var','analysis_model') == "SQLFORMULA");
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_32() {
+	$app    = $_SESSION['o2_app'];
+$prgs   = array();
+$insp   = new o2_inspector();
+$outdir = new o2_dir(o2app_dir_prgs().'jxconcat'.DIRECTORY_SEPARATOR);
+$outdir->crea();
+$n = 0; 
+/*   LOOP ON ALL PROGRAMS   */
+foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
+   $prg  = $prf->nome; 
+   $cont = file_get_contents($prf->nome_completo);
+   /*   FIND ALL FORMULAS   */
+   $parts = array();
+   preg_match_all('/(\$task_(\w+))->calcola\((["\']\w+["\']\s*,\s*)["\']'.$prg.
+                  '_exp_(\d+)\(\)["\'](.+\);)/', $cont, $parts);
+   $done = 0;
+   if (count($parts[0])) {
+      $exps = $insp::get_prg_exps($cont, $prg);
+      $nexp = 1;
+      // ________________________________________ Find next available exp-id ___
+      foreach (array_reverse(array_keys($exps)) as $expid) {
+         if ($expid < 9900) {
+            $nexp = $expid + 1;            
+            break;
+            }
+         }
+      foreach ($parts[4] as $partid => $expid) {
+         $res = array();
+         if (substr(trim($exps[$expid]), 0, 6) == 'return') {
+            $view = $parts[2][$partid];   
+            $code = substr(trim($exps[$expid]), 8, -2);
+            
+            foreach (token_get_all('<?'."php\n".$code."\n?>") as $token) {
+               if (is_array($token)) {
+                  list($token_type, $token_text) = $token;
+                  if ($token_type == T_STRING) {
+                     // _______________________________ Found function start ___
+                     if ($token_text == 'o2val') {
+                        $offset_start = $offset;
+                        $inside_func  = true;
+                        $func_body    = '';
+                        $nest_level   = 0;
+                        $inside_nest  = false;
+                        $param_idx    = 0;
+                        $params       = array();
+                        }
+                     // ______________________________ Found other functions ___
+                     else {
+                        $res = false;
+                        break;
+                        }
+                     }
+                  // ____________________ Found concatenated constant string ___
+                  elseif ($token_type == T_CONSTANT_ENCAPSED_STRING && 
+                          !$inside_func) {
+                     $res[] = $token_text;
+                     }
+                  // _____________________________ If inside function syntax ___
+                  if ($inside_func) {
+                     $func_body.= $token_text;
+                     // ___ If reading 1st level parameter (no sub function) ___
+                     if ($param_idx) {
+                        // ___________________________ Add text to parameter ___
+                        $params[$param_idx].= trim($token_text);
+                        }
+                     }
+                  $offset+= strlen($token_text);
+                  }
+               else {
+                  // _____________________________ If inside function syntax ___
+                  if ($inside_func) {
+                     $func_body.= $token;
+                     switch ($token) {
+                        case '(':
+                           // ______________________ Increment nesting level ___
+                           $inside_nest = true;
+                           $nest_level++;
+                           // ___________________ Start 1st level parameters ___
+                           if ($nest_level == 1) {
+                              $param_idx = 1;
+                              }
+                           // If reading 1st level parameter (no sub function) _
+                           elseif ($param_idx) {
+                              // ______________________ Add text to paramter ___
+                              $params[$param_idx].= '(';
+                              }
+                           break;
+                        case ')':
+                           // _____________________ End 1st level parameters ___
+                           if ($nest_level == 1) {
+                               $param_idx = 0;
+                               }
+                           // If reading 1st level parameter (no sub function) _
+                           elseif ($param_idx) {
+                              // ______________________ Add text to paramter ___
+                              $params[$param_idx].= ')';
+                              }
+                           $nest_level--;
+                           break;
+                        case ',':
+                           // ____________________________ Move on parameter ___
+                           if ($nest_level == 1) {
+                              $param_idx++;
+                              }
+                           // If reading 1st level parameter (no sub function) _
+                           elseif ($param_idx) {
+                              // ______________________ Add text to paramter ___
+                              $params[$param_idx].= ',';
+                              }
+                           break;
+                        default:
+                           // If reading 1st level parameter (no sub function) _
+                           if ($param_idx) {
+                              // ______________________ Add text to paramter ___
+                              $params[$param_idx].= trim($token);
+                              }
+                           break;
+                        }
+                     // ___________________________________ Function closure ___
+                     if ($inside_nest && 
+                         $nest_level == 0 && 
+                         count($params) == 2) {
+                        if (trim($params[1], '\'"') == $view) {
+                           $res[] = '['.$params[2].']';
+                           }
+                        else {
+                           $res = false;
+                           break;
+                           }
+                        $inside_func = false;
+                        }
+                     }
+                  elseif ($token != '.') {
+                     $res = false;
+                     break;
+                     }
+                  $offset+= strlen($token);
+                  }
+               }                                    
+            }
+         if ($res) {
+            $expbuff = '';
+            foreach ($res as $tokid => $token) {
+               // _______________________________ Create exp for string part ___
+               if (substr($token, 0, 1) != '[') {
+                  $expf        = $prg.'_exp_'.$nexp.'()'; 
+                  $expbuff    .= "\n\nfunction ".$expf." {\n\n".
+                                 "return (".$token.");\n".
+                                 "\t} //|o2_fine_exp|\n";
+                  $res[$tokid] = $expf;
+                  $nexp++;                                   
+                  }              
+               }
+            if ($expbuff) {
+               $cont = substr(trim($cont), 0, -3).$expbuff."?>\n";
+               }
+            $rep = '$task_'.$view.'->sql_formula('.$parts[3][$partid].'["CONCAT",'.
+                   implode(',', $res).']'.
+                   $parts[5][$partid];
+            $cont = str_replace($parts[0][$partid], $rep, $cont);         
+         
+            $done++;
+            $n++;    
+            }            
+         }          
+      }
+   if ($done) {
+      file_put_contents($outdir.$prg.'.prf', $cont);
+      $prgs[$prg] = $prg;    
+      }      
+   }
+$res = array();
+if (count($prgs)) {
+   $res = array("jxresult" => array(0, $n.' patches in '.count($prgs)." prgs", "<jx>/img/tabadmin/tree/folder.png"));
+   foreach ($prgs as $prg_name) {
+      $res+= array($prg_name => array("jxresult", $prg_name, "<jx>/img/tabadmin/tree/tab.png"));
+      }
+   o2tree_def("jxresult", $res);
+   o2tree_node_show("jxresult", $prg_name); 
+   }
+else {
+   $res = array("jxresult" => array(0, "No patches appplied"));
+   o2tree_def("jxresult", $res);
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_33() {
+	
+return (o2val('prg§_§var','analysis_model') == "DUPFILEDS");
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_34() {
+	$app  = $_SESSION['o2_app'];
+$insp = new o2_inspector();
+$res  = array();
+$n    = 0;
+/*   LOOP ON ALL PROGRAMS   */
+foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
+   $prg  = $prf->nome; 
+   $cont = file_get_contents($prf->nome_completo);
+   /*   FIND ALL SELECTED FIELDS   */
+   $parts = array();
+   preg_match_all('/\$task_(\w+)->(usa|calcola)\(["\'](\w+)["\']\s*,.+\);/', 
+                  $cont, $parts);
+   $list = array();
+   if (count($parts[0])) {
+      foreach ($parts[3] as $idx => $alias) {
+         $list[$parts[1][$idx]][$alias]++;
+         if ($list[$parts[1][$idx]][$alias] > 1) {
+            $res[$prg][$parts[1][$idx]][$alias] = $list[$parts[1][$idx]][$alias];
+            $n++;         
+            }       
+         }
+      }
+   }
+if (count($res)) {
+   $tree = array("jxresult" => array(0, $n.' duplicated aliases in '.count($res)." prgs", "<jx>/img/tabadmin/tree/folder.png"));
+   foreach ($res as $prg_name => $prg_list) {
+      $tree+= array('P#'.$prg_name => array("jxresult", $prg_name, "<jx>/img/tabadmin/tree/tab.png"));
+      foreach ($prg_list as $view_name => $view) {       
+         $tree+= array('P#'.$prg_name.'V#'.$view_name => array('P#'.$prg_name, $view_name, "<jx>/img/tabadmin/tree/reference.png"));
+         foreach ($view as $field => $times) {       
+            $tree+= array('P#'.$prg_name.'V#'.$view_name.'F#'.$field => array('P#'.$prg_name.'V#'.$view_name, $field.': '.$times, "<jx>/img/tabadmin/tree/field.png"));            
+            }
+         }
+      }
+   o2tree_def("jxresult", $tree);
+   o2tree_node_show("jxresult", 'P#'.$prg_name); 
+   }
+else {
+   $tree = array("jxresult" => array(0, "No duplicated alias"));
+   o2tree_def("jxresult", $tree);
+   }
 return (true);
 	} //|o2_fine_exp|
 ?>
