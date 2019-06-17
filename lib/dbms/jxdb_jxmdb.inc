@@ -109,7 +109,7 @@ function o2_jxmdb_connect() {
         if ($trans) {
             if (!$conn_local->beginTransaction()) {
                 $err = $conn_local->errorInfo();
-                throw new o2_exception("<b>JXMDB</b> server: <i>".$location."</i><hr />".
+                throw new o2_exception("<b>JXMDB</b> server: <i>".$location."</i><hr>".
                                        $err[2],
                                        o2error_DBCONNECT);
                 }
@@ -127,7 +127,7 @@ function o2_jxmdb_connect() {
         // _________________________________ Create transaction on existing connection ___
         if (!$conn_local->beginTransaction()) {
             $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>JXMDB</b> server: <i>".$location."</i><hr />".
+            throw new o2_exception("<b>JXMDB</b> server: <i>".$location."</i><hr>".
                                    $err[2],
                                    o2error_DBCONNECT);
             }

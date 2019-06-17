@@ -31,7 +31,7 @@
 
 
 if (!extension_loaded("pdo_sqlite")) {
-    throw new o2_exception("<b>SQLite3 PDO</b> driver not loaded:<br />".
+    throw new o2_exception("<b>SQLite3 PDO</b> driver not loaded:<br>".
                            "check your PHP configuration for ".
                            "<i>pdo</i> and <i>pdo_sqlite</i> extensions.",
                            o2error_DBCONNECT);
@@ -116,7 +116,7 @@ function o2_sqlite3_connect($location, $user, $password, $trans) {
                                     null,
                                     array(PDO::ATTR_PERSISTENT => false)))) {
             $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr />".
+            throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr>".
                                    $err[2],
                                    o2error_DBCONNECT);
             }
@@ -124,7 +124,7 @@ function o2_sqlite3_connect($location, $user, $password, $trans) {
         if ($trans) {
             if (!$conn_local->beginTransaction()) {
                 $err = $conn_local->errorInfo();
-                throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr />".
+                throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr>".
                                        $err[2],
                                        o2error_DBCONNECT);
                 }
@@ -140,7 +140,7 @@ function o2_sqlite3_connect($location, $user, $password, $trans) {
         // _________________________________ Create transaction on existing connection ___
         if (!$conn_local->beginTransaction()) {
             $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr />".
+            throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr>".
                                    $err[2],
                                    o2error_DBCONNECT);
             }
@@ -206,7 +206,7 @@ function o2_sqlite3_execute($query,
             $err = $conn->errorInfo();
             $conn->rollBack && @$conn->rollBack();
             throw new o2_exception("<b>SQLite3</b> server: <i>".$server.
-                                   "</i><br />query: <code>".$query."</code><hr />".
+                                   "</i><br>query: <code>".$query."</code><hr>".
                                    $err[2],
                                    o2error_DBEXECUTE);
             return false;
@@ -224,7 +224,7 @@ function o2_sqlite3_execute($query,
                 $err = $conn->errorInfo();
                 $conn->rollBack && @$conn->rollBack();
                 throw new o2_exception("<b>SQLite3</b> server: <i>".$server.
-                                       "</i><br />query: <code>".$query."</code><hr />".
+                                       "</i><br>query: <code>".$query."</code><hr>".
                                        $err[2],
                                        o2error_DBDATAQUERY);
                 return false;
@@ -252,7 +252,7 @@ function o2_sqlite3_execute($query,
                 $err = $stm->errorInfo();
                 $conn->rollBack && @$conn->rollBack();
                 throw new o2_exception("<b>SQLite3</b> server: <i>".$server.
-                                       "</i><br />query: <code>".$query."</code><hr />".
+                                       "</i><br>query: <code>".$query."</code><hr>".
                                        $err[2],
                                        o2error_DBDATAQUERY);
                 }
@@ -284,7 +284,7 @@ function o2_sqlite3_tables($server, $user, $password, $database, $owner) {
     $res_local   = $conn_local->query($query_local)->fetchAll(PDO::FETCH_ASSOC);
     if ($res_local === false) {
         $err = $conn_local->errorInfo();
-        throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr />".$err[2],
+        throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr>".$err[2],
                                o2error_DBTABLES);
         }
     foreach ($res_local as $single_tab) {
@@ -314,7 +314,7 @@ function o2_sqlite3_tabexists($server, $user, $password, $database, $owner, $tab
     $query       = $conn_local->query($query_local);
     if ($query === false) {
         $err = $conn_local->errorInfo();
-        throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr />".$err[2],
+        throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr>".$err[2],
                                o2error_DBTABEXISTS);
         }
     $res_local = $query->fetch(PDO::FETCH_ASSOC);
@@ -1042,8 +1042,8 @@ function o2_sqlite3_count($server,
         $rb  = $conn->rollBack;
         $rb && @$rb();
         throw new o2_exception("<b>SQLite3</b> server: <i>".$server.
-                               "</i><br />Error counting dataset.<hr />".
-                               $query."<br><br>".$err[2],
+                               "</i><br>Error counting dataset.<hr><code>".
+                               $query."</code><br><br>".$err[2],
                                o2error_DBCOUNT);
         return false;
         }
@@ -1379,7 +1379,7 @@ function o2_sqlite3_commit($server, $user, $password, $end = false) {
                 }
             if (!$GLOBALS['o2_sqlite3_conn'][$server]->commit()) {
                 $err = $GLOBALS['o2_sqlite3_conn'][$server]->errorInfo();
-                throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr />".
+                throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr>".
                                        $err[2],
                                        o2error_DBCOMMIT);
                 }

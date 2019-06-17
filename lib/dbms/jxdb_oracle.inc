@@ -31,7 +31,7 @@
 
 
 if (!extension_loaded("oci8")) {
-    throw new o2_exception("<b>Oracle OCI8</b> driver not loaded:<br />".
+    throw new o2_exception("<b>Oracle OCI8</b> driver not loaded:<br>".
                            "check your PHP configuration for <i>oci8</i> extension.",
                            o2error_DBCONNECT);
     }
@@ -128,7 +128,7 @@ function o2_oracle_connect($server, $user, $password, $trans) {
         // _____________________________________________________ Create new connection ___
         if (!($conn_local = $func($user, $password, $server, $chr_encoding))) {
             $err = oci_error();
-            throw new o2_exception("<b>Oracle</b> server: <i>".$server."</i><hr />".
+            throw new o2_exception("<b>Oracle</b> server: <i>".$server."</i><hr>".
                                    $err['message'],
                                    o2error_DBCONNECT);
             }
@@ -1476,8 +1476,8 @@ function o2_oracle_count($server,
         $err = oci_error($stmt);
         oci_rollback($conn);
         throw new o2_exception("<b>Oracle</b> server: <i>".$server.
-                               "</i><br>Error counting dataset.<br>Query: ".
-                               $err['sqltext']."<hr />".$err['message'],
+                               "</i><br>Error counting dataset.<br>Query: <code>".
+                               $err['sqltext']."</code><hr>".$err['message'],
                                o2error_DBCOUNT);
         return false;
         }

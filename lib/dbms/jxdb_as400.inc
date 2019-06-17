@@ -96,8 +96,8 @@ function o2_as400_connect($server, $user, $password) {
     if (!isset($GLOBALS['o2_as400_conn'][$server])) {
         if (!($conn_local = @odbc_pconnect($server, $user, $password))) {
             throw new o2_exception("<b>AS400</b> server: <i>".$server.
-                                   "</i><br />user: <i>".$user.
-                                   "</i><hr />".odbc_errormsg($conn_local),
+                                   "</i><br>user: <i>".$user.
+                                   "</i><hr>".odbc_errormsg($conn_local),
                                    o2error_DBCONNECT);
             }
         $GLOBALS['o2_as400_conn'][$server] = $conn_local;
@@ -140,8 +140,8 @@ function o2_as400_execute($query, $server, $user, $password) {
 
     $connection = o2_as400_connect($server, $user, $password);
     if (!($res_local = @odbc_exec($connection, $query ))) {
-        throw new o2_exception("<b>AS400</b> server: <i>".$server."</i><br />user: <i>".
-                               $user."</i><br />query: <code>".$query."</code><hr />".
+        throw new o2_exception("<b>AS400</b> server: <i>".$server."</i><br>user: <i>".
+                               $user."</i><br>query: <code>".$query."</code><hr>".
                                odbc_errormsg($connection),
                                o2error_DBEXECUTE);
         }
@@ -185,8 +185,8 @@ function o2_as400_tables($server, $user, $password, $database, $owner) {
                                     $database,
                                     '%',
                                     "TABLE,VIEW"))) {
-        throw new o2_exception("<b>AS400</b> server: <i>".$server."</i><br />user: <i>".
-                               $user."</i><hr />".odbc_errormsg($connection),
+        throw new o2_exception("<b>AS400</b> server: <i>".$server."</i><br>user: <i>".
+                               $user."</i><hr>".odbc_errormsg($connection),
                                o2error_DBTABLES);
         }
     else {
@@ -222,8 +222,8 @@ function o2_as400_tablefields($server, $user, $password, $database, $owner, $tab
                                     o2_as400_o.$database.o2_as400_c,
                                     o2_as400_o.$table.o2_as400_c,
                                     '%'))) {
-        throw new o2_exception("<b>AS400</b> server: <i>".$server."</i><br />user: <i>".
-                               $user."</i><hr />".odbc_errormsg($connection),
+        throw new o2_exception("<b>AS400</b> server: <i>".$server."</i><br>user: <i>".
+                               $user."</i><hr>".odbc_errormsg($connection),
                                o2error_DBTABLEINFO);
         }
     else {
@@ -1069,7 +1069,7 @@ function o2_as400_commit($server, $user, $password) {
     if ($GLOBALS['o2_as400_conn'][$server]) {
 /*      if (!@odbc_exec($GLOBALS['o2_as400_conn'][$server], "COMMIT TRANSACTION;")) {
             throw new o2_exception("<b>AS400</b> server: <i>".$server.
-                                   "</i><br />user: <i>".$user."</i><hr />".
+                                   "</i><br>user: <i>".$user."</i><hr>".
                                    odbc_errormsg($GLOBALS['o2_as400_conn'][$server]),
                                    o2error_DBCOMMIT);
             } */

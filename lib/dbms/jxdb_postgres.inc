@@ -31,7 +31,7 @@
 
 
 if (!extension_loaded("pdo_pgsql")) {
-    throw new o2_exception("<b>PostgreSQL PDO</b> driver not loaded:<br />".
+    throw new o2_exception("<b>PostgreSQL PDO</b> driver not loaded:<br>".
                            "check your PHP configuration for <i>pdo_pgsql</i> extension.",
                            o2error_DBCONNECT);
     }
@@ -118,7 +118,7 @@ function o2_postgres_connect($server, $user, $password, $trans) {
         // __________________________________________ Create new persistent connection ___
         if (!($conn_local = new PDO("pgsql:".$server, $user, $password, $attr))) {
             $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr />".
+            throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr>".
                                    $err[2],
                                    o2error_DBCONNECT);
             }
@@ -138,7 +138,7 @@ function o2_postgres_connect($server, $user, $password, $trans) {
         if ($trans) {
             if (!$conn_local->beginTransaction()) {
                 $err = $conn_local->errorInfo();
-                throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr />".
+                throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr>".
                                        $err[2],
                                        o2error_DBCONNECT);
                 }
@@ -156,7 +156,7 @@ function o2_postgres_connect($server, $user, $password, $trans) {
         // _________________________________ Create transaction on existing connection ___
         if (!$conn_local->beginTransaction()) {
             $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr />".
+            throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr>".
                                    $err[2],
                                    o2error_DBCONNECT);
             }
@@ -224,7 +224,7 @@ function o2_postgres_execute($query,
             $err = $conn->errorInfo();
             $conn->rollBack && @$conn->rollBack();
             throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                                   "</i><br />query: <code>".$query."</code><hr />".
+                                   "</i><br>query: <code>".$query."</code><hr>".
                                    $err[2],
                                    o2error_DBEXECUTE);
             return false;
@@ -242,7 +242,7 @@ function o2_postgres_execute($query,
                 $err = $conn->errorInfo();
                 $conn->rollBack && @$conn->rollBack();
                 throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                                       "</i><br />query: <code>".$query."</code><hr />".
+                                       "</i><br>query: <code>".$query."</code><hr>".
                                        $err[2],
                                        o2error_DBDATAQUERY);
                 return false;
@@ -270,7 +270,7 @@ function o2_postgres_execute($query,
                 $err = $stm->errorInfo();
                 $conn->rollBack && @$conn->rollBack();
                 throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                                       "</i><br />query: <code>".$query."</code><hr />".
+                                       "</i><br>query: <code>".$query."</code><hr>".
                                        $err[2],
                                        o2error_DBDATAQUERY);
                 }
@@ -1377,8 +1377,8 @@ function o2_postgres_count($server,
         $rb  = $conn->rollBack;
         $rb && @$rb();
         throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                               "</i><br />Error counting dataset.<hr />".
-                               $query."<br><br>".$err[2],
+                               "</i><br>Error counting dataset.<hr><code>".
+                               $query."</code><br><br>".$err[2],
                                o2error_DBCOUNT);
         return false;
         }
@@ -1812,7 +1812,7 @@ function o2_postgres_commit($server, $user, $password, $end = false) {
                 }
             if (!$GLOBALS['o2_postgres_conn'][$key]->commit()) {
                 $err = $GLOBALS['o2_postgres_conn'][$key]->errorInfo();
-                throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr />".
+                throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr>".
                                        $err[2],
                                        o2error_DBCOMMIT);
                 }

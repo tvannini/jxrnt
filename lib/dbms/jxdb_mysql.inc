@@ -31,7 +31,7 @@
 
 
 if (!extension_loaded("pdo_mysql")) {
-    throw new o2_exception("<b>MySQL PDO</b> driver not loaded:<br />".
+    throw new o2_exception("<b>MySQL PDO</b> driver not loaded:<br>".
                            "check your PHP configuration for ".
                            "<i>pdo</i> and <i>pdo_mysql</i> extensions.",
                            o2error_DBCONNECT);
@@ -125,7 +125,7 @@ function o2_mysql_connect($server, $user, $password, $trans) {
         // _____________________________________________________ Create new connection ___
         if (!($conn_local = new PDO("mysql:host=".$server, $user, $password, $opt))) {
             $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr />".
+            throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr>".
                                    $err[2],
                                    o2error_DBCONNECT);
             }
@@ -133,7 +133,7 @@ function o2_mysql_connect($server, $user, $password, $trans) {
         if ($trans) {
             if (!$conn_local->beginTransaction()) {
                 $err = $conn_local->errorInfo();
-                throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr />".
+                throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr>".
                                        $err[2],
                                        o2error_DBCONNECT);
                 }
@@ -214,7 +214,7 @@ function o2_mysql_execute($query,
             $rb  = $conn->rollBack;
             $rb && @$rb();
             throw new o2_exception("<b>MySQL</b> server: <i>".$server.
-                                   "</i><br />query: <code>".$query."</code><hr />".
+                                   "</i><br>query: <code>".$query."</code><hr>".
                                    $err[2],
                                    o2error_DBEXECUTE);
             return false;
@@ -229,7 +229,7 @@ function o2_mysql_execute($query,
             $rb  = $conn->rollBack;
             $rb && @$rb();
             throw new o2_exception("<b>MySQL</b> server: <i>".$server.
-                                   "</i><br />query: <code>".$query."</code><hr />".
+                                   "</i><br>query: <code>".$query."</code><hr>".
                                    $err[2],
                                    o2error_DBDATAQUERY);
             return false;
@@ -259,7 +259,7 @@ function o2_mysql_tables($server, $user, $password, $database, $owner) {
     $res_local   = $conn_local->query($query_local);
     if ($res_local === false) {
         $err = $conn_local->errorInfo();
-        throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr />".$err[2],
+        throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr>".$err[2],
                                o2error_DBTABLES);
         }
     while ($single_tab = $res_local->fetchColumn()) {
@@ -289,7 +289,7 @@ function o2_mysql_tabexists($server, $user, $password, $database, $owner, $table
     $res_local   = $conn_local->query($query_local);
     if ($res_local === false) {
         $err = $conn_local->errorInfo();
-        throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr />".$err[2],
+        throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr>".$err[2],
                                o2error_DBTABEXISTS);
         }
     return ($res_local->fetchColumn() ? true : false);
@@ -1303,7 +1303,7 @@ function o2_mysql_count($server,
         $rb  = $conn->rollBack;
         $rb && @$rb();
         throw new o2_exception("<b>MySQL</b> server: <i>".$server.
-                               "</i><br />Error counting dataset.<hr />".
+                               "</i><br>Error counting dataset.<hr>".
                                $err[2],
                                o2error_DBCOUNT);
         return false;
@@ -1550,7 +1550,7 @@ function o2_mysql_commit($server, $user, $password, $end = false) {
         // ________________________________________________ Commit current transaction ___
         elseif (!$GLOBALS['o2_mysql_conn'][$key]->commit()) {
             $err = $GLOBALS['o2_mysql_conn'][$key]->errorInfo();
-            throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr />".
+            throw new o2_exception("<b>MySQL</b> server: <i>".$server."</i><hr>".
                                    $err[2],
                                    o2error_DBCOMMIT);
             }

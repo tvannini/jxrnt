@@ -1545,8 +1545,8 @@ function o2_mssql_count($server,
         $rb  = $conn->rollBack;
         $rb && @$rb();
         throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                               "</i><br />Error counting dataset.<hr />".
-                               $query."<br><br>".$err[2],
+                               "</i><br />Error counting dataset.<hr><code>".
+                               $query."</code><br><br>".$err[2],
                                o2error_DBCOUNT);
         return false;
         }
