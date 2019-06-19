@@ -490,7 +490,9 @@ class o2html {
                                        o2error_UNKNOWNFORM);
                 return false;
                 }
-            elseif (!$internal && !isset($form_obj->controlli[$ctrl_name])) {
+            elseif (!$internal &&
+                    !isset($form_obj->controlli[$ctrl_name]) &&
+                    $form_obj->defined) {
                 throw new o2_exception("<b>FOCUS SETTING ERROR:</b> ".
                                        "cannot find control <i>".$ctrl_name.
                                        "</i> in form <i>".substr($o2_form, 0, -5)."</i>.",
