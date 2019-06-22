@@ -489,7 +489,7 @@ class jxjs {
             print jxjs::ctrl($o2ctrl_obj,
                              "d:'".addcslashes($code_value, "\n").
                            "',dyn:".$dyn_list.$static_list.
-                            ",desc:'".$desc_value.
+                            ",desc:'".addslashes($desc_value).
                            "',boxtype:'lookup',s:'".
                            $o2ctrl_obj->css.($enabled ? "" : "_dis").
                            "',er:".($o2ctrl_obj->error ? "!0" : "!1").
