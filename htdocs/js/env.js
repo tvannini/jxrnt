@@ -5605,7 +5605,8 @@ o2jse.lu.f = function(targetObj) {
     var infoObj                        = targetObj.o2;
     o2jse.infoForm['o2lastform'].value = infoObj.f;
     o2jse.infoForm['o2lastctrl'].value = infoObj.c;
-    if (o2jse.lu.closeTimer && targetObj.listObj) {
+    if (o2jse.lu.closeTimer &&
+        (targetObj.nodeName.toLowerCase() != "input" || targetObj.listObj)) {
         clearTimeout(o2jse.lu.closeTimer);
         }
     // ____________________________________________________ Event fired on input field ___
