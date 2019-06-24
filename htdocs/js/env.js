@@ -1861,7 +1861,9 @@ o2jse.ctrl.zoom = function(eventObj) {
                               "o2jse.ctrl.zoom(jxjs.cachedEvent);}\n";
         return false;
         }
-    stdEvent.target.blur();
+    if (stdEvent.target.blur) {
+        stdEvent.target.blur();
+        }
     if (infObj.z) {
         stdEvent.stop();
         o2jse.infoForm['o2lastform'].value = infObj.f;
