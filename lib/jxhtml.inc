@@ -1527,6 +1527,10 @@ class o2html {
                         if ($ctrl_obj->salva_con_nome) {
                             $nome_local = $ctrl_obj->salva_con_nome;
                             }
+                        clearstatcache();
+                        if (file_exists($app->dir_uploads.$nome_local)) {
+                            unlink($app->dir_uploads.$nome_local);
+                            }
                         if (move_uploaded_file($singolo_file['tmp_name'],
                                                $app->dir_uploads.$nome_local)) {
                             $obj_local = new o2_fsitem($app->dir_uploads.$nome_local);
