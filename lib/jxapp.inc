@@ -3111,15 +3111,15 @@ class o2_app {
         $this->dir_user = new o2_dir($this->dir_home."users".DIRECTORY_SEPARATOR.
                                      $user_local.DIRECTORY_SEPARATOR);
         $this->dir_user->crea();
-        // ________________________________________________ /app/users/default/uploads ___
-        $this->dir_uploads = new o2_dir($this->dir_user."uploads".DIRECTORY_SEPARATOR);
-        $this->dir_uploads->crea();
         // ____________________________________________________ /app/users/default/tmp ___
         $dir_tmp = new o2_dir($this->dir_user."tmp".DIRECTORY_SEPARATOR);
         $dir_tmp->crea();
-        // ____________________________________________________ /app/users/default/tmp ___
+        // _____________________________________________ /app/users/default/tmp/sessid ___
         $this->dir_tmp = new o2_dir($dir_tmp."tmp".$this->session_id.DIRECTORY_SEPARATOR);
         $this->dir_tmp->crea();
+        // ___________________________________ /app/users/default/tmp/sessid/jxuploads ___
+        $this->dir_uploads = new o2_dir($this->dir_tmp."jxuploads".DIRECTORY_SEPARATOR);
+        $this->dir_uploads->crea();
         // ____________________________________________________ /app/users/default/img ___
         $this->dir_img_u = new o2_dir($this->dir_user."img".DIRECTORY_SEPARATOR);
         $this->dir_img_u->crea();
