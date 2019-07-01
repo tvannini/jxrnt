@@ -4630,42 +4630,65 @@ return ((o2val('prg§_§var','show_result') == "Check") && (count(o2tree_get_nodes
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_237() {
-	$errors_tab = o2tree_get_nodes("result");
-$in         = (o2val('prg§_§var','node_type') == "db");
+	$errors_tab = o2tree_get_nodes('result');
+$in         = (o2val('prg§_§var','node_type') == 'db');
 $list       = array();
-$img_path   = "<jx>/img/tabadmin/tree/";
+$img_path   = '<jx>/img/tabadmin/tree/';
 $tabs       = 0;
+$tot        = 0;
 if ($in) {
+   // ___________________________________ Fix record layout errors (rebuild) ___
    foreach ($errors_tab as $tab) {
-      if ($tab[0] === "jxresultset") {
-         switch ($tab[3]) {
-            case 'index':
-               o2tab_indexes_setoff($tab[1]);
-               if (o2tab_indexes_seton($tab[1])) {            
-                  $list[$tab[1]] = array("jxresultset", $tab[1], $img_path."tab.png");
-                  $tabs++;
-                  }
-               break;
-            case 'fkey':
-               o2tab_fkeys_setoff($tab[1]);
-               if (o2tab_fkeys_seton($tab[1])) {            
-                  $list[$tab[1]] = array("jxresultset", $tab[1], $img_path."tab.png");
-                  $tabs++;
-                  }
-               break;
-            case 'error':
-            default:
-               if (o2tab_rebuild($tab[1])) {
-                  $list[$tab[1]] = array("jxresultset", $tab[1], $img_path."tab.png");
-                  $tabs++;
-                  }
-               break;
+      if ($tab[0] === 'jxresultset' && $tab[3] == 'error') {
+         o2tab_fkeys_setoff($tab[1]);
+         if (o2tab_rebuild($tab[1])) {
+            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.'tab.png');
+            $tabs++;
+            $tot++;
+            }
+         else {
+            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.
+                                                           'tab_error.png');
+            $tot++;
+            }
+         }
+      }
+   // ___________________________________________________ Fix indexes errors ___      
+   foreach ($errors_tab as $tab) {
+      if ($tab[0] === 'jxresultset' && $tab[3] == 'index') {
+         o2tab_indexes_setoff($tab[1]);
+         if (o2tab_indexes_seton($tab[1])) {            
+            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.'tab.png');
+            $tabs++;
+            $tot++;
+            }
+         else {
+            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.
+                                                           'tab_error.png');
+            $tot++;
+            }
+         }
+      }
+   // _____________________________________________ Fix foreign keysa errors ___      
+   foreach ($errors_tab as $tab) {
+      if ($tab[0] === 'jxresultset' && 
+          ($tab[3] == 'fkey' || $tab[3] == 'error')) {
+         o2tab_fkeys_setoff($tab[1]);
+         if (o2tab_fkeys_seton($tab[1])) {            
+            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.'tab.png');
+            $tabs++;
+            $tot++;
+            }
+         else {
+            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.
+                                                           'tab_error.png');
+            $tot++;
             }
          }
       }
    }
-$list["jxresultset"] = array(0, $tabs." tables with errors fixed", $img_path."folder.png");
-o2tree_def("result", $list, 1, "result_select");
+$list['jxresultset'] = array(0, $tabs.' of '.$tot.' tables with errors fixed', $img_path.'folder.png');
+o2tree_def('result', $list, 1, 'result_select');
 return ("Rebuild");
 	} //|o2_fine_exp|
 
