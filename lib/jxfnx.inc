@@ -5955,6 +5955,10 @@ function o2view_reqrows($view_name) {
  * Returned rows number is equal to requested rows number, until the recordset end is
  * reached.
  *
+ * NOTE: After a recordset-goto-first instruction, this function may be useful to get the
+ *       actual number of records in a view (0, 1 or more, up to the defined view number
+ *       of records).
+ *
  * @package view
  * @param   string $view_name
  * @return  integer

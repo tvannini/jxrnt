@@ -180,13 +180,20 @@ function o2_jxmdb_execute($cmd_str) {
         }
     // ______________________________________________________ Get connection to server ___
     $conn = o2_jxmdb_connect();
-    // __________________________________________________________ On execution failure ___
-    if (socket_write($conn, $cmd_str, strlen($cmd_str)) === false) {
-        throw new o2_exception("<b>JXMDB</b> server:<hr>".
-                               "query: <code>".$cmd_str."</code><hr>".
-                               socket_strerror(socket_last_error($conn)),
-                               o2error_DBEXECUTE);
-        return false;
+    if ($conn) {
+        // __________________________________________________________ On execution failure ___
+        if (socket_write($conn, $cmd_str, strlen($cmd_str)) === false) {
+            throw new o2_exception("<b>JXMDB</b> server:<hr>".
+                                   "query: <code>".$cmd_str."</code><hr>".
+                                   socket_strerror(socket_last_error($conn)),
+                                   o2error_DBEXECUTE);
+            return false;
+            }
+        }
+    else {
+        throw new o2_exception("<b>JXMDB</b> server:<hr>Can't connect to server: <code>".
+                               $cmd_str."</code>",
+                               o2error_DBCONNECT);
         }
     // _____________________________________________ Execution only, no dataset return ___
     if ($only_exe) {

@@ -152,6 +152,7 @@ class JXMDB {
                     // _______________________________________________ Shutdown server ___
                     case 'exit':
                     case 'quit':
+                    case 'stop':
                     case 'shutdown':
                         $this->sendMessageAll("Janox Memory Database shuttting down...\n".
                                               "Bye bye\n");
@@ -296,9 +297,9 @@ switch (trim($_SERVER['argv'][1])) {
     case 'check':
     case 'status':
     // _______________________________________________________________ Shutdown server ___
-    case 'stop':
     case 'exit':
     case 'quit':
+    case 'stop':
     case 'shutdown':
         if (($conn = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) &&
             !@socket_connect($conn, JXMDB::$host, JXMDB::$port)) {
