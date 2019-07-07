@@ -5292,13 +5292,36 @@ class o2_ctrl_tab extends o2_ctrl {
      */
     function user_set_order($order_list) {
 
-        $app  = $_SESSION['o2_app'];
-        $prg  = $app->istanze_prg[$app->progressivo_istanze];
-        $form = $prg->form[$this->form];
-        $save = $app->option_get("tab_settings_save") === "1";
+        $app    = $_SESSION['o2_app'];
+        $prg    = $app->istanze_prg[$app->progressivo_istanze];
+        $form   = $prg->form[$this->form];
+        $save   = $app->option_get("tab_settings_save") === "1";
+        $rm_col = ($this->row_marker ? 0 : 1);
         eval("\$order_list=".$order_list.";");
         // _______________________________________ Local persistance and column moving ___
         foreach ($order_list as $ctrl => $pos) {
+            // __________________________________ Get moved column actual column order ___
+            $col_index = 0;
+            foreach ($form->controlli as $ctrl_obj) {
+                // __________ If control is inside of table, and it is not a navigator ___
+                if ($ctrl_obj->padre == $this->nome &&
+                    $ctrl_obj->tipo_ctrl != 'navigator') {
+                    $col_index = $ctrl_obj->info_padre[2];
+                    // ________________________________________ Existing control found ___
+                    if ($ctrl_obj->nome == $ctrl) {
+                        $col_index-= $rm_col;
+                        break;
+                        }
+                    }
+                }
+            foreach ($prg->custom_grids[$this->nome]['O'] as $ex_ctrl => $ex_pos) {
+                if ($ex_pos >= $pos && $ex_pos < $col_index) {
+                    $prg->custom_grids[$this->nome]['O'][$ex_ctrl] = $ex_pos + 1;
+                    }
+                elseif ($ex_pos <= $pos && $ex_pos > $col_index) {
+                    $prg->custom_grids[$this->nome]['O'][$ex_ctrl] = $ex_pos - 1;
+                    }
+                }
             $prg->custom_grids[$this->nome]['O'][$ctrl] = $pos;
             $this->move_column($ctrl, $pos);
             }
