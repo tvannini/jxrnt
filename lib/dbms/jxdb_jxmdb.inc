@@ -61,8 +61,7 @@ function o2_jxmdb_normalize($string, $untrim = false) {
  */
 function o2_jxmdb_concat($strings) {
 
-    return o2_jxmdb_execute('concat'.o2_jxmdb_s.'[S]'.serialize($strings));
-
+    return o2_jxmdb_execute('concat'.o2_jxmdb_s.serialize($strings));
 
     }
 
@@ -87,16 +86,26 @@ function o2_jxmdb_qualify($database, $owner, $name = "") {
 /**
  * Return a JXMDB socket
  *
+ * @param  $server   Server to connect to, in the form <host>:<port>
  * @return Socket
  */
-function o2_jxmdb_connect() {
+function o2_jxmdb_connect($server = false) {
 
-    $app = $_SESSION['o2_app'];
-    // ____________________________________________________ Set standard host and port ___
-    $host = '127.0.0.1';
-    $port = 8111;
     // _________________________________________________ Check for existing connection ___
     if (!isset($GLOBALS['o2_jxmdb_conn'])) {
+        $app = $_SESSION['o2_app'];
+        // ________________________________________________ Set standard host and port ___
+        $host = '127.0.0.1';
+        $port = 8111;
+        if ($server) {
+            list($h, $p) = explode(':', $server);
+            if ($h) {
+                $host = $h;
+                }
+            if ($p) {
+                $port = $p;
+                }
+            }
         // _____________________________________________________ Create new connection ___
         if (!($conn_local = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) ||
             !socket_connect($conn_local, $host, $port)) {
@@ -171,7 +180,7 @@ function o2_jxmdb_connect() {
  * @param  boolean $stm        Statement to fetch on
  * @return mix
  */
-function o2_jxmdb_execute($cmd_str) {
+function o2_jxmdb_execute($cmd_str, $server = false) {
 
     $app = $_SESSION['o2_app'];
     // _____________________________________________________________________ SQL trace ___
@@ -179,9 +188,9 @@ function o2_jxmdb_execute($cmd_str) {
         o2log($cmd_str);
         }
     // ______________________________________________________ Get connection to server ___
-    $conn = o2_jxmdb_connect();
+    $conn = o2_jxmdb_connect($server);
     if ($conn) {
-        // __________________________________________________________ On execution failure ___
+        // ______________________________________________________ On execution failure ___
         if (socket_write($conn, $cmd_str, strlen($cmd_str)) === false) {
             throw new o2_exception("<b>JXMDB</b> server:<hr>".
                                    "query: <code>".$cmd_str."</code><hr>".
@@ -215,14 +224,11 @@ function o2_jxmdb_execute($cmd_str) {
             }
         $res = unserialize($res);
         // ______________________________________________ Error on remote server error ___
-        /*
         if (is_array($res) && isset($res['!#ERROR'])) {
-            throw new o2_exception("<b>JXMDB</b> server:<hr>".
-                                   "query: <code>".$query."</code><hr>".$res['!#ERROR'],
+            throw new o2_exception("<b>JXMDB</b> gateway:<hr>".$res['!#ERROR'],
                                    o2error_DBEXECUTE);
             return false;
             }
-        */
         return $res;
         }
 
@@ -241,12 +247,7 @@ function o2_jxmdb_execute($cmd_str) {
  */
 function o2_jxmdb_tables($server, $user, $password, $database, $owner) {
 
-    return o2_jxmdb_execute('tables'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
-                            $database.o2_jxmdb_s.
-                            $owner);
+    return o2_jxmdb_execute('tables'.o2_jxmdb_s.$database.o2_jxmdb_s.$owner, $server);
 
     }
 
@@ -265,12 +266,10 @@ function o2_jxmdb_tables($server, $user, $password, $database, $owner) {
 function o2_jxmdb_tabexists($server, $user, $password, $database, $owner, $table) {
 
     return o2_jxmdb_execute('tabexists'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
-                            $table);
+                            $table,
+                            $server);
 
     }
 
@@ -292,12 +291,10 @@ function o2_jxmdb_tabexists($server, $user, $password, $database, $owner, $table
 function o2_jxmdb_tablefields($server, $user, $password, $database, $owner, $table) {
 
     return o2_jxmdb_execute('tablefields'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
-                            $table);
+                            $table,
+                            $server);
 
     }
 
@@ -319,12 +316,10 @@ function o2_jxmdb_tablefields($server, $user, $password, $database, $owner, $tab
 function o2_jxmdb_tableindexes($server, $user, $password, $database, $owner, $table) {
 
     return o2_jxmdb_execute('tableindexes'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
-                            $table);
+                            $table,
+                            $server);
 
     }
 
@@ -360,17 +355,15 @@ function o2_jxmdb_insertfrom($server,
                              $where = "") {
 
     return o2_jxmdb_execute('insertfrom'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database_from.o2_jxmdb_s.
                             $owner_from.o2_jxmdb_s.
                             $table_from.o2_jxmdb_s.
                             $database_to.o2_jxmdb_s.
                             $owner_to.o2_jxmdb_s.
                             $table_to.o2_jxmdb_s.
-                            '[S]'.serialize($values).o2_jxmdb_s.
-                            $where);
+                            serialize($values).o2_jxmdb_s.
+                            $where,
+                            $server);
 
     }
 
@@ -389,12 +382,10 @@ function o2_jxmdb_insertfrom($server,
 function o2_jxmdb_droptable($server, $user, $password, $database, $owner, $table) {
 
     return o2_jxmdb_execute('droptable'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
-                            $table);
+                            $table,
+                            $server);
 
     }
 
@@ -420,13 +411,11 @@ function o2_jxmdb_renametable($server,
                               $new_name) {
 
     return o2_jxmdb_execute('renametable'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
-                            $new_name);
+                            $new_name,
+                            $server);
 
     }
 
@@ -488,14 +477,12 @@ function o2_jxmdb_createtable($server,
                               $execute = true) {
 
     return o2_jxmdb_execute('createtable'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
-                            '[S]'.serialize($structure).o2_jxmdb_s.
-                            $execute);
+                            serialize($structure).o2_jxmdb_s.
+                            $execute,
+                            $server);
 
     }
 
@@ -530,16 +517,14 @@ function o2_jxmdb_aggregate($server,
                             $links = null) {
 
     return o2_jxmdb_execute('aggregate'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
                             $table_alias.o2_jxmdb_s.
                             $where.o2_jxmdb_s.
-                            '[S]'.serialize($functions).o2_jxmdb_s.
-                            '[S]'.serialize($links));
+                            serialize($functions).o2_jxmdb_s.
+                            serialize($links),
+                            $server);
 
     }
 
@@ -572,16 +557,14 @@ function o2_jxmdb_verifyrec($server,
                             $order_by) {
 
     return o2_jxmdb_execute('verifyrec'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
                             $table_alias.o2_jxmdb_s.
                             $select_str.o2_jxmdb_s.
                             $where.o2_jxmdb_s.
-                            $order_by);
+                            $order_by,
+                            $server);
 
     }
 
@@ -616,15 +599,13 @@ function o2_jxmdb_modifyrec($server,
                             $where) {
 
     return o2_jxmdb_execute('modifyrec'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
                             $table_alias.o2_jxmdb_s.
-                            '[S]'.serialize($sets).o2_jxmdb_s.
-                            $where);
+                            serialize($sets).o2_jxmdb_s.
+                            $where,
+                            $server);
 
     }
 
@@ -654,15 +635,13 @@ function o2_jxmdb_insertrec($server,
                             $values) {
 
     return o2_jxmdb_execute('insertrec'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
                             $table_alias.o2_jxmdb_s.
-                            '[S]'.serialize($fields).o2_jxmdb_s.
-                            '[S]'.serialize($values));
+                            serialize($fields).o2_jxmdb_s.
+                            serialize($values),
+                            $server);
 
     }
 
@@ -690,14 +669,12 @@ function o2_jxmdb_deleterec($server,
                             $where) {
 
     return o2_jxmdb_execute('deleterec'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
                             $table_alias.o2_jxmdb_s.
-                            $where);
+                            $where,
+                            $server);
 
     }
 
@@ -727,15 +704,13 @@ function o2_jxmdb_count($server,
                         $links = null) {
 
     return o2_jxmdb_execute('count'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
                             $table_alias.o2_jxmdb_s.
                             $where.o2_jxmdb_s.
-                            '[S]'.serialize($links));
+                            serialize($links),
+                            $server);
 
     }
 
@@ -794,9 +769,6 @@ function o2_jxmdb_recordset($server,
                             $stm_id     = false) {
 
     return o2_jxmdb_execute('recordset'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
@@ -805,10 +777,11 @@ function o2_jxmdb_recordset($server,
                             $where.o2_jxmdb_s.
                             $order_by.o2_jxmdb_s.
                             $recs.o2_jxmdb_s.
-                            '[S]'.serialize($links).o2_jxmdb_s.
+                            serialize($links).o2_jxmdb_s.
                             $lock.o2_jxmdb_s.
                             $page_where.o2_jxmdb_s.
-                            $stm_id);
+                            $stm_id,
+                            $server);
 
     }
 
@@ -846,18 +819,16 @@ function o2_jxmdb_fkeyadd($server,
                           $key_name) {
 
     return o2_jxmdb_execute('fkeyadd'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $main_db.o2_jxmdb_s.
                             $main_owner.o2_jxmdb_s.
                             $main_table.o2_jxmdb_s.
-                            '[S]'.serialize($main_fields).o2_jxmdb_s.
+                            serialize($main_fields).o2_jxmdb_s.
                             $ref_db.o2_jxmdb_s.
                             $ref_owner.o2_jxmdb_s.
                             $ref_table.o2_jxmdb_s.
-                            '[S]'.serialize($ref_fields).o2_jxmdb_s.
-                            $key_name);
+                            serialize($ref_fields).o2_jxmdb_s.
+                            $key_name,
+                            $server);
 
     }
 
@@ -883,13 +854,11 @@ function o2_jxmdb_fkeyremove($server,
                              $key_name) {
 
     return o2_jxmdb_execute('fkeyremove'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
-                            $key_name);
+                            $key_name,
+                            $server);
 
     }
 
@@ -915,13 +884,11 @@ function o2_jxmdb_fkeyvalidate($server,
                                $key_name) {
 
     return o2_jxmdb_execute('fkeyvalidate'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
                             $table.o2_jxmdb_s.
-                            $key_name);
+                            $key_name,
+                            $server);
 
     }
 
@@ -945,12 +912,10 @@ function o2_jxmdb_fkeystablist($server,
                                $table) {
 
     return o2_jxmdb_execute('fkeystablist'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
                             $database.o2_jxmdb_s.
                             $owner.o2_jxmdb_s.
-                            $table);
+                            $table,
+                            $server);
 
     }
 
@@ -972,12 +937,7 @@ function o2_jxmdb_fkeysinfo($server,
                             $database,
                             $owner) {
 
-    return o2_jxmdb_execute('fkeysinfo'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
-                            $database.o2_jxmdb_s.
-                            $owner.o2_jxmdb_s);
+    return o2_jxmdb_execute('fkeysinfo'.o2_jxmdb_s.$database.o2_jxmdb_s.$owner, $server);
 
     }
 
@@ -994,11 +954,7 @@ function o2_jxmdb_commit($server, $user, $password, $end = false) {
 
     // _______________________________________________ This is needed for memory db!!! ___
     $end = false;
-    return o2_jxmdb_execute('commit'.o2_jxmdb_s.
-                            $server.o2_jxmdb_s.
-                            $user.o2_jxmdb_s.
-                            $password.o2_jxmdb_s.
-                            $end);
+    return o2_jxmdb_execute('commit'.o2_jxmdb_s.$end, $server);
 
     }
 

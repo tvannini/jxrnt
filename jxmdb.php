@@ -22,19 +22,23 @@
  *
  *
  * JXMDB script
- * ===============
+ * ============
  *
- * This script works both as a service controller and as socket server.
+ * This script works both as a service controller and as a socket server.
  *
  * To start Janox Memory Database just run:
  *
  *    <path-to>/php <path-to>/jxmdb.php
  *
- * JXMD script can be executed with extra parameters:
+ * JXMD accepts commands:
  *
- *  - start (or none parameter): starts server
- *  - check | status:            prints out server status informations
- *  - exit | quit | shutdown:    stops server
+ *  - start (or none parameter):        starts server
+ *  - check | status:                   prints out server status informations
+ *  - exit | quit | shutdown | stop:    stops server
+ *
+ *
+ * To configure JXMDB server set values for global variables in SETTINGS section.
+ *
  *
  * @name      jxmdb.php
  * @package   janox/jxmdb.php
@@ -45,12 +49,47 @@
 
 
 /**
- * SETTINGS
+ * Settings
  * ========
  *
- * @var string $jxrnt_path   path to Janox runtime folder
+ * @var string $jxrnt_path   Path to Janox runtime folder
  */
 $jxrnt_path = __DIR__.DIRECTORY_SEPARATOR.'jxrnt'.DIRECTORY_SEPARATOR;
+
+/*
+ * @var string $host   Host on which server will listen
+ */
+$host = '127.0.0.1';
+
+/*
+ * @var string $port   Port on which server will listen
+ */
+$port = 8111;
+
+/*
+ * @var string $db_engine   Database engine used by server
+ */
+$db_engine = 'sqlite3';
+
+/*
+ * @var string $db_host   Database server host
+ */
+$db_host = ':memory:';
+
+/*
+ * @var string $db_user   User name to connect to database server
+ */
+$db_user = '';
+
+/*
+ * @var string $db_password   User password to connect to database server
+ */
+$db_password = '';
+
+/*
+ * @var string $log_file   File to log out to
+ */
+$log_file = __DIR__.DIRECTORY_SEPARATOR.'jxmdb.log';
 
 
 /**
@@ -59,17 +98,20 @@ $jxrnt_path = __DIR__.DIRECTORY_SEPARATOR.'jxrnt'.DIRECTORY_SEPARATOR;
  */
 class JXMDB {
 
-    static  $host      = '127.0.0.1';
-    static  $port      = 8111;
+    // __________________________________________________________ Server configuration ___
+    private $host;
+    private $port;
+    private $log_file;
+    // ______________________________________________________________ Database gateway ___
+    private $db_engine;
+    private $db_host;
+    private $db_user;
+    private $db_pwd;
+    // ___________________________________________________________ Internal properties ___
+    private $separator = '|-+-|';
     private $socket    = null;
     private $clients   = [];
     private $changed   = [];
-    private $db_engine = 'sqlite3';
-    private $db_host   = ':memory:';
-    private $db_user   = '';
-    private $db_pwd    = '';
-    private $separator = '|-+-|';
-
 
 
     function __construct() {
@@ -77,6 +119,14 @@ class JXMDB {
         if (!extension_loaded('sockets')) {
             die("ERROR: The sockets extension is not loaded!");
             }
+        // ______________________________________________________ Load server settings ___
+        $this->host      = $GLOBALS['host'];
+        $this->port      = $GLOBALS['port'];
+        $this->log_file  = $GLOBALS['log_file'];
+        $this->db_engine = $GLOBALS['db_engine'];
+        $this->db_host   = $GLOBALS['db_host'];
+        $this->db_user   = $GLOBALS['db_user'];
+        $this->db_pwd    = $GLOBALS['db_password'];
         // ________________________________________________________ Load Janox runtime ___
         require_once($GLOBALS['jxrnt_path'].'jxrnt.php');
         // ___________________________________________________________ Load DB gateway ___
@@ -87,7 +137,7 @@ class JXMDB {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1);
         // ____________________________________ bind socket to specified host and port ___
-        socket_bind($this->socket, self::$host, self::$port);
+        socket_bind($this->socket, $this->host, $this->port);
         // ____________________________________________________________ Listen to port ___
         socket_listen($this->socket);
 
@@ -104,8 +154,18 @@ class JXMDB {
         }
 
 
+    function log($e) {
+
+        if ($this->log_file) {
+            file_put_contents($this->log_file, $e->to_raw_text(), FILE_APPEND);
+            }
+
+        }
+
+
     function run() {
 
+        // _______________________________________________________________________ Run ___
         while(true) {
             $this->waitForChange();
             $this->checkNewClients();
@@ -143,7 +203,8 @@ class JXMDB {
                     case 'check':
                     case 'status':
                         $this->sendMessage($socket,
-                                           "Janox Memory Database".
+                                           "Janox Memory Database\n".
+                                           '['.$this->host.':'.$this->port.']'.
                                            "\nPID: ".getmypid().
                                            "\nRAM: ".memory_get_usage().'/'.
                                                      memory_get_peak_usage().
@@ -154,15 +215,28 @@ class JXMDB {
                     case 'quit':
                     case 'stop':
                     case 'shutdown':
+                        read_settings();
                         $this->sendMessageAll("Janox Memory Database shuttting down...\n".
-                                              "Bye bye\n");
+                                              '['.$this->host.':'.$this->port.']'.
+                                              "\nBye bye\n");
                         exit("Bye bye\n");
                         break;
                     // _______________________________________________ Process request ___
                     default:
-                        $this->sendMessage($socket,
-                                           $this->processRequest($buffer).
-                                           $this->separator."\n".$this->separator);
+                        try {
+                            $this->sendMessage($socket,
+                                               $this->processRequest($buffer).
+                                               $this->separator."\n".$this->separator);
+                            }
+                        catch (exception $e) {
+                            $this->log($e);
+                            $this->sendMessage($socket,
+                                               serialize(array('!#ERROR' =>
+                                                               $e->getmessage())).
+                                               $this->separator."\n".$this->separator);
+                            unset($this->changed[$key]);
+                            return false;
+                            }
                         break;
                     }
                 unset($this->changed[$key]);
@@ -177,9 +251,14 @@ class JXMDB {
         // _____________________________________________________ Reset changed sockets ___
         $this->changed = array_merge([$this->socket], $this->clients);
         $empty         = null;
-        // ________ This next part is blocking so that we dont run away with cpu (???) ___
-        if (socket_select($this->changed, $empty, $empty, null) === false) {
-            print socket_strerror(socket_last_error())."\n";
+        try {
+            // ____ This next part is blocking so that we dont run away with cpu (???) ___
+            if (socket_select($this->changed, $empty, $empty, null) === false) {
+                print socket_strerror(socket_last_error())."\n";
+                }
+            }
+        catch (exception $e) {
+            $this->log($e);
             }
 
         }
@@ -192,8 +271,6 @@ class JXMDB {
             }
         // _________________________________________________________ Accept new socket ___
         $this->clients[] = socket_accept($this->socket);
-//        $this->sendMessage($socket_new, "\nWelcome to Janox Memory Database");
-//        $this->sendMessage($socket_new, '#'.((integer) $socket_new)."\n");
         unset($this->changed[0]);
 
         }
@@ -224,48 +301,250 @@ class JXMDB {
         $pars = explode($this->separator, $buffer);
         // print_r($pars);
         // __________________________________________________ Engine method to execute ___
-        $exec = 'o2_'.$this->db_engine.'_'.$pars[0];
-        $n    = 0;
-        return serialize($exec((substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n]),
-                               (substr($pars[++$n], 0, 3) === '[S]' ?
-                                unserialize(substr($pars[$n], 3)) : $pars[$n])));
+        switch ($pars[0]) {
+            case 'concat':
+                $exec = 'o2_'.$this->db_engine.'_concat';
+                return serialize($exec(unserialize($pars[1])));
+                break;
+            case 'tables':
+                $exec = 'o2_'.$this->db_engine.'_tables';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2]));
+                break;
+            case 'tabexists':
+                $exec = 'o2_'.$this->db_engine.'_tabexists';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3]));
+                break;
+            case 'tablefields':
+                $exec = 'o2_'.$this->db_engine.'_tablefields';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3]));
+                break;
+            case 'tableindexes':
+                $exec = 'o2_'.$this->db_engine.'_tableindexes';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3]));
+                break;
+            case 'insertfrom':
+                $exec = 'o2_'.$this->db_engine.'_insertfrom';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4],
+                                 $pars[5],
+                                 $pars[6],
+                                 unserialize($pars[7]),
+                                 $pars[8]));
+                break;
+            case 'droptable':
+                $exec = 'o2_'.$this->db_engine.'_droptable';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1]));
+                break;
+            case 'renametable':
+                $exec = 'o2_'.$this->db_engine.'_renametable';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4]));
+                break;
+            case 'createtable':
+                $exec = 'o2_'.$this->db_engine.'_createtable';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 unserialize($pars[4]),
+                                 $pars[5]));
+                break;
+            case 'aggregate':
+                $exec = 'o2_'.$this->db_engine.'_aggregate';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4],
+                                 $pars[5],
+                                 unserialize($pars[6]),
+                                 unserialize($pars[7])));
+                break;
+            case 'verifyrec':
+                $exec = 'o2_'.$this->db_engine.'_verifyrec';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4],
+                                 $pars[5],
+                                 $pars[6],
+                                 $pars[7]));
+                break;
+            case 'modifyrec':
+                $exec = 'o2_'.$this->db_engine.'_modifyrec';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4],
+                                 unserialize($pars[5]),
+                                 $pars[6]));
+                break;
+            case 'insertrec':
+                $exec = 'o2_'.$this->db_engine.'_insertrec';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4],
+                                 unserialize($pars[5]),
+                                 unserialize($pars[6])));
+                break;
+            case 'deleterec':
+                $exec = 'o2_'.$this->db_engine.'_deleterec';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4],
+                                 $pars[5]));
+                break;
+            case 'count':
+                $exec = 'o2_'.$this->db_engine.'_count';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4],
+                                 $pars[5],
+                                 unserialize($pars[6])));
+                break;
+            case 'recordset':
+                $exec = 'o2_'.$this->db_engine.'_recordset';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4],
+                                 $pars[5],
+                                 $pars[6],
+                                 $pars[7],
+                                 $pars[8],
+                                 unserialize($pars[9]),
+                                 $pars[10],
+                                 $pars[11],
+                                 $pars[12]));
+                break;
+            case 'fkeyadd':
+                $exec = 'o2_'.$this->db_engine.'_fkeyadd';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 unserialize($pars[4]),
+                                 $pars[5],
+                                 $pars[6],
+                                 $pars[7],
+                                 unserialize($pars[8]),
+                                 $pars[9]));
+                break;
+            case 'fkeyremove':
+                $exec = 'o2_'.$this->db_engine.'_fkeyremove';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4]));
+                break;
+            case 'fkeyvalidate':
+                $exec = 'o2_'.$this->db_engine.'_fkeyvalidate';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3],
+                                 $pars[4]));
+                break;
+            case 'fkeystablist':
+                $exec = 'o2_'.$this->db_engine.'_fkeystablist';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3]));
+                break;
+            case 'fkeysinfo':
+                $exec = 'o2_'.$this->db_engine.'_fkeysinfo';
+                return serialize($exec($this->db_host,
+                                 $this->db_user,
+                                 $this->db_pwd,
+                                 $pars[1],
+                                 $pars[2]));
+                break;
+            case 'commit':
+                $exec = 'o2_'.$this->db_engine.'_commit';
+                return serialize($exec($this->db_host,
+                                       $this->db_user,
+                                       $this->db_pwd,
+                                       $pars[1]));
+                break;
+            }
 
         }
 
     }
 
 
-// _________________________________________________________________ Server controller ___
-switch (trim($_SERVER['argv'][1])) {
+// =============================== SERVER CONTROLLER =====================================
+$cmd = strtolower(trim($_SERVER['argv'][1]));
+switch ($cmd) {
     // __________________________________________________ Run server (from controller) ___
-    case 'JxStartBatch':
+    case 'jxstartbatch':
         (new JXMDB())->run();
         break;
     // __________________________________________________________________ Start server ___
@@ -283,36 +562,39 @@ switch (trim($_SERVER['argv'][1])) {
             die("Sorry, can't find Janox runtime to run Janox Memory Database Server.\n".
                 "Please set \$jxrnt_path variable in this file (".__file__.").\n");
             }
-        $cmd = $php_exe_path.' '.__FILE__.' JxStartBatch';
+        print "Starting Janox Memory Database server\n".
+              '['.$host.':'.$port."]\n";
+        $run = $php_exe_path.' '.__FILE__.' JxStartBatch';
         if (stripos(PHP_OS, "win") !== false) {
             // ____________________________________________ Batch execution on Windows ___
-            (new COM("WScript.Shell"))->Run($cmd, 0, false);
+            (new COM("WScript.Shell"))->Run($run, 0, false);
             }
         else {
             // ______________________________________________ Batch execution on Linux ___
-            system("(".$cmd.") > /dev/null &");
+            system("(".$run.") > /dev/null &");
             }
         break;
     // ___________________________________________________________ Check server status ___
     case 'check':
     case 'status':
     // _______________________________________________________________ Shutdown server ___
-    case 'exit':
     case 'quit':
     case 'stop':
     case 'shutdown':
+    case 'exit':
         if (($conn = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) &&
-            !@socket_connect($conn, JXMDB::$host, JXMDB::$port)) {
-            die("Janox Memory Database: server is not running!\n");
+            !@socket_connect($conn, $host, $port)) {
+            die("Janox Memory Database: server is not running!\n".
+                '['.$host.':'.$port."]\n");
             }
         else {
-            socket_write($conn, $_SERVER['argv'][1], 6);
+            socket_write($conn, $cmd, strlen($cmd));
             print socket_read($conn, 2048);
             }
         break;
     // _______________________________________________________________ Process request ___
     default:
-        print "Janox Memory Database: unknown command ".$_SERVER['argv'][1]."\n";
+        print "Janox Memory Database: unknown command ".$cmd."\n[".$host.':'.$port."]\n";
         break;
     }
 
