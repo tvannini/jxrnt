@@ -215,7 +215,6 @@ class JXMDB {
                     case 'quit':
                     case 'stop':
                     case 'shutdown':
-                        read_settings();
                         $this->sendMessageAll("Janox Memory Database shuttting down...\n".
                                               '['.$this->host.':'.$this->port.']'.
                                               "\nBye bye\n");
@@ -360,7 +359,9 @@ class JXMDB {
                 return serialize($exec($this->db_host,
                                  $this->db_user,
                                  $this->db_pwd,
-                                 $pars[1]));
+                                 $pars[1],
+                                 $pars[2],
+                                 $pars[3]));
                 break;
             case 'renametable':
                 $exec = 'o2_'.$this->db_engine.'_renametable';
