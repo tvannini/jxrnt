@@ -9543,19 +9543,9 @@ o2jse.cMenu.addAdmin = function() {
             case "file":
             case "img":
                 if (o2jse.profiling == "C" || o2jse.profiling == "B") {
-                    var singleItem;
-                    var prgName = "";
-                    for (var elementId in o2jse.exeTree) {
-                        singleItem = o2jse.exeTree[elementId];
-                        if (singleItem.type == "P" &&
-                            singleItem.prg == o2jse.cMenu.target.o2.e) {
-                            prgName = singleItem.name;
-                            break;
-                            }
-                        }
                     var func2exe = function() {
                                       o2jse.cmd.run("tools/o2sys_profile_ctrl",
-                                                    prgName,
+                                                    o2jse.infoForm['o2_prgname'].value,
                                                     o2jse.cMenu.target.o2.c);
                                       };
                     pMenu.addItem("J",

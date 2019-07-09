@@ -39,8 +39,8 @@ function o2sys_profile_ctrl§§o2sys_profile_ctrl_1_form_def(&$form_o2sys_profile_
 	$form_o2sys_profile_ctrl_1->y(100);
 	$form_o2sys_profile_ctrl_1->larghezza(412);
 	$form_o2sys_profile_ctrl_1->altezza(415);
-	$form_o2sys_profile_ctrl_1->titolo("Profile control");
 	$form_o2sys_profile_ctrl_1->align_o("Center");
+	$form_o2sys_profile_ctrl_1->titolo("Profile control");
 	$form_o2sys_profile_ctrl_1->frm_status(o2sys_profile_ctrl_exp_9999());
 	$ctrl_o2label2 = &$form_o2sys_profile_ctrl_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(20);
@@ -121,7 +121,7 @@ function o2sys_profile_ctrl§§o2sys_profile_ctrl_1_form_def(&$form_o2sys_profile_
 		$ctrl_o2ListBox2->y(10);
 		$ctrl_o2ListBox2->larghezza(300);
 		$ctrl_o2ListBox2->altezza(20);
-		$ctrl_o2ListBox2->info_padre(array("01" ,"01" ,"01" ,"Needed right" ,False ,"" ,False ,"" ,"" ,""));
+		$ctrl_o2ListBox2->info_padre(array("01", "01", "01", "Needed right", False, "", False, "", "", ""));
 		$ctrl_o2ListBox2->valori(o2_view2list("app_rights", "right_code", "right_code"));
 		$ctrl_o2ListBox2->righe(1);
 	$ctrl_o2dbnavigator3 = &$form_o2sys_profile_ctrl_1->ctrldef("o2dbnavigator3", "navigator", "o2table3", "ena_rights", "");
@@ -141,7 +141,7 @@ function o2sys_profile_ctrl§§o2sys_profile_ctrl_1_form_def(&$form_o2sys_profile_
 		$ctrl_o2ListBox3->y(10);
 		$ctrl_o2ListBox3->larghezza(300);
 		$ctrl_o2ListBox3->altezza(20);
-		$ctrl_o2ListBox3->info_padre(array("01" ,"01" ,"01" ,"Needed right" ,False ,"" ,False ,"" ,"" ,""));
+		$ctrl_o2ListBox3->info_padre(array("01", "01", "01", "Needed right", False, "", False, "", "", ""));
 		$ctrl_o2ListBox3->valori(o2_view2list("app_rights", "right_code", "right_code"));
 		$ctrl_o2ListBox3->righe(1);
 		}
