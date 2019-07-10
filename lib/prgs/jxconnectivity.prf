@@ -4212,55 +4212,58 @@ if ($in) {
             if (count($tab_info['fields']['less'])) {
                $list[$tab."err1"] = array($tab,
                                           "Missing fields in physical table",
-                                          $img_path."error.png");
+                                          $img_path."error.png",
+                                          "error");
                $taberr            = true;
                }
             if (count($tab_info['fields']['more'])) {
                $list[$tab."err2"] = array($tab,
                                           "Missing fields in table definition",
-                                          $img_path."error.png");
+                                          $img_path."error.png",
+                                          "error");
                $taberr            = true;
                }
             if (count($tab_info['fields']['var'])) {
                $list[$tab."err3"] = array($tab,
                                           "Changed fields in table definition",
-                                          $img_path."error.png");
+                                          $img_path."error.png",
+                                          "error");
                $taberr            = true;
                }
             if (count($tab_info['keys']['less'])) {
                $list[$tab."err4"] = array($tab,
                                           "Missing keys in physical table",
-                                          $img_path."error.png");
+                                          $img_path."error.png",
+                                          "index");
                $taberr            = true;
-               $type              = "index";
                }
             if (count($tab_info['keys']['more'])) {
                $list[$tab."err5"] = array($tab,
                                           "Missing keys in table definition",
-                                          $img_path."error.png");
+                                          $img_path."error.png",
+                                          "index");
                $taberr            = true;
-               $type              = "index";
                }
             if (count($tab_info['keys']['var'])) {
                $list[$tab."err6"] = array($tab,
                                           "Changed keys in table definition",
-                                          $img_path."error.png");
+                                          $img_path."error.png",
+                                          "index");
                $taberr            = true;
-               $type              = "index";
                }
             if (count($tab_info['fkeys']['less'])) {
                $list[$tab."err7"] = array($tab,
                                           "Unactive foreign keys",
-                                          $img_path."error.png");
+                                          $img_path."error.png",
+                                          "fkey");
                $taberr            = true;
-               $type              = "fkey";
                }
             if (count($tab_info['fkeys']['more'])) {
                $list[$tab."err8"] = array($tab,
                                           "Undefined foreign keys are active",
-                                          $img_path."error.png");
+                                          $img_path."error.png",
+                                          "fkey");
                $taberr            = true;
-               $type              = "fkey";
                }
             }
          else {
@@ -4271,7 +4274,7 @@ if ($in) {
             }
          if ($taberr) {
             $errors++;
-            $list[$tab] = array("jxresultset", $tab, $img_path."error.png", $type);
+            $list[$tab] = array("jxresultset", $tab, $img_path."error.png");
             }
          }
       }
@@ -4639,15 +4642,20 @@ $tot        = 0;
 if ($in) {
    // ___________________________________ Fix record layout errors (rebuild) ___
    foreach ($errors_tab as $tab) {
-      if ($tab[0] === 'jxresultset' && $tab[3] == 'error') {
-         o2tab_fkeys_setoff($tab[1]);
-         if (o2tab_rebuild($tab[1])) {
-            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.'tab.png');
+      if ($tab[0] !== 'jxresultset' && $tab[3] && $tab[3] == 'error') {
+         o2tab_fkeys_setoff($tab[0]);
+         if (o2tab_rebuild($tab[0])) {
+            $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.'tab.png');
             $tabs++;
             $tot++;
+            foreach ($errors_tab as $rt_key => $r_tab) {
+               if ($r_tab[3] && $r_tab[3] == 'index') {
+                  unset($errors_tab[$rt_key]);               
+                  }            
+               }
             }
          else {
-            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.
+            $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.
                                                            'tab_error.png');
             $tot++;
             }
@@ -4655,15 +4663,15 @@ if ($in) {
       }
    // ___________________________________________________ Fix indexes errors ___      
    foreach ($errors_tab as $tab) {
-      if ($tab[0] === 'jxresultset' && $tab[3] == 'index') {
-         o2tab_indexes_setoff($tab[1]);
-         if (o2tab_indexes_seton($tab[1])) {            
-            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.'tab.png');
+      if ($tab[0] !== 'jxresultset' && $tab[3] && $tab[3] == 'index') {
+         o2tab_indexes_setoff($tab[0]);
+         if (o2tab_indexes_seton($tab[0])) {            
+            $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.'tab.png');
             $tabs++;
             $tot++;
             }
          else {
-            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.
+            $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.
                                                            'tab_error.png');
             $tot++;
             }
@@ -4671,18 +4679,22 @@ if ($in) {
       }
    // _____________________________________________ Fix foreign keysa errors ___      
    foreach ($errors_tab as $tab) {
-      if ($tab[0] === 'jxresultset' && 
-          ($tab[3] == 'fkey' || $tab[3] == 'error')) {
-         o2tab_fkeys_setoff($tab[1]);
-         if (o2tab_fkeys_seton($tab[1])) {            
-            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.'tab.png');
-            $tabs++;
-            $tot++;
+      if ($tab[0] !== 'jxresultset' && $tab[3]) {
+         if ($tab[3] == 'fkey') {
+            o2tab_fkeys_setoff($tab[0]);
+            if (o2tab_fkeys_seton($tab[0])) {            
+               $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.'tab.png');
+               $tabs++;
+               $tot++;
+               }
+            else {
+               $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.
+                                                              'tab_error.png');
+               $tot++;
+               }
             }
-         else {
-            $list[$tab[1]] = array('jxresultset', $tab[1], $img_path.
-                                                           'tab_error.png');
-            $tot++;
+         elseif ($tab[3] == 'error') {
+            o2tab_fkeys_seton($tab[0]);         
             }
          }
       }
