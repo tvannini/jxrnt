@@ -165,7 +165,7 @@ class o2_app {
     public $profiling       = false;   /* Enables runtime profiling capabilities        */
     public $wait_on_ctrl    = true;    /* If waiting icon is displayed on submit control*/
     public $fastmsg_time    = 5;       /* Fast messages time-out to fade away           */
-    /*     _____ Miscellaneus _________________________________________________________ */
+    /*     _____ Miscellaneous ________________________________________________________ */
     public $host            = '';      /* Machine registered name in a Janox network    */
     public $zoom            = true;    /* Enables activation for zoomable fields        */
     public $start_user      = false;   /* Usually FALSE or start user after o2app_user()*/
