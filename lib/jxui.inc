@@ -710,7 +710,17 @@ class o2_form {
                 foreach ($this->controlli as $ctrl_idx => $ctrl_obj) {
                     if ($ctrl_obj->tipo_ctrl == 'tab' &&
                         isset($prg->custom_grids[$ctrl_idx]['O'])) {
-                        foreach ($prg->custom_grids[$ctrl_idx]['O'] as $col => $pos) {
+                        /*
+                         * ATTENTION: Next logic is needed to get the right moving of a
+                         *            column in last position
+                         */
+                        $ol = $prg->custom_grids[$ctrl_idx]['O'];
+                        asort($ol);
+                        foreach ($ol as $lk => $lv) {
+                            }
+                        unset($ol[$lk]);
+                        $ctrl_obj->move_column($lk, $lv);
+                        foreach ($ol as $col => $pos) {
                             $ctrl_obj->move_column($col, $pos);
                             }
                         }
