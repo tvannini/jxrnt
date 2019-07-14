@@ -104,6 +104,15 @@ function o2_sqlite3_connect($location, $user, $password, $trans) {
     if (!$location) {
         $location = $app->dir_data.$app->nome.".db";
         }
+    // _________________________________________________________ Session physical file ___
+    elseif (strpos(':session:', strtolower($location)) === 0) {
+        if (strtolower($location) == ':session:') {
+            $location = $app->dir_tmp.$app->nome.'.db';
+            }
+        else {
+            $location = $app->dir_tmp.substr($location, 9);
+            }
+        }
     elseif (strpos(":memory:", strtolower($location)) === false &&
             basename($location) == $location) {
         $location = $app->dir_data.$location;
@@ -1352,9 +1361,20 @@ function o2_sqlite3_commit($server, $user, $password, $end = false) {
     if (!$server) {
         $server = $app->dir_data.$app->nome.".db";
         }
-    elseif (basename($server) == $server) {
+    // _________________________________________________________ Session physical file ___
+    elseif (strpos(':session:', strtolower($server)) === 0) {
+        if (strtolower($server) == ':session:') {
+            $server = $app->dir_tmp.$app->nome.'.db';
+            }
+        else {
+            $server = $app->dir_tmp.substr($server, 9);
+            }
+        }
+    elseif (strpos(":memory:", strtolower($server)) === false &&
+            basename($server) == $server) {
         $server = $app->dir_data.$server;
         }
+
     // ________________________________________________ Check for existing transaction ___
     if ($GLOBALS['o2_sqlite3_trans'][$server]) {
         // ___________________________________ Check for errors on current transaction ___
