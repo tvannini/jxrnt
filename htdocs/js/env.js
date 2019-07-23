@@ -1742,10 +1742,12 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 var pNode   = waitCtrl.parentNode;
                 var cWidth  = waitCtrl.offsetWidth;
                 var cHeight = waitCtrl.offsetHeight;
+                var cClass  = waitCtrl.className;
                 // ______________________________________________________ Hide control ___
                 waitCtrl.style.display = 'none';
                 // __________________________ Simulate original control as a container ___
-                o2jse.waitObj              = pNode.insertCell(-1);
+                o2jse.waitObj              = pNode.insertCell(waitCtrl.cellIndex);
+                o2jse.waitObj.className    = cClass;
                 o2jse.waitObj.style.width  = cWidth + 'px';
                 o2jse.waitObj.style.height = cHeight + 'px';
                 // ___________________________ Create wait image inside pseudo-control ___
@@ -5537,7 +5539,7 @@ o2jse.lu.k = function(eventObj, targetObj) {
             if (targetObj.listObj) {
                 var list = targetObj.listObj.childNodes[0].childNodes;
                 // ____________________________________ If waiting for a list response ___
-                if (o2jse.waitObj) {
+                if (o2jse.waitObj || targetObj.pastedValue) {
                     targetObj.tabbedValue = targetObj.value.trim();
                     targetObj.listObj.style.display = 'none';
                     return false;
@@ -5623,6 +5625,7 @@ o2jse.lu.f = function(targetObj) {
             }
         // ________________________________________________________ Reset TABbed value ___
         targetObj.tabbedValue = false;
+        targetObj.pastedValue = false;
         }
 
     };
@@ -5636,7 +5639,8 @@ o2jse.lu.f = function(targetObj) {
  */
 o2jse.lu.p = function(targetObj) {
 
-    targetObj.inEdit = true;
+    targetObj.inEdit      = true;
+    targetObj.pastedValue = true;
     setTimeout(function() {
                     o2jse.lu.list(targetObj, false, true);
                     targetObj.inEdit = false;
@@ -5665,7 +5669,8 @@ o2jse.lu.b = function(targetObj) {
     if (descField.listObj) {
         o2jse.lu.closeTimer = setTimeout(function(){ o2jse.lu.listOff(descField); }, 100);
         }
-    descField.inEdit = false;
+    descField.inEdit      = false;
+    descField.pastedValue = false;
 
     };
 
@@ -5706,6 +5711,8 @@ o2jse.lu.m = function(eventObj, targetObj, notFocus) {
         codeField.value     = targetObj.value;
         descField.value     = targetObj.innerHTML.decode();
         descField.saveValue = descField.value;
+        // ___________________________________________ Stop later updates on selection ___
+        descField.stopForSelection = true;
         // ___________________________________________ Reset "value not in list" error ___
         descField.className = descField.className.replace(' jxerror', '');
         // _________________________________ TAB events let focus flow to next control ___
@@ -5918,7 +5925,9 @@ o2jse.lu.list = function(targetObj, complete, immediate, stdEvent) {
     else {
         targetObj.listObj.style.top = (posLocal.y - targetObj.listObj.offsetHeight) +"px";
         }
-    o2jse.lu.listObj = targetObj.listObj;
+    o2jse.lu.listObj           = targetObj.listObj;
+    // __________________________________ Reset updates for selection on new list open ___
+    targetObj.stopForSelection = false;
 
     };
 
@@ -5994,6 +6003,13 @@ o2jse.lu.getList = function(ctrlObj, listText) {
     if (o2jse.waitObj) {
         o2jse.removeEl(o2jse.waitObj);
         delete o2jse.waitObj;
+        }
+    if (jxjs.waitingCtrl) {
+        jxjs.waitingCtrl.style.display = "block";
+        }
+    // ___________________________________________ Stop list updates on selection done ___
+    if (ctrlObj.stopForSelection) {
+        return false;
         }
     var itemsList;
     // _________________________________________________________ Fired from desc-field ___
