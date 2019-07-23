@@ -1472,7 +1472,9 @@ class o2_app {
      */
     function is_user($role_name) {
 
-        return (($this->user == "root") || in_array($role_name, $this->user_roles));
+        return (($this->user == "root") ||
+                ($this->user == "jxsys") ||
+                in_array($role_name, $this->user_roles));
 
         }
 
@@ -1485,7 +1487,9 @@ class o2_app {
      */
     function has_right($right_code) {
 
-        return (($this->user == "root") || in_array($right_code, $this->user_rights));
+        return (($this->user == "root") ||
+                ($this->user == "jxsys") ||
+                in_array($right_code, $this->user_rights));
 
         }
 
