@@ -40,6 +40,7 @@ o2def::model("o2sys_logact", "A", "U1[Inserted|Deleted|Updated|Changed]", "");
 o2def::model("o2sys_login_type", "A", "U5[|LDAP]", "");
 o2def::model("o2sys_loglevel", "A", "U1[Record|Insert|Delete|Change|Existence (I+D)|Modify (C+D)]", "");
 o2def::model("o2sys_long_date", "D", "-dmyz", "");
+o2def::model("o2sys_long_time", "O", ":hmsz", "");
 o2def::model("o2sys_long_str", "A", "C240", "");
 o2def::model("o2sys_menu_open_on", "A", "U1[Click|Over]", "");
 o2def::model("o2sys_negative", "N", "5N", "");
@@ -49,6 +50,6 @@ o2def::model("o2sys_right_role", "A", "U5[Right|Role]", "");
 o2def::model("o2sys_role", "A", "U50", "");
 o2def::model("o2sys_service_status", "A", "U1[Active|Stopped|Requested]", "");
 o2def::model("o2sys_short_date", "D", "-dmy2z", "");
-o2def::model("o2sys_short_time", "O", ":hmsz", "");
+o2def::model("o2sys_short_time", "O", ":hmz", "");
 o2def::model("o2sys_timestamp", "A", "N16", "");
 ?>

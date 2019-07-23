@@ -6964,6 +6964,9 @@ function o2file_ico($file_path, $large = false, $internal_use = false) {
             case "txt":
             case "ini":
             case "conf":
+            case "log":
+            case "js":
+            case "css":
                 $ico_file = "text.png";
                 break;
             case "exe":
@@ -7008,6 +7011,7 @@ function o2file_ico($file_path, $large = false, $internal_use = false) {
             case "jpg":
             case "tif":
             case "ico":
+            case "bmp":
                 $ico_file = "img.png";
                 break;
             case "pdf":

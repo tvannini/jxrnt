@@ -230,6 +230,11 @@ function o2sys_fs_browser§§file_del_act(&$o2exe) {
 	$o2exe->s(4) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::exe("load_file_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2sys_fs_browser§§file_download_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "file_name", o2sys_fs_browser_exp_2()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2sys_fs_browser_exp_66()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2sys_fs_browser§§file_get_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "file_name", o2sys_fs_browser_exp_2()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "form_fileget", o2sys_fs_browser_exp_3()) && $o2exe->e();
@@ -329,14 +334,13 @@ function o2sys_fs_browser§§start_act(&$o2exe) {
 function o2sys_fs_browser_exp_1() {
 	$row_list = o2dir_list(o2val('prg§_§var','folder_path'),
                        o2val('prg§_§var','files_filter'));
-$counter = -1;
-$list    = array();
+$counter  = -1;
+$list     = array();
 foreach ($row_list as $s_file) {
-   $counter++;
+   $counter++;   
    $list[$counter]   = array('fullname' => $s_file,
                              'name'     => o2file_basename($s_file).
-                                           (!o2file_ext($s_file) ?
-                                            "" :
+                                           (!o2file_ext($s_file) ? "" : 
                                             ".".o2file_ext($s_file)),
                              'type'     => o2file_type($s_file),
                              'dim'      => o2file_size($s_file),
@@ -420,6 +424,7 @@ elseif (o2app_user() != "root") {
 else {
    $folder = o2app_dir_home();
    }
+$folder = str_replace('\\', '/', $folder);
 return ($folder);
 	} //|o2_fine_exp|
 
@@ -435,6 +440,7 @@ if (is_array(o2val('prg§_§var','file_list'))) {
       $select_btn = '';
       $ren_btn    = '';
       $del_btn    = '';
+      $down_btn   = '';
       /* ___________________ If interface is for file or folder selection ___ */
       if ((o2par(4) && $file['type'] != 'D') || (o2par(5) && $file['type'] == 'D')) {
          $select_btn = '<img src="'.$GLOBALS['o2_runtime']->alias.'img/ctrl_select.png"'.
@@ -443,19 +449,39 @@ if (is_array(o2val('prg§_§var','file_list'))) {
                                                     'file_select',
                                                     $file['fullname']).'">';
          }
-      /* ______________________________________________ If item is a file ___ */
-      if (o2par(6)) {
-         $del_btn =    '<img src="'.$GLOBALS['o2_runtime']->alias.
-                                    'img/ctrl_delete.png"'.
-                             ' title="Delete '.($file['type'] != "D" ?
-                                                'file' :
-                                                'folder').'"'.
-                             ' onClick="'.o2_act4js(0,
-                                                    ($file['type'] != "D" ?
-                                                     'file_del' :
-                                                     'folder_del'),
-                                                    $file['fullname']).'return true;">';
+      /* ________________________________________ If interface allows get ___ */
+      if ($file['type'] != "D" && o2par(7)) {
+         $down_btn = '<img src="'.$GLOBALS['o2_runtime']->alias.
+                                  'img/download.png"'.
+                         ' title="Download file"'.
+                         ' onClick="'.o2_act4js(0, 
+                                                'file_download',
+                                                $file['fullname']).
+                                   'return true;">';
          }
+      /* _____________________________________ If interface allows modify ___ */
+      if (o2par(6)) {
+         $del_btn = '<img src="'.$GLOBALS['o2_runtime']->alias.
+                                 'img/ctrl_delete.png"'.
+                          ' title="Delete '.($file['type'] != "D" ?
+                                             'file' :
+                                             'folder').'"'.
+                          ' onClick="'.o2_act4js(0,
+                                                 ($file['type'] != "D" ?
+                                                  'file_del' :
+                                                  'folder_del'),
+                                                 $file['fullname']).
+                                    'return true;">';
+         }
+      $bytes  = $file['dim'];
+      $factor = floor((strlen($bytes) - 1) / 3);
+      $sz     = '';
+      if ($factor > 0) {
+         $sz = ' KMGT';
+         }         
+      $size = ($bytes ?
+               o2format($bytes / pow(1024, $factor), 'o2sys_full_number').' '.
+               @$sz[$factor].'B' : '&nbsp;');          
       $text.= '<tr style="cursor:pointer;" class="'.
                  ($selection ? 'fsb_sel' : 'fsb_row').
                  '" title="'.$file['name'].'"'.
@@ -466,15 +492,14 @@ if (is_array(o2val('prg§_§var','file_list'))) {
                  '><td class="fsb_icon"><img src="'.o2file_ico($file['fullname']).
                                            '"></td><td class="fsb_body">'.
                  $file['name'].'</td><td class="fsb_body" style="text-align:right;">'.
-                 ($file['dim'] ?
-                  o2format($file['dim'], "o2sys_full_number") :
-                  '&nbsp;').'</td><td class="fsb_body" style="text-align:right;">'.
-                  o2format($file['date'], "_o2date").'&nbsp;'.
-                  o2format($file['time'], "_o2time").
+                 $size.'</td><td class="fsb_body" style="text-align:right;">'.
+                  o2format($file['date'], "o2sys_short_date").'&nbsp;'.
+                  o2format($file['time'], "o2sys_short_time").
                  '</td><td class="fsb_tools">'.
                  ($select_btn.$ren_btn.$del_btn ?
                   $select_btn.
-                  $ren_btn.
+                  $down_btn.
+                  $ren_btn.                  
                   $del_btn :
                   "&nbsp;").
                  '</td></tr>';
@@ -491,12 +516,14 @@ return (o2file_dir(o2val('prg§_§var','folder_path')));
 
 function o2sys_fs_browser_exp_8() {
 	
-return ((!o2par(3) ? o2val('prg§_§var','folder_path') : o2par(3)));
+return ((!o2par(3) ? o2val('prg§_§var','folder_path') : str_replace('\\', '/', o2par(3))));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_9() {
-	$str = "> ".
-       str_replace(o2file_dir(o2val('prg§_§var','folder_limit')), "", o2val('prg§_§var','folder_path')).
+	$limit = o2val('prg§_§var','folder_limit');
+$path  = str_replace('/', DIRECTORY_SEPARATOR, o2val('prg§_§var','folder_path'));
+$str = "> ".
+       str_replace(o2file_dir($limit), "", $path).
        " &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ".count(o2val('prg§_§var','file_list'))." items listed";
 return ($str);
 	} //|o2_fine_exp|
@@ -697,10 +724,12 @@ return ($sort);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_44() {
-	$list = o2val('prg§_§var','folder_list');
-$root = o2val('prg§_§var','folder_path');
+	$list  = o2val('prg§_§var','folder_list');
+$root  = o2val('prg§_§var','folder_path');
+$limit = str_replace('\\', '/', o2file_dir(o2val('prg§_§var','folder_limit')));
+$nroot = rtrim(str_replace($limit, "", $root), '/');
 if (isset($list["jxfsroot"])) {
-   if ($root == $list["jxfsroot"][1]) {
+   if ($root == $list["jxfsroot"][3]) {
       $root_node = "jxfsroot";
       }
    else {
@@ -710,7 +739,11 @@ if (isset($list["jxfsroot"])) {
 else {
    $list             = array();
    $root_node        = "jxfsroot";
-   $list[$root_node] = array(0, $root, o2file_ico($root, false, true));    
+   /* ____________________ Full path to node added as extra data in $list ___ */                                                                                                         
+   $list[$root_node] = array(0, 
+                             $nroot, 
+                             o2file_ico($root, false, true), 
+                             str_replace('\\', '/', $root));    
    }      
 $raw_list = o2dir_list($root, o2val('prg§_§var','files_filter'));
 foreach ($raw_list as $s_file) {
@@ -718,10 +751,14 @@ foreach ($raw_list as $s_file) {
       $f_name        = o2file_basename($s_file).(!o2file_ext($s_file) ? "" :
                                                  ".".o2file_ext($s_file));
       $f_name        = str_replace('\\', '/', $f_name);                                                                                                   
-      $s_file        = str_replace('\\', '/', $s_file);                                                                                                   
-      $list[$s_file] = array($root_node, $f_name, o2file_ico($s_file, false, true));
+      $s_file        = str_replace('\\', '/', $s_file);
+      /* _________________ Full path to node added as extra data in $list ___ */                                                                                                         
+      $list[$s_file] = array($root_node, 
+                             $f_name, 
+                             o2file_ico($s_file, false, true),
+                             $s_file);
       }
-   }   
+   }
 o2tree_def("jxfsbrowser", $list, 1, "set_folder_by_tree");
 return ($list);
 	} //|o2_fine_exp|
@@ -737,9 +774,9 @@ return (isset($_REQUEST['extp_1']));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_47() {
-	$dir  = o2val('prg§_§var','folder_path');
+	$dir  = str_replace('\\', '/', o2val('prg§_§var','folder_path'));
 $list = o2val('prg§_§var','folder_list');
-if ($dir == $list["jxfsroot"][1]) {
+if ($dir == $list["jxfsroot"][3]) {
    $dir = "jxfsroot";
    }
 o2tree_node_select("jxfsbrowser", $dir);
@@ -747,11 +784,9 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_48() {
-	$dir  = o2tree_get_selection("jxfsbrowser");
+	$sel  = o2tree_get_selection("jxfsbrowser");
 $list = o2val('prg§_§var','folder_list');
-if ($dir == "jxfsroot") {
-   $dir = $list["jxfsroot"][1];
-   }
+$dir  = $list[$sel][3];
 return ($dir);
 	} //|o2_fine_exp|
 
@@ -781,11 +816,11 @@ function o2sys_fs_browser_exp_53() {
 	o2tree_fold("jxfsbrowser", 1);
 $list = o2val('prg§_§var','folder_list');
 $dir  = o2val('prg§_§var','folder_path');
-if ($list["jxfsroot"][1] == $dir) {
+if ($list["jxfsroot"][3] == $dir) {
    o2tree_node_select("jxfsbrowser", "jxfsroot");
    }
 else {
-   o2tree_node_select("jxfsbrowser", $dir);
+   o2tree_node_select("jxfsbrowser", $dir.DIRECTORY_SEPARATOR);
    }
 return (true);
 	} //|o2_fine_exp|
@@ -850,6 +885,11 @@ return (0);
 function o2sys_fs_browser_exp_65() {
 	
 return (o2val('prg§_§var','folder_start'));
+	} //|o2_fine_exp|
+
+function o2sys_fs_browser_exp_66() {
+	o2_send(o2_path(o2val('prg§_§var','file_name'), 1));
+return (true);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_69() {

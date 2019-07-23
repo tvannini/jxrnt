@@ -123,7 +123,7 @@ $rntimg = o2rnt_alias().'img/';
 foreach ($recs as $id => $rec) {
    if ($rec['jxlog_act'] != 'P') {
       $date  = o2format($rec['jxlog_date'], 'o2sys_short_date');
-      $time  = o2format($rec['jxlog_time'], 'o2sys_short_time');
+      $time  = o2format($rec['jxlog_time'], 'o2sys_long_time');
       if ($rec['jxlog_act'] == 'A') {
          $code.= '<tr title="Current values"><td><img src="'.$rntimg.
                  'ctrl_select.png"></td><td colspan="3"></td><td class="jxdatalogact">[Current]</td>';
@@ -182,7 +182,7 @@ foreach ($set['fld'] as $id => $rec) {
    /* Previous value for [U]pdate events */
    if ($rec['act'] != 'P' && ($rec['act'] != 'C' || $rec['value'] !== $last_value)) {
       $date  = o2format($rec['date'], 'o2sys_short_date');
-      $time  = o2format($rec['time'], 'o2sys_short_time');
+      $time  = o2format($rec['time'], 'o2sys_long_time');
       /*   Current value row   */
       if ($rec['act'] == 'A') {
          $img        = '<img src="'.$rntimg.'ctrl_select.png">';
@@ -289,7 +289,7 @@ if ($trace['cd']) {
    $code.= o2format($current[$trace['cd']], 'o2sys_short_date').' &nbsp; ';
    }
 if ($trace['ct']) {
-   $code.= o2format($current[$trace['ct']], 'o2sys_short_time').' &nbsp; ';
+   $code.= o2format($current[$trace['ct']], 'o2sys_long_time').' &nbsp; ';
    }
 $code.= '</td><td style="text-align:center">';
 if ($trace['uu']) {
@@ -299,7 +299,7 @@ if ($trace['ud']) {
    $code.= o2format($current[$trace['ud']], 'o2sys_short_date').' &nbsp; ';
    }
 if ($trace['ut']) {
-   $code.= o2format($current[$trace['ut']], 'o2sys_short_time').' &nbsp; ';
+   $code.= o2format($current[$trace['ut']], 'o2sys_long_time').' &nbsp; ';
    }
 $code .= '</td></tr></table>';
 return ($code);

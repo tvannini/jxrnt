@@ -1,5 +1,5 @@
 <?php
-//2.4
+//2.5
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -15,6 +15,7 @@ o2def::act("close_form_newdir", "");
 o2def::act("create_dir", "");
 o2def::act("file_add", "");
 o2def::act("file_del", "");
+o2def::act("file_download", "");
 o2def::act("file_get", "");
 o2def::act("file_ren", "");
 o2def::act("file_select", "");
@@ -34,15 +35,15 @@ o2def::form("browser", "", False, "o2sys_fs_browser_exp_69()", false);
 o2def::form("add_folder", "", False, "o2sys_fs_browser_exp_14()", false);
 o2def::form("add_file", "", False, "o2sys_fs_browser_exp_23()", false);
 o2def::form("visor", "", False, "o2sys_fs_browser_exp_28()", "o2sys_fs_browser_exp_30()");
-o2def::par(1, "start_folder_path","o2sys_long_str");
-o2def::par(2, "start_filter","o2sys_long_str");
-o2def::par(3, "folder_limit","o2sys_long_str");
-o2def::par(4, "for_file_selection","_o2logical");
-o2def::par(5, "for_folder_selection","_o2logical");
-o2def::par(6, "allow_mod","_o2logical");
-o2def::par(7, "allow_get","_o2logical");
-o2def::par(8, "allow_upload","_o2logical");
-o2def::par(9, "window_title","o2sys_long_str");
+o2def::par(1, "start_folder_path", "o2sys_long_str");
+o2def::par(2, "start_filter", "o2sys_long_str");
+o2def::par(3, "folder_limit", "o2sys_long_str");
+o2def::par(4, "for_file_selection", "_o2logical");
+o2def::par(5, "for_folder_selection", "_o2logical");
+o2def::par(6, "allow_mod", "_o2logical");
+o2def::par(7, "allow_get", "_o2logical");
+o2def::par(8, "allow_upload", "_o2logical");
+o2def::par(9, "window_title", "o2sys_long_str");
 
 
 
