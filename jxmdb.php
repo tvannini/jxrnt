@@ -203,7 +203,7 @@ class JXMDB {
                     case 'check':
                     case 'status':
                         $this->sendMessage($socket,
-                                           "Janox Memory Database\n".
+                                           "Janox Memory Database server\n".
                                            '['.$this->host.':'.$this->port.']'.
                                            "\nPID: ".getmypid().
                                            "\nRAM: ".memory_get_usage().'/'.
@@ -215,9 +215,9 @@ class JXMDB {
                     case 'quit':
                     case 'stop':
                     case 'shutdown':
-                        $this->sendMessageAll("Janox Memory Database shuttting down...\n".
+                        $this->sendMessageAll("Janox Memory Database server\n".
                                               '['.$this->host.':'.$this->port.']'.
-                                              "\nBye bye\n");
+                                              "\nShutting down...\nBye bye\n");
                         exit("Bye bye\n");
                         break;
                     // _______________________________________________ Process request ___
@@ -563,8 +563,6 @@ switch ($cmd) {
             die("Sorry, can't find Janox runtime to run Janox Memory Database Server.\n".
                 "Please set \$jxrnt_path variable in this file (".__file__.").\n");
             }
-        print "Starting Janox Memory Database server\n".
-              '['.$host.':'.$port."]\n";
         $run = $php_exe_path.' '.__FILE__.' JxStartBatch';
         if (stripos(PHP_OS, "win") !== false) {
             // ____________________________________________ Batch execution on Windows ___
@@ -574,6 +572,8 @@ switch ($cmd) {
             // ______________________________________________ Batch execution on Linux ___
             system("(".$run.") > /dev/null &");
             }
+        print "Janox Memory Database server\n".
+              '['.$host.':'.$port."]\nStarted\n";
         break;
     // ___________________________________________________________ Check server status ___
     case 'check':
@@ -585,8 +585,8 @@ switch ($cmd) {
     case 'exit':
         if (($conn = @socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) &&
             !@socket_connect($conn, $host, $port)) {
-            die("Janox Memory Database: server is not running!\n".
-                '['.$host.':'.$port."]\n");
+            die("Janox Memory Database server\n".
+                '['.$host.':'.$port."]\nServer is not running!\n");
             }
         else {
             socket_write($conn, $cmd, strlen($cmd));
@@ -595,7 +595,8 @@ switch ($cmd) {
         break;
     // _______________________________________________________________ Process request ___
     default:
-        print "Janox Memory Database: unknown command ".$cmd."\n[".$host.':'.$port."]\n";
+        print "Janox Memory Database server\n".
+              "[".$host.':'.$port."]\nUnknown command ".$cmd."\n";
         break;
     }
 
