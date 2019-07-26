@@ -21,6 +21,7 @@ o2def::act("file_ren", "");
 o2def::act("file_select", "");
 o2def::act("folder_del", "");
 o2def::act("folder_up", "");
+o2def::act("load_all_files", "");
 o2def::act("load_file_list", "");
 o2def::act("load_folder_list", "");
 o2def::act("load_from_folder_limit", "");
