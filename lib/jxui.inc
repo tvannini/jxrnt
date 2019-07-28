@@ -3703,6 +3703,33 @@ class o2_ctrl_listcombo extends o2_ctrl {
 
 
     /**
+     * Decode description to gt an unique code value.
+     *
+     * NOTE: This memthod is replication of client-side implicit selection on TAB!
+     *
+     */
+    function code_from_desc($desc_value) {
+
+        $app   = $_SESSION['o2_app'];
+        $prg   = $app->istanze_prg[$this->id_esecuzione];
+        $view  = $prg->contesto[$this->task];
+        $list  = $this->xlist(false, true);
+        $clist = array_keys($list);
+        $vlist = array_values($list);
+        $nlist = count($list);
+        // ____________________________________________ Blanked value and lank in list ___
+        return (($desc_value == '' && $nlist > 0 && $vlist[0] == '') ||
+                // _________________________ ... or select element if just one in list ___
+                ($nlist == 1) ?
+                // ______________________________________ Return first element in list ___
+                $clist[0] :
+                // ________________________________________ Else return previous value ___
+                $_REQUEST[$this->nome.$this->id_esecuzione]);
+
+        }
+
+
+    /**
      * Returns items list in AJAX style.
      * Returned object has the form:
      *
@@ -3713,14 +3740,16 @@ class o2_ctrl_listcombo extends o2_ctrl {
      *                      ...
      *                      coden : descn } }
      *
-     * @param string   $paging           [P]revious|[N]ext set of records
+     * @param string   $paging     [P]revious|[N]ext set of records
+     * @param boolean  $as_array   Return list as an array, for server-side uses
      */
-    function xlist($paging = false) {
+    function xlist($paging = false, $as_array = false) {
 
         $app             = $_SESSION['o2_app'];
         $prg             = $app->istanze_prg[$this->id_esecuzione];
         $items_view_name = $this->items_view;
         $filter_txt      = "";
+        $xlist           = array();
         // ___________________________________________________ Save actual instance id ___
         $exeid_save = $app->progressivo_istanze;
         // ____________________________________ Set instance to requested field prg-id ___
@@ -3766,9 +3795,25 @@ class o2_ctrl_listcombo extends o2_ctrl {
             }
         // _________________________________________________ Insert default blank line ___
         if ($items_view->offset_ini == 0 && !$filter_txt) {
-            $body_local = "['".$items_view->campi[$this->items_code]->maschera->default.
-                           "',";
-            $desc_list  = "['',";
+            // _______________________________________ Get description for blank value ___
+            /*
+             * NOT USED: If default value has a not blank description, then it's
+             *           impossible to select default value blanking combo description!
+             *
+            $value_save       = $this->valore;
+            $this->valore     = $items_view->campi[$this->items_code]->maschera->default;
+            $blank            = $this->get_desc();
+            $this->valore     = $value_save;
+            */
+            if ($as_array) {
+                $xlist[$items_view->campi[$this->items_code]->maschera->default] = '';
+                }
+            else {
+                $body_local = "['".
+                              $items_view->campi[$this->items_code]->maschera->default.
+                               "',";
+                $desc_list  = "['',";
+                }
             }
         else {
             $body_local = "[";
@@ -3778,14 +3823,19 @@ class o2_ctrl_listcombo extends o2_ctrl {
         // ___________________________ Add items from preset, if any and if first page ___
         if ($this->preset_list && !$items_view->offset_ini) {
             foreach ($this->preset_list as $item_code => $item_desc) {
-                // __________________________ Fileter preset items by description text ___
+                // ___________________________ Filter preset items by description text ___
                 if ($filter_txt && strpos($item_desc, $filter_txt) === false) {
                     continue;
                     }
                 if (!$unique_code[$item_code]) {
                     $unique_code[$item_code] = true;
-                    $body_local.= "'".addslashes($item_code)."',";
-                    $desc_list .= "'".addslashes($item_desc)."',";
+                    if ($as_array) {
+                        $xlist[$item_code] = $item_desc;
+                        }
+                    else {
+                        $body_local.= "'".addslashes($item_code)."',";
+                        $desc_list .= "'".addslashes($item_desc)."',";
+                        }
                     }
                 }
             }
@@ -3794,9 +3844,14 @@ class o2_ctrl_listcombo extends o2_ctrl {
             $item_code = $single_record[$this->items_code];
             if (!$unique_code[$item_code]) {
                 $unique_code[$item_code] = true;
-                $body_local.= "'".addslashes($item_code)."',";
-                $desc_list .= "'".addslashes(strtr($single_record[$this->items_desc],
-                                                   "\n\r\t", "   "))."',";
+                if ($as_array) {
+                    $xlist[$item_code] = $single_record[$this->items_desc];
+                    }
+                else {
+                    $body_local.= "'".addslashes($item_code)."',";
+                    $desc_list .= "'".addslashes(strtr($single_record[$this->items_desc],
+                                                       "\n\r\t", "   "))."',";
+                    }
                 }
             }
         unset($unique_code);
@@ -3812,15 +3867,20 @@ class o2_ctrl_listcombo extends o2_ctrl {
             }
         // ________________________________________________________ Reset prg instance ___
         $app->progressivo_istanze = $exeid_save;
-        $body_local = substr($body_local, 0, -1);
-        $desc_list  = substr($desc_list, 0, -1);
-        return ($body_local ?
-                 "{f:".($items_view->offset_ini ? "false" : "true").
-                 ",l:".($items_view->offset_fine < ($items_view->totale_record - 1) ?
-                        "false" :
-                        "true").
-                 ",v:".$body_local."],d:".$desc_list."] }" :
-                "");
+        if ($as_array) {
+            return $xlist;
+            }
+        else {
+            $body_local = substr($body_local, 0, -1);
+            $desc_list  = substr($desc_list, 0, -1);
+            return ($body_local ?
+                     "{f:".($items_view->offset_ini ? "false" : "true").
+                     ",l:".($items_view->offset_fine < ($items_view->totale_record - 1) ?
+                            "false" :
+                            "true").
+                     ",v:".$body_local."],d:".$desc_list."]}" :
+                    "");
+            }
         }
 
     }

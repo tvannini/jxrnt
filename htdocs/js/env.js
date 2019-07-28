@@ -1072,7 +1072,7 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
                 o2jse.requester.endReq(reqId);
                 // __ Function is called passing original object and request body text ___
                 if (callBack) {
-                    callBack(fromObj, resText);
+                    callBack(fromObj, resText, reqId);
                     }
                 }
             }
@@ -1081,6 +1081,7 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
 
     reqObj.engine.send(postBody + "jxact=" + (action || "pagepost") +
                        (addToBody ? "&" + addToBody : ""));
+    return reqId;
 
     };
 
@@ -5440,10 +5441,11 @@ o2jse.lu.k = function(eventObj, targetObj) {
                 }
             // ____________________________________ If list is open move down on items ___
             else if (targetObj.listObj) {
-                var list = targetObj.listObj.childNodes[0];
-                list.jxSeleId = -1;
-                var itemsDivs = list.getElementsByTagName("div");
-                var codeVal   = "";
+                targetObj.inEdit = false
+                var list         = targetObj.listObj.childNodes[0];
+                list.jxSeleId    = -1;
+                var itemsDivs    = list.getElementsByTagName("div");
+                var codeVal      = '';
                 if (itemsDivs.length > 0) {
                     var nI = itemsDivs[0];
                     nI.className += " jxlsr";
@@ -5561,7 +5563,6 @@ o2jse.lu.k = function(eventObj, targetObj) {
         else {
             o2jse.lu.e(targetObj, stdEvent);
             }
-        targetObj.inEdit = false;
         }
     // _______________________________________________________________________ * ESC * ___
     else if (stdEvent.keyCode == KEY_ESC) {
@@ -5643,7 +5644,6 @@ o2jse.lu.p = function(targetObj) {
     targetObj.pastedValue = true;
     setTimeout(function() {
                     o2jse.lu.list(targetObj, false, true);
-                    targetObj.inEdit = false;
                     }, 0);
 
     };
@@ -5666,11 +5666,54 @@ o2jse.lu.b = function(targetObj) {
     else {
         descField = targetObj.descField;
         }
-    if (descField.listObj) {
-        o2jse.lu.closeTimer = setTimeout(function(){ o2jse.lu.listOff(descField); }, 100);
-        }
-    descField.inEdit      = false;
     descField.pastedValue = false;
+    if (descField.tabbedValue) {
+        // _____ If submit-on-change stop all and get code from descriptin server-side ___
+        if (descField.o2.fret) {
+            descField.inEdit           = false;
+            descField.stopForSelection = true;
+            descField.saveValue        = descField.value;
+            descField.tabbedValue      = false;
+            codeField                  = o2jse.infoForm[descField.o2.c + descField.o2.e];
+            o2jse.lu.listOff(descField);
+            // ___________________________________________________ Preserve focus flow ___
+            nF = o2jse.createInput(o2jse.infoForm, 'hidden', '', '1', 'jxnofocus');
+            // __________________________________ Force server-side description decode ___
+            dF = o2jse.createInput(o2jse.infoForm, 'hidden', '', descField.value,
+                                   descField.o2.c + descField.o2.e + '_force_decode');
+            if (o2jse.cliMode) {
+                o2jse.ctrl.make_waiting(descField);
+                jxjs.request(codeField, codeField.value);
+                }
+            else {
+                o2jse.cmd.ctrlUpd(codeField);
+                }
+            // _____________________________________________ Remove no-focus directive ___
+            if (nF) {
+                o2jse.removeEl(nF);
+                }
+            // _____________________________ Remove force description decode directive ___
+            if (dF) {
+                o2jse.removeEl(dF);
+                }
+            }
+        else {
+            if (o2jse.lu.closeTimer) {
+                clearTimeout(o2jse.lu.closeTimer);
+                }
+            o2jse.lu.listOff(descField);
+            descField.tabbedValue = descField.value;
+            o2jse.lu.list(descField, false, true);
+            }
+        }
+    else {
+        if (descField.listObj) {
+            o2jse.lu.closeTimer = setTimeout(function () {
+                                                o2jse.lu.listOff(descField); },
+                                             100);
+            }
+        }
+    descField.inEdit = false;
 
     };
 
@@ -5709,7 +5752,7 @@ o2jse.lu.m = function(eventObj, targetObj, notFocus) {
         var codeField       = o2jse.infoForm[o2data.c + o2data.e];
         var descField       = listObj.descField;
         codeField.value     = targetObj.value;
-        descField.value     = targetObj.innerHTML.decode();
+        descField.value     = targetObj.innerHTML.decode().rtrim();
         descField.saveValue = descField.value;
         // ___________________________________________ Stop later updates on selection ___
         descField.stopForSelection = true;
@@ -5983,7 +6026,10 @@ o2jse.lu.exeReq = function(descField, act) {
                                               descField);
         var lastCtrlSave                   = o2jse.infoForm['o2lastctrl'].value;
         o2jse.infoForm['o2lastctrl'].value = firedCtrl.o2.c;
-        o2jse.requester.exe("lookup", "jxluact=" + luAct, firedCtrl, o2jse.lu.getList);
+        firedCtrl.reqId = o2jse.requester.exe("lookup",
+                                              "jxluact=" + luAct,
+                                              firedCtrl,
+                                              o2jse.lu.getList);
         o2jse.infoForm['o2lastctrl'].value = lastCtrlSave;
         }
 
@@ -5996,8 +6042,9 @@ o2jse.lu.exeReq = function(descField, act) {
  *
  * @param object ctrlObj    Control object (HTML element) which requested data
  * @param string listText   Returned page body text containing requested data
+ * @param string reqId      Request unique ID
  */
-o2jse.lu.getList = function(ctrlObj, listText) {
+o2jse.lu.getList = function(ctrlObj, listText, reqId) {
 
     // _____________________________________________________________ Remove wait-image ___
     if (o2jse.waitObj) {
@@ -6007,8 +6054,8 @@ o2jse.lu.getList = function(ctrlObj, listText) {
     if (jxjs.waitingCtrl) {
         jxjs.waitingCtrl.style.display = "block";
         }
-    // ___________________________________________ Stop list updates on selection done ___
-    if (ctrlObj.stopForSelection) {
+    // ________ Get only last request response and stop list updates on selection done ___
+    if (ctrlObj.reqId != reqId || ctrlObj.stopForSelection) {
         return false;
         }
     var itemsList;
@@ -6017,8 +6064,11 @@ o2jse.lu.getList = function(ctrlObj, listText) {
         itemsList = ctrlObj.listObj.childNodes[0];
         }
     // _________________________________________________________ Fired from items list ___
-    else {
+    else if (ctrlObj.descField) {
         itemsList = ctrlObj;
+        }
+    else {
+        return false;
         }
     itemsList.style.height = null;
     itemsList.innerHTML = "";
@@ -6032,7 +6082,7 @@ o2jse.lu.getList = function(ctrlObj, listText) {
         if (!listObjLocal.f) {
             optLocal         = o2jse.createEl(itemsList, "DIV", "", "\u00ab");
             optLocal.value   = "@luu";
-            optLocal.onclick = function(e) { o2jse.lu.m(e) };
+            optLocal.onclick = function(e) { o2jse.lu.m(e); };
             optLocal.className = "o2lu_sysppg";
             }
         // _____________________________________________________________ Loop on items ___
@@ -6047,7 +6097,7 @@ o2jse.lu.getList = function(ctrlObj, listText) {
         if (!listObjLocal.l) {
             optLocal         = o2jse.createEl(itemsList, "DIV", "", "\u00bb");
             optLocal.value   = "@lud";
-            optLocal.onclick = function(e) { o2jse.lu.m(e) };
+            optLocal.onclick = function(e) { o2jse.lu.m(e); };
             optLocal.className = "o2lu_sysnpg";
             }
         }

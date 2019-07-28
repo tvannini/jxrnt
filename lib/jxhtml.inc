@@ -1000,8 +1000,27 @@ class o2html {
                             $ctrl_obj->valore = $_REQUEST[$ctrl_name];
                             }
                         $ctrl_obj->valore = $ctrl_obj->ctrl2sql();
+                        // ____________________ Lookup: server-side description decode ___
+                        if ($ctrl_obj->tipo_ctrl == 'listcombo' &&
+                            isset($_REQUEST[$ctrl_obj->nome.$ctrl_obj->id_esecuzione.
+                                            '_force_decode'])) {
+                            $descfield = $ctrl_obj->nome.$ctrl_obj->id_esecuzione.
+                                         '_force_decode';
+                            $descval   = ($GLOBALS['jxjs'] ?
+                                          iconv("UTF-8",
+                                                $app->chr_encoding."//TRANSLIT",
+                                                $_REQUEST[$descfield]) :
+                                          $_REQUEST[$descfield]);
+                            // _______________________ Set code value from description ___
+                            $view_obj->imposta($ctrl_obj->campo_in_ctrl,
+                                               $ctrl_obj->code_from_desc($descval));
+                            // _________________ Execution of action on control change ___
+                            if ($ctrl_obj->azione_submit) {
+                                $prg_local->esegui_azione($ctrl_obj->azione_submit);
+                                }
+                            }
                         // _______ Treeview: manage value, selection and submit action ___
-                        if ($ctrl_obj->tipo_ctrl == 'tree') {
+                        elseif ($ctrl_obj->tipo_ctrl == 'tree') {
                             $field = (get_class($view_obj) == 'o2_virtualview' ?
                                       $view_obj->variabili[$ctrl_obj->campo_in_ctrl] :
                                       $view_obj->campi[$ctrl_obj->campo_in_ctrl]);
@@ -1017,7 +1036,7 @@ class o2html {
                             $ctrl_obj->node_select($ctrl_obj->valore);
                             }
                         // ____________________ Imgs-lister: manage value, and actions ___
-                        if ($ctrl_obj->tipo_ctrl == 'imglist') {
+                        elseif ($ctrl_obj->tipo_ctrl == 'imglist') {
                             $field = (get_class($view_obj) == 'o2_virtualview' ?
                                       $view_obj->variabili[$ctrl_obj->campo_in_ctrl] :
                                       $view_obj->campi[$ctrl_obj->campo_in_ctrl]);
@@ -1224,7 +1243,7 @@ class o2html {
                             break;
                         // _________________________________ Checkbox as view-selector ___
                         case "checkbox":
-                            // _ __________________________ Check-box as view selector ___
+                            // ____________________________ Check-box as view selector ___
                             if ($ctrl_obj->selector) {
                                 $selector = array($view_obj, $ctrl_obj);
                                 }
