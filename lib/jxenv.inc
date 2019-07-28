@@ -7329,10 +7329,6 @@ function jxlog($logobj = null) {
     list($m, $s) = explode(' ', microtime());
     $tms = $s.str_pad($m * 1000000, 6, STR_PAD_LEFT);
     $tms = date("H:i:s.". substr($m, 2, -2));
-    // __________________________________________________ Dump out parameter structure ___
-    if ($logobj === null) {
-        $logobj = $last_prg." -> ".$last_act;
-        }
     $uid = "jxdbg".substr($tms, -10);
     // _____________________________________________________ Get programs/actions tree ___
     $last_prg = "";
@@ -7351,6 +7347,10 @@ function jxlog($logobj = null) {
                 }
             }
         $code.= $exe_code;
+        }
+    // __________________________________________________ Dump out parameter structure ___
+    if ($logobj === null) {
+        $logobj = '[EMPTY] from '.$last_prg." -> ".$last_act;
         }
     // ____________________________________________________________ Get functions tree ___
     foreach (debug_backtrace() as $func) {
