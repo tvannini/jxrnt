@@ -127,17 +127,6 @@ if (session_start()) {
                     $params['key'] = $app->runtime->dev_key;
                     }
                 print "o2jse.cmd.post(false, ".json_encode($params).", true);\n";
-/*
-                // _______________________________________________ JS open new session ___
-                print "window.open(\"?user=".$app->user."&password=".$app->password.
-                      "&auth=local".
-                      ($app->client_width ? "&jxcsw=".$app->client_width : "").
-                      ($app->client_height ? "&jxcsh=".$app->client_height : "").
-                      ($app->runtime->developer ?
-                       "&dev=".$app->runtime->developer."&key=".$app->runtime->dev_key :
-                       "").
-                      "\");\n";
-*/
                 }
             break;
         case "jxdev": // _________________________________________ Development command ___
