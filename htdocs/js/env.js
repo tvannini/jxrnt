@@ -5441,7 +5441,7 @@ o2jse.lu.k = function(eventObj, targetObj) {
                 }
             // ____________________________________ If list is open move down on items ___
             else if (targetObj.listObj) {
-                targetObj.inEdit = false
+                targetObj.inEdit = false;
                 var list         = targetObj.listObj.childNodes[0];
                 list.jxSeleId    = -1;
                 var itemsDivs    = list.getElementsByTagName("div");
