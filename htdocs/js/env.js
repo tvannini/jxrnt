@@ -1021,19 +1021,22 @@ o2jse.requester.endReq = function(reqId) {
  * @param object   fromObj     Object requesting action: it is stored on the request
  *                             object so to refer it later in callback function
  * @param function callBack    Function managing request end
+ * @param boolean  noFields    Don't add page fields and pass only addToBody code
  */
-o2jse.requester.exe = function(action, addToBody, fromObj, callBack) {
+o2jse.requester.exe = function(action, addToBody, fromObj, callBack, noFields = false) {
 
     var reqId    = "_" + new Date().getTime();
     var postBody = "";
-    for (var fieldId = o2jse.infoForm.elements.length; fieldId > 0; fieldId--) {
-        var singleField = o2jse.infoForm.elements[fieldId - 1];
-        // ______________________ Questo permette di inviare sempre lo stesso pagemark ___
-        if (singleField.name &&
-            !singleField.disabled &&
-            singleField.name != "o2pagemark") {
-            postBody += (singleField.name + "=" + encodeURIComponent(singleField.value) +
-                         "&");
+    if (!noFields) {
+        for (var fieldId = o2jse.infoForm.elements.length; fieldId > 0; fieldId--) {
+            var singleField = o2jse.infoForm.elements[fieldId - 1];
+            // __________________ Questo permette di inviare sempre lo stesso pagemark ___
+            if (singleField.name &&
+                !singleField.disabled &&
+                singleField.name != "o2pagemark") {
+                postBody += (singleField.name + "=" +
+                             encodeURIComponent(singleField.value) + "&");
+                }
             }
         }
     // ________________________________________________________________ Create request ___
@@ -6021,16 +6024,20 @@ o2jse.lu.exeReq = function(descField, act) {
 
     var luAct = (act == 1 ? "lunextpg" : (act == 2 ? "luprevpg" : "lulist"));
     if (descField.listObj) {
-        var firedCtrl                      = (act == 1 || act == 2 ?
-                                              descField.listObj.childNodes[0] :
-                                              descField);
-        var lastCtrlSave                   = o2jse.infoForm['o2lastctrl'].value;
-        o2jse.infoForm['o2lastctrl'].value = firedCtrl.o2.c;
-        firedCtrl.reqId = o2jse.requester.exe("lookup",
-                                              "jxluact=" + luAct,
+        var firedCtrl   = (act == 1 || act == 2 ?
+                           descField.listObj.childNodes[0] : descField);
+        reqBody         = 'jxluact=' + luAct +
+                          '&JXSESSNAME=' + o2jse.sessName +
+                          '&o2_prgexeid=' + descField.o2.e +
+                          '&o2lastform=' + descField.o2.f +
+                          '&o2lastctrl=' + descField.o2.c +
+                          (act ? '' : '&' +
+                           descField.name + '=' + encodeURIComponent(descField.value));
+        firedCtrl.reqId = o2jse.requester.exe('lookup',
+                                              reqBody,
                                               firedCtrl,
-                                              o2jse.lu.getList);
-        o2jse.infoForm['o2lastctrl'].value = lastCtrlSave;
+                                              o2jse.lu.getList,
+                                              true);
         }
 
     };

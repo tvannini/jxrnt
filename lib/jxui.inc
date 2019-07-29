@@ -3713,7 +3713,9 @@ class o2_ctrl_listcombo extends o2_ctrl {
         $app   = $_SESSION['o2_app'];
         $prg   = $app->istanze_prg[$this->id_esecuzione];
         $view  = $prg->contesto[$this->task];
-        $list  = $this->xlist(false, true);
+        $list  = $this->xlist(false,
+                              $_REQUEST[$this->nome.$this->id_esecuzione."_desc"],
+                              true);
         $clist = array_keys($list);
         $vlist = array_values($list);
         $nlist = count($list);
@@ -3723,8 +3725,8 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 ($nlist == 1) ?
                 // ______________________________________ Return first element in list ___
                 $clist[0] :
-                // ________________________________________ Else return previous value ___
-                $_REQUEST[$this->nome.$this->id_esecuzione]);
+                // __________________________________________ Else return actual value ___
+                $this->valore);
 
         }
 
@@ -3740,21 +3742,20 @@ class o2_ctrl_listcombo extends o2_ctrl {
      *                      ...
      *                      coden : descn } }
      *
-     * @param string   $paging     [P]revious|[N]ext set of records
-     * @param boolean  $as_array   Return list as an array, for server-side uses
+     * @param string   $paging       [P]revious|[N]ext set of records
+     * @param string   $filter_txt   Text used to filter records
+     * @param boolean  $as_array     Return list as an array, for server-side uses
      */
-    function xlist($paging = false, $as_array = false) {
+    function xlist($paging = false, $filter_txt = '', $as_array = false) {
 
         $app             = $_SESSION['o2_app'];
         $prg             = $app->istanze_prg[$this->id_esecuzione];
         $items_view_name = $this->items_view;
-        $filter_txt      = "";
         $xlist           = array();
         // ___________________________________________________ Save actual instance id ___
         $exeid_save = $app->progressivo_istanze;
         // ____________________________________ Set instance to requested field prg-id ___
         $app->progressivo_istanze = $this->id_esecuzione;
-        $filter_txt               = $_REQUEST[$this->nome.$this->id_esecuzione."_desc"];
         if (!$prg->contesto[$items_view_name]) {
             $items_view_name.= "_o2list";
             $items_view_name = "v".substr(md5($items_view_name), -5);
@@ -3779,18 +3780,21 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 }
             }
         if ($paging) {
+            // ______________________________________________________________ Not used ___
             if ($paging == "A") {
                 $items_view->righe_vis = 1000;
                 $items_view->record_primo();
                 }
+            // _____________________________________________________________ Next page ___
             elseif ($paging == "N") {
                 $items_view->record_pg_avanti();
                 }
+            // _________________________________________________________ Previous page ___
             else {
                 $items_view->record_pg_indietro();
                 }
             }
-        elseif ($items_view->range_mod()) {
+        elseif (!($filter_txt || $paging) || $items_view->range_mod()) {
             $items_view->record_primo();
             }
         // _________________________________________________ Insert default blank line ___

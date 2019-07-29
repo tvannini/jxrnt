@@ -2491,15 +2491,16 @@ class o2html {
             if ($form) {
                 $ctrl = $form->controlli[$_REQUEST['o2lastctrl']];
                 if ($ctrl) {
+                    $filter = $_REQUEST[$ctrl->nome.$ctrl->id_esecuzione."_desc"];
                     switch ($_REQUEST['jxluact']) {
                         case "lulist": // __________________________ Lookup items list ___
-                            print $ctrl->xlist();
+                            print $ctrl->xlist(false, $filter);
                             break;
                         case "luprevpg": // ________ Lookup items list - previous page ___
-                            print $ctrl->xlist("P");
+                            print $ctrl->xlist("P", $filter);
                             break;
                         case "lunextpg": // ____________ Lookup items list - next page ___
-                            print $ctrl->xlist("N");
+                            print $ctrl->xlist("N", $filter);
                             break;
                         }
                     }
