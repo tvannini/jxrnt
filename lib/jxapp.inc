@@ -62,7 +62,7 @@ class o2_app {
     public $chr_encoding     = '';      /* Character encoding (default windows-1252)    */
     public $default          = '';      /* Document to be included when nothing to do   */
     public $no_login         = '';      /* Failed login page                            */
-    public $lock_page        = '';      /* Access denied for Under Maintanance page     */
+    public $lock_page        = '';      /* Access denied for Under Maintenance page     */
     public $sess_error       = '';      /* Failed session validation page               */
     public $pagina_prima     = '';      /* Document to prepend to pages                 */
     public $pagina_dopo      = '';      /* Document to append to pages                  */
@@ -206,16 +206,16 @@ class o2_app {
     /*     _____ Documentor o2::doc ___________________________________________________ */
     public $doc             = false;   /* Application o2_doc object                     */
     public $doc_enabled     = false;   /* Application documentor module is active       */
-    /*     _____ Internazionalization - Multilang _____________________________________ */
-    public $multilang       = false;   /* If labels internazionalization is enabled:
+    /*     _____ Internationalization - Multilang _____________________________________ */
+    public $multilang       = false;   /* If labels internationalization is enabled:
                                           when enabled it is set to lang code (eng...)  */
-    public $translation     = array(); /* Transaltion words list                        */
+    public $translation     = array(); /* Translation words list                        */
     /*     _____ Development __________________________________________________________ */
     public $run_level       = 'EXE';   /* Runtime execution level [DEV]/[EXE]           */
     public $developer       = '';      /* Developer name (got from runtime)             */
     public $dev_key         = '';      /* Developer password (MD5)                      */
     public $log2file        = false;   /* If logs from o2log() must be written to file  */
-    public $sqltrace        = false;   /* If SQL tracing is sento to o2log()            */
+    public $sqltrace        = false;   /* If SQL tracing is sent to o2log()             */
     public $mutelog         = false;   /* Log only to file - no console                 */
     /*     _____ Filesystem ___________________________________________________________ */
     /**
