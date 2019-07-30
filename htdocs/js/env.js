@@ -232,10 +232,12 @@ o2jse.init = function() {
     if (o2jse.progress.active && !o2jse.progress.timeOut) {
         o2jse.progress.timeOut = setTimeout(function() {
                                                 delete o2jse.progress.timeOut;
-                                                o2jse.requester.exe("progress",
-                                                                    "",
+                                                o2jse.requester.exe('progress',
+                                                                    'JXSESSNAME=' +
+                                                                    o2jse.sessName,
                                                                     o2jse.progress,
-                                                                    jxjs.jsEval);
+                                                                    jxjs.jsEval,
+                                                                    true);
                                                 },
                                             3000);
         }
@@ -7443,7 +7445,11 @@ o2jse.notify.hideWin = function() {
  */
 o2jse.notify.exeReq = function() {
 
-    o2jse.requester.exe("notify", "", o2jse.notify, o2jse.notify.getList);
+    o2jse.requester.exe('notify',
+                        'JXSESSNAME=' + o2jse.sessName,
+                        o2jse.notify,
+                        o2jse.notify.getList,
+                        true);
 
     };
 
