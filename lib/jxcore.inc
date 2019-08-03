@@ -636,12 +636,12 @@ class o2_exception extends Exception {
         $msg_text = $this->message;
         $parts = array();
         preg_match('/\<code\>(.*)\<\/code\>/', $this->message, $parts);
-        $query = $parts[1];
-        str_replace($query, htmlspecialchars($query), $msg_text);
-        $msg_text   = htmlspecialchars_decode(strip_tags(preg_replace(
+        $query    = $parts[1];
+        $msg_text = str_replace($query, htmlspecialchars($query), $msg_text);
+        $msg_text = htmlspecialchars_decode(strip_tags(preg_replace(
                                                             '/<br\s*\/?>|<hr\s*\/?>|\n/i',
-                                                                      "\n         ",
-                                                                      $msg_text)));
+                                                                    "\n         ",
+                                                                    $msg_text)));
         $error_text = "\n\n     *** ".$this->error_class." FAILURE ***\n\n".
                       "         ".$msg_text."\n\n".
                       "         Application: ".$app->nome."\n".
