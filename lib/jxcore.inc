@@ -635,7 +635,7 @@ class o2_exception extends Exception {
             }
         $msg_text = $this->message;
         $parts = array();
-        preg_match('/\<code\>(.*)\<\/code\>/', $this->message, $parts);
+        preg_match('/\<code\>(.*)\<\/code\>/s', $this->message, $parts);
         $query    = $parts[1];
         $msg_text = str_replace($query, htmlspecialchars($query), $msg_text);
         $msg_text = htmlspecialchars_decode(strip_tags(preg_replace(
