@@ -5566,7 +5566,17 @@ o2jse.lu.k = function(eventObj, targetObj) {
             }
         // ___________________________________________________ TAB event fired on list ___
         else {
-            o2jse.lu.e(targetObj, stdEvent);
+            // ___________________________ NOTE: This should be the correct behaviour! ___
+            // o2jse.lu.e(targetObj, stdEvent);
+            var nF;
+            // ___________________________________________________ Preserve focus flow ___
+            nF = o2jse.createInput(o2jse.infoForm, "hidden", "", "1", "jxnofocus");
+            o2jse.submitCtrl = targetObj.o2.c + targetObj.o2.e;
+            o2jse.lu.m(eventObj, targetObj.selectedItem);
+            // _____________________________________________ Remove no-focus directive ___
+            if (nF) {
+                o2jse.removeEl(nF);
+                }
             }
         }
     // _______________________________________________________________________ * ESC * ___
