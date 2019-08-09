@@ -355,7 +355,14 @@ if (o2rnt_interface() == 'HTML') {
    /* Send HTTP error code 401 */
    header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized", true, 401);
    /* Redirect to no-login page */
-   $_SESSION['o2_app']->logout(o2rnt_interface() == "HTML" ? o2app_nologin() : "");
+   if (o2app_nologin()) {   
+      die('<form name="jxlogout" method="POST" enctype="text/plain" action="'.
+          o2app_nologin().
+          '"></form><script>document.forms["jxlogout"].submit();</script>');   
+      }
+   else {
+      die('<br><br><center><h4>Access denied</h4></center>');   
+      }
    }
 /* CMD BAT */
 else {
