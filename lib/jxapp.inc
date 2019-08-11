@@ -950,12 +950,8 @@ class o2_app {
             if ($users_dir->tipo == "D") {
                 $tmp_dirs = new o2_dir($users_dir."tmp/");
                 foreach ($tmp_dirs->all_elements() as $tmp_dir) {
-                    //  Remove all files created by old versions, before TMP splitting ___
-                    if ($tmp_dir->tipo == "F") {
-                        unlink($tmp_dir->nome_completo);
-                        }
                     // ____________________________________ Check if session is active ___
-                    elseif (!in_array(substr($tmp_dir->nome, 3), $active_sess)) {
+                    if (!in_array(substr($tmp_dir->nome, 3), $active_sess)) {
                         $tmp_dir->remove();
                         }
                     }
@@ -3966,6 +3962,7 @@ class o2_run_job {
     public $status    = '';                /* Status [Queued|Running|Completed|Killed]  */
     public $error     = false;             /* Error message, if any                     */
     public $pid       = 0;                 /* System process ID for running instance    */
+    public $sessid    = false;             /* Session ID of run-job instance            */
     public $progress  = 0;                 /* Running instance percentage progress      */
     public $files     = array();           /* List of run-job produced files            */
     public $exe_time  = 0;                 /* Minimum execution date-time               */
@@ -3979,52 +3976,48 @@ class o2_run_job {
      */
     static function get_by_id($run_id) {
 
-        $app     = $_SESSION['o2_app'];
-        $tab     = $app->get_table(self::$run_table);
-        $db      = $tab->db;
-        $server  = $db->server;
-        $where   = $tab->campi['run_id']->nome_fisico."='".$run_id."'";
-        $co      = constant('o2_'.$server->type.'_o');
-        $cc      = constant('o2_'.$server->type.'_c');
-        $select  = $tab->campi['run_id']->nome_fisico.' '.$co.'RUN_ID'.$cc.",".
-                   $tab->campi['job_id']->nome_fisico.' '.$co.'JOB_ID'.$cc.",".
-                   $tab->campi['run_prg']->nome_fisico.' '.$co.'RUN_PRG'.$cc.",".
-                   $tab->campi['run_service']->nome_fisico.' '.$co.'RUN_SERVICE'.$cc.",".
-                   $tab->campi['run_host']->nome_fisico.' '.$co.'RUN_HOST'.$cc.",".
-                   $tab->campi['run_user']->nome_fisico.' '.$co.'RUN_USER'.$cc.",".
-                   $tab->campi['run_developer']->nome_fisico.' '.$co.'RUN_DEVELOPER'.$cc.
-                                                                                      ",".
-                   $tab->campi['run_params']->nome_fisico.' '.$co.'RUN_PARAMS'.$cc.",".
-                   $tab->campi['run_aspid']->nome_fisico.' '.$co.'RUN_ASPID'.$cc.",".
-                   $tab->campi['run_status']->nome_fisico.' '.$co.'RUN_STATUS'.$cc.",".
-                   $tab->campi['run_pid']->nome_fisico.' '.$co.'RUN_PID'.$cc.",".
-                   $tab->campi['run_progress']->nome_fisico.' '.$co.'RUN_PROGRESS'.$cc.
-                                                                                      ','.
-                   $tab->campi['run_error']->nome_fisico.' '.$co.'RUN_ERROR'.$cc.','.
-                   $tab->campi['run_files']->nome_fisico.' '.$co.'RUN_FILES'.$cc.','.
-                   $tab->campi['run_start_date']->nome_fisico.' '.$co.'RUN_START_DATE'.
-                                                                                  $cc.','.
-                   $tab->campi['run_start_time']->nome_fisico.' '.$co.'RUN_START_TIME'.
-                                                                                  $cc.','.
-                   $tab->campi['run_end_date']->nome_fisico.' '.$co.'RUN_END_DATE'.
-                                                                                  $cc.','.
-                   $tab->campi['run_end_time']->nome_fisico.' '.$co.'RUN_END_TIME'.$cc.
-                                                                                      ','.
-                   $tab->campi['run_at_date']->nome_fisico.' '.$co.'RUN_AT_DATE'.$cc.','.
-                   $tab->campi['run_at_time']->nome_fisico.' '.$co.'RUN_AT_TIME'.$cc;
-        $run_rec = o2_gateway::recordset($server->type,
-                                         $server->server,
-                                         $server->user,
-                                         $server->password,
-                                         $db->nome,
-                                         $db->proprietario,
-                                         $tab->nome,
-                                         'jx_running_jobs',
-                                         $select,
-                                         $where,
-                                         '',
-                                         1);
-        $run_rec = $run_rec[0];
+        $app                = $_SESSION['o2_app'];
+        $tab                = $app->get_table(self::$run_table);
+        $db                 = $tab->db;
+        $server             = $db->server;
+        $where              = $tab->campi['run_id']->nome_fisico."='".$run_id."'";
+        $co                 = constant('o2_'.$server->type.'_o');
+        $cc                 = constant('o2_'.$server->type.'_c');
+        $f                  = $tab->campi;
+        $select             = $f['run_id'].' '.$co.'RUN_ID'.$cc.",".
+                              $f['job_id'].' '.$co.'JOB_ID'.$cc.",".
+                              $f['run_prg'].' '.$co.'RUN_PRG'.$cc.",".
+                              $f['run_service'].' '.$co.'RUN_SERVICE'.$cc.",".
+                              $f['run_host'].' '.$co.'RUN_HOST'.$cc.",".
+                              $f['run_user'].' '.$co.'RUN_USER'.$cc.",".
+                              $f['run_developer'].' '.$co.'RUN_DEVELOPER'.$cc.",".
+                              $f['run_params'].' '.$co.'RUN_PARAMS'.$cc.",".
+                              $f['run_aspid'].' '.$co.'RUN_ASPID'.$cc.",".
+                              $f['run_status'].' '.$co.'RUN_STATUS'.$cc.",".
+                              $f['run_pid'].' '.$co.'RUN_PID'.$cc.",".
+                              $f['run_sessid'].' '.$co.'RUN_SESSID'.$cc.",".
+                              $f['run_progress'].' '.$co.'RUN_PROGRESS'.$cc.','.
+                              $f['run_error'].' '.$co.'RUN_ERROR'.$cc.','.
+                              $f['run_files'].' '.$co.'RUN_FILES'.$cc.','.
+                              $f['run_start_date'].' '.$co.'RUN_START_DATE'.$cc.','.
+                              $f['run_start_time'].' '.$co.'RUN_START_TIME'.$cc.','.
+                              $f['run_end_date'].' '.$co.'RUN_END_DATE'.$cc.','.
+                              $f['run_end_time'].' '.$co.'RUN_END_TIME'.$cc.','.
+                              $f['run_at_date'].' '.$co.'RUN_AT_DATE'.$cc.','.
+                              $f['run_at_time'].' '.$co.'RUN_AT_TIME'.$cc;
+        $run_rec            = o2_gateway::recordset($server->type,
+                                                    $server->server,
+                                                    $server->user,
+                                                    $server->password,
+                                                    $db->nome,
+                                                    $db->proprietario,
+                                                    $tab->nome,
+                                                    'jx_running_jobs',
+                                                    $select,
+                                                    $where,
+                                                    '',
+                                                    1);
+        $run_rec            = $run_rec[0];
         $run_job            = new o2_run_job();
         $run_job->id        = $run_rec['RUN_ID'];
         $run_job->job       = $run_rec['JOB_ID'];
@@ -4037,6 +4030,7 @@ class o2_run_job {
         $run_job->aspid     = $run_rec['RUN_ASPID'];
         $run_job->status    = $run_rec['RUN_STATUS'];
         $run_job->pid       = $run_rec['RUN_PID'];
+        $run_job->sessid    = $run_rec['RUN_SESSID'];
         $run_job->progress  = $run_rec['RUN_PROGRESS'];
         $run_job->error     = $run_rec['RUN_ERROR'];
         $run_job->files     = unserialize($run_rec['RUN_FILES']);
@@ -4136,19 +4130,20 @@ class o2_run_job {
         $tab                 = $app->get_table(self::$run_table);
         $db                  = $tab->db;
         $server              = $db->server;
-        $fields              = array($tab->campi['run_id']->nome_fisico,
-                                     $tab->campi['job_id']->nome_fisico,
-                                     $tab->campi['run_prg']->nome_fisico,
-                                     $tab->campi['run_params']->nome_fisico,
-                                     $tab->campi['run_user']->nome_fisico,
-                                     $tab->campi['run_developer']->nome_fisico,
-                                     $tab->campi['run_start_date']->nome_fisico,
-                                     $tab->campi['run_start_time']->nome_fisico,
-                                     $tab->campi['run_aspid']->nome_fisico,
-                                     $tab->campi['run_status']->nome_fisico,
-                                     $tab->campi['run_service']->nome_fisico,
-                                     $tab->campi['run_at_date']->nome_fisico,
-                                     $tab->campi['run_at_time']->nome_fisico);
+        $f                   = $tab->campi;
+        $fields              = array($f['run_id']->nome_fisico,
+                                     $f['job_id']->nome_fisico,
+                                     $f['run_prg']->nome_fisico,
+                                     $f['run_params']->nome_fisico,
+                                     $f['run_user']->nome_fisico,
+                                     $f['run_developer']->nome_fisico,
+                                     $f['run_start_date']->nome_fisico,
+                                     $f['run_start_time']->nome_fisico,
+                                     $f['run_aspid']->nome_fisico,
+                                     $f['run_status']->nome_fisico,
+                                     $f['run_service']->nome_fisico,
+                                     $f['run_at_date']->nome_fisico,
+                                     $f['run_at_time']->nome_fisico);
         $values              = array("'".$run_job->id."'",
                                      "'".$run_job->job."'",
                                      "'".$run_job->prg."'",
@@ -4201,9 +4196,9 @@ class o2_run_job {
             // _________________________________________ Set log to file for developer ___
             $app->log2file = true;
             $app->mutelog  = true;
-            // ______________________________________________________ Run job instance ___
-            $run_job->run();
-            // __________ Reset original session-ID to remove the right session record ___
+            // ______________ Run job instance (sess-ID used to update run-job record) ___
+            $run_job->run($sessid_save);
+            // _____________________________________________ Reset original session-ID ___
             $app->session_id     = $sessid_save;
             // ________________________ Preserve session record removing from rollback ___
             $app->isolated_trans = true;
@@ -4223,9 +4218,9 @@ class o2_run_job {
             // _________________________________________ Set log to file for developer ___
             $app->log2file = true;
             $app->mutelog  = true;
-            // ______________________________________________________ Run job instance ___
-            $run_job->run();
-            // __________ Reset original session-ID to remove the right session record ___
+            // ______________ Run job instance (sess-ID used to update run-job record) ___
+            $run_job->run($sessid_save);
+            // _____________________________________________ Reset original session-ID ___
             $app->session_id     = $sessid_save;
             // ________________________ Preserve session record removing from rollback ___
             $app->isolated_trans = true;
@@ -4270,11 +4265,11 @@ class o2_run_job {
         $tab      = $app->get_table(self::$run_table);
         $db       = $tab->db;
         $server   = $db->server;
-        $where    = $tab->campi['run_status']->nome_fisico."='K' AND ".
-                    $tab->campi['run_host']->nome_fisico."='".$app->host."'";
+        $where    = $tab->campi['run_status']."='K' AND ".
+                    $tab->campi['run_host']."='".$app->host."'";
         $co       = constant('o2_'.$server->type.'_o');
         $cc       = constant('o2_'.$server->type.'_c');
-        $select   = $tab->campi['run_id']->nome_fisico.' '.$co.'RUN_ID'.$cc;
+        $select   = $tab->campi['run_id'].' '.$co.'RUN_ID'.$cc;
         $run_recs = o2_gateway::recordset($server->type,
                                           $server->server,
                                           $server->user,
@@ -4303,13 +4298,14 @@ class o2_run_job {
     /**
      * Executes run-job
      *
+     * @param $sessid   Session-ID running instance in sessions table
      */
-    public function run() {
+    public function run($sessid = false) {
 
         $app             = $_SESSION['o2_app'];
         $app->job_worker = $this;
         try {
-            $this->start();
+            $this->start($sessid);
             // ______________________________________________ Commit open transactions ___
             $app->commit_all(true);
             }
@@ -4336,8 +4332,9 @@ class o2_run_job {
     /**
      * Starts job execution, calling requested program with defined parameters
      *
+     * @param $sessid   Session-ID running instance in sessions table
      */
-    public function start() {
+    public function start($sessid = false) {
 
         $app         = $_SESSION['o2_app'];
         $tab         = $app->get_table(self::$run_table);
@@ -4346,13 +4343,15 @@ class o2_run_job {
         $this->start = time();
         $start_d     = date('Ymd', $this->start);
         $start_t     = date('His', $this->start);
-        $sets  = array($tab->campi['run_start_date']->nome_fisico => "'".$start_d."'",
-                       $tab->campi['run_start_time']->nome_fisico => "'".$start_t."'",
-                       $tab->campi['run_host']->nome_fisico       => "'".$app->host."'",
-                       $tab->campi['run_pid']->nome_fisico        => ''.getmypid(),
-                       $tab->campi['run_progress']->nome_fisico   => '1',
-                       $tab->campi['run_status']->nome_fisico     => "'R'");
-        $where = $tab->campi["run_id"]->nome_fisico."='".$this->id."'";
+        $f           = $tab->campi;
+        $sets        = array($f['run_start_date']->nome_fisico => "'".$start_d."'",
+                             $f['run_start_time']->nome_fisico => "'".$start_t."'",
+                             $f['run_host']->nome_fisico       => "'".$app->host."'",
+                             $f['run_pid']->nome_fisico        => ''.getmypid(),
+                             $f['run_sessid']->nome_fisico     => "'".$sessid."'",
+                             $f['run_progress']->nome_fisico   => '1',
+                             $f['run_status']->nome_fisico     => "'R'");
+        $where       = $f["run_id"]."='".$this->id."'";
         // ______________________________ Execute update query in isolated transaction ___
         $trans               = $app->isolated_trans;
         $app->isolated_trans = true;
@@ -4409,24 +4408,25 @@ class o2_run_job {
      */
     public function end() {
 
-        $app       = $_SESSION['o2_app'];
-        $tab       = $app->get_table(self::$run_table);
-        $db        = $tab->db;
-        $server    = $db->server;
-        $error     = ($GLOBALS["jxlasterror"] ?
-                      ltrim($GLOBALS["jxlasterror"]->to_raw_text()) : "");
-        $error     = o2_gateway::normalize($server->type, $error);
-        $this->end = time();
-        $end_d     = date("Ymd", $this->end);
-        $end_t     = date("His", $this->end);
-        $pars      = serialize($this->files);
-        $sets      = array($tab->campi["run_error"]->nome_fisico    => "'".$error."'",
-                           $tab->campi["run_end_date"]->nome_fisico => "'".$end_d."'",
-                           $tab->campi["run_end_time"]->nome_fisico => "'".$end_t."'",
-                           $tab->campi["run_progress"]->nome_fisico => "100",
-                           $tab->campi["run_files"]->nome_fisico    => "'".$pars."'",
-                           $tab->campi["run_status"]->nome_fisico   => "'C'");
-        $where     = $tab->campi["run_id"]->nome_fisico."='".$this->id."'";
+        $app                 = $_SESSION['o2_app'];
+        $tab                 = $app->get_table(self::$run_table);
+        $db                  = $tab->db;
+        $server              = $db->server;
+        $error               = ($GLOBALS["jxlasterror"] ?
+                                ltrim($GLOBALS["jxlasterror"]->to_raw_text()) : "");
+        $error               = o2_gateway::normalize($server->type, $error);
+        $this->end           = time();
+        $end_d               = date("Ymd", $this->end);
+        $end_t               = date("His", $this->end);
+        $pars                = serialize($this->files);
+        $f                   = $tab->campi;
+        $sets                = array($f["run_error"]->nome_fisico    => "'".$error."'",
+                                     $f["run_end_date"]->nome_fisico => "'".$end_d."'",
+                                     $f["run_end_time"]->nome_fisico => "'".$end_t."'",
+                                     $f["run_progress"]->nome_fisico => "100",
+                                     $f["run_files"]->nome_fisico    => "'".$pars."'",
+                                     $f["run_status"]->nome_fisico   => "'C'");
+        $where               = $f["run_id"]."='".$this->id."'";
         // ______________________________ Execute update query in isolated transaction ___
         $trans               = $app->isolated_trans;
         $app->isolated_trans = true;
@@ -4460,7 +4460,7 @@ class o2_run_job {
         $server       = $db->server;
         $sets         = array($tab->campi['run_status']->nome_fisico =>
                                                                    "'".$this->status."'");
-        $where        = $tab->campi["run_id"]->nome_fisico."='".$this->id."'";
+        $where        = $tab->campi["run_id"]."='".$this->id."'";
         // ______________________________ Execute update query in isolated transaction ___
         $res          = o2_gateway::modifyrec($server->type,
                                               $server->server,
@@ -4503,7 +4503,7 @@ class o2_run_job {
         $db     = $tab->db;
         $server = $db->server;
         $sets   = array($tab->campi['run_status']->nome_fisico => "'".$this->status."'");
-        $where  = $tab->campi['run_id']->nome_fisico."='".$this->id."'";
+        $where  = $tab->campi['run_id']."='".$this->id."'";
         // ______________________________ Execute update query in isolated transaction ___
         $trans               = $app->isolated_trans;
         $app->isolated_trans = true;
@@ -4590,7 +4590,7 @@ class o2_run_job {
             $server = $db->server;
             $perc   = ($perc ? $perc : '0');
             $sets   = array($tab->campi['run_progress']->nome_fisico => $perc);
-            $where  = $tab->campi['run_id']->nome_fisico."='".$this->id."'";
+            $where  = $tab->campi['run_id']."='".$this->id."'";
             // __________________________ Execute update query in isolated transaction ___
             $trans               = $app->isolated_trans;
             $app->isolated_trans = true;
@@ -4680,18 +4680,17 @@ class o2_run_job {
         $server  = $db->server;
         $co      = constant('o2_'.$server->type.'_o');
         $cc      = constant('o2_'.$server->type.'_c');
-        $select  = $tab->campi['run_id']->nome_fisico.' '.$co.'RUN_ID'.$cc;
-        $aspfld  = $tab->campi['run_aspid']->nome_fisico;
-        $where   = $tab->campi['job_id']->nome_fisico.'='.$job_id.
+        $f       = $tab->campi;
+        $select  = $f['run_id'].' '.$co.'RUN_ID'.$cc;
+        $aspfld  = $f['run_aspid']->nome_fisico;
+        $where   = $f['job_id'].'='.$job_id.
                    ($aspid ? ' AND ('.$aspfld."='' OR ".
                                       $aspfld." IS NULL OR ".
                                       $aspfld."='NOASP' OR ".
                                       $aspfld."='".$aspid."')" :
                    '').
-                   ($user ?
-                    ' AND '.$tab->campi['run_user']->nome_fisico."='".$user."'" : '');
-        $orderby = $tab->campi['run_start_date']->nome_fisico.' DESC,'.
-                   $tab->campi['run_start_time']->nome_fisico.' DESC';
+                   ($user ? ' AND '.$f['run_user']."='".$user."'" : '');
+        $orderby = $f['run_start_date'].' DESC,'.$f['run_start_time'].' DESC';
         $run_job = o2_gateway::recordset($server->type,
                                          $server->server,
                                          $server->user,
@@ -4729,17 +4728,15 @@ class o2_run_job {
         $server   = $db->server;
         $co       = constant('o2_'.$server->type.'_o');
         $cc       = constant('o2_'.$server->type.'_c');
-        $select   = $tab->campi['run_id']->nome_fisico.' '.$co.'RUN_ID'.$cc;
-        $aspfld   = $tab->campi['run_aspid']->nome_fisico;
-        $where    = $tab->campi['job_id']->nome_fisico.'='.$job_id.
-                    ($aspid ?
-                     ' AND ('.$aspfld."='' OR ".
-                              $aspfld." IS NULL OR ".
-                              $aspfld."='".$aspid."' OR ".
-                              $aspfld."='NOASP')" :
-                     '');
-        $orderby  = $tab->campi['run_start_date']->nome_fisico.' DESC,'.
-                    $tab->campi['run_start_time']->nome_fisico.' DESC';
+        $f        = $tab->campi;
+        $select   = $f['run_id'].' '.$co.'RUN_ID'.$cc;
+        $aspfld   = $f['run_aspid']->nome_fisico;
+        $where    = $f['job_id'].'='.$job_id.($aspid ?
+                                              ' AND ('.$aspfld."='' OR ".
+                                                       $aspfld." IS NULL OR ".
+                                                       $aspfld."='".$aspid."' OR ".
+                                                       $aspfld."='NOASP')" : '');
+        $orderby  = $f['run_start_date'].' DESC,'.$f['run_start_time'].' DESC';
         $run_jobs = o2_gateway::recordset($server->type,
                                           $server->server,
                                           $server->user,
@@ -4780,39 +4777,33 @@ class o2_run_job {
         $server   = $db->server;
         $co       = constant('o2_'.$server->type.'_o');
         $cc       = constant('o2_'.$server->type.'_c');
-        $select   = $tab->campi['run_id']->nome_fisico.' '.$co.'RUN_ID'.$cc.','.
-                    $tab->campi['job_id']->nome_fisico.' '.$co.'JOB_ID'.$cc.','.
-                    $tab->campi['run_prg']->nome_fisico.' '.$co.'RUN_PRG'.$cc.','.
-                    $tab->campi['run_service']->nome_fisico.' '.$co.'RUN_SERVICE'.$cc.','.
-                    $tab->campi['run_host']->nome_fisico.' '.$co.'RUN_HOST'.$cc.','.
-                    $tab->campi['run_user']->nome_fisico.' '.$co.'RUN_USER'.$cc.','.
-                    $tab->campi['run_developer']->nome_fisico.' '.$co.'RUN_DEVELOPER'.$cc.
-                                                                                      ','.
-                    $tab->campi['run_params']->nome_fisico.' '.$co.'RUN_PARAMS'.$cc.','.
-                    $tab->campi['run_aspid']->nome_fisico.' '.$co.'RUN_ASPID'.$cc.','.
-                    $tab->campi['run_status']->nome_fisico.' '.$co.'RUN_STATUS'.$cc.','.
-                    $tab->campi['run_pid']->nome_fisico.' '.$co.'RUN_PID'.$cc.','.
-                    $tab->campi['run_progress']->nome_fisico.' '.$co.'RUN_PROGRESS'.$cc.
-                                                                                      ','.
-                    $tab->campi['run_error']->nome_fisico.' '.$co.'RUN_ERROR'.$cc.','.
-                    $tab->campi['run_files']->nome_fisico.' '.$co.'RUN_FILES'.$cc.','.
-                    $tab->campi['run_start_date']->nome_fisico.' '.$co.'RUN_START_DATE'.
-                                                                                  $cc.','.
-                    $tab->campi['run_start_time']->nome_fisico.' '.$co.'RUN_START_TIME'.
-                                                                                  $cc.','.
-                    $tab->campi['run_end_date']->nome_fisico.' '.$co.'RUN_END_DATE'.
-                                                                                  $cc.','.
-                    $tab->campi['run_end_time']->nome_fisico.' '.$co.'RUN_END_TIME'.$cc.
-                                                                                      ','.
-                    $tab->campi['run_at_date']->nome_fisico.' '.$co.'RUN_AT_DATE'.
-                                                                                  $cc.','.
-                    $tab->campi['run_at_time']->nome_fisico.' '.$co.'RUN_AT_TIME'.$cc;
-        $aspfld   = $tab->campi['run_aspid']->nome_fisico;
-        $where    = ($user ? $tab->campi['run_user']->nome_fisico." ='".$user."'".
+        $f        = $tab->campi;
+        $select   = $f['run_id'].' '.$co.'RUN_ID'.$cc.','.
+                    $f['job_id'].' '.$co.'JOB_ID'.$cc.','.
+                    $f['run_prg'].' '.$co.'RUN_PRG'.$cc.','.
+                    $f['run_service'].' '.$co.'RUN_SERVICE'.$cc.','.
+                    $f['run_host'].' '.$co.'RUN_HOST'.$cc.','.
+                    $f['run_user'].' '.$co.'RUN_USER'.$cc.','.
+                    $f['run_developer'].' '.$co.'RUN_DEVELOPER'.$cc.','.
+                    $f['run_params'].' '.$co.'RUN_PARAMS'.$cc.','.
+                    $f['run_aspid'].' '.$co.'RUN_ASPID'.$cc.','.
+                    $f['run_status'].' '.$co.'RUN_STATUS'.$cc.','.
+                    $f['run_pid'].' '.$co.'RUN_PID'.$cc.','.
+                    $f['run_sessid'].' '.$co.'RUN_SESSID'.$cc.','.
+                    $f['run_progress'].' '.$co.'RUN_PROGRESS'.$cc.','.
+                    $f['run_error'].' '.$co.'RUN_ERROR'.$cc.','.
+                    $f['run_files'].' '.$co.'RUN_FILES'.$cc.','.
+                    $f['run_start_date'].' '.$co.'RUN_START_DATE'.$cc.','.
+                    $f['run_start_time'].' '.$co.'RUN_START_TIME'.$cc.','.
+                    $f['run_end_date'].' '.$co.'RUN_END_DATE'.$cc.','.
+                    $f['run_end_time'].' '.$co.'RUN_END_TIME'.$cc.','.
+                    $f['run_at_date'].' '.$co.'RUN_AT_DATE'.$cc.','.
+                    $f['run_at_time'].' '.$co.'RUN_AT_TIME'.$cc;
+        $aspfld   = $f['run_aspid']->nome_fisico;
+        $where    = ($user ? $f['run_user']." ='".$user."'".
                              ($aspid ? ' AND '.$aspfld."='".$aspid."'" : '') : '');
         $ord      = ($with_lock ? ' ASC' : ' DESC');
-        $orderby  = $tab->campi['run_start_date']->nome_fisico.$ord.','.
-                    $tab->campi['run_start_time']->nome_fisico.$ord;
+        $orderby  = $f['run_start_date'].$ord.','.$f['run_start_time'].$ord;
         $run_jobs = o2_gateway::recordset($server->type,
                                           $server->server,
                                           $server->user,
@@ -4842,6 +4833,7 @@ class o2_run_job {
                 $run_job->aspid     = $run_rec['RUN_ASPID'];
                 $run_job->status    = $run_rec['RUN_STATUS'];
                 $run_job->pid       = $run_rec['RUN_PID'];
+                $run_job->sessid    = $run_rec['RUN_SESSID'];
                 $run_job->progress  = $run_rec['RUN_PROGRESS'];
                 $run_job->error     = $run_rec['RUN_ERROR'];
                 $run_job->files     = unserialize($run_rec['RUN_FILES']);
@@ -4906,24 +4898,65 @@ class o2_run_job {
             $tab    = $app->get_table(self::$run_table);
             $db     = $tab->db;
             $server = $db->server;
+            $co     = constant('o2_'.$server->type.'_o');
+            $cc     = constant('o2_'.$server->type.'_c');
             $start  = new DateTime;
             $start->modify('-'.$keep_days.' days');
             $s_date = $start->format('Ymd');
             $s_time = $start->format('His');
-            $where  = $tab->campi['job_id']->nome_fisico.'='.$job_id.' AND ('.
-                      $tab->campi['run_start_date']->nome_fisico."<'".$s_date."' OR (".
-                      $tab->campi['run_start_date']->nome_fisico."='".$s_date."' AND ".
-                      $tab->campi['run_start_time']->nome_fisico."<'".$s_time."'))";
-            // ___________________________________ Delete run instances for passed job ___
-            o2_gateway::deleterec($server->type,
-                                  $server->server,
-                                  $server->user,
-                                  $server->password,
-                                  $db->nome,
-                                  $db->proprietario,
-                                  $tab->nome,
-                                  'jx_run_jobs',
-                                  $where);
+            $f      = $tab->campi;
+            $select = $f['run_id'].' '.$co.'RUN_ID'.$cc.','.
+                      $f['run_sessid'].' '.$co.'RUN_SESSID'.$cc.','.
+                      $f['run_host'].' '.$co.'RUN_HOST'.$cc;
+            $where  = $f['job_id'].'='.$job_id.' AND ('.
+                      $f['run_start_date']."<'".$s_date."' OR (".
+                      $f['run_start_date']."='".$s_date."' AND ".
+                      $f['run_start_time']."<'".$s_time."'))";
+            // _________________________ Get all obsolete run instances for passed job ___
+            $recs   = o2_gateway::recordset($server->type,
+                                            $server->server,
+                                            $server->user,
+                                            $server->password,
+                                            $db->nome,
+                                            $db->proprietario,
+                                            $tab->nome,
+                                            'jx_run_jobs',
+                                            $select,
+                                            $where,
+                                            '',
+                                            1000);
+            $host    = $app->host;
+            $stab    = $app->get_table('o2_sessions');
+            $sdb     = $stab->db;
+            $sserver = $sdb->server;
+            $sf      = $stab->campi;
+            $now     = time();
+            $sets    = array($sf['e_date']->nome_fisico => "'".date('Ymd', $now)."'",
+                             $sf['e_time']->nome_fisico => "'".date('His', $now)."'");
+            $d_sess  = array();
+            foreach ($recs as $rec) {
+                // _____________________________________________ Delete session record ___
+                o2_gateway::deleterec($sserver->type,
+                                      $sserver->server,
+                                      $sserver->user,
+                                      $sserver->password,
+                                      $sdb->nome,
+                                      $sdb->proprietario,
+                                      $stab->nome,
+                                      'o2_sessions',
+                                      $sf['sid']."='".$rec['RUN_SESSID']."'");
+                // _______________________________________________ Delete run instance ___
+                o2_gateway::deleterec($server->type,
+                                      $server->server,
+                                      $server->user,
+                                      $server->password,
+                                      $db->nome,
+                                      $db->proprietario,
+                                      $tab->nome,
+                                      'jx_run_jobs',
+                                      $f['run_id']."='".$rec['RUN_ID']."'");
+                }
+
             }
 
         }
@@ -4941,7 +4974,7 @@ class o2_run_job {
         $server   = $db->server;
         $co       = constant('o2_'.$server->type.'_o');
         $cc       = constant('o2_'.$server->type.'_c');
-        $select   = $tab->campi['job_id']->nome_fisico.' '.$co.'JOB_ID'.$cc;
+        $select   = $tab->campi['job_id'].' '.$co.'JOB_ID'.$cc;
         $job_recs = o2_gateway::recordset($server->type,
                                           $server->server,
                                           $server->user,
@@ -5241,15 +5274,13 @@ class o2_service {
         $server   = $db->server;
         $co       = constant('o2_'.$server->type.'_o');
         $cc       = constant('o2_'.$server->type.'_c');
-        $select   = $tab->campi['srv_service']->nome_fisico.' '.$co.'SRV_SERVICE'.$cc.','.
-                    $tab->campi['srv_host']->nome_fisico.' '.$co.'SRV_HOST'.$cc.','.
-                    $tab->campi['srv_start_date']->nome_fisico.' '.$co.'SRV_START_DATE'.
-                                                                                  $cc.','.
-                    $tab->campi['srv_start_time']->nome_fisico.' '.$co.'SRV_START_TIME'.
-                                                                                  $cc.','.
-                    $tab->campi['srv_last_date']->nome_fisico.' '.$co.'SRV_LAST_DATE'.$cc.
-                                                                                      ','.
-                    $tab->campi['srv_last_time']->nome_fisico.' '.$co.'SRV_LAST_TIME'.$cc;
+        $f        = $tab->campi;
+        $select   = $f['srv_service'].' '.$co.'SRV_SERVICE'.$cc.','.
+                    $f['srv_host'].' '.$co.'SRV_HOST'.$cc.','.
+                    $f['srv_start_date'].' '.$co.'SRV_START_DATE'.$cc.','.
+                    $f['srv_start_time'].' '.$co.'SRV_START_TIME'.$cc.','.
+                    $f['srv_last_date'].' '.$co.'SRV_LAST_DATE'.$cc.','.
+                    $f['srv_last_time'].' '.$co.'SRV_LAST_TIME'.$cc;
         $srv_recs = o2_gateway::recordset($server->type,
                                           $server->server,
                                           $server->user,
@@ -5266,12 +5297,12 @@ class o2_service {
         foreach ($srv_recs as $srv_rec) {
             $host_id        = $srv_rec['SRV_HOST'].'h'.$srv_rec['SRV_SERVICE'].'s';
             $last_time      = $srv_rec['SRV_LAST_DATE'].$srv_rec['SRV_LAST_TIME'];
-            $list[] = array('host' => $srv_rec['SRV_HOST'],
-                            'srv'  => $srv_rec['SRV_SERVICE'],
-                            's_date' => $srv_rec['SRV_START_DATE'],
-                            's_time' => $srv_rec['SRV_START_TIME'],
-                            'l_date' => $srv_rec['SRV_LAST_DATE'],
-                            'l_time' => $srv_rec['SRV_LAST_TIME']);
+            $list[]         = array('host'   => $srv_rec['SRV_HOST'],
+                                    'srv'    => $srv_rec['SRV_SERVICE'],
+                                    's_date' => $srv_rec['SRV_START_DATE'],
+                                    's_time' => $srv_rec['SRV_START_TIME'],
+                                    'l_date' => $srv_rec['SRV_LAST_DATE'],
+                                    'l_time' => $srv_rec['SRV_LAST_TIME']);
             }
         return $list;
 
@@ -5499,7 +5530,7 @@ class o2_service {
 
 
     /**
-     * Updates host-service recordwith last execution date and time
+     * Updates host-service record with last execution date and time
      *
      * @param  string $host
      * @param  string $service
