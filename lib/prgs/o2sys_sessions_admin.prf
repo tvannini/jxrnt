@@ -20,6 +20,8 @@ function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "")
 
 	$task_sessions->usa("sid","o2_sessions","sid",null,null,null,null);
 	$task_sessions->usa("app_name","o2_sessions","app_name","o2sys_sessions_admin_exp_13()","o2sys_sessions_admin_exp_13()",null,null);
+	$task_sessions->usa("host","o2_sessions","host",null,null,null,null);
+	$task_sessions->usa("run_mode","o2_sessions","run_mode",null,null,null,null);
 	$task_sessions->usa("o2user","o2_sessions","o2user",null,null,"o2sys_sessions_admin_exp_14()",null);
 	$task_sessions->usa("c_date","o2_sessions","c_date",null,null,null,null);
 	$task_sessions->usa("c_time","o2_sessions","c_time",null,null,null,null);
@@ -34,8 +36,8 @@ function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "")
 	$task_sessions->calcola("descr", "o2sys_sessions_admin_exp_5()",null,null,null,null);
 }
 function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
-	$form_sessions_admin->x(444);
-	$form_sessions_admin->y(47);
+	$form_sessions_admin->x(400);
+	$form_sessions_admin->y(50);
 	$form_sessions_admin->larghezza(800);
 	$form_sessions_admin->altezza(632);
 	$form_sessions_admin->align_o("Center");
@@ -201,43 +203,56 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2edit11->altezza(20);
 		$ctrl_o2edit11->expand("H");
 		$ctrl_o2edit11->info_padre(array("01", "02", "02", "Application name", False, "", False, "", "", "", ""));
+	$ctrl_o2edit13 = &$form_sessions_admin->ctrldef("o2edit13", "edit", "o2table2", "sessions", "host");
+		$ctrl_o2edit13->x(390);
+		$ctrl_o2edit13->y(10);
+		$ctrl_o2edit13->larghezza(150);
+		$ctrl_o2edit13->altezza(20);
+		$ctrl_o2edit13->expand("H");
+		$ctrl_o2edit13->info_padre(array("01", "03", "03", "Host", False, "", 0, "", "", "", "", ""));
+	$ctrl_o2edit12 = &$form_sessions_admin->ctrldef("o2edit12", "edit", "o2table2", "sessions", "run_mode");
+		$ctrl_o2edit12->x(540);
+		$ctrl_o2edit12->y(10);
+		$ctrl_o2edit12->larghezza(50);
+		$ctrl_o2edit12->altezza(20);
+		$ctrl_o2edit12->info_padre(array("01", "04", "04", "Run mode", False, "", 0, "", "", "", "", ""));
 	$ctrl_o2edit3 = &$form_sessions_admin->ctrldef("o2edit3", "edit", "o2table2", "sessions", "o2user");
-		$ctrl_o2edit3->x(390);
+		$ctrl_o2edit3->x(590);
 		$ctrl_o2edit3->y(10);
 		$ctrl_o2edit3->larghezza(160);
 		$ctrl_o2edit3->altezza(20);
 		$ctrl_o2edit3->expand("H");
-		$ctrl_o2edit3->info_padre(array("01", "03", "03", "User", False, "", False, "", "", "tab_foot_nb", ""));
+		$ctrl_o2edit3->info_padre(array("01", "05", "05", "User", False, "", False, "", "", "tab_foot_nb", ""));
 	$ctrl_o2edit10 = &$form_sessions_admin->ctrldef("o2edit10", "edit", "o2table2", "sessions", "terminal_id");
-		$ctrl_o2edit10->x(550);
+		$ctrl_o2edit10->x(750);
 		$ctrl_o2edit10->y(10);
 		$ctrl_o2edit10->larghezza(80);
 		$ctrl_o2edit10->altezza(20);
-		$ctrl_o2edit10->info_padre(array("01", "04", "04", "Terminal", False, "", False, "", "", "tab_foot_nb", ""));
+		$ctrl_o2edit10->info_padre(array("01", "06", "06", "Terminal", False, "", False, "", "", "tab_foot_nb", ""));
 	$ctrl_o2edit7 = &$form_sessions_admin->ctrldef("o2edit7", "edit", "o2table2", "sessions", "descr");
-		$ctrl_o2edit7->x(630);
+		$ctrl_o2edit7->x(830);
 		$ctrl_o2edit7->y(10);
 		$ctrl_o2edit7->larghezza(90);
 		$ctrl_o2edit7->altezza(20);
-		$ctrl_o2edit7->info_padre(array("01", "05", "05", "Status", False, "", False, "", "", "tab_foot_nb", ""));
+		$ctrl_o2edit7->info_padre(array("01", "07", "07", "Status", False, "", False, "", "", "tab_foot_nb", ""));
 	$ctrl_o2edit5 = &$form_sessions_admin->ctrldef("o2edit5", "edit", "o2table2", "sessions", "update");
-		$ctrl_o2edit5->x(720);
+		$ctrl_o2edit5->x(920);
 		$ctrl_o2edit5->y(10);
 		$ctrl_o2edit5->larghezza(130);
 		$ctrl_o2edit5->altezza(20);
-		$ctrl_o2edit5->info_padre(array("01", "06", "06", "Updated", False, "", False, "", "", "tab_foot_nb", ""));
+		$ctrl_o2edit5->info_padre(array("01", "08", "08", "Updated", False, "", False, "", "", "tab_foot_nb", ""));
 	$ctrl_o2edit4 = &$form_sessions_admin->ctrldef("o2edit4", "edit", "o2table2", "sessions", "creation");
-		$ctrl_o2edit4->x(850);
+		$ctrl_o2edit4->x(1050);
 		$ctrl_o2edit4->y(10);
 		$ctrl_o2edit4->larghezza(130);
 		$ctrl_o2edit4->altezza(20);
-		$ctrl_o2edit4->info_padre(array("01", "07", "07", "Creation", False, "", False, "", o2sys_sessions_admin_exp_11(), "tab_foot_nb", ""));
+		$ctrl_o2edit4->info_padre(array("01", "09", "09", "Creation", False, "", False, "", o2sys_sessions_admin_exp_11(), "tab_foot_nb", ""));
 	$ctrl_o2edit6 = &$form_sessions_admin->ctrldef("o2edit6", "edit", "o2table2", "sessions", "expire");
-		$ctrl_o2edit6->x(980);
+		$ctrl_o2edit6->x(1180);
 		$ctrl_o2edit6->y(10);
 		$ctrl_o2edit6->larghezza(130);
 		$ctrl_o2edit6->altezza(20);
-		$ctrl_o2edit6->info_padre(array("01", "08", "08", "Expiration", False, "", False, "", o2sys_sessions_admin_exp_10(), "tab_foot_dx", ""));
+		$ctrl_o2edit6->info_padre(array("01", "10", "10", "Expiration", False, "", False, "", o2sys_sessions_admin_exp_10(), "tab_foot_dx", ""));
 		}
 
 function o2sys_sessions_admin§§app_lock_act(&$o2exe) {
@@ -262,7 +277,7 @@ function o2sys_sessions_admin§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_sessions_admin_exp_1() {
-
+	
 return ("tools/jxlock");
 	} //|o2_fine_exp|
 
@@ -277,12 +292,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_3() {
-
+	
 return (o2val('prg§_§var','apps_list'));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_4() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
@@ -308,17 +323,17 @@ return ($descr);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_6() {
-
+	
 return (o2format(o2val('sessions','c_date'), "o2sys_short_date")." ".o2format(o2val('sessions','c_time'), "o2sys_long_time"));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_7() {
-
+	
 return (o2format(o2val('sessions','a_date'), "o2sys_short_date")." ".o2format(o2val('sessions','a_time'), "o2sys_long_time"));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_8() {
-
+	
 return (o2format(o2val('sessions','e_date'), "o2sys_short_date")." ".o2format(o2val('sessions','e_time'), "o2sys_long_time"));
 	} //|o2_fine_exp|
 
@@ -342,12 +357,12 @@ return ($css);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_10() {
-
+	
 return (o2view_total("sessions"));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_11() {
-
+	
 return ("Total sessions:");
 	} //|o2_fine_exp|
 
@@ -357,27 +372,27 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_13() {
-
+	
 return ((o2zero('prg§_§var','filter_app') ? null : o2val('prg§_§var','filter_app')));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_14() {
-
+	
 return (o2val('prg§_§var','scheduler_sessions') ? null : 'jxsys');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_15() {
-
+	
 return ('nav_big');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_16() {
-
+	
 return ('<jx>/img/tabadmin/separator.png');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_17() {
-
+	
 return ('<jx>/img/tools/blank.png');
 	} //|o2_fine_exp|
 
@@ -413,27 +428,27 @@ return ($tab);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_19() {
-
+	
 return ('tool_btn_refresh');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_20() {
-
+	
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_21() {
-
+	
 return ('hidden');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_22() {
-
+	
 return ('jximgbtn');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_23() {
-
+	
 return ('<jx>/img/tabadmin/lock.png');
 	} //|o2_fine_exp|
 
@@ -445,7 +460,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_9999() {
-
+	
 return (false);
 	} //|o2_fine_exp|
 ?>

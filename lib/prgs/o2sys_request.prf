@@ -60,14 +60,20 @@ return (o2app_sid());
 	} //|o2_fine_exp|
 
 function o2sys_request_exp_2() {
-	$exp_d    = o2val('sessions','e_date');
-$exp_t    = o2val('sessions','e_time');
-$expire   = mktime(substr($exp_t, 0, 2),
-                   substr($exp_t, 2, 2),
-                   substr($exp_t, 4, 2),
-                   substr($exp_d, 4, 2),
-                   substr($exp_d, 6, 2),
-                   substr($exp_d, 0, 4));
+	if (o2session_is_job()) {
+   /* _____________________________________________ 00:00:00 - 01.01.2099 ___ */
+   $expire = 4070905200;
+   }
+else {
+   $exp_d  = o2val('sessions','e_date');
+   $exp_t  = o2val('sessions','e_time');
+   $expire = mktime(substr($exp_t, 0, 2),
+                    substr($exp_t, 2, 2),
+                    substr($exp_t, 4, 2),
+                    substr($exp_d, 4, 2),
+                    substr($exp_d, 6, 2),
+                    substr($exp_d, 0, 4));
+   }
 $verified = trim(o2val('sessions','o2user')) == o2app_user() && 
             $expire >= o2val('prg§_§var','now');
 return ($verified);
@@ -95,13 +101,19 @@ return (time());
 	} //|o2_fine_exp|
 
 function o2sys_request_exp_6() {
-	$now = o2val('prg§_§var','now');
-$expire = mktime(date("H", $now),
-                 date("i", $now) + o2app_timeout(),
-                 date("s", $now),
-                 date("m", $now),
-                 date("d", $now),
-                 date("Y", $now));
+	if (o2session_is_job()) {
+   /* _____________________________________________ 00:00:00 - 01.01.2099 ___ */
+   $expire = 4070905200;
+   }
+else {
+   $now = o2val('prg§_§var','now');
+   $expire = mktime(date("H", $now),
+                    date("i", $now) + o2app_timeout(),
+                    date("s", $now),
+                    date("m", $now),
+                    date("d", $now),
+                    date("Y", $now));
+   }
 return ($expire);
 	} //|o2_fine_exp|
 
