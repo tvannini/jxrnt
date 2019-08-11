@@ -2403,7 +2403,7 @@ function o2app_name() {
 
 /**
  * Returns application alias as an URL prefix, mostly useful to address application
- * resuources (images, JS libraries, ...)
+ * resources (images, JS libraries, ...)
  *
  * NOTE: application alias is returned with ending back-slash.
  *
@@ -2417,6 +2417,22 @@ function o2app_name() {
 function o2app_alias() {
 
     return $_SESSION['o2_app']->alias;
+
+    }
+
+
+/**
+ * Returns application host, machine name on which application is executed.
+ *
+ * NOTE: Host can be customized by application parameter "host".
+ *
+ * @package application
+ * @return  string
+ * @see     o2app_name(), o2app_runmode()
+ */
+function o2app_host() {
+
+    return $_SESSION['o2_app']->host;
 
     }
 
@@ -2513,7 +2529,7 @@ function o2app_exetime() {
  *
  * @package application
  * @return  string
- * @see     o2app_developer()
+ * @see     o2app_developer(), o2app_runmode()
  */
 function o2app_runlevel() {
 
@@ -2523,17 +2539,23 @@ function o2app_runlevel() {
 
 
 /**
- * Returns application run-mode: [HTML] for standard WEB mode, [BAT] for console execution
- * and [RPC] for WEB service mode
+ * Returns application run-mode:
+ *
+ *  - WEB: for standard WEB mode
+ *  - JOB: when running as a job
+ *  - CMD: for console executions
+ *  - RPC: for WEB service mode
  *
  * @package application
  * @return  string
- * @see     o2app_runlevel()
+ * @see     o2rnt_interface(), o2app_runlevel()
  */
 function o2app_runmode() {
 
     $app = $_SESSION['o2_app'];
-    return ($app->rpc_server ? 'RPC' : $app->runtime->interface);
+    return ($app->rpc_server ? 'RPC' :
+            (o2session_is_job() ? 'JOB' :
+             ($app->runtime->interface == 'HTML' ? 'WEB' : 'CMD')));
 
     }
 
