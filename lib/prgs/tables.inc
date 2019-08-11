@@ -35,6 +35,8 @@ o2def::tab("o2_sessions", "default", "o2sys_sessions", "sid");
 	o2def::field("e_time", "e_time", "_o2time");
 	o2def::field("terminal_id", "terminal_id", "jxterminal_id");
 	o2def::field("app_name", "app_name", "_o2alpha");
+	o2def::field("run_mode", "run_mode", "o2sys_app_run_mode");
+	o2def::field("host", "host", "jxhost");
 
 	o2def::index("sid", "sid","A");
 	o2def::index("expire", "e_date","A", "e_time","A", "sid","A");
