@@ -339,6 +339,11 @@ class o2_app {
                 $this->favicon = ($this->dir_img->exists($this->nome.".ico") ?
                                   $this->alias."img/".$this->nome.".ico"     :
                                   $this->runtime->alias."img/jxapp.ico");
+                // ________________________________________________ Client screen size ___
+                if ($_REQUEST['jxcsw']) {
+                    $this->client_width  = intval($_REQUEST['jxcsw']);
+                    $this->client_height = intval($_REQUEST['jxcsh']);
+                    }
                 break;
             default:
                 // ________________________________________ Generate pseudo session id ___
@@ -358,9 +363,6 @@ class o2_app {
                     }
                 $_SESSION['o2_app'] = $this;
                 $this->crea_cartelle();
-                $this->favicon = ($this->dir_img->exists($this->nome.".ico") ?
-                                  $this->dir_img.$this->nome.".ico" :
-                                  $this->runtime->root."htdocs/img/jxapp.ico");
                 break;
             }
         $this->host = strtoupper($this->nome.'@'.gethostname());
@@ -389,24 +391,23 @@ class o2_app {
         $this->includi_repository($this->file_menu);
         $this->includi_repository($this->file_vars);
         ob_end_clean();
-        // ________________________________________________________ Client screen size ___
-        if ($_REQUEST['jxcsw']) {
-            $this->client_width  = intval($_REQUEST['jxcsw']);
-            $this->client_height = intval($_REQUEST['jxcsh']);
-            }
-        $this->get_params();
-        $this->exe_prg_start = ($this->prg_start ? true : false);
         $this->load_gateways();
         // ______________________________________________ Execution for internal tools ___
         if (isset($_REQUEST['jxtool'])) {
             $this->user            = 'jxtool';
             $this->split_tab_repos = false;
             }
+        // _______________________________________________________ Scheduler execution ___
+        elseif (isset($_REQUEST[o2_scheduler::$sched_word])) {
+            $this->user = 'jxsys';
+            }
         // ________________________________________________________ Standard execution ___
         else {
+            $this->get_params();
             $this->create_tables();
             // ______________________________ Login program execution and user options ___
             $this->set_user($_REQUEST['user'], $_REQUEST['password']);
+            $this->exe_prg_start = ($this->prg_start ? true : false);
             // ___________________________________ Register maintenance scheduled task ___
             $robot = o2_robot::get_instance();
             $robot->add_task("maintenance",
@@ -435,16 +436,6 @@ class o2_app {
         // ____________________________ Server side extra script inclusion (extra.inc) ___
         if ($app->file_server_inc) {
             include_once($app->dir_progs.$app->file_server_inc);
-            }
-        // _____________________________________________________ Application execution ___
-        if (!isset($_REQUEST['jxtool'])) {
-            try {
-                $app->esecutivo();
-                }
-            catch (o2_exception $o2e) {
-                $o2e->send();
-                return false;
-                }
             }
         // ______________________________ Run jobs if session is a worker (job-runner) ___
         if (o2_run_job::run_session()) { }
@@ -482,6 +473,16 @@ class o2_app {
                                            o2error_EXECUTION);
                     die();
                     break;
+                }
+            }
+        // _____________________________________________________ Application execution ___
+        else {
+            try {
+                $app->esecutivo();
+                }
+            catch (o2_exception $o2e) {
+                $o2e->send();
+                return false;
                 }
             }
         // __________________________________________________ Commit open transactions ___
@@ -973,22 +974,6 @@ class o2_app {
             if (isset($this->vars[$par_name])) {
                 $this->vars[$par_name]->valore = $par_value;
                 }
-            }
-
-        }
-
-
-    /**
-     * Retrieves parameters from command line command end converts them to $_REQUEST items
-     *
-     */
-    function get_cmdline_params() {
-
-        $param_list = $_SERVER['argv'];
-        array_shift($param_list);
-        foreach ($param_list as $single_param) {
-            list($par_name, $par_val) = explode("=", $single_param, 2);
-            $_REQUEST[$par_name] = $par_val;
             }
 
         }
@@ -4202,8 +4187,6 @@ class o2_run_job {
             $app->session_id     = $sessid_save;
             // ________________________ Preserve session record removing from rollback ___
             $app->isolated_trans = true;
-            // _______________________________________________________ Destroy session ___
-            $app->logout();
             return true;
             }
         // ________________________ Run a job directly creating its instance (NOT USED) __
@@ -4224,8 +4207,6 @@ class o2_run_job {
             $app->session_id     = $sessid_save;
             // ________________________ Preserve session record removing from rollback ___
             $app->isolated_trans = true;
-            // _______________________________________________________ Destroy session ___
-            $app->logout();
             return true;
             }
         // ___________________________________________________ Session is not a worker ___
@@ -6364,42 +6345,39 @@ class o2_scheduler {
 
         // __________________________________________________________ Run as scheduler ___
         if ($force || isset($_REQUEST[self::$sched_word])) {
-            print date("d-m-Y H:i:s")." --- JXScheduler ---\n";
+            print 'JXScheduler: '.date("d-m-Y H:i:s")."\n";
             // __________________________________________ Delete old run-job instances ___
-            print "                    Clear obsolete instances...";
+            print "Clear obsolete instances.\n";
             o2_run_job::clear_all();
-            print "Cleared\n";
             // _________________________________________________ Check scheduled tasks ___
             $app = $_SESSION['o2_app'];
             $ret = 0;
             //  If a job is pending from more than one task it's executed only once(?) ___
-            print "                    Read pending tasks...\n";
+            print "Read pending tasks.\n";
             foreach (self::get_list2run() as $job) {
                 // ________________________________________________ Run without ASP-ID ___
                 if ($job['aspid'] == 'NOASP') {
-                    print "                     Run job \"".$job['job']."\"\n";
+                    print "   Run job \"".$job['job']."\"\n";
                     o2_job::get_by_id($job['job'])->run('');
                     }
                 // ___________________________________________ Run only for set ASP-ID ___
                 elseif ($job['aspid']) {
-                    print "                     Run job \"".$job['job'].
-                          "\" for ASP-ID \"".$job['aspid']."\"\n";
+                    print '   Run job "'.$job['job'].
+                          '" for ASP-ID "'.$job['aspid']."\"\n";
                     o2_job::get_by_id($job['job'])->run($job['aspid']);
                     }
                 // __________________________________________ Run once for each ASP-ID ___
                 else {
                     $aspids = $app->asp_codes();
                     if (!count($aspids) || (count($aspids) === 1 && !$aspids[0])) {
-                        print "                     Run job \"".$job['job'].
-                              "\" (without ASP-ID)\n";
+                        print "   Run job \"".$job['job']."\" (without ASP-ID)\n";
                         o2_job::get_by_id($job['job'])->run('');
                         }
                     else {
-                        print "                     Run job \"".$job['job'].
-                              "\" for every ASP-ID\n";
+                        print "   Run job \"".$job['job']."\" for every ASP-IDs\n";
                         foreach ($aspids as $aspid) {
                             if ($aspid) {
-                                print "                      - ASP-ID \"".$aspid."\"\n";
+                                print "    - ASP-ID \"".$aspid."\"\n";
                                 o2_job::get_by_id($job['job'])->run($aspid);
                                 }
                             }
@@ -6407,15 +6385,14 @@ class o2_scheduler {
                     }
                 $ret++;
                 }
-            print "                    Total ".$ret." tasks executed.\n\n";
+            print 'Tasks executed: '.$ret."\n";
             // _____________________________ Check pending processes (queued run-jobs) ___
             $ps = o2_service::run($app->host);
-            print "                    Total ".$ps." queued jobs run.\n\n";
+            print 'Queued jobs run: '.$ps."\n";
             // ____________________ Check killed processes (run-jobs marked as killed) ___
             $ks = o2_run_job::kill_by_host();
-            print "                    Total ".$ks." jobs killed.\n\n";
-            $app->logout();
-            return $ret;
+            print 'Jobs killed: '.$ks."\n";
+            return true;
             }
         // ________________________________________________ Session is not a scheduler ___
         else {
