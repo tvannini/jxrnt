@@ -203,6 +203,7 @@ o2def::tab("jx_running_jobs", "default", "jx_running_jobs", "run_id");
 	o2def::field("run_at_date", "run_at_date", "_o2date");
 	o2def::field("run_at_time", "run_at_time", "_o2time");
 	o2def::field("run_developer", "run_developer", "_o2alpha");
+	o2def::field("run_sessid", "run_sessid", "_o2sid");
 
 	o2def::index("run_id", "run_id","A");
 	o2def::index("run_user", "run_user","A", "run_id","A");
@@ -210,6 +211,7 @@ o2def::tab("jx_running_jobs", "default", "jx_running_jobs", "run_id");
 	o2def::index("run_end", "run_end_date","D", "run_end_time","D", "run_id","A");
 	o2def::index("run_status", "run_status","A", "run_start_date","D", "run_start_time","D", "run_id","A");
 	o2def::index("job_id", "job_id","A", "run_start_date","D", "run_start_time","D", "run_id","A");
+	o2def::index("run_sessid", "run_sessid","A", "run_id","A");
 
 o2def::tab("jx_scheduler", "default", "jx_scheduler", "sched_id");
 
