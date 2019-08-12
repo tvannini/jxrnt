@@ -17,6 +17,12 @@ function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "")
 	$task_sessions->righe_vis = 50;
 
 	$task_sessions->usa_file("o2_sessions","o2_sessions","upd_desc",null,o2sys_sessions_admin_exp_18());
+	$task_sessions->usa_file_link("jx_running_jobs","jx_running_jobs","run_sessid",null,null);
+
+	$task_sessions->unisci("jx_running_jobs_run_sessid_join_","jx_running_jobs","run_sessid","o2sys_sessions_admin_exp_25()","o2sys_sessions_admin_exp_25()",null,null);
+	$task_sessions->usa_file_link("jx_jobs","jx_jobs","job_id",null,null);
+
+	$task_sessions->unisci("jx_jobs_job_id_join_","jx_jobs","job_id","o2sys_sessions_admin_exp_26()","o2sys_sessions_admin_exp_26()",null,null);
 
 	$task_sessions->usa("sid","o2_sessions","sid",null,null,null,null);
 	$task_sessions->usa("app_name","o2_sessions","app_name","o2sys_sessions_admin_exp_13()","o2sys_sessions_admin_exp_13()",null,null);
@@ -30,10 +36,13 @@ function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "")
 	$task_sessions->usa("e_date","o2_sessions","e_date",null,null,null,null);
 	$task_sessions->usa("e_time","o2_sessions","e_time",null,null,null,null);
 	$task_sessions->usa("terminal_id","o2_sessions","terminal_id",null,null,null,null);
+	$task_sessions->usa("job_id","jx_running_jobs","job_id",null,null,null,null);
+	$task_sessions->usa("job_name","jx_jobs","job_name",null,null,null,null);
 	$task_sessions->calcola("creation", "o2sys_sessions_admin_exp_6()",null,null,null,null);
 	$task_sessions->calcola("update", "o2sys_sessions_admin_exp_7()",null,null,null,null);
 	$task_sessions->calcola("expire", "o2sys_sessions_admin_exp_8()",null,null,null,null);
 	$task_sessions->calcola("descr", "o2sys_sessions_admin_exp_5()",null,null,null,null);
+	$task_sessions->calcola("mode", "o2sys_sessions_admin_exp_27()",null,null,null,null);
 }
 function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 	$form_sessions_admin->x(400);
@@ -210,11 +219,12 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2edit13->altezza(20);
 		$ctrl_o2edit13->expand("H");
 		$ctrl_o2edit13->info_padre(array("01", "03", "03", "Host", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit12 = &$form_sessions_admin->ctrldef("o2edit12", "edit", "o2table2", "sessions", "run_mode");
+	$ctrl_o2edit12 = &$form_sessions_admin->ctrldef("o2edit12", "edit", "o2table2", "sessions", "mode");
 		$ctrl_o2edit12->x(540);
 		$ctrl_o2edit12->y(10);
 		$ctrl_o2edit12->larghezza(50);
 		$ctrl_o2edit12->altezza(20);
+		$ctrl_o2edit12->expand("H");
 		$ctrl_o2edit12->info_padre(array("01", "04", "04", "Run mode", False, "", 0, "", "", "", "", ""));
 	$ctrl_o2edit3 = &$form_sessions_admin->ctrldef("o2edit3", "edit", "o2table2", "sessions", "o2user");
 		$ctrl_o2edit3->x(590);
@@ -457,6 +467,24 @@ function o2sys_sessions_admin_exp_24() {
 $dir = session_save_path().DIRECTORY_SEPARATOR;
 o2file_delete($dir.'sess_'.$sid);
 return (true);
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_25() {
+	
+return (o2val('sessions','sid'));
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_26() {
+	
+return (o2val('sessions','job_id'));
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_27() {
+	$r = o2val('sessions','run_mode');
+if ($r == 'JOB') {
+   $r.= ' ('.o2val('sessions','job_name').')';
+   }
+return ($r);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_9999() {
