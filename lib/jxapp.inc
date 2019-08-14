@@ -5845,7 +5845,7 @@ class o2_task {
         $tab    = $app->get_table(o2_scheduler::$sched_table);
         $db     = $tab->db;
         $server = $db->server;
-        // ________________________________________________ Check for one existing job ___
+        // _______________________________________________ Check for one existing task ___
         $exists = o2_gateway::recordset($server->type,
                                         $server->server,
                                         $server->user,
@@ -5853,7 +5853,7 @@ class o2_task {
                                         $db->nome,
                                         $db->proprietario,
                                         $tab->nome,
-                                        "jx_jobs",
+                                        "jx_sched",
                                         "*",
                                         "",
                                         "",
@@ -6442,24 +6442,21 @@ class o2_scheduler {
         $tab    = $app->get_table(self::$sched_table);
         $db     = $tab->db;
         $server = $db->server;
-        $where  = $tab->campi["sched_id"]->nome_fisico."='".$sched_id."'";
         $co     = constant("o2_".$server->type."_o");
         $cc     = constant("o2_".$server->type."_c");
-        $select = $tab->campi["sched_job"]->nome_fisico." ".$co."SCHED_JOB".$cc.",".
-                  $tab->campi["sched_user"]->nome_fisico." ".$co."SCHED_USER".$cc.",".
-                  $tab->campi["sched_type"]->nome_fisico." ".$co."SCHED_TYPE".$cc.",".
-                  $tab->campi["sched_interval"]->nome_fisico." ".$co."SCHED_INTERVAL".$cc.
-                                                                                      ",".
-                  $tab->campi["sched_date"]->nome_fisico." ".$co."SCHED_DATE".$cc.",".
-                  $tab->campi["sched_time"]->nome_fisico." ".$co."SCHED_TIME".$cc.",".
-                  $tab->campi["sched_recurrence"]->nome_fisico." ".$co."SCHED_RECURRENCE".
-                                                                                  $cc.",".
-                  $tab->campi["sched_week_day"]->nome_fisico." ".$co."SCHED_WEEK_DAY".$cc.
-                                                                                      ",".
-                  $tab->campi["sched_month_day"]->nome_fisico." ".$co."SCHED_MONTH_DAY".
-                                                                                  $cc.",".
-                  $tab->campi["sched_aspid"]->nome_fisico." ".$co."SCHED_ASPID".$cc.",".
-                  $tab->campi["sched_paused"]->nome_fisico." ".$co."SCHED_PAUSED".$cc;
+        $f      = $tab->campi;
+        $select = $f["sched_job"]." ".$co."SCHED_JOB".$cc.",".
+                  $f["sched_user"]." ".$co."SCHED_USER".$cc.",".
+                  $f["sched_type"]." ".$co."SCHED_TYPE".$cc.",".
+                  $f["sched_interval"]." ".$co."SCHED_INTERVAL".$cc.",".
+                  $f["sched_date"]." ".$co."SCHED_DATE".$cc.",".
+                  $f["sched_time"]." ".$co."SCHED_TIME".$cc.",".
+                  $f["sched_recurrence"]." ".$co."SCHED_RECURRENCE".$cc.",".
+                  $f["sched_week_day"]." ".$co."SCHED_WEEK_DAY".$cc.",".
+                  $f["sched_month_day"]." ".$co."SCHED_MONTH_DAY".$cc.",".
+                  $f["sched_aspid"]." ".$co."SCHED_ASPID".$cc.",".
+                  $f["sched_paused"]." ".$co."SCHED_PAUSED".$cc;
+        $where  = $f["sched_id"]."='".$sched_id."'";
         $rec    = o2_gateway::recordset($server->type,
                                         $server->server,
                                         $server->user,
