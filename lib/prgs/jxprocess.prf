@@ -18,6 +18,8 @@ function jxprocess§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("run_pid", "_o2number");
 	$task_prg§_§var->definisci("run_prg", "jxjob_prg");
 	$task_prg§_§var->definisci("run_progress", "_o2number");
+	$task_prg§_§var->definisci("run_sched_desc", "o2sys_long_str");
+	$task_prg§_§var->definisci("run_sched_id", "jxscheduler_id");
 	$task_prg§_§var->definisci("run_start", "_o2alpha");
 	$task_prg§_§var->definisci("run_status", "_o2alpha");
 	$task_prg§_§var->definisci("run_user", "_o2alpha");
@@ -25,13 +27,14 @@ function jxprocess§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("show_files", "_o2logical");
 		}
 function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
-	$form_jxprocess_1->x(300);
+	$form_jxprocess_1->x(246);
 	$form_jxprocess_1->y(50);
 	$form_jxprocess_1->larghezza(400);
-	$form_jxprocess_1->altezza(494);
+	$form_jxprocess_1->altezza(520);
 	$form_jxprocess_1->align_o("Center");
 	$form_jxprocess_1->titolo("Process");
 	$form_jxprocess_1->frm_status(jxprocess_exp_18());
+	$form_jxprocess_1->css_body(" open_body");
 	$form_jxprocess_1->css_doc("sys_runjobs_doc");
 	$ctrl_o2label12 = &$form_jxprocess_1->ctrldef("o2label12", "label", "", "", "");
 		$ctrl_o2label12->x(20);
@@ -46,10 +49,10 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->label("Process ID (PID):");
 	$ctrl_o2label10 = &$form_jxprocess_1->ctrldef("o2label10", "label", "", "", "");
-		$ctrl_o2label10->x(20);
-		$ctrl_o2label10->y(16);
-		$ctrl_o2label10->larghezza(360);
-		$ctrl_o2label10->altezza(28);
+		$ctrl_o2label10->x(0);
+		$ctrl_o2label10->y(0);
+		$ctrl_o2label10->larghezza(400);
+		$ctrl_o2label10->altezza(40);
 		$ctrl_o2label10->label("");
 		$ctrl_o2label10->css(jxprocess_exp_21());
 	$ctrl_o2label4 = &$form_jxprocess_1->ctrldef("o2label4", "label", "", "", "");
@@ -58,12 +61,6 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2label4->larghezza(100);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->label("Module:");
-	$ctrl_o2htmlarea2 = &$form_jxprocess_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(120);
-		$ctrl_o2htmlarea2->y(100);
-		$ctrl_o2htmlarea2->larghezza(260);
-		$ctrl_o2htmlarea2->altezza(18);
-		$ctrl_o2htmlarea2->html(jxprocess_exp_19());
 	$ctrl_o2label8 = &$form_jxprocess_1->ctrldef("o2label8", "label", "", "", "");
 		$ctrl_o2label8->x(20);
 		$ctrl_o2label8->y(200);
@@ -97,7 +94,7 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2label3->label("Job:");
 	$ctrl_o2separator2 = &$form_jxprocess_1->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(20);
-		$ctrl_o2separator2->y(400);
+		$ctrl_o2separator2->y(425);
 		$ctrl_o2separator2->larghezza(360);
 		$ctrl_o2separator2->altezza(2);
 	$ctrl_o2label2 = &$form_jxprocess_1->ctrldef("o2label2", "label", "", "", "");
@@ -119,9 +116,16 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2label13->altezza(20);
 		$ctrl_o2label13->visibile(jxprocess_exp_50());
 		$ctrl_o2label13->label("Developer:");
+	$ctrl_o2label14 = &$form_jxprocess_1->ctrldef("o2label14", "label", "", "", "");
+		$ctrl_o2label14->x(20);
+		$ctrl_o2label14->y(405);
+		$ctrl_o2label14->larghezza(100);
+		$ctrl_o2label14->altezza(20);
+		$ctrl_o2label14->visibile(jxprocess_exp_55());
+		$ctrl_o2label14->label("Scheduler task:");
 	$ctrl_o2image4 = &$form_jxprocess_1->ctrldef("o2image4", "img", "", "", "");
-		$ctrl_o2image4->x(30);
-		$ctrl_o2image4->y(18);
+		$ctrl_o2image4->x(10);
+		$ctrl_o2image4->y(8);
 		$ctrl_o2image4->larghezza(24);
 		$ctrl_o2image4->altezza(24);
 		$ctrl_o2image4->azione("refresh");
@@ -129,8 +133,8 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2image4->css(jxprocess_exp_36());
 		$ctrl_o2image4->imgexp(jxprocess_exp_23());
 	$ctrl_o2image8 = &$form_jxprocess_1->ctrldef("o2image8", "img", "", "", "");
-		$ctrl_o2image8->x(132);
-		$ctrl_o2image8->y(18);
+		$ctrl_o2image8->x(112);
+		$ctrl_o2image8->y(8);
 		$ctrl_o2image8->larghezza(24);
 		$ctrl_o2image8->altezza(24);
 		$ctrl_o2image8->modificabile(jxprocess_exp_29());
@@ -139,8 +143,8 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2image8->css(jxprocess_exp_39());
 		$ctrl_o2image8->imgexp(jxprocess_exp_28());
 	$ctrl_o2image7 = &$form_jxprocess_1->ctrldef("o2image7", "img", "", "", "");
-		$ctrl_o2image7->x(108);
-		$ctrl_o2image7->y(18);
+		$ctrl_o2image7->x(88);
+		$ctrl_o2image7->y(8);
 		$ctrl_o2image7->larghezza(24);
 		$ctrl_o2image7->altezza(24);
 		$ctrl_o2image7->modificabile(jxprocess_exp_27());
@@ -149,11 +153,17 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2image7->css(jxprocess_exp_38());
 		$ctrl_o2image7->imgexp(jxprocess_exp_26());
 	$ctrl_o2image27 = &$form_jxprocess_1->ctrldef("o2image27", "img", "", "", "");
-		$ctrl_o2image27->x(54);
-		$ctrl_o2image27->y(21);
+		$ctrl_o2image27->x(34);
+		$ctrl_o2image27->y(11);
 		$ctrl_o2image27->larghezza(3);
 		$ctrl_o2image27->altezza(17);
 		$ctrl_o2image27->imgexp(jxprocess_exp_22());
+	$ctrl_o2htmlarea2 = &$form_jxprocess_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(120);
+		$ctrl_o2htmlarea2->y(100);
+		$ctrl_o2htmlarea2->larghezza(260);
+		$ctrl_o2htmlarea2->altezza(18);
+		$ctrl_o2htmlarea2->html(jxprocess_exp_19());
 	$ctrl_o2image2 = &$form_jxprocess_1->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(338);
 		$ctrl_o2image2->y(55);
@@ -161,14 +171,14 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2image2->altezza(32);
 		$ctrl_o2image2->imgexp(jxprocess_exp_20());
 	$ctrl_o2image6 = &$form_jxprocess_1->ctrldef("o2image6", "img", "", "", "");
-		$ctrl_o2image6->x(105);
-		$ctrl_o2image6->y(21);
+		$ctrl_o2image6->x(85);
+		$ctrl_o2image6->y(11);
 		$ctrl_o2image6->larghezza(3);
 		$ctrl_o2image6->altezza(17);
 		$ctrl_o2image6->imgexp(jxprocess_exp_22());
 	$ctrl_o2image3 = &$form_jxprocess_1->ctrldef("o2image3", "img", "", "", "");
-		$ctrl_o2image3->x(81);
-		$ctrl_o2image3->y(18);
+		$ctrl_o2image3->x(61);
+		$ctrl_o2image3->y(8);
 		$ctrl_o2image3->larghezza(24);
 		$ctrl_o2image3->altezza(24);
 		$ctrl_o2image3->modificabile(jxprocess_exp_46());
@@ -177,8 +187,8 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2image3->css(jxprocess_exp_47());
 		$ctrl_o2image3->imgexp(jxprocess_exp_43());
 	$ctrl_o2image5 = &$form_jxprocess_1->ctrldef("o2image5", "img", "", "", "");
-		$ctrl_o2image5->x(57);
-		$ctrl_o2image5->y(18);
+		$ctrl_o2image5->x(37);
+		$ctrl_o2image5->y(8);
 		$ctrl_o2image5->larghezza(24);
 		$ctrl_o2image5->altezza(24);
 		$ctrl_o2image5->modificabile(jxprocess_exp_25());
@@ -238,7 +248,7 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2edit8->modificabile(jxprocess_exp_18());
 	$ctrl_o2button2 = &$form_jxprocess_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(290);
-		$ctrl_o2button2->y(420);
+		$ctrl_o2button2->y(445);
 		$ctrl_o2button2->larghezza(90);
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("close");
@@ -268,6 +278,20 @@ function jxprocess§§jxprocess_1_form_def(&$form_jxprocess_1) {
 		$ctrl_o2edit12->larghezza(260);
 		$ctrl_o2edit12->altezza(20);
 		$ctrl_o2edit12->modificabile(jxprocess_exp_18());
+	$ctrl_o2edit13 = &$form_jxprocess_1->ctrldef("o2edit13", "edit", "", "prg§_§var", "run_sched_desc");
+		$ctrl_o2edit13->x(180);
+		$ctrl_o2edit13->y(405);
+		$ctrl_o2edit13->larghezza(200);
+		$ctrl_o2edit13->altezza(20);
+		$ctrl_o2edit13->modificabile(jxprocess_exp_18());
+		$ctrl_o2edit13->visibile(jxprocess_exp_55());
+	$ctrl_o2edit14 = &$form_jxprocess_1->ctrldef("o2edit14", "edit", "", "prg§_§var", "run_sched_id");
+		$ctrl_o2edit14->x(120);
+		$ctrl_o2edit14->y(405);
+		$ctrl_o2edit14->larghezza(50);
+		$ctrl_o2edit14->altezza(20);
+		$ctrl_o2edit14->modificabile(jxprocess_exp_18());
+		$ctrl_o2edit14->visibile(jxprocess_exp_55());
 		}
 function jxprocess§§jxprocess_2_form_def(&$form_jxprocess_2) {
 	$form_jxprocess_2->x(-100);
@@ -405,6 +429,8 @@ function jxprocess§§refresh_act(&$o2exe) {
 	$o2exe->s(15) && True && o2act::set("prg§_§var", "run_files", jxprocess_exp_15()) && $o2exe->e();
 	$o2exe->s(16) && True && o2act::set("prg§_§var", "run_error", jxprocess_exp_30()) && $o2exe->e();
 	$o2exe->s(17) && True && o2act::set("prg§_§var", "run_host", jxprocess_exp_42()) && $o2exe->e();
+	$o2exe->s(18) && True && o2act::set("prg§_§var", "run_sched_id", jxprocess_exp_53()) && $o2exe->e();
+	$o2exe->s(19) && True && o2act::set("prg§_§var", "run_sched_desc", jxprocess_exp_54()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxprocess§§requeue_act(&$o2exe) {
@@ -595,7 +621,7 @@ return ($img);
 
 function jxprocess_exp_21() {
 	
-return ("jxtoolbar");
+return ("nav_big");
 	} //|o2_fine_exp|
 
 function jxprocess_exp_22() {
@@ -800,5 +826,26 @@ foreach (o2val('prg§_§var','run_files') as $path) {
 $zip->close();
 o2_send(o2_path($name, 1));
 return (true);
+	} //|o2_fine_exp|
+
+function jxprocess_exp_53() {
+	$obj   = o2val('prg§_§var','run_obj');
+$sched = $obj->sched_id;
+return ($sched);
+	} //|o2_fine_exp|
+
+function jxprocess_exp_54() {
+	$desc = '';
+$id   = o2val('prg§_§var','run_sched_id');
+if ($id) {
+   $task = o2_scheduler::get_task_by_id($id);
+   $desc = $task->get_description();
+   }
+return ($desc);
+	} //|o2_fine_exp|
+
+function jxprocess_exp_55() {
+	
+return (!o2zero('prg§_§var','run_sched_id'));
 	} //|o2_fine_exp|
 ?>

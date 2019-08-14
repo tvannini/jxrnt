@@ -1,5 +1,5 @@
 <?php
-//2.4
+//2.5
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -25,7 +25,7 @@ o2def::act("start", "");
 o2def::form("jxprocess_1", "", False, "true", false);
 o2def::form("jxprocess_2", "", False, "jxprocess_exp_31()", false);
 o2def::form("jxprocess_3", "", False, "jxprocess_exp_33()", false);
-o2def::par(1, "proc_id","_o2sid");
+o2def::par(1, "proc_id", "_o2sid");
 
 
 
