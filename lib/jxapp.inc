@@ -3854,14 +3854,16 @@ class o2_job {
      * queued job.
      * (When no ASP-ID is set on instance, job module is executed once for every defined
      * ASP-ID.)
+     * If a $sched_id value is passed then run instance is linked to scheduler task.
      * Function returns new run-job instance ID if queued else FALSE, if job is disabled
      * or maximum number of allowed instances in reached with full block-mode.
      *
-     * @param  string $aspid    ASPI-ID to run job for
-     * @param  array  $params   List of overriding parameters to call program with
+     * @param  string  $aspid      ASPI-ID to run job for
+     * @param  array   $params     List of overriding parameters to call program with
+     * @param  integer $sched_id   Scheduler ID which requested execution
      * @return integer
      */
-    public function run($aspid, $params = array()) {
+    public function run($aspid, $params = array(), $sched_id = false) {
 
         // ______________________________________________________________ Job disabled ___
         if ($this->disabled) {
@@ -3884,7 +3886,13 @@ class o2_job {
                 if ($cnt >= $this->max_instances) {
                     // ___________________________________________ Check blocking-mode ___
                     if ($this->block_mode == "Q") {
-                        $run_job = o2_run_job::queue($this, $params, $aspid);
+                        $run_job = o2_run_job::queue($this,
+                                                     $params,
+                                                     $aspid,
+                                                     false,
+                                                     false,
+                                                     false,
+                                                     $sched_id);
                         return $run_job->id;
                         }
                     else {
@@ -3892,8 +3900,14 @@ class o2_job {
                         }
                     }
                 }
-            $run_job = o2_run_job::queue($this, $params, $aspid);
-            // ________________________ Set run-job status from Queued to Starting ___
+            $run_job = o2_run_job::queue($this,
+                                         $params,
+                                         $aspid,
+                                         false,
+                                         false,
+                                         false,
+                                         $sched_id);
+            // ____________________________ Set run-job status from Queued to Starting ___
             $run_job->update_status('S');
             $cmd = '"'.$rnt->php_engine.'" '.$app->dir_htdocs.$app->nome.
                                      '.php jxrnt="'.$rnt->rnt_script.
@@ -3948,6 +3962,7 @@ class o2_run_job {
     public $error     = false;             /* Error message, if any                     */
     public $pid       = 0;                 /* System process ID for running instance    */
     public $sessid    = false;             /* Session ID of run-job instance            */
+    public $sched_id  = 0;                 /* Scheduler task ID requesting execution    */
     public $progress  = 0;                 /* Running instance percentage progress      */
     public $files     = array();           /* List of run-job produced files            */
     public $exe_time  = 0;                 /* Minimum execution date-time               */
@@ -3969,18 +3984,19 @@ class o2_run_job {
         $co                 = constant('o2_'.$server->type.'_o');
         $cc                 = constant('o2_'.$server->type.'_c');
         $f                  = $tab->campi;
-        $select             = $f['run_id'].' '.$co.'RUN_ID'.$cc.",".
-                              $f['job_id'].' '.$co.'JOB_ID'.$cc.",".
-                              $f['run_prg'].' '.$co.'RUN_PRG'.$cc.",".
-                              $f['run_service'].' '.$co.'RUN_SERVICE'.$cc.",".
-                              $f['run_host'].' '.$co.'RUN_HOST'.$cc.",".
-                              $f['run_user'].' '.$co.'RUN_USER'.$cc.",".
-                              $f['run_developer'].' '.$co.'RUN_DEVELOPER'.$cc.",".
-                              $f['run_params'].' '.$co.'RUN_PARAMS'.$cc.",".
-                              $f['run_aspid'].' '.$co.'RUN_ASPID'.$cc.",".
-                              $f['run_status'].' '.$co.'RUN_STATUS'.$cc.",".
-                              $f['run_pid'].' '.$co.'RUN_PID'.$cc.",".
-                              $f['run_sessid'].' '.$co.'RUN_SESSID'.$cc.",".
+        $select             = $f['run_id'].' '.$co.'RUN_ID'.$cc.','.
+                              $f['job_id'].' '.$co.'JOB_ID'.$cc.','.
+                              $f['run_prg'].' '.$co.'RUN_PRG'.$cc.','.
+                              $f['run_service'].' '.$co.'RUN_SERVICE'.$cc.','.
+                              $f['run_host'].' '.$co.'RUN_HOST'.$cc.','.
+                              $f['run_user'].' '.$co.'RUN_USER'.$cc.','.
+                              $f['run_developer'].' '.$co.'RUN_DEVELOPER'.$cc.','.
+                              $f['run_params'].' '.$co.'RUN_PARAMS'.$cc.','.
+                              $f['run_aspid'].' '.$co.'RUN_ASPID'.$cc.','.
+                              $f['run_status'].' '.$co.'RUN_STATUS'.$cc.','.
+                              $f['run_pid'].' '.$co.'RUN_PID'.$cc.','.
+                              $f['run_sessid'].' '.$co.'RUN_SESSID'.$cc.','.
+                              $f['run_sched_id'].' '.$co.'RUN_SCHED_ID'.$cc.','.
                               $f['run_progress'].' '.$co.'RUN_PROGRESS'.$cc.','.
                               $f['run_error'].' '.$co.'RUN_ERROR'.$cc.','.
                               $f['run_files'].' '.$co.'RUN_FILES'.$cc.','.
@@ -4016,6 +4032,7 @@ class o2_run_job {
         $run_job->status    = $run_rec['RUN_STATUS'];
         $run_job->pid       = $run_rec['RUN_PID'];
         $run_job->sessid    = $run_rec['RUN_SESSID'];
+        $run_job->sched_id  = $run_rec['RUN_SCHED_ID'];
         $run_job->progress  = $run_rec['RUN_PROGRESS'];
         $run_job->error     = $run_rec['RUN_ERROR'];
         $run_job->files     = unserialize($run_rec['RUN_FILES']);
@@ -4063,12 +4080,13 @@ class o2_run_job {
     /**
      * Queues a job on db data, ready for execution, and returns new created run-job
      *
-     * @param  o2_job $job          Job to be queued
-     * @param  array  $run_params   List of overriding parameters to call program with
-     * @param  string $aspid        ASP-ID to run process for (blank = all ASP-IDs)
-     * @param  string $service      Service to override job service for execution
-     * @param  string $at_date      Posticipate execution to date
-     * @param  string $at_time      Posticipate execution to time
+     * @param  o2_job  $job          Job to be queued
+     * @param  array   $run_params   List of overriding parameters to call program with
+     * @param  string  $aspid        ASP-ID to run process for (blank = all ASP-IDs)
+     * @param  string  $service      Service to override job service for execution
+     * @param  string  $at_date      Posticipate execution to date
+     * @param  string  $at_time      Posticipate execution to time
+     * @param  integer $sched_id     Scheduler task ID which requested execution
      * @return o2_run_job
      */
     static function queue($job,
@@ -4076,7 +4094,8 @@ class o2_run_job {
                           $aspid      = false,
                           $service    = false,
                           $at_date    = false,
-                          $at_time    = false) {
+                          $at_time    = false,
+                          $sched_id   = 0) {
 
         $app                = $_SESSION['o2_app'];
         $run_job            = new o2_run_job();
@@ -4093,6 +4112,7 @@ class o2_run_job {
         $run_job->service   = ($app->service_redirect ? $app->service_redirect :
                                ($service && in_array($service, $app->services) ?
                                 $service : $job->service));
+        $run_job->sched_id  = $sched_id;
         if ($at_date || $at_time) {
             $ad                = ($at_date ? $at_date : date('Ymd'));
             $at                = ($at_time ? $at_time : date('His'));
@@ -4128,9 +4148,10 @@ class o2_run_job {
                                      $f['run_status']->nome_fisico,
                                      $f['run_service']->nome_fisico,
                                      $f['run_at_date']->nome_fisico,
-                                     $f['run_at_time']->nome_fisico);
+                                     $f['run_at_time']->nome_fisico,
+                                     $f['run_sched_id']->nome_fisico);
         $values              = array("'".$run_job->id."'",
-                                     "'".$run_job->job."'",
+                                     ($run_job->job ? $run_job->job : '0'),
                                      "'".$run_job->prg."'",
                 "'".o2_gateway::normalize($server->type, serialize($run_job->params))."'",
                                      "'".$run_job->user."'",
@@ -4141,7 +4162,8 @@ class o2_run_job {
                                      "'".$run_job->status."'",
                                      "'".$run_job->service."'",
                                      "'".$at_date."'",
-                                     "'".$at_time."'");
+                                     "'".$at_time."'",
+                                     ($run_job->sched_id ? $run_job->sched_id : '0'));
         $trans               = $app->isolated_trans;
         $app->isolated_trans = true;
         $res                 = o2_gateway::insertrec($server->type,
@@ -4651,9 +4673,10 @@ class o2_run_job {
      * @param  integer $job_id
      * @param  string  $aspid
      * @param  string  $user
+     * @param  integer $sched_id
      * @return o2_run_job
      */
-    static function get_last_job($job_id, $aspid = '', $user = '') {
+    static function get_last_job($job_id, $aspid = '', $user = '', $sched_id = 0) {
 
         $app     = $_SESSION['o2_app'];
         $tab     = $app->get_table(self::$run_table);
@@ -4670,7 +4693,8 @@ class o2_run_job {
                                       $aspfld."='NOASP' OR ".
                                       $aspfld."='".$aspid."')" :
                    '').
-                   ($user ? ' AND '.$f['run_user']."='".$user."'" : '');
+                   ($user ? ' AND '.$f['run_user']."='".$user."'" : '').
+                   ($sched_id ? ' AND '.$f['run_sched_id']."=".$sched_id : '');
         $orderby = $f['run_start_date'].' DESC,'.$f['run_start_time'].' DESC';
         $run_job = o2_gateway::recordset($server->type,
                                          $server->server,
@@ -6061,7 +6085,7 @@ class o2_task {
                                  $st{0}.$st{1}.":".
                                  $st{2}.$st{3}.":".
                                  $st{4}.$st{5});
-        $last_run = o2_run_job::get_last_job($this->job, $this->aspid);
+        $last_run = o2_run_job::get_last_job($this->job, $this->aspid, '', $this->id);
         $last     = new DateTime();
         $last->setTimestamp($last_run ? $last_run->start : 0);
         switch ($this->type) {
@@ -6354,31 +6378,35 @@ class o2_scheduler {
             $ret = 0;
             //  If a job is pending from more than one task it's executed only once(?) ___
             print "Read pending tasks.\n";
-            foreach (self::get_list2run() as $job) {
+            foreach (self::get_list2run() as $sched_id => $job) {
                 // ________________________________________________ Run without ASP-ID ___
                 if ($job['aspid'] == 'NOASP') {
                     print "   Run job \"".$job['job']."\"\n";
-                    o2_job::get_by_id($job['job'])->run('');
+                    o2_job::get_by_id($job['job'])->run('', array(), $sched_id);
                     }
                 // ___________________________________________ Run only for set ASP-ID ___
                 elseif ($job['aspid']) {
                     print '   Run job "'.$job['job'].
                           '" for ASP-ID "'.$job['aspid']."\"\n";
-                    o2_job::get_by_id($job['job'])->run($job['aspid']);
+                    o2_job::get_by_id($job['job'])->run($job['aspid'],
+                                                        array(),
+                                                        $sched_id);
                     }
                 // __________________________________________ Run once for each ASP-ID ___
                 else {
                     $aspids = $app->asp_codes();
                     if (!count($aspids) || (count($aspids) === 1 && !$aspids[0])) {
                         print "   Run job \"".$job['job']."\" (without ASP-ID)\n";
-                        o2_job::get_by_id($job['job'])->run('');
+                        o2_job::get_by_id($job['job'])->run('', array(), $sched_id);
                         }
                     else {
                         print "   Run job \"".$job['job']."\" for every ASP-IDs\n";
                         foreach ($aspids as $aspid) {
                             if ($aspid) {
                                 print "    - ASP-ID \"".$aspid."\"\n";
-                                o2_job::get_by_id($job['job'])->run($aspid);
+                                o2_job::get_by_id($job['job'])->run($aspid,
+                                                                    array(),
+                                                                    $sched_id);
                                 }
                             }
                         }
@@ -6547,22 +6575,19 @@ class o2_scheduler {
         $server = $db->server;
         $co     = constant('o2_'.$server->type.'_o');
         $cc     = constant('o2_'.$server->type.'_c');
-        $select = $tab->campi['sched_id']->nome_fisico.' '.$co.'SCHED_ID'.$cc.','.
-                  $tab->campi['sched_job']->nome_fisico.' '.$co.'SCHED_JOB'.$cc.','.
-                  $tab->campi['sched_type']->nome_fisico.' '.$co.'SCHED_TYPE'.$cc.','.
-                  $tab->campi['sched_interval']->nome_fisico.' '.$co.'SCHED_INTERVAL'.$cc.
-                                                                                      ','.
-                  $tab->campi['sched_date']->nome_fisico.' '.$co.'SCHED_DATE'.$cc.','.
-                  $tab->campi['sched_time']->nome_fisico.' '.$co.'SCHED_TIME'.$cc.','.
-                  $tab->campi['sched_recurrence']->nome_fisico.' '.$co.'SCHED_RECURRENCE'.
-                                                                                  $cc.','.
-                  $tab->campi['sched_week_day']->nome_fisico.' '.$co.'SCHED_WEEK_DAY'.$cc.
-                                                                                      ','.
-                  $tab->campi['sched_month_day']->nome_fisico.' '.$co.'SCHED_MONTH_DAY'.
-                                                                                  $cc.','.
-                  $tab->campi['sched_aspid']->nome_fisico.' '.$co.'SCHED_ASPID'.$cc.','.
-                  $tab->campi['sched_paused']->nome_fisico.' '.$co.'SCHED_PAUSED'.$cc;
-        $where  = $tab->campi['sched_paused']->nome_fisico."<>'1'";
+        $f      = $tab->campi;
+        $select = $f['sched_id'].' '.$co.'SCHED_ID'.$cc.','.
+                  $f['sched_job'].' '.$co.'SCHED_JOB'.$cc.','.
+                  $f['sched_type'].' '.$co.'SCHED_TYPE'.$cc.','.
+                  $f['sched_interval'].' '.$co.'SCHED_INTERVAL'.$cc.','.
+                  $f['sched_date'].' '.$co.'SCHED_DATE'.$cc.','.
+                  $f['sched_time'].' '.$co.'SCHED_TIME'.$cc.','.
+                  $f['sched_recurrence'].' '.$co.'SCHED_RECURRENCE'.$cc.','.
+                  $f['sched_week_day'].' '.$co.'SCHED_WEEK_DAY'.$cc.','.
+                  $f['sched_month_day'].' '.$co.'SCHED_MONTH_DAY'.$cc.','.
+                  $f['sched_aspid'].' '.$co.'SCHED_ASPID'.$cc.','.
+                  $f['sched_paused'].' '.$co.'SCHED_PAUSED'.$cc;
+        $where  = $f['sched_paused']."<>'1'";
         $s_list = o2_gateway::recordset($server->type,
                                         $server->server,
                                         $server->user,
@@ -6587,7 +6612,9 @@ class o2_scheduler {
                 }
             $todo     = false;
             $last_run = o2_run_job::get_last_job($sched_rec['SCHED_JOB'],
-                                                 $sched_rec['SCHED_ASPID']);
+                                                 $sched_rec['SCHED_ASPID'],
+                                                 '',
+                                                 $sched_rec['SCHED_ID']);
             $last     = new DateTime();
             $last->setTimestamp($last_run ? $last_run->start : 0);
             switch ($sched_rec['SCHED_TYPE']) {
