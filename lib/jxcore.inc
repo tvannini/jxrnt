@@ -7752,6 +7752,25 @@ function o2_upgrade($table, $rel_code, $test = false) {
                 break;
             }
         }
+    // ________________________________________________________ Upgrade to Rel. 2.6.00 ___
+    if ($rel_code < '2.6.00') {
+        switch ($table->indice) {
+            // __________________________________________________ o2_sessions - 2.6.00 ___
+            case "o2_sessions":
+                $msg_txt = "Converting SESSIONS";
+                if (!$test) {
+                    $table->ricostruisci();
+                    }
+                break;
+            // ______________________________________________ jx_running_jobs - 2.6.00 ___
+            case "jx_running_jobs":
+                $msg_txt = "Converting RUNNING-JOBS";
+                if (!$test) {
+                    $table->ricostruisci();
+                    }
+                break;
+            }
+        }
     if ($msg_txt) {
         if (!$test) {
             if ($GLOBALS['o2_runtime']->interface == "HTML") {
