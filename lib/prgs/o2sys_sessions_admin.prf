@@ -482,7 +482,9 @@ return (o2val('sessions','job_id'));
 function o2sys_sessions_admin_exp_27() {
 	$r = o2val('sessions','run_mode');
 if ($r == 'JOB') {
-   $r.= ' ('.o2val('sessions','job_name').')';
+   $r.= ' ('.(o2zero('sessions','job_name') ? 
+              'missing process' : 
+              o2val('sessions','job_name')).')';
    }
 return ($r);
 	} //|o2_fine_exp|
