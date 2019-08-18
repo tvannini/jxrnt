@@ -36,6 +36,7 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 	$form_jxtask_1->altezza(500);
 	$form_jxtask_1->align_o("Center");
 	$form_jxtask_1->titolo("Scheduled task");
+	$form_jxtask_1->frm_status(jxtask_exp_4());
 	$form_jxtask_1->css_doc("sys_sched_doc");
 	$ctrl_o2label14 = &$form_jxtask_1->ctrldef("o2label14", "label", "", "", "");
 		$ctrl_o2label14->x(150);
