@@ -3384,10 +3384,7 @@ class o2_job {
         $this->disabled      = ($disabled ? true : false);
         // _______________________________________________________________ Set service ___
         $service = strtoupper($service);
-        if ($app->service_redirect) {
-            $this->service = $app->service_redirect;
-            }
-        elseif ($service && in_array($service, $_SESSION['o2_app']->services)) {
+        if ($service && in_array($service, $app->services)) {
             $this->service = $service;
             }
         else {
@@ -4825,7 +4822,7 @@ class o2_run_job {
                                           $with_lock);
         if (count($run_jobs)) {
             $list = array();
-            foreach ($run_jobs as $rec_num => $run_rec) {
+            foreach ($run_jobs as $run_rec) {
                 $run_job            = new o2_run_job();
                 $run_job->id        = $run_rec['RUN_ID'];
                 $run_job->job       = $run_rec['JOB_ID'];
@@ -5104,7 +5101,7 @@ class o2_run_job {
         $sp        = '&nbsp;&nbsp;';
         if (count($run_jobs)) {
             $last_date = false;
-            foreach ($run_jobs as $rn => $r) {
+            foreach ($run_jobs as $r) {
                 // ____________________________________________________ Run-job object ___
                 $run_job            = new o2_run_job();
                 $run_job->id        = $r['RUN_ID'];
@@ -6603,8 +6600,14 @@ class o2_scheduler {
         $ret    = array();
         $srvs   = o2_service::get_all_host_services($app->host);
         foreach ($s_list as $s_idx => $sched_rec) {
-            $job = o2_job::get_by_id($sched_rec['SCHED_JOB']);
-            if (!isset($srvs[$job->service])) {
+            if ($app->service_redirect) {
+                $service = $app->service_redirect;
+                }
+            else {
+                $job     = o2_job::get_by_id($sched_rec['SCHED_JOB']);
+                $service = $job->service;
+                }
+            if (!isset($srvs[$service])) {
                 continue;
                 }
             $todo     = false;
