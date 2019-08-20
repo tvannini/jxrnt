@@ -3179,7 +3179,7 @@ class o2_cron {
 
         $rnt = $_SESSION['o2_app']->runtime;
         if ($on) {
-            // __________ Register host for Default service to activate it for network ___
+            // ____ Register local host for Default service to activate it for network ___
             o2_service::register_host();
             }
         if ($rnt->mswin) {
@@ -5392,7 +5392,7 @@ class o2_service {
 
 
     /**
-     * Returns list of services enabled for host.
+     * Returns list of services enabled for local host.
      * Host can match a service in two ways:
      *  1. host is registered for service;
      *  2. host is registered as Default and service has no other registered hosts.
@@ -5400,10 +5400,10 @@ class o2_service {
      * @param  string $host
      * @return boolean
      */
-    static function get_all_host_services($host) {
+    static function get_all_host_services() {
 
         $app       = $_SESSION['o2_app'];
-        $host_srvs = o2_service::get_host_services($host);
+        $host_srvs = o2_service::get_host_services($app->host);
         // ___________________________ Check if host is registered for Default service ___
         $default   = false;
         if (isset($host_srvs[''])) {
@@ -5532,20 +5532,19 @@ class o2_service {
 
 
     /**
-     * Updates host-service record with last execution date and time
+     * Updates host-service record (for local host) with last execution date and time
      *
-     * @param  string $host
      * @param  string $service
      * @return boolean
      */
-    static function update_host_service($host, $service) {
+    static function update_host_service($service) {
 
         $app      = $_SESSION['o2_app'];
         $tab      = $app->get_table(self::$srv_table);
         $db       = $tab->db;
         $server   = $db->server;
         $where    = $tab->campi['srv_service']->nome_fisico."='".$service."' AND ".
-                    $tab->campi['srv_host']->nome_fisico."='".$host."'";
+                    $tab->campi['srv_host']->nome_fisico."='".$app->host."'";
         $srv_recs = o2_gateway::verifyrec($server->type,
                                           $server->server,
                                           $server->user,
@@ -5674,55 +5673,48 @@ class o2_service {
 
 
     /**
-     * Register host to a network system.
+     * Register local host to a network system.
      * When a host is first registered it is assigned to Default (blank) service at least.
      * Host updates its own PIDs list too, to check against processes PID in the network.
      *
-     * @param  string $host
      * @return boolean
      */
-    static function register_host($host = '') {
+    static function register_host() {
 
-        if (!$host) {
-            $host = $_SESSION['o2_app']->host;
-            }
+        $host = $_SESSION['o2_app']->host;
         $srvs = self::get_host_services($host);
         // ______________ Host has not assigned services: register for Default service ___
         if (!count($srvs)) {
             self::add_host_service($host, '');
             }
-        // _____________________________________ Update registered host for activation ___
+        // ______________________ Update local host for registered services activation ___
         else {
             foreach ($srvs as $srv => $srv_nice) {
-                self::update_host_service($host, $srv);
+                self::update_host_service($srv);
                 }
             }
-        // __________________________________________________________ Update PIDs list ___
+        // _______________________________________________ Update local host PIDs list ___
         self::update_host_pids();
 
         }
 
 
     /**
-     * Run queued processes for services registered on host
+     * Run queued processes for services registered on local host
      *
-     * @param  string $host
      * @return boolean
      */
-    static function run($host = false) {
+    static function run() {
 
-        $app = $_SESSION['o2_app'];
-        $rnt = $app->runtime;
-        $res = 0;
-        if (!$host) {
-            $host = $app->host;
+        $app  = $_SESSION['o2_app'];
+        $rnt  = $app->runtime;
+        $res  = 0;
+        // ________________________________________________ Update local host services ___
+        foreach (self::get_host_services($app->host) as $srv => $srv_nice) {
+            self::update_host_service($srv);
             }
-        // ______________________________________________________ Update host services ___
-        foreach (self::get_host_services($host) as $srv => $srv_nice) {
-            self::update_host_service($host, $srv);
-            }
-        // _______________________________ Get services for host and queued executions ___
-        $host_srvs = self::get_all_host_services($host);
+        // _________________________ Get services for local host and queued executions ___
+        $host_srvs = self::get_all_host_services();
         $processes = o2_run_job::get_list('', true);
         $running   = array();
         $maxs      = array();
@@ -6412,7 +6404,7 @@ class o2_scheduler {
                 }
             print 'Tasks executed: '.$ret."\n";
             // _____________________________ Check pending processes (queued run-jobs) ___
-            $ps = o2_service::run($app->host);
+            $ps = o2_service::run();
             print 'Queued jobs run: '.$ps."\n";
             // ____________________ Check killed processes (run-jobs marked as killed) ___
             $ks = o2_run_job::kill_by_host();
@@ -6598,7 +6590,7 @@ class o2_scheduler {
                                         true);
         $now    = new DateTime();
         $ret    = array();
-        $srvs   = o2_service::get_all_host_services($app->host);
+        $srvs   = o2_service::get_all_host_services();
         foreach ($s_list as $s_idx => $sched_rec) {
             if ($app->service_redirect) {
                 $service = $app->service_redirect;
