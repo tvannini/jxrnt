@@ -1510,22 +1510,35 @@ function o2job_enable($job_name, $on = true) {
  * logic (scheduler) will take care of executing it later.
  * A list of parameters (by name) can be provided: list will override parameters passed to
  * program called by job.
+ * If a host name is provided then execution is assigned directly to that host, regardless
+ * of services logics.
+ * NOTE: If no host name is provided execution can be assigned to local host by
+ *       application settings: see "jobs_use_local_host" parameter in application
+ *       settings.
  * If job exists then new job execution ID is returned, else FALSE.
  *
  * @package jobs
  * @param   string $job_name   Job name to look for
  * @param   array  $params     List of overriding parameters passed to program
+ * @param   string $host       Host name to override assigned host/service
  * @return  integer
  * @see     o2job_create()
- * @see     o2job_run()
  * @see     o2job_get_by_name()
+ * @see     o2job_run()
  * @see     o2job_is_running()
  */
-function o2job_queue($job_name, $params = array()) {
+function o2job_queue($job_name, $params = array(), $host = false) {
 
     if ($job = o2_job::get_by_name($job_name)) {
         $aspid   = $_SESSION['o2_app']->vars['_area']->valore;
-        $run_job = o2_run_job::queue($job, $params, $aspid);
+        $run_job = o2_run_job::queue($job,
+                                     $params,
+                                     $aspid,
+                                     false,
+                                     false,
+                                     false,
+                                     0,
+                                     $host);
         return $run_job->id;
         }
     else {

@@ -946,7 +946,8 @@ $list = array(
    "services" => array("rntval" => null,
                        "appval" => null,
                        "desc" => "   *** Services ***\n\n".
-                                 "List of §-separated names of services enabled for application deferred executions.",
+                                 "List of names of services enabled for application jobs executions.\n".
+                                 "Names can be separated with \",\", \";\" or with a white space.",
                        "default" => "_internal"),
    "service_redirect" => array("rntval"  => null,
                                "appval"  => null,
@@ -955,7 +956,16 @@ $list = array(
                                             "When this parameter is set all jobs executions (run and queue) will be assigned ".
                                             "to this service, regardless all other logics.\n".
                                             "To use this parameter set it to the name of a registered service.",
-                               "default" => ""),
+                               "default" => ""),                               
+   "jobs_use_local_host" => array("rntval" => null,
+                            "appval"  => null,
+                            "desc"    => "   *** Use local host for jobs executions ***\n\n".
+                                         "When set to ON jobs queued from this machine use local host for their execution.\n".
+                                         "This parameter overrides services logics: local host is used regardless of the service ".
+                                         "assigned to the job and of the application parameter \"service_redirect\".\n".
+                                         "Parameter \"host\" in function o2job_queue(), when passed, is still used, however.\n",
+                            "default" => "off",
+                            "values"  => array("off", "on")),                               
    "rpc_server" => array("rntval" => null,
                          "appval" => null,
                          "desc" => "   *** Remote Procedure Call (RPC) Server ***\n\n".
@@ -1310,6 +1320,7 @@ function o2sys_iniconf_exp_34() {
               "reqprg",
               "services",
               "service_redirect",
+              "jobs_use_local_host",
               "rpc_server",
               "data_chunk",
               "tables_create",
