@@ -49,6 +49,6 @@ if (!$o2_runtime) {
 
 
 // ______________________________________ Application instance start ___
-o2def::app("2.5");
+o2def::app("2.6");
 
 ?>

@@ -28,7 +28,7 @@
  *
  * @name      jxjse
  * @package   jxrnt/htdocs/js/env.js
- * @version   2.5
+ * @version   2.6
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */

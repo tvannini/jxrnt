@@ -27,7 +27,7 @@
  *
  * @name      jxrnt
  * @package   janox/jxrnt.php
- * @version   2.5
+ * @version   2.6
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -37,7 +37,7 @@
  *
  * @global string $jxrel
  */
-$jxrel = "2.5.00";
+$jxrel = "2.6.00";
 
 /**
  * Janox built date string

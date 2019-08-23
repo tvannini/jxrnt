@@ -26,7 +26,7 @@
  *
  * @name      jxjs
  * @package   janox/jxjs.inc
- * @version   2.5
+ * @version   2.6
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */

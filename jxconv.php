@@ -6,12 +6,12 @@
  *
  * @name      jxconv
  * @package   janox/bin/jxconv.php
- * @version   2.5
+ * @version   2.6
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
-$jxrel = "2.5";
+$jxrel = "2.6";
 $info  = <<<JANOX_SCRIPT_HEAD
 
                       Janox Upgrade Tool
@@ -883,6 +883,63 @@ class upgrades_collection {
                               'creation_date',
                               'creation_date',
                               '_o2date');
+        // ____________________________________________ Write down new repository code ___
+        file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
+
+        }
+
+
+    /**
+     * Upgrades application to release 2.6
+     *
+     * Add fields to system tables:
+     *  - jx_running_jobs
+     *     - run_sessid   Session ID of process
+     *  - o2_sessions:
+     *     - run_mode   Session execution mode [WEB | JOB | CMD | RPC]
+     *
+     * @param string $app_name Application name
+     * @param jxdir  $app_dir  Application root directory
+     */
+    static function to2_6($app_name, $app_dir) {
+
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
+        // ________________________________________________ Get tables definition code ___
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        // ____________________________________________________________ Add new fields ___
+        $code = add_tab_field($code,
+                              'jx_running_jobs',
+                              'run_sessid',
+                              'run_sessid',
+                              '_o2sid');
+        $code = add_tab_field($code,
+                              'jx_running_jobs',
+                              'run_sched_id',
+                              'run_sched_id',
+                              'jxscheduler_id');
+        $code = add_tab_index($code,
+                              'jx_running_jobs',
+                              'run_sessid',
+                              array('run_sessid' => 'A', 'run_id' => 'A'));
+        $code = add_tab_field($code,
+                              'o2_sessions',
+                              'run_mode',
+                              'run_mode',
+                              'o2sys_app_run_mode');
+        $code = add_tab_field($code,
+                              'o2_sessions',
+                              'host',
+                              'host',
+                              'jxhost');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
