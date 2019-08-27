@@ -6878,6 +6878,7 @@ class o2_inspector {
     static $w_field       = "field";
     static $w_link_field  = "link_field";
     static $w_formula     = "formula";
+    static $w_sql         = "sql_formula";
     static $w_aggregate   = "aggregate";
     static $w_action      = "act";
     static $w_step        = "step";
@@ -7245,7 +7246,7 @@ class o2_inspector {
      * @param  integer $offset
      * @return string
      */
-    public function get_action_before($prf_code, $offset) {
+    static function get_action_before($prf_code, $offset) {
 
         // ________________________________________________________ Search action name ___
         $parts  = array();
@@ -7349,7 +7350,7 @@ class o2_inspector {
         // _______________________________________ Look for CALLs and GOTOs in program ___
         if ((!$depth || ($level <= $depth)) && $this->prgs_list[$prg]) {
             $code  = file_get_contents($this->prgs_list[$prg]);
-            $calls = $this->get_prg_acts_call($code);
+            $calls = self::get_prg_acts_call($code);
             foreach ($calls as $prg_name => $action) {
                 if (($prg_name != '[exp]') && !in_array($prg_name, $result)) {
                     $result+= $this->get_prgs_by_prg($prg_name, $depth, $result, $level);
@@ -7444,7 +7445,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_variables($prf_code) {
+    static function get_prg_variables($prf_code) {
 
         $parts = array();
         $res  = preg_match_all('/\$task_prg§_§var\-\>definisci\("([^"]*)",'.
@@ -7469,7 +7470,7 @@ class o2_inspector {
      * @param  string $prf_path   Full path to PRF file
      * @return string
      */
-    public function get_prg_start_act($prf_path) {
+    static function get_prg_start_act($prf_path) {
 
         $prg = substr($prf_path, 0, -1)."g";
         $ret = '';
@@ -7494,7 +7495,7 @@ class o2_inspector {
      * @param  string $prf_path   Full path to PRF file
      * @return array
      */
-    public function get_prg_params($prf_path) {
+    static function get_prg_params($prf_path) {
 
         $prg = substr($prf_path, 0, -1)."g";
         $ret = array();
@@ -7521,7 +7522,7 @@ class o2_inspector {
      * @param  string $prf_path   Full path to PRF file
      * @return array
      */
-    public function get_prg_views($prf_path) {
+    static function get_prg_views($prf_path) {
 
         $prg = substr($prf_path, 0, -1)."g";
         $ret = array();
@@ -7561,7 +7562,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_tabs($prf_code) {
+    static function get_prg_tabs($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$task_(\w*)\-\>usa_file(_link)*\("(\w*)","(\w*)",'.
@@ -7612,7 +7613,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_selects($prf_code) {
+    static function get_prg_selects($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$task_(\w*)\-\>usa\("(\w*)","(\w*)","(\w*)",'.
@@ -7658,7 +7659,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_aggregates($prf_code) {
+    static function get_prg_aggregates($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$task_(\w*)->aggregate\("(\w*)",\s*"(\w*)",\s*'.
@@ -7691,14 +7692,14 @@ class o2_inspector {
      * @param  string $prf_path   Full path to PRF file
      * @return array
      */
-    public function get_prg_acts($prf_path) {
+    static function get_prg_acts($prf_path) {
 
         $prg = substr($prf_path, 0, -1)."g";
         $ret = array();
         if (file_exists($prg)) {
             $prg_code = file_get_contents($prg);
             $parts = array();
-             $res   = preg_match_all('/o2def::act\("(\w*)"(,\s*"(\w*)")?\);/',
+            $res   = preg_match_all('/o2def::act\("(\w*)"(,\s*"(\w*)")?\);/',
                                     $prg_code, $parts);
            if ($res) {
                 for ($i = 0; $i < $res; $i++) {
@@ -7721,7 +7722,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_protocols($prf_code) {
+    static function get_prg_protocols($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$protocollo_(\w*)\-\>usa\("(\w*)",\s*"(\w*)",\s*'.
@@ -7758,7 +7759,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_form_acts($prf_code) {
+    static function get_prg_form_acts($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$form_(\w*)\-\>(refresh|close)_action\("(\w*)"\);/',
@@ -7886,6 +7887,7 @@ class o2_inspector {
                 $field      = false;
                 $link_field = false;
                 $formula    = false;
+                $sql        = false;
                 $form       = false;
                 $rows       = false;
                 $ctrl       = false;
@@ -7942,13 +7944,23 @@ class o2_inspector {
                         $in_view = true;
                         }
                     // ____________________________________________ Formula definition ___
-                    $formula_pos  = strpos($last, '->calcola("');
+                    $formula_pos = strpos($last, '->calcola("');
                     if ($formula_pos) {
                         $formula_pos+= 11;
                         $formula     = substr($last,
                                               $formula_pos,
                                               strpos($last, '"', $formula_pos) -
                                               $formula_pos);
+                        $in_view = true;
+                        }
+                    // ___________________________________________________ SQL-formula ___
+                    $sql_pos = strpos($last, '->sql_formula("');
+                    if ($sql_pos) {
+                        $sql_pos+= 15;
+                        $sql     = substr($last,
+                                          $sql_pos,
+                                          strpos($last, '"', $sql_pos) -
+                                          $sql_pos);
                         $in_view = true;
                         }
                     // ________________________________________ Action step definition ___
@@ -8025,6 +8037,12 @@ class o2_inspector {
                                 $ret['V'][$view]['F'] = array();
                                 }
                             $ret['V'][$view]['F'][] = $formula;
+                            }
+                        elseif ($sql_pos) {
+                            if (!isset($ret['V'][$view]['Q'])) {
+                                $ret['V'][$view]['Q'] = array();
+                                }
+                            $ret['V'][$view]['Q'][] = $sql;
                             }
                         }
                     // __________________ Check if expression is used in a action step ___
@@ -8106,7 +8124,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_acts_view($prf_code) {
+    static function get_prg_acts_view($prf_code) {
 
         $parts = array();
         $res = preg_match_all('/\$o2exe->s\((\d*)\)[^:]*o2act::view\("(\w*)",\s*"(\w*)",'.
@@ -8164,7 +8182,7 @@ class o2_inspector {
                         break;
                     }
                 // ________________________________________________ Search action name ___
-                $action = $this->get_action_before($prf_code, $offset);
+                $action = self::get_action_before($prf_code, $offset);
                 if (!$ret[$view_name]) {
                     $ret[$view_name] = array();
                     }
@@ -8202,7 +8220,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_acts_update($prf_code) {
+    static function get_prg_acts_update($prf_code) {
 
         $parts = array();
         $res = preg_match_all('/\$o2exe->s\((\d*)\)[^:]*o2act::set\("([^"]*)", "(\w*)",/',
@@ -8215,7 +8233,7 @@ class o2_inspector {
                 $view_name   = $parts[2][$i][0];
                 $field_alias = $parts[3][$i][0];
                 // ________________________________________________ Search action name ___
-                $action      = $this->get_action_before($prf_code, $offset);
+                $action      = self::get_action_before($prf_code, $offset);
                 if (!$ret[$view_name]) {
                     $ret[$view_name] = array();
                     }
@@ -8246,7 +8264,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_acts_exe($prf_code) {
+    static function get_prg_acts_exe($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$o2exe->s\((\d*)\)[^:]*o2act::exe\("(\w*)",\s*([^,]*)'.
@@ -8261,7 +8279,7 @@ class o2_inspector {
                 $end_cond  = $parts[3][$i][0];
                 $loop_view = $parts[4][$i][0];
                 // ________________________________________________ Search action name ___
-                $action    = $this->get_action_before($prf_code, $offset);
+                $action    = self::get_action_before($prf_code, $offset);
                 // ______________________________________________ Decode end-condition ___
                 if (strpos($end_cond, '_exp_')) {
                     $end_cond = substr($end_cond, strrpos($end_cond, '_') + 1, -3);
@@ -8297,7 +8315,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_acts_call($prf_code) {
+    static function get_prg_acts_call($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$o2exe->s\((\d*)\)[^:]*o2act::(call|gotoprg)'.
@@ -8310,7 +8328,7 @@ class o2_inspector {
                 $step     = $parts[1][$i][0];
                 $type     = $parts[2][$i][0];
                 $prg_name = ($parts[4][$i][0] == "()" ? "[exp]" : $parts[3][$i][0]);
-                $action   = $this->get_action_before($prf_code, $offset);
+                $action   = self::get_action_before($prf_code, $offset);
                 if (!isset($ret[$prg_name])) {
                     $ret[$prg_name] = array();
                     }
@@ -8353,7 +8371,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_acts_retpar($prf_code) {
+    static function get_prg_acts_retpar($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$o2exe->s\((\d*)\)[^:]*o2act::ret\((\d*)/',
@@ -8364,7 +8382,7 @@ class o2_inspector {
                 $offset = $parts[0][$i][1];
                 $step   = $parts[1][$i][0];
                 $par_id = $parts[2][$i][0];
-                $action = $this->get_action_before($prf_code, $offset);
+                $action = self::get_action_before($prf_code, $offset);
                 if (!isset($ret[$par_id])) {
                     $ret[$par_id] = array();
                     }
@@ -8392,7 +8410,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_acts_confirm($prf_code) {
+    static function get_prg_acts_confirm($prf_code) {
 
         $parts = array();
         $res   = preg_match_all('/\$o2exe->s\((\d*)\)[^:]*o2act::confirm\("([^"]*)",\s*'.
@@ -8407,7 +8425,7 @@ class o2_inspector {
                 $field_alias = $parts[3][$i][0];
                 $msg_exp     = $parts[4][$i][0];
                 // ________________________________________________ Search action name ___
-                $action      = $this->get_action_before($prf_code, $offset);
+                $action      = self::get_action_before($prf_code, $offset);
                 if (!$ret[$view_name]) {
                     $ret[$view_name] = array();
                     }
@@ -8441,7 +8459,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_ctrls($prf_code) {
+    static function get_prg_ctrls($prf_code) {
 
         $ret   = array();
         // __________________________________________ Used as base field for a control ___
@@ -8516,7 +8534,7 @@ class o2_inspector {
      * @param  string $prf_code
      * @return array
      */
-    public function get_prg_ctrl_acts($prf_code) {
+    static function get_prg_ctrl_acts($prf_code) {
 
         $ret   = array();
         // _____________________________________________________ Used as submit-action ___
@@ -8600,7 +8618,7 @@ class o2_inspector {
             $id_prg++;
             $code = file_get_contents($prf);
             // _______________________________________ Add program parameters by model ___
-            foreach ($this->get_prg_params($prf) as $param => $model) {
+            foreach (self::get_prg_params($prf) as $param => $model) {
                 if ($model == $data_type) {
                     if (!isset($ret["p".$id_prg])) {
                         $ret["p".$id_prg] = array($root,
@@ -8615,7 +8633,7 @@ class o2_inspector {
                     }
                 }
             // ________________________________________ Add program variables by model ___
-            foreach ($this->get_prg_variables($code) as $variable => $model) {
+            foreach (self::get_prg_variables($code) as $variable => $model) {
                 if ($model == $data_type) {
                     if (!isset($ret["p".$id_prg])) {
                         $ret["p".$id_prg] = array($root,
@@ -8630,7 +8648,7 @@ class o2_inspector {
                     }
                 }
             // _________________________________ Add program expressions by o2format() ___
-            $exps = $this->get_prg_exps($code, $prg);
+            $exps = self::get_prg_exps($code, $prg);
             $res  = preg_grep('/o2format\(.*["\']'.$data_type.'["\']/', $exps);
             if (count($res)) {
                 if (!isset($ret["p".$id_prg])) {
@@ -8677,7 +8695,7 @@ class o2_inspector {
             $id_prg++;
             $code = file_get_contents($prf);
             // _______________________________________ Add program actions by variable ___
-            foreach ($this->get_prg_acts_update($code) as $view => $variable) {
+            foreach (self::get_prg_acts_update($code) as $view => $variable) {
                 if ($view == '_o2SESSION') {
                     foreach ($variable as $name => $action) {
                         if ($name == $var_name) {
@@ -8708,7 +8726,7 @@ class o2_inspector {
                     }
                 }
             // _________________ Find uses in expressions (o2val(), o2zero(), o2pre()) ___
-            $exps = $this->get_prg_exps($code, $prg);
+            $exps = self::get_prg_exps($code, $prg);
             foreach ($exps as $exp_id => $body) {
                 $parts = array();
                 $res   = preg_match('/o2(\w+)\s*\(\s*["\']_o2SESSION["\']\s*,\s*["\']'.
@@ -8755,7 +8773,7 @@ class o2_inspector {
         $id_alias = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code = file_get_contents($prf);
-            $tabs = $this->get_prg_tabs($code);
+            $tabs = self::get_prg_tabs($code);
             if (isset($tabs[$table])) {
                 $id_prg++;
                 foreach ($tabs[$table] as $view_name => $tab_aliases) {
@@ -8804,8 +8822,8 @@ class o2_inspector {
         $id_act  = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code   = file_get_contents($prf);
-            $tabs   = $this->get_prg_tabs($code);
-            $events = $this->get_prg_acts_view($code);
+            $tabs   = self::get_prg_tabs($code);
+            $events = self::get_prg_acts_view($code);
             if (isset($tabs[$table])) {
                 $id_prg++;
                 foreach ($tabs[$table] as $view_name => $tab_aliases) {
@@ -8877,10 +8895,10 @@ class o2_inspector {
         $id_alias = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code = file_get_contents($prf);
-            $tabs = $this->get_prg_tabs($code);
+            $tabs = self::get_prg_tabs($code);
             if (isset($tabs[$table])) {
                 $id_prg++;
-                $sels = $this->get_prg_selects($code);
+                $sels = self::get_prg_selects($code);
                 foreach ($tabs[$table] as $view_name => $tab_aliases) {
                     $id_view++;
                     foreach ($tab_aliases as $tab_alias => $tab_info) {
@@ -8931,7 +8949,7 @@ class o2_inspector {
         $id_alias = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code = file_get_contents($prf);
-            $tabs = $this->get_prg_tabs($code);
+            $tabs = self::get_prg_tabs($code);
             if (isset($tabs[$table])) {
                 $id_prg++;
                 foreach ($tabs[$table] as $view_name => $tab_aliases) {
@@ -8984,11 +9002,11 @@ class o2_inspector {
         $id_view = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code = file_get_contents($prf);
-            $tabs = $this->get_prg_tabs($code);
+            $tabs = self::get_prg_tabs($code);
             if (isset($tabs[$table])) {
                 $id_prg++;
-                $sels = $this->get_prg_selects($code);
-                $upds = $this->get_prg_acts_update($code);
+                $sels = self::get_prg_selects($code);
+                $upds = self::get_prg_acts_update($code);
                 // ________________________________ Loop on tables uses in prg by view ___
                 foreach ($tabs[$table] as $view_name => $tab_aliases) {
                     $id_view++;
@@ -9074,7 +9092,7 @@ class o2_inspector {
         $id_act   = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code  = file_get_contents($prf);
-            $calls = $this->get_prg_acts_call($code);
+            $calls = self::get_prg_acts_call($code);
             if (isset($calls[$prg_name])) {
                 $id_prg++;
                 // ___________________________________________ Loop on program actions ___
@@ -9123,11 +9141,11 @@ class o2_inspector {
         $id_act  = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code = file_get_contents($prf);
-            $tabs = $this->get_prg_tabs($code);
+            $tabs = self::get_prg_tabs($code);
             if (isset($tabs[$table])) {
                 $id_prg++;
-                $sels  = $this->get_prg_selects($code);
-                $calls = $this->get_prg_acts_call($code);
+                $sels  = self::get_prg_selects($code);
+                $calls = self::get_prg_acts_call($code);
                 // ________________________________ Loop on tables uses in prg by view ___
                 foreach ($tabs[$table] as $view_name => $tab_aliases) {
                     $id_view++;
@@ -9210,7 +9228,7 @@ class o2_inspector {
         $id_prg = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code = file_get_contents($prf);
-            $exps = $this->get_prg_exps($code, $prg);
+            $exps = self::get_prg_exps($code, $prg);
             $res  = preg_grep('/'.preg_quote($search, '/').'/', $exps);
             if (count($res)) {
                 $id_prg++;
@@ -9249,7 +9267,7 @@ class o2_inspector {
         foreach ($this->prgs_list as $prg => $prf) {
             $id_prg++;
             $code = file_get_contents($prf);
-            $exps = $this->get_prg_exps($code, $prg);
+            $exps = self::get_prg_exps($code, $prg);
             foreach ($exps as $exp_id => $exp_body) {
                 $exps_copy = $exps;
                 unset($exps_copy[$exp_id]);
@@ -9285,7 +9303,7 @@ class o2_inspector {
         $root = "[root]";
         $ret  = array();
         $code = file_get_contents($this->prgs_list[$prg]);
-        $exps = $this->get_prg_exps($code, $prg);
+        $exps = self::get_prg_exps($code, $prg);
         foreach ($exps as $exp_id => $exp_body) {
             $exps_copy = $exps;
             unset($exps_copy[$exp_id]);
@@ -9322,7 +9340,7 @@ class o2_inspector {
         $ret  = array();
         $prf  = $this->prgs_list[$prg];
         $code = file_get_contents($prf);
-        $uses = $this->get_prg_acts_retpar($code);
+        $uses = self::get_prg_acts_retpar($code);
         // ________________________________________ Uses in actions (return parameter) ___
         if (count($uses[$par_id])) {
             $ret["p"] = array($root,
@@ -9343,7 +9361,7 @@ class o2_inspector {
                 }
             }
         // ________________________________________ Find uses in expressions (o2par()) ___
-        $exps = $this->get_prg_exps($code, $prg);
+        $exps = self::get_prg_exps($code, $prg);
         foreach ($exps as $exp_id => $body) {
             if (strpos($body, "o2par(".$par_id.")")) {
                 if (!isset($ret['p'])) {
@@ -9383,7 +9401,7 @@ class o2_inspector {
         $prf  = $this->prgs_list[$prg];
         $code = file_get_contents($prf);
         // _________________________________________ Used as prefix or suffix in views ___
-        $views = $this->get_prg_views($prf);
+        $views = self::get_prg_views($prf);
         if (count($views)) {
             foreach ($views as $view => $triggers) {
                 if ($triggers['prefix'] == $action || $triggers['suffix'] == $action) {
@@ -9401,7 +9419,7 @@ class o2_inspector {
                 }
             }
         // ______________________________________________ Uses as program start action ___
-        $start_act = $this->get_prg_start_act($prf);
+        $start_act = self::get_prg_start_act($prf);
         if ($start_act && $start_act == $action) {
             if (!isset($ret['p'])) {
                 $ret['p'] = array($root,
@@ -9415,7 +9433,7 @@ class o2_inspector {
                                    self::$w_action);
             }
         // ____________________________________________________ Uses in execute action ___
-        $exe_acts = $this->get_prg_acts_exe($code);
+        $exe_acts = self::get_prg_acts_exe($code);
         if ($exe_acts[$action]) {
             foreach ($exe_acts[$action] as $act => $steps) {
                 foreach ($steps as $step => $obj) {
@@ -9439,7 +9457,7 @@ class o2_inspector {
                 }
             }
         // ___________________________________ Used as refresh or close action on form ___
-        $forms = $this->get_prg_form_acts($code);
+        $forms = self::get_prg_form_acts($code);
         if (count($forms)) {
             foreach ($forms as $form => $acts) {
                 if ($acts['refresh-act'] == $action) {
@@ -9481,7 +9499,7 @@ class o2_inspector {
                 }
             }
         // ________________________________________________________ Used on form ctrls ___
-        $ctrls = $this->get_prg_ctrl_acts($code);
+        $ctrls = self::get_prg_ctrl_acts($code);
         if ($ctrls[$action]) {
             if (!isset($ret['p'])) {
                 $ret['p'] = array($root,
@@ -9513,7 +9531,7 @@ class o2_inspector {
                 }
             }
         // _______________________________________________________ Used in o2_act4js() ___
-        $exps = $this->get_prg_exps($code, $prg);
+        $exps = self::get_prg_exps($code, $prg);
         foreach ($exps as $exp => $body) {
             if (strpos($body, 'o2_act4js(')) {
                 $parts = array();
@@ -9559,8 +9577,9 @@ class o2_inspector {
         $ret  = array();
         $prf  = $this->prgs_list[$prg];
         $code = file_get_contents($prf);
+        // ============================================================= Uses in views ===
         // _____________________________ Used as aggregation (field or target) in view ___
-        $uses = $this->get_prg_aggregates($code);
+        $uses = self::get_prg_aggregates($code);
         foreach ($uses as $aggr_view => $aggr_fields) {
             foreach ($aggr_fields as $aggr_field => $aggr_types) {
                 foreach ($aggr_types as $aggr_type => $aggr_var) {
@@ -9607,9 +9626,31 @@ class o2_inspector {
                     }
                 }
             }
+        // _____________________________________________ Used in a SQL-formula in view ___
+        if ($view != 'prg§_§var') {
+            $parts = array();
+            $res   = preg_match_all('/\$task_'.$view.
+                                    '->sql_formula\(["\'](\w+)["\'][^;]*\[["\']'.$field.
+                                    '["\']\][^;]*\);/',
+                                    $code, $parts);
+            if (isset($parts[0])) {
+                if (!isset($ret['v'.$view])) {
+                    $ret['v'.$view] = array('p',
+                                            $view,
+                                            $this->img_path.'view.png',
+                                            self::$w_view);
+                    }
+                foreach ($parts[1] as $sql_name) {
+                    $ret['v'.$view.'f'.$sql_name] = array('v'.$view,
+                                                          $sql_name.' (SQL formula)',
+                                                          $this->img_path.'field.png',
+                                                          self::$w_field);
+                    }
+                }
+            }
         // =========================================================== Uses in actions ===
         // _________________________________ Used as parameter in CALL or GOTO actions ___
-        $uses = $this->get_prg_acts_call($code);
+        $uses = self::get_prg_acts_call($code);
         foreach ($uses as $acts) {
             foreach ($acts as $act => $steps) {
                 foreach ($steps as $step => $call) {
@@ -9643,7 +9684,7 @@ class o2_inspector {
                 }
             }
         // ____________________________________________________ Used in UPDATE actions ___
-        $uses = $this->get_prg_acts_update($code);
+        $uses = self::get_prg_acts_update($code);
         if (isset($uses[$view]) && isset($uses[$view][$field])) {
             foreach ($uses[$view][$field] as $act => $steps) {
                 foreach ($steps as $step => $update) {
@@ -9667,7 +9708,7 @@ class o2_inspector {
                 }
             }
         // ____________________________________________________ Used in LOCATE actions ___
-        $uses = $this->get_prg_acts_view($code);
+        $uses = self::get_prg_acts_view($code);
         if (isset($uses[$view]) && isset($uses[$view]['LOCATE'])) {
             foreach ($uses[$view]['LOCATE'] as $act => $steps) {
                 foreach ($steps as $step => $pars) {
@@ -9695,7 +9736,7 @@ class o2_inspector {
                 }
             }
         // ___________________________________________________ Used in CONFIRM actions ___
-        $uses = $this->get_prg_acts_confirm($code);
+        $uses = self::get_prg_acts_confirm($code);
         if (isset($uses[$view]) && isset($uses[$view][$field])) {
             foreach ($uses[$view][$field] as $act => $steps) {
                 foreach ($steps as $step => $msg_exp) {
@@ -9719,7 +9760,7 @@ class o2_inspector {
                 }
             }
         // _____________________________________________________ Find uses in controls ___
-        $ctrls = $this->get_prg_ctrls($code);
+        $ctrls = self::get_prg_ctrls($code);
         if (count($ctrls)) {
             foreach ($ctrls as $form => $form_ctrls) {
                 foreach ($form_ctrls as $ctrl => $obj) {
@@ -9747,7 +9788,7 @@ class o2_inspector {
                 }
             }
         // ____________________________________________________ Find uses in protocols ___
-        $prot = $this->get_prg_protocols($code);
+        $prot = self::get_prg_protocols($code);
         foreach ($prot as $protocol => $views) {
             if (isset($views[$view])) {
                 foreach ($views[$view] as $alias => $obj) {
@@ -9774,13 +9815,13 @@ class o2_inspector {
                 }
             }
         // _____________________ Find uses in expressions (o2val(), o2zero(), o2pre()) ___
-        $exps = $this->get_prg_exps($code, $prg);
+        $exps = self::get_prg_exps($code, $prg);
         foreach ($exps as $exp_id => $body) {
             $parts = array();
             $res   = preg_match('/o2(\w+)\s*\(\s*["\']'.$view.
                                 '["\']\s*,\s*["\']'.$field.'["\']\s*\)/',
                                 $body, $parts);
-            if (count($parts[0])) {
+            if (isset($parts[0])) {
                 if (strpos($parts[1], "_") === false) {
                     if (!isset($ret['p'])) {
                         $ret["p"] = array($root,
@@ -9903,6 +9944,15 @@ class o2_inspector {
                                               self::$w_formula);
                             }
                         }
+                    if (isset($in_view['Q'])) {
+                        foreach ($in_view['Q'] as $sql) {
+                            $id       = "p".$id_prg."v".$view."q".$sql;
+                            $ret[$id] = array("p".$id_prg."v".$view,
+                                              $sql.' (SQL formula)',
+                                              $this->img_path."field.png",
+                                              self::$w_sql);
+                            }
+                        }
                     }
                 }
             // _______________________________________________________ Uses in actions ___
@@ -9981,7 +10031,7 @@ class o2_inspector {
         $code     = file_get_contents($prf);
         $prg_path = substr($prf, 0, -1)."g";
         $prg_code = (file_exists($prg_path) ? file_get_contents($prg_path) : "");
-        $exps     = $this->get_prg_exps($code, $prg);
+        $exps     = self::get_prg_exps($code, $prg);
         $id_prg   = 0;
         if (count($exps)) {
             $id_prg++;
@@ -10036,7 +10086,7 @@ class o2_inspector {
             // ===================================================== REPLACE VARIABLES ===
             if ($level > 1) {
                 // __________________________________________________ Get actions list ___
-                $vars = array_keys($this->get_prg_variables($prf_code));
+                $vars = array_keys(self::get_prg_variables($prf_code));
                 $idx  = 0;
                 foreach ($vars as $var) {
                     $idx++;
@@ -10399,7 +10449,7 @@ class o2_inspector {
                     }
                 if ($ok) {
                     // ______________________________________________ Get actions list ___
-                    $acts = $this->get_prg_acts($prf_file);
+                    $acts = self::get_prg_acts($prf_file);
                     $idx  = 0;
                     // ___________________ Check each action against its possible uses ___
                     foreach (array_keys($acts) as $act) {
@@ -10882,10 +10932,10 @@ class o2_inspector {
         $this->mlt_process_list($prg_name, $list);
         // _________________________________________________________ CHECK EXPRESSIONS ___
         if ($check_expressions) {
-            $app  = $_SESSION['o2_app'];
-            $log  = array();
-            $file = $app->dir_home.'/lang/'.$prg_name.'.check';
-            $exps_code = $this->get_prg_exps($code, $prg_name);
+            $app       = $_SESSION['o2_app'];
+            $log       = array();
+            $file      = $app->dir_home.'/lang/'.$prg_name.'.check';
+            $exps_code = self::get_prg_exps($code, $prg_name);
             foreach ($exps_code as $exp => $desc) {
                 // _______________________________ Remove expressions with translation ___
                 if (!preg_match('/o2_translate\s*\(/', $desc)) {
