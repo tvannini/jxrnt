@@ -6043,8 +6043,8 @@ o2jse.lu.exeReq = function(descField, act) {
                           '&o2_prgexeid=' + descField.o2.e +
                           '&o2lastform=' + descField.o2.f +
                           '&o2lastctrl=' + descField.o2.c +
-                          (act ? '' : '&' +
-                           descField.name + '=' + encodeURIComponent(descField.value));
+                          '&' +
+                          descField.name + '=' + encodeURIComponent(descField.value);
         firedCtrl.reqId = o2jse.requester.exe('lookup',
                                               reqBody,
                                               firedCtrl,
