@@ -3924,7 +3924,9 @@ foreach ($def_keys as $def_name => $def_key) {
                                                     $def_name,
                                                     $status,
                                                     $segs,
-                                                    ($is_pkey ? "P" : "I"));
+                                                    ($is_pkey ? "P" : "I"),
+                                                    ($def_key['unique'] ? 
+                                                     true : false));
        }
     }
 // ______________________________________________ Undefined physical indexes ___
@@ -3943,15 +3945,17 @@ foreach ($only_phys_keys as $only_phys_name => $only_phys_key) {
                     " style='display:inline'>&nbsp; ".$single_segm['column'];       
            }
        // ______________________________________________________ Add to list ___
-       $list[$tab_name."_jxkey_".$def_field['name']] = array($tab_name."_jxkeys",
-                                                             $only_phys_name.
-                                                             " <i>(undefined)</i>",
-                                                             "<jx>/img/tabadmin/tree/error.png",
-                                                             "key",
-                                                             $only_phys_name,
-                                                             "U",
-                                                             $segs,
-                                                             ($is_pkey ? "P" : "I"));
+       $list[$tab_name."_jxkey_".$only_phys_name] = array($tab_name."_jxkeys",
+                                                          $only_phys_name.
+                                                          " <i>(undefined)</i>",
+                                                          "<jx>/img/tabadmin/tree/error.png",
+                                                          "key",
+                                                          $only_phys_name,
+                                                          "U",
+                                                          $segs,
+                                                          ($is_pkey ? "P" : "I"),
+                                                          ($only_phys_key['unique'] ?
+                                                           true : false));
        $errors = true;
        }
     }
@@ -3959,13 +3963,15 @@ foreach ($only_phys_keys as $only_phys_name => $only_phys_key) {
 foreach ($extra_idx as $exidx) {
    $text = $exidx[0];
    $segs = array();
+   $code = '';
    foreach (explode(',', $exidx[1]) as $single_segment) {
       list($seg_fld, $seg_dir) = explode('|', $single_segment);
       $segs[] = "<img src='".o2rnt_alias()."img/tabadmin/tree/".
                 ($seg_dir == "D" ?
                 "desc.png' title='Descending'" :
                 "asc.png' title='Ascending'").
-                " style='display:inline'>&nbsp; ".$seg_fld;       
+                " style='display:inline'>&nbsp; ".$seg_fld;
+      $code.= ($code ? ',' : '').$seg_fld.'|'.$seg_dir;                       
       }
    if (in_array($exidx[0], array_keys($only_def_keys))) {
       $status = 'M';
@@ -3991,7 +3997,9 @@ foreach ($extra_idx as $exidx) {
                                                   $exidx[0],
                                                   $status,
                                                   $segs,
-                                                  'I');
+                                                  'I',
+                                                  $exidx[2],
+                                                  $code);
     }
 // ______________________________________________________ Add indexes folder ___
 $list[$tab_name."_jxkeys"] = array($tab_name,
@@ -4596,7 +4604,7 @@ return ($vis);
 
 function jxconnectivity_exp_231() {
 	$table = o2val('prg§_§var','table');
-$def   = o2_file::get_def(o2tab_db($table), $table);
+$def   = o2_file::get_def(o2tab_db($table), o2tab_name($table));
 return ($def);
 	} //|o2_fine_exp|
 
@@ -5621,7 +5629,8 @@ return ($msg);
 function jxconnectivity_exp_354() {
 	$list   = o2val('prg§_§var','tables_list');
 $node   = $list[o2val('prg§_§var','field')];
-$fields = $node[5];
+$fields = $node[9];
+   
 return ($fields);
 	} //|o2_fine_exp|
 
@@ -5755,13 +5764,14 @@ return (!o2val('prg§_§var','cons_loop') && o2val('prg§_§var','field_type') == 'K
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_368() {
-	
-return (o2val('prg§_§var','field_type') == 'K');
+	$node   = o2val('prg§_§var','tables_list', o2val('prg§_§var','field'));
+$unique = ($node[8] ? true : false); 
+return ($unique);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_369() {
 	$node      = o2val('prg§_§var','tables_list', o2val('prg§_§var','field'));
-$is_unique = $node[7] == 'U';
+$is_unique = ($node[8] ? true : false);
 return ($is_unique);
 	} //|o2_fine_exp|
 

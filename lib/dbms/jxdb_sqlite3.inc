@@ -402,16 +402,29 @@ function o2_sqlite3_tableindexes($server, $user, $password, $database, $owner, $
         if ($key_name != $database.$table."_PK" &&
             !strpos(strtoupper($key_name), "AUTOINDEX")) {
             if (!isset($ret_val[$key_name])) {
-                $ret_val[str_replace($database.$table."_", "", $key_name)] = array();
+                $ret_val[str_replace($database.$table."_", "", $key_name)] =
+                          array('unique' => $single_key['unique'], 'segments' => array());
                 }
             $query_local = "PRAGMA index_info(".o2_sqlite3_o.$key_name.o2_sqlite3_c.")";
+            $query_info  = "SELECT ".o2_sqlite3_o."sql".o2_sqlite3_c." ".
+                                     o2_sqlite3_o."SQL".o2_sqlite3_c.
+                           " FROM ".o2_sqlite3_o."sqlite_master".o2_sqlite3_c.
+                           " WHERE ".o2_sqlite3_o."type".o2_sqlite3_c."='index' and ".
+                           o2_sqlite3_o."tbl_name".o2_sqlite3_o."='".$table."' and ".
+                           o2_sqlite3_o."name".o2_sqlite3_c."='".$key_name."'";
             try {
-                $res_key = o2_sqlite3_execute($query_local,
-                                              $server,
-                                              $user,
-                                              $password,
-                                              false,
-                                              false);
+                $res_key  = o2_sqlite3_execute($query_local,
+                                               $server,
+                                               $user,
+                                               $password,
+                                               false,
+                                               false);
+                $key_info = o2_sqlite3_execute($query_info,
+                                               $server,
+                                               $user,
+                                               $password,
+                                               false,
+                                               false);
                 }
             catch (o2_exception $o2e) {
                 $res_key = array();
@@ -419,10 +432,15 @@ function o2_sqlite3_tableindexes($server, $user, $password, $database, $owner, $
                 throw $o2e;
                 }
             foreach ($res_key as $single_segment) {
-                $ret_val[str_replace($database.$table."_", "", $key_name)]+=
+                $parts = array();
+                preg_match('/'.o2_sqlite3_o.$single_segment['name'].o2_sqlite3_c.
+                           ' (ASC|DESC)/',
+                           $key_info[0]['SQL'],
+                           $parts);
+                $ret_val[str_replace($database.$table."_", "", $key_name)]['segments']+=
                     array($single_segment['seqno'] =>
                           array('column' => $single_segment['name'],
-                                'dir'    => ""));
+                                'dir'    => $parts[1] == 'ASC' ? 'A' : 'D'));
                 }
             }
         }
@@ -544,7 +562,6 @@ function o2_sqlite3_renametable($server,
                                 $owner,
                                 $table,
                                 $new_name) {
-
     try {
         // _____________________________________________________ Copy existing indexes ___
         $keys_query = array();
@@ -554,13 +571,14 @@ function o2_sqlite3_renametable($server,
                                               $database,
                                               $owner,
                                               $table);
+
         foreach ($keys as $keyname => $key) {
             $arr_local = array();
-            foreach ($key as $keystructure) {
+            foreach ($key['segments'] as $keystructure) {
                 $arr_local[] = o2_sqlite3_o.$keystructure['column'].o2_sqlite3_c.
                                ($keystructure['dir'] == "D" ? " DESC" : " ASC");
                 }
-            $keys_query[]= "CREATE UNIQUE INDEX ".
+            $keys_query[]= "CREATE".($key['unique'] ? " UNIQUE" : "")." INDEX ".
                            o2_sqlite3_o.$database.$new_name."_".$keyname.o2_sqlite3_c.
                            " ON ".o2_sqlite3_o.$database.$new_name.o2_sqlite3_c." (".
                            implode(",", $arr_local).")\n";
@@ -632,6 +650,19 @@ function o2_sqlite3_renametable($server,
  *                                              [field_n] => A|D),
  *                          [...]
  *                          [key_n]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D)),
+ *       "indexes" => array([idx_1]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D),
+ *                          [idx_2]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D),
+ *                          [...]
+ *                          [idx_n]    => array([field_1] => A|D,
  *                                              [field_2] => A|D,
  *                                              [...]
  *                                              [field_n] => A|D)),
@@ -714,14 +745,25 @@ function o2_sqlite3_createtable($server,
         }
     $query_local.= "CONSTRAINT ".$database.$table."_PK PRIMARY KEY (".
                    implode(",", $arr_local)."))\n";
-    // _______________________________________________________________________ Indexes ___
     $indexes_queries = array();
+    // ________________________________________________________________ Unique indexes ___
     foreach ($structure["keys"] as $index_name => $index_segs) {
         $arr_local = array();
         foreach ($index_segs as $field_name => $direction) {
             $arr_local[] = $field_name.($direction == "D" ? " DESC" : " ASC");
             }
         $indexes_queries[]= "CREATE UNIQUE INDEX ".
+                            o2_sqlite3_o.$database.$table."_".$index_name.o2_sqlite3_c.
+                            " ON ".o2_sqlite3_o.$database.$table.o2_sqlite3_c." (".
+                            implode(",", $arr_local).")\n";
+        }
+    // ____________________________________________________________ Not unique indexes ___
+    foreach ($structure["indexes"] as $index_name => $index_segs) {
+        $arr_local = array();
+        foreach ($index_segs as $field_name => $direction) {
+            $arr_local[] = $field_name.($direction == "D" ? " DESC" : " ASC");
+            }
+        $indexes_queries[]= "CREATE INDEX ".
                             o2_sqlite3_o.$database.$table."_".$index_name.o2_sqlite3_c.
                             " ON ".o2_sqlite3_o.$database.$table.o2_sqlite3_c." (".
                             implode(",", $arr_local).")\n";

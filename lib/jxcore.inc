@@ -1783,6 +1783,7 @@ class o2_chiave {
     /*     ===== PROPERTIES =========================================================== */
     public $nome     = "";      /* Index name                                           */
     public $segmenti = array(); /* Segments list                                        */
+    public $unique   = true;    /* Unique: only unique indexes are usable in views      */
 
 
     /**
@@ -1792,10 +1793,11 @@ class o2_chiave {
      * @param  $segmenti array
      * @return o2_chiave
      */
-    function __construct($con_nome, $segmenti) {
+    function __construct($con_nome, $segmenti, $unique = true) {
 
         $this->nome     = $con_nome;
         $this->segmenti = $segmenti;
+        $this->unique   = $unique;
 
         }
 
@@ -2069,7 +2071,7 @@ class o2_file {
                                        'dir'    => $single_segment->direzione);
                 }
             $def_keys[$single_key->nome] = array('extra'    => false,
-                                                 'unique'   => true,
+                                                 'unique'   => $single_key->unique,
                                                  'segments' => $segms_local);
             }
         // _____________________________________________________________ Extra indexes ___
@@ -2164,15 +2166,20 @@ class o2_file {
             foreach ($arr_keys_local as $key_name => $single_key) {
                 // _______________________ If physical key match a defined key by name ___
                 if (isset($def_keys[$key_name])) {
+                    // ________________________________________ Key changed uniqueness ___
+                    if ($def_keys[$key_name]['unique'] != $single_key['unique']) {
+                        $var_keys[$key_name] = $def_keys[$key_name];
+                        }
                     // _______________________________ If segments number is different ___
-                    if (count($def_keys[$key_name]['segments']) !=
-                        count($single_key)) {
+                    elseif (count($def_keys[$key_name]['segments']) !=
+                        count($single_key['segments'])) {
                         $var_keys[$key_name] = $def_keys[$key_name];
                         }
                     // ____ If physical and defined keys have the same segments number ___
                     else {
                         // _____________________________ Loop on physical key segments ___
-                        foreach ($single_key as $segm_index => $single_segment) {
+                        foreach ($single_key['segments'] as $segm_index =>
+                                                                        $single_segment) {
                             if (($def_keys[$key_name]['segments'][$segm_index]['column']
                                  != $single_segment['column']) ||
                                 ($single_segment['dir'] &&
@@ -2801,6 +2808,19 @@ class o2_file {
      *                                              [field_2] => A|D,
      *                                              [...]
      *                                              [field_n] => A|D)),
+     *       "indexes" => array([idx_1]    => array([field_1] => A|D,
+     *                                              [field_2] => A|D,
+     *                                              [...]
+     *                                              [field_n] => A|D),
+     *                          [idx_2]    => array([field_1] => A|D,
+     *                                              [field_2] => A|D,
+     *                                              [...]
+     *                                              [field_n] => A|D),
+     *                          [...]
+     *                          [idx_n]    => array([field_1] => A|D,
+     *                                              [field_2] => A|D,
+     *                                              [...]
+     *                                              [field_n] => A|D)),
      *       "primary" => array([pkeyname] => array([field_1] => A|D,
      *                                              [field_2] => A|D,
      *                                              [...]
@@ -2812,6 +2832,7 @@ class o2_file {
 
         $fields_local = array();
         $keys_local   = array();
+        $idxs_local   = array();
         $pkey_local   = array();
         if ($this->asp == 'C') {
             $asp_mask                = $_SESSION['o2_app']->vars['_area']->maschera;
@@ -2836,17 +2857,34 @@ class o2_file {
             }
         // ____________________________________________________________ Keys structure ___
         foreach ($this->chiavi as $single_key) {
-            $keys_local[$single_key->nome] = array();
+            if ($single_key->unique) {
+                $keys_local[$single_key->nome] = array();
+                }
+            else {
+                $idxs_local[$single_key->nome] = array();
+                }
             if ($this->asp == 'C') {
-                $keys_local[$single_key->nome]['O2ASPID'] = "A";
+                if ($single_key->unique) {
+                    $keys_local[$single_key->nome]['O2ASPID'] = "A";
+                    }
+                else {
+                    $idxs_local[$single_key->nome]['O2ASPID'] = "A";
+                    }
                 }
             foreach ($single_key->segmenti as $single_segment) {
-                $keys_local[$single_key->nome][$single_segment->campo->nome_fisico] =
-                 $single_segment->direzione;
+                if ($single_key->unique) {
+                    $keys_local[$single_key->nome][$single_segment->campo->nome_fisico] =
+                     $single_segment->direzione;
+                    }
+                else {
+                    $idxs_local[$single_key->nome][$single_segment->campo->nome_fisico] =
+                     $single_segment->direzione;
+                    }
                 }
             }
         return array("fields"  => $fields_local,
                      "keys"    => $keys_local,
+                     "indexes" => $idxs_local,
                      "primary" => array($this->chiave->nome => $pkey_local));
 
         }
@@ -2862,20 +2900,21 @@ class o2_file {
         $meta       = $this->metatable();
         $fields     = $meta["fields"];
         $keys       = $meta["keys"];
+        $idxs       = $meta["indexes"];
         $primary    = $meta["primary"];
         $pk_name    = array_shift(array_keys($primary));
-        $script_txt = "o2def::tab(\"".$this->nome.
-                             "\", \"".$this->db->nome.
-                             "\", \"".$this->nome.
-                             "\", \"pk_index\");\n\n";
+        $script_txt = 'o2def::tab("'.($this->indice ? $this->indice : $this->nome).
+                              '", "'.$this->db->nome.
+                              '", "'.$this->nome.
+                              '", "pk_index");'."\n\n";
         foreach ($fields as $field_name => $single_field) {
             $type       = $single_field["type"];
             $size       = ($type == "N" ?
                            $single_field["int"].".".$single_field["dec"] :
                            $single_field["size"]);
-            $script_txt.= " o2def::field(\"".$field_name."\", \"".
-                                             $field_name."\", \"".
-                                             $type.$size."\");\n";
+            $script_txt.= ' o2def::field("'.$field_name.'", "'.
+                                            $field_name.'", "'.
+                                            $type.$size.'");'."\n";
 
             }
         $script_txt.= "\n";
@@ -2885,10 +2924,22 @@ class o2_file {
                 }
             $segm_txt = "";
             foreach ($single_key as $single_segment => $direction) {
-                $segm_txt.= ($segm_txt ? ", \"" : "\"").
-                            $single_segment."\", \"".$direction."\"";
+                $segm_txt.= ($segm_txt ? ', "' : '"').
+                            $single_segment.'", "'.$direction.'"';
                 }
-            $script_txt.= " o2def::index(\"".$key_name."\", ".$segm_txt.");\n";
+            $script_txt.= ' o2def::index("'.$key_name.'", '.$segm_txt.");\n";
+
+            }
+        if (count($idxs)) {
+            $script_txt.= "\n";
+            }
+        foreach ($idxs as $idx_name => $single_idx) {
+            $segm_txt = "";
+            foreach ($single_idx as $single_segment => $direction) {
+                $segm_txt.= ($segm_txt ? ', "' : '"').
+                            $single_segment.'", "'.$direction.'"';
+                }
+            $script_txt.= ' o2def::nuindex("'.$key_name.'", '.$segm_txt.");\n";
 
             }
 
@@ -3640,14 +3691,19 @@ class o2_file {
         // ____________________________________________________________ Define indexes ___
         foreach ($indexes as $index_name => $single_index) {
             $seg_str = "";
-            foreach ($single_index as $single_seg) {
+            foreach ($single_index['segments'] as $single_seg) {
                 if ($single_seg['column'] != "O2ASPID") {
                     $seg_str.= ', "'.$single_seg['column'].'","'.
                                ($single_seg['dir'] == "D" ? 'D"' : 'A"');
                     }
                 }
-            $s.= 'o2def::index("'.($index_name == $pkey_name ?
-                                   $tab_idx."_PK" : $index_name).'" '.$seg_str.");\n";
+            if ($single_index['unique']) {
+                $s.= 'o2def::index("'.($index_name == $pkey_name ?
+                                       $tab_idx."_PK" : $index_name).'" '.$seg_str.");\n";
+                }
+            else {
+                $s.= 'o2def::nuindex("'.$index_name.'" '.$seg_str.");\n";
+                }
             }
         return $s_mask."\n".$s;
 
@@ -4149,8 +4205,10 @@ class o2_gateway {
 
     /**
      * If $execute is passed TRUE function phisically creates a db table else it returns
-     * the creation script for the table. Array $fields is an array of o2_campo objects.
-     * Array $indexes is an array of o2_chiavi objects.
+     * the creation script for the table.
+     * Array "fields" is an array of o2_campo objects.
+     * Array "keys" is an array of unique o2_chiavi objects.
+     * Array "indexes" is an array of not unique o2_chiavi objects.
      *
      * @param  string  $type
      * @param  string  $server
@@ -5656,12 +5714,39 @@ class o2def {
                 $pk_segments[$campo->nome_fisico] = $field_name;
                 }
             }
-        $tab_local->chiavi[$con_nome] = new o2_chiave($con_nome, $segmenti);
+        $tab_local->chiavi[$con_nome] = new o2_chiave($con_nome, $segmenti, true);
         // ____________________________________________________________ If Primary Key ___
         if ($tab_local->chiave == $con_nome) {
             $tab_local->chiave      = $tab_local->chiavi[$con_nome];
             $tab_local->pk_segments = $pk_segments;
             }
+
+        }
+
+
+    /**
+     * Define a not unique index.
+     *
+     * @param string $con_nome
+     */
+    static function nuindex($con_nome) {
+
+        $segmenti      = array();
+        $pk_segments   = array();
+        $uno_si_uno_no = false;
+        $tab_local     = end($_SESSION['o2_app']->tab);
+        $tot_args      = func_num_args();
+        for ($i = 1; $i < $tot_args; $i++) {
+            if ($uno_si_uno_no = !$uno_si_uno_no) {
+                $field_name  = func_get_arg($i);
+                $campo       = $tab_local->campi[$field_name];
+                $campo->name = $field_name;
+                $direzione   = func_get_arg($i + 1);
+                $segmenti[]  = new o2_segmento_indice($campo, $direzione);
+                $pk_segments[$campo->nome_fisico] = $field_name;
+                }
+            }
+        $tab_local->chiavi[$con_nome] = new o2_chiave($con_nome, $segmenti, false);
 
         }
 

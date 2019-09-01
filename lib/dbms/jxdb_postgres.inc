@@ -417,9 +417,10 @@ function o2_postgres_tableindexes($server, $user, $password, $database, $owner, 
         if ($single_key['INDEXNAME'] != $table."_pkey") {
             $index    = substr($single_key['INDEXNAME'], strlen($table) + 1);
             $segments = array();
+            $unique   = stripos($single_key['INDEXDEF'], 'CREATE UNIQUE INDEX') !== false;
             preg_match('/\(([^(]*)\)/', $single_key['INDEXDEF'], $segments);
             $segments        = explode(",", $segments[1]);
-            $ret_val[$index] = array();
+            $ret_val[$index] = array('unique' => $unique, 'segments' => array());
             $seq             = 0;
             foreach ($segments as $seg) {
                 list($seg, $dir) = explode(" ", trim($seg));
@@ -430,8 +431,10 @@ function o2_postgres_tableindexes($server, $user, $password, $database, $owner, 
                     $desc = false;
                     }
                 $seg = rtrim(ltrim($seg, o2_postgres_o), o2_postgres_c);
-                $ret_val[$index]+= array($seq => array('column' => $seg,
-                                                       'dir'    => ($desc ? "D" : "A")));
+                $ret_val[$index]['segments']+= array($seq =>
+                                                     array('column' => $seg,
+                                                           'dir'    => ($desc ?
+                                                                        "D" : "A")));
                 $seq++;
                 }
             }
@@ -625,6 +628,19 @@ function o2_postgres_renametable($server,
  *                                              [field_2] => A|D,
  *                                              [...]
  *                                              [field_n] => A|D)),
+ *       "indexes" => array([idx_1]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D),
+ *                          [idx_2]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D),
+ *                          [...]
+ *                          [idx_n]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D)),
  *       "primary" => array([pkeyname] => array([field_1] => A|D,
  *                                              [field_2] => A|D,
  *                                              [...]
@@ -672,13 +688,23 @@ function o2_postgres_createtable($server,
                                   o2_postgres_o.$table.o2_postgres_c.
                    " ADD PRIMARY KEY (".
                    o2_postgres_indexfields_create($pk_segments, false).")";
-    // _______________________________________________________________________ INDEXES ___
+    // ________________________________________________________________ UNIQUE INDEXES ___
     foreach ($structure["keys"] as $key_name => $key_segs) {
         $script[$key_name] = o2_postgres_index_create($key_name,
                                                       $key_segs,
                                                       $table,
                                                       $database,
-                                                      $owner);
+                                                      $owner,
+                                                      true);
+        }
+    // ____________________________________________________________ NOT UNIQUE INDEXES ___
+    foreach ($structure["indexes"] as $idx_name => $idx_segs) {
+        $script[$idx_name] = o2_postgres_index_create($idx_name,
+                                                      $idx_segs,
+                                                      $table,
+                                                      $database,
+                                                      $owner,
+                                                      false);
         }
     if ($execute) {
         try {

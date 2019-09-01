@@ -491,7 +491,9 @@ function o2_mssql_tableindexes($server, $user, $password, $database, $owner, $ta
     foreach ($res_local as $single_key) {
         if (strtoupper($single_key['INDEX_NAME']) != "JXPK_".strtoupper($table)) {
             $seq_no = 0;
-            $ret_val[$single_key['INDEX_NAME']] = array();
+            $unique = stripos($single_key['INDEX_DESCRIPTION'], 'unique') !== false;
+            $ret_val[$single_key['INDEX_NAME']] = array('unique' => $unique,
+                                                        'segments' => array());
             foreach (explode(",", $single_key['INDEX_KEYS']) as $single_segment) {
                 if (strpos($single_segment, "(-)")) {
                     $single_segment = trim(str_replace("(-)", "", $single_segment));
@@ -501,7 +503,7 @@ function o2_mssql_tableindexes($server, $user, $password, $database, $owner, $ta
                     $single_segment = trim($single_segment);
                     $dir_local      = "A";
                     }
-                $ret_val[$single_key['INDEX_NAME']]+=
+                $ret_val[$single_key['INDEX_NAME']]['segments']+=
                     array($seq_no => array('column' => $single_segment,
                                            'dir'    => $dir_local));
                 $seq_no++;
@@ -691,6 +693,19 @@ function o2_mssql_renametable($server,
  *                                              [field_2] => A|D,
  *                                              [...]
  *                                              [field_n] => A|D)),
+ *       "indexes" => array([idx_1]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D),
+ *                          [idx_2]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D),
+ *                          [...]
+ *                          [idx_n]    => array([field_1] => A|D,
+ *                                              [field_2] => A|D,
+ *                                              [...]
+ *                                              [field_n] => A|D)),
  *       "primary" => array([pkeyname] => array([field_1] => A|D,
  *                                              [field_2] => A|D,
  *                                              [...]
@@ -716,8 +731,8 @@ function o2_mssql_createtable($server,
                               $execute = true) {
 
     $query = "CREATE TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                                   o2_mssql_o.$owner.o2_mssql_c.".".
-                                   o2_mssql_o.$table.o2_mssql_c." (\n";
+                             o2_mssql_o.$owner.o2_mssql_c.".".
+                             o2_mssql_o.$table.o2_mssql_c." (\n";
     $type        = "";
     $default     = "";
     foreach ($structure["fields"] as $field_name => $field_prop) {
@@ -738,13 +753,23 @@ function o2_mssql_createtable($server,
         }
     $query.= "ADD CONSTRAINT JXPK_".$table." PRIMARY KEY CLUSTERED (".
              o2_mssql_indexfields_create($pk_segments).") ON [PRIMARY]\n";
-    // _______________________________________________________________________ INDEXES ___
+    // ________________________________________________________________ UNIQUE INDEXES ___
     foreach ($structure["keys"] as $index_name => $index_segs) {
         $query.= o2_mssql_index_create($index_name,
                                        $index_segs,
                                        $table,
                                        $database,
-                                       $owner)."\n";
+                                       $owner,
+                                       true)."\n";
+        }
+    // ____________________________________________________________ NOT UNIQUE INDEXES ___
+    foreach ($structure["indexes"] as $index_name => $index_segs) {
+        $query.= o2_mssql_index_create($index_name,
+                                       $index_segs,
+                                       $table,
+                                       $database,
+                                       $owner,
+                                       false)."\n";
         }
     if ($execute) {
         try {

@@ -300,7 +300,6 @@ function add_tab_field($code, $table, $field, $name, $model) {
     $res   = preg_match_all('/o2def::tab\("'.$table.
                             '",[^;]*\);\s+(o2def::field\([^;]+\);\s+)++o2def::index/',
                             $code, $parts, PREG_OFFSET_CAPTURE);
-
     // _____________________________________ Check for field already existing in table ___
     if (preg_match('/o2def::field\(\s*[\'"]'.$field.'[\'"]\s*,/', $parts[0][0][0]) ===0) {
         // ________________________________________________ Last field definition code ___

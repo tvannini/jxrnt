@@ -1,5 +1,5 @@
 <?php
-//2.5
+//2.6
 //o2def::module("");
 //o2def::folder("[root]");
 /*
