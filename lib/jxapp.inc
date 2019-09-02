@@ -4458,6 +4458,10 @@ class o2_run_job {
                                                      $where);
         o2dbs_commit($server->nome);
         $app->isolated_trans = $trans;
+        // ____________________________ Run start-prg (because not run in ->esecutivo) ___
+        if ($app->prg_start) {
+            $app->goto_prg($app->prg_start, false);
+            }
         // _______________________________ Get prg code, considering CVS & Janox tools ___
         $prg_folder          = false;
         if (strpos($this->prg, "/")) {
