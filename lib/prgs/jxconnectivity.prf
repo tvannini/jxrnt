@@ -3937,7 +3937,7 @@ foreach ($extra_idx as $exidx) {
 foreach ($only_phys_keys as $only_phys_name => $only_phys_key) {
     if (!in_array($only_phys_name, $extra_list)) {
        $segs = array();
-       foreach ($only_phys_key as $segm_index => $single_segm) {
+       foreach ($only_phys_key['segments'] as $segm_index => $single_segm) {
           $segs[] = "<img src='".o2rnt_alias()."img/tabadmin/tree/".
                     ($single_segm['dir'] == "D" ?
                     "desc.png' title='Descending'" :
@@ -5630,7 +5630,6 @@ function jxconnectivity_exp_354() {
 	$list   = o2val('prg§_§var','tables_list');
 $node   = $list[o2val('prg§_§var','field')];
 $fields = $node[9];
-   
 return ($fields);
 	} //|o2_fine_exp|
 
@@ -5765,7 +5764,7 @@ return (!o2val('prg§_§var','cons_loop') && o2val('prg§_§var','field_type') == 'K
 
 function jxconnectivity_exp_368() {
 	$node   = o2val('prg§_§var','tables_list', o2val('prg§_§var','field'));
-$unique = ($node[8] ? true : false); 
+$unique = ($node[8] ? true : false);
 return ($unique);
 	} //|o2_fine_exp|
 
