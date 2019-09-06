@@ -80,6 +80,10 @@ function o2dev_app_analysis§§a_duplicated_fileds_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_34()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2dev_app_analysis§§a_nuidxs_to_rep_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_36()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2dev_app_analysis§§a_session_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_30()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -125,7 +129,8 @@ function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(10) && (o2dev_app_analysis_exp_29() || $o2exe->e()) && o2act::exe("a_session", True, "") && $o2exe->e();
 	$o2exe->s(11) && (o2dev_app_analysis_exp_31() || $o2exe->e()) && o2act::exe("a_sql_formulas", True, "") && $o2exe->e();
 	$o2exe->s(12) && (o2dev_app_analysis_exp_33() || $o2exe->e()) && o2act::exe("a_duplicated_fileds", True, "") && $o2exe->e();
-	$o2exe->s(13) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
+	$o2exe->s(13) && (o2dev_app_analysis_exp_35() || $o2exe->e()) && o2act::exe("a_nuidxs_to_rep", True, "") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§export_act(&$o2exe) {
@@ -144,17 +149,17 @@ function o2dev_app_analysis§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2dev_app_analysis_exp_1() {
-
+	
 return (o2val('prg§_§var','models_list'));
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_2() {
-
+	
 return (o2val('prg§_§var','analysis_model'));
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_3() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
@@ -171,17 +176,18 @@ function o2dev_app_analysis_exp_4() {
               "CHECKEXPS"  => "Check for columns (;) in return expressions",
               "SESSION"    => "Analyze session weights",
               "SQLFORMULA" => "Convert formulas to SQL CONCAT in views",
-              "DUPFILEDS"  => "Check for duplicated aliases in views");
+              "DUPFILEDS"  => "Check for duplicated aliases in views",
+              "NUIDXTOREP" => "Move not unique indexes to repository");
 return ($list);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_5() {
-
+	
 return ("jxtree");
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_6() {
-
+	
 return (o2tree_get_code("jxresult"));
 	} //|o2_fine_exp|
 
@@ -191,7 +197,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_8() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUTABLES");
 	} //|o2_fine_exp|
 
@@ -235,7 +241,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_10() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUFIELDS");
 	} //|o2_fine_exp|
 
@@ -309,7 +315,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_13() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUMODELS");
 	} //|o2_fine_exp|
 
@@ -396,7 +402,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_15() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUPROGS");
 	} //|o2_fine_exp|
 
@@ -444,7 +450,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_17() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUKEYS");
 	} //|o2_fine_exp|
 
@@ -525,7 +531,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_19() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "CHECKLINKS");
 	} //|o2_fine_exp|
 
@@ -736,7 +742,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_21() {
-
+	
 return (o2val('prg§_§var','done'));
 	} //|o2_fine_exp|
 
@@ -746,7 +752,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_23() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "TABSREL");
 	} //|o2_fine_exp|
 
@@ -905,7 +911,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_25() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "CHECKLOOP");
 	} //|o2_fine_exp|
 
@@ -1027,7 +1033,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_27() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "CHECKEXPS");
 	} //|o2_fine_exp|
 
@@ -1079,7 +1085,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_29() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "SESSION");
 	} //|o2_fine_exp|
 
@@ -1096,7 +1102,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_31() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "SQLFORMULA");
 	} //|o2_fine_exp|
 
@@ -1247,8 +1253,8 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
                if (substr($token, 0, 1) != '[') {
                   $expf        = $prg.'_exp_'.$nexp.'()';
                   $expbuff    .= "\n\nfunction ".$expf." {\n\n".
-                                 "return (".$token.");\n".
-                                 "\t} //|o2_fine_exp|\n";
+                                 "ret"."urn (".$token.");\n".
+                                 "\t} //|o2_fine"."_exp|\n";
                   $res[$tokid] = $expf;
                   $nexp++;
                   }
@@ -1288,7 +1294,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_33() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "DUPFILEDS");
 	} //|o2_fine_exp|
 
@@ -1334,6 +1340,104 @@ else {
    $tree = array("jxresult" => array(0, "No duplicated alias"));
    o2tree_def("jxresult", $tree);
    }
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_35() {
+	
+return (o2val('prg§_§var','analysis_model') == "NUIDXTOREP");
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_36() {
+	$app      = $_SESSION['o2_app'];
+$idxs_tab = $app->get_table('o2_extraindexes');
+$idxs_f   = $idxs_tab->campi;
+$idxs_db  = $idxs_tab->db;
+$idxs_ser = $idxs_db->server;
+$co       = constant('o2_'.$idxs_ser->type.'_o');
+$cc       = constant('o2_'.$idxs_ser->type.'_c');
+$idxs_sel = $idxs_f['index_table'].' '.$co.'IDXTABLE'.$cc.', '.
+            $idxs_f['index_fields'].' '.$co.'IDXSEGS'.$cc.', '.
+            $idxs_f['index_name'].' '.$co.'IDXNAME'.$cc;
+$idxs_whe = $idxs_f['index_unique'].'<>"1"';
+$idxs     = o2_gateway::recordset($idxs_ser->type,
+                                  $idxs_ser->server,
+                                  $idxs_ser->user,
+                                  $idxs_ser->password,
+                                  $idxs_db->nome,
+                                  $idxs_db->proprietario,
+                                  $idxs_tab->nome,
+                                  'jx_idxs',
+                                  $idxs_sel,
+                                  $idxs_whe,
+                                  '',
+                                  10000);
+                                  
+/* _________________ Read tab-repository file from INI or use default one ___ */
+$ini_content = file_get_contents(o2app_dir_home().o2app_name().".ini");
+$parts       = array();
+preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+if ($parts[1]) {
+   $tables = $parts[1];
+   }
+else {
+   $tables = 'file_repository.inc';
+   }                                  
+/* ___________________________________________ Get tables repository code ___ */
+$code  = file_get_contents(o2app_dir_prgs().$tables);
+$n     = 0;
+$added = array();
+foreach ($idxs as $idx) {
+   $table = $idx['IDXTABLE'];
+   $index = $idx['IDXNAME'];
+   $segms = $idx['IDXSEGS'];
+   $parts = array();
+   preg_match_all('/o2def::tab\("'.$table.
+                  '",[^;]*\);\s+(o2def::field\([^;]+\);\s+)++'.
+                  '(o2def::(nu|)index\([^;]+\);\s+)++o2def::tab\(/',
+                  $code, $parts, PREG_OFFSET_CAPTURE);
+   /* _________________________ Check for index already existing in table ___ */
+   if (preg_match('/o2def::(nu|)index\(\s*[\'"]'.$index.'[\'"]\s*,/', 
+                  $parts[0][0][0]) === 0) {
+      /* _____________________________________ Last index definition code ___ */
+      $i_code = $parts[2][0][0];
+      if ($i_code) {
+         $n++;
+         if (!isset($added['T|'.$table])) {
+            $added['T|'.$table] = array("jxresult", $table, "<jx>/img/tabadmin/tree/tab.png");         
+            }
+         $added['F|'.$index] = array('T|'.$table, $index, "<jx>/img/tabadmin/tree/field.png");
+         /* ___________________________ last index definition code lenght ___ */
+         $i_len  = strlen($i_code);
+         /* ________________________ Last index definition code last char ___ */
+         $i_char = $parts[2][0][1] + $i_len;
+         /* ____________________________________________ Compose segments ___ */
+         $s = '';
+         foreach (explode(',', $segms) as $segm) {
+            list($seg, $dir) = explode('|', $segm);
+            $s.= ($s ? ', ' : '').'"'.$seg.'","'.$dir.'"';
+            }
+         /* _____________ Add new field definition after existing indexes ___ */
+         $code = substr($code, 0, $i_char - 3).
+                 "\t".'o2def::nuindex("'.$index.'", '.$s.");\r\n".
+                 substr($code, $i_char - 2);
+         }
+      }
+   }
+
+if (count($n)) {
+   $tree = array("jxresult" => array(0, $n.' indexes added to repository', "<jx>/img/tabadmin/tree/folder.png"));
+   $tree+= $added;
+   o2tree_def("jxresult", $tree);
+   o2tree_node_show("jxresult", 'T|'.$table);
+   }
+else {
+   $tree = array("jxresult" => array(0, "No duplicated alias"));
+   o2tree_def("jxresult", $tree);
+   }
+/* ____________________________________ Create new tables repository file ___ */
+file_put_contents(o2app_dir_tmp().$tables, $code);
+o2_send(o2_path(o2app_dir_tmp().$tables, 1));
 return (true);
 	} //|o2_fine_exp|
 ?>

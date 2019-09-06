@@ -1,5 +1,5 @@
 <?php
-//2.5
+//2.6
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -13,6 +13,7 @@ o2def::act("a_build_tabs_relations", "");
 o2def::act("a_check_exps", "");
 o2def::act("a_check_links", "");
 o2def::act("a_duplicated_fileds", "");
+o2def::act("a_nuidxs_to_rep", "");
 o2def::act("a_session", "");
 o2def::act("a_sql_formulas", "");
 o2def::act("a_unused_fields", "");
