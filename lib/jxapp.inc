@@ -262,23 +262,7 @@ class o2_app {
     /**
      * @var o2_dir
      */
-    public $dir_models_u    = '';      /* User personal reports models folder (o2_dir)  */
-    /**
-     * @var o2_dir
-     */
     public $dir_img         = '';      /* Applications images folder (o2_dir)           */
-    /**
-     * @var o2_dir
-     */
-    public $dir_img_u       = '';      /* User personal images folder (o2_dir)          */
-    /**
-     * @var o2_dir
-     */
-    public $dir_spool_in    = '';      /* User spoolin folder (o2_dir)                  */
-    /**
-     * @var o2_dir
-     */
-    public $dir_spool_out   = '';      /* User spoolout folder (o2_dir)                 */
     /**
      * @var o2_dir
      */
@@ -950,10 +934,11 @@ class o2_app {
         $users_dirs = new o2_dir($this->dir_home."/users/");
         foreach ($users_dirs->all_elements() as $users_dir) {
             if ($users_dir->tipo == "D") {
-                $tmp_dirs = new o2_dir($users_dir."tmp/");
+                $tmp_dirs = new o2_dir($users_dir);
                 foreach ($tmp_dirs->all_elements() as $tmp_dir) {
                     // ____________________________________ Check if session is active ___
-                    if (!in_array(substr($tmp_dir->nome, 3), $active_sess)) {
+                    if ($tmp_dir->tipo == "D" &&
+                        !in_array(substr($tmp_dir->nome, 3), $active_sess)) {
                         $tmp_dir->remove();
                         }
                     }
@@ -3083,13 +3068,11 @@ class o2_app {
      *
      * Filesystem structure
      *
-     *   /app                home
-     *     '-/users          users personal folders
-     *     '-/default        default user home
-     *          |-/img       images files
-     *          |-/models    frf models for reports production
-     *          |-/tmp       tmp files
-     *          '-/uploads   uploaded files
+     *   /app                         home
+     *     '-/users                   users personal folders
+     *         '-/<user-name>         user home
+     *             '-/<sess-ID>       user TMP folder per session
+     *                 '-/jxuploads   uploaded files tmp folder
      *
      */
     function crea_cartelle_pers() {
@@ -3100,21 +3083,13 @@ class o2_app {
         $this->dir_user = new o2_dir($this->dir_home."users".DIRECTORY_SEPARATOR.
                                      $user_local.DIRECTORY_SEPARATOR);
         $this->dir_user->crea();
-        // ____________________________________________________ /app/users/default/tmp ___
-        $dir_tmp = new o2_dir($this->dir_user."tmp".DIRECTORY_SEPARATOR);
-        $dir_tmp->crea();
-        // _____________________________________________ /app/users/default/tmp/sessid ___
-        $this->dir_tmp = new o2_dir($dir_tmp."tmp".$this->session_id.DIRECTORY_SEPARATOR);
+        // _________________________________________________ /app/users/default/sessid ___
+        $this->dir_tmp = new o2_dir($this->dir_user."tmp".$this->session_id.
+                                    DIRECTORY_SEPARATOR);
         $this->dir_tmp->crea();
-        // ___________________________________ /app/users/default/tmp/sessid/jxuploads ___
+        // _______________________________________ /app/users/default/sessid/jxuploads ___
         $this->dir_uploads = new o2_dir($this->dir_tmp."jxuploads".DIRECTORY_SEPARATOR);
         $this->dir_uploads->crea();
-        // ____________________________________________________ /app/users/default/img ___
-        $this->dir_img_u = new o2_dir($this->dir_user."img".DIRECTORY_SEPARATOR);
-        $this->dir_img_u->crea();
-        // _________________________________________________ /app/users/default/models ___
-        $this->dir_models_u = new o2_dir($this->dir_user."models".DIRECTORY_SEPARATOR);
-        $this->dir_models_u->crea();
 
         }
 
@@ -3145,17 +3120,12 @@ class o2_app {
                     }
                 return "";
                 break;
-            /* Ritorna il path fisico al modello dell'utente (se esiste) o a quello
-               dell'applicazione                                                        */
+            // _____________________ Returns path to file in application models folder ___
             case "MODELS":
-                if ($this->dir_models_u->exists(basename($nome_file))) {
-                    return $this->dir_models_u.basename($nome_file);
-                    }
                 if ($this->dir_models->exists(basename($nome_file))) {
                     return $this->dir_models.basename($nome_file);
                     }
                 break;
-
             default:
                 throw new o2_exception("Unknown folder <i>".$cartella.
                                        "<i> requested for file <i>".$nome_file."</i>",

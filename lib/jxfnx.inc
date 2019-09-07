@@ -2931,7 +2931,7 @@ function o2app_dir_trn() {
  *
  * @package application
  * @return  string
- * @see     o2app_dir_usertemplates(), o2app_dir_tmp(), o2app_dir_home()
+ * @see     o2app_dir_tmp(), o2app_dir_home()
  */
 function o2app_dir_templates() {
 
@@ -2941,25 +2941,11 @@ function o2app_dir_templates() {
 
 
 /**
- * Returns user personal pdf printing templates folder path
- *
- * @package application
- * @return  string
- * @see     o2app_dir_templates(), o2app_dir_tmp(), o2app_dir_home()
- */
-function o2app_dir_usertemplates() {
-
-    return $_SESSION['o2_app']->dir_models_u->nome_completo;
-
-    }
-
-
-/**
  * Returns images folder path
  *
  * @package application
  * @return  string
- * @see     o2app_dir_userimg(), o2app_dir_css(), o2app_dir_home()
+ * @see     o2app_dir_css(), o2app_dir_home()
  */
 function o2app_dir_img() {
 
@@ -2969,25 +2955,11 @@ function o2app_dir_img() {
 
 
 /**
- * Returns user personal images folder path
- *
- * @package application
- * @return  string
- * @see     o2app_dir_img(), o2app_dir_css(), o2app_dir_home()
- */
-function o2app_dir_userimg() {
-
-    return $_SESSION['o2_app']->dir_img_u->nome_completo;
-
-    }
-
-
-/**
  * Returns currently logged user
  *
  * @package application
  * @return  string
- * @see     o2app_dir_usertemplates(), o2app_userimg(), o2app_dir_home(), o2app_user()
+ * @see     o2app_userimg(), o2app_dir_home(), o2app_user()
  */
 function o2app_dir_user() {
 
