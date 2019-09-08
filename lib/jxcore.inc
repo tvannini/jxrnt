@@ -5938,12 +5938,11 @@ class o2def {
      * Definisce un'azione, di nome [$con_nome], nel contesto del prg in definizione
      *
      * @param string $con_nome
-     * @param string $service
      */
-    static function act($con_nome, $service = "") {
+    static function act($con_nome) {
 
         $app = $_SESSION['o2_app'];
-        $app->istanze_prg[$app->progressivo_istanze]->azione($con_nome, $service);
+        $app->istanze_prg[$app->progressivo_istanze]->azione($con_nome);
 
         }
 

@@ -289,14 +289,12 @@ class o2_prg {
 
     /**
      * Definisce un'azione e la aggiunge alle azioni abilitate per il prg. Il valore
-     * $service definisce il servizio che prenderà in carico l'esecuzione dell'azione.
      *
      * @param string $azione
-     * @param string $service
      */
-    function azione($azione, $service = "") {
+    function azione($azione) {
 
-        $this->azioni[$azione] = $service;
+        $this->azioni[$azione] = $azione;
 
         }
 
@@ -315,7 +313,6 @@ class o2_prg {
     function esegui_azione($action, $end_cond = true, $loop_view = "") {
 
         $app              = $_SESSION['o2_app'];
-        $service          = $this->azioni[$action];
         $task_local       = $this->contesto[$loop_view];
         $counter_local    = 0;
         $act_end          = false;
@@ -361,7 +358,6 @@ class o2_prg {
                 $act_end = $app->esecuzione_inizio($this->nome,
                                                    $this->id,
                                                    $action,
-                                                   $service,
                                                    $counter_local);
                 }
             // __________________________________ Prevent view refresh while executing ___
@@ -1246,10 +1242,9 @@ class o2_esecuzione {
      * @param  string $prg
      * @param  string $id_istanza_prg
      * @param  string $azione
-     * @param  string $service
      * @return o2_esecuzione
      */
-    function __construct($prg, $id_istanza_prg, $azione, $service) {
+    function __construct($prg, $id_istanza_prg, $azione) {
 
         $this->azione      = $azione;
         $this->prg         = $prg;
@@ -1517,7 +1512,7 @@ class o2_dbview extends o2_view {
     public $suffix_waiting  = false; /* If executing suffix action is waiting on-line   */
     public $relocate_to_key = false; /* Key segment values to relocate to               */
     public $relocated       = false; /* If view has been relocated after last drawn     */
-    public $sele_by_table   = false; /* If view selection in driven by a grid (HTML-FA) */
+    public $sele_by_table   = false; /* If view selection is driven by a grid           */
     public $act_wait_next   = false; /* If loop on view is waiting for next row         */
     public $looping_on      = false; /* If an action is looping on view                 */
     public $custom_from     = false; /* If FROM clausole is defined by expression       */
@@ -6965,6 +6960,8 @@ class o2act {
      *  "I" prepara inserimento (presenta record vuoto fuori vista. Necessita azione di
      *      scrittura)
      *  "C" cancellazione (esegue scrittura)
+     *  "B" Bulk insert
+     *  "E" Bulk end
      *
      * @param  string $task
      * @param  string $comando

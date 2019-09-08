@@ -2376,17 +2376,15 @@ class o2_app {
      * @param  string  $prg
      * @param  string  $id_istanza_prg
      * @param  string  $azione
-     * @param  string  $service
      * @param  integer $counter
      * @return boolean
      */
-    function esecuzione_inizio($prg, $id_istanza_prg, $azione, $service, $counter) {
+    function esecuzione_inizio($prg, $id_istanza_prg, $azione, $counter) {
 
         // ________________ New execution is inserted at the top of executions list... ___
         array_unshift($this->esecuzioni, new o2_esecuzione($prg,
                                                            $id_istanza_prg,
-                                                           $azione,
-                                                           $service));
+                                                           $azione));
         // ___________________________________________________ ...and then is executed ___
         $this->esecuzioni[0]->loop = $counter;
         $this->esecuzioni[0]->esegui();
