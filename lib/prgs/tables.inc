@@ -241,7 +241,7 @@ o2def::tab("jx_services", "default", "jx_services", "srv_host");
 	o2def::field("srv_last_date", "srv_last_date", "o2sys_long_date");
 	o2def::field("srv_last_time", "srv_last_time", "o2sys_long_time");
 
-	o2def::index("srv_host", "srv_service","A", "srv_host","A");
+	o2def::index("srv_service", "srv_service","A", "srv_host","A");
 	o2def::index("srv_host", "srv_host","A", "srv_service","A");
 
 o2def::tab("jx_hosts", "default", "jx_hosts", "host_host");
