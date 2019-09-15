@@ -1499,25 +1499,27 @@ class o2_dbview extends o2_view {
     public $link_on         = array(); /* SQL join on criteria for single tables        */
     public $link_wheres     = array(); /* Range (where) criteria for linked tables      */
     /*     _____ INTERNAL FLAGS _______________________________________________________ */
-    public $selezione       = 0;     /* Index of current record in recordset            */
-    public $totale_record   = 101;   /* Number of records filtered in whole main file   */
-    public $righe_vis_ori   = 0;     /* N. of rows per page used by custom rows reset   */
-    public $righe_vis_save  = 0;     /* Saved righe-vis to reset after looping on view  */
-    public $user_rows       = 0;     /* N. of rows set by user in custom settings       */
-    public $fine            = false; /* If reached end condition in recordset building  */
-    public $structured      = false; /* If ->struttura() method has been called before  */
-    public $vista           = false; /* If view has an actual recordset                 */
-    public $computing       = false; /* If we already are within recordset computing    */
-    public $suffix_running  = false; /* If we already are within suffix execution       */
-    public $suffix_waiting  = false; /* If executing suffix action is waiting on-line   */
-    public $relocate_to_key = false; /* Key segment values to relocate to               */
-    public $relocated       = false; /* If view has been relocated after last drawn     */
-    public $sele_by_table   = false; /* If view selection is driven by a grid           */
-    public $act_wait_next   = false; /* If loop on view is waiting for next row         */
-    public $looping_on      = false; /* If an action is looping on view                 */
-    public $custom_from     = false; /* If FROM clausole is defined by expression       */
-    public $cached_insert   = false; /* Multiple inserts cached in a single statement   */
-    public $insert_cache    = '';    /* Cached records for cached-insert mode           */
+    public $selezione       = 0;       /* Index of current record in recordset          */
+    public $totale_record   = 101;     /* Number of records filtered in whole main file */
+    public $righe_vis_ori   = 0;       /* N. of rows per page used by custom rows reset */
+    public $righe_vis_save  = 0;       /* Saved righe-vis to reset after loop on view   */
+    public $user_rows       = 0;       /* N. of rows set by user in custom settings     */
+    public $fine            = false;   /* If reached end condition in dataset building  */
+    public $structured      = false;   /* If ->struttura method has been called before  */
+    public $vista           = false;   /* If view has an actual recordset               */
+    public $computing       = false;   /* If we already are within recordset computing  */
+    public $suffix_running  = false;   /* If we already are within suffix execution     */
+    public $suffix_waiting  = false;   /* If executing suffix action is waiting on-line */
+    public $relocate_to_key = false;   /* Key segment values to relocate to             */
+    public $relocated       = false;   /* If view has been relocated after last drawn   */
+    public $sele_by_table   = false;   /* If view selection is driven by a grid         */
+    public $act_wait_next   = false;   /* If loop on view is waiting for next row       */
+    public $looping_on      = false;   /* If an action is looping on view               */
+    public $custom_from     = false;   /* If FROM clausole is defined by expression     */
+    public $bulk_mode       = false;   /* Multiple inserts cached in a single statement */
+    public $bulk_cache      = array(); /* Cached records for bulk-mode insert           */
+    public $bulk_fields     = array(); /* List of fields valued in bulk-mode            */
+    public $bulk_defaults   = array(); /* List default values to use for missing fields */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
     public $statement       = null;  /* PDO Statement opened on view (if any)           */
     public $offset_ini      = 0;     /* First recordset row index in whole file         */
@@ -4802,14 +4804,16 @@ class o2_dbview extends o2_view {
     /**
      * Esegue l'insert into $file per i campi di ->corrente diversi da ->precedente
      *
+     * @param  boolean $bulk_mode   If insert is cached for bulk mode
      * @return boolean
      */
-    function inserisci_corrente() {
+    function inserisci_corrente($bulk_mode = false) {
 
         $app               = $_SESSION['o2_app'];
         $db_type           = $this->file->db->server->type;
         $insert_nomi_arr   = array();
         $insert_valori_arr = array();
+        $defaults          = array();
         if ($this->file->asp == 'C') {
             $insert_nomi_arr[]         = 'O2ASPID';
             $this->corrente['O2ASPID'] = o2_gateway::normalize($db_type,
@@ -4839,6 +4843,17 @@ class o2_dbview extends o2_view {
                 $field_name = $singolo_campo->nome;
                 if ($this->corrente[$field_name] != $this->precedente[$field_name]) {
                     $insert_nomi_arr[] = $singolo_campo->nome_fisico;
+                    // _____________________ Bulk insert mode: collect fields defaults ___
+                    if ($this->bulk_mode) {
+                        if ($singolo_campo->tipo == 'N') {
+                            $defaults[$singolo_campo->nome_fisico] =
+                                                        $singolo_campo->maschera->default;
+                            }
+                        else {
+                            $defaults[$singolo_campo->nome_fisico] =
+                                                "'".$singolo_campo->maschera->default."'";
+                            }
+                        }
                     // ___________________ Trace columns are removed if valued by user ___
                     if ($trace_c_user && $field_name == $app_c_user) {
                         $trace_c_user = false;
@@ -4907,16 +4922,23 @@ class o2_dbview extends o2_view {
                 $insert_nomi_arr[]   = $trace_u_time;
                 $insert_valori_arr[] = "'".date("His", $t)."'";
                 }
-            $ret_val = o2_gateway::insertrec($db_type,
-                                             $this->file->db->server->server,
-                                             $this->file->db->server->user,
-                                             $this->file->db->server->password,
-                                             $this->file->db->nome,
-                                             $this->file->db->proprietario,
-                                             $this->file->write_name,
-                                             $this->file->indice,
-                                             $insert_nomi_arr,
-                                             $insert_valori_arr);
+            // ______________________________________________________ Bulk insert mode ___
+            if ($this->bulk_mode) {
+                $this->bulk_insert($insert_nomi_arr, $insert_valori_arr, $defaults);
+                }
+            // __________________________________________________ Standard insert mode ___
+            else {
+                o2_gateway::insertrec($db_type,
+                                      $this->file->db->server->server,
+                                      $this->file->db->server->user,
+                                      $this->file->db->server->password,
+                                      $this->file->db->nome,
+                                      $this->file->db->proprietario,
+                                      $this->file->write_name,
+                                      $this->file->indice,
+                                      $insert_nomi_arr,
+                                      $insert_valori_arr);
+                }
             }
         // _______________________________________________________ Manage log by level ___
         if ($app->tables_log &&
@@ -4950,30 +4972,80 @@ class o2_dbview extends o2_view {
         }
 
 
+
    /**
-     * Esegue l'insert into $file in maniera cached
+     * Prepare a cache blank record to be inserted on post
      *
      * @return boolean
      */
-    function bulk_insert($fields, $values, $flush = false) {
+    function prepare_insert() {
 
-        $app     = $_SESSION['o2_app'];
-        $db_type = $this->file->db->server->type;
-        $chunk   = $this->file->db->server->chunk_size;
-        if ($this->file->asp == 'C') {
-            $fields[]                  = 'O2ASPID';
-            $this->corrente['O2ASPID'] = o2_gateway::normalize($db_type,
-                                                             $app->vars['_area']->valore);
-            $values[]                  = "'".$this->corrente['O2ASPID']."'";
+        $this->relocate_to_key = false;
+        if (!$this->vista ||
+            ($this->variato($this->file->indice) && $this->range_mod())) {
+            $this->record_primo();
             }
-//        if ($this->cached_insert) {
+        if (!$this->recordset[0]) {
+            $this->recordset = array();
+            }
+        array_splice($this->recordset,
+                     $this->selezione + 1,
+                     0,
+                     array(array()));
+        if (count($this->recordset) > $this->righe_vis) {
+            if ($this->selezione == ($this->righe_vis - 1)) {
+                array_shift($this->recordset);
+                $this->status     = "I";
+                $this->modificato = false;
+                $this->seleziona_riga($this->selezione);
+                }
+            else {
+                array_pop($this->recordset);
+                $this->status     = "I";
+                $this->modificato = false;
+                $this->seleziona_riga($this->selezione + 1);
+                }
+            }
+        else {
+            $this->status     = "I";
+            $this->modificato = false;
+            $this->seleziona_riga($this->selezione + 1);
+            }
+        $this->relocated = true;
+
+        }
+
+
+   /**
+     * Caches inserted record and flushes cache when needed in bulk-mode
+     *
+     */
+    function bulk_insert($fields, $values, $defaults, $flush = false) {
+
+        // _____________________________________________________ Single record caching ___
         if ($values) {
-            $this->insert_cache.= '('.implode(',', $values).'),';
+            if ($this->bulk_fields != $fields) {
+                $this->bulk_fields = array_unique(array_merge($this->bulk_fields,
+                                                              $fields));
+                }
+            $this->bulk_defaults+= $defaults;
+            $this->bulk_cache[]  = array_combine($fields, $values);
             $this->totale_record++;
             }
-        $cache = strlen($this->insert_cache);
-        if (($cache > 0) && ($flush || ($cache > $chunk))) {
-            o2_gateway::insertrec($db_type,
+        $cache = count($this->bulk_cache);
+        // __________________________________________________ Bulk end and cache flush ___
+        if (($cache > 0) && ($flush || ($cache > 999))) {
+            $fields            = $this->bulk_fields;
+            $this->bulk_fields = array_combine($this->bulk_fields, $this->bulk_defaults);
+            $recs              = array_map(function($rec) {
+
+                                               $rec = array_merge($this->bulk_fields,
+                                                                  $rec);
+                                               return implode(',', $rec);
+
+                                               },
+                                           $this->bulk_cache);
+            o2_gateway::insertrec($this->file->db->server->type,
                                   $this->file->db->server->server,
                                   $this->file->db->server->user,
                                   $this->file->db->server->password,
@@ -4982,12 +5054,12 @@ class o2_dbview extends o2_view {
                                   $this->file->write_name,
                                   $this->file->indice,
                                   $fields,
-                                  array(substr($this->insert_cache, 1, -2)));
-            $this->insert_cache = '';
+                                  array(implode('),(', $recs)));
+
+            $this->bulk_fields   = array();
+            $this->bulk_cache    = array();
+            $this->bulk_defaults = array();
             }
-        $this->precedente = $this->corrente;
-        $this->modificato = false;
-        return true;
 
         }
 
@@ -7023,38 +7095,7 @@ class o2act {
                     break;
                 case "I": // __________________________________ Action: PREPARE INSERT ___
                     if ($view->record_suffix()) {
-                        $view->relocate_to_key = false;
-                        if (!$view->vista ||
-                            ($view->variato($view->file->indice) && $view->range_mod())) {
-                            $view->record_primo();
-                            }
-                        if (!$view->recordset[0]) {
-                            $view->recordset = array();
-                            }
-                        array_splice($view->recordset,
-                                     $view->selezione + 1,
-                                     0,
-                                     array(array()));
-                        if (count($view->recordset) > $view->righe_vis) {
-                            if ($view->selezione == ($view->righe_vis - 1)) {
-                                array_shift($view->recordset);
-                                $view->status     = "I";
-                                $view->modificato = false;
-                                $view->seleziona_riga($view->selezione);
-                                }
-                            else {
-                                array_pop($view->recordset);
-                                $view->status     = "I";
-                                $view->modificato = false;
-                                $view->seleziona_riga($view->selezione + 1);
-                                }
-                            }
-                        else {
-                            $view->status     = "I";
-                            $view->modificato = false;
-                            $view->seleziona_riga($view->selezione + 1);
-                            }
-                        $view->relocated = true;
+                        $view->prepare_insert();
                         }
                     else {
                         return false;
@@ -7098,6 +7139,24 @@ class o2act {
                     break;
                 case "K": // __________________________________________ Lock recordset ___
                     return $view->record_primo(true);
+                    break;
+                case "B": // _____________________________________ Bulk insert prepare ___
+                    if ($view->record_suffix()) {
+                        $view->prepare_insert();
+                        $view->bulk_mode = true;
+                        }
+                    else {
+                        return false;
+                        }
+                    break;
+                case "E": // ________________________________________________ Bulk end ___
+                    if ($view->record_suffix()) {
+                        $view->bulk_insert(array(), array(), array(), true);
+                        $view->bulk_mode = false;
+                        }
+                    else {
+                        return false;
+                        }
                     break;
                 case "X": // Action: RANGE-CTRL (not used see prg "tools/o2sys_tab_filter)
                     return $view->selettore();
