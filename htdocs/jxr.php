@@ -82,6 +82,7 @@ if (session_start()) {
             jxjs::end();
             break;
         case "lookup": // _____________________________________________________ Lookup ___
+            $GLOBALS['jxjs'] = true;
             provide_prg($app);
             o2html::ctrl_lookup_req();
             break;

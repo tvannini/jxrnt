@@ -2506,6 +2506,10 @@ class o2html {
                     }
                 }
             }
+        if ($app->js_cache) {
+            print ';'.$app->js_cache;
+            $app->js_cache = '';
+            }
         die();
 
         }
