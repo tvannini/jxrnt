@@ -389,7 +389,7 @@ class o2_app {
             $this->set_user($_REQUEST['user'], $_REQUEST['password']);
             $this->exe_prg_start = ($this->prg_start ? true : false);
             // ___________________________________________________ Maintenance Service ___
-            if ($this->maint_time && !isset($_REQUEST[o2_run_job::$run_word])) {
+            if ($this->maint_time) {
                 $this->check_maintenance();
                 }
             }
@@ -881,15 +881,16 @@ class o2_app {
         $job = o2_job::get_by_name('jxmaintenance');
         // __________________ Check maintenance job existance and create it if missing ___
         if (!$job) {
-            $job    = new o2_job(0,
-                                 'jxmaintenance',
-                                 'tools/jxmaintenance',
-                                 array(),
-                                 'Janox Maintenance Service',
-                                 ceil($app->maint_time / 24),
-                                 1,
-                                 'B');
-            $job_id = $job->create();
+            $job     = new o2_job(0,
+                                  'jxmaintenance',
+                                  'tools/jxmaintenance',
+                                  array(),
+                                  'Janox Maintenance Service',
+                                  ceil($app->maint_time / 24),
+                                  1,
+                                  'B');
+            $job_id  = $job->create();
+            $job->id = $job_id;
             }
         else {
             $job_id = $job->id;
@@ -3819,7 +3820,8 @@ class o2_job {
                                                      false,
                                                      false,
                                                      false,
-                                                     $sched_id);
+                                                     $sched_id,
+                                                     $app->host);
                         return $run_job->id;
                         }
                     else {
@@ -3833,7 +3835,8 @@ class o2_job {
                                          false,
                                          false,
                                          false,
-                                         $sched_id);
+                                         $sched_id,
+                                         $app->host);
             // ____________________________ Set run-job status from Queued to Starting ___
             $run_job->update_status('S');
             $cmd = '"'.$rnt->php_engine.'" '.$app->dir_htdocs.$app->nome.
