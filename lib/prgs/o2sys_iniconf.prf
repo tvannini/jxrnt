@@ -433,7 +433,8 @@ $list = array(
                          "desc" => "   *** Maintenance time ***\n\n".
                                    "Maintenance activities are run at next login after maintenance ".
                                    "time has expired since last execution.\n".
-                                   "Maintenance time is set in hours. Minimum value is 1.\n",
+                                   "Set value to 0 (zero) to disable system maintenance service.\n".
+                                   "Maintenance time is set in hours..\n",
                          "default" => 100),
    "data_chunk" => array("rntval" => null,
                          "appval" => null,

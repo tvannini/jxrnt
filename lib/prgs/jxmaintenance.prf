@@ -1,0 +1,11 @@
+<?php
+
+function jxmaintenance§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxmaintenance_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxmaintenance_exp_1() {
+	$_SESSION['o2_app']->maintenance();
+return (true);
+	} //|o2_fine_exp|
+?>

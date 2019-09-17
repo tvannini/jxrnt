@@ -393,12 +393,10 @@ class o2_app {
             // ______________________________ Login program execution and user options ___
             $this->set_user($_REQUEST['user'], $_REQUEST['password']);
             $this->exe_prg_start = ($this->prg_start ? true : false);
-            // ___________________________________ Register maintenance scheduled task ___
-            $robot = o2_robot::get_instance();
-            $robot->add_task("maintenance",
-                             array($this, "maintenance"),
-                             $this->maint_time);
-            $robot->run();
+            // ___________________________________________________ Maintenance Service ___
+            if ($this->maint_time && !isset($_REQUEST[o2_run_job::$run_word])) {
+                $this->check_maintenance();
+                }
             }
         // __________________________________________________ Commit open transactions ___
         $this->commit_all(false);
@@ -877,10 +875,41 @@ class o2_app {
 
         }
 
+    /**
+     * Check last maintenance execution and if needed creates and run maintenance batch
+     * job
+     *
+     */
+    function check_maintenance() {
+
+        $app = $_SESSION['o2_app'];
+        $job = o2_job::get_by_name('jxmaintenance');
+        // __________________ Check maintenance job existance and create it if missing ___
+        if (!$job) {
+            $job    = new o2_job(0,
+                                 'jxmaintenance',
+                                 'tools/jxmaintenance',
+                                 array(),
+                                 'Janox Maintenance Service',
+                                 ceil($app->maint_time / 24),
+                                 1,
+                                 'B');
+            $job_id = $job->create();
+            }
+        else {
+            $job_id = $job->id;
+            }
+        // ______________________________ Get last maintenance execution for this host ___
+        $last_exe = o2_run_job::get_last_job($job_id, '', '', 0, $app->host);
+        if (!$last_exe || (($last_exe->start + ($app->maint_time * 3600)) < time())) {
+            $job->run(false);
+            }
+
+        }
+
 
     /**
      * Executes maintenance service actions on application.
-     * This method is usually called by robot script (see o2_robot).
      *
      * TODO: Add execution/error logging
      *
@@ -1309,7 +1338,7 @@ class o2_app {
             $this->max_req_n = max($conf['max_req_n'], 1);
             }
         if (isset($conf['maint_time'])) {
-            $this->maint_time = max($conf['maint_time'], 1);
+            $this->maint_time = intval($conf['maint_time']);
             }
         if (isset($conf['doc'])) {
             $this->doc_enabled = ($conf['doc'] ? true : false);
@@ -4734,9 +4763,14 @@ class o2_run_job {
      * @param  string  $aspid
      * @param  string  $user
      * @param  integer $sched_id
+     * @param  string  $host
      * @return o2_run_job
      */
-    static function get_last_job($job_id, $aspid = '', $user = '', $sched_id = 0) {
+    static function get_last_job($job_id,
+                                 $aspid    = '',
+                                 $user     = '',
+                                 $sched_id = 0,
+                                 $host     = '') {
 
         $app     = $_SESSION['o2_app'];
         $tab     = $app->get_table(self::$run_table);
@@ -4754,7 +4788,8 @@ class o2_run_job {
                                       $aspfld."='".$aspid."')" :
                    '').
                    ($user ? ' AND '.$f['run_user']."='".$user."'" : '').
-                   ($sched_id ? ' AND '.$f['run_sched_id']."=".$sched_id : '');
+                   ($sched_id ? ' AND '.$f['run_sched_id']."=".$sched_id : '').
+                   ($host ? ' AND '.$f['run_host']."='".$host."'" : '');
         $orderby = $f['run_start_date'].' DESC,'.$f['run_start_time'].' DESC';
         $run_job = o2_gateway::recordset($server->type,
                                          $server->server,

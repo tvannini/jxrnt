@@ -7377,30 +7377,6 @@ function o2dispatch_activate($id, $preserve = false) {
     }
 
 
-// ====================================== ROBOT ==========================================
-
-/**
- * Adds a task to be executed on a certain frequency: each time task is executed a time
- * marker is reset to evaluate next frequency expiration.
- *
- * @package robot
- * @param   string  $id         Unique name for the task
- * @param   integer $freq       Execution frequency in hours
- * @param   string  $prg_name   Program name to execute for task
- */
-function o2robot_task($id, $freq, $prg_name) {
-
-    // ______________________________________________________ Register scheduled tasks ___
-    $robot = o2_robot::get_instance();
-    /*
-    // ___________________________________________________________________ Maintenance ___
-    $robot->add_task($id, array($this, "maintenance"), $this->maint_time);
-    $robot->run();
-    */
-
-    }
-
-
 // ================================= TREEVIEW CONTROL ====================================
 
 
