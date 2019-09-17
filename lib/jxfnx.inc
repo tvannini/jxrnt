@@ -2848,7 +2848,7 @@ function o2app_dir_cvsprgs() {
  *
  * @package application
  * @return  string
- * @see     o2app_dir_uploads(), o2app_dir_trn(), o2app_dir_home()
+ * @see     o2app_dir_uploads(), o2app_dir_home()
  */
 function o2app_dir_tmp() {
 
@@ -2908,20 +2908,6 @@ function o2app_dir_css() {
 function o2app_dir_logs() {
 
     return $_SESSION['o2_app']->dir_logs->nome_completo;
-
-    }
-
-
-/**
- * Returns transit (delivering system) folder path
- *
- * @package application
- * @return  string
- * @see     o2app_dir_tmp(), o2app_dir_home(), o2app_alias()
- */
-function o2app_dir_trn() {
-
-    return $_SESSION['o2_app']->dir_trn->nome_completo;
 
     }
 

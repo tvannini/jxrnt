@@ -153,7 +153,6 @@ class o2_app {
     /*     _____ Productions & delivering _____________________________________________ */
     public $produzioni      = array(); /* Productions list                              */
     public $reporter        = '';      /* Complete path to o2reporter executable        */
-    public $deliver_as_trn  = false;   /* If delivered resources must be copied to TRN  */
     public $ext_resources   = array(); /* List of external resources to serve as STREAM */
     public $xmlstream_head  = false;   /* For XML stream (RPC) if doc head has been sent*/
     public $xmlstream_foot  = false;   /* For XML stream (RPC) if doc foot has been sent*/
@@ -267,10 +266,6 @@ class o2_app {
      * @var o2_dir
      */
     public $dir_uploads     = '';      /* User uploads folder (o2_dir)                  */
-    /**
-     * @var o2_dir
-     */
-    public $dir_trn         = '';      /* File delivering TMP folder (o2_dir)           */
 
 
     /**
@@ -916,23 +911,6 @@ class o2_app {
      */
     function maintenance() {
 
-        $now     = time();
-        // ================================ Clear obsolete transient (TRN) directories ===
-        $trn_obs = 24; // ____ Number of hours after which TRN are considered obsolete ___
-        foreach ($this->dir_trn->all_elements() as $single_tmp_dir) {
-            $mt  = $single_tmp_dir->ora_modifica;
-            $md  = $single_tmp_dir->data_modifica;
-            // _______________________________________________________ Expiration time ___
-            $exp = mktime(intval(substr($mt,  0, 2)) + $trn_obs,
-                          intval(substr($mt,  2, 2)),
-                          intval(substr($mt, -2   )),
-                          intval(substr($md,  4, 2)),
-                          intval(substr($md, -2   )),
-                          intval(substr($md,  0, 4)));
-            if ($single_tmp_dir->tipo == "D" && $exp < $now) {
-                $single_tmp_dir->remove();
-                }
-            }
         // ====================================== Clear obsolete users TMP directories ===
         $active_sess = array(); // ___________________________________ Active sessions ___
         $sessions    = $this->get_table('o2_sessions');
@@ -1299,9 +1277,6 @@ class o2_app {
             }
         if (isset($conf['msg_norec'])) {
             $this->msg_norec = $conf['msg_norec'];
-            }
-        if (isset($conf['deliver_trn'])) {
-            $this->deliver_as_trn = ($conf['deliver_trn'] ? true : false);
             }
         if (isset($conf['wait_on_ctrl'])) {
             $this->wait_on_ctrl = ($conf['wait_on_ctrl'] ? true : false);
@@ -2939,35 +2914,16 @@ class o2_app {
 
     /**
      * Returns URL where WEB Server will dispose the requested file.
-     * Second parameter $mode can take one of three values:
-     *  = 1 File is forced to download by headers;
-     *  = 2 File is always disposed by Transitional File System (TRN)
-     *  = 0 (or any other value) file is delivered as a Stream Resource or TRN depending
-     *      on application .INI parameter "trn_deliver".
      * Cachable parameter is for internal use: if TRUE resource can be recovered from
      * client cache.
      *
      * @param  string  $file_path
-     * @param  integer $mode        1=Force download; 2=Force TRN; else default
-     * @param  boolean $cachable    If resource is client-cachable
+     * @param  integer $force_download
+     * @param  boolean $cachable         If resource is client-cachable
      * @return string
      */
-    function file2http($file_path, $mode = 0, $cachable = false) {
+    function file2http($file_path, $force_download = false, $cachable = false) {
 
-        // ___________________________________________________ Default delivering mode ___
-        $stream         = !$this->deliver_as_trn;
-        $force_download = false;
-        // _________________________________________________ Switch by $mode parameter ___
-        switch (intval($mode)) {
-            // ____________________________________________________ = 1 Force download ___
-            case 1:
-                $force_download = true;
-                break;
-            // ____________________________________________________ = 2 Deliver as TRN ___
-            case 2:
-                $stream = false;
-                break;
-            }
         // ______________________________________________________ Check file existance ___
         if (!file_exists($file_path)) {
             throw new o2_exception("File <i>".$file_path."</i> NOT FOUND",
@@ -2979,52 +2935,28 @@ class o2_app {
             }
         // _____________________________________________________________ If file is OK ___
         else {
-            // __________________________________ If file has to be served as a stream ___
-            if ($stream) {
-                // _______________________________ Insert file in list, if not present ___
-                $add = true;
-                foreach ($this->ext_resources as $index => $sing_res) {
-                    if ($sing_res[0] == $file_path) {
-                        $add  = false;
-                        $r_id = $index;
-                        break;
-                        }
-                    }
-                if ($add) {
-                    $r_id = count($this->ext_resources) + 1;
-                    }
-                // _____________ Add or refresh force_download/cache-mode for resource ___
-                $this->ext_resources[$r_id] = array($file_path,
-                                                    $force_download,
-                                                    $cachable);
-                // _________________________________ Check session ID transport method ___
-                if (!ini_get("session.use_cookies")) {
-                    $sessid = "&".$this->session_name."=".$this->session_id;
-                    }
-                return $this->runtime->alias."jxf.php?RID=".$r_id.
-                                             "&JXSESSNAME=".$this->session_name.$sessid;
-                }
-            // ______________________________________________ If TRN file copy is used ___
-            else {
-                $file_name = basename($file_path);
-                $dir_dest  = "_".mt_rand().substr(session_id(), -2);
-                $file_dest = $this->dir_trn.$dir_dest.DIRECTORY_SEPARATOR.$file_name;
-                if (mkdir($this->dir_trn.$dir_dest)) {
-                    if (@copy($file_path, $file_dest)) {
-                        return $this->alias."trn/".$dir_dest."/".$file_name;
-                        }
-                    else {
-                        throw new o2_exception("Failed to copy file <i>".$file_path.
-                                               "</i> to <i>".$file_dest."</i>",
-                                               o2error_IO);
-                        }
-                    }
-                else {
-                    throw new o2_exception("Failed to create directory <i>".
-                                           $this->dir_trn.$dir_dest."</i>",
-                                           o2error_IO);
+            // ___________________________________ Insert file in list, if not present ___
+            $add = true;
+            foreach ($this->ext_resources as $index => $sing_res) {
+                if ($sing_res[0] == $file_path) {
+                    $add  = false;
+                    $r_id = $index;
+                    break;
                     }
                 }
+            if ($add) {
+                $r_id = count($this->ext_resources) + 1;
+                }
+            // _________________ Add or refresh force_download/cache-mode for resource ___
+            $this->ext_resources[$r_id] = array($file_path,
+                                                $force_download,
+                                                $cachable);
+            // _____________________________________ Check session ID transport method ___
+            if (!ini_get("session.use_cookies")) {
+                $sessid = "&".$this->session_name."=".$this->session_id;
+                }
+            return $this->runtime->alias."jxf.php?RID=".$r_id.
+                                         "&JXSESSNAME=".$this->session_name.$sessid;
             }
         return "";
 
@@ -3063,15 +2995,12 @@ class o2_app {
                                                  DIRECTORY_SEPARATOR) :
                                         $this->dir_htdocs."..").DIRECTORY_SEPARATOR);
         // _________________________________________________________________ /app/data ___
-        $this->dir_data = new o2_dir($this->dir_home."data".DIRECTORY_SEPARATOR);
+        $this->dir_data   = new o2_dir($this->dir_home."data".DIRECTORY_SEPARATOR);
         $this->dir_data->crea();
         // ___________________________________________________________ /app/htdocs/img ___
-        $this->dir_img = new o2_dir($this->dir_htdocs."img".DIRECTORY_SEPARATOR);
+        $this->dir_img       = new o2_dir($this->dir_htdocs."img".DIRECTORY_SEPARATOR);
         // ___________________________________________________________ /app/htdocs/css ___
-        $this->dir_css = new o2_dir($this->dir_htdocs."css".DIRECTORY_SEPARATOR);
-        // ___________________________________________________________ /app/htdocs/trn ___
-        $this->dir_trn = new o2_dir($this->dir_htdocs."trn".DIRECTORY_SEPARATOR);
-        $this->dir_trn->crea();
+        $this->dir_css       = new o2_dir($this->dir_htdocs."css".DIRECTORY_SEPARATOR);
         // ________________________________________________________________ /app/progs ___
         $this->dir_progs     = new o2_dir($this->dir_home."prgs".DIRECTORY_SEPARATOR);
         // ____________________________________________________ /app/progs/[developer] ___
@@ -3084,7 +3013,7 @@ class o2_app {
         $this->dir_logs = new o2_dir($this->dir_home."logs".DIRECTORY_SEPARATOR);
         $this->dir_logs->crea();
         // ________________________________________________________________ /app/users ___
-        $users_local    = new o2_dir($this->dir_home."users".DIRECTORY_SEPARATOR);
+        $users_local = new o2_dir($this->dir_home."users".DIRECTORY_SEPARATOR);
         $users_local->crea();
 
         }

@@ -571,18 +571,6 @@ $list = array(
                                     "but they can compromise performances and results.",
                            "default" => "off",
                            "values" => array("off", "on")),
-   "deliver_trn" => array("rntval" => null,
-                          "appval" => null,
-                          "desc" => "   *** Deliver resources as TRN ***\n\n".
-                                    "Enables resources delivering as TRN.\n".
-                                    "Resources (files like archives or images) outside folder mapped ".
-                                    "by the WEB Server can still be delivered to the end-user (see o2_path() function).\n".
-                                    "When this parameter is set to OFF (default) resources are delivered as a read-write ".
-                                    "PHP stream. When this parameter is ON resources are copied in a WEB Server mapped ".
-                                    "folder, behind an hash name.\nThis can be useful when you can't process resources by ".
-                                    "server-side streaming (PHP MAX_EXECUTION_TIME, PHP forced headers, ...).",
-                          "default" => "off",
-                          "values" => array("off", "on")),
    "grid_plus" => array("rntval" => null,
                         "appval" => null,
                         "desc" => "   *** DB-grid control extra functions ***\n\n".
@@ -1331,7 +1319,6 @@ function o2sys_iniconf_exp_34() {
               "log_db",
               "record_trace",
               "",
-              "deliver_trn",
               "grid_plus",
               "grid_multidel",
               "zoom",
