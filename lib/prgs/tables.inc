@@ -5,6 +5,7 @@ o2def::tab("o2_dbrelease", "default", "o2sys_dbrelease", "relcode");
 
 	o2def::index("relcode", "release_code","A");
 
+
 o2def::tab("o2_users", "default", "o2sys_users", "o2user");
 
 	o2def::field("o2user", "o2user", "_o2alpha");
@@ -22,6 +23,7 @@ o2def::tab("o2_users", "default", "o2sys_users", "o2user");
 
 	o2def::index("o2user", "o2user","A");
 	o2def::index("asp_area", "area","A", "o2user","A");
+
 
 o2def::tab("o2_sessions", "default", "o2sys_sessions", "sid");
 
@@ -44,6 +46,7 @@ o2def::tab("o2_sessions", "default", "o2sys_sessions", "sid");
 	o2def::index("lastupdate", "a_date","A", "a_time","A", "sid","A");
 	o2def::index("upd_desc", "a_date","D", "a_time","D", "sid","A");
 
+
 o2def::tab("o2_options", "default", "o2sys_options", "id");
 
 	o2def::field("o2user", "o2user", "_o2alpha");
@@ -52,17 +55,20 @@ o2def::tab("o2_options", "default", "o2sys_options", "id");
 
 	o2def::index("id", "o2user","A", "code","A");
 
+
 o2def::tab("o2_rights", "default", "o2sys_rights", "right_code");
 
 	o2def::field("right_code", "right_code", "o2sys_right");
 
 	o2def::index("right_code", "right_code","A");
 
+
 o2def::tab("o2_roles", "default", "o2sys_roles", "role_name");
 
 	o2def::field("role_name", "role_name", "o2sys_role");
 
 	o2def::index("role_name", "role_name","A");
+
 
 o2def::tab("o2_rights_per_role", "default", "o2sys_rights_per_role", "role_name");
 
@@ -72,6 +78,7 @@ o2def::tab("o2_rights_per_role", "default", "o2sys_rights_per_role", "role_name"
 	o2def::index("role_name", "role_name","A", "right_code","A");
 	o2def::index("right_code", "right_code","A", "role_name","A");
 
+
 o2def::tab("o2_roles_per_user", "default", "o2sys_roles_per_user", "o2user");
 
 	o2def::field("o2user", "o2user", "_o2alpha");
@@ -79,6 +86,7 @@ o2def::tab("o2_roles_per_user", "default", "o2sys_roles_per_user", "o2user");
 
 	o2def::index("o2user", "o2user","A", "role_name","A");
 	o2def::index("role_name", "role_name","A", "o2user","A");
+
 
 o2def::tab("o2_rights_roles_desc", "default", "o2sys_rights_roles_desc", "unique_name");
 
@@ -88,6 +96,7 @@ o2def::tab("o2_rights_roles_desc", "default", "o2sys_rights_roles_desc", "unique
 
 	o2def::index("unique_name", "element_type","A", "element_name","A");
 
+
 o2def::tab("o2_tabslog", "default", "o2sys_tabslog", "log_tabname");
 
 	o2def::field("log_tabname", "log_tabname", "_o2alpha");
@@ -95,6 +104,7 @@ o2def::tab("o2_tabslog", "default", "o2sys_tabslog", "log_tabname");
 	o2def::field("log_operations", "log_operations", "_o2number");
 
 	o2def::index("log_tabname", "log_tabname","A");
+
 
 o2def::tab("o2_profiling", "default", "o2sys_profiling", "obj");
 
@@ -105,6 +115,7 @@ o2def::tab("o2_profiling", "default", "o2sys_profiling", "obj");
 	o2def::field("right_enable", "right_enable", "o2sys_right");
 
 	o2def::index("obj", "obj_type","A", "obj_module","A", "obj_name","A", "right_vis","A", "right_enable","A");
+
 
 o2def::tab("o2_tmp_where", "default", "o2sys_tmp_where", "id");
 
@@ -120,6 +131,7 @@ o2def::tab("o2_tmp_where", "default", "o2sys_tmp_where", "id");
 
 	o2def::index("id", "session_profile","A", "pos_id","A");
 
+
 o2def::tab("o2_custom_grids", "default", "o2sys_custom_grids", "p_col");
 
 	o2def::field("o2user", "o2user", "_o2alpha");
@@ -131,6 +143,7 @@ o2def::tab("o2_custom_grids", "default", "o2sys_custom_grids", "p_col");
 
 	o2def::index("p_col", "o2user","A", "prg","A", "obj","A", "p_type","A", "p_col","A");
 
+
 o2def::tab("o2_custom_export", "default", "o2sys_custom_export", "p_col");
 
 	o2def::field("o2user", "o2user", "_o2alpha");
@@ -140,6 +153,7 @@ o2def::tab("o2_custom_export", "default", "o2sys_custom_export", "p_col");
 	o2def::field("p_col", "p_col", "_o2alpha");
 
 	o2def::index("p_col", "o2user","A", "prg","A", "obj","A", "p_type","A", "p_col","A");
+
 
 o2def::tab("o2_constraints", "default", "o2sys_constraints", "main_constr");
 
@@ -153,6 +167,7 @@ o2def::tab("o2_constraints", "default", "o2sys_constraints", "main_constr");
 	o2def::index("ref_contr", "linked_table","A", "linked_fields","A", "main_table","A", "main_fields","A");
 	o2def::index("constr_name", "constraint_name","A");
 
+
 o2def::tab("o2_extraindexes", "default", "o2sys_extraindexes", "index_def");
 
 	o2def::field("index_table", "index_table", "o2sys_extraidx_tab");
@@ -162,6 +177,7 @@ o2def::tab("o2_extraindexes", "default", "o2sys_extraindexes", "index_def");
 
 	o2def::index("index_def", "index_table","A", "index_fields","A");
 	o2def::index("index_name", "index_name","A");
+
 
 o2def::tab("jx_jobs", "default", "jx_jobs", "job_id");
 
@@ -180,6 +196,7 @@ o2def::tab("jx_jobs", "default", "jx_jobs", "job_id");
 	o2def::index("job_desc", "job_desc","A", "job_id","A");
 	o2def::index("job_prg", "job_prg","A", "job_id","A");
 	o2def::index("job_name", "job_name","A", "job_id","A");
+
 
 o2def::tab("jx_running_jobs", "default", "jx_running_jobs", "run_id");
 
@@ -214,6 +231,7 @@ o2def::tab("jx_running_jobs", "default", "jx_running_jobs", "run_id");
 	o2def::index("job_id", "job_id","A", "run_start_date","D", "run_start_time","D", "run_id","A");
 	o2def::index("run_sessid", "run_sessid","A", "run_id","A");
 
+
 o2def::tab("jx_scheduler", "default", "jx_scheduler", "sched_id");
 
 	o2def::field("sched_id", "sched_id", "jxscheduler_id");
@@ -228,9 +246,11 @@ o2def::tab("jx_scheduler", "default", "jx_scheduler", "sched_id");
 	o2def::field("sched_month_day", "sched_month_day", "jxsched_month_day");
 	o2def::field("sched_paused", "sched_paused", "_o2logical");
 	o2def::field("sched_aspid", "sched_aspid", "_o2alpha");
+	o2def::field("sched_all_hosts", "sched_all_hosts", "_o2logical");
 
 	o2def::index("sched_id", "sched_id","A");
 	o2def::index("sched_job", "sched_job","A", "sched_id","A");
+
 
 o2def::tab("jx_services", "default", "jx_services", "srv_host");
 
@@ -244,12 +264,14 @@ o2def::tab("jx_services", "default", "jx_services", "srv_host");
 	o2def::index("srv_service", "srv_service","A", "srv_host","A");
 	o2def::index("srv_host", "srv_host","A", "srv_service","A");
 
+
 o2def::tab("jx_hosts", "default", "jx_hosts", "host_host");
 
 	o2def::field("host_host", "host_host", "jxhost");
 	o2def::field("host_pids", "host_pids", "_o2text");
 
 	o2def::index("host_host", "host_host","A");
+
 
 o2def::tab("jx_translations", "default", "jx_translations", "lang_ctrl");
 
@@ -263,5 +285,6 @@ o2def::tab("jx_translations", "default", "jx_translations", "lang_ctrl");
 
 	o2def::index("lang_ctrl", "mlt_lang","A", "mlt_prg","A", "mlt_ctrl","A", "mlt_property","A", "mlt_prop_value","A");
 	o2def::index("lang_string", "mlt_lang","A", "mlt_base_str","A", "mlt_prg","A", "mlt_ctrl","A", "mlt_property","A", "mlt_prop_value","A");
+
 
 ?>

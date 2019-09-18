@@ -4029,6 +4029,22 @@ class o2_run_job {
                           $sched_id   = 0,
                           $host       = false) {
 
+        // _________________________________________________ Queue on all active hosts ___
+        if ($host == '*') {
+            $list = array();
+            foreach (o2_service::get_hosts() as $host) {
+                $list[] = self::queue($job,
+                                      $run_params,
+                                      $aspid,
+                                      $service,
+                                      $at_date,
+                                      $at_time,
+                                      $sched_id,
+                                      $host);
+                }
+            return $list;
+            }
+        // ___________________________________________ Queue on single host or service ___
         $app                = $_SESSION['o2_app'];
         $run_job            = new o2_run_job();
         $run_job->id        = $app->runtime->microtime();
@@ -5342,6 +5358,42 @@ class o2_service {
 
 
     /**
+     * Returns a list of registered (active) hosts
+     *
+     * @return array
+     */
+    static function get_hosts() {
+
+        $app      = $_SESSION['o2_app'];
+        $tab      = $app->get_table(self::$srv_table);
+        $db       = $tab->db;
+        $server   = $db->server;
+        $co       = constant('o2_'.$server->type.'_o');
+        $cc       = constant('o2_'.$server->type.'_c');
+        $f        = $tab->campi;
+        $select   = 'DISTINCT '.$f['srv_host'].' '.$co.'SRV_HOST'.$cc;
+        $srv_recs = o2_gateway::recordset($server->type,
+                                          $server->server,
+                                          $server->user,
+                                          $server->password,
+                                          $db->nome,
+                                          $db->proprietario,
+                                          $tab->nome,
+                                          'jx_services',
+                                          $select,
+                                          '',
+                                          '',
+                                          1000);
+        $list     = array();
+        foreach ($srv_recs as $srv_rec) {
+            $list[] = $srv_rec['SRV_HOST'];
+            }
+        return $list;
+
+        }
+
+
+    /**
      * Returns a list of matching services and hosts ready to be used as a TreeView
      * control items
      *
@@ -5750,6 +5802,7 @@ class o2_task {
     public $month_day   = 0;
     public $description = "";
     public $aspid       = false;
+    public $all_hosts   = false;
     public $paused      = false;
 
 
@@ -5764,7 +5817,8 @@ class o2_task {
                                 $week_day   = "",
                                 $month_day  = 0,
                                 $aspid      = false,
-                                $paused     = false) {
+                                $paused     = false,
+                                $all_hosts  = false) {
 
         $this->id         = intval($id);
         $this->job        = intval($job);
@@ -5777,6 +5831,7 @@ class o2_task {
         $this->week_day   = $week_day;
         $this->month_day  = intval($month_day);
         $this->aspid      = $aspid;
+        $this->all_hosts  = $all_hosts;
         $this->paused     = $paused;
 
         }
@@ -5817,6 +5872,7 @@ class o2_task {
                         $tab->campi["sched_week_day"]->nome_fisico,
                         $tab->campi["sched_month_day"]->nome_fisico,
                         $tab->campi["sched_aspid"]->nome_fisico,
+                        $tab->campi["sched_all_hosts"]->nome_fisico,
                         $tab->campi["sched_paused"]->nome_fisico);
         $id_val = ($this->id ? $this->id :
                    (count($exists) ?
@@ -5834,6 +5890,7 @@ class o2_task {
                         "'".$this->week_day."'",
                         $this->month_day,
                         "'".$this->aspid."'",
+                        "'".($this->all_hosts ? '1' : '0')."'",
                         "'".($this->paused ? '1' : '0')."'");
         o2_gateway::insertrec($server->type,
                               $server->server,
@@ -5885,9 +5942,10 @@ class o2_task {
                 $tab->campi["sched_week_day"]->nome_fisico   => "'".$this->week_day."'",
                 $tab->campi["sched_month_day"]->nome_fisico  => $this->month_day,
                 $tab->campi["sched_aspid"]->nome_fisico      => "'".$this->aspid."'",
-                $tab->campi["sched_paused"]->nome_fisico     => "'".
-                                                                ($this->paused ?
-                                                                 '1' : '0')."'"
+                $tab->campi["sched_all_hosts"]->nome_fisico  => "'".($this->all_hosts ?
+                                                                     '1' : '0')."'",
+                $tab->campi["sched_paused"]->nome_fisico     => "'".($this->paused ?
+                                                                     '1' : '0')."'"
                 );
         $where  = $tab->campi["sched_id"]->nome_fisico."=".$this->id;
         $res    = o2_gateway::modifyrec($server->type,
@@ -6403,6 +6461,7 @@ class o2_scheduler {
                   $f["sched_week_day"]." ".$co."SCHED_WEEK_DAY".$cc.",".
                   $f["sched_month_day"]." ".$co."SCHED_MONTH_DAY".$cc.",".
                   $f["sched_aspid"]." ".$co."SCHED_ASPID".$cc.",".
+                  $f["sched_all_hosts"]." ".$co."SCHED_ALL_HOSTS".$cc.",".
                   $f["sched_paused"]." ".$co."SCHED_PAUSED".$cc;
         $where  = $f["sched_id"]."='".$sched_id."'";
         $rec    = o2_gateway::recordset($server->type,
@@ -6430,7 +6489,8 @@ class o2_scheduler {
                                $rec["SCHED_WEEK_DAY"],
                                $rec["SCHED_MONTH_DAY"],
                                $rec["SCHED_ASPID"],
-                               $rec["SCHED_PAUSED"] === '1');
+                               $rec["SCHED_PAUSED"] === '1',
+                               $rec["SCHED_ALL_HOSTS"] === '1');
             }
         else {
             return false;
@@ -6531,6 +6591,7 @@ class o2_scheduler {
                   $f['sched_week_day'].' '.$co.'SCHED_WEEK_DAY'.$cc.','.
                   $f['sched_month_day'].' '.$co.'SCHED_MONTH_DAY'.$cc.','.
                   $f['sched_aspid'].' '.$co.'SCHED_ASPID'.$cc.','.
+                  $f['sched_all_hosts'].' '.$co.'SCHED_ALL_HOSTS'.$cc.','.
                   $f['sched_paused'].' '.$co.'SCHED_PAUSED'.$cc;
         $where  = $f['sched_paused']."<>'1'";
         $s_list = o2_gateway::recordset($server->type,
@@ -6551,21 +6612,28 @@ class o2_scheduler {
         $ret    = array();
         $srvs   = o2_service::get_all_host_services();
         foreach ($s_list as $s_idx => $sched_rec) {
-            if ($app->service_redirect) {
-                $service = $app->service_redirect;
+            if ($sched_rec['SCHED_ALL_HOSTS'] != '1') {
+                if ($app->service_redirect) {
+                    $service = $app->service_redirect;
+                    }
+                else {
+                    $job     = o2_job::get_by_id($sched_rec['SCHED_JOB']);
+                    $service = $job->service;
+                    }
+                if (!isset($srvs[$service])) {
+                    continue;
+                    }
+                $host = '';
                 }
             else {
-                $job     = o2_job::get_by_id($sched_rec['SCHED_JOB']);
-                $service = $job->service;
-                }
-            if (!isset($srvs[$service])) {
-                continue;
+                $host = $app->host;
                 }
             $todo     = false;
             $last_run = o2_run_job::get_last_job($sched_rec['SCHED_JOB'],
                                                  $sched_rec['SCHED_ASPID'],
                                                  '',
-                                                 $sched_rec['SCHED_ID']);
+                                                 $sched_rec['SCHED_ID'],
+                                                 $host);
             $last     = new DateTime();
             $last->setTimestamp($last_run ? $last_run->start : 0);
             switch ($sched_rec['SCHED_TYPE']) {

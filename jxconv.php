@@ -939,6 +939,11 @@ class upgrades_collection {
                               'host',
                               'host',
                               'jxhost');
+        $code = add_tab_field($code,
+                              'jx_scheduler',
+                              'sched_all_hosts',
+                              'sched_all_hosts',
+                              '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 

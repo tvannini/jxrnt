@@ -2,6 +2,7 @@
 
 function jxtask§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("sched_all_hosts", "_o2logical");
 	$task_prg§_§var->definisci("sched_aspid", "_o2alpha");
 	$task_prg§_§var->definisci("sched_date", "_o2date");
 	$task_prg§_§var->definisci("sched_id", "jxscheduler_id");
@@ -33,50 +34,50 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 	$form_jxtask_1->x(240);
 	$form_jxtask_1->y(50);
 	$form_jxtask_1->larghezza(450);
-	$form_jxtask_1->altezza(500);
+	$form_jxtask_1->altezza(520);
 	$form_jxtask_1->align_o("Center");
 	$form_jxtask_1->titolo("Scheduled task");
 	$form_jxtask_1->frm_status(jxtask_exp_4());
 	$form_jxtask_1->css_doc("sys_sched_doc");
 	$ctrl_o2label14 = &$form_jxtask_1->ctrldef("o2label14", "label", "", "", "");
 		$ctrl_o2label14->x(150);
-		$ctrl_o2label14->y(370);
+		$ctrl_o2label14->y(390);
 		$ctrl_o2label14->larghezza(270);
 		$ctrl_o2label14->altezza(20);
 		$ctrl_o2label14->label(jxtask_exp_22());
 	$ctrl_o2label15 = &$form_jxtask_1->ctrldef("o2label15", "label", "", "", "");
 		$ctrl_o2label15->x(50);
-		$ctrl_o2label15->y(350);
+		$ctrl_o2label15->y(370);
 		$ctrl_o2label15->larghezza(100);
 		$ctrl_o2label15->altezza(20);
 		$ctrl_o2label15->label("Scheduled:");
 	$ctrl_o2label16 = &$form_jxtask_1->ctrldef("o2label16", "label", "", "", "");
 		$ctrl_o2label16->x(50);
-		$ctrl_o2label16->y(370);
+		$ctrl_o2label16->y(390);
 		$ctrl_o2label16->larghezza(100);
 		$ctrl_o2label16->altezza(20);
 		$ctrl_o2label16->label("Next run:");
 	$ctrl_o2label13 = &$form_jxtask_1->ctrldef("o2label13", "label", "", "", "");
 		$ctrl_o2label13->x(150);
-		$ctrl_o2label13->y(350);
+		$ctrl_o2label13->y(370);
 		$ctrl_o2label13->larghezza(270);
 		$ctrl_o2label13->altezza(20);
 		$ctrl_o2label13->label(jxtask_exp_25());
 	$ctrl_o2separator2 = &$form_jxtask_1->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(30);
-		$ctrl_o2separator2->y(400);
+		$ctrl_o2separator2->y(420);
 		$ctrl_o2separator2->larghezza(390);
 		$ctrl_o2separator2->altezza(2);
 	$ctrl_o2multipage5 = &$form_jxtask_1->ctrldef("o2multipage5", "multipage", "", "", "");
 		$ctrl_o2multipage5->x(30);
 		$ctrl_o2multipage5->y(30);
 		$ctrl_o2multipage5->larghezza(390);
-		$ctrl_o2multipage5->altezza(150);
+		$ctrl_o2multipage5->altezza(170);
 		$ctrl_o2multipage5->label(array("Task"));
 		$ctrl_o2multipage5->buttons("T");
 	$ctrl_o2multipage2 = &$form_jxtask_1->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(30);
-		$ctrl_o2multipage2->y(200);
+		$ctrl_o2multipage2->y(220);
 		$ctrl_o2multipage2->larghezza(390);
 		$ctrl_o2multipage2->altezza(130);
 		$ctrl_o2multipage2->visibile(jxtask_exp_10());
@@ -84,7 +85,7 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 		$ctrl_o2multipage2->buttons("T");
 	$ctrl_o2multipage3 = &$form_jxtask_1->ctrldef("o2multipage3", "multipage", "", "", "");
 		$ctrl_o2multipage3->x(30);
-		$ctrl_o2multipage3->y(200);
+		$ctrl_o2multipage3->y(220);
 		$ctrl_o2multipage3->larghezza(390);
 		$ctrl_o2multipage3->altezza(130);
 		$ctrl_o2multipage3->visibile(jxtask_exp_11());
@@ -92,7 +93,7 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 		$ctrl_o2multipage3->buttons("T");
 	$ctrl_o2multipage4 = &$form_jxtask_1->ctrldef("o2multipage4", "multipage", "", "", "");
 		$ctrl_o2multipage4->x(30);
-		$ctrl_o2multipage4->y(200);
+		$ctrl_o2multipage4->y(220);
 		$ctrl_o2multipage4->larghezza(390);
 		$ctrl_o2multipage4->altezza(130);
 		$ctrl_o2multipage4->visibile(jxtask_exp_12());
@@ -100,7 +101,7 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 		$ctrl_o2multipage4->buttons("T");
 	$ctrl_o2button2 = &$form_jxtask_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(330);
-		$ctrl_o2button2->y(420);
+		$ctrl_o2button2->y(440);
 		$ctrl_o2button2->larghezza(90);
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("save");
@@ -108,7 +109,7 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 		$ctrl_o2button2->css(jxtask_exp_43());
 	$ctrl_o2button3 = &$form_jxtask_1->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(230);
-		$ctrl_o2button3->y(420);
+		$ctrl_o2button3->y(440);
 		$ctrl_o2button3->larghezza(90);
 		$ctrl_o2button3->altezza(30);
 		$ctrl_o2button3->azione("close");
@@ -257,11 +258,18 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 		$ctrl_o2label4->label("Repeat:");
 	$ctrl_o2label17 = &$form_jxtask_1->ctrldef("o2label17", "label", "o2multipage5", "", "");
 		$ctrl_o2label17->x(20);
-		$ctrl_o2label17->y(120);
+		$ctrl_o2label17->y(140);
 		$ctrl_o2label17->larghezza(100);
 		$ctrl_o2label17->altezza(20);
 		$ctrl_o2label17->info_padre(array(0));
 		$ctrl_o2label17->label("Pause:");
+	$ctrl_o2label18 = &$form_jxtask_1->ctrldef("o2label18", "label", "o2multipage5", "", "");
+		$ctrl_o2label18->x(20);
+		$ctrl_o2label18->y(120);
+		$ctrl_o2label18->larghezza(100);
+		$ctrl_o2label18->altezza(20);
+		$ctrl_o2label18->info_padre(array(0));
+		$ctrl_o2label18->label("All active hosts:");
 	$ctrl_o2edit2 = &$form_jxtask_1->ctrldef("o2edit2", "edit", "o2multipage5", "prg§_§var", "sched_id");
 		$ctrl_o2edit2->x(120);
 		$ctrl_o2edit2->y(40);
@@ -291,7 +299,7 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 		$ctrl_o2ListBox3->righe(1);
 	$ctrl_o2checkbox3 = &$form_jxtask_1->ctrldef("o2checkbox3", "check", "o2multipage5", "prg§_§var", "sched_paused");
 		$ctrl_o2checkbox3->x(120);
-		$ctrl_o2checkbox3->y(120);
+		$ctrl_o2checkbox3->y(140);
 		$ctrl_o2checkbox3->larghezza(20);
 		$ctrl_o2checkbox3->altezza(20);
 		$ctrl_o2checkbox3->info_padre(array(0));
@@ -304,6 +312,12 @@ function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 		$ctrl_o2ListBox6->info_padre(array(0));
 		$ctrl_o2ListBox6->valori(jxtask_exp_38());
 		$ctrl_o2ListBox6->righe(1);
+	$ctrl_o2checkbox2 = &$form_jxtask_1->ctrldef("o2checkbox2", "check", "o2multipage5", "prg§_§var", "sched_all_hosts");
+		$ctrl_o2checkbox2->x(120);
+		$ctrl_o2checkbox2->y(120);
+		$ctrl_o2checkbox2->larghezza(20);
+		$ctrl_o2checkbox2->altezza(20);
+		$ctrl_o2checkbox2->info_padre(array(0));
 		}
 
 function jxtask§§change_desc_act(&$o2exe) {
@@ -347,6 +361,7 @@ function jxtask§§read_task_act(&$o2exe) {
 	$o2exe->s(11) && True && o2act::set("prg§_§var", "sched_month_day", jxtask_exp_34()) && $o2exe->e();
 	$o2exe->s(12) && True && o2act::set("prg§_§var", "sched_paused", jxtask_exp_35()) && $o2exe->e();
 	$o2exe->s(13) && True && o2act::set("prg§_§var", "sched_aspid", jxtask_exp_37()) && $o2exe->e();
+	$o2exe->s(14) && True && o2act::set("prg§_§var", "sched_all_hosts", jxtask_exp_44()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxtask§§save_act(&$o2exe) {
@@ -588,7 +603,8 @@ $task = new o2_task($id,
                     o2val('prg§_§var','sched_week_day'),
                     o2val('prg§_§var','sched_month_day'),
                     o2val('prg§_§var','sched_aspid'),
-                    o2val('prg§_§var','sched_paused'));
+                    o2val('prg§_§var','sched_paused'),
+                    o2val('prg§_§var','sched_all_hosts'));
 if ($id) {                    
    $task->save();
    }
@@ -644,5 +660,11 @@ return (' jxbtn_cancel');
 function jxtask_exp_43() {
 	
 return (' jxbtn_save');
+	} //|o2_fine_exp|
+
+function jxtask_exp_44() {
+	$task      = o2val('prg§_§var','sched_obj');
+$all_hosts = $task->all_hosts;
+return ($all_hosts);
 	} //|o2_fine_exp|
 ?>

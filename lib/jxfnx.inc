@@ -1512,6 +1512,7 @@ function o2job_enable($job_name, $on = true) {
  * program called by job.
  * If a host name is provided then execution is assigned directly to that host, regardless
  * of services logics.
+ * If "*" (star) is passed for host parameter then job is queued for all active hosts.
  * NOTE: If no host name is provided execution can be assigned to local host by
  *       application settings: see "jobs_use_local_host" parameter in application
  *       settings.
@@ -1708,6 +1709,7 @@ function o2job_proc_kill($runjob_id) {
  * @param   string  $week_day     Day of week [Mon|Tue|Wed|Thu|Fri|Sat|Sun]
  * @param   integer $month_day    Day of month [0-31]
  * @param   string  $aspid        ASPI-ID to run job for
+ * @param   boolean $all_hosts    Run job on all active hosts
  * @return  integer
  * @see     o2job_create()
  * @see     o2job_get_by_name()
@@ -1722,7 +1724,8 @@ function o2job_schedule($job_name,
                         $recurrence = "D",
                         $week_day   = "",
                         $month_day  = 0,
-                        $aspid      = "") {
+                        $aspid      = "",
+                        $all_hosts  = false) {
 
     if ($job = o2_job::get_by_name($job_name)) {
         $app  = $_SESSION["o2_app"];
@@ -1736,7 +1739,9 @@ function o2job_schedule($job_name,
                             $recurrence,
                             $week_day,
                             $month_day,
-                            $aspid);
+                            $aspid,
+                            false,
+                            $all_hosts);
         return $task->create();
         }
     else {
