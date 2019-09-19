@@ -893,9 +893,11 @@ class upgrades_collection {
      *
      * Add fields to system tables:
      *  - jx_running_jobs
-     *     - run_sessid   Session ID of process
+     *     - run_sessid        Session ID of process
      *  - o2_sessions:
-     *     - run_mode   Session execution mode [WEB | JOB | CMD | RPC]
+     *     - run_mode          Session execution mode [WEB | JOB | CMD | RPC]
+     *  - jx_scheduler:
+     *     - sched_all_hosts   Flag to schedule task for all active hosts
      *
      * @param string $app_name Application name
      * @param jxdir  $app_dir  Application root directory
