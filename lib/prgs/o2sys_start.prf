@@ -51,16 +51,6 @@ function o2sys_start§§sessions_def(&$task_sessions, $_o2viewalias = "") {
 	$task_sessions->usa("host","sessions","host",null,null,null,null);
 }
 
-function o2sys_start§§free_sessions_def(&$task_free_sessions, $_o2viewalias = "") {
-	$task_free_sessions->righe_vis = 10;
-
-	$task_free_sessions->usa_file("o2_sessions","sessions","expire",null,null);
-
-	$task_free_sessions->usa("e_date","sessions","e_date",null,null,null,null);
-	$task_free_sessions->usa("e_time","sessions","e_time",null,null,null,null);
-	$task_free_sessions->calcola("expire_timestamp", "o2sys_start_exp_38()",null,"o2sys_start_exp_39()",null,null);
-}
-
 function o2sys_start§§root_lookup_def(&$task_root_lookup, $_o2viewalias = "") {
 	$task_root_lookup->righe_vis = 1;
 
@@ -144,10 +134,6 @@ function o2sys_start§§db_session_act(&$o2exe) {
 	$o2exe->s(13) && True && o2act::set("sessions", "run_mode", o2sys_start_exp_59()) && $o2exe->e();
 	$o2exe->s(14) && True && o2act::set("sessions", "host", o2sys_start_exp_60()) && $o2exe->e();
 	$o2exe->s(15) && True && o2act::view("sessions", "S", "") && $o2exe->e();
-	} //|o2_fine_act|
-
-function o2sys_start§§delete_dbsession_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::view("free_sessions", "C", "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§insert_jxsys_act(&$o2exe) {
@@ -258,11 +244,10 @@ function o2sys_start§§login_std_act(&$o2exe) {
 
 function o2sys_start§§session_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "expire", o2sys_start_exp_17()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::exe("delete_dbsession", False, "free_sessions") && $o2exe->e();
-//	$o2exe->s(3) && True && o2act::remark("Set Terminal-ID") && $o2exe->e();
-	$o2exe->s(4) && True && o2act::exe("terminal_id", True, "") && $o2exe->e();
-//	$o2exe->s(5) && True && o2act::remark("========== DATABASE SESSIONS =========") && $o2exe->e();
-	$o2exe->s(6) && True && o2act::exe("db_session", True, "") && $o2exe->e();
+//	$o2exe->s(2) && True && o2act::remark("Set Terminal-ID") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("terminal_id", True, "") && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("========== DATABASE SESSIONS =========") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::exe("db_session", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§start_act(&$o2exe) {
@@ -465,11 +450,6 @@ function o2sys_start_exp_26() {
 return ('jxsys');
 	} //|o2_fine_exp|
 
-function o2sys_start_exp_27() {
-	
-return ((o2rnt_interface() != "HTML" ? o2app_dir_htdocs() : "").o2app_nologin());
-	} //|o2_fine_exp|
-
 function o2sys_start_exp_28() {
 	$cond = (o2app_validate() == 1);
 return ($cond);
@@ -488,11 +468,6 @@ return (o2val('roles','role_name'));
 function o2sys_start_exp_31() {
 	$list = array_merge(o2val('prg§_§var','rights'), o2_view2list("rights_per_role", "right_code", "right_code"));
 return ($list);
-	} //|o2_fine_exp|
-
-function o2sys_start_exp_32() {
-	
-return (o2app_user() != "root");
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_33() {
@@ -519,23 +494,6 @@ return ($list);
 function o2sys_start_exp_37() {
 	
 return (o2val('prg§_§var','terminal_id'));
-	} //|o2_fine_exp|
-
-function o2sys_start_exp_38() {
-	$e_date = o2val('free_sessions','e_date');
-$e_time = o2val('free_sessions','e_time');
-$expire = mktime(substr($e_time, 0, 2),
-                 substr($e_time, 2, 2),
-                 substr($e_time, 4),
-                 substr($e_date, 4, 2),
-                 substr($e_date, 6),
-                 substr($e_date, 0, 4));
-return ($expire);
-	} //|o2_fine_exp|
-
-function o2sys_start_exp_39() {
-	
-return (o2val('prg§_§var','now'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_40() {

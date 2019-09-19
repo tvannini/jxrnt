@@ -912,13 +912,84 @@ class o2_app {
      */
     function maintenance() {
 
+        $sessions = $this->get_table('o2_sessions');
+        $db       = $sessions->db;
+        $server   = $db->server;
+        $f        = $sessions->campi;
+        // ==================================================== Clear expired sessions ===
+        $today    = "'".date('Ymd')."'";
+        $now      = "'".date('His')."'";
+        $where    = $f['e_date'].'<'.$today.' OR ('.
+                    $f['e_date'].'='.$today.' AND '.$f['e_time'].'<'.$now.')';
+        o2_gateway::deleterec($server->type,
+                              $server->server,
+                              $server->user,
+                              $server->password,
+                              $db->nome,
+                              $db->proprietario,
+                              $sessions->nome,
+                              "jxsessions",
+                              $where);
+        // ============================= Clear jobs sessions without process (run-job) ===
+        $runjobs  = $this->get_table(o2_run_job::$run_table);
+        $run_db   = $runjobs->db;
+        $run_srv  = $run_db->server;
+        $co       = constant("o2_".$run_srv->type."_o");
+        $cc       = constant("o2_".$run_srv->type."_c");
+        $recs     = o2_gateway::recordset($run_srv->type,
+                                          $run_srv->server,
+                                          $run_srv->user,
+                                          $run_srv->password,
+                                          $run_db->nome,
+                                          $run_db->proprietario,
+                                          $runjobs->nome,
+                                          "jxrunjobs",
+                                          $runjobs->campi['run_sessid'].' '.$co.'SID'.$cc,
+                                          false,
+                                          false,
+                                          10000);
+        $run_list = array();
+        // __________________________________________ Get list of SessIDs on processes ___
+        foreach ($recs as $rec) {
+            $run_list[] = $rec['SID'];
+            }
+        $co    = constant("o2_".$server->type."_o");
+        $cc    = constant("o2_".$server->type."_c");
+        $where = $f['run_mode']."='JOB'";
+        $recs  = o2_gateway::recordset($server->type,
+                                       $server->server,
+                                       $server->user,
+                                       $server->password,
+                                       $db->nome,
+                                       $db->proprietario,
+                                       $sessions->nome,
+                                       "jxsessions",
+                                       $f['sid'].' '.$co.'SID'.$cc,
+                                       $where,
+                                       false,
+                                       10000);
+        // ______________________________________ Get list of sessions created by jobs ___
+        $job_sess = array();
+        foreach ($recs as $rec) {
+            $jobs_sess[] = $rec['SID'];
+            }
+        // ____________________________________ Delete session records without process ___
+        foreach ($jobs_sess as $sid) {
+            if (!in_array($sid, $run_list)) {
+                $where = $f['sid']."='".$sid."'";
+                o2_gateway::deleterec($server->type,
+                                      $server->server,
+                                      $server->user,
+                                      $server->password,
+                                      $db->nome,
+                                      $db->proprietario,
+                                      $sessions->nome,
+                                      "jxsessions",
+                                      $where);
+                }
+            }
         // ====================================== Clear obsolete users TMP directories ===
-        $active_sess = array(); // ___________________________________ Active sessions ___
-        $sessions    = $this->get_table('o2_sessions');
-        $db          = $sessions->db;
-        $server      = $db->server;
-        $sid         = $sessions->campi['sid']->phys_name;
-        $list        = o2_gateway::recordset($server->type,
+        $recs        = o2_gateway::recordset($server->type,
                                              $server->server,
                                              $server->user,
                                              $server->password,
@@ -926,17 +997,14 @@ class o2_app {
                                              $db->proprietario,
                                              $sessions->nome,
                                              "jxsessions",
-                                             $sessions->campi['sid']->nome_fisico,
+                                             $f['sid'].' '.$co.'SID'.$cc,
                                              false,
                                              false,
                                              10000);
-        foreach ($list as $rec) {
-            if ($rec[$sid]) {
-                $active_sess[] = $rec[$sid];
-                }
-            elseif ($rec[strtoupper($sid)]) {
-                $active_sess[] = $rec[strtoupper($sid)];
-                }
+        $active_sess = array();
+        // _______________________________________________ Get list of active sessions ___
+        foreach ($recs as $rec) {
+            $active_sess[] = $rec['SID'];
             }
         // ____________________________________________________ Loop on users TMP dirs ___
         $users_dirs = new o2_dir($this->dir_home."/users/");
