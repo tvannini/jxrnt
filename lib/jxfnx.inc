@@ -662,24 +662,17 @@ function o2_reqpar($par_id) {
 /**
  * In HTML disposes requested file for download and returns the url leading to it.
  *
- * Second parameter $mode is effective in HTML context only. It can take one of three
- * values:
- *  = 1 File is forced to download by headers;
- *  = 2 File is always disposed by Transitional File System (TRN)
- *  = 0 (or any other value) file is delivered as a Stream Resource or TRN depending on
- *      application .INI parameter "trn_deliver".
- *
- * @param  string  $local_file   Local path to file to deliver
- * @param  integer $mode         1=Force download; 2=Force TRN; else default
+ * @param  string  $local_file      Local path to file to deliver
+ * @param  integer $force_download  TRUE=Force download, FALSE=Can be used on-line (PDF)
  * @return string
  */
-function o2_path($local_file, $mode = 0) {
+function o2_path($local_file, $force_download = false) {
 
     $app      = $_SESSION['o2_app'];
     $ret_path = "";
     switch ($app->runtime->interface) {
         case "HTML":
-            $ret_path = $app->file2http($local_file, $mode);
+            $ret_path = $app->file2http($local_file, $force_download);
             break;
         case "BAT":
         default:
@@ -713,7 +706,7 @@ function o2_encode($string) {
  * File is sent to client without a user's click on link.
  *
  * Correct use to send a local file by path:
- *  o2_send(o2_path($file, 1))
+ *  o2_send(o2_path($file, true))
  *
  * @param  string $file_url   URL to file to send
  */
