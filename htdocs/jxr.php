@@ -44,6 +44,10 @@ include_once '../jxrnt.php';
 session_name($_REQUEST["JXSESSNAME"]);
 if (session_start()) {
     $app = $_SESSION['o2_app'];
+    // _________________________________________________________________________ JXSQL ___
+    if ($app->jxsql) {
+        include_once $app->runtime->dir_dbms.'jxsql.inc';
+        }
     // _____________________________________________________ Server side extra scripts ___
     if ($app->file_server_inc) {
         include_once $app->dir_progs.$app->file_server_inc;

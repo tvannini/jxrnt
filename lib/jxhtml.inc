@@ -112,6 +112,10 @@ class o2html {
         if ($app->chr_encoding == "UTF-8") {
             mb_http_output($app->chr_encoding);
             }
+        // _____________________________________________________________________ JXSQL ___
+        if ($app->jxsql) {
+            include_once $app->runtime->dir_dbms.'jxsql.inc';
+            }
         // ____________________________ Server side extra script inclusion (extra.inc) ___
         if ($app->file_server_inc) {
             include_once $app->dir_progs.$app->file_server_inc;

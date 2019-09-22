@@ -474,7 +474,7 @@ $list = array(
    "tables_create" => array("rntval" => null,
                             "appval" => null,
                             "desc" => "   *** Tables automatic creation ***\n\n".
-                                      "Enables tables tables creation at login.\n\n".
+                                      "Enables tables creation at login.\n\n".
                                       "ATTENTION: This option enables tables creation for the Janox runtime, ".
                                       "but tables will be created only for databases with \"manage_tables\" flag ON.\n",
                          "default" => "on",
@@ -534,6 +534,12 @@ $list = array(
                                         " \",,,m_user\"\n".
                                         "to trace the last-update-user only.",
                            "default" => ""),
+   "jxsql" => array("rntval" => null,
+                    "appval" => null,
+                    "desc" => "   *** Enable internal JXSQL ***\n\n".
+                              "Enables using Janox internal JXSQL parser.\n",
+                         "default" => "off",
+                         "values" => array("off", "on")),
    "profiling" => array("rntval" => null,
                         "appval" => null,
                         "desc" => "   *** Runtime profiling (displaying/hiding controls by rights) ***\n\n".
@@ -1335,6 +1341,7 @@ function o2sys_iniconf_exp_34() {
               "errors_log",
               "warning_log",
               "reporter",
+              "jxsql",
               "",
               "decimals",
               "thousands",

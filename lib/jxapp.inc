@@ -177,6 +177,7 @@ class o2_app {
     public $errors_inc      = false;   /* File name to be included for custom error msgs*/
     public $custom_response = false;   /* FALSE or buffer length for custom output      */
     public $network_errors  = false;   /* Enables network errors reporting (alert)      */
+    public $jxsql           = false;   /* Enables internal JXSQL parser                 */
     /**
      * @var o2_ctrl_listcombo
      */
@@ -411,6 +412,10 @@ class o2_app {
         // _______________________________________________________________ NEW SESSION ___
         $_SESSION['o2_app'] = new o2_app($release);
         $app                = $_SESSION['o2_app'];
+        // _____________________________________________________________________ JXSQL ___
+        if ($app->jxsql) {
+            include_once $app->runtime->dir_dbms.'jxsql.inc';
+            }
         // ____________________________ Server side extra script inclusion (extra.inc) ___
         if ($app->file_server_inc) {
             include_once($app->dir_progs.$app->file_server_inc);
@@ -1320,6 +1325,9 @@ class o2_app {
         if (isset($conf['footer'])) {
             $this->pagina_dopo = $conf['footer'];
             }
+        if (isset($conf['jxsql'])) {
+            $this->jxsql = ($conf['jxsql'] ? true : false);
+            }
         if (isset($conf['extrainc'])) {
             $this->file_server_inc = $conf['extrainc'];
             }
@@ -2197,6 +2205,10 @@ class o2_app {
      */
     function rpc_exe() {
 
+        // _____________________________________________________________________ JXSQL ___
+        if ($this->jxsql) {
+            include_once $this->runtime->dir_dbms.'jxsql.inc';
+            }
         // ____________________________ Server side extra script inclusion (extra.inc) ___
         if ($this->file_server_inc) {
             include_once $this->dir_progs.$this->file_server_inc;
