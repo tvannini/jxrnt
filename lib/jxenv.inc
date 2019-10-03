@@ -1519,7 +1519,7 @@ class o2_dbview extends o2_view {
     public $bulk_mode       = false;   /* Multiple inserts cached in a single statement */
     public $bulk_cache      = array(); /* Cached records for bulk-mode insert           */
     public $bulk_fields     = array(); /* List of fields valued in bulk-mode            */
-    public $bulk_defaults   = array(); /* List default values to use for missing fields */
+    public $bulk_defaults   = array(); /* List of defaults to use for missing values    */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
     public $statement       = null;  /* PDO Statement opened on view (if any)           */
     public $offset_ini      = 0;     /* First recordset row index in whole file         */
@@ -3956,11 +3956,11 @@ class o2_dbview extends o2_view {
                 }
             }
         if ($ret_local) {
-            if ($this->status == "I") {
+            if ($this->status == 'I') {
                 $this->direzione = 100;
                 $this->crea_recordset();
                 }
-            $this->status         = "M";
+            $this->status         = 'M';
             $this->modificato     = false;
             $this->corrente       = $this->precedente;
             $this->suffix_running = false;
@@ -4659,18 +4659,18 @@ class o2_dbview extends o2_view {
         if ($app->record_trace &&
             (!isset($GLOBALS['jxtracesuspend']) ||
              !in_array($this->file->repos_index, $GLOBALS['jxtracesuspend']))) {
-            $trace_c_user = $this->file->record_trace["cu"];
-            $trace_c_date = $this->file->record_trace["cd"];
-            $trace_c_time = $this->file->record_trace["ct"];
-            $trace_u_user = $this->file->record_trace["uu"];
-            $trace_u_date = $this->file->record_trace["ud"];
-            $trace_u_time = $this->file->record_trace["ut"];
-            $app_c_user   = $app->record_trace["cu"];
-            $app_c_date   = $app->record_trace["cd"];
-            $app_c_time   = $app->record_trace["ct"];
-            $app_u_user   = $app->record_trace["uu"];
-            $app_u_date   = $app->record_trace["ud"];
-            $app_u_time   = $app->record_trace["ut"];
+            $trace_c_user = $this->file->record_trace['cu'];
+            $trace_c_date = $this->file->record_trace['cd'];
+            $trace_c_time = $this->file->record_trace['ct'];
+            $trace_u_user = $this->file->record_trace['uu'];
+            $trace_u_date = $this->file->record_trace['ud'];
+            $trace_u_time = $this->file->record_trace['ut'];
+            $app_c_user   = $app->record_trace['cu'];
+            $app_c_date   = $app->record_trace['cd'];
+            $app_c_time   = $app->record_trace['ct'];
+            $app_u_user   = $app->record_trace['uu'];
+            $app_u_date   = $app->record_trace['ud'];
+            $app_u_time   = $app->record_trace['ut'];
             }
         foreach ($this->campi as $singolo_campo) {
             if ($singolo_campo->file == $this->file->indice) {
@@ -4723,16 +4723,16 @@ class o2_dbview extends o2_view {
                         }
                     $f_name = $singolo_campo->nome_fisico;
                     switch ($singolo_campo->maschera->tipo) {
-                        case "A": // ___________________________________________ Alpha ___
-                        case "S": // _______________________________________ Structure ___
+                        case 'A': // ___________________________________________ Alpha ___
+                        case 'S': // _______________________________________ Structure ___
                             $update_arr[$f_name] = "'".o2_gateway::normalize($db_type,
                                                                              $value)."'";
                             break;
-                        case "D":
-                        case "O":
+                        case 'D':
+                        case 'O':
                             $update_arr[$f_name] = "'".$value."'";
                             break;
-                        case "L": // _________________________________________ Logical ___
+                        case 'L': // _________________________________________ Logical ___
                             $update_arr[$f_name] = ($value ? "'1'" : "'0'");
                             break;
                         default:
@@ -4752,9 +4752,9 @@ class o2_dbview extends o2_view {
                                                true);
             // ___________________________________________________ Manage log by level ___
             if ($app->tables_log &&
+                ($this->file->log_level == 'C' || $this->file->log_level == 'M') &&
                 (!isset($GLOBALS['jxlogsuspend']) ||
-                 !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
-                ($this->file->log_level == "C" || $this->file->log_level == "M")) {
+                 !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend']))) {
                 // ______________________ Skip multiple record changes for transaction ___
                 if (o2_gateway::use_key_once($db_type,
                                              $this->file->db->server->server,
@@ -4771,10 +4771,10 @@ class o2_dbview extends o2_view {
                                              "'";
                 }
             if ($trace_u_date) {
-                $update_arr[$trace_u_date] = "'".date("Ymd")."'";
+                $update_arr[$trace_u_date] = "'".date('Ymd')."'";
                 }
             if ($trace_u_time) {
-                $update_arr[$trace_u_time] = "'".date("His")."'";
+                $update_arr[$trace_u_time] = "'".date('His')."'";
                 }
             $ret_val = o2_gateway::modifyrec($db_type,
                                              $this->file->db->server->server,
@@ -4788,10 +4788,10 @@ class o2_dbview extends o2_view {
                                              $prev_key);
             // ___________________________________________________ Manage log by level ___
             if ($app->tables_log &&
+                $this->file->log_level == 'R' &&
                 (!isset($GLOBALS['jxlogsuspend']) ||
-                 !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
-                $this->file->log_level == "R") {
-                $this->log_write("R");
+                 !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend']))) {
+                $this->log_write('R');
                 }
             }
         $this->precedente = $this->corrente;
@@ -4825,18 +4825,18 @@ class o2_dbview extends o2_view {
         if ($app->record_trace &&
             (!isset($GLOBALS['jxtracesuspend']) ||
              !in_array($this->file->repos_index, $GLOBALS['jxtracesuspend']))) {
-            $trace_c_user = $this->file->record_trace["cu"];
-            $trace_c_date = $this->file->record_trace["cd"];
-            $trace_c_time = $this->file->record_trace["ct"];
-            $trace_u_user = $this->file->record_trace["uu"];
-            $trace_u_date = $this->file->record_trace["ud"];
-            $trace_u_time = $this->file->record_trace["ut"];
-            $app_c_user   = $app->record_trace["cu"];
-            $app_c_date   = $app->record_trace["cd"];
-            $app_c_time   = $app->record_trace["ct"];
-            $app_u_user   = $app->record_trace["uu"];
-            $app_u_date   = $app->record_trace["ud"];
-            $app_u_time   = $app->record_trace["ut"];
+            $trace_c_user = $this->file->record_trace['cu'];
+            $trace_c_date = $this->file->record_trace['cd'];
+            $trace_c_time = $this->file->record_trace['ct'];
+            $trace_u_user = $this->file->record_trace['uu'];
+            $trace_u_date = $this->file->record_trace['ud'];
+            $trace_u_time = $this->file->record_trace['ut'];
+            $app_c_user   = $app->record_trace['cu'];
+            $app_c_date   = $app->record_trace['cd'];
+            $app_c_time   = $app->record_trace['ct'];
+            $app_u_user   = $app->record_trace['uu'];
+            $app_u_date   = $app->record_trace['ud'];
+            $app_u_time   = $app->record_trace['ut'];
             }
         foreach ($this->campi as $singolo_campo) {
             if ($singolo_campo->file == $this->file->indice) {
@@ -4874,16 +4874,16 @@ class o2_dbview extends o2_view {
                         $trace_u_time = false;
                         }
                     switch ($singolo_campo->maschera->tipo) {
-                        case "A": // ___________________________________________ Alpha ___
-                        case "S": // _______________________________________ Structure ___
+                        case 'A': // ___________________________________________ Alpha ___
+                        case 'S': // _______________________________________ Structure ___
                             $insert_valori_arr[] = "'".o2_gateway::normalize($db_type,
                                                         $this->corrente[$field_name])."'";
                             break;
-                        case "D": // ____________________________________________ Date ___
-                        case "O": // ____________________________________________ Time ___
+                        case 'D': // ____________________________________________ Date ___
+                        case 'O': // ____________________________________________ Time ___
                             $insert_valori_arr[] = "'".$this->corrente[$field_name]."'";
                             break;
-                        case "L": // _________________________________________ Logical ___
+                        case 'L': // _________________________________________ Logical ___
                             $insert_valori_arr[] = ($this->corrente[$field_name] ?
                                                     "'1'" : "'0'");
                             break;
@@ -4904,11 +4904,11 @@ class o2_dbview extends o2_view {
                 }
             if ($trace_c_date) {
                 $insert_nomi_arr[]   = $trace_c_date;
-                $insert_valori_arr[] = "'".date("Ymd", $t)."'";
+                $insert_valori_arr[] = "'".date('Ymd', $t)."'";
                 }
             if ($trace_c_time) {
                 $insert_nomi_arr[]   = $trace_c_time;
-                $insert_valori_arr[] = "'".date("His", $t)."'";
+                $insert_valori_arr[] = "'".date('His', $t)."'";
                 }
             if ($trace_u_user) {
                 $insert_nomi_arr[]   = $trace_u_user;
@@ -4916,11 +4916,11 @@ class o2_dbview extends o2_view {
                 }
             if ($trace_u_date) {
                 $insert_nomi_arr[]   = $trace_u_date;
-                $insert_valori_arr[] = "'".date("Ymd", $t)."'";
+                $insert_valori_arr[] = "'".date('Ymd', $t)."'";
                 }
             if ($trace_u_time) {
                 $insert_nomi_arr[]   = $trace_u_time;
-                $insert_valori_arr[] = "'".date("His", $t)."'";
+                $insert_valori_arr[] = "'".date('His', $t)."'";
                 }
             // ______________________________________________________ Bulk insert mode ___
             if ($this->bulk_mode) {
@@ -4941,7 +4941,8 @@ class o2_dbview extends o2_view {
                 }
             }
         // _______________________________________________________ Manage log by level ___
-        if ($app->tables_log &&
+        if ($app->tables_log && $this->file->log_level &&
+            !$this->bulk_mode &&
             (!isset($GLOBALS['jxlogsuspend']) ||
              !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend']))) {
             // ____________________________ Save record key for in-transaction updates ___
@@ -4957,11 +4958,11 @@ class o2_dbview extends o2_view {
                                      $this->file->db->server->user,
                                      $this->file->write_name,
                                      $rec_key);
-            if ($this->file->log_level == "R") {
-                $this->log_write("I");
+            if ($this->file->log_level == 'R') {
+                $this->log_write('I');
                 }
-            elseif ($this->file->log_level == "I" || $this->file->log_level == "E") {
-                $this->file->log_write_full("I", $rec_key);
+            elseif ($this->file->log_level == 'I' || $this->file->log_level == 'E') {
+                $this->file->log_write_full('I', $rec_key);
                 }
             }
         $this->totale_record++;
@@ -4995,19 +4996,19 @@ class o2_dbview extends o2_view {
         if (count($this->recordset) > $this->righe_vis) {
             if ($this->selezione == ($this->righe_vis - 1)) {
                 array_shift($this->recordset);
-                $this->status     = "I";
+                $this->status     = 'I';
                 $this->modificato = false;
                 $this->seleziona_riga($this->selezione);
                 }
             else {
                 array_pop($this->recordset);
-                $this->status     = "I";
+                $this->status     = 'I';
                 $this->modificato = false;
                 $this->seleziona_riga($this->selezione + 1);
                 }
             }
         else {
-            $this->status     = "I";
+            $this->status     = 'I';
             $this->modificato = false;
             $this->seleziona_riga($this->selezione + 1);
             }
@@ -5019,6 +5020,9 @@ class o2_dbview extends o2_view {
    /**
      * Caches inserted record and flushes cache when needed in bulk-mode
      *
+     * @param array   $fields
+     * @param array   $values
+     * @param boolean $flush
      */
     function bulk_insert($fields, $values, $defaults, $flush = false) {
 
@@ -5055,11 +5059,51 @@ class o2_dbview extends o2_view {
                                   $this->file->indice,
                                   $fields,
                                   array(implode('),(', $recs)));
-
+            if ($this->file->log_level &&
+                ($this->file->log_level == 'R' ||
+                 $this->file->log_level == 'I' ||
+                 $this->file->log_level == 'E')) {
+                $this->bulk_insert_log($fields, $recs);
+                }
             $this->bulk_fields   = array();
             $this->bulk_cache    = array();
             $this->bulk_defaults = array();
             }
+
+        }
+
+
+   /**
+     * Insert log in bulk-mode
+     *
+     * @param array   $fields
+     * @param array   $values
+     */
+    function bulk_insert_log($fields, $values) {
+
+        $log_table = $this->file->logtable();
+        $o         = constant("o2_".$log_table->db->server->type."_o");
+        $c         = constant("o2_".$log_table->db->server->type."_c");
+        $fields    = array_merge(array($o.'log_id'.$c, $o.'log_act'.$c, $o.'log_user'.$c),
+                                 $fields);
+        $recs      = array_map(function($rec) {
+
+                                   $app = $_SESSION['o2_app'];
+                                   return "'".$app->runtime->microtime().
+                                          "','I','".$app->user."',".$rec;
+
+                                },
+                               $values);
+        o2_gateway::insertrec($log_table->db->server->type,
+                              $log_table->db->server->server,
+                              $log_table->db->server->user,
+                              $log_table->db->server->password,
+                              $log_table->db->nome,
+                              $log_table->db->proprietario,
+                              $log_table->nome,
+                              $log_table->indice,
+                              $fields,
+                              array(implode('),(', $recs)));
 
         }
 
@@ -5165,6 +5209,9 @@ class o2_dbview extends o2_view {
         foreach ($this->campi as $singolo_campo) {
             if ($singolo_campo->file == $this->file->indice &&
                 !strpos($singolo_campo->nome, "_JXKF")      &&
+                ($action != 'I' ||
+                 $this->corrente[$singolo_campo->nome] !=
+                                               $this->precedente[$singolo_campo->nome]) &&
                 !in_array($singolo_campo->nome_fisico, $insert_nomi_arr)) {
                 $value_local         = ($action != "D" && $action != "C" ?
                                         $this->corrente[$singolo_campo->nome] :
@@ -5176,16 +5223,16 @@ class o2_dbview extends o2_view {
                                         ($value_local ? $value_local : "0"));
                 }
             }
-        $ret_val    = o2_gateway::insertrec($db_type,
-                                            $file_local->db->server->server,
-                                            $file_local->db->server->user,
-                                            $file_local->db->server->password,
-                                            $file_local->db->nome,
-                                            $file_local->db->proprietario,
-                                            $file_local->nome,
-                                            $file_local->indice,
-                                            $insert_nomi_arr,
-                                            $insert_valori_arr);
+        $ret_val = o2_gateway::insertrec($db_type,
+                                         $file_local->db->server->server,
+                                         $file_local->db->server->user,
+                                         $file_local->db->server->password,
+                                         $file_local->db->nome,
+                                         $file_local->db->proprietario,
+                                         $file_local->nome,
+                                         $file_local->indice,
+                                         $insert_nomi_arr,
+                                         $insert_valori_arr);
         // _____________________________________________________ Log level "R" - U + D ___
         if ($dele_rec) {
             return $this->log_write("D", $timestamp);
@@ -5360,26 +5407,28 @@ class o2_dbview extends o2_view {
             }
         // _____________________________________ Record WRITE --- N.B. Only main file! ___
         switch ($this->status) {
-            case "I": // _______________________________________________ Insert record ___
+            case 'I': // _______________________________________________ Insert record ___
                 $this->inserisci_corrente();
-                $this->status = "M";
-                $this->set_relocation("((".$this->chiave_corrente($this->file,
-                                                                  false,
-                                                                  true).") OR (".
-                                      $this->chiave_corrente($this->file)."))");
+                $this->status = 'M';
+                if (!$this->bulk_mode) {
+                    $this->set_relocation('(('.$this->chiave_corrente($this->file,
+                                                                      false,
+                                                                      true).') OR ('.
+                                          $this->chiave_corrente($this->file).'))');
+                    }
                 break;
-            case "M": // _______________________________________________ Modify record ___
+            case 'M': // _______________________________________________ Modify record ___
                 $variata_chiave = ($this->chiave_corrente($this->file) !==
                                    $this->chiave_corrente($this->file, true));
                 $this->modifica_corrente();
                 if ($variata_chiave) {
-                    $this->set_relocation("((".$this->chiave_corrente($this->file,
+                    $this->set_relocation('(('.$this->chiave_corrente($this->file,
                                                                       false,
-                                                                      true).") OR (".
-                                          $this->chiave_corrente($this->file)."))");
+                                                                      true).') OR ('.
+                                          $this->chiave_corrente($this->file).'))');
                     }
                 break;
-            case "D": // _______________________________________________ Delete record ___
+            case 'D': // _______________________________________________ Delete record ___
                 $this->cancella_corrente();
                 break;
             }
@@ -5392,23 +5441,22 @@ class o2_dbview extends o2_view {
      *
      * @param  string  $campo
      * @param  mix     $valore
-     * @param  boolean $init
      * @return boolean
      */
-    function imposta($campo, $valore, $init = false) {
+    function imposta($campo, $valore) {
 
         $campo         = strtoupper($campo);
         $file_to_check = ($this->campi[$campo]->file ?
                           $this->campi[$campo]->file :
                           $this->file->indice);
-        if (($this->variato($file_to_check) || !isset($this->corrente[$campo])) &&
-             $this->status != "I") {
+        if ($this->status != 'I' &&
+            ($this->variato($file_to_check) || !isset($this->corrente[$campo]))) {
             if (!$this->vista ||
                  $this->range2where($this->file->indice) ||
                  $this->range2formule()) {
                 $this->record_primo();
                 }
-            if (!isset($this->recordset[0]) && !$init) {
+            if (!isset($this->recordset[0])) {
                 $wheres = '';
                 foreach ($this->wheres as $where) {
                     if ($where) {
@@ -5427,17 +5475,12 @@ class o2_dbview extends o2_view {
         $dummy_ctrl->maschera = $this->campi[$campo]->maschera;
         $dummy_ctrl->valore   = $valore;
         $valore               = $dummy_ctrl->ctrl2sql();
-        if ($this->corrente[$campo] !== $valore && (!$init || $this->zero($campo))) {
+        if ($this->corrente[$campo] !== $valore) {
             $this->corrente[$campo] = $valore;
-            if ($init) {
-                $this->precedente[$campo] = $this->corrente[$campo];
-                }
-            else {
-                $this->modificato = true;
-                }
+            $this->modificato       = true;
             // __________________________________ Reset cached descriptions for combos ___
-            if (isset($this->corrente[$campo."_jxcbdesc"])) {
-                unset($this->corrente[$campo."_jxcbdesc"]);
+            if (isset($this->corrente[$campo.'_jxcbdesc'])) {
+                unset($this->corrente[$campo.'_jxcbdesc']);
                 }
             $this->comunica_variazioni();
             }
@@ -5648,24 +5691,18 @@ class o2_virtualview extends o2_view {
      *
      * @param string  $field
      * @param mix     $value
-     * @param boolean $init
      */
-    function imposta($field, $value, $init = false) {
+    function imposta($field, $value) {
 
         $field = strtoupper($field);
-        if ($this->corrente[$field] !== $value && (!$init || $this->zero($field))) {
+        if ($this->corrente[$field] !== $value) {
             $this->corrente[$field] = $value;
-            if (!$init) {
-                $this->modificato = true;
-                }
+            $this->modificato       = true;
             // __________________________________ Reset cached descriptions for combos ___
             if (isset($this->corrente[$field."_jxcbdesc"])) {
                 unset($this->corrente[$field."_jxcbdesc"]);
                 }
             $this->comunica_variazioni();
-            }
-        if ($init) {
-            $this->precedente[$field] = $this->corrente[$field];
             }
 
         }
