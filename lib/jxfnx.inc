@@ -6226,6 +6226,7 @@ function o2view_fetch($view_name) {
         unset($GLOBALS['jxviewsql']);
         // _________________________________________________________ Reset origin view ___
         $view_obj->record_primo();
+        $view_obj->ultima_where = array();
         // ________________________________________________________________ Connection ___
         $srv  = $view_obj->file->db->server;
         $conn = o2_gateway::connect($srv->type,
