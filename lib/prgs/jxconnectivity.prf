@@ -4277,7 +4277,8 @@ if ($in) {
          else {
             $list[$tab."err0"] = array($tab,
                                        "Table does not exist on database",
-                                       $img_path."error.png");
+                                       $img_path."error.png",
+                                       'exist');
             $taberr            = true;
             }
          if ($taberr) {
@@ -4648,6 +4649,21 @@ $img_path   = '<jx>/img/tabadmin/tree/';
 $tabs       = 0;
 $tot        = 0;
 if ($in) {
+   // _______________________________________________ Fix existance (create) ___
+   foreach ($errors_tab as $tab) {
+      if ($tab[0] !== 'jxresultset' && $tab[3] && $tab[3] == 'exist') {
+         if (o2tab_create($tab[0])) {
+            $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.'tab.png');
+            $tabs++;
+            $tot++;
+            }
+         else {
+            $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.
+                                                           'tab_error.png');
+            $tot++;
+            }
+         }
+      }
    // ___________________________________ Fix record layout errors (rebuild) ___
    foreach ($errors_tab as $tab) {
       if ($tab[0] !== 'jxresultset' && $tab[3] && $tab[3] == 'error') {
@@ -4657,7 +4673,7 @@ if ($in) {
             $tabs++;
             $tot++;
             foreach ($errors_tab as $rt_key => $r_tab) {
-               if ($r_tab[3] && $r_tab[3] == 'index') {
+               if ($r_tab[0] == $tab[0] && $r_tab[3] && $r_tab[3] == 'index') {
                   unset($errors_tab[$rt_key]);               
                   }            
                }
@@ -4685,7 +4701,7 @@ if ($in) {
             }
          }
       }
-   // _____________________________________________ Fix foreign keysa errors ___      
+   // ______________________________________________ Fix foreign keys errors ___      
    foreach ($errors_tab as $tab) {
       if ($tab[0] !== 'jxresultset' && $tab[3]) {
          if ($tab[3] == 'fkey') {
