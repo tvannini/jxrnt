@@ -3276,7 +3276,10 @@ class o2html {
                 else {
                     $tip = $ctrl->info_padre[10];
                     }
-
+                $cssc = $ctrl->info_padre[7];
+                $cssc = ($cssc ?
+                         ($cssc{0} === ' ' ? $o2ctrl_obj->testa_class : '').$cssc :
+                         $o2ctrl_obj->testa_class);
                 $code.= '<th o2="e:'.$o2ctrl_obj->id_esecuzione.
                            ",f:'".$o2ctrl_obj->form.
                           "',cT:'".$o2ctrl_obj->tipo_ctrl.
@@ -3284,10 +3287,8 @@ class o2html {
                           "',inctrl:'".$ctrl->nome.
                           "',col:".($puntatore_col - $rm_col).
                            ",rows:".$view->righe_vis.
-                           ',fret:!0,msg:\'\'" class="'.
-                                  ((isset($ctrl->info_padre[7]) && $ctrl->info_padre[7]) ?
-                                   $ctrl->info_padre[7] : $o2ctrl_obj->testa_class).
-                                  ($ordinabile ? ' jxord' : '').'"'.
+                           ',fret:!0,msg:\'\'" class="'.$cssc.
+                                                        ($ordinabile ? ' jxord' : '').'"'.
                           (($ctrl->info_padre[2] - $ctrl->info_padre[1]) ?
                            ' colspan="'.($ctrl->info_padre[2] - $ctrl->info_padre[1] + 1).
                            '"' : '').
@@ -3436,7 +3437,16 @@ class o2html {
                 // ______________________________________ Get column client visibility ___
                 $client_vis  = $prg->custom_grids[$o2ctrl_obj->nome]["V"][$ctrl->nome];
                 // _____________________________________________________________ CELLA ___
-                print '<td class="'.($info_css ? $info_css : $css_cella).'"'.
+                $csst = ($info_css ?
+                         ($info_css{0} === ' ' ? $css_cella : '').$info_css :
+                         $css_cella);
+                $cssc = ($info_css ?
+                        ($info_css{0} === ' ' ? $o2ctrl_obj->corpo_class : '').$info_css :
+                         $o2ctrl_obj->corpo_class);
+                $cssp = ($info_css ?
+                         ($info_css{0} === ' ' ? $o2ctrl_obj->sele_class : '').$info_css :
+                         $o2ctrl_obj->sele_class);
+                print '<td class="'.$csst.'"'.
                       (($info_col_end - $info_col_start) ?
                        ' colspan="'.($info_col_end - $info_col_start + 1).'"' :
                        '').
@@ -3446,9 +3456,8 @@ class o2html {
                            ',puact:\''.$ctrl->popup_act.
                           "',puexp:'".$ctrl->popup_exp.
                       '\'" onMouseOver="o2jse.pu.i(event);" onMouseOut="o2jse.pu.o();" ' :
-                        '').
-                       ' cssc="'.($info_css ? $info_css : $o2ctrl_obj->corpo_class).'"' :
-                       ' cssp="'.($info_css ? $info_css : $o2ctrl_obj->sele_class).'"').
+                        '').' cssc="'.$cssc.'"' :
+                       ' cssp="'.$cssp.'"').
                       ' style="width:'.$col_size.'px;'.
                        ($ctrl->visibile && !$client_vis ? "" : "display:none;")."\">";
                 $o2ctrl_obj->colonne = max($info_col_end, $o2ctrl_obj->colonne);
@@ -3554,9 +3563,11 @@ class o2html {
                                            ' text-align:right;' : '').
                                ($ctrl->visibile && !$client_vis ? '' : ' display:none;').
                                '"';
-                print '<td class="'.((isset($ctrl->info_padre[9]) &&
-                                      $ctrl->info_padre[9]) ? $ctrl->info_padre[9] :
-                                      $o2ctrl_obj->footer_class).'"'.
+                $cssc = $ctrl->info_padre[9];
+                $cssc = ($cssc ?
+                         ($cssc{0} === ' ' ? $o2ctrl_obj->footer_class : '').$cssc :
+                         $o2ctrl_obj->footer_class);
+                print '<td class="'.$cssc.'"'.
                          (($ctrl->info_padre[2] - $ctrl->info_padre[1]) ?
                           ' colspan="'.($ctrl->info_padre[2] - $ctrl->info_padre[1] + 1).
                           '"' : '').$style.">".$footer."</td>\n";

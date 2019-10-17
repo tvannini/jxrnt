@@ -1120,6 +1120,11 @@ class jxjs {
                             $ctrl_val  = "";
                             $ctrl_code = "v:''";
                             $info_css  = $ctrl->info_padre[5];
+                            $cssc      = ($info_css ?
+                                          ($info_css{0} === ' ' ?
+                                           $css_cella :
+                                           '').$info_css :
+                                          $css_cella);
                             // ___________ Controls binding to field (edit, text, ...) ___
                             if ($ctrl->campo_in_ctrl) {
                                 $ctrl->valore = $o2ctrl_obj->prg_obj->
@@ -1175,7 +1180,7 @@ class jxjs {
                                 }
                             $row_code.= "{c:".(intval($ctrl->info_padre[1]) - $rm_col).
                                         ",r:".(intval($ctrl->info_padre[0]) - 1).
-                                        ",s:'".($info_css ? $info_css : $css_cella).
+                                        ",s:'".$cssc.
                                         "',t:'".$ctrl->css.
                                                 ($ctrl->modificabile ? "" : "_dis").
                                         "',".$ctrl_code."},";
