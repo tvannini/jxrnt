@@ -2239,21 +2239,32 @@ class o2_ctrl {
         $app        = $_SESSION['o2_app'];
         $prg_local  = $app->istanze_prg[$this->id_esecuzione];
         $form_local = $prg_local->form[$this->form];
+        $parent     = ($this->padre ? $form_local->controlli[$this->padre] : false);
         $nav_local  = "";
         $log        = "";
         if ($this->task) {
+            // _________________________________________ Table with internal navigator ___
+            if ($this->internal_nav) {
+                $nav_local = $this->internal_nav->nome;
+                }
+            // ______________________________ Control in table with internal navigator ___
+            elseif ($parent && $parent->tipo_ctrl == 'tab' && $parent->internal_nav) {
+                $nav_local = $parent->internal_nav->nome;
+                }
             // ____________________________ Look for a navigator matching control view ___
-            foreach ($form_local->controlli as $single_ctrl) {
-                if ($single_ctrl->tipo_ctrl == "navigator" &&
-                    $single_ctrl->visibile                 &&
-                    $single_ctrl->task == $this->task) {
-                    $nav_local = $single_ctrl->nome;
-                    break;
+            else {
+                foreach ($form_local->controlli as $single_ctrl) {
+                    if ($single_ctrl->tipo_ctrl == 'navigator' &&
+                        $single_ctrl->visibile                 &&
+                        $single_ctrl->task == $this->task) {
+                        $nav_local = $single_ctrl->nome;
+                        break;
+                        }
                     }
                 }
             // _____________________________________ Check active log level on control ___
             if ($this->log_level) {
-                $log = ",log:!0";
+                $log = ',log:!0';
                 }
             }
         // _________________________________________________ Multilanguage translation ___
@@ -2272,14 +2283,13 @@ class o2_ctrl {
                    "',cT:'".$this->tipo_ctrl.
                    "',v:'".$this->task.
                    "',f:'".$this->form.
-                   "',pT:'".($this->padre ?
-                             $form_local->controlli[$this->padre]->tipo_ctrl : "form").
+                   "',pT:'".($parent ? $parent->tipo_ctrl : 'form').
                    "',dT:'".$this->maschera->tipo.
                    "',m:'".addslashes($this->maschera->maschera).
                    "',s:".intval($this->maschera->dimensione).
                    $log.
-                    ",fret:".($this->forza_submit ? "!0" : "!1").
-                    ($this->tab_row ? ",tabRow:!0" : "").
+                    ",fret:".($this->forza_submit ? '!0' : '!1').
+                    ($this->tab_row ? ',tabRow:!0' : '').
                     ",nav:'".$nav_local.
                    ($this->css ? "',cssc:'".$this->css : "").
                    (strpos($extraProps, "msg:'") !== false ?
