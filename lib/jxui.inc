@@ -859,6 +859,8 @@ class o2_form {
                                  $this->design_height);
             $this->absolute_x = $this->restore_x;
             $this->absolute_y = $this->restore_y;
+            $this->last_x     = $this->absolute_x;
+            $this->last_y     = $this->absolute_y;
             $this->x          = $this->restore_x;
             $this->y          = $this->restore_y;
             $this->maximized  = false;
@@ -866,6 +868,8 @@ class o2_form {
         else {
             $this->restore_width  = $this->larghezza;
             $this->restore_height = $this->altezza;
+            $this->last_x         = $this->absolute_x;
+            $this->last_y         = $this->absolute_y;
             $this->restore_x      = $this->absolute_x;
             $this->restore_y      = $this->absolute_y;
             if ($app->menu_style == 'L') {

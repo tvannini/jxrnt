@@ -7897,7 +7897,7 @@ jxc = function(defObj) {
                     ctrlObj.innerHTML = defObj.title;
                     }
                 }
-            if (defObj.x || defObj.y) {
+            if ((typeof defObj.x != 'undefined') || (typeof defObj.y != 'undefined')) {
                 o2jse.win.needNoRepos(defObj.i);
                 // _______________________________________________________ X-Y element ___
                 ctrlObj = document.getElementById(defObj.i);
