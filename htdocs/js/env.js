@@ -7886,7 +7886,7 @@ jxc = function(defObj) {
                 else {
                     contDiv = o2jse.createEl(document.getElementById("jxjsinsert"),
                                              "div");
-                    // ____________ InnertHTML is set after to avoid SCRIPTs execution ___
+                    // _____________ InnerHTML is set after to avoid SCRIPTs execution ___
                     contDiv.innerHTML = defObj.code;
                     contDiv.jxDynamic = true;
                     jxjs.runScripts(contDiv);
@@ -7898,7 +7898,7 @@ jxc = function(defObj) {
                     }
                 }
             if ((typeof defObj.x != 'undefined') || (typeof defObj.y != 'undefined')) {
-                o2jse.win.needNoRepos(defObj.i);
+                o2jse.win.needRepos(defObj.i);
                 // _______________________________________________________ X-Y element ___
                 ctrlObj = document.getElementById(defObj.i);
                 o2jse.ctrl.init(ctrlObj);
