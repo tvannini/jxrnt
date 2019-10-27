@@ -241,20 +241,20 @@ function o2_mssql_execute($query,
         }
     // _____________________________________________ Execution only, no dataset return ___
     if ($only_exe) {
+		// __________________________________________________ Get connection to server ___
+		$conn = o2_mssql_connect($server, $user, $password, $trans);
 		try {
-            // ______________________________________________ Get connection to server ___
-            $conn = o2_mssql_connect($server, $user, $password, $trans);
 			$res = $conn->exec($query);
 			}
         // ____________________________________________________ On execution exception ___
 		catch (Exception $o2e) {
-            $err = $conn->errorInfo();
-            $conn->rollBack && @$conn->rollBack();
+			$err = $conn->errorInfo();
+			$conn->rollBack && @$conn->rollBack();
 			$res = false;
-            throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                   "</i> (as Exception)<br>query: <code>".$query.
-                                   "</code><hr>".$err[2],
-                                   o2error_DBEXECUTE);
+			throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
+								   "</i> (as Exception)<br>query: <code>".$query.
+								   "</code><hr>".$err[2],
+								   o2error_DBEXECUTE);
             return false;
 			}
         // _______________________________________ On other execution failure (NEVER!) ___
@@ -271,30 +271,22 @@ function o2_mssql_execute($query,
         }
     // ________________________________________________________ Queries returning data ___
     else {
+		// __________________________________________________ Get connection to server ___
+		$conn = o2_mssql_connect($server, $user, $password, $trans);
         $loop = ($stm || ($stm === 0));
         if (!$stm) {
             try {
-                // __________________________________________ Get connection to server ___
-                $conn = o2_mssql_connect($server, $user, $password, $trans);
-                // _____________ Create statement and check execution failure (NEVER!) ___
-                if (!($stm = $conn->query($query))) {
-                    $err = $conn->errorInfo();
-                    $conn->rollBack && @$conn->rollBack();
-                    throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                           "</i> (as Error)<br>query: <code>".$query.
-                                           "</code><hr>".$err[2],
-                                           o2error_DBDATAQUERY);
-                    return false;
-                    }
+                // __________________________________________________ Create statement ___
+                $stm = $conn->query($query);
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                $err = $conn->errorInfo();
-                $conn->rollBack && @$conn->rollBack();
-                throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                       "</i> (as Exception)<br>query: <code>".$query.
-                                       "</code><hr>".$err[2],
-                                       o2error_DBEXECUTE);
+				$err = $conn->errorInfo();
+				$conn->rollBack && @$conn->rollBack();
+				throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
+									   "</i> (as Exception)<br>query: <code>".$query.
+									   "</code><hr>".$err[2],
+									   o2error_DBEXECUTE);
                 return false;
                 }
             }
@@ -320,11 +312,11 @@ function o2_mssql_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                $err = $conn->errorInfo();
+                $err = ($stm ? $stm->errorInfo() : $conn->errorInfo());
+				$q   = ($stm ? "<br>query: <code>".$stm->queryString : '');
                 $conn->rollBack && @$conn->rollBack();
                 throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                       "</i> (as Exception)<br>query: <code>".$query.
-                                       "</code><hr>".$err[2],
+                                       "</i> (as Exception)".$q."</code><hr>".$err[2],
                                        o2error_DBDATAQUERY);
                 return false;
                 }
@@ -1636,14 +1628,14 @@ function o2_mssql_recordset($server,
                             $stm_id     = false) {
 
     // _____________ Disabled because of problems of cursors persistence across commit ___
-    $stm_id = false;
+    //$stm_id = false;
     // ____________________________________________ Statement recall in case of paging ___
     if ($page_where) {
         if ($stm_id && isset($GLOBALS['o2_mssql_stms'][$stm_id])) {
             return o2_mssql_execute(false,
-                                    false,
-                                    false,
-                                    false,
+			                        $server,
+                                    $user,
+                                    $password,
                                     false,
                                     false,
                                     $recs,
@@ -1666,7 +1658,7 @@ function o2_mssql_recordset($server,
         }
     $query = 'SELECT ';
     if ($stm_id) {
-        $stm = 0;
+		$stm = 0;
         }
     else {
         $stm = false;
@@ -1704,7 +1696,8 @@ function o2_mssql_recordset($server,
                                 $user,
                                 $password,
                                 false,
-                                $lock,
+								// _ Always open transaction when requesting statement ___
+                                ($stm_id || $lock ? true : false),
                                 $recs,
                                 $stm);
         if ($stm_id) {
@@ -2007,18 +2000,16 @@ function o2_mssql_commit($server, $user, $password, $end = false) {
         // ________________________________________________ Commit current transaction ___
         else {
             // ___________________________________ Close open statements before commit ___
-            if ($end) {
-                if (is_array($GLOBALS['o2_mssql_stms'])) {
-                    foreach ($GLOBALS['o2_mssql_stms'] as $id => $stm) {
-                        if ($GLOBALS['o2_mssql_stms'][$id]) {
-                            $GLOBALS['o2_mssql_stms'][$id]->closeCursor();
-                            }
-                        $GLOBALS['o2_mssql_stms'][$id] = null;
-                        $stm                           = null;
-                        }
-                    }
-                unset($GLOBALS['o2_mssql_stms']);
-                }
+			if (is_array($GLOBALS['o2_mssql_stms'])) {
+				foreach ($GLOBALS['o2_mssql_stms'] as $id => $stm) {
+					if ($GLOBALS['o2_mssql_stms'][$id]) {
+						$GLOBALS['o2_mssql_stms'][$id]->closeCursor();
+						}
+					$GLOBALS['o2_mssql_stms'][$id] = null;
+					$stm                           = null;
+					}
+				}
+			unset($GLOBALS['o2_mssql_stms']);
             if (!$GLOBALS['o2_mssql_conn'][$key]->commit()) {
                 $err = $GLOBALS['o2_mssql_conn'][$key]->errorInfo();
                 throw new o2_exception("<b>MSSQL</b> server: <i>".$server."</i><hr />".
