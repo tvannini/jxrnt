@@ -23,7 +23,7 @@ function jxgranting§§users_def(&$task_users, $_o2viewalias = "") {
 
 	$task_users->usa_file("o2_users","o2_users","jxgranting_exp_21()",null,null);
 
-	$task_users->usa("o2user","o2_users","o2user",null,null,null,"jxgranting_exp_4()");
+	$task_users->usa("o2user","o2_users","o2user",null,null,"jxgranting_exp_116()","jxgranting_exp_4()");
 	$task_users->usa("o2password","o2_users","o2password",null,null,null,null);
 	$task_users->usa("area","o2_users","area","jxgranting_exp_58()","jxgranting_exp_58()",null,null);
 	$task_users->usa("expire_date","o2_users","expire_date",null,null,null,null);
@@ -1807,6 +1807,11 @@ return (o2val('prg§_§var','force_pwd_change_save'));
 function jxgranting_exp_115() {
 	
 return (date('Ymd'));
+	} //|o2_fine_exp|
+
+function jxgranting_exp_116() {
+	
+return ((o2app_user() == 'root' ? null : 'root'));
 	} //|o2_fine_exp|
 
 function jxgranting_exp_9999() {
