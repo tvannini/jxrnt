@@ -6022,10 +6022,6 @@ class o2_runtime {
     public $mswin           = false;      /* If running on a Windows machine            */
     public $last_microtime  = 0;          /* Last microtime, to avoid repetitions       */
     public $microtime_incr  = 1;          /* Microtime increment                        */
-    /**
-     * @var o2_sysdb
-     */
-    public $sysdb           = null;       /* Object o2_sysdb:  internal system database */
     public $conf_list       = array();    /* Configurations settings list from rnt ini  */
     public $read_sys_tabs   = false;      /* Sys tables reading vs app tables from rep  */
     /*     _____ Options ______________________________________________________________ */
@@ -6052,10 +6048,6 @@ class o2_runtime {
      * @var o2_dir
      */
     public $dir_threads     = "";         /* Temporary files for running threads folder */
-    /**
-     * @var o2_dir
-     */
-    public $dir_data        = "";         /* System informations database location      */
     /**
      * @var o2_dir
      */
@@ -6087,7 +6079,6 @@ class o2_runtime {
         $this->dir_dbms    = new o2_dir($this->root."lib".DIRECTORY_SEPARATOR.
                                                     "dbms".DIRECTORY_SEPARATOR);
         $this->dir_threads = new o2_dir($this->root."threads".DIRECTORY_SEPARATOR);
-        $this->dir_data    = new o2_dir($this->root."data".DIRECTORY_SEPARATOR);
         $this->dir_css     = new o2_dir($this->root."htdocs".DIRECTORY_SEPARATOR.
                                                     "css".DIRECTORY_SEPARATOR);
         /********************************************************************************
