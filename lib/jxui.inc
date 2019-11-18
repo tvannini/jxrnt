@@ -1018,11 +1018,11 @@ class o2_form {
             if ($task) {
                 $new_ctrl->task = $task;
                 $prg_obj        = $app->istanze_prg[$this->id_esecuzione];
-                $view_obj       = $prg_obj->contesto[$task];
+                $view_obj       = &$prg_obj->contesto[$task];
                 // _______________________________ To set table used objects reference ___
                 if ($tipo == "tab") {
                     $new_ctrl->prg_obj  = $prg_obj;
-                    $new_ctrl->view_obj = $view_obj;
+                    $new_ctrl->view_obj = &$view_obj;
                     $new_ctrl->form_obj = $this;
                     }
                 if ($campo_task) {

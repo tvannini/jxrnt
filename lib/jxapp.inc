@@ -372,6 +372,7 @@ class o2_app {
         $this->includi_repository($this->file_menu);
         $this->includi_repository($this->file_vars);
         ob_end_clean();
+        $this->session_db();
         $this->load_gateways();
         // ______________________________________________ Execution for internal tools ___
         if (isset($_REQUEST['jxtool'])) {
@@ -595,6 +596,21 @@ class o2_app {
                     break;
                 }
             }
+
+        }
+
+
+    /**
+     * Provide session-db (SQLite ":session:") for application
+     *
+     */
+    function session_db() {
+
+        $this->server['jxsess_srv'] = new o2_server('jxsess_srv', 'sqlite3', ':session:');
+        $this->db['jxsess_db']      = new o2_db('jxsess_db',
+                                                $this->server['jxsess_srv'],
+                                                '',
+                                                '');
 
         }
 

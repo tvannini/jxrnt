@@ -1215,6 +1215,97 @@ class o2_prg {
 
         }
 
+
+    /**
+     * Start snapshot: create view dataset copy in session.
+     *
+     */
+    function snapshot_start($view_name) {
+
+        $app  = $_SESSION['o2_app'];
+        $view = $this->contesto[$view_name];
+        if (!$view->snapshot) {
+            // ____ If already exists reuse snapshot table, else create it and fill it ___
+            if (isset($app->tab[$view_name.'_jxsnps'])) {
+                $table = $app->get_table($view_name.'_jxsnps');
+                }
+            else {
+                // ____________________________ Create virtual table from view dataset ___
+                $table = $view->snapshot_create_table();
+                // _________________________________________________ Copy view content ___
+                $view->snapshot_copy_view($table);
+                }
+            // ____________________________________________________ Save original view ___
+            $this->contesto[$view_name.'_jxsnps'] = clone $view;
+            unset($this->contesto[$view_name]);
+            // __________________________________________________ Create snapshot view ___
+            $this->contesto[$view_name] = $view->snapshot_create_view($table);
+            // ___________ Replace original view in grids references with snapshot one ___
+            foreach ($this->form as $frm_name => $form) {
+                foreach ($this->form[$frm_name]->controlli as $ctrl_name => $ctrl) {
+                    if ($ctrl->tipo_ctrl == 'tab' &&
+                        $ctrl->view_obj->nome == $view_name) {
+                        $this->form[$frm_name]->controlli[$ctrl_name]->view_obj =
+                                                              $this->contesto[$view_name];
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+    /**
+     * Merge snapshot: copy snapshot dataset back to original table.
+     *
+     */
+    function snapshot_merge($view_name) {
+
+        $view = $this->contesto[$view_name];
+        // _____________________________________________ If view has a active snapshot ___
+        if ($view->snapshot) {
+            $view->snapshot_sync();
+            $view->vista = false;
+            }
+        /*
+        // _________________________ If view is not in snapshot mode rise an exception ___
+        else {
+            throw new o2_exception('View "'.$view_name.'" has no active snapshot',
+                                   o2error_UNKNOWNVIEW);
+            }
+        */
+
+        }
+
+
+    /**
+     * End snapshot: destroy snapshot table end reset original view in program context.
+     *
+     */
+    function snapshot_end($view_name) {
+
+        if (isset($this->contesto[$view_name.'_jxsnps'])) {
+            $this->contesto[$view_name]->file->elimina();
+            unset($_SESSION['o2_app']->tab[$view_name.'_jxsnps']);
+            unset($this->contesto[$view_name]);
+            // _______________________________ Replace snapshot view with original one ___
+            $this->contesto[$view_name] = $this->contesto[$view_name.'_jxsnps'];
+            unset($this->contesto[$view_name.'_jxsnps']);
+            // _____________________________ Replace snapshot view in grids references ___
+            foreach ($this->form as $frm_name => $form) {
+                foreach ($this->form[$frm_name]->controlli as $ctrl_name => $ctrl) {
+                    if ($ctrl->tipo_ctrl == 'tab' &&
+                        $ctrl->view_obj->nome == $view_name) {
+                        $this->form[$frm_name]->controlli[$ctrl_name]->view_obj =
+                                                              $this->contesto[$view_name];
+                        }
+                    }
+                }
+            $this->contesto[$view_name]->record_primo();
+            }
+
+        }
+
     }
 
 
@@ -1520,6 +1611,8 @@ class o2_dbview extends o2_view {
     public $bulk_cache      = array(); /* Cached records for bulk-mode insert           */
     public $bulk_fields     = array(); /* List of fields valued in bulk-mode            */
     public $bulk_defaults   = array(); /* List of defaults to use for missing values    */
+    public $snapshot        = false;   /* If view is using recordset snapshot           */
+    public $snps_ori_type   = false;   /* Original db engine when view is a snapshot    */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
     public $statement       = null;  /* PDO Statement opened on view (if any)           */
     public $offset_ini      = 0;     /* First recordset row index in whole file         */
@@ -4178,6 +4271,7 @@ class o2_dbview extends o2_view {
      * @param  boolean $hide_table       Used by ->inserisci/modifica/cancella_corrente
      * @param  boolean $use_pkey         Use Primary Key instead on current index
      * @param  boolean $for_record_id    Return key values as a record unique ID
+     * @param  boolean $engine           Get where for a different db-type
      * @return string
      */
     function chiave_corrente($file,
@@ -4187,16 +4281,17 @@ class o2_dbview extends o2_view {
                              $no_custom_sort = false,
                              $hide_table     = false,
                              $use_pkey       = false,
-                             $for_record_id  = false) {
+                             $for_record_id  = false,
+                             $engine         = false) {
 
         $app              = $_SESSION['o2_app'];
         $condizione_local = array();
         $key_segments     = (!$use_pkey && $this->chiavi_in_uso[$file->indice] ?
                             $file->chiavi[$this->chiavi_in_uso[$file->indice]]->segmenti :
                             $file->chiave->segmenti);
-        $file_type        = $this->file->db->server->type;
-        $c_o              = constant("o2_".$file_type."_o");
-        $c_c              = constant("o2_".$file_type."_c");
+        $db_type          = ($engine ? $engine : $this->file->db->server->type);
+        $c_o              = constant("o2_".$db_type."_o");
+        $c_c              = constant("o2_".$db_type."_c");
         // _____________________________________________ Include custom sorting fields ___
         if (count($this->sort) && !$no_custom_sort) {
             foreach (array_reverse($this->sort) as $sort_segment => $sort_segment_dir) {
@@ -4221,14 +4316,13 @@ class o2_dbview extends o2_view {
         foreach ($key_segments as &$segmento_chiave) {
             $trovato          = false;
             $nome_campo_local = $segmento_chiave->campo->phys_name;
+            $phys_fld         = $c_o.$nome_campo_local.$c_c;
             if ($segmento_chiave->custom_sorted) {
                 $field_name = ($hide_table ? "" :
-                               $c_o.$segmento_chiave->campo->file.$c_c.".").
-                              $segmento_chiave->campo->nome_fisico;
+                               $c_o.$segmento_chiave->campo->file.$c_c.".").$phys_fld;
                 }
             else {
-                $field_name = ($hide_table ? "" : $c_o.$file->indice.$c_c.".").
-                              $segmento_chiave->campo->nome_fisico;
+                $field_name = ($hide_table ? "" : $c_o.$file->indice.$c_c.".").$phys_fld;
                 }
             $key_field_name = strtoupper($nome_campo_local)."_JXKF";
             $valore_local   = $segmento_chiave->campo->maschera->default;
@@ -4262,8 +4356,7 @@ class o2_dbview extends o2_view {
                 }
             // _______________________________________________ Get field current value ___
             if ($type_local != "N") {
-                $valore_local = "'".o2_gateway::normalize($file->db->server->type,
-                                                          $valore_local)."'";
+                $valore_local = "'".o2_gateway::normalize($db_type, $valore_local)."'";
                 }
             else {
                 $valore_local = number_format($valore_local, $dec_local, ".", "");
@@ -4274,7 +4367,7 @@ class o2_dbview extends o2_view {
                 if ($valore_local === "''") {
                     if (($backward && $segmento_chiave->direzione == "D") ||
                         (!$backward && $segmento_chiave->direzione != "D")) {
-                        if ($file_type == "oracle") {
+                        if ($db_type == "oracle") {
                             $text_local = "(".$prev_segm_cond."(RTRIM(".$field_name.
                                           ")>'' OR RTRIM(".$field_name.") IS NOT NULL))";
                             }
@@ -4776,16 +4869,32 @@ class o2_dbview extends o2_view {
             if ($trace_u_time) {
                 $update_arr[$trace_u_time] = "'".date('His')."'";
                 }
-            $ret_val = o2_gateway::modifyrec($db_type,
-                                             $this->file->db->server->server,
-                                             $this->file->db->server->user,
-                                             $this->file->db->server->password,
-                                             $this->file->db->nome,
-                                             $this->file->db->proprietario,
-                                             $this->file->write_name,
-                                             $this->file->indice,
-                                             $update_arr,
-                                             $prev_key);
+            // __________________________________________ Manage snapshot informations ___
+            if ($this->snapshot && !$this->corrente['JXSNPS_STATUS']) {
+                // __ Store previous key needed to copy back updates in original table ___
+                $upd_key                     = $this->chiave_corrente($this->file,
+                                                                      true,
+                                                                      false,
+                                                                      false,
+                                                                      true,
+                                                                      true,
+                                                                      true,
+                                                                      false,
+                                                                    $this->snps_ori_type);
+                $update_arr['JXSNPS_PRVKEY'] = "'".o2_gateway::normalize($db_type,
+                                                                         $upd_key)."'";
+                $update_arr['JXSNPS_STATUS'] = "'U'";
+                }
+            o2_gateway::modifyrec($db_type,
+                                  $this->file->db->server->server,
+                                  $this->file->db->server->user,
+                                  $this->file->db->server->password,
+                                  $this->file->db->nome,
+                                  $this->file->db->proprietario,
+                                  $this->file->write_name,
+                                  $this->file->indice,
+                                  $update_arr,
+                                  $prev_key);
             // ___________________________________________________ Manage log by level ___
             if ($app->tables_log &&
                 $this->file->log_level == 'R' &&
@@ -4921,6 +5030,11 @@ class o2_dbview extends o2_view {
             if ($trace_u_time) {
                 $insert_nomi_arr[]   = $trace_u_time;
                 $insert_valori_arr[] = "'".date('His', $t)."'";
+                }
+            // __________________________________________ Manage snapshot informations ___
+            if ($this->snapshot) {
+                $insert_nomi_arr[]   = 'JXSNPS_STATUS';
+                $insert_valori_arr[] = "'I'";
                 }
             // ______________________________________________________ Bulk insert mode ___
             if ($this->bulk_mode) {
@@ -5123,28 +5237,43 @@ class o2_dbview extends o2_view {
                                            true,
                                            true,
                                            true);
-        // _______________________________________________________ Manage log by level ___
-        if ($app->tables_log &&
-            (!isset($GLOBALS['jxlogsuspend']) ||
-             !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
-            (strpos("DEM", $this->file->log_level) !== false)) {
-            $this->file->log_write_full("D", $prev_key);
+        if ($this->snapshot) {
+            $update_arr['JXSNPS_STATUS'] = "'D'";
+            o2_gateway::modifyrec($this->file->db->server->type,
+                                  $this->file->db->server->server,
+                                  $this->file->db->server->user,
+                                  $this->file->db->server->password,
+                                  $this->file->db->nome,
+                                  $this->file->db->proprietario,
+                                  $this->file->write_name,
+                                  $this->file->indice,
+                                  $update_arr,
+                                  $prev_key);
             }
-        $ret_val = o2_gateway::deleterec($this->file->db->server->type,
-                                         $this->file->db->server->server,
-                                         $this->file->db->server->user,
-                                         $this->file->db->server->password,
-                                         $this->file->db->nome,
-                                         $this->file->db->proprietario,
-                                         $this->file->write_name,
-                                         $this->file->indice,
-                                         $prev_key);
-        // _______________________________________________________ Manage log by level ___
-        if ($app->tables_log &&
-            (!isset($GLOBALS['jxlogsuspend']) ||
-             !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
-            $this->file->log_level == "R") {
-            $this->log_write("D");
+        else {
+            // ___________________________________________________ Manage log by level ___
+            if ($app->tables_log &&
+                (!isset($GLOBALS['jxlogsuspend']) ||
+                 !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
+                (strpos("DEM", $this->file->log_level) !== false)) {
+                $this->file->log_write_full("D", $prev_key);
+                }
+            o2_gateway::deleterec($this->file->db->server->type,
+                                  $this->file->db->server->server,
+                                  $this->file->db->server->user,
+                                  $this->file->db->server->password,
+                                  $this->file->db->nome,
+                                  $this->file->db->proprietario,
+                                  $this->file->write_name,
+                                  $this->file->indice,
+                                  $prev_key);
+            // ___________________________________________________ Manage log by level ___
+            if ($app->tables_log &&
+                (!isset($GLOBALS['jxlogsuspend']) ||
+                 !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
+                $this->file->log_level == "R") {
+                $this->log_write("D");
+                }
             }
         $this->totale_record--;
         $this->offset_fine--;
@@ -5600,6 +5729,346 @@ class o2_dbview extends o2_view {
                 break;
             }
         return $ret_local;
+
+        }
+
+
+    /**
+     * Syncronize original table with snapshot data
+     *
+     */
+    function snapshot_sync() {
+
+        $app   = $_SESSION['o2_app'];
+        // ________________________________________________________ Get original table ___
+        $table = $app->istanze_prg[$this->id_esecuzione]->contesto[$this->nome.
+                                                                   '_jxsnps']->file;
+        // _________________________ Filter snapshot view to get only modified records ___
+        $this->campi['JXSNPS_STATUS']->not = '';
+        $this->looping_on                  = true;
+        $this->record_primo();
+        // _________________________________________________________ Copy view dataset ___
+        if (count($this->recordset) > 0) {
+            $srv_type   = $table->db->server->type;
+            $srv_server = $table->db->server->server;
+            $srv_user   = $table->db->server->user;
+            $srv_pwd    = $table->db->server->password;
+            $db_name    = $table->db->nome;
+            $db_owner   = $table->db->proprietario;
+            // __________________________________________________ Compose fields names ___
+            $fields = array();
+            foreach ($table->campi as $fld) {
+                $fields[] = $fld->nome_fisico;
+                }
+            $cache = array();
+            do {
+                switch ($this->corrente['JXSNPS_STATUS']) {
+                    case 'I':
+                        // ______________________________________ Compose values cache ___
+                        $recs = 0;
+                        $rec  = '';
+                        foreach ($table->campi as $fld_name => $fld) {
+                            $fld_name = strtoupper($fld_name);
+                            if ($rec) {
+                                $rec.= ',';
+                                }
+                            if ($fld->tipo == 'N') {
+                                $rec.= $this->corrente[$fld_name];
+                                }
+                            else {
+                                $rec.= "'".$this->corrente[$fld_name]."'";
+                                }
+                            }
+                        $cache[] = $rec;
+                        $recs++;
+                        // ________________________________________ Insert cache chunk ___
+                        if ($recs > 999) {
+                            o2_gateway::insertrec($srv_type,
+                                                  $srv_server,
+                                                  $srv_user,
+                                                  $srv_pwd,
+                                                  $db_name,
+                                                  $db_owner,
+                                                  $table->write_name,
+                                                  $table->indice,
+                                                  $fields,
+                                                  array(implode('),(', $cache)));
+                            $cache = array();
+                            $recs  = 0;
+                            }
+                        break;
+                    case 'U':
+                        $prev_key = $this->corrente['JXSNPS_PRVKEY'];
+                        $rec      = array();
+                        foreach ($table->campi as $fld_name => $fld) {
+                            $fld_name = strtoupper($fld_name);
+                            if ($fld->tipo == 'N') {
+                                $rec[] = $this->corrente[$fld_name];
+                                }
+                            else {
+                                $rec[] = "'".$this->corrente[$fld_name]."'";
+                                }
+                            }
+                        $update_arr = array_combine($fields, $rec);
+                        o2_gateway::modifyrec($srv_type,
+                                              $srv_server,
+                                              $srv_user,
+                                              $srv_pwd,
+                                              $db_name,
+                                              $db_owner,
+                                              $table->write_name,
+                                              $table->indice,
+                                              $update_arr,
+                                              $prev_key);
+                        break;
+                    case 'D':
+                        $prev_key = $this->chiave_corrente($this->file,
+                                                           true,
+                                                           false,
+                                                           false,
+                                                           true,
+                                                           true,
+                                                           true,
+                                                           false,
+                                                           $srv_type);
+                        o2_gateway::deleterec($srv_type,
+                                              $srv_server,
+                                              $srv_user,
+                                              $srv_pwd,
+                                              $db_name,
+                                              $db_owner,
+                                              $table->write_name,
+                                              $table->indice,
+                                              $prev_key);
+                        break;
+                    }
+                } while ($this->record_avanti());
+            // ____________________________________________________ Flush insert cache ___
+            if ($cache) {
+                o2_gateway::insertrec($srv_type,
+                                      $srv_server,
+                                      $srv_user,
+                                      $srv_pwd,
+                                      $db_name,
+                                      $db_owner,
+                                      $table->write_name,
+                                      $table->indice,
+                                      $fields,
+                                      array(implode('),(', $cache)));
+                }
+            // _____________________________ Blank JXSNPS_STATUS field for all records ___
+            $co = constant('o2_sqlite3_o');
+            $cc = constant('o2_sqlite3_c');
+            o2_gateway::modifyrec($this->file->db->server->type,
+                                  $this->file->db->server->server,
+                                  $this->file->db->server->user,
+                                  $this->file->db->server->password,
+                                  $this->file->db->nome,
+                                  $this->file->db->proprietario,
+                                  $this->file->write_name,
+                                  $this->file->indice,
+                                  array('JXSNPS_PRVKEY' => "''", 'JXSNPS_STATUS' => "''"),
+                                  $co.'JXSNPS_STATUS'.$cc." <> ''");
+            $this->relocate_to_key = false;
+            }
+        $this->looping_on = false;
+
+        }
+
+
+    /**
+     * Copy view content to snapshot table
+     *
+     * @param o2_file $snps_table
+     */
+    function snapshot_copy_view($snps_table) {
+
+        $this->looping_on = true;
+        $this->record_primo();
+        // _________________________________________________________ Copy view dataset ___
+        if (count($this->recordset) > 0) {
+            $srv_type   = $snps_table->db->server->type;
+            $srv_server = $snps_table->db->server->server;
+            $srv_user   = $snps_table->db->server->user;
+            $srv_pwd    = $snps_table->db->server->password;
+            $db_name    = $snps_table->db->nome;
+            $db_owner   = $snps_table->db->proprietario;
+            // __________________________________________________ Compose fields names ___
+            $fields = array();
+            foreach ($snps_table->campi as $fld_name => $fld) {
+                if ($fld_name != 'JXSNPS_STATUS') {
+                    $fields[] = $fld->nome_fisico;
+                    }
+                }
+            // __________________________________________________ Compose values cache ___
+            $cache = array();
+            do {
+                $recs = 0;
+                $rec  = '';
+                foreach ($snps_table->campi as $fld_name => $fld) {
+                    if ($fld_name != 'JXSNPS_STATUS') {
+                        if ($rec) {
+                            $rec.= ',';
+                            }
+                        if ($fld->tipo == 'N') {
+                            $rec.= ($this->corrente[$fld_name] ?
+                                    $this->corrente[$fld_name] :
+                                    '0');
+                            }
+                        else {
+                            $rec.= "'".$this->corrente[$fld_name]."'";
+                            }
+                        }
+                    }
+                $cache[] = $rec;
+                $recs++;
+                // ________________________________________________ Insert cache chunk ___
+                if ($recs > 999) {
+                    o2_gateway::insertrec($srv_type,
+                                          $srv_server,
+                                          $srv_user,
+                                          $srv_pwd,
+                                          $db_name,
+                                          $db_owner,
+                                          $snps_table->write_name,
+                                          $snps_table->indice,
+                                          $fields,
+                                          array(implode('),(', $cache)));
+                    $cache = array();
+                    $recs  = 0;
+                    }
+                } while ($this->record_avanti());
+            // ___________________________________________________________ Flush cache ___
+            if ($cache) {
+                o2_gateway::insertrec($srv_type,
+                                      $srv_server,
+                                      $srv_user,
+                                      $srv_pwd,
+                                      $db_name,
+                                      $db_owner,
+                                      $snps_table->write_name,
+                                      $snps_table->indice,
+                                      $fields,
+                                      array(implode('),(', $cache)));
+                }
+            $this->relocate_to_key = false;
+            }
+        $this->looping_on = false;
+        $this->vista      = false;
+        $this->recordset  = array();
+        unset($this->corrente);
+
+        }
+
+
+    /**
+     * Create snapshot copy of original view based on snapshot table
+     *
+     * @param o2_file $table   Snapshot table to base view on
+     */
+    function snapshot_create_view($table) {
+
+        $snps_view        = new o2_dbview($this->prg, $this->id_esecuzione, $this->nome);
+        $snps_view->files = array($table->indice => $table);
+        $snps_view->file  = $snps_view->files[$table->indice];
+        foreach ($table->campi as $fld_name => $fld) {
+            $ori_fld = $this->campi[$fld_name];
+            if (isset($this->esclusivi[$ori_fld->file][$fld_name])) {
+                $min  = $ori_fld->min;
+                $max  = $ori_fld->max;
+                $not  = $ori_fld->not;
+                $like = $ori_fld->like;
+                }
+            else {
+                $min  = null;
+                $max  = null;
+                $not  = null;
+                $like = null;
+                }
+            $snps_view->campi[$fld_name] = new o2_campo_task($fld_name,
+                                                             $table->indice,
+                                                             $table->campi[$fld_name],
+                                                             $min,
+                                                             $max,
+                                                             ($fld_name == 'JXSNPS_STATUS'
+                                                              ? 'D' : $not),
+                                                             $like);
+            }
+        $snps_view->chiavi_in_uso = array($table->indice => $table->chiave->nome);
+        $snps_view->snapshot      = true;
+        $snps_view->snps_ori_type = $this->file->db->server->type;
+        $snps_view->internal      = true;
+        $snps_view->struttura();
+        return $snps_view;
+
+        }
+
+
+    /**
+     * Create table in snapshot database from view dataset
+     *
+     */
+    function snapshot_create_table() {
+
+        $tab_name = $this->nome.'_jxsnps';
+        $key_name = $this->file->chiave->nome;
+        $table    = new o2_file($tab_name, 'jxsess_db', $tab_name, $key_name);
+        $co       = constant('o2_sqlite3_o');
+        $cc       = constant('o2_sqlite3_c');
+        $uid      = 0;
+        // ________________________________________ Create fields from physical fields ___
+        foreach ($this->campi as $field) {
+            $fld_name = $field->nome;
+            if (substr($fld_name, -6) != "_JOIN_") {
+                $phys_fld = ($field->file == $this->file->indice ?
+                             $field->phys_name :
+                             $fld_name.'_'.$uid);
+                $table->campi[$fld_name] = new o2_campo($table,
+                                                        $phys_fld,
+                                                        $co.$phys_fld.$cc,
+                                                        $field->maschera->nome);
+                $uid++;
+                }
+            }
+        // _______________________________________________ Create fields from formulas ___
+        foreach ($this->formule as $field) {
+            $fld_name                = $field->nome;
+            $table->campi[$fld_name] = new o2_campo($table,
+                                                    $fld_name.'_'.$uid,
+                                                    $co.$fld_name.'_'.$uid.$cc,
+                                                    'o2sys_long_str');
+            }
+        // ________________________________________________________ Add "status" field ___
+        $fld_name                = 'JXSNPS_STATUS';
+        $table->campi[$fld_name] = new o2_campo($table,
+                                                $fld_name,
+                                                $co.$fld_name.$cc,
+                                                'o2sys_snps_status');
+        // ____________________________________ Add "previous key" field (for UPDATEs) ___
+        $fld_name                = 'JXSNPS_PRVKEY';
+        $table->campi[$fld_name] = new o2_campo($table,
+                                                $fld_name,
+                                                $co.$fld_name.$cc,
+                                                'o2sys_long_str');
+        // ________________________________________ Create primary key from used index ___
+        $segments    = array();
+        $pk_segments = array();
+        foreach ($this->file->chiave->segmenti as $segment) {
+            $fld_name    = strtoupper($segment->campo->name);
+            $campo       = $table->campi[$fld_name];
+            $campo->name = $fld_name;
+            $direzione   = $segment->direzione;
+            $segments[]  = new o2_segmento_indice($campo, $direzione);
+            $pk_segments[$co.$fld_name.$cc] = $fld_name;
+            }
+        $table->chiavi[$key_name] = new o2_chiave($key_name, $segments, true);
+        $table->chiave            = $table->chiavi[$key_name];
+        $table->pk_segments       = $pk_segments;
+        $table->log_level         = false;
+        $table->crea();
+        // ___________________________________________ Add table to application tables ___
+        $_SESSION['o2_app']->tab[$tab_name] = $table;
+        return $table;
 
         }
 
@@ -7194,6 +7663,15 @@ class o2act {
                     else {
                         return false;
                         }
+                    break;
+                case "SS": // _________________________________________ Snapshot start ___
+                    $prg->snapshot_start($task);
+                    break;
+                case "SM": // __________________________________________ Snapshot sync ___
+                    $prg->snapshot_merge($task);
+                    break;
+                case "SE": // ___________________________________________ Snapshot end ___
+                    $prg->snapshot_end($task);
                     break;
                 case "X": // Action: RANGE-CTRL (not used see prg "tools/o2sys_tab_filter)
                     return $view->selettore();

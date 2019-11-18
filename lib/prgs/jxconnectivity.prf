@@ -2618,7 +2618,7 @@ function jxconnectivity§§view_log_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxconnectivity_exp_1() {
-	
+
 return ("jximgbtn".(o2exp(72) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
@@ -2700,32 +2700,32 @@ return ($ok);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_6() {
-	
+
 return (o2val('prg§_§var','fields_o2def'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_7() {
-	
+
 return (o2val('prg§_§var','fields_physical'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_8() {
-	
+
 return (o2val('prg§_§var','only_in_o2def'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_9() {
-	
+
 return (o2val('prg§_§var','only_in_physical'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_10() {
-	
+
 return (o2val('prg§_§var','table') && o2val('prg§_§var','phys_structure', 'exist') && !o2val('prg§_§var','operation'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_11() {
-	
+
 return (o2val('prg§_§var','fields_physical'));
 	} //|o2_fine_exp|
 
@@ -2735,12 +2735,12 @@ return ($arr_local[0]);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_13() {
-	
+
 return (o2tab_info(o2val('prg§_§var','table')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_14() {
-	
+
 return (o2val('prg§_§var','table'));
 	} //|o2_fine_exp|
 
@@ -2759,7 +2759,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_17() {
-	
+
 return (o2tree_get_code("tables"));
 	} //|o2_fine_exp|
 
@@ -2769,7 +2769,7 @@ return ($arr_local[0]);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_19() {
-	
+
 return ("R");
 	} //|o2_fine_exp|
 
@@ -2796,12 +2796,12 @@ return ($arr_local);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_22() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_23() {
-	
+
 return (o2val('prg§_§var','node_type') == "field" || o2val('prg§_§var','node_type') == "key");
 	} //|o2_fine_exp|
 
@@ -2818,27 +2818,27 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_26() {
-	
+
 return ("jxtree jxtree_bottom");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_27() {
-	
+
 return (o2tree_get_selection("tables"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_28() {
-	
+
 return (o2val('prg§_§var','asp_codes_list'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_29() {
-	
+
 return ("<jx>/img/tabadmin/dbexport.png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_30() {
-	
+
 return (o2val('prg§_§var','node_type') == "table" || o2val('prg§_§var','node_type') == "field" || o2val('prg§_§var','node_type') == "key");
 	} //|o2_fine_exp|
 
@@ -2846,7 +2846,7 @@ function jxconnectivity_exp_31() {
 	$list = array();
 $root_folder = o2app_dir_home()."data".DIRECTORY_SEPARATOR;
 $list[$root_folder] = '/';
-$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root_folder), 
+$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root_folder),
                                        RecursiveIteratorIterator::SELF_FIRST);
 foreach ($files as $file) {
    if ($file->isDir() && $file->getBasename() != '.' && $file->getBasename() != '..') {
@@ -2858,12 +2858,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_32() {
-	
+
 return ("jxtoolbar");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_33() {
-	
+
 return (o2val('prg§_§var','folders_list'));
 	} //|o2_fine_exp|
 
@@ -2874,7 +2874,7 @@ return ($t);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_35() {
-	
+
 return ("export");
 	} //|o2_fine_exp|
 
@@ -2890,12 +2890,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_37() {
-	
+
 return ("import");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_38() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
@@ -2915,12 +2915,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_40() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_41() {
-	
+
 return (basename(o2val('prg§_§var','selected_file')));
 	} //|o2_fine_exp|
 
@@ -2930,42 +2930,42 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_43() {
-	
+
 return (o2val('prg§_§var','files_list'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_44() {
-	
+
 return (o2val('prg§_§var','table').".o2x");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_45() {
-	
+
 return ("*.o2x");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_46() {
-	
+
 return ((o2val('prg§_§var','operation') == "export" || o2val('prg§_§var','operation') == "export_all" ? "&Export" : "&Import"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_47() {
-	
+
 return (o2tab_export(o2val('prg§_§var','table'), o2val('prg§_§var','folder').DIRECTORY_SEPARATOR.o2val('prg§_§var','file_name'), o2val('prg§_§var','imp_exp_asp')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_48() {
-	
+
 return (!o2zero('prg§_§var','file_name') && (o2val('prg§_§var','operation') == "export"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_49() {
-	
+
 return (o2tab_import(o2val('prg§_§var','table'), o2val('prg§_§var','folder').DIRECTORY_SEPARATOR.o2val('prg§_§var','file_name'), o2val('prg§_§var','imp_exp_asp')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_50() {
-	
+
 return (!o2zero('prg§_§var','file_name') && (o2val('prg§_§var','operation') == "import"));
 	} //|o2_fine_exp|
 
@@ -2983,7 +2983,7 @@ return ($text);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_52() {
-	
+
 return (o2val('prg§_§var','tab4check') != o2val('prg§_§var','table'));
 	} //|o2_fine_exp|
 
@@ -2993,27 +2993,27 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_54() {
-	
+
 return ("<jx>/img/tabadmin/tree/fold.png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_55() {
-	
+
 return (!o2val('prg§_§var','unlock_asp_codes'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_56() {
-	
+
 return (o2val('prg§_§var','node_type4check'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_57() {
-	
+
 return (o2tab_browse(o2val('prg§_§var','table')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_58() {
-	
+
 return ("<jx>/img/tabadmin/tree/unfold.png");
 	} //|o2_fine_exp|
 
@@ -3044,12 +3044,12 @@ return ($err);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_61() {
-	
+
 return (o2field_model("o2_users", "area"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_62() {
-	
+
 return ("em");
 	} //|o2_fine_exp|
 
@@ -3074,22 +3074,22 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_65() {
-	
+
 return ("jximgbtn");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_66() {
-	
+
 return (o2val('prg§_§var','table') && !o2val('prg§_§var','operation'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_67() {
-	
+
 return (o2val('prg§_§var','table') && !o2val('prg§_§var','phys_structure','exist') && !o2val('prg§_§var','operation'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_68() {
-	
+
 return ("jximgbtn".(o2exp(10) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
@@ -3103,32 +3103,32 @@ return ($if);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_70() {
-	
+
 return (o2val('prg§_§var','operation') == 'rebuild');
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_71() {
-	
+
 return ('rebuild');
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_72() {
-	
+
 return (!o2val('prg§_§var','operation'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_73() {
-	
+
 return (o2val('prg§_§var','table') && !o2val('prg§_§var','operation'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_74() {
-	
+
 return (o2val('prg§_§var','field_from_o2def') !== "" && o2val('prg§_§var','field_from_physical') !== "");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_75() {
-	
+
 return ("jximgbtn".(o2exp(67) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
@@ -3140,7 +3140,7 @@ return ($text);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_77() {
-	
+
 return ("jximgbtn".(o2exp(73) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
@@ -3155,47 +3155,47 @@ return ($enab);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_79() {
-	
+
 return (o2val('_o2SESSION','_area'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_80() {
-	
+
 return (o2val('prg§_§var','area_local'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_81() {
-	
+
 return (o2tab_asp(o2val('prg§_§var','table')) && o2val('_o2SESSION','_area'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_82() {
-	
+
 return ("<jx>/img/tabadmin/unlock.png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_83() {
-	
+
 return ((o2val('prg§_§var','node_type') == "table" && !o2zero('prg§_§var','table') ? o2val('prg§_§var','table') : null));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_84() {
-	
+
 return ("jximgbtn".(o2exp(155) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_85() {
-	
+
 return (1000);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_86() {
-	
+
 return (o2view_rec("logged_table"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_87() {
-	
+
 return ("jximgbtn".(o2exp(78) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
@@ -3207,127 +3207,127 @@ return ($name);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_89() {
-	
+
 return ("jximgbtn".(o2exp(125) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_90() {
-	
+
 return (o2val('prg§_§var','table') && o2view_rec("logged_table") && (substr(o2val('prg§_§var','table'), -6) != "_o2log"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_91() {
-	
+
 return ("jximgbtn".(o2exp(90) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_92() {
-	
+
 return (o2tab_browselog(o2val('prg§_§var','table')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_93() {
-	
+
 return ("<jx>/img/tabadmin/browse".(o2exp(10) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_94() {
-	
+
 return ("<jx>/img/tabadmin/export".(o2exp(10) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_95() {
-	
+
 return ("<jx>/img/tabadmin/import".(o2exp(73) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_96() {
-	
+
 return ("<jx>/img/tabadmin/create".(o2exp(67) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_97() {
-	
+
 return ("<jx>/img/tabadmin/drop".(o2exp(155) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_98() {
-	
+
 return ("<jx>/img/tabadmin/aspclear".(o2exp(78) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_99() {
-	
+
 return ("<jx>/img/tabadmin/rebuild".(o2exp(155) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_100() {
-	
+
 return ((o2view_rec("logged_table") ? "Stop logging table" : "Start logging table"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_101() {
-	
+
 return ("<jx>/img/tabadmin/".(o2view_rec("logged_table") ? "logoff".(o2exp(125) ? "" : "_dis").".png" : "logon".(o2exp(125) ? "" : "_dis").".png"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_102() {
-	
+
 return ("<jx>/img/tabadmin/logbrowse".(o2exp(90) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_103() {
-	
+
 return ("<jx>/img/tabadmin/checkall".(o2exp(72) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_104() {
-	
+
 return ("<jx>/img/tabadmin/export".(o2exp(72) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_105() {
-	
+
 return ("<jx>/img/tabadmin/import".(o2exp(72) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_106() {
-	
+
 return ("<jx>/img/tabadmin/drop".(o2exp(123) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_107() {
-	
+
 return ("<jx>/img/tabadmin/rebuild".(o2exp(123) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_108() {
-	
+
 return ("<jx>/img/tabadmin/loglist".(o2exp(72) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_109() {
-	
+
 return (o2val('prg§_§var','field_type') == "K");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_110() {
-	
+
 return (o2val('prg§_§var','field_type') == "F");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_111() {
-	
+
 return (!o2val('prg§_§var','unlock_asp_codes'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_112() {
-	
+
 return (o2val('prg§_§var','unlock_asp_codes'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_113() {
-	
+
 return ("<jx>/img/tabadmin/lock.png");
 	} //|o2_fine_exp|
 
@@ -3344,7 +3344,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_115() {
-	
+
 return (!o2val('prg§_§var','node_type'));
 	} //|o2_fine_exp|
 
@@ -3354,37 +3354,37 @@ return ($text);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_117() {
-	
+
 return ("<jx>/img/jxpowered.png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_118() {
-	
+
 return ("disp_area");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_119() {
-	
+
 return ("table");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_120() {
-	
+
 return ("<jx>/img/tabadmin/".(o2val('prg§_§var','sort_tree') ? "unsort.png" : "sort.png"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_121() {
-	
+
 return (!o2val('prg§_§var','sort_tree'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_122() {
-	
+
 return ((o2val('prg§_§var','sort_tree') ? "Sort by definition order" : "Sort by alphabetical order"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_123() {
-	
+
 return (!o2val('prg§_§var','operation') && o2db_createtab(substr(o2val('prg§_§var','table'), 5)));
 	} //|o2_fine_exp|
 
@@ -3395,47 +3395,47 @@ return ($type);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_125() {
-	
+
 return (o2val('prg§_§var','table') && (substr(o2val('prg§_§var','table'), -6) != "_o2log"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_126() {
-	
+
 return ("<jx>/img/tabadmin/aspclone".(o2exp(78) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_127() {
-	
+
 return ("jximgbtn".(o2exp(123) ? "" : "_dis"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_128() {
-	
+
 return ("<jx>/img/tabadmin/aspclear".(o2exp(72) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_129() {
-	
+
 return (o2val('prg§_§var','operation') == "import" || o2val('prg§_§var','operation') == "export");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_130() {
-	
+
 return ("<jx>/img/tabadmin/aspclone".(o2exp(72) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_131() {
-	
+
 return ((o2exp(129) ? "Selected file name:" : "Selected folder:"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_132() {
-	
+
 return (!o2exp(129));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_133() {
-	
+
 return (o2val('prg§_§var','operation') == 'clone' || o2val('prg§_§var','operation') == 'cloneall');
 	} //|o2_fine_exp|
 
@@ -3448,17 +3448,17 @@ return ($text);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_135() {
-	
+
 return (!o2zero('prg§_§var','clone_target_area'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_136() {
-	
+
 return ("clone");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_137() {
-	
+
 return ("cloneall");
 	} //|o2_fine_exp|
 
@@ -3469,32 +3469,32 @@ return ($dir);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_139() {
-	
+
 return (o2val('prg§_§var','operation') == 'clone');
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_140() {
-	
+
 return (o2val('prg§_§var','operation') == 'cloneall');
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_141() {
-	
+
 return (o2val('prg§_§var','node_type') == "table");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_142() {
-	
+
 return (o2val('prg§_§var','node_type') == "db");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_143() {
-	
+
 return ("export_all");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_144() {
-	
+
 return (o2val('prg§_§var','node_type') == "server");
 	} //|o2_fine_exp|
 
@@ -3534,7 +3534,7 @@ return ($l);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_152() {
-	
+
 return ((o2db_createtab(o2tab_db(o2val('prg§_§var','table'))) ? false : true));
 	} //|o2_fine_exp|
 
@@ -3547,7 +3547,7 @@ return ($enab);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_154() {
-	
+
 return ("<jx>/img/tabadmin/separator.png");
 	} //|o2_fine_exp|
 
@@ -3560,22 +3560,22 @@ return ($enab);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_156() {
-	
+
 return (!o2val('prg§_§var','log_active'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_157() {
-	
+
 return (o2val('prg§_§var','log_active'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_158() {
-	
+
 return ($_SESSION['o2_app']->tables_log);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_159() {
-	
+
 return ("tools/o2sys_dbexport");
 	} //|o2_fine_exp|
 
@@ -3595,7 +3595,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_163() {
-	
+
 return (count(o2val('prg§_§var','files_list')) == 1);
 	} //|o2_fine_exp|
 
@@ -3606,7 +3606,7 @@ return ($name);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_165() {
-	
+
 return ("tools/o2sys_log_list");
 	} //|o2_fine_exp|
 
@@ -3616,12 +3616,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_167() {
-	
+
 return ((o2val('prg§_§var','node_type') == "server" ? o2dbs_name(substr(o2val('prg§_§var','table'), 6)) : ""));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_168() {
-	
+
 return ((o2val('prg§_§var','node_type') == "server" ? o2dbs_user(substr(o2val('prg§_§var','table'), 6)) : ""));
 	} //|o2_fine_exp|
 
@@ -3636,32 +3636,32 @@ return ($pwd);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_170() {
-	
+
 return ((o2val('prg§_§var','node_type') == "server" ? o2dbs_engine(substr(o2val('prg§_§var','table'), 6)) : ""));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_171() {
-	
+
 return ((o2val('prg§_§var','node_type') == "server" ? substr(o2val('prg§_§var','table'), 6) : ""));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_172() {
-	
+
 return ((o2val('prg§_§var','node_type') == "db" ? substr(o2val('prg§_§var','table'), 5) : ""));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_173() {
-	
+
 return ((o2val('prg§_§var','node_type') == "db" ? o2dbs_engine(o2db_server(substr(o2val('prg§_§var','table'), 5))) : ""));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_174() {
-	
+
 return ((o2val('prg§_§var','node_type') == "db" ? o2db_name(substr(o2val('prg§_§var','table'), 5)) : ""));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_175() {
-	
+
 return ((o2val('prg§_§var','node_type') == "db" ? o2db_schema(substr(o2val('prg§_§var','table'), 5)) : ""));
 	} //|o2_fine_exp|
 
@@ -3693,7 +3693,7 @@ return ($engine);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_179() {
-	
+
 return ((o2val('prg§_§var','node_type') == "db" ? o2db_server(substr(o2val('prg§_§var','table'), 5)) : ""));
 	} //|o2_fine_exp|
 
@@ -3737,27 +3737,27 @@ return ($logged);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_184() {
-	
+
 return ("import_all");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_185() {
-	
+
 return ("<jx>/img/alert.png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_186() {
-	
+
 return (o2val('prg§_§var','operation') == "export_all");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_187() {
-	
+
 return (o2val('prg§_§var','operation') == "import_all");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_188() {
-	
+
 return ("disp_area");
 	} //|o2_fine_exp|
 
@@ -3858,7 +3858,7 @@ foreach ($def_fields as $def_name => $def_field) {
 foreach ($only_phys_fields as $only_phys_name => $only_phys_field) {
     $size   = "";
     $errors = true;
-    if ($only_phys_field['type'] != "number" && 
+    if ($only_phys_field['type'] != "number" &&
         $only_phys_field['type'] != "structure") {
         $size = $only_phys_field['dim'];
         }
@@ -3884,7 +3884,7 @@ $list[$tab_name."_jxfields"] = array($tab_name,
                                      "");
 // _________________________________________________________________ Indexes ___
 $pkey   = o2tab_pkey(o2val('prg§_§var','table'));
-$errors = false;          
+$errors = false;
 foreach ($def_keys as $def_name => $def_key) {
     // ____________________________________________________ Standard indexes ___
     if (!$def_key['extra']) {
@@ -3915,7 +3915,7 @@ foreach ($def_keys as $def_name => $def_key) {
                "desc.png' title='Descending'" :
                "asc.png' title='Ascending'").
                " style='display:inline'>&nbsp; ".$single_segm['column'];
-             }          
+             }
        // ______________________________________________________ Add to list ___
        $list[$tab_name."_jxkey_".$def_name] = array($tab_name."_jxkeys",
                                                     $text,
@@ -3925,7 +3925,7 @@ foreach ($def_keys as $def_name => $def_key) {
                                                     $status,
                                                     $segs,
                                                     ($is_pkey ? "P" : "I"),
-                                                    ($def_key['unique'] ? 
+                                                    ($def_key['unique'] ?
                                                      true : false));
        }
     }
@@ -3942,7 +3942,7 @@ foreach ($only_phys_keys as $only_phys_name => $only_phys_key) {
                     ($single_segm['dir'] == "D" ?
                     "desc.png' title='Descending'" :
                     "asc.png' title='Ascending'").
-                    " style='display:inline'>&nbsp; ".$single_segm['column'];       
+                    " style='display:inline'>&nbsp; ".$single_segm['column'];
            }
        // ______________________________________________________ Add to list ___
        $list[$tab_name."_jxkey_".$only_phys_name] = array($tab_name."_jxkeys",
@@ -3971,23 +3971,23 @@ foreach ($extra_idx as $exidx) {
                 "desc.png' title='Descending'" :
                 "asc.png' title='Ascending'").
                 " style='display:inline'>&nbsp; ".$seg_fld;
-      $code.= ($code ? ',' : '').$seg_fld.'|'.$seg_dir;                       
+      $code.= ($code ? ',' : '').$seg_fld.'|'.$seg_dir;
       }
    if (in_array($exidx[0], array_keys($only_def_keys))) {
       $status = 'M';
       $icon   = '<jx>/img/tabadmin/tree/error.png';
       $text  .= ' <i>(missing)</i>';
-      $errors = true;         
-      }            
+      $errors = true;
+      }
    elseif (in_array($exidx[0], array_keys($tab_strct['keys']['var']))) {
       $status = 'C';
       $icon   = '<jx>/img/tabadmin/tree/error.png';
       $text  .= ' <i>(changed)</i>';
-      $errors = true;   
+      $errors = true;
       }
    else {
       $status = '';
-      $icon   = '<jx>/img/tabadmin/tree/ext_idx.png';         
+      $icon   = '<jx>/img/tabadmin/tree/ext_idx.png';
       }
     // _________________________________________________________ Add to list ___
     $list[$tab_name."_jxeidx_".$exidx[0]] = array($tab_name.'_jxkeys',
@@ -4065,12 +4065,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_190() {
-	
+
 return ("All database tables exported to ".o2val('prg§_§var','file_name'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_191() {
-	
+
 return ((o2val('prg§_§var','node_type') == "key" ? "K" : "F"));
 	} //|o2_fine_exp|
 
@@ -4095,7 +4095,7 @@ return ($phys);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_194() {
-	
+
 return ("All database tables imported from ".o2val('prg§_§var','file_name'));
 	} //|o2_fine_exp|
 
@@ -4118,7 +4118,7 @@ return ($type);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_198() {
-	
+
 return (o2val('prg§_§var','field_type') == "F");
 	} //|o2_fine_exp|
 
@@ -4140,7 +4140,7 @@ return ($cond);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_201() {
-	
+
 return (o2val('prg§_§var','field_type') == "K");
 	} //|o2_fine_exp|
 
@@ -4189,17 +4189,17 @@ return ($create);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_206() {
-	
+
 return (substr(o2val('prg§_§var','table'), 5));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_207() {
-	
+
 return ("<jx>/img/tabadmin/extratab".(o2exp(72) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_208() {
-	
+
 return ("o2_ctrl_label");
 	} //|o2_fine_exp|
 
@@ -4325,17 +4325,17 @@ return ($tables);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_211() {
-	
+
 return ((o2val('prg§_§var','show_result') ? o2tree_get_code("result") : ""));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_212() {
-	
+
 return (o2val('prg§_§var','show_result')." result:");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_213() {
-	
+
 return (o2val('prg§_§var','show_result'));
 	} //|o2_fine_exp|
 
@@ -4450,7 +4450,7 @@ return ("Import");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_218() {
-	
+
 return ('hidden');
 	} //|o2_fine_exp|
 
@@ -4550,17 +4550,17 @@ return ("Unmapped tables");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_222() {
-	
+
 return ("Table ".o2val('prg§_§var','table')." created");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_223() {
-	
+
 return ("Table ".o2val('prg§_§var','table')." dropped");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_224() {
-	
+
 return ("Table ".o2val('prg§_§var','table')." rebuilt");
 	} //|o2_fine_exp|
 
@@ -4578,22 +4578,22 @@ return ($text);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_226() {
-	
+
 return (!o2zero('prg§_§var','file_name'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_227() {
-	
+
 return (o2tab_aspclear(o2val('prg§_§var','table')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_228() {
-	
+
 return (o2tab_aspclone(o2val('prg§_§var','table'), o2val('prg§_§var','clone_target_area')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_229() {
-	
+
 return ("<jx>/img/tabadmin/get_def.png");
 	} //|o2_fine_exp|
 
@@ -4610,17 +4610,17 @@ return ($def);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_232() {
-	
+
 return ("getdef");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_233() {
-	
+
 return (o2val('prg§_§var','operation') == 'getdef');
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_234() {
-	
+
 return ("<pre>".o2val('prg§_§var','get_def')."</pre>");
 	} //|o2_fine_exp|
 
@@ -4637,7 +4637,7 @@ return ($trace);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_236() {
-	
+
 return ((o2val('prg§_§var','show_result') == "Check") && (count(o2tree_get_nodes("result")) > 1));
 	} //|o2_fine_exp|
 
@@ -4674,8 +4674,8 @@ if ($in) {
             $tot++;
             foreach ($errors_tab as $rt_key => $r_tab) {
                if ($r_tab[0] == $tab[0] && $r_tab[3] && $r_tab[3] == 'index') {
-                  unset($errors_tab[$rt_key]);               
-                  }            
+                  unset($errors_tab[$rt_key]);
+                  }
                }
             }
          else {
@@ -4685,11 +4685,11 @@ if ($in) {
             }
          }
       }
-   // ___________________________________________________ Fix indexes errors ___      
+   // ___________________________________________________ Fix indexes errors ___
    foreach ($errors_tab as $tab) {
       if ($tab[0] !== 'jxresultset' && $tab[3] && $tab[3] == 'index') {
          o2tab_indexes_setoff($tab[0]);
-         if (o2tab_indexes_seton($tab[0])) {            
+         if (o2tab_indexes_seton($tab[0])) {
             $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.'tab.png');
             $tabs++;
             $tot++;
@@ -4701,12 +4701,12 @@ if ($in) {
             }
          }
       }
-   // ______________________________________________ Fix foreign keys errors ___      
+   // ______________________________________________ Fix foreign keys errors ___
    foreach ($errors_tab as $tab) {
       if ($tab[0] !== 'jxresultset' && $tab[3]) {
          if ($tab[3] == 'fkey') {
             o2tab_fkeys_setoff($tab[0]);
-            if (o2tab_fkeys_seton($tab[0])) {            
+            if (o2tab_fkeys_seton($tab[0])) {
                $list[$tab[0]] = array('jxresultset', $tab[0], $img_path.'tab.png');
                $tabs++;
                $tot++;
@@ -4718,7 +4718,7 @@ if ($in) {
                }
             }
          elseif ($tab[3] == 'error') {
-            o2tab_fkeys_seton($tab[0]);         
+            o2tab_fkeys_seton($tab[0]);
             }
          }
       }
@@ -4729,7 +4729,7 @@ return ("Rebuild");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_238() {
-	
+
 return ((o2val('prg§_§var','show_result') == "Unmapped tables") && (count(o2tree_get_nodes("result")) > 1));
 	} //|o2_fine_exp|
 
@@ -4767,87 +4767,87 @@ return ($m);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_241() {
-	
+
 return (o2val('prg§_§var','new_c_new_main_tab'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_242() {
-	
+
 return (o2val('prg§_§var','new_c_new_main_fields'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_243() {
-	
+
 return ("Add constraint to table ".o2val('prg§_§var','table'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_244() {
-	
+
 return (o2val('prg§_§var','show_constr_details'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_245() {
-	
+
 return (o2val('prg§_§var','new_c_main_all_fields'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_246() {
-	
+
 return (o2val('prg§_§var','new_c_main_all_field'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_247() {
-	
+
 return (o2val('prg§_§var','new_c_main_field'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_248() {
-	
+
 return (o2val('prg§_§var','new_c_main_fields'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_249() {
-	
+
 return (o2val('prg§_§var','new_c_link_fields'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_250() {
-	
+
 return (o2val('prg§_§var','new_c_link_all_field'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_251() {
-	
+
 return (o2val('prg§_§var','new_c_link_field'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_252() {
-	
+
 return (o2val('prg§_§var','new_c_link_all_fields'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_253() {
-	
+
 return (" jxbtn_cancel");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_254() {
-	
+
 return (" jxbtn_save");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_255() {
-	
+
 return (0);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_256() {
-	
+
 return (count(o2val('prg§_§var','tables_list')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_257() {
-	
+
 return (o2val('prg§_§var','tables_index') >= o2val('prg§_§var','tables_total'));
 	} //|o2_fine_exp|
 
@@ -4857,7 +4857,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_259() {
-	
+
 return (o2val('prg§_§var','res_count')." constraints activated on database");
 	} //|o2_fine_exp|
 
@@ -4876,7 +4876,7 @@ return ($idx);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_261() {
-	
+
 return (o2val('prg§_§var','res_count') + 1);
 	} //|o2_fine_exp|
 
@@ -4893,12 +4893,12 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_263() {
-	
+
 return (!o2val('prg§_§var','cons_loop_db'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_264() {
-	
+
 return (array("C" => array(), "R" => array()));
 	} //|o2_fine_exp|
 
@@ -4917,12 +4917,12 @@ return ($ok);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_267() {
-	
+
 return (o2val('prg§_§var','new_c_check_data_ok'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_268() {
-	
+
 return (!o2val('prg§_§var','new_c_check_data_ok'));
 	} //|o2_fine_exp|
 
@@ -4946,7 +4946,7 @@ return ($tab);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_271() {
-	
+
 return (o2val('prg§_§var','tables_index') + 1);
 	} //|o2_fine_exp|
 
@@ -4960,7 +4960,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_273() {
-	
+
 return (array());
 	} //|o2_fine_exp|
 
@@ -4990,17 +4990,17 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_278() {
-	
+
 return (o2view_rec("new_constraint"));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_279() {
-	
+
 return (!o2val('prg§_§var','new_c_check_duplicate'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_280() {
-	
+
 return (o2val('prg§_§var','new_c_check_duplicate'));
 	} //|o2_fine_exp|
 
@@ -5012,37 +5012,37 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_282() {
-	
+
 return (o2val('prg§_§var','res_count')." constraints deactivated on database");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_283() {
-	
+
 return (o2val('prg§_§var','new_c_link_tab'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_284() {
-	
+
 return (implode(",", o2val('prg§_§var','new_c_link_fields')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_285() {
-	
+
 return (o2val('prg§_§var','new_c_name'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_286() {
-	
+
 return (o2val('prg§_§var','node_type') == "constraint");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_287() {
-	
+
 return (o2val('prg§_§var','node_type') == "reference");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_288() {
-	
+
 return ("C");
 	} //|o2_fine_exp|
 
@@ -5061,7 +5061,7 @@ return ($idx);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_291() {
-	
+
 return (o2val('prg§_§var','tab4check') != o2val('prg§_§var','table') && !o2val('prg§_§var','cons_loop'));
 	} //|o2_fine_exp|
 
@@ -5183,17 +5183,17 @@ return ($db);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_306() {
-	
+
 return ("Create new index for table ".o2val('prg§_§var','table'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_307() {
-	
+
 return (o2val('prg§_§var','show_exidx_details'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_308() {
-	
+
 return (!o2val('prg§_§var','cons_loop'));
 	} //|o2_fine_exp|
 
@@ -5357,27 +5357,27 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_316() {
-	
+
 return (o2val('prg§_§var','res_count')." constraints validated on database");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_317() {
-	
+
 return ("<jx>/img/tabadmin/constraint_add.png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_318() {
-	
+
 return ("<jx>/img/tabadmin/constraint_seton.png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_319() {
-	
+
 return ("<jx>/img/tabadmin/constraint_setoff.png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_320() {
-	
+
 return ("<jx>/img/tabadmin/constraint_validate.png");
 	} //|o2_fine_exp|
 
@@ -5412,17 +5412,17 @@ return ($code);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_324() {
-	
+
 return (o2val('prg§_§var','field_type') == "R");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_325() {
-	
+
 return (o2val('prg§_§var','field_type') == "C");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_326() {
-	
+
 return ("<jx>/img/tabadmin/drop.png");
 	} //|o2_fine_exp|
 
@@ -5536,7 +5536,7 @@ return ($ret);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_336() {
-	
+
 return (o2val('prg§_§var','res_count')." constraints enabled on table <i>".o2val('prg§_§var','table')."</i>");
 	} //|o2_fine_exp|
 
@@ -5546,7 +5546,7 @@ return ($ret);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_338() {
-	
+
 return (o2val('prg§_§var','res_count')." constraints removed from table <i>".o2val('prg§_§var','table')."</i>");
 	} //|o2_fine_exp|
 
@@ -5561,17 +5561,17 @@ return ($ret);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_341() {
-	
+
 return (o2val('prg§_§var','node_type') == "extra_index");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_342() {
-	
+
 return (o2val('prg§_§var','new_ei_all_fields'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_343() {
-	
+
 return (o2val('prg§_§var','new_ei_new_fields'));
 	} //|o2_fine_exp|
 
@@ -5601,12 +5601,12 @@ return ($img);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_347() {
-	
+
 return (o2val('prg§_§var','field_type') == "E");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_348() {
-	
+
 return ("E");
 	} //|o2_fine_exp|
 
@@ -5626,12 +5626,12 @@ return ($str);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_351() {
-	
+
 return (o2val('prg§_§var','new_ei_check_data'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_352() {
-	
+
 return (!o2val('prg§_§var','new_ei_check_data'));
 	} //|o2_fine_exp|
 
@@ -5680,7 +5680,7 @@ return ($idx);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_358() {
-	
+
 return (o2val('prg§_§var','index_is_on'));
 	} //|o2_fine_exp|
 
@@ -5706,7 +5706,7 @@ else {
       foreach ($fields as $seg) {
          $segs[$seg['column']] = $seg['dir'];
          }
-      }   
+      }
    else {
       foreach (explode(',', $node[5]) as $seg) {
          list($seg_name, $seg_dir) = explode('|', $seg);
@@ -5731,7 +5731,7 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_361() {
-	
+
 return (o2val('prg§_§var','field_type') == 'K' || o2val('prg§_§var','field_type') == 'E');
 	} //|o2_fine_exp|
 
@@ -5744,12 +5744,12 @@ return ($cond);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_363() {
-	
+
 return ('jximgbtn'.(o2exp(362) ? '' : '_dis'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_364() {
-	
+
 return ('<jx>/img/tabadmin/drop'.(o2exp(362) ? '' : '_dis').'.png');
 	} //|o2_fine_exp|
 
@@ -5759,7 +5759,7 @@ function jxconnectivity_exp_365() {
    $name  = $node[4];
    $idxs  = array_keys(o2val('prg§_§var','phys_structure', 'keys', 'phys'));
    $is_on = in_array($name, $idxs);
-/*   
+/*
    }
 else {
    $is_on = false;
@@ -5769,12 +5769,12 @@ return ($is_on);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_366() {
-	
+
 return (!o2val('prg§_§var','cons_loop') && o2val('prg§_§var','field_type') == 'E');
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_367() {
-	
+
 return (!o2val('prg§_§var','cons_loop') && o2val('prg§_§var','field_type') == 'K');
 	} //|o2_fine_exp|
 
@@ -5791,22 +5791,22 @@ return ($is_unique);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_370() {
-	
+
 return ((o2val('prg§_§var','index_is_unique') ? 'UNIQUE' : 'NOT UNIQUE'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_371() {
-	
+
 return ("<jx>/img/tabadmin/ext_idx_add".(o2exp(155) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_372() {
-	
+
 return (o2val('prg§_§var','new_ei_all_field'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_373() {
-	
+
 return (o2val('prg§_§var','new_ei_field'));
 	} //|o2_fine_exp|
 
@@ -5837,12 +5837,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_378() {
-	
+
 return ('idx_'.o2uid());
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_379() {
-	
+
 return (o2val('prg§_§var','new_ei_fields'));
 	} //|o2_fine_exp|
 
@@ -5860,17 +5860,17 @@ return ($label);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_381() {
-	
+
 return (o2val('prg§_§var','new_ei_unique'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_382() {
-	
+
 return (o2val('prg§_§var','new_ei_name'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_383() {
-	
+
 return (o2val('prg§_§var','new_ei_new_fields'));
 	} //|o2_fine_exp|
 
@@ -5906,7 +5906,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_386() {
-	
+
 return (o2val('prg§_§var','new_ei_check_data'));
 	} //|o2_fine_exp|
 
@@ -5932,7 +5932,7 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_389() {
-	
+
 return (!o2val('prg§_§var','new_ei_check_data'));
 	} //|o2_fine_exp|
 
@@ -5942,7 +5942,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_391() {
-	
+
 return (o2val('prg§_§var','table') && o2tab_exists(o2val('prg§_§var','table')));
 	} //|o2_fine_exp|
 
@@ -5955,12 +5955,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_393() {
-	
+
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_394() {
-	
+
 return ('nav_big');
 	} //|o2_fine_exp|
 ?>

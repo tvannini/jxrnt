@@ -52,5 +52,6 @@ o2def::model("o2sys_role", "A", "U50", "");
 o2def::model("o2sys_service_status", "A", "U1[Active|Stopped|Requested]", "");
 o2def::model("o2sys_short_date", "D", "-dmy2z", "");
 o2def::model("o2sys_short_time", "O", ":hmz", "");
+o2def::model("o2sys_snps_status", "A", "U1[ |Inserted|Deleted|Updated]", "");
 o2def::model("o2sys_timestamp", "A", "N16", "");
 ?>
