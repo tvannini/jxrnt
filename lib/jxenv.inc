@@ -6010,9 +6010,11 @@ class o2_dbview extends o2_view {
      */
     function snapshot_create_table() {
 
+        $app      = $_SESSION['o2_app'];
         $tab_name = $this->nome.'_jxsnps';
         $key_name = $this->file->chiave->nome;
-        $table    = new o2_file($tab_name, 'jxsess_db', $tab_name, $key_name);
+        $snps_db  = ($app->snapshot_db ? $app->snapshot_db : 'jxsess_db');
+        $table    = new o2_file($tab_name, $snps_db, $tab_name, $key_name);
         $co       = constant('o2_sqlite3_o');
         $cc       = constant('o2_sqlite3_c');
         $uid      = 0;

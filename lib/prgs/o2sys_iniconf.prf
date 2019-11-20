@@ -517,6 +517,13 @@ $list = array(
                                   "When parameter is unset or set to blank (\"\") original tables databases are ".
                                   "used.",
                      "default" => ""),
+   "snapshot_db" => array("rntval"  => null,
+                          "appval"  => null,
+                          "desc"    => "   *** Snapshot database ***\n\n".
+                                       "Specifies the database where to create snapshot tables.\nDatabase name must ".
+                                       "be defined in the database repository and correctly matching a server.\n".
+                                       "When parameter is unset, snapshots are created on default session db \"jxsess_db\"",
+                          "default" => null),
    "record_trace" => array("rntval"  => null,
                            "appval"  => null,
                            "desc"    => "   *** Record tracing system ***\n\n".
@@ -1324,6 +1331,7 @@ function o2sys_iniconf_exp_34() {
               "log_backup",
               "log_db",
               "record_trace",
+              "snapshot_db",
               "",
               "grid_plus",
               "grid_multidel",

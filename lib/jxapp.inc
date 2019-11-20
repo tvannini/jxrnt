@@ -193,6 +193,7 @@ class o2_app {
     public $refresh_prg     = false;   /* Program to be executed on refresh             */
     public $refresh_time    = 0;       /* Number of seconds to wait before refreshing   */
     public $refresh_last    = 0;       /* Last refresh execution time-out               */
+    public $snapshot_db     = null;    /* Database used for snapshots (jxsess_db)       */
     /*     _____ BUGS compatibility ___________________________________________________ */
     public $bug_aggregate   = false;   /* If TRUE uncountable aggregations are skipped  */
     /*     _____ HTML extras __________________________________________________________ */
@@ -1343,6 +1344,9 @@ class o2_app {
             }
         if (isset($conf['jxsql'])) {
             $this->jxsql = ($conf['jxsql'] ? true : false);
+            }
+        if (isset($conf['snapshot_db'])) {
+            $this->snapshot_db = $conf['snapshot_db'];
             }
         if (isset($conf['extrainc'])) {
             $this->file_server_inc = $conf['extrainc'];
