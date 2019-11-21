@@ -1282,7 +1282,7 @@ class o2_prg {
      * End snapshot: destroy snapshot table end reset original view in program context.
      *
      */
-    function snapshot_end($view_name) {
+    function snapshot_clear($view_name) {
 
         if (isset($this->contesto[$view_name.'_jxsnps'])) {
             $this->contesto[$view_name]->file->elimina();
@@ -5776,7 +5776,9 @@ class o2_dbview extends o2_view {
                                 $rec.= $this->corrente[$fld_name];
                                 }
                             else {
-                                $rec.= "'".$this->corrente[$fld_name]."'";
+                                $rec.= "'".o2_gateway::normalize($srv_type,
+                                                               $this->corrente[$fld_name],
+                                                                  true)."'";
                                 }
                             }
                         $cache[] = $rec;
@@ -5806,7 +5808,9 @@ class o2_dbview extends o2_view {
                                 $rec[] = $this->corrente[$fld_name];
                                 }
                             else {
-                                $rec[] = "'".$this->corrente[$fld_name]."'";
+                                $rec[] = "'".o2_gateway::normalize($srv_type,
+                                                               $this->corrente[$fld_name],
+                                                                   true)."'";
                                 }
                             }
                         $update_arr = array_combine($fields, $rec);
@@ -5916,7 +5920,9 @@ class o2_dbview extends o2_view {
                                     '0');
                             }
                         else {
-                            $rec.= "'".$this->corrente[$fld_name]."'";
+                            $rec.= "'".o2_gateway::normalize($srv_type,
+                                                             $this->corrente[$fld_name],
+                                                             true)."'";
                             }
                         }
                     }
@@ -7672,8 +7678,8 @@ class o2act {
                 case "SM": // __________________________________________ Snapshot sync ___
                     $prg->snapshot_merge($task);
                     break;
-                case "SE": // ___________________________________________ Snapshot end ___
-                    $prg->snapshot_end($task);
+                case "SC": // _________________________________________ Snapshot clear ___
+                    $prg->snapshot_clear($task);
                     break;
                 case "X": // Action: RANGE-CTRL (not used see prg "tools/o2sys_tab_filter)
                     return $view->selettore();
