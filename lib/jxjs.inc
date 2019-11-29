@@ -1243,8 +1243,9 @@ class jxjs {
                         }
                     }
                 o2html::ctrl_win_position($o2form_obj);
-                if ($o2form_obj->x != $o2form_obj->last_x ||
-                    $o2form_obj->y != $o2form_obj->last_y) {
+                if (!$o2form_obj->linkto &&
+                    ($o2form_obj->x != $o2form_obj->last_x ||
+                     $o2form_obj->y != $o2form_obj->last_y)) {
                     $pos_buffer = ",x:".$o2form_obj->absolute_x.
                                   ",y:".$o2form_obj->absolute_y;
                     }

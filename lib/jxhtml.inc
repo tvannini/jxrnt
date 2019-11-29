@@ -170,6 +170,7 @@ class o2html {
             }
         // ______________________________________________________ Output buffering end ___
         ob_end_flush();
+
         }
 
 
