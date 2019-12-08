@@ -29,7 +29,7 @@ function o2sys_start§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("last_pwd_date","users","last_pwd_date",null,null,null,null);
 	$task_users->usa("force_pwd_change","users","force_pwd_change",null,null,null,null);
 	$task_users->usa("no_pwd_change","users","no_pwd_change",null,null,null,null);
-	$task_users->calcola("active", "o2sys_start_exp_46()",null,null,"o2sys_start_exp_18()",null);
+	$task_users->calcola("active","o2sys_long_str","o2sys_start_exp_46()",null,null,"o2sys_start_exp_18()",null);
 }
 
 function o2sys_start§§sessions_def(&$task_sessions, $_o2viewalias = "") {

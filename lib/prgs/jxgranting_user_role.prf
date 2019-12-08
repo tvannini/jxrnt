@@ -16,7 +16,7 @@ function jxgranting_user_role§§roles_def(&$task_roles, $_o2viewalias = "") {
 
 	$task_roles->usa("role_name","o2_roles","role_name",null,null,null,null);
 	$task_roles->usa("o2user","o2_roles_per_user","o2user",null,null,null,null);
-	$task_roles->calcola("free", "jxgranting_user_role_exp_9()","jxgranting_user_role_exp_6()","jxgranting_user_role_exp_6()",null,null);
+	$task_roles->calcola("free","o2sys_long_str","jxgranting_user_role_exp_9()","jxgranting_user_role_exp_6()","jxgranting_user_role_exp_6()",null,null);
 }
 function jxgranting_user_role§§user_role_form_def(&$form_user_role) {
 	$form_user_role->x(-100);

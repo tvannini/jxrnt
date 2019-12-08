@@ -6807,10 +6807,17 @@ class o2_ctrl_progress extends o2_ctrl {
         if (!isset($view->formule['JXPBV'])) {
             // _______________________________________ Formula to get record unique ID ___
             $view->calcola('JXPBI',
+                           'o2sys_long_str',
                        '$thisview->chiave_corrente($thisview->file,!1,!1,!1,!1,!0,!0,!0)',
                            null, null, null, null);
             // _________________________________________ Formula to get progress value ___
-            $view->calcola('JXPBV', $this->caller.'()', null, null, null, null);
+            $view->calcola('JXPBV',
+                           'o2sys_long_str',
+                           $this->caller.'()',
+                           null,
+                           null,
+                           null,
+                           null);
             $view->record_primo();
             }
 

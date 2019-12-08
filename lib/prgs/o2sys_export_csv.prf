@@ -52,7 +52,7 @@ function o2sys_export_csv§§tmp_def(&$task_tmp, $_o2viewalias = "") {
 	$task_tmp->usa("pos_id","o2_tmp_where","pos_id",null,null,null,null);
 	$task_tmp->usa("field_name","o2_tmp_where","field_name","o2sys_export_csv_exp_40()","o2sys_export_csv_exp_40()",null,null);
 	$task_tmp->usa("field_title","o2_tmp_where","field_title",null,null,null,null);
-	$task_tmp->calcola("col_selection", "o2sys_export_csv_exp_47()",null,null,null,null);
+	$task_tmp->calcola("col_selection","o2sys_long_str","o2sys_export_csv_exp_47()",null,null,null,null);
 }
 
 function o2sys_export_csv§§default_options_def(&$task_default_options, $_o2viewalias = "") {

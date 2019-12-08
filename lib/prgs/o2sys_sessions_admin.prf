@@ -39,11 +39,11 @@ function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "")
 	$task_sessions->usa("terminal_id","o2_sessions","terminal_id",null,null,null,null);
 	$task_sessions->usa("job_id","jx_running_jobs","job_id",null,null,null,null);
 	$task_sessions->usa("job_name","jx_jobs","job_name",null,null,null,null);
-	$task_sessions->calcola("creation", "o2sys_sessions_admin_exp_6()",null,null,null,null);
-	$task_sessions->calcola("update", "o2sys_sessions_admin_exp_7()",null,null,null,null);
-	$task_sessions->calcola("expire", "o2sys_sessions_admin_exp_8()",null,null,null,null);
-	$task_sessions->calcola("descr", "o2sys_sessions_admin_exp_5()",null,null,null,null);
-	$task_sessions->calcola("mode", "o2sys_sessions_admin_exp_27()",null,null,null,null);
+	$task_sessions->calcola("creation","o2sys_long_str","o2sys_sessions_admin_exp_6()",null,null,null,null);
+	$task_sessions->calcola("update","o2sys_long_str","o2sys_sessions_admin_exp_7()",null,null,null,null);
+	$task_sessions->calcola("expire","o2sys_long_str","o2sys_sessions_admin_exp_8()",null,null,null,null);
+	$task_sessions->calcola("descr","o2sys_long_str","o2sys_sessions_admin_exp_5()",null,null,null,null);
+	$task_sessions->calcola("mode","o2sys_long_str","o2sys_sessions_admin_exp_27()",null,null,null,null);
 }
 function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 	$form_sessions_admin->x(389);

@@ -19,7 +19,7 @@ function jxgranting_role_right§§rights4combo_def(&$task_rights4combo, $_o2viewal
 
 	$task_rights4combo->usa("right_code","o2_rights","right_code",null,null,null,null);
 	$task_rights4combo->usa("role_name","o2_rights_per_role","role_name",null,null,null,null);
-	$task_rights4combo->calcola("free", "jxgranting_role_right_exp_9()","jxgranting_role_right_exp_8()","jxgranting_role_right_exp_8()",null,null);
+	$task_rights4combo->calcola("free","o2sys_long_str","jxgranting_role_right_exp_9()","jxgranting_role_right_exp_8()","jxgranting_role_right_exp_8()",null,null);
 }
 
 function jxgranting_role_right§§rights4list_def(&$task_rights4list, $_o2viewalias = "") {
@@ -37,10 +37,10 @@ function jxgranting_role_right§§rights4list_def(&$task_rights4list, $_o2viewalia
 
 	$task_rights4list->usa("right_code","o2_rights","right_code",null,null,null,null);
 	$task_rights4list->usa("role_name","o2_rights_per_role","role_name",null,null,null,null);
-	$task_rights4list->calcola("free", "jxgranting_role_right_exp_22()","jxgranting_role_right_exp_8()","jxgranting_role_right_exp_8()",null,null);
-	$task_rights4list->calcola("checked", "jxgranting_role_right_exp_11()",null,null,null,null);
+	$task_rights4list->calcola("free","o2sys_long_str","jxgranting_role_right_exp_22()","jxgranting_role_right_exp_8()","jxgranting_role_right_exp_8()",null,null);
+	$task_rights4list->calcola("checked","o2sys_long_str","jxgranting_role_right_exp_11()",null,null,null,null);
 	$task_rights4list->usa("element_desc","o2_rights_roles_desc","element_desc",null,null,null,null);
-	$task_rights4list->calcola("full_text", "jxgranting_role_right_exp_13()",null,null,null,"jxgranting_role_right_exp_16()");
+	$task_rights4list->calcola("full_text","o2sys_long_str","jxgranting_role_right_exp_13()",null,null,null,"jxgranting_role_right_exp_16()");
 }
 function jxgranting_role_right§§jxgranting_role_right_1_form_def(&$form_jxgranting_role_right_1) {
 	$form_jxgranting_role_right_1->x(300);

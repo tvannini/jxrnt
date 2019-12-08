@@ -35,8 +35,8 @@ function jxgranting§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("pwds_history","o2_users","pwds_history",null,null,null,null);
 	$task_users->usa("no_pwd_change","o2_users","no_pwd_change",null,null,null,null);
 	$task_users->usa("creation_date","o2_users","creation_date",null,null,null,null);
-	$task_users->calcola("active", "jxgranting_exp_86()",null,null,null,null);
-	$task_users->calcola("last_login", "jxgranting_exp_92()",null,null,null,null);
+	$task_users->calcola("active","o2sys_long_str","jxgranting_exp_86()",null,null,null,null);
+	$task_users->calcola("last_login","o2sys_long_str","jxgranting_exp_92()",null,null,null,null);
 }
 
 function jxgranting§§rights_def(&$task_rights, $_o2viewalias = "") {
@@ -50,7 +50,7 @@ function jxgranting§§rights_def(&$task_rights, $_o2viewalias = "") {
 
 	$task_rights->usa("right_code","o2_rights","right_code",null,null,null,null);
 	$task_rights->usa("right_desc","o2_rights_roles_desc","element_desc",null,null,null,null);
-	$task_rights->calcola("full_right_text", "jxgranting_exp_67()",null,null,null,"jxgranting_exp_51()");
+	$task_rights->calcola("full_right_text","o2sys_long_str","jxgranting_exp_67()",null,null,null,"jxgranting_exp_51()");
 }
 
 function jxgranting§§roles_def(&$task_roles, $_o2viewalias = "") {
@@ -67,9 +67,9 @@ function jxgranting§§roles_def(&$task_roles, $_o2viewalias = "") {
 
 	$task_roles->usa("role_name","o2_roles","role_name",null,null,null,null);
 	$task_roles->usa("right_code","o2_rights_per_role","right_code",null,null,null,null);
-	$task_roles->calcola("role_with_rigths", "jxgranting_exp_38()",null,null,null,null);
+	$task_roles->calcola("role_with_rigths","o2sys_long_str","jxgranting_exp_38()",null,null,null,null);
 	$task_roles->usa("role_desc","o2_rights_roles_desc","element_desc",null,null,null,null);
-	$task_roles->calcola("full_role_text", "jxgranting_exp_68()",null,null,null,"jxgranting_exp_45()");
+	$task_roles->calcola("full_role_text","o2sys_long_str","jxgranting_exp_68()",null,null,null,"jxgranting_exp_45()");
 }
 
 function jxgranting§§roles_per_user_def(&$task_roles_per_user, $_o2viewalias = "") {

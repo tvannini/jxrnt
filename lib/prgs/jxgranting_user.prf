@@ -25,7 +25,7 @@ function jxgranting_user§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("last_date","o2_users","last_date",null,null,null,null);
 	$task_users->usa("last_time","o2_users","last_time",null,null,null,null);
 	$task_users->usa("creation_date","o2_users","creation_date",null,null,null,null);
-	$task_users->calcola("last_login", "jxgranting_user_exp_57()",null,null,null,null);
+	$task_users->calcola("last_login","o2sys_long_str","jxgranting_user_exp_57()",null,null,null,null);
 }
 
 function jxgranting_user§§role_per_user_def(&$task_role_per_user, $_o2viewalias = "") {
@@ -57,7 +57,7 @@ function jxgranting_user§§model_users_def(&$task_model_users, $_o2viewalias = ""
 	$task_model_users->usa("o2user","o2_users","o2user",null,null,null,null);
 	$task_model_users->usa("area","o2_users","area",null,null,null,null);
 	$task_model_users->usa("role_name","o2_roles_per_user","role_name",null,null,"jxgranting_user_exp_9()",null);
-	$task_model_users->calcola("model_user_desc", "jxgranting_user_exp_22()",null,null,null,null);
+	$task_model_users->calcola("model_user_desc","o2sys_long_str","jxgranting_user_exp_22()",null,null,null,null);
 }
 function jxgranting_user§§user_form_def(&$form_user) {
 	$form_user->x(22);

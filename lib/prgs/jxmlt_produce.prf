@@ -76,7 +76,7 @@ function jxmlt_produce§§prgs_def(&$task_prgs, $_o2viewalias = "") {
 	$task_prgs->usa("link_ctrl","prg_unique","mlt_ctrl",null,null,null,null);
 	$task_prgs->usa("link_property","prg_unique","mlt_property",null,null,null,null);
 	$task_prgs->usa("link_prop_value","prg_unique","mlt_prop_value",null,null,null,null);
-	$task_prgs->calcola("check_unique", "jxmlt_produce_exp_24()",null,null,"jxmlt_produce_exp_31()",null);
+	$task_prgs->calcola("check_unique","o2sys_long_str","jxmlt_produce_exp_24()",null,null,"jxmlt_produce_exp_31()",null);
 }
 
 function jxmlt_produce§§check_update_act(&$o2exe) {

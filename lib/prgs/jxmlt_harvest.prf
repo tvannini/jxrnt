@@ -26,7 +26,7 @@ function jxmlt_harvest§§prgs_def(&$task_prgs, $_o2viewalias = "") {
 	$task_prgs->usa("link_ctrl","prg_unique","mlt_ctrl",null,null,null,null);
 	$task_prgs->usa("link_property","prg_unique","mlt_property",null,null,null,null);
 	$task_prgs->usa("link_prop_value","prg_unique","mlt_prop_value",null,null,null,null);
-	$task_prgs->calcola("check_unique", "jxmlt_harvest_exp_10()",null,null,"jxmlt_harvest_exp_11()",null);
+	$task_prgs->calcola("check_unique","o2sys_long_str","jxmlt_harvest_exp_10()",null,null,"jxmlt_harvest_exp_11()",null);
 }
 
 function jxmlt_harvest§§check_update_act(&$o2exe) {

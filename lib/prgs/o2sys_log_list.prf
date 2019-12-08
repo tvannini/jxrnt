@@ -13,7 +13,7 @@ function o2sys_log_list§§loglist_def(&$task_loglist, $_o2viewalias = "") {
 	$task_loglist->usa("log_tabname","o2_tabslog","log_tabname",null,null,null,null);
 	$task_loglist->usa("log_level","o2_tabslog","log_level",null,null,null,null);
 	$task_loglist->usa("log_operations","o2_tabslog","log_operations",null,null,null,null);
-	$task_loglist->calcola("in_db", "o2sys_log_list_exp_5()",null,null,"o2sys_log_list_exp_9999()",null);
+	$task_loglist->calcola("in_db","o2sys_long_str","o2sys_log_list_exp_5()",null,null,"o2sys_log_list_exp_9999()",null);
 }
 function o2sys_log_list§§o2sys_log_list_form_def(&$form_o2sys_log_list) {
 	$form_o2sys_log_list->x(201);

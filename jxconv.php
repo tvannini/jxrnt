@@ -914,6 +914,15 @@ class upgrades_collection {
         else {
             $tables = 'file_repository.inc';
             }
+        // _______________ Read viewmodels-repository file from INI or use default one ___
+        $parts = array();
+        preg_match('/viewmodels\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $viewmodels = $parts[1];
+            }
+        else {
+            $viewmodels = '_o2viewmodels.inc';
+            }
         // ________________________________________________ Get tables definition code ___
         $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
@@ -948,6 +957,51 @@ class upgrades_collection {
                               '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
+        // _______________________________ Add data-model to formulas and SQL-formulas ___
+        $dir   = new dir_descriptor($app_dir."prgs/");
+        $files = $dir->get_elements();
+        $prgs  = array();
+        // _________________________________________________ Loop on folder files list ___
+        while ($file = array_shift($files)) {
+            // ___________________________________________________ Make all stuff here ___
+            if ($file->ext == "prf" || $file->short_name == $viewmodels) {
+                $prf = $file->full_name;
+                if (file_exists($prf)) {
+                    // _________________________________ Convert viewmodels-repository ___
+                    if ($file->name == '_o2viewmodels' ||
+                        $file->short_name == $viewmodels) {
+                        $prf_txt = file_get_contents($prf);
+                        if (strpos($prf_txt, '->calcola(') ||
+                            strpos($prf_txt, '->sql_formula(')) {
+                            // __________________________ Add data-model in definition ___
+                            $prf_txt = preg_replace('/->(calcola|sql_formula)\('.
+                                                    '(\$\w+->nome\.[\'"]_[\'"]\.'.
+                                                    '[\'"]\w+[\'"]),\s*([^;]*)\);/',
+                                                    '->$1($2,"o2sys_long_str",$3);',
+                                                    $prf_txt);
+                            file_put_contents($prf, $prf_txt);
+                            }
+                        }
+                    // _____________________________________ Covert standard prf files ___
+                    else {
+                        $prf_txt = file_get_contents($prf);
+                        if (strpos($prf_txt, '->calcola(') ||
+                            strpos($prf_txt, '->sql_formula(')) {
+                            // __________________________ Add data-model in definition ___
+                            $prf_txt = preg_replace('/->(calcola|sql_formula)\('.
+                                                    '[\'"](\w+)[\'"],\s*([^;]*)\);/',
+                                                    '->$1("$2","o2sys_long_str",$3);',
+                                                    $prf_txt);
+                            file_put_contents($prf, $prf_txt);
+                            }
+                        }
+                    }
+                }
+            // _________________________________________ Add sub folders files to list ___
+            elseif ($file->type == "D") {
+                $files+= $file->get_elements();
+                }
+            }
 
         }
 

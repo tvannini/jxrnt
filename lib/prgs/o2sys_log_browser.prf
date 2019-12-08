@@ -20,9 +20,9 @@ function o2sys_log_browser§§log_view_def(&$task_log_view, $_o2viewalias = "") {
 	$task_log_view->usa("log_id","o2_logtable","o2log_id","o2sys_log_browser_exp_16()","o2sys_log_browser_exp_17()",null,null);
 	$task_log_view->usa("log_act","o2_logtable","o2log_act","o2sys_log_browser_exp_5()","o2sys_log_browser_exp_5()",null,null);
 	$task_log_view->usa("log_user","o2_logtable","o2log_user","o2sys_log_browser_exp_6()","o2sys_log_browser_exp_6()",null,null);
-	$task_log_view->calcola("log_date", "o2sys_log_browser_exp_1()",null,null,null,null);
-	$task_log_view->calcola("log_time", "o2sys_log_browser_exp_2()",null,null,null,null);
-	$task_log_view->calcola("log_microsec", "o2sys_log_browser_exp_3()",null,null,null,null);
+	$task_log_view->calcola("log_date","o2sys_long_str","o2sys_log_browser_exp_1()",null,null,null,null);
+	$task_log_view->calcola("log_time","o2sys_long_str","o2sys_log_browser_exp_2()",null,null,null,null);
+	$task_log_view->calcola("log_microsec","o2sys_long_str","o2sys_log_browser_exp_3()",null,null,null,null);
 }
 
 function o2sys_log_browser§§users_def(&$task_users, $_o2viewalias = "") {

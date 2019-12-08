@@ -28,7 +28,7 @@ function jxtask§§jobs_combo_def(&$task_jobs_combo, $_o2viewalias = "") {
 	$task_jobs_combo->usa("job_id","jx_jobs","job_id",null,null,null,null);
 	$task_jobs_combo->usa("job_name","jx_jobs","job_name",null,null,null,null);
 	$task_jobs_combo->usa("job_prg","jx_jobs","job_prg",null,null,null,null);
-	$task_jobs_combo->calcola("job_desc", "jxtask_exp_3()",null,null,null,null);
+	$task_jobs_combo->calcola("job_desc","o2sys_long_str","jxtask_exp_3()",null,null,null,null);
 }
 function jxtask§§jxtask_1_form_def(&$form_jxtask_1) {
 	$form_jxtask_1->x(240);
