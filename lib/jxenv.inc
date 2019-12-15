@@ -5660,9 +5660,10 @@ class o2_dbview extends o2_view {
     function snapshot_sync() {
 
         $app   = $_SESSION['o2_app'];
+        // _________________________________________________________ Get original view ___
+        $view  = $app->istanze_prg[$this->id_esecuzione]->contesto[$this->nome.'_jxsnps'];
         // ________________________________________________________ Get original table ___
-        $table = $app->istanze_prg[$this->id_esecuzione]->contesto[$this->nome.
-                                                                   '_jxsnps']->file;
+        $table = $view->file;
         // _________________________ Filter snapshot view to get only modified records ___
         $this->campi['JXSNPS_STATUS']->not = '';
         $this->looping_on                  = true;
@@ -5676,9 +5677,13 @@ class o2_dbview extends o2_view {
             $db_name    = $table->db->nome;
             $db_owner   = $table->db->proprietario;
             // __________________________________________________ Compose fields names ___
-            $fields = array();
-            foreach ($table->campi as $fld) {
-                $fields[] = $fld->nome_fisico;
+            $fields   = array();
+            $fld_list = array();
+            foreach ($view->campi as $fld_name => $fld) {
+                if ($fld->file == $table->indice) {
+                    $fld_list[$fld_name] = $fld;
+                    $fields[]            = $fld->nome_fisico;
+                    }
                 }
             $cache = array();
             do {
@@ -5687,13 +5692,17 @@ class o2_dbview extends o2_view {
                         // ______________________________________ Compose values cache ___
                         $recs = 0;
                         $rec  = '';
-                        foreach ($table->campi as $fld_name => $fld) {
-                            $fld_name = strtoupper($fld_name);
+                        foreach ($fld_list as $fld_name => $fld) {
                             if ($rec) {
                                 $rec.= ',';
                                 }
                             if ($fld->tipo == 'N') {
-                                $rec.= $this->corrente[$fld_name];
+                                if ($this->corrente[$fld_name]) {
+                                    $rec.= $this->corrente[$fld_name];
+                                    }
+                                else {
+                                    $rec.= 0;
+                                    }
                                 }
                             else {
                                 $rec.= "'".o2_gateway::normalize($srv_type,
@@ -5722,10 +5731,14 @@ class o2_dbview extends o2_view {
                     case 'U':
                         $prev_key = $this->corrente['JXSNPS_PRVKEY'];
                         $rec      = array();
-                        foreach ($table->campi as $fld_name => $fld) {
-                            $fld_name = strtoupper($fld_name);
+                        foreach ($fld_list as $fld_name => $fld) {
                             if ($fld->tipo == 'N') {
-                                $rec[] = $this->corrente[$fld_name];
+                                if ($this->corrente[$fld_name]) {
+                                    $rec[] = $this->corrente[$fld_name];
+                                    }
+                                else {
+                                    $rec[] = 0;
+                                    }
                                 }
                             else {
                                 $rec[] = "'".o2_gateway::normalize($srv_type,
@@ -5795,6 +5808,8 @@ class o2_dbview extends o2_view {
                                   $co.'JXSNPS_STATUS'.$cc." <> ''");
             $this->relocate_to_key = false;
             }
+        // __________________________ Reset snapshot filter to exclude deleted records ___
+        $this->campi['JXSNPS_STATUS']->not = 'D';
         $this->looping_on = false;
 
         }
