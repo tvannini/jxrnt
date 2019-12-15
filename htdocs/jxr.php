@@ -71,7 +71,7 @@ if (session_start()) {
             jxjs::start($_REQUEST['jxjsid']);
             if (is_a($app, "o2_app")) {
                 try {
-                    $app->esecutivo();
+                    $app->esecutivo($_REQUEST['o2_prgexeid'] < $app->progressivo_istanze);
                     }
                 catch (o2_exception $o2e) {
                     $o2e->send();
