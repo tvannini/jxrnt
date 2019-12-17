@@ -1468,6 +1468,10 @@ function o2_oracle_count($server,
     if ($where) {
         $query.= " WHERE ".$where;
         }
+    // _____________________________________________________________________ SQL trace ___
+    if ($_SESSION['o2_app']->sqltrace) {
+        o2log($query);
+        }
     // ______________________________________________________ Get connection to server ___
     $conn = o2_oracle_connect($server, $user, $password, false);
     $stmt = oci_parse($conn, $query);

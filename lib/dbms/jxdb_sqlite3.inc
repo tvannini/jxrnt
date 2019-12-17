@@ -202,8 +202,13 @@ function o2_sqlite3_execute($query,
                             &$stm     = false) {
 
     // _____________________________________________________________________ SQL trace ___
-    if ($_SESSION['o2_app']->sqltrace) {
-        o2log($query);
+    if ($_SESSION['o2_app']->sqltrace && !$stm) {
+        if ($stm === 0) {
+            o2log('(Start fetching) '.$query);
+            }
+        else {
+            o2log($query);
+            }
         }
     // _____________________________________________ Execution only, no dataset return ___
     if ($only_exe) {
@@ -1084,6 +1089,10 @@ function o2_sqlite3_count($server,
         }
     if ($where) {
         $query.= " WHERE ".$where;
+        }
+    // _____________________________________________________________________ SQL trace ___
+    if ($_SESSION['o2_app']->sqltrace) {
+        o2log($query);
         }
     // ______________________________________________________ Get connection to server ___
     $conn = o2_sqlite3_connect($server, $user, $password, false);

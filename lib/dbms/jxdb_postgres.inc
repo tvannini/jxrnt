@@ -211,8 +211,13 @@ function o2_postgres_execute($query,
                              &$stm     = false) {
 
     // _____________________________________________________________________ SQL trace ___
-    if ($_SESSION['o2_app']->sqltrace) {
-        o2log($query);
+    if ($_SESSION['o2_app']->sqltrace && !$stm) {
+        if ($stm === 0) {
+            o2log('(Start fetching) '.$query);
+            }
+        else {
+            o2log($query);
+            }
         }
     // _____________________________________________ Execution only, no dataset return ___
     if ($only_exe) {

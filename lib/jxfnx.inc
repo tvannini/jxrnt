@@ -6236,6 +6236,10 @@ function o2view_fetch($view_name) {
         // _________________________________________________________________ Statement ___
         if (!$GLOBALS["jxlasterror"]) {
             $stm = false;
+            // _____________________________________________________________ SQL trace ___
+            if ($app->sqltrace) {
+                o2log('(Start fetching) '.$query);
+                }
             // ________________________________________________ Create query statement ___
             if (!($stm = $conn->query($query))) {
                $err = $conn->errorInfo();

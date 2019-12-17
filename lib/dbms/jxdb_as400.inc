@@ -859,6 +859,10 @@ function o2_as400_count($server,
     if ($where) {
         $query_local.= " AS ".o2_as400_o.$table_alias.o2_as400_c." WHERE ".$where;
         }
+    // _____________________________________________________________________ SQL trace ___
+    if ($_SESSION['o2_app']->sqltrace) {
+        o2log($query_local);
+        }
     try {
        $res_val = o2_as400_execute($query_local, $server, $user, $password);
        }
