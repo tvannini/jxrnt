@@ -1267,13 +1267,11 @@ class o2_prg {
             $view->snapshot_sync();
             $view->vista = false;
             }
-        /*
         // _________________________ If view is not in snapshot mode rise an exception ___
         else {
             throw new o2_exception('View "'.$view_name.'" has no active snapshot',
                                    o2error_UNKNOWNVIEW);
             }
-        */
 
         }
 
@@ -5157,7 +5155,7 @@ class o2_dbview extends o2_view {
                                            true,
                                            true,
                                            true);
-        if ($this->snapshot) {
+        if ($this->snapshot && $this->corrente['JXSNPS_STATUS'] != 'I') {
             $update_arr['JXSNPS_STATUS'] = "'D'";
             o2_gateway::modifyrec($this->file->db->server->type,
                                   $this->file->db->server->server,
@@ -5664,6 +5662,15 @@ class o2_dbview extends o2_view {
         $view  = $app->istanze_prg[$this->id_esecuzione]->contesto[$this->nome.'_jxsnps'];
         // ________________________________________________________ Get original table ___
         $table = $view->file;
+        // _______________________________________ Create a save list of cloned fields ___
+        $fld_save = array_merge(array(), $this->campi);
+        // ______________________________________________ Remove all filters from view ___
+        foreach ($this->campi as $fld) {
+            $fld->min  = null;
+            $fld->max  = null;
+            $fld->not  = null;
+            $fld->like = null;
+            }
         // _________________________ Filter snapshot view to get only modified records ___
         $this->campi['JXSNPS_STATUS']->not = '';
         $this->looping_on                  = true;
@@ -5686,19 +5693,19 @@ class o2_dbview extends o2_view {
                     }
                 }
             $cache = array();
-            do {
-                switch ($this->corrente['JXSNPS_STATUS']) {
+            $recs = 0;
+            while ($row = o2view_fetch($this->nome)) {
+                switch ($row['JXSNPS_STATUS']) {
                     case 'I':
                         // ______________________________________ Compose values cache ___
-                        $recs = 0;
                         $rec  = '';
                         foreach ($fld_list as $fld_name => $fld) {
                             if ($rec) {
                                 $rec.= ',';
                                 }
                             if ($fld->tipo == 'N') {
-                                if ($this->corrente[$fld_name]) {
-                                    $rec.= $this->corrente[$fld_name];
+                                if ($row[$fld_name]) {
+                                    $rec.= $row[$fld_name];
                                     }
                                 else {
                                     $rec.= 0;
@@ -5706,8 +5713,8 @@ class o2_dbview extends o2_view {
                                 }
                             else {
                                 $rec.= "'".o2_gateway::normalize($srv_type,
-                                                               $this->corrente[$fld_name],
-                                                                  true)."'";
+                                                                 $row[$fld_name],
+                                                                 true)."'";
                                 }
                             }
                         $cache[] = $rec;
@@ -5729,12 +5736,12 @@ class o2_dbview extends o2_view {
                             }
                         break;
                     case 'U':
-                        $prev_key = $this->corrente['JXSNPS_PRVKEY'];
+                        $prev_key = $row['JXSNPS_PRVKEY'];
                         $rec      = array();
                         foreach ($fld_list as $fld_name => $fld) {
                             if ($fld->tipo == 'N') {
-                                if ($this->corrente[$fld_name]) {
-                                    $rec[] = $this->corrente[$fld_name];
+                                if ($row[$fld_name]) {
+                                    $rec[] = $row[$fld_name];
                                     }
                                 else {
                                     $rec[] = 0;
@@ -5742,7 +5749,7 @@ class o2_dbview extends o2_view {
                                 }
                             else {
                                 $rec[] = "'".o2_gateway::normalize($srv_type,
-                                                               $this->corrente[$fld_name],
+                                                                   $row[$fld_name],
                                                                    true)."'";
                                 }
                             }
@@ -5779,7 +5786,7 @@ class o2_dbview extends o2_view {
                                               $prev_key);
                         break;
                     }
-                } while ($this->record_avanti());
+                };
             // ____________________________________________________ Flush insert cache ___
             if ($cache) {
                 o2_gateway::insertrec($srv_type,
@@ -5793,6 +5800,8 @@ class o2_dbview extends o2_view {
                                       $fields,
                                       array(implode('),(', $cache)));
                 }
+            // _______________________________________________ Free source view cursor ___
+            o2view_fetch_free($this->nome);
             // _____________________________ Blank JXSNPS_STATUS field for all records ___
             $co = constant('o2_sqlite3_o');
             $cc = constant('o2_sqlite3_c');
@@ -5807,6 +5816,13 @@ class o2_dbview extends o2_view {
                                   array('JXSNPS_PRVKEY' => "''", 'JXSNPS_STATUS' => "''"),
                                   $co.'JXSNPS_STATUS'.$cc." <> ''");
             $this->relocate_to_key = false;
+            }
+        // ___________________________________ Restore original filters on view fields ___
+        foreach ($this->campi as $fld) {
+            $this->min  = $fld->min;
+            $this->max  = $fld->max;
+            $this->not  = $fld->not;
+            $this->like = $fld->like;
             }
         // __________________________ Reset snapshot filter to exclude deleted records ___
         $this->campi['JXSNPS_STATUS']->not = 'D';
@@ -5841,8 +5857,8 @@ class o2_dbview extends o2_view {
                 }
             // __________________________________________________ Compose values cache ___
             $cache = array();
-            do {
-                $recs = 0;
+            $recs  = 0;
+            while ($row = o2view_fetch($this->nome)) {
                 $rec  = '';
                 foreach ($snps_table->campi as $fld_name => $fld) {
                     if ($fld_name != 'JXSNPS_STATUS') {
@@ -5850,13 +5866,12 @@ class o2_dbview extends o2_view {
                             $rec.= ',';
                             }
                         if ($fld->tipo == 'N') {
-                            $rec.= ($this->corrente[$fld_name] ?
-                                    $this->corrente[$fld_name] :
+                            $rec.= ($row[$fld_name] ? $row[$fld_name] :
                                     '0');
                             }
                         else {
                             $rec.= "'".o2_gateway::normalize($srv_type,
-                                                             $this->corrente[$fld_name],
+                                                             $row[$fld_name],
                                                              true)."'";
                             }
                         }
@@ -5878,7 +5893,7 @@ class o2_dbview extends o2_view {
                     $cache = array();
                     $recs  = 0;
                     }
-                } while ($this->record_avanti());
+                };
             // ___________________________________________________________ Flush cache ___
             if ($cache) {
                 o2_gateway::insertrec($srv_type,
@@ -5894,6 +5909,8 @@ class o2_dbview extends o2_view {
                 }
             $this->relocate_to_key = false;
             }
+        // ___________________________________________________ Free source view cursor ___
+        o2view_fetch_free($this->nome);
         $this->looping_on = false;
         $this->vista      = false;
         $this->recordset  = array();
