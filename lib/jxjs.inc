@@ -481,15 +481,15 @@ class jxjs {
                     if ($o2ctrl_obj->visibile && !$esiste_valore && $enabled) {
                         $prg->contesto[$o2ctrl_obj->task]->
                                         imposta($o2ctrl_obj->campo_in_ctrl, $cod_default);
-                        $desc_value = $desc_default;
+                        $desc_value = addslashes($desc_default);
                         }
                     }
                 $rows = count($o2ctrl_obj->valori);
                 }
             print jxjs::ctrl($o2ctrl_obj,
-                             "d:'".addcslashes($code_value, "\n").
+                             "d:'".addcslashes($code_value, "'\\\n\r").
                            "',dyn:".$dyn_list.$static_list.
-                            ",desc:'".addslashes($desc_value).
+                            ",desc:'".$desc_value.
                            "',boxtype:'lookup',s:'".
                            $o2ctrl_obj->css.($enabled ? "" : "_dis").
                            "',er:".($o2ctrl_obj->error ? "!0" : "!1").
