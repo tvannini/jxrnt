@@ -722,6 +722,29 @@
     border-left: 1px solid #a19a93;
     }
 
+.jxlogtrace table {
+    padding-top: 5px;
+    padding-left: 20px;
+    }
+
+.jxlogtrace th {
+    color: #9895A6;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 5px 2px 5px;
+    }
+
+.jxlogtrace td {
+    color: #9895A6;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 2px 5px 2px 5px;
+    }
+
+.jxlogtrace .dbgh td {
+    border-top: 1px solid #666666;
+    }
+
 .jxdbgbtn {
     width: 14px;
     height: 14px;

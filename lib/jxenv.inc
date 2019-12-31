@@ -2218,6 +2218,9 @@ class o2_dbview extends o2_view {
                     $this->ultima_where[$mainfile][0] = $this->wheres[$mainfile];
                     }
                 $links   = (is_array($this->link_on) ? $this->link_on : null);
+                if ($app->sqltrace) {
+                    jxsql_stat($this);
+                    }
                 $ret_val = o2_gateway::aggregate($this->file->db->server->type,
                                                  $this->file->db->server->server,
                                                  $this->file->db->server->user,
@@ -3395,6 +3398,9 @@ class o2_dbview extends o2_view {
             $this->ultima_where[$mainfile][0] = $this->wheres[$mainfile];
             }
         $links = (is_array($this->link_on) ? $this->link_on : null);
+        if ($app->sqltrace) {
+            jxsql_stat($this);
+            }
         return o2_gateway::count($server->type,
                                  $server->server,
                                  $server->user,
@@ -3463,12 +3469,13 @@ class o2_dbview extends o2_view {
      */
     function get_recordset($lock = false) {
 
+        $app        = $_SESSION['o2_app'];
         $ret_val    = array();
         $file_name  = $this->file->indice;
         $select_str = ($this->select_str[$file_name] ?
                        $this->select_str[$file_name] :
                        "*");
-        $fetch_loop = $_SESSION['o2_app']->fetch_loop;
+        $fetch_loop = $app->fetch_loop;
         // ______________________________________________________ Merge SELECT strings ___
         foreach ($this->files as $linkidx => $linktab) {
             if ($linkidx != $this->file->indice && $linktab->link_by_sql) {
@@ -3494,6 +3501,9 @@ class o2_dbview extends o2_view {
         switch ($this->direzione) {
             // _____________________________________________________________ First set ___
             case 0:
+                if ($app->sqltrace) {
+                    jxsql_stat($this);
+                    }
                 $ret_val = o2_gateway::recordset($this->file->db->server->type,
                                                  $this->file->db->server->server,
                                                  $this->file->db->server->user,
@@ -3529,6 +3539,9 @@ class o2_dbview extends o2_view {
                 break;
             // __________________________________________________________ Previous set ___
             case 1:
+                if ($app->sqltrace && (!$fetch_loop || !$this->looping_on)) {
+                    jxsql_stat($this);
+                    }
                 $page_filter = false;
                 if ($this->key_filter_prev) {
                     $page_filter = $this->key_filter_prev.($where_exp ? ' AND ' : '');
@@ -3574,6 +3587,9 @@ class o2_dbview extends o2_view {
                 break;
             // ______________________________________________________________ Next set ___
             case 2:
+                if ($app->sqltrace && (!$fetch_loop || !$this->looping_on)) {
+                    jxsql_stat($this);
+                    }
                 $page_filter = false;
                 if ($this->key_filter_next) {
                     $page_filter = $this->key_filter_next.($where_exp ? ' AND ' : '');
@@ -3610,6 +3626,9 @@ class o2_dbview extends o2_view {
                 break;
             // ______________________________________________________________ Last set ___
             case 3:
+                if ($app->sqltrace && (!$fetch_loop || !$this->looping_on)) {
+                    jxsql_stat($this);
+                    }
                 $ret_val = o2_gateway::recordset($this->file->db->server->type,
                                                  $this->file->db->server->server,
                                                  $this->file->db->server->user,
@@ -3652,6 +3671,9 @@ class o2_dbview extends o2_view {
                 break;
             // ______________________________________________________________ Same set ___
             default:
+                if ($app->sqltrace && (!$fetch_loop || !$this->looping_on)) {
+                    jxsql_stat($this);
+                    }
                 if ($this->key_filter_same) {
                     $where_exp = $this->key_filter_same.
                                  ($where_exp ? " AND ".$where_exp : "");
@@ -3734,6 +3756,9 @@ class o2_dbview extends o2_view {
                 if ($cond_local &&
                     ($this->link_cache[$file_name."_where"] !==
                      $this->wheres[$file_name])) {
+                    if ($app->sqltrace) {
+                        jxsql_stat($this, 'R', $file_name);
+                        }
                     // ______________________________________ Composizione della query ___
                     $ret_val = o2_gateway::verifyrec($singolo_file->db->server->type,
                                                      $singolo_file->db->server->server,
@@ -4362,6 +4387,9 @@ class o2_dbview extends o2_view {
     function esiste_chiave($file, $precedente = false) {
 
 
+        if ($_SESSION['o2_app']->sqltrace) {
+            jxsql_stat($this, 'R', $file);
+            }
         $where_local = $this->chiave_corrente($file, $precedente);
         $ret_val     = o2_gateway::verifyrec($file->db->server->type,
                                              $file->db->server->server,
@@ -4803,6 +4831,9 @@ class o2_dbview extends o2_view {
                                                                          $upd_key)."'";
                 $update_arr['JXSNPS_STATUS'] = "'U'";
                 }
+            if ($app->sqltrace) {
+                jxsql_stat($this, 'W');
+                }
             o2_gateway::modifyrec($db_type,
                                   $this->file->db->server->server,
                                   $this->file->db->server->user,
@@ -4960,6 +4991,9 @@ class o2_dbview extends o2_view {
                 }
             // __________________________________________________ Standard insert mode ___
             else {
+                if ($app->sqltrace) {
+                    jxsql_stat($this, 'W');
+                    }
                 o2_gateway::insertrec($db_type,
                                       $this->file->db->server->server,
                                       $this->file->db->server->user,
@@ -5081,6 +5115,9 @@ class o2_dbview extends o2_view {
 
                                                },
                                            $this->bulk_cache);
+            if ($_SESSION['o2_app']->sqltrace) {
+                jxsql_stat($this, 'W');
+                }
             o2_gateway::insertrec($this->file->db->server->type,
                                   $this->file->db->server->server,
                                   $this->file->db->server->user,
@@ -5126,6 +5163,9 @@ class o2_dbview extends o2_view {
 
                                 },
                                $values);
+        if ($_SESSION['o2_app']->sqltrace) {
+            jxsql_stat($this, 'W', $log_table);
+            }
         o2_gateway::insertrec($log_table->db->server->type,
                               $log_table->db->server->server,
                               $log_table->db->server->user,
@@ -5155,6 +5195,9 @@ class o2_dbview extends o2_view {
                                            true,
                                            true,
                                            true);
+        if ($_SESSION['o2_app']->sqltrace) {
+            jxsql_stat($this, 'W');
+            }
         if ($this->snapshot && $this->corrente['JXSNPS_STATUS'] != 'I') {
             $update_arr['JXSNPS_STATUS'] = "'D'";
             o2_gateway::modifyrec($this->file->db->server->type,
@@ -5270,6 +5313,9 @@ class o2_dbview extends o2_view {
                                         ($value_local ? $value_local : "0"));
                 }
             }
+        if ($app->sqltrace) {
+            jxsql_stat($this, 'W', $file_local);
+            }
         $ret_val = o2_gateway::insertrec($db_type,
                                          $file_local->db->server->server,
                                          $file_local->db->server->user,
@@ -5297,12 +5343,13 @@ class o2_dbview extends o2_view {
      */
     function delete_recordset() {
 
+        $app        = $_SESSION['o2_app'];
         $mfile      = $this->file;
         $mfile_name = $mfile->indice;
         $this->range2where($mfile_name);
         $this->range2formule();
         // _______________ If delete-log is active on main file: delete loop is needed ___
-        if ($_SESSION['o2_app']->tables_log &&
+        if ($app->tables_log &&
             (!isset($GLOBALS['jxlogsuspend']) ||
              !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
             strpos("RDEM", $mfile->log_level) !== false) {
@@ -5317,6 +5364,9 @@ class o2_dbview extends o2_view {
         // _______________________ If delete is solved as a SQL "DELETE ... WHERE ..." ___
         $where = (isset($this->wheres[$mfile_name]) && $this->wheres[$mfile_name] ?
                   $this->wheres[$mfile_name] : false);
+        if ($app->sqltrace) {
+            jxsql_stat($this, 'W');
+            }
         o2_gateway::deleterec($mfile->db->server->type,
                               $mfile->db->server->server,
                               $mfile->db->server->user,
@@ -5721,6 +5771,9 @@ class o2_dbview extends o2_view {
                         $recs++;
                         // ________________________________________ Insert cache chunk ___
                         if ($recs > 999) {
+                            if ($app->sqltrace) {
+                                jxsql_stat($view, 'W');
+                                }
                             o2_gateway::insertrec($srv_type,
                                                   $srv_server,
                                                   $srv_user,
@@ -5754,6 +5807,9 @@ class o2_dbview extends o2_view {
                                 }
                             }
                         $update_arr = array_combine($fields, $rec);
+                        if ($app->sqltrace) {
+                            jxsql_stat($view, 'W');
+                            }
                         o2_gateway::modifyrec($srv_type,
                                               $srv_server,
                                               $srv_user,
@@ -5775,6 +5831,9 @@ class o2_dbview extends o2_view {
                                                            true,
                                                            false,
                                                            $srv_type);
+                        if ($app->sqltrace) {
+                            jxsql_stat($view, 'W');
+                            }
                         o2_gateway::deleterec($srv_type,
                                               $srv_server,
                                               $srv_user,
@@ -5789,6 +5848,9 @@ class o2_dbview extends o2_view {
                 };
             // ____________________________________________________ Flush insert cache ___
             if ($cache) {
+                if ($app->sqltrace) {
+                    jxsql_stat($view, 'W');
+                    }
                 o2_gateway::insertrec($srv_type,
                                       $srv_server,
                                       $srv_user,
@@ -5803,6 +5865,9 @@ class o2_dbview extends o2_view {
             // _______________________________________________ Free source view cursor ___
             o2view_fetch_free($this->nome);
             // _____________________________ Blank JXSNPS_STATUS field for all records ___
+            if ($app->sqltrace) {
+                jxsql_stat($this, 'W');
+                }
             $co = constant('o2_sqlite3_o');
             $cc = constant('o2_sqlite3_c');
             o2_gateway::modifyrec($this->file->db->server->type,
@@ -5838,6 +5903,7 @@ class o2_dbview extends o2_view {
      */
     function snapshot_copy_view($snps_table) {
 
+        $app              = $_SESSION['o2_app'];
         $this->looping_on = true;
         $this->record_primo();
         // _________________________________________________________ Copy view dataset ___
@@ -5880,6 +5946,9 @@ class o2_dbview extends o2_view {
                 $recs++;
                 // ________________________________________________ Insert cache chunk ___
                 if ($recs > 999) {
+                    if ($app->sqltrace) {
+                        jxsql_stat($this, 'W', $snps_table);
+                        }
                     o2_gateway::insertrec($srv_type,
                                           $srv_server,
                                           $srv_user,
@@ -5896,6 +5965,9 @@ class o2_dbview extends o2_view {
                 };
             // ___________________________________________________________ Flush cache ___
             if ($cache) {
+                if ($app->sqltrace) {
+                    jxsql_stat($this, 'W', $snps_table);
+                    }
                 o2_gateway::insertrec($srv_type,
                                       $srv_server,
                                       $srv_user,
@@ -7847,8 +7919,6 @@ function jx_post($url, $postdata) {
  * trace.
  *
  * @param mix $logobj   Object to dump out - can by any type (String, Obj, Array, ...)
- * @see   o2_timestart()
- * @see   o2_timeend()
  */
 function jxlog($logobj = null) {
 
@@ -7934,6 +8004,57 @@ function jxlog($logobj = null) {
             print $tms.": ".print_r($logobj, true)."\n";
             }
         }
+
+    }
+
+
+/**
+ * Traces queries executions for SQL statistics
+ *
+ * @param o2_dbiew|string $view   Name of view which required query execution
+ * @param boolean         $mode   Mode '[R]ead|[W]rite'
+ * @param o2_file|string  table   Table name if different from main file (only Read mode)
+ */
+function jxsql_stat($view, $mode = 'R', $table = false) {
+
+    if ($view instanceof o2_dbview) {
+        $view_obj = $view;
+        $view     = $view_obj->nome;
+        }
+    else {
+        $app      = $_SESSION['o2_app'];
+        $prg      = $app->istanze_prg[$app->progressivo_istanze];
+        $view_obj = $prg->contesto[$view];
+        }
+    $prg = $view_obj->prg;
+    if ($table instanceof o2_file) {
+        $tab_obj = $table;
+        }
+    elseif ($table) {
+        $tab_obj = $view_obj->files[$table];
+        }
+    else {
+        $tab_obj = $view_obj->file;
+        }
+    $db = $tab_obj->db->id;
+    $mode = strtoupper($mode);
+    if ($mode != 'W') {
+        $mode = 'R';
+        }
+    if (!isset($GLOBALS['jxsql_stat'])) {
+        $GLOBALS['jxsql_stat'] = array('#TOTAL' => array('R' => 0, 'W' => 0));
+        }
+    if (!isset($GLOBALS['jxsql_stat'][$prg])) {
+        $GLOBALS['jxsql_stat'][$prg] = array();
+        }
+    if (!isset($GLOBALS['jxsql_stat'][$prg][$view])) {
+        $GLOBALS['jxsql_stat'][$prg][$view] = array();
+        }
+    if (!isset($GLOBALS['jxsql_stat'][$prg][$view][$db])) {
+        $GLOBALS['jxsql_stat'][$prg][$view][$db] = array('R' => 0, 'W' => 0);
+        }
+    $GLOBALS['jxsql_stat'][$prg][$view][$db][$mode]++;
+    $GLOBALS['jxsql_stat']['#TOTAL'][$mode]++;
 
     }
 

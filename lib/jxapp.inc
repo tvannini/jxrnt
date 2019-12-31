@@ -2330,6 +2330,10 @@ class o2_app {
             $this->display_all();
             // ______________________________________________ Commit open transactions ___
             $this->commit_all(true);
+            // _________________________________________________________ SQL Satistics ___
+            if ($this->sqltrace) {
+                $this->sql_stat();
+                }
             }
         catch (o2_exception $o2e) {
             $o2e->send();
@@ -3189,6 +3193,113 @@ class o2_app {
                                        o2error_MISSINGFILE);
             }
 
+        }
+
+
+    /**
+     * Reports SQL statistics to development console or to log file
+     *
+     */
+    function sql_stat() {
+
+        $app   = $_SESSION['o2_app'];
+        $log   = $GLOBALS['jxsql_stat'];
+        $total = $log['#TOTAL'];
+        unset($log['#TOTAL']);
+        ksort($log);
+        foreach($log as &$views) {
+            ksort($views);
+            foreach($views as &$dbs) {
+                ksort($dbs);
+                }
+            }
+        unset($views);
+        unset($dbs);
+        $prg_len  = 0;
+        $view_len = 0;
+        $db_len   = 0;
+        foreach ($log as $prg => $views) {
+            $prg_len = max($prg_len, strlen($prg));
+            foreach ($views as $view => $dbs) {
+                $view_len = max($view_len, strlen($view));
+                foreach ($dbs as $db => $modes) {
+                    $db_len = max($db_len, strlen($db));
+                    }
+                }
+            }
+        // ______________________________________________________ Log out code to file ___
+        if ($app->log2file || $app->mutelog || $app->rpc_server) {
+            $title = '[SQL STATISTICS] Read: '.intval($total['R']).
+                                     ' Write: '.intval($total['W'])."\n";
+            $code  = "\n ".str_pad('Program', $prg_len).'   '.str_pad('View', $view_len).
+                     '   '.str_pad('DB', $db_len).'   Read  Write'."\n ".
+                     str_repeat('-', $prg_len + $view_len + $db_len + 20)."\n";
+            foreach ($log as $prg => $views) {
+                $prg_f = true;
+                foreach ($views as $view => $dbs) {
+                    $view_f = true;
+                    foreach ($dbs as $db => $modes) {
+                        $code.= ' '.($prg_f  ? str_pad($prg, $prg_len) :
+                                               str_repeat(' ', $prg_len)).'   '.
+                                    ($view_f ? str_pad($view, $view_len) :
+                                               str_repeat(' ', $view_len)).'   '.
+                                    str_pad($db, $db_len).' '.
+                                    str_pad($modes['R'], 5, ' ', STR_PAD_LEFT).'  '.
+                                    str_pad($modes['W'], 5, ' ', STR_PAD_LEFT)."\n";
+                        $prg_f  = false;
+                        $view_f = false;
+                        }
+                    }
+                }
+            $log_file = $app->dir_logs.$app->developer.".log";
+            if (!$f_local = fopen($log_file, 'a')) {
+                throw new o2_exception("Cannot access log file <i>".$log_file."</i>",
+                                       o2error_IO);
+                }
+            if (fwrite($f_local, "\n".$title.$code) === FALSE) {
+                throw new o2_exception("Cannot write to log file <i>".$log_file."</i>",
+                                       o2error_IO);
+                }
+            fclose($f_local);
+            }
+        // ____________________________________________________________ Log to console ___
+        if (!$app->mutelog && !$app->rpc_server) {
+            $code = '<table cellspacing="0" cellpadding="0"><tr><th>Program</th>'.
+                    '<th>View</th><th>DB</th><th>Read</th><th>Write</th></tr>';
+            foreach ($log as $prg => $views) {
+                $prg_f = true;
+                foreach ($views as $view => $dbs) {
+                    $view_f = true;
+                    foreach ($dbs as $db => $modes) {
+                        $code.= '<tr '.($prg_f ? 'class="dbgh"' : '').'><td>'.
+                                          ($prg_f  ? $prg  : '&nbsp').'</td><td>'.
+                                          ($view_f ? $view : '&nbsp').'</td><td>'.
+                                          $db.'</td><td>'.$modes['R'].'</td><td>'.
+                                                          $modes['W'].'</td></tr>';
+                        $prg_f  = false;
+                        $view_f = false;
+                        }
+                    }
+                }
+            $code .= '</table>';
+            $uid   = "jxdbg".substr($app->runtime->microtime(), -10);
+            $title = '<b>[SQL STATISTICS] Read: '.intval($total['R']).
+                                        ' Write: '.intval($total['W']).'</b>';
+            // _____________________________________________________ Create detail DIV ___
+            $code  = "<div class='jxlogtrace' style='display:none;' id='".$uid."'>".$code.
+                     "</div>";
+            // _______________________________________________ Log out code on console ___
+            $code  = "<span class='jxlogactive' style='cursor:pointer;' ".
+                     "onclick='o2jse.lab.ocd(this,\"".$uid."\");'>[+]</span> ".
+                     $title.$code;
+            $code  = "o2jse.lab.getResult(null,'".addcslashes($code, "'\\\r\n")."');\n";
+            if ($GLOBALS['jxjs']) {
+                $app->js_cache.= $code."\n";
+                }
+            else {
+                print "<script> ".$code."</script>\n";
+                }
+            }
         }
 
     }

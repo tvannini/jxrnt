@@ -316,6 +316,10 @@ function o2nullify($view_name, $field_name) {
         $field = $view->campi[strtoupper($field_name)];
         $file  = $view->files[$field->file];
         $db    = $file->db;
+        // _____________________________________________________________ SQL Satistics ___
+        if ($app->sqltrace) {
+            jxsql_stat($view, 'W');
+            }
         $res   = o2_gateway::modifyrec($db->server->type,
                                        $db->server->server,
                                        $db->server->user,

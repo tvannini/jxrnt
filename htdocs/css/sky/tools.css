@@ -759,6 +759,19 @@
     overflow: auto;
     }
 
+.jxlogtrace table {
+    padding-top: 5px;
+    padding-left: 20px;
+    }
+
+.jxlogtrace td, .jxlogtrace th {
+    padding: 2px 5px 2px 5px;
+    }
+
+.jxlogtrace .dbgh td {
+    border-top: 1px solid #dedede;
+    }
+
 .jxdbgbtn {
     width: 14px;
     height: 14px;
