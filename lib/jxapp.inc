@@ -8337,7 +8337,7 @@ class o2_inspector {
      *       (act_name =>
      *          (step => <event>))))
      *
-     * where <event> is INSERT|DELETE|SAVE.
+     * where <event> is INSERT|DELETE|SAVE|AGGREGATE|SNAPSHOT|BULK-INSERT|...
      *
      * @param  string $prf_code
      * @return array
@@ -8392,8 +8392,20 @@ class o2_inspector {
                             $pars_list[$par_field] = $par_exp;
                             }
                         break;
+                    case "G": // _______________________________ Evaluate AGGREGATIONS ___
+                        $event = 'AGGREGATE';
+                        break;
                     case "K": // ______________________________________ Lock recordset ___
                         $event = 'LOCK';
+                        break;
+                    case "B": // _________________________ Action: BULK INSERT PREPARE ___
+                    case "E": // ____________________________________ Action: BULK END ___
+                        $event = 'BULK-INSERT';
+                        break;
+                    case "SS": // _____________________________________ SNAPSHOT Start ___
+                    case "SM": // ______________________________________ SNAPSHOT Sync ___
+                    case "SC": // _____________________________________ SNAPSHOT Clear ___
+                        $event = 'SNAPSHOT';
                         break;
                     default: // ______________________________________ Action: REFRESH ___
                         $event = 'REFRESH';
@@ -10083,6 +10095,114 @@ class o2_inspector {
                              "[info]" => array($root,
                                                "No matches found: field is not used"));
                 }
+            }
+        return $ret;
+
+        }
+
+
+    public function find_prg_view($prg, $view) {
+
+        $root = "[root]";
+        $ret  = array();
+        $prf  = $this->prgs_list[$prg];
+        $code = file_get_contents($prf);
+        // ___________________________________________________________ Uses in actions ___
+        $actions = array();
+        $uses    = self::get_prg_acts_view($code);
+        if (isset($uses[$view])) {
+            foreach ($uses[$view] as $event => $acts) {
+                foreach ($acts as $act_name => $act) {
+                    foreach ($act as $step => $dummy_event) {
+                        if (!isset($ret['p'])) {
+                            $ret['p'] = array($root,
+                                              $prg,
+                                              $this->img_path.'prg.png',
+                                              self::$w_program);
+                            }
+                        if (!isset($ret['a'.$act])) {
+                            $ret['a'.$act_name] = array('p',
+                                                        $act_name,
+                                                        $this->img_path.'action.png',
+                                                        self::$w_action);
+                            }
+                        if (!isset($actions[$act_name])) {
+                            $actions[$act_name] = array();
+                            }
+                        $actions[$act_name][$step] = array('a'.$act_name,
+                                                           $step.' ('.
+                                                           strtoupper($event).')',
+                                                           $this->img_path.
+                                                           'step.png',
+                                                           self::$w_step);
+                        }
+                    }
+                }
+            // _____________________________ Used to resort steps in the correct order ___
+            foreach ($actions as $act_name => $steps) {
+                ksort($steps);
+                foreach ($steps as $step => $item) {
+                    $ret['a'.$act_name.'s'.$step] = $item;
+                    }
+                }
+            }
+        // _____________________________________________________ Find uses in controls ___
+        $ctrls = self::get_prg_ctrls($code);
+        if (count($ctrls)) {
+            foreach ($ctrls as $form => $form_ctrls) {
+                foreach ($form_ctrls as $ctrl => $obj) {
+                    if ($obj['V'] == $view && $obj['F'] == '') {
+                        if (!isset($ret['p'])) {
+                            $ret['p'] = array($root,
+                                              $prg,
+                                              $this->img_path."prg.png",
+                                              self::$w_program);
+                            }
+                        if (!isset($ret['f'.$form])) {
+                            $ret['f'.$form] = array('p',
+                                                    $form,
+                                                    $this->img_path."form.png",
+                                                    self::$w_form);
+                            }
+                        $ret['c'.$ctrl] = array('f'.$form,
+                                                $ctrl,
+                                                $this->img_path."ctrl.png",
+                                                self::$w_ctrl);
+                        }
+                    }
+                }
+            }
+        // _____________________________________ Find uses in expressions (o2view_*()) ___
+        $exps = self::get_prg_exps($code, $prg);
+        foreach ($exps as $exp_id => $body) {
+            $parts = array();
+            $res   = preg_match('/o2view_(\w+)\s*\(\s*["\']'.$view.'["\']/',
+                                $body, $parts);
+            if (isset($parts[0])) {
+                if (!isset($ret['p'])) {
+                    $ret["p"] = array($root,
+                                      $prg,
+                                      $this->img_path."prg.png",
+                                      self::$w_program);
+                    }
+                $ret["e".$exp_id] = array("p",
+                                          $exp_id,
+                                          $this->img_path."exp.png",
+                                          self::$w_expression);
+                }
+            }
+        if (count($ret)) {
+            $ret[$root] = array(0, 'Find occurences of view ('.$view.
+                                   ') in program "'.$prg.'"',
+                                $this->img_path."folder.png");
+            }
+        else {
+            $ret = array($root    => array(0,
+                                           'Find occurences of view ('.$view.
+                                           ') in program "'.$prg.'"',
+                                           $this->img_path."folder_error.png"),
+                         "[info]" => array($root,
+                                           "No matches found: view is not used"));
             }
         return $ret;
 

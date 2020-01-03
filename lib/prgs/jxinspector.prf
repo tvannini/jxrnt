@@ -103,7 +103,7 @@ function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
 		$ctrl_o2label11->y(450);
 		$ctrl_o2label11->larghezza(60);
 		$ctrl_o2label11->altezza(20);
-		$ctrl_o2label11->visibile(jxinspector_exp_36());
+		$ctrl_o2label11->visibile(jxinspector_exp_3());
 		$ctrl_o2label11->label("Field:");
 	$ctrl_o2label12 = &$form_jxinspector_1->ctrldef("o2label12", "label", "", "", "");
 		$ctrl_o2label12->x(20);
@@ -218,18 +218,10 @@ function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
 		$ctrl_o2ListBox10->y(470);
 		$ctrl_o2ListBox10->larghezza(200);
 		$ctrl_o2ListBox10->altezza(20);
-		$ctrl_o2ListBox10->visibile(jxinspector_exp_36());
+		$ctrl_o2ListBox10->visibile(jxinspector_exp_3());
 		$ctrl_o2ListBox10->on_change(jxinspector_exp_5());
 		$ctrl_o2ListBox10->valori(jxinspector_exp_39());
 		$ctrl_o2ListBox10->righe(1);
-	$ctrl_result = &$form_jxinspector_1->ctrldef("result", "tree", "", "", "");
-		$ctrl_result->x(240);
-		$ctrl_result->y(40);
-		$ctrl_result->larghezza(560);
-		$ctrl_result->altezza(530);
-		$ctrl_result->activation(0);
-		$ctrl_result->nodes(jxinspector_exp_14());
-		$ctrl_result->css(jxinspector_exp_1());
 	$ctrl_o2ListBox11 = &$form_jxinspector_1->ctrldef("o2ListBox11", "listcombo", "", "prg§_§var", "prg_act");
 		$ctrl_o2ListBox11->x(20);
 		$ctrl_o2ListBox11->y(420);
@@ -247,6 +239,14 @@ function jxinspector§§jxinspector_1_form_def(&$form_jxinspector_1) {
 		$ctrl_o2ListBox12->visibile(jxinspector_exp_41());
 		$ctrl_o2ListBox12->valori(jxinspector_exp_42());
 		$ctrl_o2ListBox12->righe(1);
+	$ctrl_result = &$form_jxinspector_1->ctrldef("result", "tree", "", "", "");
+		$ctrl_result->x(240);
+		$ctrl_result->y(40);
+		$ctrl_result->larghezza(560);
+		$ctrl_result->altezza(530);
+		$ctrl_result->activation(0);
+		$ctrl_result->nodes(jxinspector_exp_14());
+		$ctrl_result->css(jxinspector_exp_1());
 	$ctrl_o2tree2 = &$form_jxinspector_1->ctrldef("o2tree2", "tree", "", "prg§_§var", "element_type");
 		$ctrl_o2tree2->x(20);
 		$ctrl_o2tree2->y(70);
@@ -373,6 +373,12 @@ function jxinspector_exp_2() {
 return (array('[root]' => array(0, '')));
 	} //|o2_fine_exp|
 
+function jxinspector_exp_3() {
+	$type = o2val('prg§_§var','element_type');
+$cond = ($type == "prg_field");
+return ($cond);
+	} //|o2_fine_exp|
+
 function jxinspector_exp_4() {
 	
 return (o2val('prg§_§var','element_type') == "string");
@@ -483,6 +489,9 @@ switch (o2val('prg§_§var','element_type')) {
       break;
    case "prg_act":
       $list = $insp->find_prg_act($prg_name, $prg_act);
+      break;
+   case "prg_view":
+      $list = $insp->find_prg_view($prg_name, $view);
       break;
    case "prg_field":
       $list = $insp->find_prg_field($prg_name, $view, $prg_field);
@@ -599,6 +608,7 @@ $list["update"]          = array("field", "Update");
 $list["param"]           = array("field", "As parameter");
 $list["prg"]             = array(0, "Program");
 $list["prg_par"]         = array("prg", "Parameter");
+$list["prg_view"]        = array("prg", "View");
 $list["prg_field"]       = array("prg", "Field or variable");
 $list["prg_act"]         = array("prg", "Action");
 $list["prg_unused_exps"] = array("prg", "Unused expressions");
@@ -658,6 +668,7 @@ function jxinspector_exp_33() {
 $cond = $type == "prg"  ||
         $type == "prg_par" ||
         $type == "prg_act" ||
+        $type == "prg_view" ||
         $type == "prg_field" ||
         $type == "prg_unused_exps" ||
         $type == "prg_duplic_exps" ||
@@ -689,14 +700,18 @@ return ($pars);
 
 function jxinspector_exp_36() {
 	$type = o2val('prg§_§var','element_type');
-$cond = ($type == "prg_field");
+$cond = ($type == "prg_view" || $type == "prg_field");
 return ($cond);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_37() {
 	$prg_name = o2val('prg§_§var','program');
+$type     = o2val('prg§_§var','element_type');
 if ($prg_name && o2exp(36)) {
    $views = array("" => "") + o2_inspector::get_prg_views_list($prg_name);
+   if ($type == "prg_view") {
+      unset($views['prg§_§var']);   
+      }
    }
 else {
    $views = array();
