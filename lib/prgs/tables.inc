@@ -117,7 +117,7 @@ o2def::tab("o2_profiling", "default", "o2sys_profiling", "obj");
 	o2def::index("obj", "obj_type","A", "obj_module","A", "obj_name","A", "right_vis","A", "right_enable","A");
 
 
-o2def::tab("o2_tmp_where", "jxsess_db", "o2sys_tmp_where", "id");
+o2def::tab("o2_tmp_where", "default", "o2sys_tmp_where", "id");
 
 	o2def::field("session_profile", "session_profile", "_o2sid");
 	o2def::field("pos_id", "pos_id", "_o2number");

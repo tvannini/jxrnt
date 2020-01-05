@@ -5352,6 +5352,7 @@ class o2_dbview extends o2_view {
         if ($app->tables_log &&
             (!isset($GLOBALS['jxlogsuspend']) ||
              !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
+            $mfile->log_level &&
             strpos("RDEM", $mfile->log_level) !== false) {
             return $this->delete_loop();
             }
