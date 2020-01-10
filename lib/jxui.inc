@@ -3717,7 +3717,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
 
 
     /**
-     * Decode description to gt an unique code value.
+     * Decode description to get an unique code value.
      *
      * NOTE: This memthod is replication of client-side implicit selection on TAB!
      *

@@ -2511,6 +2511,10 @@ class o2html {
                     }
                 }
             }
+        // _____________________________________________________________ SQL Satistics ___
+        if ($app->sqltrace) {
+            $app->sql_stat();
+            }
         if ($app->js_cache) {
             print ';'.$app->js_cache;
             $app->js_cache = '';
