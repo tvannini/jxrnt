@@ -1735,9 +1735,11 @@ class o2_dbview extends o2_view {
 
         $app = $_SESSION['o2_app'];
         $prg = $app->istanze_prg[$app->progressivo_istanze];
+        if (!$this->internal) {
+            $this->aggregate = array();
+            }
         // _______________________________ Eseguo il main per avere tutti i file usati ___
-        $this->aggregate = array();
-        $def_function    = $this->def_function;
+        $def_function = $this->def_function;
         if ($this->internal ||
            (is_callable($def_function) && ($def_function($this) || true))) {
             // ____ Aggiungo i campi della chiave in uso per il file ai campi del task ___
@@ -6025,6 +6027,10 @@ class o2_dbview extends o2_view {
                                                               ? 'D' : $not),
                                                              $like);
             }
+        $snps_view->prefisso      = $this->prefisso;
+        $snps_view->suffisso      = $this->suffisso;
+        $snps_view->aggregate     = $this->aggregate;
+        $snps_view->auto_aggr     = $this->auto_aggr;
         $snps_view->chiavi_in_uso = array($table->indice => $table->chiave->nome);
         $snps_view->snapshot      = true;
         $snps_view->snps_ori_type = $this->file->db->server->type;
