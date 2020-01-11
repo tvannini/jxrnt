@@ -84,6 +84,10 @@ function o2dev_app_analysis§§a_nuidxs_to_rep_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_36()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2dev_app_analysis§§a_report_alias_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_38()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2dev_app_analysis§§a_session_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_30()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -130,7 +134,8 @@ function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(11) && (o2dev_app_analysis_exp_31() || $o2exe->e()) && o2act::exe("a_sql_formulas", True, "") && $o2exe->e();
 	$o2exe->s(12) && (o2dev_app_analysis_exp_33() || $o2exe->e()) && o2act::exe("a_duplicated_fileds", True, "") && $o2exe->e();
 	$o2exe->s(13) && (o2dev_app_analysis_exp_35() || $o2exe->e()) && o2act::exe("a_nuidxs_to_rep", True, "") && $o2exe->e();
-	$o2exe->s(14) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
+	$o2exe->s(14) && (o2dev_app_analysis_exp_37() || $o2exe->e()) && o2act::exe("a_report_alias", True, "") && $o2exe->e();
+	$o2exe->s(15) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§export_act(&$o2exe) {
@@ -164,20 +169,21 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_4() {
-	$list = array(""           => "",
-              "UUTABLES"   => "Unused tables in repository",
-              "UUFIELDS"   => "Unused fields in tables repository",
-              "UUKEYS"     => "Unused indexes in tables repository",
-              "UUMODELS"   => "Unused data types in repository",
-              "UUPROGS"    => "Unused programs",
-              "TABSREL"    => "Build tables relations structure",
-              "CHECKLINKS" => "Check links criteria",
-              "CHECKLOOP"  => "Check view rebuilds while looping",
-              "CHECKEXPS"  => "Check for columns (;) in return expressions",
-              "SESSION"    => "Analyze session weights",
-              "SQLFORMULA" => "Convert formulas to SQL CONCAT in views",
-              "DUPFILEDS"  => "Check for duplicated aliases in views",
-              "NUIDXTOREP" => "Move not unique indexes to repository");
+	$list = array(""            => "",
+              "UUTABLES"    => "Unused tables in repository",
+              "UUFIELDS"    => "Unused fields in tables repository",
+              "UUKEYS"      => "Unused indexes in tables repository",
+              "UUMODELS"    => "Unused data types in repository",
+              "UUPROGS"     => "Unused programs",
+              "TABSREL"     => "Build tables relations structure",
+              "CHECKLINKS"  => "Check links criteria",
+              "CHECKLOOP"   => "Check view rebuilds while looping",
+              "CHECKEXPS"   => "Check for columns (;) in return expressions",
+              "SESSION"     => "Analyze session weights",
+              "SQLFORMULA"  => "Convert formulas to SQL CONCAT in views",
+              "DUPFILEDS"   => "Check for duplicated aliases in views",
+              "NUIDXTOREP"  => "Move not unique indexes to repository",
+              "REPALIASLEN" => "Aliases longer then 35 chars in reports");
 return ($list);
 	} //|o2_fine_exp|
 
@@ -1438,6 +1444,62 @@ else {
 /* ____________________________________ Create new tables repository file ___ */
 file_put_contents(o2app_dir_tmp().$tables, $code);
 o2_send(o2_path(o2app_dir_tmp().$tables, 1));
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_37() {
+	
+return (o2val('prg§_§var','analysis_model') == "REPALIASLEN");
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_38() {
+	$app  = $_SESSION['o2_app'];
+$insp = new o2_inspector();
+$res  = array();
+$n    = 0;
+/*   LOOP ON ALL PROGRAMS   */
+foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
+   $prg  = $prf->nome;
+   $cont = file_get_contents($prf->nome_completo);
+   /*   FIND ALL PROTOCOLS IN PRG   */
+   $prtc = $insp::get_prg_protocols($cont);
+   if (count($prtc)) {
+      foreach ($prtc as $protocol => $viewes) {
+         foreach ($viewes as $views => $aliases) {
+            foreach ($aliases as $alias => $dummy_field) {
+               if (strlen($alias) > 35) {
+                  if (!isset($res[$prg])) {
+                     $res[$prg] = array();
+                     }
+                  if (!isset($res[$prg][$protocol])) {
+                     $res[$prg][$protocol] = array();
+                     }
+                  $res[$prg][$protocol][] = $alias;
+                  $n++;   
+                  }            
+               }
+            }
+         }
+      }
+   }
+if (count($res)) {
+   $tree = array("jxresult" => array(0, $n.' too long report aliases in '.count($res)." prgs", "<jx>/img/tabadmin/tree/folder.png"));
+   foreach ($res as $prg_name => $prg_list) {
+      $tree+= array('P#'.$prg_name => array("jxresult", $prg_name, "<jx>/img/tabadmin/tree/tab.png"));
+      foreach ($prg_list as $prot_name => $prot) {
+         $tree+= array('P#'.$prg_name.'V#'.$prot_name => array('P#'.$prg_name, $prot_name, "<jx>/img/tabadmin/tree/reference.png"));
+         foreach ($prot as $field) {
+            $tree+= array('P#'.$prg_name.'V#'.$prot_name.'F#'.$field => array('P#'.$prg_name.'V#'.$prot_name, $field, "<jx>/img/tabadmin/tree/field.png"));
+            }
+         }
+      }
+   o2tree_def("jxresult", $tree);
+   o2tree_node_show("jxresult", 'P#'.$prg_name);
+   }
+else {
+   $tree = array("jxresult" => array(0, "No report alias longer than 35 chars found."));
+   o2tree_def("jxresult", $tree);
+   }
 return (true);
 	} //|o2_fine_exp|
 ?>
