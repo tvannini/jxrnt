@@ -390,6 +390,7 @@ class o2_prg {
             $task_local->looping_on = false;
             // _______ Looping on view always requires view refresh to reset righe_vis ___
             $task_local->vista      = false;
+            $task_local->selezione  = 0;
             $task_local->direzione  = 0;
             $task_local->righe_vis  = $task_local->righe_vis_save;
             }
@@ -433,7 +434,9 @@ class o2_prg {
             if ($app->runtime->interface == "HTML") {
                 if ($GLOBALS['jxjs']) {
                     foreach ($this->contesto as $view) {
-                        if ($view->nome != "prg§_§var" && !$view->sele_by_table) {
+                        if ($view->nome != "prg§_§var" &&
+                            !$view->sele_by_table &&
+                            !$view->snapshot_src) {
                             $name  = $view->nome."_vs".$this->id;
                             $value = $view->selezione + 1;
                             print "jxv('".$name."',".$value.");\n";
@@ -443,7 +446,7 @@ class o2_prg {
                     }
                 else {
                     foreach ($this->contesto as $view) {
-                        if ($view->nome != "prg§_§var") {
+                        if ($view->nome != "prg§_§var" && !$view->snapshot_src) {
                             print "<input type='hidden' name='".$view->nome."_vs".
                                   $this->id."' value='".($view->selezione + 1)."'>\n";
                             }
@@ -1222,12 +1225,13 @@ class o2_prg {
      */
     function snapshot_start($view_name) {
 
-        $app  = $_SESSION['o2_app'];
-        $view = $this->contesto[$view_name];
+        $app       = $_SESSION['o2_app'];
+        $snps_name = $view_name.'_jxsnps';
+        $view      = $this->contesto[$view_name];
         if (!$view->snapshot) {
             // ____ If already exists reuse snapshot table, else create it and fill it ___
-            if (isset($app->tab[$view_name.'_jxsnps'])) {
-                $table = $app->get_table($view_name.'_jxsnps');
+            if (isset($app->tab[$snps_name])) {
+                $table = $app->get_table($snps_name);
                 }
             else {
                 // ____________________________ Create virtual table from view dataset ___
@@ -1236,7 +1240,8 @@ class o2_prg {
                 $view->snapshot_copy_view($table);
                 }
             // ____________________________________________________ Save original view ___
-            $this->contesto[$view_name.'_jxsnps'] = clone $view;
+            $this->contesto[$snps_name]               = clone $view;
+            $this->contesto[$snps_name]->snapshot_src = true;
             unset($this->contesto[$view_name]);
             // __________________________________________________ Create snapshot view ___
             $this->contesto[$view_name] = $view->snapshot_create_view($table);
@@ -1282,16 +1287,19 @@ class o2_prg {
      */
     function snapshot_clear($view_name) {
 
-        $app = $_SESSION['o2_app'];
-        if (isset($app->tab[$view_name.'_jxsnps'])) {
-            $app->tab[$view_name.'_jxsnps']->elimina();
-            unset($app->tab[$view_name.'_jxsnps']);
+        $app       = $_SESSION['o2_app'];
+        $snps_name = $view_name.'_jxsnps';
+        if (isset($app->tab[$snps_name])) {
+            $app->tab[$snps_name]->elimina();
+            unset($app->tab[$snps_name]);
             }
-        if (isset($this->contesto[$view_name.'_jxsnps'])) {
+        if (isset($this->contesto[$snps_name]) &&
+            $this->contesto[$snps_name]->snapshot_src) {
             unset($this->contesto[$view_name]);
             // _______________________________ Replace snapshot view with original one ___
-            $this->contesto[$view_name] = $this->contesto[$view_name.'_jxsnps'];
-            unset($this->contesto[$view_name.'_jxsnps']);
+            $this->contesto[$view_name] = $this->contesto[$snps_name];
+            $this->contesto[$view_name]->snapshot_src = false;
+            unset($this->contesto[$snps_name]);
             // _____________________________ Replace snapshot view in grids references ___
             foreach ($this->form as $frm_name => $form) {
                 foreach ($this->form[$frm_name]->controlli as $ctrl_name => $ctrl) {
@@ -1612,6 +1620,7 @@ class o2_dbview extends o2_view {
     public $bulk_fields     = array(); /* List of fields valued in bulk-mode            */
     public $bulk_defaults   = array(); /* List of defaults to use for missing values    */
     public $snapshot        = false;   /* If view is using recordset snapshot           */
+    public $snapshot_src    = false;   /* If view is a snapshotted orginal view         */
     public $snps_ori_type   = false;   /* Original db engine when view is a snapshot    */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
     public $statement       = null;  /* PDO Statement opened on view (if any)           */
@@ -5894,7 +5903,7 @@ class o2_dbview extends o2_view {
             }
         // __________________________ Reset snapshot filter to exclude deleted records ___
         $this->campi['JXSNPS_STATUS']->not = 'D';
-        $this->looping_on = false;
+        $this->looping_on                  = false;
 
         }
 

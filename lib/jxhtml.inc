@@ -3035,7 +3035,8 @@ class o2html {
                                          "px;height:".$tab_height."px;'>\n";
             // _____________________________________________________________ Recordset ___
             $view = $o2ctrl_obj->view_obj;
-            if ($o2ctrl_obj->form_obj->attiva && $view->refresh()) {
+            if (($o2ctrl_obj->form_obj->attiva && $view->refresh()) ||
+                (!$view->vista && $view->record_primo())) {
                 $o2ctrl_obj->form_obj->leggi_valori_vista();
                 }
             $view_recs = count($view->recordset);
