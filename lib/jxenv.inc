@@ -390,7 +390,6 @@ class o2_prg {
             $task_local->looping_on = false;
             // _______ Looping on view always requires view refresh to reset righe_vis ___
             $task_local->vista      = false;
-            $task_local->selezione  = 0;
             $task_local->direzione  = 0;
             $task_local->righe_vis  = $task_local->righe_vis_save;
             }
