@@ -2850,13 +2850,17 @@ class o2_app {
                     '" -q -printer "'.$printer_name.'" "'.$nome_xml_local.'"' :
                     '" -q '.$prod_type.' "'.$nome_xml_local.'" "'.
                     $this->dir_tmp.$file_pdf.'"');
+        // ____________________________________________ Log command and output to file ___
+        $log = $this->dir_tmp.$file_pdf.'.log';
+        file_put_contents($log, "Print command:\n".$rep_cmd."\n\nCommand output:\n");
         $ret_val = 0;
-        system($rep_cmd, $ret_val);
-        // _______________ Return codes differnt from zero are error exit codes (TODO) ___
-        if (false && $ret_val > 0) {
-            throw new o2_exception("PRINT ERROR (".$ret_val.
-                                   ")<br>Executed command:<br><i>".$rep_cmd."</i>",
+        system($rep_cmd.'>>'.$log.' 2>&1', $ret_val);
+        if (!file_exists($this->dir_tmp.$file_pdf)) {
+            throw new o2_exception("<b>PRINT ERROR:</b> cannot generate file <i>".
+                                   $file_pdf."</i>.<hr><code>".
+                                   nl2br(file_get_contents($log))."</code>",
                                    o2error_IO);
+            return;
             }
 
         }
