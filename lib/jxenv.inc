@@ -2082,6 +2082,7 @@ class o2_dbview extends o2_view {
         $c_o      = constant("o2_".$type."_o");
         $c_c      = constant("o2_".$type."_c");
         $sql      = false;
+        $order_by = array();
         // __________________________________________________ Compose formula SQL code ___
         if (is_array($formula) && (count($formula) > 0)) {
             switch (strtoupper($formula[0])) {
@@ -2091,6 +2092,7 @@ class o2_dbview extends o2_view {
                         if (is_array($formula[$i])) {
                             if ($field = $this->campi[strtoupper($formula[$i][0])]) {
                                 $str[] = $c_o.$field->file.$c_c.".".$field->nome_fisico;
+                                $order_by[] = $field->nome;
                                 }
                             }
                         else {
@@ -2126,7 +2128,8 @@ class o2_dbview extends o2_view {
                                                 $range_max,
                                                 $not,
                                                 $like);
-        $this->campi[$name]->formula = $sql;
+        $this->campi[$name]->formula  = $sql;
+        $this->campi[$name]->order_by = $order_by;
 
         }
 
@@ -4248,20 +4251,41 @@ class o2_dbview extends o2_view {
         // _____________________________________________ Include custom sorting fields ___
         if (count($this->sort) && !$no_custom_sort) {
             foreach (array_reverse($this->sort) as $sort_segment => $sort_segment_dir) {
-                $new_segment = new o2_segmento_indice($this->campi[$sort_segment],
-                                                      $sort_segment_dir);
-                foreach ($key_segments as $segment_index => $key_segment) {
-                    if ($key_segment->campo->phys_name ==
-                        $this->campi[$sort_segment]->phys_name) {
-                        unset($key_segments[$segment_index]);
-                        break;
+                $field = $this->campi[$sort_segment];
+                // _______________________________________________________ SQL-formula ___
+                if ($field->formula) {
+                    foreach (array_reverse($field->order_by) as $sort_fld) {
+                        $new_segment = new o2_segmento_indice($this->campi[$sort_fld],
+                                                              $sort_segment_dir);
+                        foreach ($key_segments as $segment_index => $key_segment) {
+                            if ($key_segment->campo->phys_name ==
+                                $this->campi[$sort_fld]->phys_name) {
+                                unset($key_segments[$segment_index]);
+                                break;
+                                }
+                            }
+                        // _______________ Manage custom sorting for fields from joins ___
+                        if ($this->campi[$sort_fld]->file != $this->file->indice) {
+                            $new_segment->custom_sorted = true;
+                            }
+                        array_unshift($key_segments, $new_segment);
                         }
                     }
-                // _______________________ Manage custom sorting for fields from joins ___
-                if ($this->campi[$sort_segment]->file != $this->file->indice) {
-                    $new_segment->custom_sorted = true;
+                // ____________________________________________________ Standard field ___
+                else {
+                    $new_segment = new o2_segmento_indice($field, $sort_segment_dir);
+                    foreach ($key_segments as $segment_index => $key_segment) {
+                        if ($key_segment->campo->phys_name == $field->phys_name) {
+                            unset($key_segments[$segment_index]);
+                            break;
+                            }
+                        }
+                    // ___________________ Manage custom sorting for fields from joins ___
+                    if ($field->file != $this->file->indice) {
+                        $new_segment->custom_sorted = true;
+                        }
+                    array_unshift($key_segments, $new_segment);
                     }
-                array_unshift($key_segments, $new_segment);
                 }
             }
         // ________________________________________ Loop on key segments to get values ___
@@ -4473,15 +4497,34 @@ class o2_dbview extends o2_view {
             $key_obj = clone $this->files[$table]->chiavi[$chiave];
             foreach (array_reverse($this->sort) as $sort_segment => $sort_segment_dir) {
                 $seg_field   = $this->campi[$sort_segment];
-                $new_segment = new o2_segmento_indice($seg_field, $sort_segment_dir);
-                $new_segment->custom_sort = true;
-                // __________________________ Remove custom segments from standard key ___
-                foreach ($key_obj->segmenti as $segment_index => $key_segment) {
-                    if ($key_segment->campo->nome_fisico == $seg_field->nome_fisico) {
-                        unset($key_obj->segmenti[$segment_index]);
+                // _______________________________________________________ SQL-formula ___
+                if ($seg_field->formula) {
+                    foreach (array_reverse($seg_field->order_by) as $sort_fld) {
+                        $new_segment = new o2_segmento_indice($this->campi[$sort_fld],
+                                                              $sort_segment_dir);
+                        $new_segment->custom_sort = true;
+                        // __________________ Remove custom segments from standard key ___
+                        foreach ($key_obj->segmenti as $segment_index => $key_segment) {
+                            if ($key_segment->campo->nome_fisico ==
+                                $this->campi[$sort_fld]->nome_fisico) {
+                                unset($key_obj->segmenti[$segment_index]);
+                                }
+                            }
+                        array_unshift($key_obj->segmenti, $new_segment);
                         }
                     }
-                array_unshift($key_obj->segmenti, $new_segment);
+                // ____________________________________________________ Standard field ___
+                else {
+                    $new_segment = new o2_segmento_indice($seg_field, $sort_segment_dir);
+                    $new_segment->custom_sort = true;
+                    // ______________________ Remove custom segments from standard key ___
+                    foreach ($key_obj->segmenti as $segment_index => $key_segment) {
+                        if ($key_segment->campo->nome_fisico == $seg_field->nome_fisico) {
+                            unset($key_obj->segmenti[$segment_index]);
+                            }
+                        }
+                    array_unshift($key_obj->segmenti, $new_segment);
+                    }
                 }
             return $key_obj->order_by($this, $table, $invertito);
             }
