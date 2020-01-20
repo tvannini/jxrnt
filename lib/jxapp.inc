@@ -2733,6 +2733,13 @@ class o2_app {
         if (strtolower(substr($this->reporter, 0, 7)) == "http://" ) {
             return $this->web_print($modello, $file_pdf, $info_print);
             }
+        // ___________________________________________________ Check model is provided ___
+        if (!$modello) {
+            throw new o2_exception("<b>PRINT ERROR:</b> no model provided for printing ".
+                                   "<i>".$file_pdf."</i>",
+                                   o2error_MISSINGFILE);
+            return;
+            }
         $model_local  = $this->file_in_uso("MODELS", $modello);
         $target_file  = new o2_fsitem($file_pdf);
         $model_folder = new o2_dir(dirname($model_local));
