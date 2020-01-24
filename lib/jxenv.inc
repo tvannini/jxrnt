@@ -4915,10 +4915,9 @@ class o2_dbview extends o2_view {
     /**
      * Esegue l'insert into $file per i campi di ->corrente diversi da ->precedente
      *
-     * @param  boolean $bulk_mode   If insert is cached for bulk mode
      * @return boolean
      */
-    function inserisci_corrente($bulk_mode = false) {
+    function inserisci_corrente() {
 
         $app               = $_SESSION['o2_app'];
         $db_type           = $this->file->db->server->type;
