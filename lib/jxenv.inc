@@ -5034,8 +5034,9 @@ class o2_dbview extends o2_view {
                 }
             // __________________________________________ Manage snapshot informations ___
             if ($this->snapshot) {
-                $insert_nomi_arr[]   = 'JXSNPS_STATUS';
-                $insert_valori_arr[] = "'I'";
+                $insert_nomi_arr[]         = 'JXSNPS_STATUS';
+                $insert_valori_arr[]       = "'I'";
+                $defaults['JXSNPS_STATUS'] = "''";
                 }
             // ______________________________________________________ Bulk insert mode ___
             if ($this->bulk_mode) {
