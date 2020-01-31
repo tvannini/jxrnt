@@ -5982,7 +5982,7 @@ class o2_dbview extends o2_view {
                 $rec  = '';
                 foreach ($snps_table->campi as $fld_name => $fld) {
                     if ($fld_name != 'JXSNPS_STATUS') {
-                        if ($rec) {
+                        if ($rec !== '') {
                             $rec.= ',';
                             }
                         if ($fld->tipo == 'N') {
