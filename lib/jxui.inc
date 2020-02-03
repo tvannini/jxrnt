@@ -3892,12 +3892,12 @@ class o2_ctrl_listcombo extends o2_ctrl {
             $body_local = substr($body_local, 0, -1);
             $desc_list  = substr($desc_list, 0, -1);
             return ($body_local ?
-                     "{f:".($items_view->offset_ini ? "false" : "true").
+                     "{f:".($items_view->offset_ini ? "!1" : "!0").
                      ",l:".($items_view->offset_fine < ($items_view->totale_record - 1) ?
-                            "false" :
-                            "true").
+                            "!1" :
+                            "!0").
                      ",v:".$body_local."],d:".$desc_list."]}" :
-                    "");
+                    "{f:!0,l:!0}");
             }
         }
 
