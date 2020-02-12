@@ -9451,6 +9451,7 @@ class o2_inspector {
         $root   = "[root]";
         $ret    = array();
         $id_prg = 0;
+        $cnt    = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code = file_get_contents($prf);
             $exps = self::get_prg_exps($code, $prg);
@@ -9466,11 +9467,12 @@ class o2_inspector {
                                                           $exp_id,
                                                           $this->img_path."exp.png",
                                                           self::$w_expression);
+                    $cnt++;
                     }
                 }
             }
         if (count($ret)) {
-            $ret[$root] = array(0, 'Find occurences of string "'.$search.'"',
+            $ret[$root] = array(0, 'Find occurences of string "'.$search.'" ('.$cnt.')',
                                 $this->img_path."folder.png");
             }
         else {
