@@ -513,8 +513,9 @@ return ("Insert a valid user name");
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_33() {
-	
-return (strtr(o2val('prg§_§var','user_name'), " /\\", "___"));
+	$user = o2val('prg§_§var','user_name');
+$user = preg_replace('/[^a-z0-9_\-@.]/', '_', $user);
+return ($user);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_34() {
