@@ -6078,11 +6078,19 @@ class o2_dbview extends o2_view {
                                                               ? 'D' : $not),
                                                              $like);
             }
+        // _______ TRUE when used key is different from PK (see snapshot_create_table) ___
+        if (count($table->chiavi) > 1) {
+            $keys = array_keys($table->chiavi);
+            $snps_view->chiavi_in_uso = array($table->indice => $keys[1]);
+            }
+        // ____________________________________________________________ Used key is PK ___
+        else {
+            $snps_view->chiavi_in_uso = array($table->indice => $table->chiave->nome);
+            }
         $snps_view->prefisso      = $this->prefisso;
         $snps_view->suffisso      = $this->suffisso;
         $snps_view->aggregate     = $this->aggregate;
         $snps_view->auto_aggr     = $this->auto_aggr;
-        $snps_view->chiavi_in_uso = array($table->indice => $table->chiave->nome);
         $snps_view->snapshot      = true;
         $snps_view->snps_ori_type = $this->file->db->server->type;
         $snps_view->internal      = true;
@@ -6126,7 +6134,8 @@ class o2_dbview extends o2_view {
             $table->campi[$fld_name] = new o2_campo($table,
                                                     $fld_name.'_'.$uid,
                                                     $co.$fld_name.'_'.$uid.$cc,
-                                                    'o2sys_long_str');
+                                                    $field->maschera->nome);
+            $uid++;
             }
         // ________________________________________________________ Add "status" field ___
         $fld_name                = 'JXSNPS_STATUS';
@@ -6140,11 +6149,15 @@ class o2_dbview extends o2_view {
                                                 $fld_name,
                                                 $co.$fld_name.$cc,
                                                 'o2sys_long_str');
-        // ________________________________________ Create primary key from used index ___
+        // __________________________________________ Create primary key from table PK ___
         $segments    = array();
         $pk_segments = array();
         foreach ($this->file->chiave->segmenti as $segment) {
-            $fld_name    = strtoupper($segment->campo->name);
+            $fld_name = strtoupper($segment->campo->name);
+            // __________________ Field not in select, added by runtime as key segment ___
+            if (!isset($table->campi[$fld_name])) {
+                $fld_name.= '_JXKF';
+                };
             $campo       = $table->campi[$fld_name];
             $campo->name = $fld_name;
             $direzione   = $segment->direzione;
@@ -6154,6 +6167,23 @@ class o2_dbview extends o2_view {
         $table->chiavi[$key_name] = new o2_chiave($key_name, $segments, true);
         $table->chiave            = $table->chiavi[$key_name];
         $table->pk_segments       = $pk_segments;
+        // __________________________________________ Create other key from used index ___
+        if ($this->chiavi_in_uso[$this->file->indice] != $key_name) {
+            $key_name = $this->chiavi_in_uso[$this->file->indice];
+            $segments = array();
+            foreach ($this->file->chiavi[$key_name]->segmenti as $segment) {
+                $fld_name = strtoupper($segment->campo->name);
+                // ______________ Field not in select, added by runtime as key segment ___
+                if (!isset($table->campi[$fld_name])) {
+                    $fld_name.= '_JXKF';
+                    };
+                $campo       = $table->campi[$fld_name];
+                $campo->name = $fld_name;
+                $direzione   = $segment->direzione;
+                $segments[]  = new o2_segmento_indice($campo, $direzione);
+                }
+            $table->chiavi[$key_name] = new o2_chiave($key_name, $segments, true);
+            }
         $table->log_level         = false;
         $table->crea();
         // ___________________________________________ Add table to application tables ___
