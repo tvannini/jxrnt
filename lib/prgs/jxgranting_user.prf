@@ -11,8 +11,8 @@ function jxgranting_user§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("no_pwd_change", "_o2logical");
 	$task_prg§_§var->definisci("pwds_history", "o2sys_long_str");
 	$task_prg§_§var->definisci("user_exists", "_o2logical");
-	$task_prg§_§var->definisci("user_name", "_o2alpha");
-	$task_prg§_§var->definisci("user_roles_model", "_o2alpha");
+	$task_prg§_§var->definisci("user_name", "jxuser");
+	$task_prg§_§var->definisci("user_roles_model", "jxuser");
 		}
 
 function jxgranting_user§§users_def(&$task_users, $_o2viewalias = "") {

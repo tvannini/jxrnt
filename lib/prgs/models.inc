@@ -25,6 +25,7 @@ o2def::model("jxscheduler_id", "N", "6Z", "");
 o2def::model("jxscheduler_type", "A", "U1[Once|Interval|Recurrence]", "");
 o2def::model("jxservice", "A", "U20", "");
 o2def::model("jxterminal_id", "N", "6Z", "");
+o2def::model("jxuser", "A", "L50", "");
 o2def::model("o2sys_app_run_mode", "A", "U3[WEB|CMD|JOB|RPC]", "");
 o2def::model("o2sys_constraint_key", "A", "C250", "");
 o2def::model("o2sys_constraint_tab", "A", "C50", "");

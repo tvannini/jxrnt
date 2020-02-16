@@ -8,7 +8,7 @@ o2def::tab("o2_dbrelease", "default", "o2sys_dbrelease", "relcode");
 
 o2def::tab("o2_users", "default", "o2sys_users", "o2user");
 
-	o2def::field("o2user", "o2user", "_o2alpha");
+	o2def::field("o2user", "o2user", "jxuser");
 	o2def::field("o2password", "o2password", "_o2sid");
 	o2def::field("area", "asp_area", "_o2alpha");
 	o2def::field("expire_date", "expire_date", "_o2date");
@@ -28,7 +28,7 @@ o2def::tab("o2_users", "default", "o2sys_users", "o2user");
 o2def::tab("o2_sessions", "default", "o2sys_sessions", "sid");
 
 	o2def::field("sid", "sid", "_o2sid");
-	o2def::field("o2user", "o2user", "_o2alpha");
+	o2def::field("o2user", "o2user", "jxuser");
 	o2def::field("c_date", "c_date", "_o2date");
 	o2def::field("c_time", "c_time", "_o2time");
 	o2def::field("a_date", "a_date", "_o2date");
@@ -49,7 +49,7 @@ o2def::tab("o2_sessions", "default", "o2sys_sessions", "sid");
 
 o2def::tab("o2_options", "default", "o2sys_options", "id");
 
-	o2def::field("o2user", "o2user", "_o2alpha");
+	o2def::field("o2user", "o2user", "jxuser");
 	o2def::field("code", "code", "_o2alpha");
 	o2def::field("value", "value", "_o2sid");
 
@@ -81,7 +81,7 @@ o2def::tab("o2_rights_per_role", "default", "o2sys_rights_per_role", "role_name"
 
 o2def::tab("o2_roles_per_user", "default", "o2sys_roles_per_user", "o2user");
 
-	o2def::field("o2user", "o2user", "_o2alpha");
+	o2def::field("o2user", "o2user", "jxuser");
 	o2def::field("role_name", "role_name", "o2sys_role");
 
 	o2def::index("o2user", "o2user","A", "role_name","A");
@@ -134,7 +134,7 @@ o2def::tab("o2_tmp_where", "default", "o2sys_tmp_where", "id");
 
 o2def::tab("o2_custom_grids", "default", "o2sys_custom_grids", "p_col");
 
-	o2def::field("o2user", "o2user", "_o2alpha");
+	o2def::field("o2user", "o2user", "jxuser");
 	o2def::field("prg", "prg", "_o2alpha");
 	o2def::field("obj", "obj", "_o2alpha");
 	o2def::field("p_type", "p_type", "o2sys_custom_grid_prop");
@@ -146,7 +146,7 @@ o2def::tab("o2_custom_grids", "default", "o2sys_custom_grids", "p_col");
 
 o2def::tab("o2_custom_export", "default", "o2sys_custom_export", "p_col");
 
-	o2def::field("o2user", "o2user", "_o2alpha");
+	o2def::field("o2user", "o2user", "jxuser");
 	o2def::field("prg", "prg", "_o2alpha");
 	o2def::field("obj", "obj", "_o2alpha");
 	o2def::field("p_type", "p_type", "o2sys_custom_export_prop");
@@ -204,7 +204,7 @@ o2def::tab("jx_running_jobs", "default", "jx_running_jobs", "run_id");
 	o2def::field("job_id", "job_id", "jxjob_id");
 	o2def::field("run_prg", "run_prg", "jxjob_prg");
 	o2def::field("run_params", "run_params", "jxjob_params");
-	o2def::field("run_user", "run_user", "_o2alpha");
+	o2def::field("run_user", "run_user", "jxuser");
 	o2def::field("run_start_date", "run_start_date", "_o2date");
 	o2def::field("run_start_time", "run_start_time", "_o2time");
 	o2def::field("run_aspid", "run_aspid", "_o2alpha");
@@ -236,7 +236,7 @@ o2def::tab("jx_scheduler", "default", "jx_scheduler", "sched_id");
 
 	o2def::field("sched_id", "sched_id", "jxscheduler_id");
 	o2def::field("sched_job", "sched_job", "jxjob_id");
-	o2def::field("sched_user", "sched_user", "_o2alpha");
+	o2def::field("sched_user", "sched_user", "jxuser");
 	o2def::field("sched_type", "sched_type", "jxscheduler_type");
 	o2def::field("sched_interval", "sched_interval", "_o2number");
 	o2def::field("sched_date", "sched_date", "_o2date");

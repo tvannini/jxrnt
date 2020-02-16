@@ -5,10 +5,10 @@ function jxgranting§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("action_ok", "_o2logical");
 	$task_prg§_§var->definisci("confirm", "_o2logical");
 	$task_prg§_§var->definisci("creation_description", "_o2text");
-	$task_prg§_§var->definisci("current_user", "_o2alpha");
+	$task_prg§_§var->definisci("current_user", "jxuser");
 	$task_prg§_§var->definisci("filter_right", "_o2alpha");
 	$task_prg§_§var->definisci("filter_role", "_o2alpha");
-	$task_prg§_§var->definisci("filter_user", "_o2alpha");
+	$task_prg§_§var->definisci("filter_user", "jxuser");
 	$task_prg§_§var->definisci("fold_by_asp", "_o2logical");
 	$task_prg§_§var->definisci("force_pwd_change_save", "_o2logical");
 	$task_prg§_§var->definisci("main_page", "_o2number");
