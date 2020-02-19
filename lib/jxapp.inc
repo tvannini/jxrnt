@@ -2067,7 +2067,7 @@ class o2_app {
             $def_file = $this->dir_progs."jx_tables".DIRECTORY_SEPARATOR.
                         $table_name.".tab";
             // _____________________ Table definition is in the splitted rep directory ___
-            if ((@include_once $def_file) === true) {
+            if (@include_once $def_file) {
                 $this->runtime->load_gateway($this->tab[$table_name]->db->server->type);
                 return $this->get_table($table_name, $clone);
                 }
