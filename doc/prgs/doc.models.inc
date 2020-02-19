@@ -1,5 +1,5 @@
 <?php
-o2def::model("_o2alpha", "A", "C20", "");
+o2def::model("_o2alpha", "A", "C50", "");
 o2def::model("_o2date", "D", "-", "");
 o2def::model("_o2logical", "L", "", "");
 o2def::model("_o2number", "N", "8", "");
