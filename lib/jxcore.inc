@@ -7287,7 +7287,8 @@ function o2_mime_content($file_name, $file_ext = "") {
                         "dll"     => "application/x-msdownload",
                         "dms"     => "application/octet-stream",
                         "doc"     => "application/msword",
-                        "docx"    => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "docx"    => "application/vnd.openxmlformats-officedocument".
+                                     ".wordprocessingml.document",
                         "dot"     => "application/msword",
                         "dvi"     => "application/x-dvi",
                         "dxr"     => "application/x-director",
@@ -7436,6 +7437,7 @@ function o2_mime_content($file_name, $file_ext = "") {
                         "xls"     => "application/vnd.ms-excel",
                         "xlt"     => "application/vnd.ms-excel",
                         "xlw"     => "application/vnd.ms-excel",
+                        "xml"     => "text/xml",
                         "xof"     => "x-world/x-vrml",
                         "xpm"     => "image/x-xpixmap",
                         "xwd"     => "image/x-xwindowdump",
