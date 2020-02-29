@@ -4531,7 +4531,9 @@ o2jse.cmd.run = function(prgName) {
  */
 o2jse.cmd.exe = function(eventObj, prgID, actName) {
 
-    o2jse.infoForm['o2_prgexeid'].value = prgID;
+    if (prgID > 0) {
+        o2jse.infoForm['o2_prgexeid'].value = prgID;
+        }
     o2jse.infoForm['o2_action'].value   = actName;
     o2jse.infoForm['o2lastform'].value  = "";
     o2jse.infoForm['o2lastctrl'].value  = "";
