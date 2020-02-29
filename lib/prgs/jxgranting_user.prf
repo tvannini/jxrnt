@@ -280,7 +280,8 @@ function jxgranting_user§§change_type_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting_user§§check_name_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_name", jxgranting_user_exp_33()) && $o2exe->e();
+	$o2exe->s(1) && (jxgranting_user_exp_61() || $o2exe->e()) && o2act::alert(jxgranting_user_exp_62(), 0) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_name", jxgranting_user_exp_33()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§clear_pwd_history_act(&$o2exe) {
@@ -666,5 +667,15 @@ return (o2val('prg§_§var','login_type') == 'LDAP');
 function jxgranting_user_exp_60() {
 	
 return (o2format(o2val('users','creation_date'), 'o2sys_long_date'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_61() {
+	
+return (preg_match('/[^a-z0-9_\-@.]/', o2val('prg§_§var','user_name')));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_62() {
+	
+return ("ATTENTION: Unallowed characters replaced in user name!");
 	} //|o2_fine_exp|
 ?>
