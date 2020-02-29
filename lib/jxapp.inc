@@ -133,6 +133,8 @@ class o2_app {
     public $log_db          = false;   /* Name of the DB to be used for log tables      */
     public $record_trace    = false;   /* List of columns for auto tracing on record    */
     public $fetch_loop      = false;   /* Statement fetching instead of paging in loops */
+    public $snapshot_db     = null;    /* Database used for snapshots (jxsess_db)       */
+    public $bulk_limit      = 499;     /* Maximum number of records for single insert   */
     /*     _____ Triggers _____________________________________________________________ */
     public $exe_prg_start   = false;   /* Start program has to be executed              */
     public $prg_start       = '';      /* Start program name                            */
@@ -195,7 +197,6 @@ class o2_app {
     public $refresh_prg     = false;   /* Program to be executed on refresh             */
     public $refresh_time    = 0;       /* Number of seconds to wait before refreshing   */
     public $refresh_last    = 0;       /* Last refresh execution time-out               */
-    public $snapshot_db     = null;    /* Database used for snapshots (jxsess_db)       */
     /*     _____ BUGS compatibility ___________________________________________________ */
     public $bug_aggregate   = false;   /* If TRUE uncountable aggregations are skipped  */
     /*     _____ HTML extras __________________________________________________________ */

@@ -5145,6 +5145,7 @@ class o2_dbview extends o2_view {
      */
     function bulk_insert($fields, $values, $defaults, $flush = false) {
 
+        $bulk_limit = $_SESSION['o2_app']->bulk_limit;
         // _____________________________________________________ Single record caching ___
         if ($values) {
             if ($this->bulk_fields != $fields) {
@@ -5157,7 +5158,7 @@ class o2_dbview extends o2_view {
             }
         $cache = count($this->bulk_cache);
         // __________________________________________________ Bulk end and cache flush ___
-        if (($cache > 0) && ($flush || ($cache > 999))) {
+        if (($cache > 0) && ($flush || ($cache > $bulk_limit))) {
             $fields            = $this->bulk_fields;
             $this->bulk_fields = array_combine($this->bulk_fields, $this->bulk_defaults);
             $recs              = array_map(function($rec) {
@@ -5761,7 +5762,8 @@ class o2_dbview extends o2_view {
      */
     function snapshot_sync() {
 
-        $app   = $_SESSION['o2_app'];
+        $app        = $_SESSION['o2_app'];
+        $bulk_limit = $app->bulk_limit;
         // _________________________________________________________ Get original view ___
         $view  = $app->istanze_prg[$this->id_esecuzione]->contesto[$this->nome.'_jxsnps'];
         // ________________________________________________________ Get original table ___
@@ -5824,7 +5826,7 @@ class o2_dbview extends o2_view {
                         $cache[] = $rec;
                         $recs++;
                         // ________________________________________ Insert cache chunk ___
-                        if ($recs > 999) {
+                        if ($recs > $bulk_limit) {
                             if ($app->sqltrace) {
                                 jxsql_stat($view, 'W');
                                 }
@@ -5958,6 +5960,7 @@ class o2_dbview extends o2_view {
     function snapshot_copy_view($snps_table) {
 
         $app              = $_SESSION['o2_app'];
+        $bulk_limit       = $app->bulk_limit;
         $this->looping_on = true;
         $this->record_primo();
         // _________________________________________________________ Copy view dataset ___
@@ -5999,7 +6002,7 @@ class o2_dbview extends o2_view {
                 $cache[] = $rec;
                 $recs++;
                 // ________________________________________________ Insert cache chunk ___
-                if ($recs > 999) {
+                if ($recs > $bulk_limit) {
                     if ($app->sqltrace) {
                         jxsql_stat($this, 'W', $snps_table);
                         }
