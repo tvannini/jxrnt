@@ -5315,41 +5315,41 @@ class o2_gateway {
                     break;
                 case 'modifyrec':
                     $exec = 'o2_'.$db_engine.'_modifyrec';
-                    return json_encode($exec($db_host,
-                                             $db_user,
-                                             $db_pwd,
-                                             $db_name,
-                                             $db_schema,
-                                             $p1,
-                                             $p2,
-                                             $fix(json_decode($p3, true)),
-                                             $fix($p4)));
-                    $commit($db_host, $db_user, $db_pwd, true);
+                    json_encode($exec($db_host,
+                                      $db_user,
+                                      $db_pwd,
+                                      $db_name,
+                                      $db_schema,
+                                      $p1,
+                                      $p2,
+                                      $fix(json_decode($p3, true)),
+                                      $fix($p4)));
+                    return $commit($db_host, $db_user, $db_pwd, true);
                     break;
                 case 'insertrec':
                     $exec = 'o2_'.$db_engine.'_insertrec';
-                    $res  = json_encode($exec($db_host,
-                                             $db_user,
-                                             $db_pwd,
-                                             $db_name,
-                                             $db_schema,
-                                             $p1,
-                                             $p2,
-                                             $fix(json_decode($p3, true)),
-                                             json_decode($p4, true)));
-                    $commit($db_host, $db_user, $db_pwd, true);
+                    json_encode($exec($db_host,
+                                      $db_user,
+                                      $db_pwd,
+                                      $db_name,
+                                      $db_schema,
+                                      $p1,
+                                      $p2,
+                                      $fix(json_decode($p3, true)),
+                                      json_decode($p4, true)));
+                    return $commit($db_host, $db_user, $db_pwd, true);
                     break;
                 case 'deleterec':
                     $exec = 'o2_'.$db_engine.'_deleterec';
-                    return json_encode($exec($db_host,
-                                             $db_user,
-                                             $db_pwd,
-                                             $db_name,
-                                             $db_schema,
-                                             $p1,
-                                             $p2,
-                                             $fix($p3)));
-                    $commit($db_host, $db_user, $db_pwd, true);
+                    json_encode($exec($db_host,
+                                      $db_user,
+                                      $db_pwd,
+                                      $db_name,
+                                      $db_schema,
+                                      $p1,
+                                      $p2,
+                                      $fix($p3)));
+                    return $commit($db_host, $db_user, $db_pwd, true);
                     break;
                 case 'count':
                     $exec = 'o2_'.$db_engine.'_count';
@@ -5468,7 +5468,7 @@ class JXHttpConn {
     public $url       = '';
     public $user      = '';
     public $password  = '';
-    public $sessname  = 'JXMDB';
+    public $sessname  = 'JXHttpConn';
     public $token     = false;
 
 
