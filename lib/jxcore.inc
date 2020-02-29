@@ -5158,6 +5158,368 @@ class o2_gateway {
 
         }
 
+
+    static function jxsdb($db, $command) {
+
+        $server    = $db->server;
+        $db_engine = $server->type;
+        $db_host   = $server->server;
+        $db_user   = $server->user;
+        $db_pwd    = $server->password;
+        $db_name   = $db->nome;
+        $db_schema = $db->proprietario;
+        $co        = constant('o2_'.$db_engine.'_o');
+        $cc        = constant('o2_'.$db_engine.'_c');
+        // _______________________________________________ Get parameters from Request ___
+        $p1  = $_REQUEST['p1'];
+        $p2  = $_REQUEST['p2'];
+        $p3  = $_REQUEST['p3'];
+        $p4  = $_REQUEST['p4'];
+        $p5  = $_REQUEST['p5'];
+        $p6  = $_REQUEST['p6'];
+        $p7  = $_REQUEST['p7'];
+        $p8  = $_REQUEST['p8'];
+        $p9  = $_REQUEST['p9'];
+        $p10 = $_REQUEST['p10'];
+        // ________________ Tool function to raplace delimiters placeholders in params ___
+        $fix = function($par) use (&$fix, $co, $cc) {
+            if (is_array($par)) {
+                $res = array();
+                foreach ($par as $key => $value) {
+                    $res[(is_string($key) ? $fix($key) : $key)] = (is_string($value) ||
+                                                                   is_array($value) ?
+                                                                   $fix($value) :
+                                                                   $value);
+                    }
+                return $res;
+                }
+            else {
+                return (strpos($par, '#jxdo#') === false ?
+                        $par :
+                        str_replace('#jxdc#', $cc, str_replace('#jxdo#', $co, $par)));
+                }
+            };
+        // _______________________________________ Prepare command for implicit commit ___
+        $commit = 'o2_'.$db_engine.'_commit';
+        // __________________________________________________ Engine method to execute ___
+        try {
+            switch ($command) {
+                case 'concat':
+                    $exec = 'o2_'.$db_engine.'_concat';
+                    return json_encode($exec(json_decode($p1, true)));
+                    break;
+                case 'tables':
+                    $exec = 'o2_'.$db_engine.'_tables';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema));
+                    break;
+                case 'tabexists':
+                    $exec = 'o2_'.$db_engine.'_tabexists';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1));
+                    break;
+                case 'tablefields':
+                    $exec = 'o2_'.$db_engine.'_tablefields';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1));
+                    break;
+                case 'tableindexes':
+                    $exec = 'o2_'.$db_engine.'_tableindexes';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1));
+                    break;
+                case 'insertfrom':
+                    $exec = 'o2_'.$db_engine.'_insertfrom';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $db_name,
+                                             $db_schema,
+                                             $p2,
+                                             $fix(json_decode($p3, true)),
+                                             $fix($p4)));
+                    break;
+                case 'droptable':
+                    $exec = 'o2_'.$db_engine.'_droptable';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1));
+                    break;
+                case 'renametable':
+                    $exec = 'o2_'.$db_engine.'_renametable';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2));
+                    break;
+                case 'createtable':
+                    $exec = 'o2_'.$db_engine.'_createtable';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $fix(json_decode($p2, true)),
+                                             $p3));
+                    break;
+                case 'aggregate':
+                    $exec = 'o2_'.$db_engine.'_aggregate';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2,
+                                             $fix($p3),
+                                             $fix(json_decode($p4, true)),
+                                             $fix(json_decode($p5, true))));
+                    break;
+                case 'verifyrec':
+                    $exec = 'o2_'.$db_engine.'_verifyrec';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2,
+                                             $fix($p3),
+                                             $fix($p4),
+                                             $fix($p5)));
+                    break;
+                case 'modifyrec':
+                    $exec = 'o2_'.$db_engine.'_modifyrec';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2,
+                                             $fix(json_decode($p3, true)),
+                                             $fix($p4)));
+                    $commit($db_host, $db_user, $db_pwd, true);
+                    break;
+                case 'insertrec':
+                    $exec = 'o2_'.$db_engine.'_insertrec';
+                    $res  = json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2,
+                                             $fix(json_decode($p3, true)),
+                                             json_decode($p4, true)));
+                    $commit($db_host, $db_user, $db_pwd, true);
+                    break;
+                case 'deleterec':
+                    $exec = 'o2_'.$db_engine.'_deleterec';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2,
+                                             $fix($p3)));
+                    $commit($db_host, $db_user, $db_pwd, true);
+                    break;
+                case 'count':
+                    $exec = 'o2_'.$db_engine.'_count';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2,
+                                             $fix($p3),
+                                             $fix(json_decode($p4, true))));
+                    break;
+                case 'recordset':
+                    $exec = 'o2_'.$db_engine.'_recordset';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2,
+                                             $fix($p3),
+                                             $fix($p4),
+                                             $fix($p5),
+                                             $p6,
+                                             $fix(json_decode($p7, true)),
+                                             $p8,
+                                             $fix($p9),
+                                             $p10));
+                    break;
+                case 'fkeyadd':
+                    $exec = 'o2_'.$db_engine.'_fkeyadd';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             json_decode($p2, true),
+                                             $db_name,
+                                             $db_schema,
+                                             $p3,
+                                             json_decode($p4, true),
+                                             $p5));
+                    break;
+                case 'fkeyremove':
+                    $exec = 'o2_'.$db_engine.'_fkeyremove';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2));
+                    break;
+                case 'fkeyvalidate':
+                    $exec = 'o2_'.$db_engine.'_fkeyvalidate';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1,
+                                             $p2));
+                    break;
+                case 'fkeystablist':
+                    $exec = 'o2_'.$db_engine.'_fkeystablist';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema,
+                                             $p1));
+                    break;
+                case 'fkeysinfo':
+                    $exec = 'o2_'.$db_engine.'_fkeysinfo';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $db_name,
+                                             $db_schema));
+                    break;
+                case 'commit':
+                    $exec = 'o2_'.$db_engine.'_commit';
+                    return json_encode($exec($db_host,
+                                             $db_user,
+                                             $db_pwd,
+                                             $p1));
+                    break;
+                }
+            }
+        catch (o2_exception $e) {
+            return json_encode(array('!#ERROR' => $e->getmessage()));
+            }
+        }
+
+    }
+
+
+/**
+ * Connection object for HTTP/S connections
+ * Used by JXSDB gateway.
+ *
+ * This class is intended to provide an object to make requests to a Janox service,
+ * passing a POST context.
+ *
+ * First request is used to create a remote session, with user and password credentials,
+ * and to retrieve assigned session-ID.
+ * Next requests will use the session-ID rerieved by the first request, avoiding
+ * credentials.
+ *
+ */
+class JXHttpConn {
+
+    public $url       = '';
+    public $user      = '';
+    public $password  = '';
+    public $sessname  = 'JXMDB';
+    public $token     = false;
+
+
+    function __construct($url, $user, $password) {
+
+        $this->url      = $url;
+        $this->user     = $user;
+        $this->password = $password;
+        $this->token    = false;
+
+        }
+
+
+    /**
+     * Send POST $data and get remote output.
+     *
+     * @param  array $data   POST fields key/value pairs
+     * @return mix
+     */
+    function get($data) {
+
+        $data['JXSESSNAME'] = $this->sessname;
+        // _______________ Already connected, use stored SESSION-ID token as a coockie ___
+        if ($this->token) {
+            return jx_post($this->url, $data, $this->sessname.'='.$this->token);
+            }
+        // _________________________________ First connection, retrieve SESSION-ID tag ___
+        else {
+            $data['user']       = $this->user;
+            $data['password']   = $this->password;
+            $headers            = array();
+            $res                = jx_post($this->url, $data, false, $headers);
+            $conn_ko            = true;
+            foreach ($headers as $header) {
+                if (substr($header, 0, 11) == 'Set-Cookie:') {
+                    $header      = substr($header, 0, strpos($header, ';'));
+                    $this->token = substr($header, strpos($header, '=') + 1);
+                    $conn_ko     = false;
+                    break;
+                    }
+                }
+            if ($conn_ko) {
+                throw new o2_exception("<b>JXHttpConn</b>: <i>".$this->url."</i>.<hr>".
+                                       "Can't connect to server.",
+                                       o2error_IO);
+                }
+            }
+        return $res;
+
+        }
+
     }
 
 

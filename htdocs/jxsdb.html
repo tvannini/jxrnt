@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Janox :: login - Applications access</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script src='js/md5.js'></script>
+<script>
+
+    function jx_login() {
+
+        with (document.data) {
+            if (jxpassword.value < 32) {
+                jxpassword.value = hex_md5(jxpassword.value);
+                }
+            if (jxpassword.value < 32) {
+                jxkey.value = hex_md5(jxkey.value);
+                }
+            var appName   = app_name.value;
+            var appAlias  = app_alias.value;
+            var userName  = jxuser.value;
+            var userPswd  = jxpassword.value;
+            var devName   = jxdev.value;
+            var devPswd   = jxkey.value;
+            var trace     = (fldtrace.checked ? '1' : '');
+            var vc        = c.value;
+            var vp1       = p1.value;
+            var vp2       = p2.value;
+            var vp3       = p3.value;
+            var vp4       = p4.value;
+            var vp5       = p5.value;
+            var vp6       = p6.value;
+            var vp7       = p7.value;
+            var vp8       = p8.value;
+            var vp9       = p9.value;
+            var vp10      = p10.value;
+            var appList   = "";
+            }
+        if (frm = document.forms['jxloginfrm']) {
+            frm.parentNode.removeChild(frm);
+            }
+        document.body.innerHTML += "<form name='jxloginfrm' method='POST' action='/" +
+                                   appAlias + "/" + appName + ".php' target='_blank'>" +
+                                   "<input type='hidden' name='user' value='" + userName + "'>" +
+                                   "<input type='hidden' name='password' value='" + userPswd + "'>" +
+                                   "<input type='hidden' name='dev' value='" + devName + "'>" +
+                                   "<input type='hidden' name='key' value='" + devPswd + "'>" +
+                                   "<input type='hidden' name='jxtrace' value='" + trace + "'>" +
+                                   "<input type='hidden' name='c' value='" + vc + "'>" +
+                                   "<input type='hidden' name='p1' value='" + vp1 + "'>" +
+                                   "<input type='hidden' name='p2' value='" + vp2 + "'>" +
+                                   "<input type='hidden' name='p3' value='" + vp3 + "'>" +
+                                   "<input type='hidden' name='p4' value='" + vp4 + "'>" +
+                                   "<input type='hidden' name='p5' value='" + vp5 + "'>" +
+                                   "<input type='hidden' name='p6' value='" + vp6 + "'>" +
+                                   "<input type='hidden' name='p7' value='" + vp7 + "'>" +
+                                   "<input type='hidden' name='p8' value='" + vp8 + "'>" +
+                                   "<input type='hidden' name='p9' value='" + vp9 + "'>" +
+                                   "<input type='hidden' name='p10' value='" + vp10 + "'>" +
+                                   "</form>";
+        document.forms["jxloginfrm"].submit();
+        return false;
+
+        }
+
+</script>
+
+        <link href="index/index.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+        <!--
+        * { font-family: "Gudea", sans-serif; color: #606060; font-size: 14px; box-sizing: border-box; }
+        body {
+         background-color: #fefefe;
+         margin: 0;
+         }
+        .main_resize {
+         border: none;
+         }
+        .label {
+         color: #fefefe;
+         background-color: #999999;
+         line-height: 20px;
+         text-align: center;
+         width: 100%;
+         }
+        .info {
+         padding: 5px;
+         padding-left: 10px;
+         padding-right: 10px;
+         }
+        .cmd {
+         font-weight: bold;
+         margin-bottom: 10px;
+         }
+        .field {
+         background-color: #ffffff;
+         border: 1px solid #dddddd;
+         padding-left: 4px;
+         padding-right: 4px;
+         width: 35%;
+         height: 20px;
+         }
+        .req {
+         background-color: #ffffff;
+         border: 1px solid #dddddd;
+         padding-left: 4px;
+         padding-right: 4px;
+         width: 80%;
+         height: 20px;
+         }
+        .right {
+         display: inline-block;
+         float: right;
+         }
+        .btn {
+         width: 90px;
+         height: 20px;
+         text-align: center;
+         background: #e0ddd9;
+         margin-top: 2px;
+         border: 1px solid #BDB5AE;
+         border-radius: 3px;
+         float: right;
+         }
+        .btn:hover {
+         width: 90px;
+         height: 20px;
+         text-align: center;
+         background: #D1C8C0;
+         margin-top: 2px;
+         border: 1px solid #BDB5AE;
+         border-radius: 3px;
+         cursor: pointer;
+         float: right;
+         }
+        .login {
+         font-size: 20px;
+         width: 100%;
+         height: 50px;
+         float: none;
+         }
+        .login:hover {
+         font-size: 20px;
+         width: 100%;
+         height: 50px;
+         float: none;
+         }
+         -->
+        </style>
+
+    </head>
+
+    <body class="main_resize">
+     <form name="data"
+           method="post"
+           action=""
+           onSubmit="jx_login(); return false;">
+
+
+
+<h2><img src="index/bullet_app.png" class="floated">Application</h2>
+<p>
+<input name="app_name"
+       size="1"
+       class="field"
+       title="Application name"
+       value="ekodb">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Alias: &nbsp;
+<input name="app_alias"
+       size="15"
+       maxlength="50"
+       value="evision"
+       class="field"
+       title="Application alias">
+</p>
+<br>
+
+<h2 class='bg'><img src="index/bullet_sec.png" class="floated">Credentials</h2>
+<p>
+<input name="jxuser"
+       size="15"
+       maxlength="100"
+       type="text"
+       value="tommaso"
+       class="field"
+       title="User ID"
+       placeholder="User ID">&nbsp;&nbsp;&nbsp;
+<input name="jxpassword"
+       maxlength="32"
+       value="tommaso"
+       type="password"
+       class="field"
+       title="Password"
+       placeholder="Password">
+</p>
+<br>
+
+<h2 class='bg'><img src="index/bullet_dev.png" class="floated">Development</h2>
+<p>
+<input name="jxdev"
+       size="15"
+       maxlength="100"
+       type="text"
+       class="field dev"
+       title="Developer ID"
+       value="tommaso">&nbsp;&nbsp;&nbsp;
+<input name="jxkey"
+       size="15"
+       maxlength="32"
+       type="password"
+       class="field dev"
+       title="Developer password"
+       value="">
+<span class="right">DB log: &nbsp;
+<input name="fldtrace"
+       type="checkbox">
+</span>
+</p>
+<br>
+<h2 class='bg'><img src="index/bullet_doc.png" class="floated">Request</h2>
+<p>
+Command: &nbsp;
+<select name="c" class="cmd">
+  <option value=''>[None]</option>option>
+  <option value='concat'>concat</option>option>
+  <option value='tables'>tables</option>option>
+  <option value='tabexists'>tabexists</option>option>
+  <option value='tablefields'>tablefields</option>option>
+  <option value='tableindexes'>tableindexes</option>option>
+  <option value='insertfrom'>insertfrom</option>option>
+  <option value='droptable'>droptable</option>option>
+  <option value='renametable'>renametable</option>option>
+  <option value='createtable'>createtable</option>option>
+  <option value='aggregate'>aggregate</option>option>
+  <option value='verifyrec'>verifyrec</option>option>
+  <option value='modifyrec'>modifyrec</option>option>
+  <option value='insertrec'>insertrec</option>option>
+  <option value='deleterec'>deleterec</option>option>
+  <option value='count'>count</option>option>
+  <option value='recordset'>recordset</option>option>
+  <option value='fkeyadd'>fkeyadd</option>option>
+  <option value='fkeyremove'>fkeyremove</option>option>
+  <option value='fkeyvalidate'>fkeyvalidate</option>option>
+  <option value='fkeystablist'>fkeystablist</option>option>
+  <option value='fkeysinfo'>fkeysinfo</option>option>
+  <option value='commit'>commit</option>option>
+</select>
+<br>
+Par 1: &nbsp;
+<input name="p1" value="" class="req">
+<br>
+Par 2: &nbsp;
+<input name="p2" value="" class="req">
+<br>
+Par 3: &nbsp;
+<input name="p3" value="" class="req">
+<br>
+Par 4: &nbsp;
+<input name="p4" value="" class="req">
+<br>
+Par 5: &nbsp;
+<input name="p5" value="" class="req">
+<br>
+Par 6: &nbsp;
+<input name="p6" value="" class="req">
+<br>
+Par 7: &nbsp;
+<input name="p7" value="" class="req">
+<br>
+Par 8: &nbsp;
+<input name="p8" value="" class="req">
+<br>
+Par 9: &nbsp;
+<input name="p9" value="" class="req">
+<br>
+Par 10: &nbsp;
+<input name="p10" value="" class="req">
+</p>
+<br>
+<p>
+<input type="submit"
+       value="Submit"
+       title="Login to the selected application"
+       class="btn login">
+</p>
+<br>
+
+     </form>
+    </body>
+
+</html>

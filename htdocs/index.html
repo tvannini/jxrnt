@@ -43,6 +43,12 @@
        menuId = 'db';
        title  = 'Database manager';
        break;
+      case "sdb":
+       loadUrl = "jxsdb.html";
+       descTxt = "database as a service";
+       menuId = 'sdb';
+       title  = 'Database As a Service';
+       break;
       case "download":
        loadUrl = "http://www.janox.it/download.html";
        descTxt = "Download Janox stable versions";
@@ -109,6 +115,7 @@
             <li><a id="rnt" href="javascript:set_page('jxinfo')" class=""><span>Runtime</span></a></li>
             <li><a id="php" href="javascript:set_page('phpinfo')" class=""><span>PHP</span></a></li>
             <li><a id="db" href="javascript:set_page('dbadmin')" class=""><span>Databases</span></a></li>
+            <li><a id="sdb" href="javascript:set_page('sdb')" class=""><span>JXSDB</span></a></li>
           </ul>
         </div>
         <div class="click">

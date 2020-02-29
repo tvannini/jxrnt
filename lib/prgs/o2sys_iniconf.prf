@@ -971,7 +971,6 @@ $list = array(
    "rpc_server" => array("rntval" => null,
                          "appval" => null,
                          "desc" => "   *** Remote Procedure Call (RPC) Server ***\n\n".
-                                 " - EXPERIMENTAL - \n\n".
                                  "When enabled Application is used as a RPC Server.\n".
                                  "When set to ON start-program is executed every request, ".
                                  "windows and controls are not displayed and programs execution ".
@@ -982,6 +981,34 @@ $list = array(
                                  "Next calls are made passing JXSESSNAME=[sessname].\n",
                         "default" => "off",
                         "values" => array("off", "on")),
+   "db_as_service" => array("rntval" => null,
+                            "appval" => null,
+                            "desc" => "   *** Database As a Service ***\n\n".
+                                      " - EXPERIMENTAL - \n\n".
+                                      "This parameter is intended to use application as a Janox Service ".
+                                      "to expose access to a database.\n".
+                                      "If parameter is set to an application database (logical) name, ".
+                                      "then application becomes a \"gateway\" to that database.\n\n".
+                                      "Applications will be able to access remote Database As a Service, ".
+                                      "defining a \"jxsdb\" server, with \"host\" set to remote ".
+                                      "application script ([url_to_sdb]/[app_name].php) and \"user\" ".
+                                      "and \"password\" fields set to aplication credentials.\n".
+                                      "Service returns JSON formatted responses.\n\n".
+                                      " - NOTE -\n\n".
+                                      "This parameter is effective ony in RPC mode: see \"rpc_server\" ".
+                                      "parameter.\n",
+                            "default" => ""),
+   "dbas_readonly" => array("rntval" => null,
+                            "appval" => null,
+                            "desc" => "   *** Database As s Service Read-only ***\n\n".
+                                      "When enabled the DBAS service will prevent modification actions ".
+                                      "(create, alter, delete, modify, ...) on exposed database.\n\n".
+                                      " - Note -\n\n".
+                                      "This parameter is effective ony in RPC mode and with Database ".
+                                      "As a Service enabled: see \"rpc_server\" and \"db_as_service\" ".
+                                      "parameters.\n",
+                            "default" => "off",
+                            "values" => array("off", "on")),   
    "network_errors" => array("rntval" => null,
                              "appval" => null,
                              "desc" => "   *** Network errors reporting ***\n\n".
@@ -1324,6 +1351,8 @@ function o2sys_iniconf_exp_34() {
               "service_redirect",
               "jobs_use_local_host",
               "rpc_server",
+              "db_as_service",
+              "dbas_readonly",
               "data_chunk",
               "tables_create",
               "tables_log",

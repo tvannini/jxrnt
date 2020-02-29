@@ -76,6 +76,8 @@ class o2_app {
     public $js_file          = '';      /* Javascript file to be included               */
     public $favicon          = '';      /* "Favorite icon" for application              */
     public $rpc_server       = false;   /* If app is used as an RPC Server              */
+    public $db_as_service    = false;   /* DB name app is serving as service (RPC only) */
+    public $dbas_readonly    = false;   /* Database exposed as a service read-only mode */
     public $services         = array(); /* List of defined services                     */
     public $service_redirect = false;   /* If set all jobs are assigned to this service */
     public $jobs_local_host  = false;   /* If set all jobs are assigned to local host   */
@@ -1414,6 +1416,12 @@ class o2_app {
         if (isset($conf['rpc_server'])) {
             $this->rpc_server = ($conf['rpc_server'] ? true : false);
             }
+        if (isset($conf['db_as_service'])) {
+            $this->db_as_service = $conf['db_as_service'];
+            }
+        if (isset($conf['dbas_readonly'])) {
+            $this->dbas_readonly = ($conf['dbas_readonly'] ? true : false);
+            }
         if (isset($conf['network_errors'])) {
             $this->network_errors = ($conf['network_errors'] ? true : false);
             }
@@ -2209,32 +2217,86 @@ class o2_app {
      */
     function rpc_exe() {
 
-        // _____________________________________________________________________ JXSQL ___
-        if ($this->jxsql) {
-            include_once $this->runtime->dir_dbms.'jxsql.inc';
+        // ________________________________ If RPC is used to expose a DB as a service ___
+        if ($this->db_as_service) {
+            // ____________________________________________ Get database to be exposed ___
+            if ($dbas = $this->db[$this->db_as_service]) {
+                header("Content-type: application/json; charset=".$this->chr_encoding);
+                // _____________________________________________ Unrem to output a log ___
+                /*
+                print json_encode(array("Janox Database As A Service" => $_SERVER,
+                                        "Database"                    => $dbas,
+                                        "Request"                     => $_REQUEST));
+                return;
+                */
+                $this->runtime->load_gateway($dbas->server->type);
+                $verb = $_REQUEST['c'];
+                if ($verb) {
+                    if ($this->dbas_readonly &&
+                        in_array($verb, array('insertfrom',
+                                              'droptable',
+                                              'renametable',
+                                              'createtable',
+                                              'modifyrec',
+                                              'insertrec',
+                                              'deleterec',
+                                              'fkeyadd',
+                                              'fkeyremove',
+                                              'commit'))) {
+                        print json_encode(array('!#ERROR' => 'Database <i>'.$dbas->id.
+                                                             '</i> is in Read-only '.
+                                                             'mode: modifications are '.
+                                                             'not allowed.'));
+                        return;
+                        }
+                    }
+                else {
+                    print json_encode(array("Janox Database As A Service" => "Enabled",
+                                            "Database"                    => $dbas->id,
+                                            "Mode" => ($this->dbas_readonly ?
+                                                       'Read-only' : 'Read and write')));
+                    return;
+                    }
+                print o2_gateway::jxsdb($dbas, $verb);
+                }
+            else {
+                header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error',
+                       true, 500);
+                print "<h1>Error</h1>";
+                throw new o2_exception("Unknown database <i>".$this->db_as_service."</i>".
+                                       " set as Database As a Service",
+                                       o2error_UNKNOWNDBSERVER);
+                }
             }
-        // ____________________________ Server side extra script inclusion (extra.inc) ___
-        if ($this->file_server_inc) {
-            include_once $this->dir_progs.$this->file_server_inc;
+        // __________________________________________________________ Standard RPC exe ___
+        else {
+            // _________________________________________________________________ JXSQL ___
+            if ($this->jxsql) {
+                include_once $this->runtime->dir_dbms.'jxsql.inc';
+                }
+            // ________________________ Server side extra script inclusion (extra.inc) ___
+            if ($this->file_server_inc) {
+                include_once $this->dir_progs.$this->file_server_inc;
+                }
+            // _________________________________________ Including view models scripts ___
+            if ($this->file_viewmodels) {
+                $this->includi_repository($this->file_viewmodels);
+                }
+            // _____________________________________________________ Database gateways ___
+            $this->load_gateways();
+            // _________________________________________ ESECUZIONE DEL PRG DI REQUEST ___
+            $this->intcall("tools/o2sys_request");
+            // ______________________________________ STARTING NEW EXECUTION HIERARCHY ___
+            $this->istanze_prg         = array();
+            $this->progressivo_istanze = 0;
+            $this->prgs_cache          = array();
+            $this->translation         = array('' => $this->translation['']);
+            $this->goto_prg($this->prg_start, false);
+            // ________________________________________________ Actions list execution ___
+            $this->actions_loop();
+            // ______________________________________________ Commit open transactions ___
+            $this->commit_all(true);
             }
-        // _____________________________________________ Including view models scripts ___
-        if ($this->file_viewmodels) {
-            $this->includi_repository($this->file_viewmodels);
-            }
-        // _________________________________________________________ Database gateways ___
-        $this->load_gateways();
-        // _____________________________________________ ESECUZIONE DEL PRG DI REQUEST ___
-        $this->intcall("tools/o2sys_request");
-        // __________________________________________ STARTING NEW EXECUTION HIERARCHY ___
-        $this->istanze_prg         = array();
-        $this->progressivo_istanze = 0;
-        $this->prgs_cache          = array();
-        $this->translation         = array('' => $this->translation['']);
-        $this->goto_prg($this->prg_start, false);
-        // ____________________________________________________ Actions list execution ___
-        $this->actions_loop();
-        // __________________________________________________ Commit open transactions ___
-        $this->commit_all(true);
         // ________________________________________________ Custom response by o2out() ___
         if ($this->custom_response) {
             $resp = ob_get_clean();
