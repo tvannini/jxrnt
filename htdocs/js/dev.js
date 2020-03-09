@@ -211,35 +211,75 @@ o2jse.dev.cMenuDevExeTree = function() {
                                                "Exe tree",
                                                "",
                                                o2jse.rntAlias +"img/exetree.png");
-    var frameTable       = document.createElement("TABLE");
-    frameTable.className = "o2devInfo";
-    var titlesRow        = frameTable.createTHead().insertRow(-1);
-    o2jse.createEl(titlesRow, "TH", "", "<b>#</b>");
-    var propTitleCell     = o2jse.createEl(titlesRow, "TH", "", "<b>Program</b>");
-    propTitleCell.colSpan = "2";
-    titlesRow             = frameTable.createTHead().insertRow(-1);
-    o2jse.createEl(titlesRow, "TH");
-    o2jse.createEl(titlesRow, "TH", "", "<b>Action</b>");
-    o2jse.createEl(titlesRow, "TH", "", "<b>Step</b>");
+    o2jse.menu.menuList["o2exeTree"].clear();
+    o2jse.menu.menuList["o2exeTree"].addItem('R',
+                                             'jxExeTreeTitle1',
+                                             '<td>&nbsp;</td><td>&nbsp;<b>#</b>&nbsp;' +
+                                             '&nbsp;&nbsp;<b>Program</b></td><td>&nbsp;' +
+                                             '</td><td>&nbsp;</td>');
+    o2jse.menu.menuList["o2exeTree"].addItem('R',
+                                             'jxExeTreeTitle2',
+                                             '<td>&nbsp;</td><td>&nbsp;&nbsp;&nbsp;' +
+                                             '&nbsp;&nbsp;<b>Action</b></td><td>' +
+                                             '<b>Step</b></td><td>&nbsp;</td>');
+    o2jse.menu.menuList["o2exeTree"].addItem("S");
     for (var singleExe in o2jse.exeTree) {
-        var singlePropRow = frameTable.insertRow(-1);
-        var firstCell     = singlePropRow.insertCell(-1);
-        var secondCell    = singlePropRow.insertCell(-1);
         var exeObj        = o2jse.exeTree[singleExe];
         if (exeObj.type == "P") {
-            firstCell.innerHTML       = exeObj.prg;
-            firstCell.style.textAlign = "right";
-            secondCell.colSpan        = "2";
-            secondCell.innerHTML      = "<b>" + exeObj.name + "</b>";
+            if (exeObj.pars.length > 0) {
+                o2jse.menu.menuList["o2exeTree"].addItem("M",
+                                                         exeObj.name,
+                                                         exeObj.prg +
+                                                         '&nbsp;&nbsp;&nbsp;<b>' +
+                                                         exeObj.name + '</b>');
+                o2jse.menu.menuList[exeObj.name].clear();
+                o2jse.menu.menuList[exeObj.name].addItem('R',
+                                                         exeObj.name + 'PTitle',
+                                                         '<td colspan="3"><center><b>' +
+                                                         'Parameters</b></center></td>');
+                o2jse.menu.menuList[exeObj.name].addItem('S');
+                var parsCode = '';
+                var parCode  = '';
+                for (var par in exeObj.pars) {
+                    parTxt  = exeObj.pars[par];
+                    parCode = '<td style="padding-left:10px;padding-right:10px;">' +
+                              parTxt.replace(/\s/g,
+                                             '</td><td style="padding-left:10px' +
+                                             ';padding-right:10px;">') +
+                              '</td>';
+                    o2jse.menu.menuList[exeObj.name].addItem('R',
+                                                             exeObj.name + 'P' + par,
+                                                             parCode);
+                    }
+                o2jse.menu.menuList[exeObj.name].addItem('S');
+                o2jse.menu.menuList[exeObj.name].addItem('R',
+                                                         exeObj.name + 'P' + par,
+                                                         '<td colspan="3"><center>' +
+                                                         '<input type="button" ' +
+                                                         'value="Execute from here" ' +
+                                                         'onclick="o2jse.dev.' +
+                                                         'reExeModule(' + exeObj.prg +
+                                                         ');"></center></td>');
+                }
+            else {
+                o2jse.menu.menuList["o2exeTree"].addItem("R",
+                                                         exeObj.name,
+                                                         '<td>&nbsp;</td>' +
+                                                         '<td class="o2menuLabel">' +
+                                                         exeObj.prg +
+                                                         '&nbsp;&nbsp;&nbsp;<b>' +
+                                                         exeObj.name + '</b></td>');
+                }
             }
         else {
-            secondCell.innerHTML      = exeObj.act;
-            var thirdCell             = singlePropRow.insertCell(-1);
-            thirdCell.innerHTML       = exeObj.step;
-            thirdCell.style.textAlign = "right";
+            o2jse.menu.menuList["o2exeTree"].addItem("R",
+                                                     exeObj.act + exeObj.step,
+                                                     '<td>&nbsp;</td><td>&nbsp;&nbsp;' +
+                                                     '&nbsp;&nbsp;&nbsp;' + exeObj.act +
+                                                     '</td><td style="text-align:right;">'
+                                                   + exeObj.step + '</td>');
             }
         }
-    o2jse.menu.menuList["o2exeTree"].context(frameTable);
 
     };
 
@@ -422,6 +462,21 @@ o2jse.dev.cMenuDevSessionInfo = function() {
     propCell.innerHTML  = "<b>Developer</b>";
     valueCell.innerHTML = "<code>" + o2jse.devName + "<code>";
     o2jse.menu.menuList["o2session"].context(frameTable);
+
+    };
+
+
+/**
+ * Start/stop mute console log  - Log only to file
+ *
+ */
+o2jse.dev.reExeModule = function(exeId) {
+
+    o2jse.requester.exe("jxdev",
+                        "jxexemodule=" + exeId,
+                        o2jse.cMenu,
+                        jxjs.jsEval);
+    return false
 
     };
 

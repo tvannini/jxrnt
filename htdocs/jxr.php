@@ -257,6 +257,55 @@ if (session_start()) {
                         }
                     }
                 }
+            // ______________________________________ Re-execute module with paramters ___
+            elseif ($_REQUEST['jxexemodule']) {
+                if (is_a($app, "o2_app")) {
+                    // _____________________________ Clear all previous output, if any ___
+                    ob_end_clean();
+                    $exe_id     = $_REQUEST['jxexemodule'];
+                    $cs         = $app->chiamate;
+                    $single_prg = $app->istanze_prg[$exe_id];
+                    $exe_pars   = array(0 => $single_prg->nome);
+                    $vars       = array();
+//                    setcookie('JXEMP[0]', $single_prg->nome, time() + 3600, '/');
+                    foreach ($single_prg->parametri as $par_id => $par) {
+                        if ($cs[$exe_id]['parametri'][$par_id - 1]) {
+                            $par_val = $cs[$exe_id]['parametri'][$par_id - 1]['valore'];
+                            }
+                        else {
+                            $par_val = $par->default;
+                            }
+//                        setcookie('JXEMP['.$par_id.']', $par_val, time() + 3600, '/');
+                        $exe_pars[$par_id] = $par_val;
+                        }
+                    setcookie('JXEMP', json_encode($exe_pars), time() + 3600, '/');
+                    foreach ($app->vars as $var) {
+/*
+                        setcookie('JXEMV['.$var->phys_name.']',
+                                  $var->valore,
+                                  time() + 3600,
+                                  '/');
+*/
+                        $vars[$var->phys_name] = $var->valore;
+                        }
+                    setcookie('JXEMV', json_encode($vars), time() + 3600, '/');
+                    // ____________________________ Add parameters to open new session ___
+                    $params = array('user'     => $app->user,
+                                    'password' => $app->password,
+                                    'auth'     => 'local');
+                    if ($app->client_width) {
+                        $params['jxcsw'] = $app->client_width;
+                        }
+                    if ($app->client_height) {
+                        $params['jxcsh'] = $app->client_height;
+                        }
+                    if ($app->runtime->developer) {
+                        $params['dev'] = $app->runtime->developer;
+                        $params['key'] = $app->runtime->dev_key;
+                        }
+                    print "o2jse.cmd.post(false, ".json_encode($params).", true);\n";
+                    }
+                }
             break;
         }
     }

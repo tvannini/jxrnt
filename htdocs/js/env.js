@@ -8957,6 +8957,9 @@ o2jse.menu.addMenu = function(menuId, label) {
      * Adds a new item to an existing menu.
      * If new item is a menu, related menu object will be created too.
      *
+     * NOTE: itemType "R" is intended to to add arbitrayi rows to menu, as labels or more
+     *       complex HTML structures.
+     *
      * @param string itemType   Type of item in [M]enu,[P]rogram,[U]rl,[S]eparator
      * @param string elementId  Item unique identifier
      * @param string labelTxt   Text to be displayed as menu text
@@ -9017,6 +9020,10 @@ o2jse.menu.addMenu = function(menuId, label) {
                                                 window.location.href = dataStr;
                                                 };
                 newItem.labelCell.colSpan = "2";
+                break;
+            case "R":
+//                newItem.row.className = "o2menuItem";
+                newItem.row.innerHTML = labelTxt;
                 break;
             default:
                 buildActiveItem();

@@ -56,6 +56,7 @@ class o2_prg {
     public $exit_now        = false;   /* If close-prg requested: exit actions in loop  */
     /*     _____ LISTS ________________________________________________________________ */
     public $parametri       = array(); /* Input parameters masks list                   */
+    public $par_names       = array(); /* List of parameters names                      */
     public $contesto        = array(); /* Views list                                    */
     public $form            = array(); /* Forms list                                    */
     public $azioni          = array(); /* Actions list                                  */
@@ -128,14 +129,16 @@ class o2_prg {
      */
     function set_par($id, $nome_parametro = "", $maschera = "") {
 
-        if (!$_SESSION['o2_app']->maschere[$maschera]) {
+        $app = $_SESSION['o2_app'];
+        if (!$app->maschere[$maschera]) {
             throw new o2_exception("Unknown data model <i>".$maschera.
                                    "</i> requested for parameter <i>[".$id."] ".
                                    $nome_parametro."</i> ",
                                    o2error_UNKNOWNMODEL);
             }
         else {
-            $this->parametri[$id] = $_SESSION['o2_app']->maschere[$maschera];
+            $this->parametri[$id] = $app->maschere[$maschera];
+            $this->par_names[$id] = $nome_parametro;
             }
 
         }

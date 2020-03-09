@@ -1829,10 +1829,24 @@ class o2_app {
     function exe_tree() {
 
         if ($this->progressivo_istanze) {
+            $calls   = $_SESSION['o2_app']->chiamate;
             $js_conf = "o2jse.exeTree = [";
             $exes    = array_reverse($this->esecuzioni);
             foreach ($this->istanze_prg as $single_id => $single_prg) {
-                $js_conf.= "{type:'P',prg:".$single_id.",name:'".$single_prg->nome."'},";
+                $pars = '';
+                foreach ($single_prg->parametri as $par_id => $par) {
+                    if ($calls[$single_id]['parametri'][$par_id - 1]) {
+                        $par_val = $calls[$single_id]['parametri'][$par_id - 1]['valore'];
+                        }
+                    else {
+                        $par_val = $par->default;
+                        }
+                    $pars.= ($pars ? ',' : '').
+                            '"'.$par_id.' '.$single_prg->par_names[$par_id].
+                            ': '.$par_val.'"';
+                    }
+                $js_conf.= "{type:'P',prg:".$single_id.",name:'".$single_prg->nome.
+                           "',pars:[".$pars."]},";
                 foreach ($exes as $single_exe) {
                     if ($single_exe->istanza_prg == $single_id) {
                         $js_conf.= "{type:'A',act:'".$single_exe->azione
@@ -1840,7 +1854,7 @@ class o2_app {
                         }
                     }
                 }
-            return substr($js_conf, 0, strlen($js_conf) - 1)."]; ";
+            return substr($js_conf, 0, -1)."]; ";
             }
         else {
             return "";
