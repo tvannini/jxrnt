@@ -267,7 +267,6 @@ if (session_start()) {
                     $single_prg = $app->istanze_prg[$exe_id];
                     $exe_pars   = array(0 => $single_prg->nome);
                     $vars       = array();
-//                    setcookie('JXEMP[0]', $single_prg->nome, time() + 3600, '/');
                     foreach ($single_prg->parametri as $par_id => $par) {
                         if ($cs[$exe_id]['parametri'][$par_id - 1]) {
                             $par_val = $cs[$exe_id]['parametri'][$par_id - 1]['valore'];
@@ -275,17 +274,10 @@ if (session_start()) {
                         else {
                             $par_val = $par->default;
                             }
-//                        setcookie('JXEMP['.$par_id.']', $par_val, time() + 3600, '/');
                         $exe_pars[$par_id] = $par_val;
                         }
                     setcookie('JXEMP', json_encode($exe_pars), time() + 3600, '/');
                     foreach ($app->vars as $var) {
-/*
-                        setcookie('JXEMV['.$var->phys_name.']',
-                                  $var->valore,
-                                  time() + 3600,
-                                  '/');
-*/
                         $vars[$var->phys_name] = $var->valore;
                         }
                     setcookie('JXEMV', json_encode($vars), time() + 3600, '/');
