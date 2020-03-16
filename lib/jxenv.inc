@@ -4221,6 +4221,11 @@ class o2_dbview extends o2_view {
      * L'oggetto $file deve essere la tabella presa dalla vista stessa, non dal repository
      * e quindi la forma standard per un file diverso dal main è:
      *  $view->chiave_corrente($view->files[$file_name])
+     * Il parametro $for_stmt permette di ritornare un'array utile per l'utilizzo di
+     * prepared statement in chiave primaria, nella forma:
+     *  param-id => [field-name, field-value]
+     * con un elemento per ogni segmento di chiave (vedi self->snapshot_sync() method).
+     *
      *
      * @param  o2_file $file
      * @param  boolean $precedente
@@ -4231,6 +4236,7 @@ class o2_dbview extends o2_view {
      * @param  boolean $use_pkey         Use Primary Key instead on current index
      * @param  boolean $for_record_id    Return key values as a record unique ID
      * @param  boolean $engine           Get where for a different db-type
+     * @param  boolean $for_stmt         Returns key as an array used in prepared stmts
      * @return string
      */
     function chiave_corrente($file,
@@ -4241,7 +4247,8 @@ class o2_dbview extends o2_view {
                              $hide_table     = false,
                              $use_pkey       = false,
                              $for_record_id  = false,
-                             $engine         = false) {
+                             $engine         = false,
+                             $for_stmt       = false) {
 
         $app              = $_SESSION['o2_app'];
         $condizione_local = array();
@@ -4293,6 +4300,7 @@ class o2_dbview extends o2_view {
             }
         // ________________________________________ Loop on key segments to get values ___
         $prev_segm_cond = "";
+        $cnt            = 0;
         foreach ($key_segments as &$segmento_chiave) {
             $trovato          = false;
             $nome_campo_local = $segmento_chiave->campo->phys_name;
@@ -4335,7 +4343,10 @@ class o2_dbview extends o2_view {
                 $dec_local    = $segmento_chiave->campo->maschera->decimali;
                 }
             // _______________________________________________ Get field current value ___
-            if ($type_local != "N") {
+            if ($for_stmt) {
+                $valore_local = o2_gateway::normalize($db_type, $valore_local);
+                }
+            elseif ($type_local != "N") {
                 $valore_local = "'".o2_gateway::normalize($db_type, $valore_local)."'";
                 }
             else {
@@ -4378,6 +4389,12 @@ class o2_dbview extends o2_view {
             elseif ($for_record_id) {
                 $text_local = trim($valore_local);
                 }
+            // _________________________________ Return array of parameter-value pairs ___
+            elseif ($for_stmt) {
+                $cnt++;
+                $condizione_local[':f'.$cnt] = array($field_name, $valore_local);
+                continue;
+                }
             // _______________________________________________ Manage blank ('') value ___
             elseif ($valore_local === "''") {
                 $text_local = "(RTRIM(".$field_name.
@@ -4397,6 +4414,9 @@ class o2_dbview extends o2_view {
                                   "O2ASPID='".$valore_local."' AND (".$ret_text_local.")";
                 }
             return $ret_text_local;
+            }
+        elseif ($for_stmt) {
+            return $condizione_local;
             }
         elseif ($for_record_id) {
             return implode('|', $condizione_local);
@@ -5792,6 +5812,8 @@ class o2_dbview extends o2_view {
             $srv_pwd    = $table->db->server->password;
             $db_name    = $table->db->nome;
             $db_owner   = $table->db->proprietario;
+            // _______________________________ Statement to execute prepared delations ___
+            $del_stmt   = null;
             // __________________________________________________ Compose fields names ___
             $fields   = array();
             $fld_list = array();
@@ -5889,22 +5911,49 @@ class o2_dbview extends o2_view {
                                                            true,
                                                            true,
                                                            false,
-                                                           $srv_type);
+                                                           $srv_type,
+                                                           true);
                         if ($app->sqltrace) {
                             jxsql_stat($view, 'W');
                             }
-                        o2_gateway::deleterec($srv_type,
-                                              $srv_server,
-                                              $srv_user,
-                                              $srv_pwd,
-                                              $db_name,
-                                              $db_owner,
-                                              $table->write_name,
-                                              $table->indice,
-                                              $prev_key);
+                        // _______________________________ Create statement first time ___
+                        if (!$del_stmt) {
+                            $del_key = '';
+                            foreach ($prev_key as $par_id => $par) {
+                                $del_key.= ($del_key ? ' AND ' : '').$par[0].'='.$par_id;
+                                }
+                            // _____________________________ Retrieve DELETE statement ___
+                            $GLOBALS['jxviewsql'] = true;
+                            o2_gateway::deleterec($srv_type,
+                                                  $srv_server,
+                                                  $srv_user,
+                                                  $srv_pwd,
+                                                  $db_name,
+                                                  $db_owner,
+                                                  $table->write_name,
+                                                  $table->indice,
+                                                  $del_key);
+                            $query = $GLOBALS['jxviewsql'];
+                            unset($GLOBALS['jxviewsql']);
+                            $conn = o2_gateway::connect($srv_type,
+                                                        $srv_server,
+                                                        $srv_user,
+                                                        $srv_pwd);
+                            $del_stmt = $conn->prepare($query);
+                            }
+                        $del_pars = array();
+                        foreach ($prev_key as $par_id => $par) {
+                            // _____________________________ Bind placeholder to value ___
+                            $del_pars[$par_id] = $par[1];
+                            }
+                        $del_stmt->execute($del_pars);
                         break;
                     }
                 };
+            if ($del_stmt) {
+                $del_stmt->closeCursor();
+                unset($del_stmt);
+                }
             // ____________________________________________________ Flush insert cache ___
             if ($cache) {
                 if ($app->sqltrace) {
@@ -5923,12 +5972,25 @@ class o2_dbview extends o2_view {
                 }
             // _______________________________________________ Free source view cursor ___
             o2view_fetch_free($this->nome);
-            // _____________________________ Blank JXSNPS_STATUS field for all records ___
+            // ______________________________ Delete records with JXSNPS_STATUS to 'D' ___
             if ($app->sqltrace) {
                 jxsql_stat($this, 'W');
                 }
             $co = constant('o2_sqlite3_o');
             $cc = constant('o2_sqlite3_c');
+            o2_gateway::deleterec($this->file->db->server->type,
+                                  $this->file->db->server->server,
+                                  $this->file->db->server->user,
+                                  $this->file->db->server->password,
+                                  $this->file->db->nome,
+                                  $this->file->db->proprietario,
+                                  $this->file->write_name,
+                                  $this->file->indice,
+                                  $co.'JXSNPS_STATUS'.$cc." = 'D'");
+            // _____________________________ Blank JXSNPS_STATUS field for all records ___
+            if ($app->sqltrace) {
+                jxsql_stat($this, 'W');
+                }
             o2_gateway::modifyrec($this->file->db->server->type,
                                   $this->file->db->server->server,
                                   $this->file->db->server->user,

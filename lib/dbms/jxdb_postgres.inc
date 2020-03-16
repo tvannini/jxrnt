@@ -1345,6 +1345,11 @@ function o2_postgres_deleterec($server,
     if ($where) {
        $query.= " AS ".o2_postgres_o.$table_alias.o2_postgres_c." WHERE ".$where;
        }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return true;
+        }
     try {
         o2_postgres_execute($query, $server, $user, $password, true, true);
         }

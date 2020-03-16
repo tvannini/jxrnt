@@ -1241,6 +1241,11 @@ function o2_mysql_deleterec($server,
         $where       = str_replace(o2_mysql_o.$table_alias.o2_mysql_c.".", "", $where);
         $query_local.= " WHERE ".$where;
         }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query_local;
+        return true;
+        }
     try {
         o2_mysql_execute($query_local, $server, $user, $password, true, true);
         }

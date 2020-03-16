@@ -817,6 +817,11 @@ function o2_as400_deleterec($server,
     if ($where) {
        $query_local.= " WHERE ".$where;
        }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query_local;
+        return true;
+        }
     try {
         o2_as400_execute($query_local, $server, $user, $password);
         }

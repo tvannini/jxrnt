@@ -1418,6 +1418,11 @@ function o2_oracle_deleterec($server,
         $where = str_replace(o2_oracle_o.$table_alias.o2_oracle_c.'.', "", $where);
         $query.= " WHERE ".$where;
         }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return true;
+        }
     try {
         o2_oracle_execute($query, $server, $user, $password, true, true);
         }

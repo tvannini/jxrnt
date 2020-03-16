@@ -1503,6 +1503,11 @@ function o2_mssql_deleterec($server,
     if ($where) {
        $query.= " AS ".o2_mssql_o.$table_alias.o2_mssql_c." WHERE ".$where;
        }
+    // _________________________________________ Return SQL query instead of executing ___
+    if (isset($GLOBALS['jxviewsql'])) {
+        $GLOBALS['jxviewsql'] = $query;
+        return true;
+        }
     try {
         o2_mssql_execute($query, $server, $user, $password, true, true);
         }
