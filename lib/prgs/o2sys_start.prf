@@ -288,7 +288,7 @@ function o2sys_start_exp_3() {
 $app_user = o2app_user();
 $reg_user = o2val('users','o2user');
 /*   User is provided and it matches a registered user   */  
-if ($app_user && $reg_user) {
+if ($app_user && $reg_user && ($app_user === $reg_user)) {
    /*   "jxsys" user: only CMD login   */
    if ($app_user == 'jxsys') {
       if (o2rnt_interface() == 'BAT') {

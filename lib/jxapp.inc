@@ -1574,7 +1574,7 @@ class o2_app {
             }
         // ____________________ This to allow clear password as command line parameter ___
         $this->password = (strlen($password) < 32 ? md5($password) : $password);
-        $this->user     = strtolower($user);
+        $this->user     = $user;
         // __________________________________ Login program execution and user options ___
         list($this->user_roles,
              $this->user_rights,
