@@ -1837,6 +1837,9 @@ class o2_app {
                 foreach ($single_prg->parametri as $par_id => $par) {
                     if ($calls[$single_id]['parametri'][$par_id - 1]) {
                         $par_val = $calls[$single_id]['parametri'][$par_id - 1]['valore'];
+                        $par_val = addcslashes((strlen($par_val) > 255 ?
+                                                substr($par_val, 0, 250).' [...]' :
+                                                $par_val), "'\\\r\n\"");
                         }
                     else {
                         $par_val = $par->default;
