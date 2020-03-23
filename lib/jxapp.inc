@@ -2248,6 +2248,10 @@ class o2_app {
                 return;
                 */
                 $this->runtime->load_gateway($dbas->server->type);
+                // _____________________________________________________________ JXSQL ___
+                if ($this->jxsql) {
+                    include_once $this->runtime->dir_dbms.'jxsql.inc';
+                    }
                 $verb = $_REQUEST['c'];
                 if ($verb) {
                     if ($this->dbas_readonly &&

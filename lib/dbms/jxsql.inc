@@ -407,12 +407,14 @@ class JXSQLparser {
 function jxsql_parse($dbname, $sql) {
 
     $parser = new JXSQLparser($dbname);
-    // _____________________________________________ STAGE1: parse all JXTAB functions ___
-    $sql    = $parser->parseSQL($sql, 1);
-    // _____________________________________________ STAGE2: parse all JXCOL functions ___
-    $sql    = $parser->parseSQL($sql, 2);
-    // ______________________________________________ STAGE3: parse other JX functions ___
-    $sql    = $parser->parseSQL($sql, 3);
+    if ($parser->dbengine != 'JXSDB') {
+        // _________________________________________ STAGE1: parse all JXTAB functions ___
+        $sql    = $parser->parseSQL($sql, 1);
+        // _________________________________________ STAGE2: parse all JXCOL functions ___
+        $sql    = $parser->parseSQL($sql, 2);
+        // __________________________________________ STAGE3: parse other JX functions ___
+        $sql    = $parser->parseSQL($sql, 3);
+        }
     // _____________________________________________________________ Return parsed SQL ___
     return $sql;
 

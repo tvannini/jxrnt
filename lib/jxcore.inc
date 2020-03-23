@@ -5302,6 +5302,11 @@ class o2_gateway {
                     break;
                 case 'verifyrec':
                     $exec = 'o2_'.$db_engine.'_verifyrec';
+                    // ___________________$p1 is table-from and may be a sub-select... ___
+                    if (substr($p1, 0, 1) == '(') {
+                        // _________________________ ... and so can contain JXSQL code ___
+                        $p1 = jxsql($db_name, $p1);
+                        }
                     return json_encode($exec($db_host,
                                              $db_user,
                                              $db_pwd,
@@ -5352,6 +5357,11 @@ class o2_gateway {
                     return $commit($db_host, $db_user, $db_pwd, true);
                     break;
                 case 'count':
+                    // ___________________$p1 is table-from and may be a sub-select... ___
+                    if (substr($p1, 0, 1) == '(') {
+                        // _________________________ ... and so can contain JXSQL code ___
+                        $p1 = jxsql($db_name, $p1);
+                        }
                     $exec = 'o2_'.$db_engine.'_count';
                     return json_encode($exec($db_host,
                                              $db_user,
@@ -5364,6 +5374,11 @@ class o2_gateway {
                                              $fix(json_decode($p4, true))));
                     break;
                 case 'recordset':
+                    // ___________________$p1 is table-from and may be a sub-select... ___
+                    if (substr($p1, 0, 1) == '(') {
+                        // _________________________ ... and so can contain JXSQL code ___
+                        $p1 = jxsql($db_name, $p1);
+                        }
                     $exec = 'o2_'.$db_engine.'_recordset';
                     return json_encode($exec($db_host,
                                              $db_user,
