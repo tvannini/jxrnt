@@ -39,9 +39,9 @@
 */
 class JXSQLparser {
 
+    public    $dbengine;
     protected $databasename;
     protected $dbserver;
-    protected $dbengine;
     protected $db_phys_name;
     protected $qualifier_o;
     protected $qualifier_c;
