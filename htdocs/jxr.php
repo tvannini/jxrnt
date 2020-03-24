@@ -257,7 +257,7 @@ if (session_start()) {
                         }
                     }
                 }
-            // ______________________________________ Re-execute module with paramters ___
+            // _____________________________________ Re-execute module with parameters ___
             elseif ($_REQUEST['jxexemodule']) {
                 if (is_a($app, "o2_app")) {
                     // _____________________________ Clear all previous output, if any ___
@@ -269,7 +269,9 @@ if (session_start()) {
                     $vars       = array();
                     foreach ($single_prg->parametri as $par_id => $par) {
                         if ($cs[$exe_id]['parametri'][$par_id - 1]) {
-                            $par_val = $cs[$exe_id]['parametri'][$par_id - 1]['valore'];
+                            $par_val = mb_convert_encoding($cs[$exe_id]['parametri']
+                                                              [$par_id - 1]['valore'],
+                                                           'UTF-8');
                             }
                         else {
                             $par_val = $par->default;
