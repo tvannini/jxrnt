@@ -4894,18 +4894,20 @@ class o2_dbview extends o2_view {
             // __________________________________________ Manage snapshot informations ___
             if ($this->snapshot && !$this->corrente['JXSNPS_STATUS']) {
                 // __ Store previous key needed to copy back updates in original table ___
-                $upd_key                     = $this->chiave_corrente($this->file,
-                                                                      true,
-                                                                      false,
-                                                                      false,
-                                                                      true,
-                                                                      true,
-                                                                      true,
-                                                                      false,
-                                                                    $this->snps_ori_type);
-                $update_arr['JXSNPS_PRVKEY'] = "'".o2_gateway::normalize($db_type,
-                                                                         $upd_key)."'";
-                $update_arr['JXSNPS_STATUS'] = "'U'";
+                $upd_key = $this->chiave_corrente($this->file,
+                                                  true,
+                                                  false,
+                                                  false,
+                                                  true,
+                                                  true,
+                                                  true,
+                                                  false,
+                                                  $this->snps_ori_type);
+                $update_arr['JXSNPS_PRVKEY']     = "'".o2_gateway::normalize($db_type,
+                                                                             $upd_key).
+                                                   "'";
+                $update_arr['JXSNPS_STATUS']     = "'U'";
+                $this->corrente['JXSNPS_STATUS'] = 'U';
                 }
             if ($app->sqltrace) {
                 jxsql_stat($this, 'W');
@@ -5057,9 +5059,10 @@ class o2_dbview extends o2_view {
                 }
             // __________________________________________ Manage snapshot informations ___
             if ($this->snapshot) {
-                $insert_nomi_arr[]         = 'JXSNPS_STATUS';
-                $insert_valori_arr[]       = "'I'";
-                $defaults['JXSNPS_STATUS'] = "''";
+                $insert_nomi_arr[]               = 'JXSNPS_STATUS';
+                $insert_valori_arr[]             = "'I'";
+                $defaults['JXSNPS_STATUS']       = "''";
+                $this->corrente['JXSNPS_STATUS'] = 'I';
                 }
             // ______________________________________________________ Bulk insert mode ___
             if ($this->bulk_mode) {
