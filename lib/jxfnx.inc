@@ -2556,8 +2556,9 @@ function o2app_menu() {
  * Returns FALSE if no translation is active, else returns the string-code for the active
  * language
  *
- * @return string
- * @see    o2_translate()
+ * @package application
+ * @return  string
+ * @see     o2_translate()
  */
 function o2app_lang() {
 
@@ -5402,6 +5403,42 @@ function o2tab_fkeys_setoff($table_name) {
     }
 
 
+// ===================================== PROGRAM =========================================
+
+/**
+ * Returns an array of program received parameters, in the form:
+ *
+ *  param_name => param_value
+ *
+ * @package prg
+ * @param   integer $exe_id
+ * @return  array
+ * @see     o2par(), o2_callprg(), o2_reqpar()
+ */
+function o2prg_params($exe_id = 0) {
+
+    $app   = $_SESSION['o2_app'];
+    $calls = $app->chiamate;
+    if (!$exe_id) {
+        $exe_id = $app->progressivo_istanze;
+        }
+    $prg    = $app->istanze_prg[$exe_id];
+    $params = array();
+    foreach ($prg->parametri as $par_id => $par) {
+        if ($calls[$exe_id]['parametri'][$par_id - 1]) {
+            $par_val = $calls[$exe_id]['parametri'][$par_id - 1]['valore'];
+            }
+        else {
+            $par_val = $par->default;
+            }
+        $params[$prg->par_names[$par_id]] = $par_val;
+        }
+    return $params;
+
+
+    }
+
+
 // =================================== VIEW TABLE ========================================
 
 /**
@@ -6075,18 +6112,19 @@ function o2view_select($view_name) {
  * Export data from a prg view to a CSV format file.
  * File is zipped and the full path to file is returned.
  *
- * @param  string  $view_name           Name of the view to export data from
- * @param  string  $csv_file_name       Target file name
- * @param  boolean $only_visible        Export only data visible on prg forms
- * @param  string  $fields_separator    Character use to separate fields
- * @param  string  $text_delimiter      Character used to delimiter text values
- * @param  string  $decimal_separator   Character used as decimal point in numbers
- * @param  string  $date_format         Format used for data fields (PHP date() style)
- * @param  string  $time_format         Format used for time fields (PHP date() style)
- * @param  boolean $titles_from_view    If TRUE field alias in view is used as title
- * @param  array   $excluded_aliases    List of aliases excluded in export
- * @param  array   $used_aliases        List of (alias => column-title) to override all
- * @return string
+ * @package view
+ * @param   string  $view_name           Name of the view to export data from
+ * @param   string  $csv_file_name       Target file name
+ * @param   boolean $only_visible        Export only data visible on prg forms
+ * @param   string  $fields_separator    Character use to separate fields
+ * @param   string  $text_delimiter      Character used to delimiter text values
+ * @param   string  $decimal_separator   Character used as decimal point in numbers
+ * @param   string  $date_format         Format used for data fields (PHP date() style)
+ * @param   string  $time_format         Format used for time fields (PHP date() style)
+ * @param   boolean $titles_from_view    If TRUE field alias in view is used as title
+ * @param   array   $excluded_aliases    List of aliases excluded in export
+ * @param   array   $used_aliases        List of (alias => column-title) to override all
+ * @return  string
  */
 function o2view_export($view_name,
                        $csv_file_name     = "",
