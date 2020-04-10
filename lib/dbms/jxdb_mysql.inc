@@ -1353,6 +1353,8 @@ function o2_mysql_count($server,
  * @param  integer $recs
  * @param  array   $links
  * @param  boolean $lock
+ * @param  string  $page_where
+ * @param  string  $stm_id
  * @return array
  */
 function o2_mysql_recordset($server,
@@ -1366,9 +1368,13 @@ function o2_mysql_recordset($server,
                             $where,
                             $order_by,
                             $recs,
-                            $links = null,
-                            $lock  = false) {
+                            $links      = null,
+                            $lock       = false,
+                            $page_where = false,
+                            $stm_id     = false) {
 
+    // _______________________________________________ NOTE: fetch loops are disabled! ___
+    $where = $page_where.$where;
     // __________________ If $table starts with a "(" then table is a sub-select query ___
     if (substr($table, 0, 1) != "(") {
         $table = o2_mysql_o.$database.o2_mysql_c.".".o2_mysql_o.$table.o2_mysql_c;
