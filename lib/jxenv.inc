@@ -5627,8 +5627,8 @@ class o2_dbview extends o2_view {
         $file_to_check = ($this->campi[$campo]->file ?
                           $this->campi[$campo]->file :
                           $this->file->indice);
-        if ($this->status != 'I' &&
-            ($this->variato($file_to_check) || !isset($this->corrente[$campo]))) {
+        if (($this->variato($file_to_check) || !isset($this->corrente[$campo])) &&
+            $this->status != 'I') {
             if (!$this->vista ||
                  $this->range2where($this->file->indice) ||
                  $this->range2formule()) {
