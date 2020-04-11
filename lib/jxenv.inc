@@ -5795,7 +5795,7 @@ class o2_dbview extends o2_view {
         // ________________________________________________________ Get original table ___
         $table = $view->file;
         // _______________________________________ Create a save list of cloned fields ___
-        $fld_save = array_merge(array(), $this->campi);
+        $fld_save = array_map(function($fld) { return clone $fld; }, $this->campi);
         // ______________________________________________ Remove all filters from view ___
         foreach ($this->campi as $fld) {
             $fld->min  = null;
@@ -6007,11 +6007,11 @@ class o2_dbview extends o2_view {
             $this->relocate_to_key = false;
             }
         // ___________________________________ Restore original filters on view fields ___
-        foreach ($this->campi as $fld) {
-            $this->min  = $fld->min;
-            $this->max  = $fld->max;
-            $this->not  = $fld->not;
-            $this->like = $fld->like;
+        foreach ($this->campi as $fld_name => $fld) {
+            $this->campi[$fld_name]->min  = $fld_save[$fld_name]->min;
+            $this->campi[$fld_name]->max  = $fld_save[$fld_name]->max;
+            $this->campi[$fld_name]->not  = $fld_save[$fld_name]->not;
+            $this->campi[$fld_name]->like = $fld_save[$fld_name]->like;
             }
         // __________________________ Reset snapshot filter to exclude deleted records ___
         $this->campi['JXSNPS_STATUS']->not = 'D';
