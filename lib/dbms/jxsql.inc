@@ -232,7 +232,11 @@ class JXSQLparser {
             }
         // __________________________________________________________ Store alias name ___
         $this->aliases[$tabalias] = $tabname;
-        return o2tab_qname($tabname).($tabname != $tabalias ? ' '.$tabalias : '');
+        $qname = o2_gateway::qualify($this->dbengine,
+                                     $this->db_phys_name,
+                                     o2db_schema($this->databasename),
+                                     $tabname);
+        return $qname.($tabname != $tabalias ? ' '.$tabalias : '');
 
         }
 
