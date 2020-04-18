@@ -3648,9 +3648,9 @@ class o2html {
             }
         if ($o2ctrl_obj->direction != "V") {
             print "<table ".$js_props." cellpadding='0' cellspacing='0' class='".
-                  $css_space."' style='width:".
-                  ($tab_internal ? "100%" : $o2ctrl_obj->larghezza."px").
-                  ";".($o2ctrl_obj->visibile ? "" : "display:none;").
+                  $css_space."' style='".
+                  ($tab_internal ? "" : 'width:'.$o2ctrl_obj->larghezza."px;").
+                  ($o2ctrl_obj->visibile ? "" : "display:none;").
                   "'><tr style='line-height:5px'>\n";
             o2html::ctrl_nav_btn($o2ctrl_obj, $task_local);
             o2html::ctrl_nav_bar($o2ctrl_obj, $task_local);

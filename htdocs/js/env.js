@@ -3040,7 +3040,7 @@ o2jse.tab.set = function(tabName,
                        "').scrollLeft=this.scrollLeft;";
         }
     o2jse.ctrl.init(myTab);
-    // __________________________________________ Add pseudo-columns for fixed columns ___
+    // _________________________________________ Add pseudo-columns for pinned columns ___
     if (myTab.o2.pc) {
         var pinCols = myTab.o2.pc;
         // ______________________ If horizontal scrolling needed create pseudo-columns ___

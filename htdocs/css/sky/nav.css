@@ -7,6 +7,9 @@
 .o2_ctrl_nav_space_int {
     background-color: #ffffff;
     border-top: 1px solid #a7bde4;
+    height: 18px;
+    margin-bottom: 1px;
+    width: calc(100% - 2px);
     }
 
 .o2_ctrl_nav_i {
