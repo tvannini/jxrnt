@@ -718,7 +718,7 @@ function o2_jxsdb_recordset($server,
                             json_encode($links),
                             $lock,
                             $page_where,
-                            $stm_id);
+                            false);
 
     }
 

@@ -6239,8 +6239,26 @@ function o2view_fetch($view_name) {
 
     $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    // ___________________________________ If can't use fetching, make a standard loop ___
+    $no_fetch = ($view_obj->file->db->server->type == 'jxsdb');
+    if ($no_fetch) {
+        if ($view_obj->statement) {
+            if ($view_obj->record_avanti()) {
+                return $view_obj->corrente;
+                }
+            else {
+                unset($view_obj->statement);
+                return false;
+                }
+            }
+        else {
+            $view_obj->statement = true;
+            $view_obj->record_primo();
+            return $view_obj->corrente;
+            }
+        }
     // ___________________________________________ Sibling calls: fetch from statement ___
-    if ($view_obj->statement) {
+    elseif ($view_obj->statement) {
         if (!$row = $view_obj->statement->fetch(PDO::FETCH_ASSOC)) {
             $view_obj->statement->closeCursor();
             $view_obj->statement = null;

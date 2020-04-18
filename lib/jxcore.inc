@@ -5377,7 +5377,7 @@ class o2_gateway {
                     // ___________________$p1 is table-from and may be a sub-select... ___
                     if (substr($p1, 0, 1) == '(') {
                         // _________________________ ... and so can contain JXSQL code ___
-                        $p1 = jxsql($$db->id, $p1);
+                        $p1 = jxsql($db->id, $p1);
                         }
                     $exec = 'o2_'.$db_engine.'_recordset';
                     return json_encode($exec($db_host,
