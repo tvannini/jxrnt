@@ -184,7 +184,7 @@ function o2_jxsdb_execute($server, $user, $password, $cmd) {
                                o2error_DBCONNECT);
         }
     $res = json_decode($res, true);
-    // ______________________________________________ Error on remote server error ___
+    // __________________________________________________ Error on remote server error ___
     if (is_array($res) && isset($res['!#ERROR'])) {
         throw new o2_exception("<b>jxsdb</b> gateway:<hr>".$res['!#ERROR'],
                                o2error_DBEXECUTE);
