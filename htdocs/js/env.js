@@ -8752,7 +8752,7 @@ jxc = function(defObj) {
                 if (defObj.v) {
                     ctrlObj.style.display = "";
                     // _______________________________ Size is set in the internal DIV ___
-                    intDiv                = document.getElementsByTagName('div')[0];
+                    intDiv                = ctrlObj.getElementsByTagName('div')[0];
                     intDiv.style.width    = defObj.w + 'px';
                     intDiv.style.height   = defObj.h + 'px';
                     // _______________________________________________ Set style class ___
