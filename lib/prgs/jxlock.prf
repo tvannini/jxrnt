@@ -27,8 +27,9 @@ function jxlock§§jxlock_form_def(&$form_jxlock) {
 	$form_jxlock->y(170);
 	$form_jxlock->larghezza(397);
 	$form_jxlock->altezza(381);
-	$form_jxlock->titolo("Application lock");
 	$form_jxlock->align_o("Center");
+	$form_jxlock->titolo("Application lock");
+	$form_jxlock->frm_status(jxlock_exp_24());
 	$ctrl_o2label5 = &$form_jxlock->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(40);
 		$ctrl_o2label5->y(250);
@@ -265,5 +266,10 @@ return (o2par(1));
 function jxlock_exp_23() {
 	
 return (!o2par(1));
+	} //|o2_fine_exp|
+
+function jxlock_exp_24() {
+	
+return (false);
 	} //|o2_fine_exp|
 ?>
