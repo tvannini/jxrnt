@@ -2248,6 +2248,10 @@ class o2_app {
                 return;
                 */
                 $this->runtime->load_gateway($dbas->server->type);
+                // ____________________ Server side extra script inclusion (extra.inc) ___
+                if ($this->file_server_inc) {
+                    include_once $this->dir_progs.$this->file_server_inc;
+                    }
                 // _____________________________________________________________ JXSQL ___
                 if ($this->jxsql) {
                     include_once $this->runtime->dir_dbms.'jxsql.inc';
