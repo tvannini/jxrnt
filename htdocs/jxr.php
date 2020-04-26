@@ -71,7 +71,11 @@ if (session_start()) {
             jxjs::start($_REQUEST['jxjsid']);
             if (is_a($app, "o2_app")) {
                 try {
-                    $app->esecutivo($_REQUEST['o2_prgexeid'] < $app->progressivo_istanze);
+                    $form = $app->istanze_prg[$_REQUEST['o2_prgexeid']]->
+                                                            form[$_REQUEST['o2lastform']];
+                    $app->esecutivo(($_REQUEST['o2_prgexeid'] < $app->progressivo_istanze)
+                                    && (!isset($_REQUEST['o2lastform']) ||
+                                        !$form->menu_behavior));
                     }
                 catch (o2_exception $o2e) {
                     $o2e->send();
