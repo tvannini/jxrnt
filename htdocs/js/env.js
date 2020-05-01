@@ -8515,8 +8515,8 @@ jxc = function(defObj) {
                             // _____________________________________________ Set value ___
                             if (ctrlObj.value != defObj.d) {
                                 ctrlObj.value = defObj.d;
+                                delete descField.saveValue;
                                 }
-
                             // _________________________________ Set value for ENABLED ___
                             if (defObj.e) {
                                 // _____________________________ Set description value ___
