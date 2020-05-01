@@ -91,7 +91,7 @@ function o2_jxsdb_qualify($database, $owner, $name = "") {
  * @param  string  $server     Server to connect to, as an URL
  * @param  string  $user       Connecion user name
  * @param  string  $password   Connection user password
- * @return Socket
+ * @return JXHttpConn
  */
 function o2_jxsdb_connect($server, $user, $password) {
 
