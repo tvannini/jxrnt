@@ -667,7 +667,7 @@ function o2_reqpar($par_id) {
  * In HTML disposes requested file for download and returns the url leading to it.
  *
  * @param  string  $local_file      Local path to file to deliver
- * @param  integer $force_download  TRUE=Force download, FALSE=Can be used on-line (PDF)
+ * @param  boolean $force_download  TRUE=Force download, FALSE=Can be used on-line (PDF)
  * @return string
  */
 function o2_path($local_file, $force_download = false) {
