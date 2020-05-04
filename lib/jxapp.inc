@@ -197,6 +197,7 @@ class o2_app {
     public $refresh_prg     = false;   /* Program to be executed on refresh             */
     public $refresh_time    = 0;       /* Number of seconds to wait before refreshing   */
     public $refresh_last    = 0;       /* Last refresh execution time-out               */
+    public $jxhttp_extra    = false;   /* Extra data for HTTP requests (see o2_post())  */
     /*     _____ BUGS compatibility ___________________________________________________ */
     public $bug_aggregate   = false;   /* If TRUE uncountable aggregations are skipped  */
     /*     _____ HTML extras __________________________________________________________ */
@@ -2247,6 +2248,12 @@ class o2_app {
                                         "Request"                     => $_REQUEST));
                 return;
                 */
+                // _________________________________________ Execute start-prg, if any ___
+                if ($this->exe_prg_start) {
+                    $this->goto_prg($this->prg_start, false);
+                    // ________________________________________ Actions list execution ___
+                    $this->actions_loop();
+                    }
                 $this->runtime->load_gateway($dbas->server->type);
                 // ____________________ Server side extra script inclusion (extra.inc) ___
                 if ($this->file_server_inc) {
