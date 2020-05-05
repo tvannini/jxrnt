@@ -8050,7 +8050,7 @@ function jx_post($url, $postdata, $cookies = false, &$headers = null) {
     $bndr = "---------------------".substr(md5(rand(0, 32000)), 0, 10);
     // ___________________________________________________ Extra data for HTTP request ___
     if ($_SESSION['o2_app']->jxhttp_extra) {
-        $data+= $_SESSION['o2_app']->jxhttp_extra;
+        $postdata+= $_SESSION['o2_app']->jxhttp_extra;
         }
     foreach($postdata as $key => $val) {
         $data.= "--$bndr\n";
