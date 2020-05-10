@@ -6225,10 +6225,23 @@ class o2_dbview extends o2_view {
         $pk_segments = array();
         foreach ($this->file->chiave->segmenti as $segment) {
             $fld_name = strtoupper($segment->campo->name);
-            // __________________ Field not in select, added by runtime as key segment ___
+            // ___________________________________________________ Field not in select ___
             if (!isset($table->campi[$fld_name])) {
-                $fld_name.= '_JXKF';
-                };
+                // __________________________ Check if added by runtime as key segment ___
+                if (isset($table->campi[$fld_name.'_JXKF'])) {
+                    $fld_name.= '_JXKF';
+                    }
+                // ______________________________ Alias changed, seek by physical name ___
+                else {
+                    foreach ($this->campi as $fld) {
+                        if ($fld->file == $this->file->indice &&
+                            $fld->phys_name == $segment->campo->phys_name) {
+                            $fld_name = strtoupper($fld->nome);
+                            break;
+                            }
+                        }
+                    }
+                }
             $campo       = $table->campi[$fld_name];
             $campo->name = $fld_name;
             $direzione   = $segment->direzione;
@@ -6244,10 +6257,23 @@ class o2_dbview extends o2_view {
             $segments = array();
             foreach ($this->file->chiavi[$key_name]->segmenti as $segment) {
                 $fld_name = strtoupper($segment->campo->name);
-                // ______________ Field not in select, added by runtime as key segment ___
+                // _______________________________________________ Field not in select ___
                 if (!isset($table->campi[$fld_name])) {
-                    $fld_name.= '_JXKF';
-                    };
+                    // ______________________ Check if added by runtime as key segment ___
+                    if (isset($table->campi[$fld_name.'_JXKF'])) {
+                        $fld_name.= '_JXKF';
+                        }
+                    // __________________________ Alias changed, seek by physical name ___
+                    else {
+                        foreach ($this->campi as $fld) {
+                            if ($fld->file == $this->file->indice &&
+                                $fld->phys_name == $segment->campo->phys_name) {
+                                $fld_name = strtoupper($fld->nome);
+                                break;
+                                }
+                            }
+                        }
+                    }
                 $campo       = $table->campi[$fld_name];
                 $campo->name = $fld_name;
                 $direzione   = $segment->direzione;
@@ -6255,7 +6281,7 @@ class o2_dbview extends o2_view {
                 }
             $table->chiavi[$key_name] = new o2_chiave($key_name, $segments, true);
             }
-        $table->log_level         = false;
+        $table->log_level = false;
         $table->crea();
         // ___________________________________________ Add table to application tables ___
         $_SESSION['o2_app']->tab[$tab_name] = $table;
