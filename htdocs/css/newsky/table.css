@@ -1,0 +1,321 @@
+/* =============================== TABLE =================================== */
+.o2_tab_space {
+    background-color: #ffffff;
+    border: 1px solid var(--jx-color-border);
+    border-radius: 0px;
+    overflow: hidden;
+    }
+
+.o2_tab_tab {
+    overflow: hidden;
+    }
+
+.o2_tab_tab em {
+    line-height: 300%;
+    }
+
+thead .o2_tab_marker,
+.o2_tab_testa {
+    background-color: var(--jx-color-btn);
+    white-space: nowrap;
+    height: 20px;
+    border-bottom: 1px solid var(--jx-color-border);
+    border-left: 1px solid var(--jx-color-border);
+    cursor: default;
+    overflow: hidden;
+    transition: background-color .2s .1s;
+    }
+
+thead .o2_tab_marker {
+    border-left: none;
+    }
+
+thead .jxord:hover {
+    background-color: var(--jx-color-title);
+    }
+
+TH + thead .o2_tab_marker,
+.o2_tab_testa {
+    padding-right: 3px;
+    }
+
+TH + thead .o2_tab_marker {
+    border-left: none;
+    }
+
+.o2_tab_corpo {
+    padding: 0 3px 0 2px;
+    line-height: 20px;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    border-left: 1px solid var(--jx-color-btn);
+	border-bottom: 1px solid var(--jx-color-btn);
+    }
+
+tfoot .o2_tab_marker,
+.o2_tab_foot {
+    background-color: var(--jx-color-btn);
+    white-space: nowrap;
+    height: 20px;
+    border-top: 1px solid var(--jx-color-border);
+    border-left: 1px solid var(--jx-color-border);
+    cursor: default;
+    overflow: hidden;
+    font-weight: bold;
+    border-bottom-left-radius: 0px;
+    }
+
+tfoot .o2_tab_marker {
+    border-left: none;
+    }
+
+TD + tfoot .o2_tab_marker,
+.o2_tab_foot {
+    border-bottom-left-radius: 0;
+    padding-right: 3px;
+    }
+
+TD + tfoot .o2_tab_marker {
+    border-left: none;
+    }
+
+.o2_tab_point {
+    color: #414141;
+    white-space: nowrap;
+    cursor: pointer;
+	background-color: #F4F4F4;
+    }
+
+.o2_tab_point .o2_tab_corpo {
+    color: #414141;
+	border-left: 1px solid #f2f6fb;
+	border-bottom: 1px solid #e7edf7;
+    }
+
+.o2_tab_sele {
+    color: #414141;
+    background-color: #ffffca;
+    line-height: 20px;
+    vertical-align: middle;
+    padding: 0 3px 0 2px;
+    white-space: nowrap;
+    overflow: hidden;
+	border-left: 1px solid #f2f6fb;
+	border-bottom: 1px solid #e7edf7;
+    }
+
+.o2_tab_sele .o2tab_fcol {
+    background: #ffffca;
+    }
+
+.jxtabedit .o2_tab_sele {
+    padding: 0 2px 0 2px;
+    }
+
+.o2_tab_sort {
+    background: url(tab/sort.png) no-repeat;
+    margin-left: 3px;
+    padding-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+    }
+
+.o2_tab_sorta {
+    background: url(tab/asc.png) no-repeat;
+    margin-left: 3px;
+    padding-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+    }
+
+.o2_tab_sortd {
+    background: url(tab/desc.png) no-repeat;
+    margin-left: 3px;
+    padding-right: 5px;
+    vertical-align: middle;
+    cursor: pointer;
+    }
+
+.o2_tab_sorti {
+    color: #6B6661;
+    font-size: 75%;
+    vertical-align: top;
+    }
+
+.o2_tab_popup {
+    padding: 5px;
+    background-color: #D1C8C0;
+    border-bottom: 1px solid #6B6661;
+    border-top: 1px solid #BDB5AE;
+    border-left: 1px solid #a19a93;
+    border-right: 1px solid #a19a93;
+    border-radius: 3px;
+    box-shadow: 0px 6px 15px #6B6661;
+    }
+
+.o2_tab_fcol {
+    width: 16px;
+	border-bottom: 1px solid #e7edf7;
+    }
+
+.o2_tab_marker {
+    width: 16px;
+    }
+
+.o2_tab_marker_a {
+    background-color: #d2ddf1;
+    width: 8px;
+    height: 8px;
+    border: none;
+    padding: 0;
+    margin-left: 20%;
+    vertical-align: middle;
+    outline: none;
+    }
+
+.o2_tab_marker_focus {
+    background-color: #E18331;
+    width: 8px;
+    height: 8px;
+    border: none;
+    padding: 0;
+    margin-left: 20%;
+    vertical-align: middle;
+    outline: none;
+    }
+
+.o2_tab_resize {
+    font-size: 1px;
+    width: 2px;
+    height: 70%;
+    border-left: 1px dotted #799ad5;
+    margin-left: 1px;
+    border-right: none;
+    display: inline-block;
+    float: left;
+    cursor: col-resize;
+    }
+
+.o2_tab_resize_line {
+    border-left: 1px dotted #a19a93;
+    }
+
+.o2_tab_pinned {
+    border-right: 1px dotted #6B6661;
+    background-color: #ffffff;
+    }
+
+/* =============================== EXTRA =================================== */
+
+.tab_testa_sx {
+    background-color: #d2ddf1;
+    white-space: nowrap;
+    height: 20px;
+    border-bottom: 1px solid #a7bde4;
+    cursor: default;
+    overflow: hidden;
+    }
+
+.tab_corpo_sx {
+    padding: 0 5px 0 5px;
+    line-height: 20px;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    }
+
+.jxtabedit .o2tab_current .tab_corpo_sx {
+    background: #FC7939;
+    background: -moz-linear-gradient(top, #FEC09F, #FC7837);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FEC09F), to(#FC7837));
+    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FEC09F', EndColorStr='#FC7837');
+    line-height: 20px;
+    vertical-align: middle;
+    padding: 0 2px 0 2px;
+    white-space: nowrap;
+    }
+
+.tab_foot_sx {
+    background-color: #d2ddf1;
+    white-space: nowrap;
+    height: 20px;
+    border-top: 1px solid #a7bde4;
+    cursor: default;
+    overflow: hidden;
+    }
+
+.tab_testa_nb {
+    background-color: #d2ddf1;
+    white-space: nowrap;
+    height: 20px;
+    border-bottom: 1px solid #a7bde4;
+    cursor: default;
+    overflow: hidden;
+    }
+
+.tab_corpo_nb {
+    padding: 0 5px 0 5px;
+    line-height: 20px;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    }
+
+.jxtabedit .o2tab_current .tab_corpo_nb {
+    background: #FC7939;
+    background: -moz-linear-gradient(top, #FEC09F, #FC7837);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FEC09F), to(#FC7837));
+    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FEC09F', EndColorStr='#FC7837');
+    line-height: 20px;
+    vertical-align: middle;
+    padding: 0 2px 0 2px;
+    white-space: nowrap;
+    }
+
+.tab_foot_nb {
+    background-color: #d2ddf1;
+    white-space: nowrap;
+    height: 20px;
+    border-top: 1px solid #a7bde4;
+    cursor: default;
+    overflow: hidden;
+    }
+
+.tab_testa_dx {
+    background-color: #d2ddf1;
+    white-space: nowrap;
+    height: 20px;
+    border-bottom: 1px solid #a7bde4;
+    cursor: default;
+    overflow: hidden;
+    }
+
+.tab_corpo_dx {
+    padding: 0 5px 0 5px;
+    line-height: 20px;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    }
+
+.jxtabedit .o2tab_current .tab_corpo_dx {
+    background: #FC7939;
+    background: -moz-linear-gradient(top, #FEC09F, #FC7837);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FEC09F), to(#FC7837));
+    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FEC09F', EndColorStr='#FC7837');
+    line-height: 20px;
+    vertical-align: middle;
+    padding: 0 2px 0 2px;
+    white-space: nowrap;
+    }
+
+.tab_foot_dx {
+    background-color: #d2ddf1;
+    white-space: nowrap;
+    height: 20px;
+    border-top: 1px solid #a7bde4;
+    border-right: 1px solid #c2d1ec;
+    cursor: default;
+    overflow: hidden;
+    }

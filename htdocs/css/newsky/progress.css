@@ -1,0 +1,42 @@
+/* ========================== PROGRESSBAR =========================== */
+
+.o2_ctrl_progress {
+    position: relative;
+    height: 100%;
+    border: 1px solid #596C80;
+    margin: 2px;
+    background-color: #A1C3E6;
+    border-radius: 3px;
+    }
+
+.o2_ctrl_progress_bar {
+    height: 100%;
+    float: left;
+    background-color: #6496C8;
+    border-radius: 3px;
+    }
+
+.o2_ctrl_progress_txt {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    }
+
+.o2_ctrl_progress_dis {
+    position: relative;
+    height: 100%;
+    border: 1px solid #808080;
+    margin: 2px;
+    background-color: #E6E6E6;
+    border-radius: 3px;
+    }
+
+.o2_ctrl_progress_dis .o2_ctrl_progress_bar {
+    height: 100%;
+    float: left;
+    background-color: #C8C8C8;
+    border-radius: 3px;
+    }
+

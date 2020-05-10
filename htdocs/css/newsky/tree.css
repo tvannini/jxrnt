@@ -1,0 +1,74 @@
+.jxtree {
+    background-color: #ffffff;
+    border: 1px solid var(--jx-color-border);
+    padding: 5px;
+    overflow: auto;
+    }
+
+.jxtree_bottom {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    }
+
+.jxtree_bottom_left {
+    border-top: none;
+    border-right: none;
+    }
+
+.jx_tree_indent {
+    width: 10px;
+    display: inline-block;
+    }
+
+.jx_treenode_open {
+    background: url(tree/minus.png) no-repeat top center;
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    cursor: pointer;
+    }
+
+.jx_treenode_close {
+    background: url(tree/plus.png) no-repeat top center;
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    cursor: pointer;
+    }
+
+.jx_treenode_leaf {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    }
+
+.jx_treenode_icon {
+    display: inline-block;
+    padding-left: 1px;
+    padding-right: 1px;
+    }
+
+.jx_treenode_text {
+    display: inline-block;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    }
+
+.jx_treenode_sele .jx_treenode_text {
+    background-color: var(--jx-color-title);
+    display: inline-block;
+    padding-left: 2px;
+    padding-right: 2px;
+    cursor: default;
+    }
+
+.jx_treenode_focus .jx_treenode_text {
+    background-color: var(--jx-color-btn);
+    display: inline-block;
+    padding-left: 2px;
+    padding-right: 2px;
+    }
+

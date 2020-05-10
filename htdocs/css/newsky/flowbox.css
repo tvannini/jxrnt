@@ -1,0 +1,33 @@
+/* ============================ FLOWBOX= ============================ */
+.o2_ctrl_box_out {
+    position: absolute;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #e8eef7;
+    overflow: auto;
+    }
+
+.o2_ctrl_box_in {
+    position: relative;
+    margin-top: 10px;
+    margin-left: 10px;
+    float: left;
+    overflow: hidden;
+    background-color: #f7f9fa;
+    border: 1px solid #a7bde4;
+    border-radius: 5px;
+    }
+
+.o2_ctrl_box_title {
+    width: 100%;
+    border-collapse: collapse;
+    }
+
+.o2_ctrl_box_title th {
+    text-align: center;
+    font-weight: bold;
+    background-color: #bccceb ;
+    height: 20px;
+    }

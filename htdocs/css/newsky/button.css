@@ -1,0 +1,50 @@
+/* ========================== BUTTON/REF =========================== */
+
+.o2_ctrl_button {
+	text-align: center;
+    background-color: var(--jx-color-btn);
+    border: 1px solid var(--jx-color-border);
+    font-weight: bold;
+    border-radius: var(--jx-radius);
+    transition: background-color .2s .1s;
+    cursor: pointer;
+    }
+
+.o2_ctrl_button:hover, .o2_ctrl_button:focus {
+    background-color: var(--jx-color-title);
+    }
+
+.o2_ctrl_button_dis {
+    color: var(--jx-color-disabled);
+	text-align: center;
+    background-color: var(--jx-color-bgdisabled);
+    border: 1px solid var(--jx-color-border);
+    font-weight: bold;
+    border-radius: var(--jx-radius);
+    }
+
+.o2_ctrl_ref {
+    color: rgba(0, 0, 200, .8);
+    text-decoration: underline;
+    padding: 0 3px 0 3px;
+    transition: color .2s .1s;
+    }
+
+.o2_ctrl_ref:hover, .o2_ctrl_ref:focus {
+    color: rgba(0, 0, 200, 1);
+    background-color: transparent;
+    text-decoration: underline;
+    text-align: left;
+    padding: 0 3px 0 3px;
+    border: none;
+    cursor: pointer;
+    }
+
+.o2_ctrl_ref_dis {
+    color: var(--jx-color-disabled);
+    background-color: transparent;
+    text-decoration: underline;
+    text-align: left;
+    padding: 0 3px 0 3px;
+    border: none;
+    }
