@@ -5312,7 +5312,7 @@ o2jse.win.repos = function(win_id) {
             marginTop = (document.getElementById("jxMenuBar") ?
                          document.getElementById("jxMenuBar").offsetHeight : 0);
             }
-        else {
+        else if (o2jse.menuStyle == 'L') {
             marginLeft = (document.getElementById("jxMenuBar") ?
                           document.getElementById("jxMenuBar").offsetWidth : 0);
             }
@@ -5320,27 +5320,27 @@ o2jse.win.repos = function(win_id) {
     // __________________________________________________________ Horizontal alignment ___
     switch (objInfo.alignH) {
         case "center":
-            objPos.left = Math.max(0, parseInt(((o2jse.cli.width - marginLeft) / 2) -
-                                               (objInfo.x || 0))) + marginLeft + "px";
+            objPos.left = Math.max(0, parseInt((o2jse.cli.width / 2) -
+                                               (objInfo.x || 0) + marginLeft / 2)) + "px";
             break;
         case "right":
             objPos.right = (objInfo.x || 0) + "px";
             break;
         default:
-            objPos.left = (Math.max(0, (objInfo.x || 0)) + marginLeft) + "px";
+            objPos.left = Math.max(0, (objInfo.x || 0)) + "px";
             break;
         }
     // ____________________________________________________________ Vertical alignment ___
     switch (objInfo.alignV) {
         case "middle":
-            objPos.top = Math.max(0, parseInt(((o2jse.cli.height - marginTop) / 2) -
-                                              (objInfo.y || 0))) + marginTop + "px";
+            objPos.top = Math.max(0, parseInt((o2jse.cli.height / 2) -
+                                              (objInfo.y || 0) + marginTop / 2)) + "px";
             break;
         case "bottom":
             objPos.bottom = (objInfo.y || 0) + "px";
             break;
         default:
-            objPos.top = (Math.max(0, parseInt(objInfo.y || 0)) + marginTop) + "px";
+            objPos.top = Math.max(0, parseInt(objInfo.y || 0)) + "px";
             break;
         }
     // _____________________________________________________________ Repos sub-windows ___

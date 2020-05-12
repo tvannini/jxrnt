@@ -1703,34 +1703,41 @@ class o2html {
             $align_buffer = "";
             switch ($o2form_obj->align_o) {
                 case "center":
-                    $align_val              = max(0, intval($cli_w / 2 - $o2form_obj->x +
+                    $halign_val             = max(0, intval($cli_w / 2 - $o2form_obj->x +
                                                             $bar_w / 2));
-                    $align_buffer          .= "left:".$align_val."px;";
-                    $o2form_obj->absolute_x = $align_val;
+                    $align_buffer          .= "left:".$halign_val."px;";
+                    $o2form_obj->absolute_x = $halign_val;
+                    $halign_val             = $o2form_obj->x;
                     break;
                 case "right":
+                    $halign_val             = -($o2form_obj->x - $o2form_obj->larghezza);
                     $align_buffer          .= "right:".$o2form_obj->x."px;";
-                    $o2form_obj->absolute_x = -($o2form_obj->x - $o2form_obj->larghezza);
+                    $o2form_obj->absolute_x = $halign_val;
                     break;
                 default:
-                    $align_buffer          .= "left:".($o2form_obj->x + $bar_w)."px;";
-                    $o2form_obj->absolute_x = $o2form_obj->x;
+                    $halign_val             = $o2form_obj->x + $bar_w;
+                    $align_buffer          .= "left:".$halign_val."px;";
+                    $o2form_obj->absolute_x = $halign_val;
                     break;
                 }
             // ____________________________________________________ Vertical alignment ___
             switch ($o2form_obj->align_v) {
                 case "middle":
-                    $align_buffer.= "top:".max(0, intval($cli_h / 2 - $o2form_obj->y +
-                                                         $bar_h / 2))."px;";
-                    $o2form_obj->absolute_y = max(0, intval($cli_h / 2 - $o2form_obj->y));
+                    $valign_val             = max(0, intval($cli_h / 2 - $o2form_obj->y +
+                                                            $bar_h / 2));
+                    $align_buffer          .= "top:".$valign_val."px;";
+                    $o2form_obj->absolute_y = $valign_val;
+                    $valign_val             = $o2form_obj->y;
                     break;
                 case "bottom":
+                    $valign_val             = -($o2form_obj->y - $o2form_obj->altezza);
                     $align_buffer          .= "bottom:".($o2form_obj->y + $stb_h)."px;";
-                    $o2form_obj->absolute_y = -($o2form_obj->y - $o2form_obj->altezza);
+                    $o2form_obj->absolute_y = $valign_val;
                     break;
                 default:
-                    $align_buffer          .= "top:".($o2form_obj->y + $bar_h)."px;";
-                    $o2form_obj->absolute_y = $o2form_obj->y;
+                    $valign_val             = $o2form_obj->y + $bar_h;
+                    $align_buffer          .= "top:".$valign_val."px;";
+                    $o2form_obj->absolute_y = $valign_val;
                     break;
                 }
             }
@@ -1768,8 +1775,8 @@ class o2html {
                       ",cT:'form',f:'".$o2form_obj->nome.
                       "',alignH:'".$o2form_obj->align_o.
                       "',alignV:'".$o2form_obj->align_v.
-                      "',x:".$o2form_obj->x.
-                       ",y:".$o2form_obj->y.
+                      "',x:".$halign_val.
+                       ",y:".$valign_val.
                       ($o2form_obj->refresh_action ?
                        ",r:'".$o2form_obj->refresh_action."'" : '').
                        ",exit:".($o2form_obj->title_bar &&
@@ -1931,22 +1938,28 @@ class o2html {
 
     static function ctrl_win_position($o2form_obj) {
 
-        $app = $_SESSION['o2_app'];
+        $app    = $_SESSION['o2_app'];
+        $menu_v = $app->menu_attivo && $app->menu_style == 'L';
+        $menu_o = $app->menu_attivo && $app->menu_style == 'T';
         // ___________________________________________________________ NOT linked form ___
         if (!$o2form_obj->linkto) {
             // ______________________________________________________________ Position ___
             $cli_w = $app->client_width;
             $cli_h = $app->client_height;
+            $bar_w = ($menu_v ? $app->menu_width : 0);
+            $bar_h = ($menu_o ? $app->menu_height : 0);
+            $stb_h = $app->status_height;
             // __________________________________________________ Horizontal alignment ___
             switch ($o2form_obj->align_o) {
                 case "center":
-                    $o2form_obj->absolute_x = max(0, intval($cli_w / 2 - $o2form_obj->x));
+                    $o2form_obj->absolute_x = max(0, intval($cli_w / 2 - $o2form_obj->x +
+                                                            $bar_w / 2));
                     break;
                 case "right":
                     $o2form_obj->absolute_x = -($o2form_obj->x - $o2form_obj->larghezza);
                     break;
                 default:
-                    $o2form_obj->absolute_x = $o2form_obj->x;
+                    $o2form_obj->absolute_x = $o2form_obj->x + $bar_w;
                     break;
                 }
             // ____________________________________________________ Vertical alignment ___
@@ -1958,7 +1971,7 @@ class o2html {
                     $o2form_obj->absolute_y = -($o2form_obj->y - $o2form_obj->altezza);
                     break;
                 default:
-                    $o2form_obj->absolute_y = $o2form_obj->y;
+                    $o2form_obj->absolute_y = $o2form_obj->y + $bar_h;
                     break;
                 }
             }
