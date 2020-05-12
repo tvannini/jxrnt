@@ -9120,6 +9120,11 @@ o2jse.menu.addMenu = function(menuId, label) {
                 newMenu.outBox.style.top = (o2jse.cli.height - newMenu.outBox.offsetHeight
                                             - 10) + "px";
                 }
+            if (o2jse.menuStyle != 'T') {
+                if (newMenu.inBox.className.indexOf('o2menuVert') < 0) {
+                    newMenu.inBox.className+= ' o2menuVert';
+                    }
+                }
             }
         // ___________________________________________________ Menu opened from a menu ___
         else if (parentObj) {
@@ -9355,7 +9360,7 @@ o2jse.menu.closeByTime = function() {
 
 
 /**
- * Close all open meus
+ * Close all open menus
  *
  */
 o2jse.menu.closeAll = function() {
