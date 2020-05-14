@@ -1478,6 +1478,7 @@ class o2_campo_task extends o2_campo {
     public $like       = '';      /* LIKE RANGE expression                              */
     public $condizione = '';      /* Formulas range condition                           */
     public $formula    = false;   /* Formulas value expression                          */
+    public $virtual    = false;   /* SQL, SQL-formula and Formula fields are virtual    */
     public $order_by   = array(); /* Formulas ORDER_BY equivalent                       */
     public $valore     = "";      /* Variables (prg§_§var) value                        */
     public $selector   = false;   /* If formula is a check selector for view            */
@@ -2055,6 +2056,7 @@ class o2_dbview extends o2_view {
         if (!is_null($formula)) {
             $this->formule[$name]->formula = $formula;
             }
+        $this->formule[$name]->virtual = true;
 
         }
 
@@ -2133,6 +2135,7 @@ class o2_dbview extends o2_view {
                                                 $like);
         $this->campi[$name]->formula  = $sql;
         $this->campi[$name]->order_by = $order_by;
+        $this->campi[$name]->virtual  = true;
 
         }
 
@@ -5821,7 +5824,7 @@ class o2_dbview extends o2_view {
             $fields   = array();
             $fld_list = array();
             foreach ($view->campi as $fld_name => $fld) {
-                if ($fld->file == $table->indice) {
+                if ($fld->file == $table->indice && !$fld->virtual) {
                     $fld_list[$fld_name] = $fld;
                     $fields[]            = $fld->nome_fisico;
                     }
@@ -5834,7 +5837,7 @@ class o2_dbview extends o2_view {
                         // ______________________________________ Compose values cache ___
                         $rec  = '';
                         foreach ($fld_list as $fld_name => $fld) {
-                            if ($rec) {
+                            if ($rec !== '') {
                                 $rec.= ',';
                                 }
                             if ($fld->tipo == 'N') {
