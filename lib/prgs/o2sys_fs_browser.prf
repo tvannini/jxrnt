@@ -39,6 +39,7 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 	$form_browser->align_o("Center");
 	$form_browser->titolo(o2sys_fs_browser_exp_40());
 	$form_browser->css_body("o2_form_body open_body");
+	$form_browser->css_doc("sys_fs_doc");
 	$ctrl_bottom_bar = &$form_browser->ctrldef("bottom_bar", "label", "", "", "");
 		$ctrl_bottom_bar->x(0);
 		$ctrl_bottom_bar->y(540);
@@ -152,6 +153,7 @@ function o2sys_fs_browser§§add_folder_form_def(&$form_add_folder) {
 	$form_add_folder->align_o("Center");
 	$form_add_folder->titolo("Create new folder");
 	$form_add_folder->frm_status(o2sys_fs_browser_exp_9999());
+	$form_add_folder->css_doc("sys_fs_doc");
 	$form_add_folder->close_action("close_form_newdir");
 	$ctrl_new_folder = &$form_add_folder->ctrldef("new_folder", "edit", "", "prg§_§var", "newdir_name");
 		$ctrl_new_folder->x(10);
@@ -174,6 +176,7 @@ function o2sys_fs_browser§§add_file_form_def(&$form_add_file) {
 	$form_add_file->align_o("Center");
 	$form_add_file->titolo("Add file to folder");
 	$form_add_file->frm_status(o2sys_fs_browser_exp_9999());
+	$form_add_file->css_doc("sys_fs_doc");
 	$form_add_file->close_action("close_form_fileupload");
 	$ctrl_o2file2 = &$form_add_file->ctrldef("o2file2", "file", "", "prg§_§var", "uploaded_file");
 		$ctrl_o2file2->x(10);
@@ -195,6 +198,7 @@ function o2sys_fs_browser§§visor_form_def(&$form_visor) {
 	$form_visor->altezza(500);
 	$form_visor->align_o("Center");
 	$form_visor->titolo("Retrieve file");
+	$form_visor->css_doc("sys_fs_doc");
 	$form_visor->close_action("close_form_fileget");
 		}
 

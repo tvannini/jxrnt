@@ -1,5 +1,5 @@
 <?php
-//2.5
+//2.6
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -9,29 +9,29 @@ o2def::prgnotes("");
 o2def::prg("o2sys_fs_browser", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
-o2def::act("close_form_fileget", "");
-o2def::act("close_form_fileupload", "");
-o2def::act("close_form_newdir", "");
-o2def::act("create_dir", "");
-o2def::act("file_add", "");
-o2def::act("file_del", "");
-o2def::act("file_download", "");
-o2def::act("file_get", "");
-o2def::act("file_ren", "");
-o2def::act("file_select", "");
-o2def::act("folder_del", "");
-o2def::act("folder_up", "");
-o2def::act("load_all_files", "");
-o2def::act("load_file_list", "");
-o2def::act("load_folder_list", "");
-o2def::act("load_from_folder_limit", "");
-o2def::act("loop_from_folder_limit", "");
-o2def::act("order_by", "");
-o2def::act("req_newdir_name", "");
-o2def::act("send_file", "");
-o2def::act("set_folder", "");
-o2def::act("set_folder_by_tree", "");
-o2def::act("start", "");
+o2def::act("close_form_fileget");
+o2def::act("close_form_fileupload");
+o2def::act("close_form_newdir");
+o2def::act("create_dir");
+o2def::act("file_add");
+o2def::act("file_del");
+o2def::act("file_download");
+o2def::act("file_get");
+o2def::act("file_ren");
+o2def::act("file_select");
+o2def::act("folder_del");
+o2def::act("folder_up");
+o2def::act("load_all_files");
+o2def::act("load_file_list");
+o2def::act("load_folder_list");
+o2def::act("load_from_folder_limit");
+o2def::act("loop_from_folder_limit");
+o2def::act("order_by");
+o2def::act("req_newdir_name");
+o2def::act("send_file");
+o2def::act("set_folder");
+o2def::act("set_folder_by_tree");
+o2def::act("start");
 o2def::form("browser", "", False, "o2sys_fs_browser_exp_69()", false);
 o2def::form("add_folder", "", False, "o2sys_fs_browser_exp_14()", false);
 o2def::form("add_file", "", False, "o2sys_fs_browser_exp_23()", false);
