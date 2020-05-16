@@ -12,7 +12,7 @@ function o2sys_alert§§sys_alert_form_def(&$form_sys_alert) {
 	$form_sys_alert->y_exp(o2sys_alert_exp_13());
 	$form_sys_alert->x_exp(o2sys_alert_exp_12());
 	$form_sys_alert->larghezza(400);
-	$form_sys_alert->altezza(250);
+	$form_sys_alert->altezza(270);
 	$form_sys_alert->altezza_exp(o2sys_alert_exp_5());
 	$form_sys_alert->larghezza_exp(o2sys_alert_exp_8());
 	$form_sys_alert->align_v("Middle");
@@ -60,7 +60,7 @@ return ("<jx>/img/alert.png");
 
 function o2sys_alert_exp_5() {
 	
-return (130 + (o2val('prg§_§var','txt_lines') * 16));
+return (140 + (o2val('prg§_§var','txt_lines') * 16));
 	} //|o2_fine_exp|
 
 function o2sys_alert_exp_6() {
@@ -101,7 +101,7 @@ function o2sys_alert_exp_11() {
         </tr>
         <tr>
          <td colspan="2" align="center">
-          <hr style="width:94%;height:2px;" class="o2_ctrl_line"/>
+          <hr style="width:94%;height:2px;margin-bottom:15px;" class="o2_ctrl_line"/>
           <div id="jx_alert_ok_bnt"
                class="o2_ctrl_button"
                onclick="o2jse.ctrl.btnExe(this);"

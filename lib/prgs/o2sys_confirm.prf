@@ -62,7 +62,7 @@ return (stripcslashes(o2par(1)));
 
 function o2sys_confirm_exp_5() {
 	
-return (130 + (o2val('prg§_§var','txt_lines') * 16));
+return (140 + (o2val('prg§_§var','txt_lines') * 16));
 	} //|o2_fine_exp|
 
 function o2sys_confirm_exp_6() {
@@ -108,7 +108,7 @@ function o2sys_confirm_exp_11() {
               '       if(e.altKey){
                        if(e.keyCode == 89){'.o2_act4js(0, 'act_yes').'}
                        else if(e.keyCode == 78){'.o2_act4js(0, 'act_no').'}}">
-          <hr style="width:94%;height:2px;" class="o2_ctrl_line"/>
+          <hr style="width:94%;height:2px;margin-bottom:15px;" class="o2_ctrl_line"/>
           <div id="jx_confirm_yes_bnt"
                class="o2_ctrl_button"
                onclick="'.o2_act4js(0, 'act_yes').'"
@@ -117,7 +117,7 @@ function o2sys_confirm_exp_11() {
               '         if(e.keyCode == 32 || e.keyCode == 13){this.click();}
                         else if(e.keyCode == 39){document.getElementById(\'jx_confirm_no_bnt\').focus();}"
                tabindex="0"
-               style="width:90px;height:30px;line-height:30px;display:inline-block;"
+               style="width:90px;height:30px;line-height:30px;display:inline-block;margin-right:10px;"
                title="ALT+Y"><u>Y</u>es
           </div>
           <div id="jx_confirm_no_bnt"
