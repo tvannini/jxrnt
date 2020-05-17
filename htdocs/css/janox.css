@@ -15,6 +15,19 @@
 @import url(janox/errors.css);
 @import url(janox/cale.css);
 
+:root {
+    --jx-color-space: #fcfbfa;
+    --jx-color-form: #f5f4f2;
+    --jx-color-frame: #f0efed;
+    --jx-color-face: #e0ddd9;
+    --jx-color-on: #D1C8C0;
+    --jx-color-border: rgb(200, 200, 200);
+    --jx-color-border-hover: rgb(180, 180, 180);
+    --jx-color-border-focus: rgb(160, 160, 160);
+    --jx-color-disabled: #a19a93;
+    --jx-color-bgdisabled: #f0efed;
+    }
+
 @font-face {
     font-family: 'Gudea';
     font-style: normal;
@@ -46,7 +59,7 @@ em, i { font-style: italic; }
 
 /* ============================== SFONDO ================================== */
 .o2_sfondo {
-    background-color: #fcfbfa;
+    background-color: var(--jx-color-space);
     }
 
 /* =============================== CONTROLLI =============================== */
@@ -57,26 +70,27 @@ em, i { font-style: italic; }
     }
 
 .o2_ctrl_edit {
-    background-color: #fcfbfa;
-    border: 1px solid #cccccc;
+    background-color: var(--jx-color-space);
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
     overflow: hidden;
     border-radius: 3px;
+    transition: border-color .2s .1s;
+    }
+
+.o2_ctrl_edit:hover {
+    border-color: var(--jx-color-border-hover);
     }
 
 .o2_ctrl_edit:focus {
-    background-color: #fcfbfa;
-    border: 1px solid #cccccc;
-    padding-left: 1px;
-    padding-right: 1px;
-    border-radius: 3px;
+    border-color: var(--jx-color-border-focus);
     }
 
 .o2_ctrl_edit_dis {
-    color: #a19a93;
-    background-color: #f0efed;
-    border: 1px solid #cccccc;
+    color: var(--jx-color-disabled);
+    background-color: var(--jx-color-bgdisabled);
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
     overflow: hidden;
@@ -84,27 +98,27 @@ em, i { font-style: italic; }
     }
 
 .o2_ctrl_text {
-    background-color: #fcfbfa;
-    border: 1px solid #cccccc;
+    background-color: var(--jx-color-space);
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
     border-radius: 3px;
+    transition: border-color .2s .1s;
+    }
+
+.o2_ctrl_text:hover {
+    border-color: var(--jx-color-border-hover);
     }
 
 .o2_ctrl_text:focus {
-    background-color: #fcfbfa;
-    border: 1px solid #cccccc;
-    padding-left: 1px;
-    padding-right: 1px;
-    overflow: auto;
-    border-radius: 3px;
+    border-color: var(--jx-color-border-focus);
     }
 
 .o2_ctrl_text_dis {
-    color: #a19a93;
-    background-color: #f0efed;
-    border: 1px solid #cccccc;
+    color: var(--jx-color-disabled);
+    background-color: var(--jx-color-bgdisabled);
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
@@ -113,24 +127,25 @@ em, i { font-style: italic; }
     }
 
 .o2_ctrl_text_edit {
-    background-color: #fcfbfa;
-    border: 1px solid #cccccc;
+    background-color: var(--jx-color-space);
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
     border-radius: 3px;
+    transition: border-color .2s .1s;
+    }
+
+.o2_ctrl_text_edit:hover {
+    border-color: var(--jx-color-border-hover);
     }
 
 .o2_ctrl_text_edit:focus {
-    background-color: #fcfbfa;
-    border: 1px solid #cccccc;
-    padding-left: 1px;
-    padding-right: 1px;
-    border-radius: 3px;
+    border-color: var(--jx-color-border-focus);
     }
 
 .o2_ctrl_listcombo {
-    background-color: #fcfbfa;
-    border: 1px solid #cccccc;
+    background-color: var(--jx-color-space);
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
@@ -138,9 +153,9 @@ em, i { font-style: italic; }
     }
 
 .o2_ctrl_listcombo_dis {
-    color: #a19a93;
-    background-color: #f0efed;
-    border: 1px solid #cccccc;
+    color: var(--jx-color-disabled);
+    background-color: var(--jx-color-bgdisabled);
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
@@ -148,9 +163,9 @@ em, i { font-style: italic; }
     }
 
 .o2_ctrl_listcombo_field_dis {
-    color: #a19a93;
-    background-color: #f0efed;
-    border: 1px solid #cccccc;
+    color: var(--jx-color-disabled);
+    background-color: var(--jx-color-bgdisabled);
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
     overflow: auto;
@@ -158,43 +173,30 @@ em, i { font-style: italic; }
     }
 
 .o2_ctrl_listcombo_field {
-    background-color: #fcfbfa;
+    background-color: var(--jx-color-space);
     background-image: url(janox/listcombo/down.png);
     background-position: right;
     background-repeat: no-repeat;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 14px;
-    overflow: hidden;
-    border-radius: 3px;
-    }
-
-.o2_ctrl_listcombo_field:focus {
-    background-color: #fcfbfa;
-    background-image: url(janox/listcombo/down.png);
-    background-position: right;
-    background-repeat: no-repeat;
-    border: 1px solid #cccccc;
-    padding-left: 1px;
-    padding-right: 14px;
-    border-radius: 3px;
-    }
-
-div.o2_ctrl_listcombo_field {
-    background-color: #fcfbfa;
-    background-image: url(janox/listcombo/down.png);
-    background-position: right;
-    background-repeat: no-repeat;
-    border: 1px solid #cccccc;
-    padding: 2px 14px 0 2px;
     white-space: nowrap;
     overflow: hidden;
     border-radius: 3px;
+    transition: border-color .2s .1s;
+    }
+
+.o2_ctrl_listcombo_field:hover {
+    border-color: var(--jx-color-border-hover);
+    }
+
+.o2_ctrl_listcombo_field:focus {
+    border-color: var(--jx-color-border-focus);
     }
 
 .o2_ctrl_listcombo_list {
     max-height: 250px;
-    background-color: #fcfbfa;
+    background-color: var(--jx-color-space);
     border: none;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
@@ -228,17 +230,19 @@ option:hover {
     }
 
 .o2_ctrl_file {
-    background: #fcfbfa url(janox/upload/file.png) no-repeat 3px;
+    background: var(--jx-color-space) url(janox/upload/file.png) no-repeat 3px;
     border: 1px solid #BDB5AE;
     overflow: hidden;
     border-radius: 3px;
+    transition: border-color .2s .1s;
+    }
+
+.o2_ctrl_file:hover {
+    border-color: var(--jx-color-border-hover);
     }
 
 .o2_ctrl_file:focus {
-    background: #fcfbfa url(janox/upload/file.png) no-repeat 3px;
-    border: 1px solid #cccccc;
-    overflow: hidden;
-    border-radius: 3px;
+    border-color: var(--jx-color-border-focus);
     }
 
 .o2_ctrl_file_txt {
@@ -262,7 +266,7 @@ option:hover {
 
 .o2_ctrl_line {
     border: none;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
     }
 
 .o2_ctrl_img {
@@ -346,10 +350,7 @@ option:hover {
     color: #f5f5f5;
     background-color: #bb0000;
     font-weight: bold;
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
+    border: 1px solid var(--jx-color-border);
     padding: 10px;
     display: block;
     border-radius: 5px;
@@ -366,6 +367,14 @@ option:hover {
 
 /* ============================= EXTRA =========================== */
 .jxzoom {
+    border-left: 2px solid #ff8a4d;
+    }
+
+.jxzoom:hover {
+    border-left: 2px solid #ff8a4d;
+    }
+
+.jxzoom:focus {
     border-left: 2px solid #ff8a4d;
     }
 
@@ -392,9 +401,9 @@ option:hover {
 
 .nav_big {
     height: 32px;
-    background-color: #e0ddd9;
+    background-color: var(--jx-color-face);
     border: none;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid var(--jx-color-border);
     padding-left: 10px;
     padding-right: 10px;
     }

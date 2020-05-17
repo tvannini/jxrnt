@@ -5,7 +5,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
     }
 
 .o2statustext {
@@ -22,7 +22,7 @@
     font-weight: bold;
     text-align: center;
     width: 60px;
-    border-left: 1px solid #a19a93;
+    border-left: 1px solid var(--jx-color-border);
     }
 
 .o2notify img {
@@ -41,7 +41,7 @@
     position: absolute;
     color: #19181A;
     background-color: #E1DAD4;
-    border: 1px solid #a19a93;
+    border: 1px solid var(--jx-color-border);
     padding: 5px 5px 5px 5px;
     bottom: 25px;
     right: 3px;

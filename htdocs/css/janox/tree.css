@@ -1,6 +1,6 @@
 .jxtree {
     background-color: #ffffff;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     padding: 5px;
     overflow: auto;
     }

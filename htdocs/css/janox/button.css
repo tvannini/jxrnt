@@ -2,33 +2,27 @@
 
 .o2_ctrl_button {
     text-align: center;
-    background: #e0ddd9;
-    border: 1px solid #cccccc;
+    background-color: var(--jx-color-face);
+    border: 1px solid var(--jx-color-border);
     border-radius: 3px;
+    cursor: pointer;
+    transition: background-color .2s .1s;
     }
 
 .o2_ctrl_button:hover, .o2_ctrl_button:focus {
-    text-align: center;
-    background: #D1C8C0;
-    border: 1px solid #BDB5AE;
-    border-radius: 3px;
-    cursor: pointer;
-    }
-
-.o2_ctrl_button:hover *, .o2_ctrl_button:focus * {
-    color: #442204;
+    background-color: var(--jx-color-on);
     }
 
 .o2_ctrl_button_dis {
-    color: #a19a93;
+    color: var(--jx-color-disabled);
 	text-align: center;
-    background: #E1DAD4;
-    border: 1px solid #cccccc;
+    background: var(--jx-color-bgdisabled);
+    border: 1px solid var(--jx-color-border);
     border-radius: 3px;
     }
 
 .o2_ctrl_button_dis * {
-    color: #a19a93;
+    color: var(--jx-color-disabled);
     }
 
 .o2_ctrl_ref {
@@ -50,7 +44,7 @@
     }
 
 .o2_ctrl_ref_dis {
-    color: #BBBBBB;
+    color: var(--jx-color-disabled);
     background-color: transparent;
     text-decoration: underline;
     text-align: left;

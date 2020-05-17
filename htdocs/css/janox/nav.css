@@ -1,12 +1,12 @@
 /* =============================== NAVIGATORE ================================== */
 .o2_ctrl_nav_space {
     height: 20px;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     }
 
 .o2_ctrl_nav_space_int {
-    background-color: #f5f4f2;
-    border-top: 1px solid #cccccc;
+    background-color: var(--jx-color-frame);
+    border-top: 1px solid var(--jx-color-border);
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     height: 18px;
@@ -191,12 +191,12 @@
 /* ====================== NAVIGATORE VERTICALE ============================ */
 .o2_ctrl_navv_space {
     width: 20px;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     }
 
 .o2_ctrl_navv_space_int {
-    background-color: #f0efed;
-    border-left: 1px solid #cccccc;
+    background-color: var(--jx-color-frame);
+    border-left: 1px solid var(--jx-color-border);
     border-bottom-right-radius: 3px;
     border-top-right-radius: 3px;
     width: 18px;
@@ -662,7 +662,7 @@
     width: 18px;
     height: 18px;
     background-color: #e1dad4;
-    border: 1px solid #a19a93;
+    border: 1px solid var(--jx-color-border);
     border-radius: 3px;
     box-shadow: 0 2px 3px 1px #6b6661;
     -webkit-transform:scale(1.9);

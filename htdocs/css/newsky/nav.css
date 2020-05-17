@@ -1,12 +1,12 @@
 /* =============================== NAVIGATORE ================================== */
 .o2_ctrl_nav_space {
-    height: 17px;
-    border: 1px solid #a7bde4;
+    height: 18px;
+    border: 1px var(--jx-color-border);
     }
 
 .o2_ctrl_nav_space_int {
     background-color: #ffffff;
-    border-top: 1px solid #a7bde4;
+    border-top: 1px solid var(--jx-color-border);
     height: 18px;
     margin-bottom: 1px;
     width: calc(100% - 2px);
@@ -20,13 +20,21 @@
     display: none;
     }
 
+.o2_ctrl_nav_prev {
+    display: none;
+    }
+
+.o2_ctrl_nav_next {
+    display: none;
+    }
+
 .o2_ctrl_nav_sep {
     width: 100%;
     }
 
 .o2_ctrl_nav_new {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/new.png) no-repeat top center;
     cursor: pointer;
     }
@@ -37,7 +45,7 @@
 
 .o2_ctrl_nav_del {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/del.png) no-repeat top center;
     cursor: pointer;
     }
@@ -48,7 +56,7 @@
 
 .o2_ctrl_nav_save {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/save.png) no-repeat top center;
     cursor: pointer;
     }
@@ -59,7 +67,7 @@
 
 .o2_ctrl_nav_undo {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/undo.png) no-repeat top center;
     cursor: pointer;
     }
@@ -70,7 +78,7 @@
 
 .o2_ctrl_nav_sele {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/sele.png) no-repeat top center;
     cursor: pointer;
     }
@@ -81,7 +89,7 @@
 
 .o2_ctrl_nav_det {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/det.png) no-repeat top center;
     cursor: pointer;
     }
@@ -92,140 +100,112 @@
 
 .o2_ctrl_nav_new_dis {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/new_dis.png) no-repeat top center;
     }
 
 .o2_ctrl_nav_del_dis {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/del_dis.png) no-repeat top center;
     }
 
 .o2_ctrl_nav_save_dis {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/save_dis.png) no-repeat top center;
     }
 
 .o2_ctrl_nav_undo_dis {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/undo_dis.png) no-repeat top center;
     }
 
 .o2_ctrl_nav_sele_dis {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/sele_dis.png) no-repeat top center;
     }
 
 .o2_ctrl_nav_det_dis {
     width: 24px;
-    height: 17px;
+    height: 18px;
     background: url(nav/oriz/det_dis.png) no-repeat top center;
     }
 
 .o2_ctrl_nav_first {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/first.png) no-repeat top center;
-    border-left: 1px solid #a7bde4;
-    border-right: 1px solid #a7bde4;
+    width: 20px;
+    height: 18px;
+    background: url(nav/oriz/first.png) no-repeat top center var(--jx-color-btn);
+    border-left: 1px solid var(--jx-color-border);
+    margin-top: -1px;
     cursor: pointer;
+    transition: background-color .2s .1s;
     }
 
-.o2_ctrl_nav_first:hover {
-    background: url(nav/oriz/first_on.png) no-repeat top center;
+.o2_ctrl_nav_first.dis {
+    background: url(nav/oriz/first_dis.png) no-repeat top center var(--jx-color-bgdisabled);
+    cursor: default;
     }
 
 .o2_ctrl_nav_prevpg {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/prevpg.png) no-repeat top center;
-    border-right: 1px solid #a7bde4;
+    width: 20px;
+    height: 18px;
+    background: url(nav/oriz/prevpg.png) no-repeat top center var(--jx-color-btn);
+    border-left: 1px solid var(--jx-color-border);
+    margin-top: -1px;
     cursor: pointer;
-    }
-
-.o2_ctrl_nav_prevpg:hover {
-    background: url(nav/oriz/prevpg_on.png) no-repeat top center;
-    }
-
-.o2_ctrl_nav_prev {
-    display: none;
-    }
-
-.o2_ctrl_nav_next {
-    display: none;
-    }
-
-.o2_ctrl_nav_nextpg {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/nextpg.png) no-repeat top center;
-    border-right: 1px solid #a7bde4;
-    cursor: pointer;
-    }
-
-.o2_ctrl_nav_nextpg:hover {
-	background: url(nav/oriz/nextpg_on.png) no-repeat top center;
-	}
-
-.o2_ctrl_nav_last {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/last.png) no-repeat top center;
-    cursor: pointer;
-    }
-
-.o2_ctrl_nav_last:hover {
-	background: url(nav/oriz/last_on.png) no-repeat top center;
-	}
-
-.o2_ctrl_nav_first.dis {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/first_dis.png) no-repeat top center;
-    border-left: 1px solid #a7bde4;
-    border-right: 1px solid #a7bde4;
-    cursor: default;
+    transition: background-color .2s .1s;
     }
 
 .o2_ctrl_nav_prevpg.dis {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/prevpg_dis.png) no-repeat top center;
-    border-right: 1px solid #a7bde4;
+    background: url(nav/oriz/prevpg_dis.png) no-repeat top center var(--jx-color-bgdisabled);
     cursor: default;
     }
 
-.o2_ctrl_nav_prev.dis {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/prev_dis.png) no-repeat top center;
-    cursor: default;
-    }
-
-.o2_ctrl_nav_next.dis {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/next_dis.png) no-repeat top center;
-    cursor: default;
+.o2_ctrl_nav_nextpg {
+    width: 20px;
+    height: 18px;
+    background: url(nav/oriz/nextpg.png) no-repeat top center var(--jx-color-btn);
+    border-left: 1px solid var(--jx-color-border);
+    margin-top: -1px;
+    cursor: pointer;
+    transition: background-color .2s .1s;
     }
 
 .o2_ctrl_nav_nextpg.dis {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/nextpg_dis.png) no-repeat top center;
-    border-right: 1px solid #a7bde4;
+    background: url(nav/oriz/nextpg_dis.png) no-repeat top center var(--jx-color-bgdisabled);
     cursor: default;
     }
 
+.o2_ctrl_nav_last {
+    width: 20px;
+    height: 18px;
+    background: url(nav/oriz/last.png) no-repeat top center var(--jx-color-btn);
+    border-left: 1px solid var(--jx-color-border);
+    margin-top: -1px;
+    cursor: pointer;
+    transition: background-color .2s .1s;
+    }
+
 .o2_ctrl_nav_last.dis {
-    width: 17px;
-    height: 17px;
-    background: url(nav/oriz/last_dis.png) no-repeat top center;
+    background: url(nav/oriz/last_dis.png) no-repeat top center var(--jx-color-bgdisabled);
     cursor: default;
+    }
+
+.o2_ctrl_nav_first:hover,
+.o2_ctrl_nav_prevpg:hover,
+.o2_ctrl_nav_nextpg:hover,
+.o2_ctrl_nav_last:hover {
+    background-color: var(--jx-color-title);
+    }
+
+.o2_ctrl_nav_first.dis:hover,
+.o2_ctrl_nav_prevpg.dis:hover,
+.o2_ctrl_nav_nextpg.dis:hover,
+.o2_ctrl_nav_last.dis:hover {
+    background-color: var(--jx-color-bgdisabled);
     }
 
 /* ====================== NAVIGATORE VERTICALE ============================ */

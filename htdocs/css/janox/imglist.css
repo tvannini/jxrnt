@@ -1,6 +1,6 @@
 .jximglist {
     background-color: #ffffff;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     padding: 5px;
     overflow: auto;
     }
@@ -13,7 +13,7 @@
     position: relative;
     float: left;
     margin: 2px;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     text-align: center;
     padding: 2px;
     background-color: #ffffff;
@@ -33,5 +33,5 @@
     cursor: pointer;
     padding: 2px 3px 2px 3px;
     background-color: #ffffff;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     }

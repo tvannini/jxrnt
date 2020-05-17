@@ -3,14 +3,14 @@
     }
 
 .o2_form_window {
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     border-radius: 4px;
     }
 
 .o2_form_body {
-    background-color: #f5f4f2;
+    background-color: var(--jx-color-form);
     border: none;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
     overflow: hidden;
     }
 
@@ -19,7 +19,7 @@
     }
 
 .o2_form_title {
-    background: #e0ddd9;
+    background: var(--jx-color-face);
     height: 24px;
     text-align: center;
     border-bottom: none;
@@ -27,119 +27,107 @@
 
 .o2_form_title * {
     font-weight: bold;
-    text-shadow: none;
     }
 
 .o2_form_title_no {
-    background: #e0ddd9;
+    background: var(--jx-color-face);
     height: 24px;
     text-align: center;
     }
 
 .o2_form_title_no * {
-    color: #aaaaaa;
+    color: var(--jx-color-disabled);
     font-weight: bold;
-    text-shadow: none;
     }
 
 .o2_form_doc {
-    background: #e0ddd9;
+    background-image: url(form/doc.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
     border-top-left-radius: 4px;
     cursor: pointer;
     }
 
-.o2_form_doc:before {
-    content: url(form/doc.png);
-    margin-left: 5px;
-    }
-
-.o2_form_doc:hover:before {
-    content: url(form/doc_on.png);
-    margin-left: 5px;
+.o2_form_doc:hover {
+    background-image: url(form/doc_on.png);
     }
 
 .o2_form_close {
-    background: #e0ddd9;
+    background-image: url(form/min.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 20px;
     line-height: 1px;
     cursor: pointer;
     }
 
-.o2_form_close:before {
-    content: url(form/min.png);
-    }
-
-.o2_form_close:hover:before {
-    content: url(form/min_on.png);
+.o2_form_close:hover {
+    background-image: url(form/min_on.png);
     }
 
 .o2_form_open {
-    background: #e0ddd9;
+    background-image: url(form/max.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 20px;
     line-height: 1px;
     cursor: pointer;
     }
 
-.o2_form_open:before {
-    content: url(form/max.png);
-    }
-
-.o2_form_open:hover:before {
-    content: url(form/max_on.png);
+.o2_form_open:hover {
+    background-image: url(form/max_on.png);
     }
 
 .o2_form_exit {
-    background: #e0ddd9;
+    background-image: url(form/close.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 22px;
     border-top-right-radius: 4px;
     line-height: 1px;
     cursor: pointer;
     }
 
-.o2_form_exit:before {
-    content: url(form/close.png);
+.o2_form_exit:hover {
+    background-image: url(form/close_on.png);
     }
-
-.o2_form_exit:hover:before {
-    content: url(form/close_on.png);
-    }
-
 
 .o2_form_full {
-    background: #e0ddd9;
+    background-image: url(form/full.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 20px;
     line-height: 1px;
     cursor: pointer;
     }
 
-.o2_form_full:before {
-    content: url(form/full.png);
-    }
-
-.o2_form_full:hover:before {
-    content: url(form/full_on.png);
+.o2_form_full:hover {
+    background-image: url(form/full_on.png);
     }
 
 .o2_form_restore {
-    background: #e0ddd9;
+    background-image: url(form/full.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 20px;
     line-height: 1px;
     cursor: pointer;
     }
 
-.o2_form_restore:before {
-    content: url(form/full.png);
+.o2_form_restore:hover {
+    background-image: url(form/full_on.png);
     }
-
-.o2_form_restore:hover:before {
-    content: url(form/full_on.png);
-    }
-
 
 .o2_form_status {
-    background-color: #e0ddd9;
+    background-color: var(--jx-color-face);
     width: 100%;
     line-height: 5px;
     border-bottom-right-radius: 4px;
@@ -147,23 +135,17 @@
     }
 
 .o2_form_status_dis {
-    background-color: #e0ddd9;
+    background-color: var(--jx-color-face);
     width: 100%;
     line-height: 5px;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
     }
 
-.o2_form_corner {
-    }
-
-.o2_form_corner_dis {
-    }
-
 .o2_form_resize {
     background-image: url(form/grip.png);
-    border-top: 1px solid #cccccc;
-    border-left: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
+    border-left: 1px solid var(--jx-color-border);
     border-top-left-radius: 20px;
     border-bottom-right-radius: 4px;
     width: 30px;
@@ -173,15 +155,5 @@
 
 .o2_form_resize:hover {
     background-color: #ff9438;
-    background-image: url(form/grip.png);
-    border-top: 1px solid #cccccc;
-    border-left: 1px solid #cccccc;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 4px;
-    width: 30px;
-    height: 6px;
     cursor: se-resize;
-    }
-
-.o2_form_resize_dis {
     }

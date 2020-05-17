@@ -8,11 +8,10 @@ function o2sys_confirm§§prg§_§var_def(&$task_prg§_§var) {
 		}
 function o2sys_confirm§§sys_confirm_form_def(&$form_sys_confirm) {
 	$form_sys_confirm->x(200);
-	$form_sys_confirm->y(200);
-	$form_sys_confirm->y_exp(o2sys_confirm_exp_13());
+	$form_sys_confirm->y(100);
 	$form_sys_confirm->x_exp(o2sys_confirm_exp_12());
 	$form_sys_confirm->larghezza(400);
-	$form_sys_confirm->altezza(250);
+	$form_sys_confirm->altezza(270);
 	$form_sys_confirm->altezza_exp(o2sys_confirm_exp_5());
 	$form_sys_confirm->larghezza_exp(o2sys_confirm_exp_8());
 	$form_sys_confirm->align_v("Middle");

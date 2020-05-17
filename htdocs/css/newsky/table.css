@@ -106,7 +106,7 @@ TD + tfoot .o2_tab_marker {
     }
 
 .o2_tab_sele .o2tab_fcol {
-    background: #ffffca;
+    background-color: #ffffca;
     }
 
 .jxtabedit .o2_tab_sele {
@@ -189,7 +189,7 @@ TD + tfoot .o2_tab_marker {
     font-size: 1px;
     width: 2px;
     height: 70%;
-    border-left: 1px dotted #799ad5;
+    border-left: 1px dotted var(--jx-color-title);
     margin-left: 1px;
     border-right: none;
     display: inline-block;
@@ -198,23 +198,25 @@ TD + tfoot .o2_tab_marker {
     }
 
 .o2_tab_resize_line {
-    border-left: 1px dotted #a19a93;
+    border-left: 1px dotted var(--jx-color-didabled);
     }
 
 .o2_tab_pinned {
-    border-right: 1px dotted #6B6661;
+    border-right: 1px dotted var(--jx-color-didabled);
     background-color: #ffffff;
     }
 
 /* =============================== EXTRA =================================== */
 
 .tab_testa_sx {
-    background-color: #d2ddf1;
+    background-color: var(--jx-color-btn);
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #a7bde4;
+    border-bottom: 1px solid var(--jx-color-border);
+    border-left: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
+    transition: background-color .2s .1s;
     }
 
 .tab_corpo_sx {
@@ -223,13 +225,12 @@ TD + tfoot .o2_tab_marker {
     vertical-align: middle;
     white-space: nowrap;
     overflow: hidden;
+    border-left: 1px solid var(--jx-color-btn);
+	border-bottom: 1px solid var(--jx-color-btn);
     }
 
 .jxtabedit .o2tab_current .tab_corpo_sx {
-    background: #FC7939;
-    background: -moz-linear-gradient(top, #FEC09F, #FC7837);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FEC09F), to(#FC7837));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FEC09F', EndColorStr='#FC7837');
+    background-color: #ffffca;
     line-height: 20px;
     vertical-align: middle;
     padding: 0 2px 0 2px;
@@ -237,21 +238,25 @@ TD + tfoot .o2_tab_marker {
     }
 
 .tab_foot_sx {
-    background-color: #d2ddf1;
+    background-color: var(--jx-color-btn);
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #a7bde4;
+    border-top: 1px solid var(--jx-color-border);
+    border-left: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
+    font-weight: bold;
+    border-bottom-left-radius: 0px;
     }
 
 .tab_testa_nb {
-    background-color: #d2ddf1;
+    background-color: var(--jx-color-btn);
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #a7bde4;
+    border-bottom: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
+    transition: background-color .2s .1s;
     }
 
 .tab_corpo_nb {
@@ -260,13 +265,11 @@ TD + tfoot .o2_tab_marker {
     vertical-align: middle;
     white-space: nowrap;
     overflow: hidden;
+	border-bottom: 1px solid var(--jx-color-btn);
     }
 
 .jxtabedit .o2tab_current .tab_corpo_nb {
-    background: #FC7939;
-    background: -moz-linear-gradient(top, #FEC09F, #FC7837);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FEC09F), to(#FC7837));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FEC09F', EndColorStr='#FC7837');
+    background-color: #ffffca;
     line-height: 20px;
     vertical-align: middle;
     padding: 0 2px 0 2px;
@@ -274,21 +277,24 @@ TD + tfoot .o2_tab_marker {
     }
 
 .tab_foot_nb {
-    background-color: #d2ddf1;
+    background-color: var(--jx-color-btn);
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #a7bde4;
+    border-top: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
+    font-weight: bold;
+    border-bottom-left-radius: 0px;
     }
 
 .tab_testa_dx {
-    background-color: #d2ddf1;
+    background-color: var(--jx-color-btn);
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #a7bde4;
+    border-bottom: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
+    transition: background-color .2s .1s;
     }
 
 .tab_corpo_dx {
@@ -297,13 +303,11 @@ TD + tfoot .o2_tab_marker {
     vertical-align: middle;
     white-space: nowrap;
     overflow: hidden;
+	border-bottom: 1px solid var(--jx-color-btn);
     }
 
 .jxtabedit .o2tab_current .tab_corpo_dx {
-    background: #FC7939;
-    background: -moz-linear-gradient(top, #FEC09F, #FC7837);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FEC09F), to(#FC7837));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FEC09F', EndColorStr='#FC7837');
+    background-color: #ffffca;
     line-height: 20px;
     vertical-align: middle;
     padding: 0 2px 0 2px;
@@ -311,11 +315,12 @@ TD + tfoot .o2_tab_marker {
     }
 
 .tab_foot_dx {
-    background-color: #d2ddf1;
+    background-color: var(--jx-color-btn);
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #a7bde4;
-    border-right: 1px solid #c2d1ec;
+    border-top: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
+    font-weight: bold;
+    border-bottom-left-radius: 0px;
     }

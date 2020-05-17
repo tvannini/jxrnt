@@ -1,23 +1,23 @@
 /* =========================== MULTIPAGE ============================ */
 
 .o2_ctrl_multi_out {
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid var(--jx-color-border);
     }
 
 .o2_ctrl_multi_in {
-    background-color: #f0efed;
+    background-color: var(--jx-color-frame);
     height: 100%;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     margin-top: -1px;
     border-top-right-radius: 5px;
     overflow: hidden;
     }
 
 .o2_ctrl_multi_on {
-    background-color: #f0efed;
+    background-color: var(--jx-color-frame);
     height: 22px;
-    border: 1px solid #cccccc;
-    border-bottom: 1px solid #f0efed;
+    border: 1px solid var(--jx-color-border);
+    border-bottom: 1px solid var(--jx-color-frame);
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 3px;
@@ -30,9 +30,9 @@
     }
 
 .o2_ctrl_multi_off {
-    background-color: #e0ddd9;
+    background-color: var(--jx-color-face);
     height: 22px;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 3px;
@@ -44,9 +44,8 @@
     }
 
 .o2_ctrl_multi_off:hover {
-    color: #442204;
-    background-color: #D1C8C0;
-    border: 1px solid #cccccc;
+    background-color: var(--jx-color-on);
+    border: 1px solid var(--jx-color-border);
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 3px;

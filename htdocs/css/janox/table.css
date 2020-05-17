@@ -1,7 +1,7 @@
 /* =============================== TABLE =================================== */
 .o2_tab_space {
     background-color: #ffffff;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     border-radius: 3px;
     overflow: hidden;
     }
@@ -17,27 +17,25 @@
 
 thead .o2_tab_marker,
 .o2_tab_testa {
-    background-color: #e0ddd9;
+    background-color: var(--jx-color-face);
     height: 24px;
     padding-top: 3px;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid var(--jx-color-border);
     border-left: none;
     font-size: 97%;
     white-space: nowrap;
     border-top-left-radius: 2px;
+    transition: background-color .2s .1s;
     }
 
 TH + thead .o2_tab_marker,
 .o2_tab_testa {
     border-top-left-radius: 0;
-    border-left: 1px solid #cccccc;
+    border-left: 1px solid var(--jx-color-border);
     }
 
 thead .jxord:hover {
-    background-color: #D1C8C0;
-    height: 24px;
-    padding-top: 3px;
-    border-bottom: 1px solid #BDB5AE;
+    background-color: var(--jx-color-on);
     }
 
 .o2_tab_corpo {
@@ -56,10 +54,10 @@ thead .jxord:hover {
 
 tfoot .o2_tab_marker,
 .o2_tab_foot {
-    background-color: #e0ddd9;
+    background-color: var(--jx-color-face);
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
     border-bottom-left-radius: 2px;
@@ -146,7 +144,7 @@ TD + tfoot .o2_tab_marker,
 .o2_tab_popup {
     padding: 5px;
     background-color: #D1C8C0;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     border-radius: 3px;
     box-shadow: 0px 6px 15px #6B6661;
     }
@@ -184,11 +182,11 @@ TD + tfoot .o2_tab_marker,
     }
 
 .o2_tab_resize_line {
-    border-left: 1px dotted #cccccc;
+    border-left: 1px dotted var(--jx-color-border);
     }
 
 .o2_tab_pinned {
-    border-right: 1px dotted #cccccc;
+    border-right: 1px dotted var(--jx-color-border);
     background-color: #ffffff;
     }
 
@@ -198,7 +196,7 @@ TD + tfoot .o2_tab_marker,
     background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
     }
@@ -226,7 +224,7 @@ TD + tfoot .o2_tab_marker,
     background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
     }
@@ -235,7 +233,7 @@ TD + tfoot .o2_tab_marker,
     background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
     }
@@ -263,7 +261,7 @@ TD + tfoot .o2_tab_marker,
     background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
     }
@@ -272,7 +270,7 @@ TD + tfoot .o2_tab_marker,
     background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
     }
@@ -300,7 +298,7 @@ TD + tfoot .o2_tab_marker,
     background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
     cursor: default;
     overflow: hidden;
     }

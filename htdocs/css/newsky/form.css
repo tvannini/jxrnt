@@ -10,6 +10,15 @@
     border-top-right-radius: 5px;
     }
 
+.o2_form_titlebar,
+.o2_form_titlebar_no {
+    background-color: var(--jx-color-title);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+    }
+
 .o2_form_body {
     background-color: var(--jx-color-win);
     border-top: none;
@@ -40,80 +49,57 @@
     }
 
 .o2_form_doc {
-    background-color: var(--jx-color-title);
-    height: 25px;
-    width: 30px;
-    border-top-left-radius: 5px;
+    background-image: url(form/doc.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.o2_form_doc:before {
-    content: url(form/doc.png);
     opacity: .7;
-    position: relative;
-    top: 1px;
-    left: 5px;
     transition: opacity .2s .1s;
     }
 
-.o2_form_full, .o2_form_restore {
-    background-color: var(--jx-color-title);
-    height: 25px;
+.o2_form_full,
+.o2_form_restore {
+    background-image: url(form/maxmin.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
     width: 20px;
     cursor: pointer;
-    }
-
-.o2_form_full:before,
-.o2_form_restore:before {
-    content: url(form/maxmin.png);
     opacity: .6;
-    position: relative;
-    top: 1px;
-    left: 5px;
     transition: opacity .2s .1s;
     }
 
 .o2_form_close,
 .o2_form_open {
-    background-color: var(--jx-color-title);
-    height: 25px;
+    background-image: url(form/openclose.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
     width: 20px;
     cursor: pointer;
-    }
-
-.o2_form_close:before,
-.o2_form_open:before {
-    content: url(form/openclose.png);
     opacity: .8;
-    position: relative;
-    top: 1px;
-    left: 5px;
     transition: opacity .2s .1s;
     }
 
 .o2_form_exit {
-    background-color: var(--jx-color-title);
-    height: 25px;
-    width: 24px;
-    border-top-right-radius: 5px;
+    background-image: url(form/exit.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.o2_form_exit:before {
-    content: url(form/exit.png);
     opacity: .6;
-    position: relative;
-    top: 1px;
-    left: 5px;
     transition: opacity .2s .1s;
     }
 
-.o2_form_doc:hover:before,
-.o2_form_full:hover:before,
-.o2_form_restore:hover:before,
-.o2_form_close:hover:before,
-.o2_form_open:hover:before,
-.o2_form_exit:hover:before {
+.o2_form_doc:hover,
+.o2_form_full:hover,
+.o2_form_restore:hover,
+.o2_form_close:hover,
+.o2_form_open:hover,
+.o2_form_exit:hover {
     opacity: 1;
     }
 

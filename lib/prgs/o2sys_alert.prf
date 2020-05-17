@@ -8,8 +8,7 @@ function o2sys_alert§§prg§_§var_def(&$task_prg§_§var) {
 		}
 function o2sys_alert§§sys_alert_form_def(&$form_sys_alert) {
 	$form_sys_alert->x(200);
-	$form_sys_alert->y(200);
-	$form_sys_alert->y_exp(o2sys_alert_exp_13());
+	$form_sys_alert->y(100);
 	$form_sys_alert->x_exp(o2sys_alert_exp_12());
 	$form_sys_alert->larghezza(400);
 	$form_sys_alert->altezza(270);

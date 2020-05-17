@@ -7,189 +7,161 @@
 .sys_title {
     font-weight: bold;
     text-align: center;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     }
 
 .sys_users_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_users.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_users_doc:before {
-    content: url(tools/doc_users.png);
-    margin-left: 3px;
     }
 
 .sys_rights_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_rights.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_rights_doc:before {
-    content: url(tools/doc_rights.png);
-    margin-left: 3px;
     }
 
 .sys_right_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_right.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_right_doc:before {
-    content: url(tools/doc_right.png);
-    margin-left: 3px;
     }
 
 .sys_roles_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_roles.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_roles_doc:before {
-    content: url(tools/doc_roles.png);
-    margin-left: 3px;
     }
 
 .sys_tables_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_tables.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_tables_doc:before {
-    content: url(tools/doc_tables.png);
-    margin-left: 3px;
     }
 
 .sys_fs_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_fs.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_fs_doc:before {
-    content: url(tools/doc_fs.png);
-    margin-left: 3px;
     }
 
 .sys_keyb_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_keyb.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_keyb_doc:before {
-    content: url(tools/doc_keyb.png);
-    margin-left: 3px;
     }
 
 .sys_options_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_options.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_options_doc:before {
-    content: url(tools/doc_options.png);
-    margin-left: 3px;
     }
 
 .sys_jobs_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_job.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_jobs_doc:before {
-    content: url(tools/doc_job.png);
-    margin-left: 3px;
     }
 
 .sys_runjobs_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_runjob.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_runjobs_doc:before {
-    content: url(tools/doc_runjob.png);
-    margin-left: 3px;
     }
 
 .sys_sched_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_sched.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_sched_doc:before {
-    content: url(tools/doc_sched.png);
-    margin-left: 3px;
     }
 
 .sys_inspector_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_inspector.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_inspector_doc:before {
-    content: url(tools/doc_inspector.png);
-    margin-left: 3px;
     }
 
 .sys_jxdoc_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_jxdoc.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_jxdoc_doc:before {
-    content: url(tools/doc_jxdoc.png);
-    margin-left: 3px;
     }
 
 .sys_jxdoctool_doc {
-    background: #e0ddd9;
+    background-image: url(tools/doc_jxdoc.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
     width: 30px;
     line-height: 1px;
-    border-top-left-radius: 5px;
+    border-top-left-radius: 4px;
     cursor: pointer;
-    }
-
-.sys_jxdoctool_doc:before {
-    content: url(tools/doc_jxdoc.png);
-    margin-left: 3px;
     }
 
 .sys_alert_doc {
@@ -238,7 +210,7 @@
 
 .visor {
     background-color: #D1C8C0;
-    border-top: 1px solid #a19a93;
+    border-top: 1px solid var(--jx-color-border);
     overflow: auto;
     }
 
@@ -285,7 +257,7 @@
     }
 
 .browser_table {
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     background-color: #F5F5F5;
     margin: 0 0 0 0;
     padding: 0 0 0 0;
@@ -315,7 +287,7 @@
 
 .jxtoolbar {
     background: #e0ddd9;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     border-radius: 3px;
     }
 
@@ -453,7 +425,7 @@
 .jxdatalogdatamod {
     font: bold 12px "Courier New";
     background-color: #f7f0e9;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     }
 
 .jxdatalogact {
@@ -563,7 +535,7 @@
 
 .fsb_tree {
     background-color: #ffffff;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     padding: 5px;
     overflow: auto;
     }
@@ -578,22 +550,22 @@
 
 .fsb_space {
     background-color: #ffffff;
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid var(--jx-color-border);
     overflow: auto;
     }
 
 .fsb_tab {
     width: 100%;
     background-color: #ffffff;
-    border: 1px solid #cccccc;
+    border: 1px solid var(--jx-color-border);
     }
 
 .fsb_tab thead, .fsb_header {
     background-color: #e0ddd9;
     white-space: nowrap;
     height: 20px;
-    border-bottom: 1px solid #cccccc;
-    border-left: 1px dotted #cccccc;
+    border-bottom: 1px solid var(--jx-color-border);
+    border-left: 1px dotted var(--jx-color-border);
     overflow: hidden;
     }
 
@@ -629,10 +601,7 @@
     background: -webkit-gradient(linear, left top, left bottom, from(#E1DAD4), to(#BDB5AE));
     filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#E1DAD4', EndColorStr='#BDB5AE');
     padding: 5px;
-    border-bottom: 1px solid #6B6661;
-    border-top: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
-    border-right: 1px solid #a19a93;
+    border: 1px solid var(--jx-color-border);
     position: fixed;
     width: 25%;
     bottom: 25px;
@@ -649,10 +618,7 @@
     filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#8090FF', EndColorStr='#9FACFE');
     height: 7px;
     width: 100%;
-    border-top: 1px solid #6B6661;
-    border-right: 1px solid #a19a93;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    border: 1px solid var(--jx-color-border);
     cursor: pointer;
     border-radius: 5px;
     }
@@ -716,10 +682,7 @@
     font-family: monospace;
     font-size: small;
     padding: 3px;
-    border-top: 1px solid #6B6661;
-    border-right: 1px solid #a19a93;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    border: 1px solid var(--jx-color-border);
     }
 
 .jxlogtrace table {
@@ -783,10 +746,7 @@
     font: normal 12px Arial, sans-serif;
     width: 70px;
     height: 14px;
-    border-top: 1px solid #6B6661;
-    border-right: 1px solid #a19a93;
-    border-bottom: 1px solid #BDB5AE;
-    border-left: 1px solid #a19a93;
+    border: 1px solid var(--jx-color-border);
     padding: 1;
     margin-right: 5px;
     display: inline;

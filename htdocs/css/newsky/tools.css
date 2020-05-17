@@ -14,289 +14,185 @@
     }
 
 .sys_users_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_users.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_users_doc:before {
-    content: url(tools/doc_users.png);
-    margin-left: 3px;
+    opacity: .8;
+    transition: opacity .2s .1s;
     }
 
 .sys_rights_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_rights.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_rights_doc:before {
-    content: url(tools/doc_rights.png);
-    margin-left: 3px;
+    opacity: .8;
+    transition: opacity .2s .1s;
     }
 
 .sys_right_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_right.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_right_doc:before {
-    content: url(tools/doc_right.png);
-    margin-left: 3px;
+    opacity: .6;
+    transition: opacity .2s .1s;
     }
 
 .sys_roles_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_roles.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_roles_doc:before {
-    content: url(tools/doc_roles.png);
-    margin-left: 3px;
+    opacity: .8;
+    transition: opacity .2s .1s;
     }
 
 .sys_tables_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_tables.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_tables_doc:before {
-    content: url(tools/doc_tables.png);
-    margin-left: 3px;
+    opacity: .8;
+    transition: opacity .2s .1s;
     }
 
 .sys_fs_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_fs.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_fs_doc:before {
-    content: url(tools/doc_fs.png);
-    margin-left: 3px;
+    opacity: .7;
+    transition: opacity .2s .1s;
     }
 
 .sys_keyb_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_keyb.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_keyb_doc:before {
-    content: url(tools/doc_keyb.png);
-    margin-left: 3px;
+    opacity: .6;
+    transition: opacity .2s .1s;
     }
 
 .sys_options_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_options.png);
+    background-repeat: no-repeat;
+    background-position: center 6px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_options_doc:before {
-    content: url(tools/doc_options.png);
-    margin-left: 3px;
+    opacity: .7;
+    transition: opacity .2s .1s;
     }
 
 .sys_jobs_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_job.png);
+    background-repeat: no-repeat;
+    background-position: center 6px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_jobs_doc:before {
-    content: url(tools/doc_job.png);
-    margin-left: 3px;
+    opacity: .7;
+    transition: opacity .2s .1s;
     }
 
 .sys_runjobs_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_runjob.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_runjobs_doc:before {
-    content: url(tools/doc_runjob.png);
-    margin-left: 3px;
+    opacity: .6;
+    transition: opacity .2s .1s;
     }
 
 .sys_sched_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_sched.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
-    }
-
-.sys_sched_doc:before {
-    content: url(tools/doc_sched.png);
-    margin-left: 3px;
+    opacity: .7;
+    transition: opacity .2s .1s;
     }
 
 .sys_inspector_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_inspector.png);
+    background-repeat: no-repeat;
+    background-position: center 6px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
+    opacity: .7;
+    transition: opacity .2s .1s;
     }
 
-.sys_inspector_doc:before {
-    content: url(tools/doc_inspector.png);
-    margin-left: 3px;
-    }
-
-.sys_jxdoc_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
-    cursor: pointer;
-    }
-
-.sys_jxdoc_doc:before {
-    content: url(tools/doc_jxdoc.png);
-    margin-left: 3px;
-    }
-
+.sys_jxdoc_doc,
 .sys_jxdoctool_doc {
-    background: #C5D2ED;
-    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
+    background-image: url(tools/doc_jxdoc.png);
+    background-repeat: no-repeat;
+    background-position: center 4px;
+    background-color: transparent;
+    width: 20px;
     cursor: pointer;
+    opacity: .8;
+    transition: opacity .2s .1s;
     }
 
-.sys_jxdoctool_doc:before {
-    content: url(tools/doc_jxdoc.png);
-    margin-left: 3px;
+.sys_users_doc:hover,
+.sys_rights_doc:hover,
+.sys_right_doc:hover,
+.sys_roles_doc:hover,
+.sys_tables_doc:hover,
+.sys_fs_doc:hover,
+.sys_keyb_doc:hover,
+.sys_options_doc:hover,
+.sys_jobs_doc:hover,
+.sys_runjobs_doc:hover,
+.sys_sched_doc:hover,
+.sys_inspector_doc:hover,
+.sys_jxdoc_doc:hover,
+.sys_jxdoctool_doc:hover {
+    opacity: 1;
     }
 
 .sys_alert_doc {
-    background: #9bb2e0;
-    background: -moz-linear-gradient(top, #d7e1f2, #9bb2e0);
-    background: -webkit-gradient(linear, left top, left bottom, from(#d7e1f2), to(#9bb2e0));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#d7e1f2', EndColorStr='#9bb2e0');
-    line-height: 1px;
-    width: 24px;
-    border-top-left-radius: 5px;
-    cursor: pointer;
-    }
-
-.sys_alert_doc:before {
-    content: url(tools/doc_alert.png);
-    margin-left: 3px;
-    }
-
-.sys_alert_doc:hover:before {
-    content: url(tools/doc_alert_on.png);
-    margin-left: 3px;
-    }
-
-.sys_alert_title {
-    background: #9bb2e0;
-    background: -moz-linear-gradient(top, #d7e1f2, #9bb2e0);
-    background: -webkit-gradient(linear, left top, left bottom, from(#d7e1f2), to(#9bb2e0));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#d7e1f2', EndColorStr='#9bb2e0');
-    white-space: nowrap;
-    text-align: center;
+    width: 20px;
     }
 
 .sys_alert_close {
-    background: #9bb2e0;
-    background: -moz-linear-gradient(top, #d7e1f2, #9bb2e0);
-    background: -webkit-gradient(linear, left top, left bottom, from(#d7e1f2), to(#9bb2e0));
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#d7e1f2', EndColorStr='#9bb2e0');
-    border-top-right-radius: 5px;
-    width: 5px;
-    line-height: 1px;
-    cursor: pointer;
+    display: none;
     }
 
 .alert_msg {
-    color: #19181a;
     background-color: transparent;
     font-size: 13px;
     line-height: 16px;
-    letter-spacing: 0;
-    word-spacing: 0;
-    border: none;
     padding: 10px 0 10px 20px;
     }
 
 .alert_msg_dis {
-    color: #19181a;
     background-color: transparent;
     font-size: 13px;
     line-height: 16px;
-    letter-spacing: 0;
-    word-spacing: 0;
-    border: none;
     padding: 10px 0 10px 20px;
     }
 
