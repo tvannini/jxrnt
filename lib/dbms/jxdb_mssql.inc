@@ -486,25 +486,23 @@ function o2_mssql_tableindexes($server, $user, $password, $database, $owner, $ta
         throw $o2e;
         }
     foreach ($res_local as $single_key) {
-        if (strtoupper($single_key['INDEX_NAME']) != "JXPK_".strtoupper($table)) {
-            $seq_no = 0;
-            $unique = stripos($single_key['INDEX_DESCRIPTION'], 'unique') !== false;
-            $ret_val[$single_key['INDEX_NAME']] = array('unique' => $unique,
-                                                        'segments' => array());
-            foreach (explode(",", $single_key['INDEX_KEYS']) as $single_segment) {
-                if (strpos($single_segment, "(-)")) {
-                    $single_segment = trim(str_replace("(-)", "", $single_segment));
-                    $dir_local      = "D";
-                    }
-                else {
-                    $single_segment = trim($single_segment);
-                    $dir_local      = "A";
-                    }
-                $ret_val[$single_key['INDEX_NAME']]['segments']+=
-                    array($seq_no => array('column' => $single_segment,
-                                           'dir'    => $dir_local));
-                $seq_no++;
+        $seq_no = 0;
+        $unique = stripos($single_key['INDEX_DESCRIPTION'], 'unique') !== false;
+        $ret_val[$single_key['INDEX_NAME']] = array('unique' => $unique,
+                                                    'segments' => array());
+        foreach (explode(",", $single_key['INDEX_KEYS']) as $single_segment) {
+            if (strpos($single_segment, "(-)")) {
+                $single_segment = trim(str_replace("(-)", "", $single_segment));
+                $dir_local      = "D";
                 }
+            else {
+                $single_segment = trim($single_segment);
+                $dir_local      = "A";
+                }
+            $ret_val[$single_key['INDEX_NAME']]['segments']+=
+                                       array($seq_no => array('column' => $single_segment,
+                                                              'dir'    => $dir_local));
+            $seq_no++;
             }
         }
     return $ret_val;
@@ -752,12 +750,14 @@ function o2_mssql_createtable($server,
              o2_mssql_indexfields_create($pk_segments).") ON [PRIMARY]\n";
     // ________________________________________________________________ UNIQUE INDEXES ___
     foreach ($structure["keys"] as $index_name => $index_segs) {
-        $query.= o2_mssql_index_create($index_name,
-                                       $index_segs,
-                                       $table,
-                                       $database,
-                                       $owner,
-                                       true)."\n";
+        if ($index_name != $pk_name) {
+            $query.= o2_mssql_index_create($index_name,
+                                           $index_segs,
+                                           $table,
+                                           $database,
+                                           $owner,
+                                           true)."\n";
+            }
         }
     // ____________________________________________________________ NOT UNIQUE INDEXES ___
     foreach ($structure["indexes"] as $index_name => $index_segs) {
