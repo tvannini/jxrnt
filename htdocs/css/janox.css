@@ -24,7 +24,7 @@
     --jx-color-border: rgb(200, 200, 200);
     --jx-color-border-hover: rgb(180, 180, 180);
     --jx-color-border-focus: rgb(160, 160, 160);
-    --jx-color-disabled: #a19a93;
+    --jx-color-disabled: rgba(0, 0, 0, .5);
     --jx-color-bgdisabled: #f0efed;
     }
 
