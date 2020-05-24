@@ -6032,6 +6032,7 @@ class o2_dbview extends o2_view {
 
         $app              = $_SESSION['o2_app'];
         $bulk_limit       = $app->bulk_limit;
+        $rows_save        = $this->righe_vis;
         $this->looping_on = true;
         $this->record_primo();
         // _________________________________________________________ Copy view dataset ___
@@ -6114,6 +6115,7 @@ class o2_dbview extends o2_view {
         $this->looping_on = false;
         $this->vista      = false;
         $this->recordset  = array();
+        $this->righe_vis  = $rows_save;
         unset($this->corrente);
 
         }
@@ -6161,6 +6163,7 @@ class o2_dbview extends o2_view {
         else {
             $snps_view->chiavi_in_uso = array($table->indice => $table->chiave->nome);
             }
+        $snps_view->righe_vis     = $this->righe_vis;
         $snps_view->prefisso      = $this->prefisso;
         $snps_view->suffisso      = $this->suffisso;
         $snps_view->aggregate     = $this->aggregate;
