@@ -2198,21 +2198,21 @@ class o2_file {
                 }
             // __________________________________________________ Loop on defined keys ___
             foreach ($def_keys as $key_name => $single_key) {
-                $matched = false;
-                // _____________________________________________ Loop on physical keys ___
-                foreach ($arr_keys_local as $ph_key_name => $ph_key) {
-                    if (!isset($ph_key['extra'])) {
-                        $ph_key['extra'] = false;
+                // _________________________________ If found an unmatched defined key ___
+                if (!array_key_exists($key_name, $arr_keys_local)) {
+                    $matched = false;
+                    // _________________________________________ Loop on physical keys ___
+                    foreach ($arr_keys_local as $ph_key_name => $ph_key) {
+                        // ______________________________ Compare indexes by structure ___
+                        if ($single_key == $ph_key) {
+                            $matched = true;
+                            unset($chiavi_solo_fisico[$ph_key_name]);
+                            }
                         }
-                    // __________________________________ Compare indexes by structure ___
-                    if ($single_key == $ph_key) {
-                        $matched = true;
-                        unset($chiavi_solo_fisico[$ph_key_name]);
+                    // ____________________ If no match add key to "only defined" list ___
+                    if (!$matched) {
+                        $chiavi_solo_ideale[$key_name] = $single_key;
                         }
-                    }
-                // ________________________ If no match add key to "only defined" list ___
-                if (!$matched) {
-                    $chiavi_solo_ideale[$key_name] = $single_key;
                     }
                 }
             }
