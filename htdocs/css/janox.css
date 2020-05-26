@@ -168,7 +168,7 @@ em, i { font-style: italic; }
     border: 1px solid var(--jx-color-border);
     padding-left: 1px;
     padding-right: 1px;
-    overflow: auto;
+    overflow: hidden;
     border-radius: 3px;
     }
 
