@@ -43,6 +43,7 @@
     font-family: "Roboto", Arial, sans-serif;
     font-size: 11px;
     color: rgba(0, 0, 0, .8);
+    outline: none;
     }
 
 em, i { font-style: italic; }

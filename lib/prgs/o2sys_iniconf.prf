@@ -162,7 +162,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 	$ctrl_o2multipage2 = &$form_o2sys_iniconf_1->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(0);
 		$ctrl_o2multipage2->y(0);
-		$ctrl_o2multipage2->larghezza(650);
+		$ctrl_o2multipage2->larghezza(652);
 		$ctrl_o2multipage2->altezza(40);
 		$ctrl_o2multipage2->expand("H");
 		$ctrl_o2multipage2->label(array("Frame"));

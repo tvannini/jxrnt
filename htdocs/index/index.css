@@ -16,7 +16,8 @@
     font-style: bold;
     font-weight: 700;
     src: local('Gudea'), url(../css/fonts/Gudea-Bold.woff) format('woff');
-	}
+    }
+* { outline: none; }
 body { margin:0; padding:0; width:100%; background:#f2f2f2;}
 html { padding:0; margin:0;}
 a { color:#993300; text-decoration:none;}
