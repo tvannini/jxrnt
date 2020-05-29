@@ -2114,6 +2114,10 @@ class o2_dbview extends o2_view {
                     break;
                 }
             }
+        // ______________________________________________________ SQL field definition ___
+        elseif ($formula) {
+            $sql = $formula;
+            }
         if (isset($this->campi[$name])) {
             unset($this->campi[$name]);
             }
