@@ -2088,7 +2088,7 @@ class o2_dbview extends o2_view {
         $c_c      = constant("o2_".$type."_c");
         $sql      = false;
         $order_by = array();
-        // __________________________________________________ Compose formula SQL code ___
+        // __________________________________________ CONCAT: compose formula SQL code ___
         if (is_array($formula) && (count($formula) > 0)) {
             switch (strtoupper($formula[0])) {
                 case 'CONCAT':
@@ -2116,7 +2116,19 @@ class o2_dbview extends o2_view {
             }
         // ______________________________________________________ SQL field definition ___
         elseif ($formula) {
-            $sql = $formula;
+            // __ Add JXTAB() for main and link tables to resolve column names in JXSQL___
+            $formula.= '."##JX##';
+            foreach ($this->files as $file_alias => $file) {
+                $formula.= ' JXTAB('.$file->repos_index.':'.$file_alias.')';
+                }
+            $formula.= '"';
+            if (strpos($formula, "_exp_") !== false) {
+                eval("\$sql = jxsql('".$this->file->db->id."',".$formula.");");
+                }
+            else {
+                $sql = jxsql($this->file->db->id, $formula);
+                }
+            $sql = '('.substr($sql, 0, strpos($sql, '##JX##')).')';
             }
         if (isset($this->campi[$name])) {
             unset($this->campi[$name]);
