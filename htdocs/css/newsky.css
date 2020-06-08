@@ -387,11 +387,7 @@ div.o2_ctrl_listcombo_field {
     }
 
 /* ============================= EXTRA =========================== */
-.jxzoom {
-    border-left: 2px solid #E18331;
-    }
-
-.jxzoom:focus {
+.jxzoom, .jxzoom:hover, .jxzoom:focus {
     border-left: 2px solid #E18331;
     }
 
