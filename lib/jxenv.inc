@@ -5204,7 +5204,30 @@ class o2_dbview extends o2_view {
         $cache = count($this->bulk_cache);
         // __________________________________________________ Bulk end and cache flush ___
         if (($cache > 0) && ($flush || ($cache > $bulk_limit))) {
-            $fields            = $this->bulk_fields;
+            $fields = $this->bulk_fields;
+            // ______ Insert trace on record (defaults are needed for array_combine()) ___
+            if ($_SESSION['o2_app']->record_trace &&
+                (!isset($GLOBALS['jxtracesuspend']) ||
+                 !in_array($this->file->repos_index, $GLOBALS['jxtracesuspend']))) {
+                if (isset($this->file->record_trace['cu'])) {
+                    $this->bulk_defaults[$this->file->record_trace['cu']] = 0;
+                    }
+                if (isset($this->file->record_trace['cd'])) {
+                    $this->bulk_defaults[$this->file->record_trace['cd']] = 0;
+                    }
+                if (isset($this->file->record_trace['ct'])) {
+                    $this->bulk_defaults[$this->file->record_trace['ct']] = 0;
+                    }
+                if (isset($this->file->record_trace['uu'])) {
+                    $this->bulk_defaults[$this->file->record_trace['uu']] = 0;
+                    }
+                if (isset($this->file->record_trace['ud'])) {
+                    $this->bulk_defaults[$this->file->record_trace['ud']] = 0;
+                    }
+                if (isset($this->file->record_trace['ut'])) {
+                    $this->bulk_defaults[$this->file->record_trace['ut']] = 0;
+                    }
+                }
             $this->bulk_fields = array_combine($this->bulk_fields, $this->bulk_defaults);
             $recs              = array_map(function($rec) {
 
