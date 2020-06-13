@@ -2995,11 +2995,12 @@ class o2_dbview extends o2_view {
                                         $link_db->nome,
                                         $link_db->proprietario,
                                         $this->files[$file]->nome)." ".$c_o.$file.$c_c;
-        if ($link_by_const ||
-            ($linkfld && !isset($this->formule[$linkfld]) &&
-             $linkview == $this->nome &&
-             ($linkfile == $this->file || !$this->files[$linkfile]->not_sql_join) &&
-             $valore_local === o2val($linkview, $linkfld))) {
+        if (($link_by_const ||
+             ($linkfld && !isset($this->formule[$linkfld]) &&
+              $linkview == $this->nome &&
+              ($linkfile == $this->file || !$this->files[$linkfile]->not_sql_join) &&
+              $valore_local === o2val($linkview, $linkfld))) &&
+            $file_type != 'jxsdb') {
             if (strpos($this->link_on[$file_idx], $qlfd_field) === false) {
                 $and = ($this->link_on[$file_idx] ? " AND " : "");
                 $this->files[$file]->link_by_sql = true;
