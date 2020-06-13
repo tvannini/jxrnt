@@ -5053,28 +5053,36 @@ class o2_dbview extends o2_view {
             // _______________________________________ Update existing tracing columns ___
             $t = time();
             if ($trace_c_user) {
-                $insert_nomi_arr[]   = $trace_c_user;
-                $insert_valori_arr[] = "'".o2_gateway::normalize($db_type,$app->user)."'";
+                $insert_nomi_arr[]       = $trace_c_user;
+                $insert_valori_arr[]     = "'".o2_gateway::normalize($db_type,$app->user).
+                                           "'";
+                $defaults[$trace_c_user] = "''";
                 }
             if ($trace_c_date) {
-                $insert_nomi_arr[]   = $trace_c_date;
-                $insert_valori_arr[] = "'".date('Ymd', $t)."'";
+                $insert_nomi_arr[]       = $trace_c_date;
+                $insert_valori_arr[]     = "'".date('Ymd', $t)."'";
+                $defaults[$trace_c_date] = "'00000000'";
                 }
             if ($trace_c_time) {
-                $insert_nomi_arr[]   = $trace_c_time;
-                $insert_valori_arr[] = "'".date('His', $t)."'";
+                $insert_nomi_arr[]       = $trace_c_time;
+                $insert_valori_arr[]     = "'".date('His', $t)."'";
+                $defaults[$trace_c_time] = "'000000'";
                 }
             if ($trace_u_user) {
-                $insert_nomi_arr[]   = $trace_u_user;
-                $insert_valori_arr[] = "'".o2_gateway::normalize($db_type,$app->user)."'";
+                $insert_nomi_arr[]       = $trace_u_user;
+                $insert_valori_arr[]     = "'".o2_gateway::normalize($db_type,$app->user).
+                                           "'";
+                $defaults[$trace_u_user] = "''";
                 }
             if ($trace_u_date) {
-                $insert_nomi_arr[]   = $trace_u_date;
-                $insert_valori_arr[] = "'".date('Ymd', $t)."'";
+                $insert_nomi_arr[]       = $trace_u_date;
+                $insert_valori_arr[]     = "'".date('Ymd', $t)."'";
+                $defaults[$trace_u_date] = "'00000000'";
                 }
             if ($trace_u_time) {
-                $insert_nomi_arr[]   = $trace_u_time;
-                $insert_valori_arr[] = "'".date('His', $t)."'";
+                $insert_nomi_arr[]       = $trace_u_time;
+                $insert_valori_arr[]     = "'".date('His', $t)."'";
+                $defaults[$trace_u_time] = "'000000'";
                 }
             // __________________________________________ Manage snapshot informations ___
             if ($this->snapshot) {
@@ -5205,29 +5213,6 @@ class o2_dbview extends o2_view {
         // __________________________________________________ Bulk end and cache flush ___
         if (($cache > 0) && ($flush || ($cache > $bulk_limit))) {
             $fields = $this->bulk_fields;
-            // ______ Insert trace on record (defaults are needed for array_combine()) ___
-            if ($_SESSION['o2_app']->record_trace &&
-                (!isset($GLOBALS['jxtracesuspend']) ||
-                 !in_array($this->file->repos_index, $GLOBALS['jxtracesuspend']))) {
-                if (isset($this->file->record_trace['cu'])) {
-                    $this->bulk_defaults[$this->file->record_trace['cu']] = 0;
-                    }
-                if (isset($this->file->record_trace['cd'])) {
-                    $this->bulk_defaults[$this->file->record_trace['cd']] = 0;
-                    }
-                if (isset($this->file->record_trace['ct'])) {
-                    $this->bulk_defaults[$this->file->record_trace['ct']] = 0;
-                    }
-                if (isset($this->file->record_trace['uu'])) {
-                    $this->bulk_defaults[$this->file->record_trace['uu']] = 0;
-                    }
-                if (isset($this->file->record_trace['ud'])) {
-                    $this->bulk_defaults[$this->file->record_trace['ud']] = 0;
-                    }
-                if (isset($this->file->record_trace['ut'])) {
-                    $this->bulk_defaults[$this->file->record_trace['ut']] = 0;
-                    }
-                }
             $this->bulk_fields = array_combine($this->bulk_fields, $this->bulk_defaults);
             $recs              = array_map(function($rec) {
 
