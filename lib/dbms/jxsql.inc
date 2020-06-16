@@ -416,7 +416,7 @@ class JXSQLparser {
 function jxsql_parse($dbname, $sql) {
 
     $parser = new JXSQLparser($dbname);
-    if ($parser->dbengine != 'JXSDB') {
+    if (strtolower($parser->dbengine) != 'jxsdb') {
         // _________________________________________ STAGE1: parse all JXTAB functions ___
         $sql    = $parser->parseSQL($sql, 1);
         // _________________________________________ STAGE2: parse all JXCOL functions ___
