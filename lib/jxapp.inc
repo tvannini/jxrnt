@@ -2958,11 +2958,13 @@ class o2_app {
         $ret_val = 0;
         system($rep_cmd.'>>'.$log.' 2>&1', $ret_val);
         if (!file_exists($this->dir_tmp.$file_pdf)) {
-            throw new o2_exception("<b>PRINT ERROR:</b> cannot generate file <i>".
-                                   $file_pdf."</i>.<hr><code>".
-                                   nl2br(file_get_contents($log))."</code>",
-                                   o2error_IO);
-            return;
+            $log = file_get_contents($log);
+            if (strpos($log, "No data available to print") === false) {
+                throw new o2_exception("<b>PRINT ERROR:</b> cannot generate file <i>".
+                                       $file_pdf."</i>.<hr><code>".
+                                       nl2br($log)."</code>",
+                                       o2error_IO);
+                }
             }
 
         }
