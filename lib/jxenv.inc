@@ -1625,6 +1625,7 @@ class o2_dbview extends o2_view {
     public $snapshot        = false;   /* If view is using recordset snapshot           */
     public $snapshot_src    = false;   /* If view is a snapshotted orginal view         */
     public $snps_ori_type   = false;   /* Original db engine when view is a snapshot    */
+    public $custom_where    = false;   /* Expression for custom WHERE code              */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
     public $statement       = null;  /* PDO Statement opened on view (if any)           */
     public $offset_ini      = 0;     /* First recordset row index in whole file         */
@@ -2152,6 +2153,20 @@ class o2_dbview extends o2_view {
         $this->campi[$name]->formula  = $sql;
         $this->campi[$name]->order_by = $order_by;
         $this->campi[$name]->virtual  = true;
+
+        }
+
+
+    /**
+     * Add a custom-WHERE code from expression.
+     *
+     * NOTE: code is expected to contain JXSQL
+     *
+     * @param string $where_exp   Expression to be evaluated to get code
+     */
+    function custom_where($where_exp) {
+
+        $this->custom_where = $where_exp;
 
         }
 
@@ -2852,9 +2867,19 @@ class o2_dbview extends o2_view {
             array_unshift($where_local, $c_o.$file_in_esame.$c_c.".O2ASPID='".
                           $app->vars['_area']->valore."'");
             }
+        // _______________________________ Add custom-WHERE to main table WHERE clause ___
+        if ($this->custom_where && ($file_in_esame == $this->file->indice)) {
+            // __ Add JXTAB() for main and link tables to resolve column names in JXSQL___
+            $where_exp = $this->custom_where.'."##JX##';
+            foreach ($this->files as $file_alias => $file) {
+                $where_exp.= ' JXTAB('.$file->repos_index.':'.$file_alias.')';
+                }
+            $where_exp.= '"';
+            eval("\$sql = jxsql('".$file_type."',".$where_exp.");");
+            $where_local[] = '('.substr($sql, 0, strpos($sql, '##JX##')).')';
+            }
         // ______________________________________________________ Compose WHERE clause ___
         $this->wheres[$file_in_esame] = implode(" AND ", $where_local);
-        $prg->evaluating_view         = $evaluating_local;
         // __________________________________________ Merge WHERE clause from SQL-LINK ___
         if ($file_in_esame == $this->file->indice && count($this->link_wheres)) {
             $new_where = $this->wheres[$file_in_esame].
@@ -2864,6 +2889,7 @@ class o2_dbview extends o2_view {
         else {
             $new_where = $this->wheres[$file_in_esame];
             }
+        $prg->evaluating_view = $evaluating_local;
         // ______________________________________________________________ Handle ASPID ___
         if ($file_in_esame != $this->file->indice &&
             $this->files[$file_in_esame]->asp == 'C' &&
