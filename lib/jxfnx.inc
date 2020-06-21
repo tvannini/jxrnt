@@ -6853,7 +6853,7 @@ function o2file_fullname($file_path) {
 
 
 /**
- * Returns file name and extension
+ * Returns file base name, without path and without extension
  *
  * @package filesystem
  * @param   string $file_path
