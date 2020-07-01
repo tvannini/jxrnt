@@ -4837,7 +4837,7 @@ function o2tab_indexes_seton($table_name) {
                 foreach ($idx_obj->segmenti as $segment) {
                     $index_segs[$segment->campo->phys_name] = $segment->direzione;
                     }
-                $table->alter_index_add($idx_name, $index_segs, true);
+                $table->alter_index_add($idx_name, $index_segs, $idx_obj->unique);
                 $ret++;
                 }
             }
