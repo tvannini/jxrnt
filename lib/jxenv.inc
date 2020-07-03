@@ -2876,7 +2876,11 @@ class o2_dbview extends o2_view {
                 }
             $where_exp.= '"';
             eval("\$sql = jxsql('".$file_type."',".$where_exp.");");
-            $where_local[] = '('.substr($sql, 0, strpos($sql, '##JX##')).')';
+            $sql = substr($sql, 0, strpos($sql, '##JX##'));
+            // ___________________________________________ If custom part is not empty ___
+            if ($sql) {
+                $where_local[] = '('.substr($sql, 0, strpos($sql, '##JX##')).')';
+                }
             }
         // ______________________________________________________ Compose WHERE clause ___
         $this->wheres[$file_in_esame] = implode(" AND ", $where_local);
