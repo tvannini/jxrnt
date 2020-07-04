@@ -2879,7 +2879,7 @@ class o2_dbview extends o2_view {
             $sql = substr($sql, 0, strpos($sql, '##JX##'));
             // ___________________________________________ If custom part is not empty ___
             if ($sql) {
-                $where_local[] = '('.substr($sql, 0, strpos($sql, '##JX##')).')';
+                $where_local[] = '('.$sql.')';
                 }
             }
         // ______________________________________________________ Compose WHERE clause ___
