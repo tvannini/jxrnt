@@ -1125,7 +1125,7 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
    $cont = file_get_contents($prf->nome_completo);
    /*   FIND ALL FORMULAS   */
    $parts = array();
-   preg_match_all('/(\$task_(\w+))->calcola\((["\']\w+["\']\s*,\s*)["\']'.$prg.
+   preg_match_all('/(\$task_(\w+))->calcola\((["\']\w+["\']\s*,\s*["\']\w+["\']\s*,\s*)["\']'.$prg.
                   '_exp_(\d+)\(\)["\'](.+\);)/', $cont, $parts);
    $done = 0;
    if (count($parts[0])) {
