@@ -4533,10 +4533,16 @@ class o2_run_job {
             }
         // _________________________ Get services for local host and queued executions ___
         $host_srvs = o2_service::get_all_host_services();
-        $processes = self::get_list('', true);
-        $running   = array();
-        $maxs      = array();
-        $now       = time();
+        // ________ Check for something to do before locking table (SELECT FOR UPDATE) ___
+        if (self::check_list()) {
+            $processes = self::get_list('', true);
+            }
+        else {
+            $processes = array();
+            }
+        $running = array();
+        $maxs    = array();
+        $now     = time();
         // ___________________________________________________ Count running instances ___
         foreach ($processes as $run_job) {
             if ($run_job->is_running()) {
@@ -5113,13 +5119,62 @@ class o2_run_job {
 
 
     /**
+     * Checks list of job executions.
+     * This method is intended to be used to check queued list before calling ::get_list()
+     * method, to avoid SELECT FOR UPDATE when nothing to do.
+     *
+     * @param  string  $user
+     * @param  boolean $with_lock
+     * @return array
+     */
+    static function check_list() {
+
+        $app      = $_SESSION['o2_app'];
+        $aspid    = $app->vars['_area']->valore;
+        $tab      = $app->get_table(self::$run_table);
+        $db       = $tab->db;
+        $server   = $db->server;
+        $co       = constant('o2_'.$server->type.'_o');
+        $cc       = constant('o2_'.$server->type.'_c');
+        $f        = $tab->campi;
+        $aspfld   = $f['run_aspid']->nome_fisico;
+        // ______________________________________________________ Filter by HOST or... ___
+        $where    = $f['run_status']."='Q' AND (".$f['run_host']."='".$app->host."'";
+        // ______________________________________________________ ...filter by SERVICE ___
+        $services = array_keys(o2_service::get_all_host_services());
+        if (count($services)) {
+            $where.= " OR ".$f['run_service']." IN (";
+            $comma = false;
+            foreach ($services as $service) {
+                $where.= ($comma ? ',' : '')."'".$service."'";
+                $comma = true;
+                }
+            $where.= ')';
+            }
+        // ___________________________________________________________ Filter by ASPID ___
+        $where   .= ')'.($aspid ? ' AND '.$aspfld."='".$aspid."'" : '');
+        $run_jobs = o2_gateway::count($server->type,
+                                      $server->server,
+                                      $server->user,
+                                      $server->password,
+                                      $db->nome,
+                                      $db->proprietario,
+                                      $tab->nome,
+                                      'jx_run_jobs',
+                                      $where);
+        return ($run_jobs ? true : false);
+
+        }
+
+
+    /**
      * Returns list of job executions
      *
      * @param  string  $user
      * @param  boolean $with_lock
      * @return array
      */
-    static function get_list($user = "", $with_lock = false) {
+     static function get_list($user = "", $with_lock = false) {
 
         $app      = $_SESSION['o2_app'];
         $aspid    = $app->vars['_area']->valore;
@@ -6687,7 +6742,7 @@ class o2_scheduler {
             $ret = 0;
             //  If a job is pending from more than one task it's executed only once(?) ___
             print "Read pending tasks.\n";
-            foreach (self::get_list2run() as $sched_id => $job) {
+            foreach (self::get_list2run(false) as $sched_id => $job) {
                 // ________________________________________________ Run without ASP-ID ___
                 if ($job['aspid'] == 'NOASP') {
                     print "   Run job \"".$job['job']."\"\n";
@@ -6872,10 +6927,15 @@ class o2_scheduler {
 
     /**
      * Returns list of pending task, in the form: array(task-id => job-id)
+     * If $effective is FALSE tasks list is recovered with a standard query and, if
+     * something to do is found, then a new execution is started with $effective as TRUE.
+     * When $effective is TRUE tasks list is recovered with a query with lock and result
+     * list is returned.
      *
+     * @param  string $effective   If query has to lock tasks list
      * @return array
      */
-    static function get_list2run() {
+    static function get_list2run($effective = true) {
 
         $app    = $_SESSION['o2_app'];
         $tab    = $app->get_table(self::$sched_table);
@@ -6910,7 +6970,7 @@ class o2_scheduler {
                                         '',
                                         1000000,
                                         null,
-                                        true);
+                                        $effective);
         $now    = new DateTime();
         $ret    = array();
         $srvs   = o2_service::get_all_host_services();
@@ -7009,8 +7069,14 @@ class o2_scheduler {
                     break;
                 }
             if ($todo) {
-                $ret[$sched_rec["SCHED_ID"]] = array("job"  => $sched_rec["SCHED_JOB"],
+                if ($effective) {
+                    $ret[$sched_rec["SCHED_ID"]] =
+                                               array("job"  => $sched_rec["SCHED_JOB"],
                                                      "aspid"=> $sched_rec['SCHED_ASPID']);
+                    }
+                else {
+                    return self::get_list2run();
+                    }
                 }
             }
         return $ret;
