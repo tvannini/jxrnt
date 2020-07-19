@@ -158,6 +158,15 @@ function o2_mssql_connect($server, $user, $password, $trans) {
                                    $err[2],
                                    o2error_DBCONNECT);
             }
+        if ($app->db_timeout_lock) {
+            $conn_local->exec('SET lock_timeout '.intval($app->db_timeout_lock));
+            }
+        /**
+         * NOT EXISTING IN MSSQL
+        if ($app->db_timeout_stm) {
+            $conn_local->exec('SET statement_timeout '.intval($app->db_timeout_stm));
+            }
+         */
         // ______________________________________________ Create transaction if needed ___
         if ($trans) {
             if (!$conn_local->beginTransaction()) {
@@ -170,7 +179,7 @@ function o2_mssql_connect($server, $user, $password, $trans) {
                 $GLOBALS['o2_mssql_trans'][$key] = true;
                 }
             }
-        // _________________________________________________ Force roll-back or errors ___
+        // _________________________________________________ Force roll-back on errors ___
         $conn_local->exec("SET XACT_ABORT ON");
         // ___________________________________________________________ Save connection ___
         $GLOBALS['o2_mssql_conn'][$key] = $conn_local;

@@ -134,6 +134,12 @@ function o2_postgres_connect($server, $user, $password, $trans) {
                     break;
                 }
             }
+        if ($app->db_timeout_lock) {
+            $conn_local->exec('SET lock_timeout = '.intval($app->db_timeout_lock));
+            }
+        if ($app->db_timeout_stm) {
+            $conn_local->exec('SET statement_timeout = '.intval($app->db_timeout_stm));
+            }
         // ______________________________________________ Create transaction if needed ___
         if ($trans) {
             if (!$conn_local->beginTransaction()) {

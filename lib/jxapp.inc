@@ -135,6 +135,8 @@ class o2_app {
     public $fetch_loop      = false;   /* Statement fetching instead of paging in loops */
     public $snapshot_db     = null;    /* Database used for snapshots (jxsess_db)       */
     public $bulk_limit      = 499;     /* Maximum number of records for single insert   */
+    public $db_timeout_lock = false;   /* Set lock-timeout for db session               */
+    public $db_timeout_stm  = false;   /* Set statement-timeout for db session          */
     /*     _____ Triggers _____________________________________________________________ */
     public $exe_prg_start   = false;   /* Start program has to be executed              */
     public $prg_start       = '';      /* Start program name                            */
@@ -1261,6 +1263,12 @@ class o2_app {
             }
         if (isset($conf['log_backup'])) {
             $this->log_backup = $conf['log_backup'];
+            }
+        if (isset($conf['db_timeout_lock'])) {
+            $this->db_timeout_lock = $conf['db_timeout_lock'];
+            }
+        if (isset($conf['db_timeout_stm'])) {
+            $this->db_timeout_stm = $conf['db_timeout_stm'];
             }
         if (isset($conf['timeout'])) {
             $this->timeout = intval($conf['timeout']);

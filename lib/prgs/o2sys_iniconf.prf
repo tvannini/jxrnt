@@ -447,6 +447,22 @@ $list = array(
                                    "   dc = database data chunk\n".
                                    "   rs = estimated record size (by runtime)",
                          "default" => 65535),
+   "db_timeout_lock" => array("rntval" => null,
+                              "appval" => null,
+                              "desc" => "   *** Database lock-timeout ***\n\n".
+                                        "Sets the time statements will wait for acquiring a lock.\n".
+                                        "After that time, if locks are not released, statements will end up with an error.\n".
+                                        "With a value of 0 (zero) statements will wait indefinitely (default behaviour).\n\n".
+                                        "Lock-timeout time is set in milliseconds.",
+                              "default" => 0),
+   "db_timeout_stm" => array("rntval" => null,
+                             "appval" => null,
+                             "desc" => "   *** Database statement-timeout ***\n\n".
+                                       "Sets the maximum time statements can take to end.\n".
+                                       "If a statement, or query, will take a longer time to finish, then it will end up with an error.\n".
+                                       "With a value of 0 (zero) statements will take time indefinitely (default behaviour).\n\n".
+                                       "Statement-timeout time is set in milliseconds.",
+                              "default" => 0),
    "bug_aggregate" => array("rntval" => null,
                             "appval" => null,
                             "desc" => "   *** BUG Compatibility for aggregations ***\n\n".
@@ -1359,6 +1375,8 @@ function o2sys_iniconf_exp_34() {
               "log_rebuild",
               "log_backup",
               "log_db",
+              "db_timeout_lock",
+              "db_timeout_stm",
               "record_trace",
               "snapshot_db",
               "",
