@@ -6085,70 +6085,48 @@ class o2_dbview extends o2_view {
      */
     function snapshot_copy_view($snps_table) {
 
-        $app              = $_SESSION['o2_app'];
-        $bulk_limit       = $app->bulk_limit;
-        $rows_save        = $this->righe_vis;
-        $this->looping_on = true;
-        $this->record_primo();
+        $app        = $_SESSION['o2_app'];
+        $bulk_limit = $app->bulk_limit;
+        $rows_save  = $this->righe_vis;
         // _________________________________________________________ Copy view dataset ___
-        if (count($this->recordset) > 0) {
-            $srv_type   = $snps_table->db->server->type;
-            $srv_server = $snps_table->db->server->server;
-            $srv_user   = $snps_table->db->server->user;
-            $srv_pwd    = $snps_table->db->server->password;
-            $db_name    = $snps_table->db->nome;
-            $db_owner   = $snps_table->db->proprietario;
-            // __________________________________________________ Compose fields names ___
-            $fields = array();
+        $srv_type   = $snps_table->db->server->type;
+        $srv_server = $snps_table->db->server->server;
+        $srv_user   = $snps_table->db->server->user;
+        $srv_pwd    = $snps_table->db->server->password;
+        $db_name    = $snps_table->db->nome;
+        $db_owner   = $snps_table->db->proprietario;
+        // ______________________________________________________ Compose fields names ___
+        $fields = array();
+        foreach ($snps_table->campi as $fld_name => $fld) {
+            if ($fld_name != 'JXSNPS_STATUS') {
+                $fields[] = $fld->nome_fisico;
+                }
+            }
+        // ______________________________________________________ Compose values cache ___
+        $cache            = array();
+        $recs             = 0;
+        $this->looping_on = true;
+        while ($row = o2view_fetch($this->nome)) {
+            $rec  = '';
             foreach ($snps_table->campi as $fld_name => $fld) {
                 if ($fld_name != 'JXSNPS_STATUS') {
-                    $fields[] = $fld->nome_fisico;
+                    if ($rec !== '') {
+                        $rec.= ',';
+                        }
+                    if ($fld->tipo == 'N') {
+                        $rec.= ($row[$fld_name] ? $row[$fld_name] : '0');
+                        }
+                    else {
+                        $rec.= "'".o2_gateway::normalize($srv_type,
+                                                         $row[$fld_name],
+                                                         true)."'";
+                        }
                     }
                 }
-            // __________________________________________________ Compose values cache ___
-            $cache = array();
-            $recs  = 0;
-            while ($row = o2view_fetch($this->nome)) {
-                $rec  = '';
-                foreach ($snps_table->campi as $fld_name => $fld) {
-                    if ($fld_name != 'JXSNPS_STATUS') {
-                        if ($rec !== '') {
-                            $rec.= ',';
-                            }
-                        if ($fld->tipo == 'N') {
-                            $rec.= ($row[$fld_name] ? $row[$fld_name] :
-                                    '0');
-                            }
-                        else {
-                            $rec.= "'".o2_gateway::normalize($srv_type,
-                                                             $row[$fld_name],
-                                                             true)."'";
-                            }
-                        }
-                    }
-                $cache[] = $rec;
-                $recs++;
-                // ________________________________________________ Insert cache chunk ___
-                if ($recs > $bulk_limit) {
-                    if ($app->sqltrace) {
-                        jxsql_stat($this, 'W', $snps_table);
-                        }
-                    o2_gateway::insertrec($srv_type,
-                                          $srv_server,
-                                          $srv_user,
-                                          $srv_pwd,
-                                          $db_name,
-                                          $db_owner,
-                                          $snps_table->write_name,
-                                          $snps_table->indice,
-                                          $fields,
-                                          array(implode('),(', $cache)));
-                    $cache = array();
-                    $recs  = 0;
-                    }
-                };
-            // ___________________________________________________________ Flush cache ___
-            if ($cache) {
+            $cache[] = $rec;
+            $recs++;
+            // ____________________________________________________ Insert cache chunk ___
+            if ($recs > $bulk_limit) {
                 if ($app->sqltrace) {
                     jxsql_stat($this, 'W', $snps_table);
                     }
@@ -6162,15 +6140,33 @@ class o2_dbview extends o2_view {
                                       $snps_table->indice,
                                       $fields,
                                       array(implode('),(', $cache)));
+                $cache = array();
+                $recs  = 0;
                 }
-            $this->relocate_to_key = false;
+            };
+        // _______________________________________________________________ Flush cache ___
+        if ($cache) {
+            if ($app->sqltrace) {
+                jxsql_stat($this, 'W', $snps_table);
+                }
+            o2_gateway::insertrec($srv_type,
+                                  $srv_server,
+                                  $srv_user,
+                                  $srv_pwd,
+                                  $db_name,
+                                  $db_owner,
+                                  $snps_table->write_name,
+                                  $snps_table->indice,
+                                  $fields,
+                                  array(implode('),(', $cache)));
             }
         // ___________________________________________________ Free source view cursor ___
         o2view_fetch_free($this->nome);
-        $this->looping_on = false;
-        $this->vista      = false;
-        $this->recordset  = array();
-        $this->righe_vis  = $rows_save;
+        $this->looping_on      = false;
+        $this->vista           = false;
+        $this->relocate_to_key = false;
+        $this->righe_vis       = $rows_save;
+        $this->recordset       = array();
         unset($this->corrente);
 
         }
@@ -6187,18 +6183,27 @@ class o2_dbview extends o2_view {
         $snps_view->files = array($table->indice => $table);
         $snps_view->file  = $snps_view->files[$table->indice];
         foreach ($table->campi as $fld_name => $fld) {
-            $ori_fld = $this->campi[$fld_name];
-            if (isset($this->esclusivi[$ori_fld->file][$fld_name])) {
-                $min  = $ori_fld->min;
-                $max  = $ori_fld->max;
-                $not  = $ori_fld->not;
-                $like = $ori_fld->like;
+            if (isset($this->campi[$fld_name])) {
+                $ori_fld = $this->campi[$fld_name];
+                if (isset($this->esclusivi[$ori_fld->file][$fld_name])) {
+                    $min  = $ori_fld->min;
+                    $max  = $ori_fld->max;
+                    $not  = $ori_fld->not;
+                    $like = $ori_fld->like;
+                    }
+                else {
+                    $min  = null;
+                    $max  = null;
+                    $not  = null;
+                    $like = null;
+                    }
                 }
             else {
-                $min  = null;
-                $max  = null;
-                $not  = null;
-                $like = null;
+                $ori_fld = $this->formule[$fld_name];
+                $min     = $ori_fld->min;
+                $max     = $ori_fld->max;
+                $not     = $ori_fld->not;
+                $like    = $ori_fld->like;
                 }
             $snps_view->campi[$fld_name] = new o2_campo_task($fld_name,
                                                              $table->indice,
