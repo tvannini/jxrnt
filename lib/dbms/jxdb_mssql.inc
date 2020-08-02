@@ -1689,7 +1689,7 @@ function o2_mssql_recordset($server,
         }
     $query.= $select_str.' FROM '.$table.' AS '.o2_mssql_o.$table_alias.o2_mssql_c;
     if ($lock) {
-        $query.= ' WITH (UPDLOCK)';
+        $query.= ' WITH (UPDLOCK, ROWLOCK)';
         }
     if ($links) {
         foreach ($links as $linktab => $linkon) {
