@@ -6261,7 +6261,8 @@ function o2view_fetch($view_name) {
     elseif ($view_obj->statement) {
         if (!$row = $view_obj->statement->fetch(PDO::FETCH_ASSOC)) {
             $view_obj->statement->closeCursor();
-            $view_obj->statement = null;
+            $view_obj->statement  = null;
+            $view_obj->looping_on = false;
             return false;
             }
         // _________________________________________ Error on statement (during fetch) ___
@@ -6288,7 +6289,6 @@ function o2view_fetch($view_name) {
         $query = $GLOBALS['jxviewsql'];
         unset($GLOBALS['jxviewsql']);
         // _________________________________________________________ Reset origin view ___
-        $view_obj->record_primo();
         $view_obj->ultima_where = array();
         // ________________________________________________________________ Connection ___
         $srv  = $view_obj->file->db->server;
@@ -6309,7 +6309,8 @@ function o2view_fetch($view_name) {
                throw new o2_exception($err[2], o2error_DBDATAQUERY);
                }
             }
-        $view_obj->statement = $stm;
+        $view_obj->statement  = $stm;
+        $view_obj->looping_on = true;
         return o2view_fetch($view_name);
         }
     else {

@@ -6103,9 +6103,8 @@ class o2_dbview extends o2_view {
                 }
             }
         // ______________________________________________________ Compose values cache ___
-        $cache            = array();
-        $recs             = 0;
-        $this->looping_on = true;
+        $cache = array();
+        $recs  = 0;
         while ($row = o2view_fetch($this->nome)) {
             $rec  = '';
             foreach ($snps_table->campi as $fld_name => $fld) {
@@ -6162,7 +6161,6 @@ class o2_dbview extends o2_view {
             }
         // ___________________________________________________ Free source view cursor ___
         o2view_fetch_free($this->nome);
-        $this->looping_on      = false;
         $this->vista           = false;
         $this->relocate_to_key = false;
         $this->righe_vis       = $rows_save;
