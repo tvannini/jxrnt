@@ -6306,7 +6306,7 @@ function o2view_fetch($view_name) {
             // ________________________________________________ Create query statement ___
             if (!($stm = $conn->query($query))) {
                $err = $conn->errorInfo();
-               throw new o2_exception($err[2], o2error_DBDATAQUERY);
+               throw new o2_exception($query.'<br>'.$err[2], o2error_DBDATAQUERY);
                }
             }
         $view_obj->statement  = $stm;
