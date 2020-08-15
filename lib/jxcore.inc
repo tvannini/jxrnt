@@ -101,6 +101,7 @@ class o2_exception extends Exception {
         define('o2error_DEPRECATED',       ++$seed_sys);
         define('o2error_WARNING',          ++$seed_sys);
         define('o2error_APP',              ++$seed_sys);
+        define('o2error_SNAPSHOT',         ++$seed_sys);
         // ________________________________________________ [50...99] database gateway ___
         define('o2error_DBCONNECT',        ++$seed_db);
         define('o2error_DBTABLES',         ++$seed_db);
@@ -171,7 +172,10 @@ class o2_exception extends Exception {
             case o2error_APP:
                 $error_class = "APPLICATION";
                 break;
-            // ____________________________________________ [50...99] database gateway ___
+            case o2error_SNAPSHOT:
+                $error_class = "VIEW SNAPSHOT";
+                break;
+                        // ____________________________________________ [50...99] database gateway ___
             case o2error_DBCONNECT:
                 $error_class = "DATABASE CONNECTION";
                 break;

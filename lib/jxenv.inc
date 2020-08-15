@@ -1232,8 +1232,8 @@ class o2_prg {
         $view      = $this->contesto[$view_name];
         if (!$view->snapshot) {
             // ____ If already exists reuse snapshot table, else create it and fill it ___
-            if (isset($app->tab[$snps_name])) {
-                $table = $app->get_table($snps_name);
+            if (isset($app->tab[$view->snapshot_name])) {
+                $table = $app->get_table($view->snapshot_name);
                 }
             else {
                 // ____________________________ Create virtual table from view dataset ___
@@ -1277,7 +1277,7 @@ class o2_prg {
         // _________________________ If view is not in snapshot mode rise an exception ___
         else {
             throw new o2_exception('View "'.$view_name.'" has no active snapshot',
-                                   o2error_UNKNOWNVIEW);
+                                   o2error_SNAPSHOT);
             }
 
         }
@@ -1291,9 +1291,10 @@ class o2_prg {
 
         $app       = $_SESSION['o2_app'];
         $snps_name = $view_name.'_jxsnps';
-        if (isset($app->tab[$snps_name])) {
-            $app->tab[$snps_name]->elimina();
-            unset($app->tab[$snps_name]);
+        $view      = $this->contesto[$view_name];
+        if (isset($app->tab[$view->snapshot_name])) {
+            $app->tab[$view->snapshot_name]->elimina();
+            unset($app->tab[$view->snapshot_name]);
             }
         if (isset($this->contesto[$snps_name]) &&
             $this->contesto[$snps_name]->snapshot_src) {
@@ -1625,6 +1626,7 @@ class o2_dbview extends o2_view {
     public $snapshot        = false;   /* If view is using recordset snapshot           */
     public $snapshot_src    = false;   /* If view is a snapshotted orginal view         */
     public $snps_ori_type   = false;   /* Original db engine when view is a snapshot    */
+    public $snapshot_name   = false;   /* Name of view snapshot table                   */
     public $custom_where    = false;   /* Expression for custom WHERE code              */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
     public $statement       = null;  /* PDO Statement opened on view (if any)           */
@@ -1649,7 +1651,7 @@ class o2_dbview extends o2_view {
      * @param  string $prg
      * @param  string $id_esecuzione_prg
      * @param  string $nome
-     * @return o2_view
+     * @return o2_dbview
      */
     function __construct($prg, $id_esecuzione_prg, $nome = "") {
 
@@ -1663,6 +1665,7 @@ class o2_dbview extends o2_view {
             $this->prg           = $prg;
             $this->id_esecuzione = $id_esecuzione_prg;
             $this->def_function  = $this->prg."§§".$this->nome."_def";
+            $this->snapshot_name = $nome.'_jxsnps';
             }
 
         }
@@ -6242,7 +6245,7 @@ class o2_dbview extends o2_view {
     function snapshot_create_table() {
 
         $app      = $_SESSION['o2_app'];
-        $tab_name = $this->nome.'_jxsnps';
+        $tab_name = $this->snapshot_name;
         $key_name = $this->file->chiave->nome;
         $snps_db  = ($app->snapshot_db ? $app->snapshot_db : 'jxsess_db');
         $table    = new o2_file($tab_name, $snps_db, $tab_name, $key_name);

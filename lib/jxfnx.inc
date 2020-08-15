@@ -6549,6 +6549,37 @@ function o2view_selector_get_selected($view_name) {
 
     }
 
+
+/**
+ * Returns or sets snapshot table name for the view.
+ * When called without $snapshot_name parameter function returns the used snapshot table
+ * name (useful in table expression for a view, to address other views snapshots).
+ * When parameter $snapshot_name is passed then it is used as snapshot table name for the
+ * view and can be the same for different views.
+ *
+ * @package view
+ * @param   string $view_name
+ * @param   string $snapshot_name
+ * @return  string
+ * @see     o2view_fetch(), o2view_fetch_free()
+ */
+function o2view_snapshot_name($view_name, $snapshot_name = false) {
+
+    $app  = $_SESSION['o2_app'];
+    $view = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if ($snapshot_name && $view->snapshot) {
+        throw new o2_exception('Cannot set snapshot name for view <i>'.$view_name.
+                               '</i>: view is already in snapshot mode.',
+                               o2error_SNAPSHOT);
+        return false;
+        }
+    if ($snapshot_name) {
+        $view->snapshot_name = $snapshot_name;
+        }
+    return $view->snapshot_name;
+
+    }
+
 // =============================== TRANSACTION ===========================================
 
 
