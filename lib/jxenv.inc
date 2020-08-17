@@ -752,8 +752,7 @@ class o2_prg {
                            $text_delimiter.$fields_separator;
                 }
             // _______________________________________________________ Add field title ___
-            $str2add.= ($title ? $text_delimiter.$title.$text_delimiter : "").
-                       $fields_separator;
+            $str2add.= $text_delimiter.$title.$text_delimiter.$fields_separator;
             }
         $exp_str = substr($str2add, 0, -1)."\n";
         $exp_len = strlen($str2add);
@@ -804,15 +803,13 @@ class o2_prg {
                             }
                         break;
                     default:
-                        $str2add.= ($field_value ?
-                                    $text_delimiter.
-                                    str_replace("\n", "\r",
-                                                str_replace($text_delimiter,
-                                                            $text_delimiter.
-                                                            $text_delimiter,
-                                                            $field_value)).
-                                                $text_delimiter : "").
-                                    $fields_separator;
+                        $str2add.= $text_delimiter.
+                                   str_replace("\n", "\r",
+                                               str_replace($text_delimiter,
+                                                           $text_delimiter.
+                                                           $text_delimiter,
+                                                           $field_value)).
+                                   $text_delimiter.$fields_separator;
                         break;
                     }
                 // _______________________________ If field is in combo set two values ___
