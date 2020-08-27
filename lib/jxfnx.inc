@@ -3881,15 +3881,15 @@ function o2model_values4combo($model_name, $add_blank = false, $blank_label = ""
 function o2field_name($table_name, $field_name) {
 
     $app = $_SESSION['o2_app'];
-    if (isset($app->tab[$table_name]) &&
-        isset($app->tab[$table_name]->campi[$field_name])) {
-        // ______________________________ Physical name is returned without delimiters ___
-        return $app->tab[$table_name]->campi[$field_name]->phys_name;
-        }
-    elseif (isset($app->tab[$table_name]) &&
-            $app->tab[$table_name]->asp == 'C' &&
-            strtoupper($field_name) == 'O2ASPID') {
-        return $app->tab[$table_name]->campi['O2ASPID']->phys_name;
+    if (isset($app->tab[$table_name])) {
+        $field_name = strtolower($field_name);
+        foreach (array_keys($app->tab[$table_name]->campi) as $field) {
+            if (strtolower($field) == $field_name) {
+                // ______________________ Physical name is returned without delimiters ___
+                return $app->tab[$table_name]->campi[$field]->phys_name;
+                }
+            }
+        return false;
         }
     else {
         return false;
