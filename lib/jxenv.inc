@@ -2875,7 +2875,7 @@ class o2_dbview extends o2_view {
                 $where_exp.= ' JXTAB('.$file->repos_index.':'.$file_alias.')';
                 }
             $where_exp.= '"';
-            eval("\$sql = jxsql('".$file_type."',".$where_exp.");");
+            eval("\$sql = jxsql('".$link_db->id."',".$where_exp.");");
             $sql = substr($sql, 0, strpos($sql, '##JX##'));
             // ___________________________________________ If custom part is not empty ___
             if ($sql) {
@@ -6226,6 +6226,7 @@ class o2_dbview extends o2_view {
         $snps_view->suffisso      = $this->suffisso;
         $snps_view->aggregate     = $this->aggregate;
         $snps_view->auto_aggr     = $this->auto_aggr;
+        $snps_view->custom_where  = $this->custom_where;
         $snps_view->snapshot      = true;
         $snps_view->snps_ori_type = $this->file->db->server->type;
         $snps_view->internal      = true;
