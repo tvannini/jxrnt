@@ -668,7 +668,10 @@ class o2_prg {
                         if ($single_ctrl->campo_in_ctrl &&
                             $single_ctrl->task == $view_name &&
                             (!$only_visible || $single_ctrl->is_visible()) &&
-                            !in_array($single_ctrl->campo_in_ctrl, $excluded_aliases)) {
+                            !in_array($single_ctrl->campo_in_ctrl, $excluded_aliases) &&
+                            (!$exp_view->snapshot ||
+                             ($single_ctrl->campo_in_ctrl != 'JXSNPS_STATUS' &&
+                              $single_ctrl->campo_in_ctrl != 'JXSNPS_PRVKEY'))) {
                             // _________________________________ Check title from grid ___
                             if ($single_ctrl->padre &&
                                 $single_form->controlli[$single_ctrl->padre]->tipo_ctrl ==
@@ -720,7 +723,10 @@ class o2_prg {
             else {
                 $vis_fields = array();
                 foreach ($exp_view->campi as $field_name => $single_field) {
-                    if (!in_array($field_name, $excluded_aliases)) {
+                    if (!in_array($field_name, $excluded_aliases) &&
+                        (!$exp_view->snapshot ||
+                         ($field_name != 'JXSNPS_STATUS' &&
+                          $field_name != 'JXSNPS_PRVKEY'))) {
                         $vis_fields[] = $field_name;
                         }
                     }
@@ -5506,15 +5512,29 @@ class o2_dbview extends o2_view {
         if ($app->sqltrace) {
             jxsql_stat($this, 'W');
             }
-        o2_gateway::deleterec($mfile->db->server->type,
-                              $mfile->db->server->server,
-                              $mfile->db->server->user,
-                              $mfile->db->server->password,
-                              $mfile->db->nome,
-                              $mfile->db->proprietario,
-                              $mfile->write_name,
-                              $mfile_name,
-                              $where);
+        if ($this->snapshot) {
+            o2_gateway::modifyrec($mfile->db->server->type,
+                                  $mfile->db->server->server,
+                                  $mfile->db->server->user,
+                                  $mfile->db->server->password,
+                                  $mfile->db->nome,
+                                  $mfile->db->proprietario,
+                                  $mfile->write_name,
+                                  $mfile_name,
+                                  array('JXSNPS_STATUS' => "'D'"),
+                                  $where);
+            }
+        else {
+            o2_gateway::deleterec($mfile->db->server->type,
+                                  $mfile->db->server->server,
+                                  $mfile->db->server->user,
+                                  $mfile->db->server->password,
+                                  $mfile->db->nome,
+                                  $mfile->db->proprietario,
+                                  $mfile->write_name,
+                                  $mfile_name,
+                                  $where);
+            }
         $this->vista     = false;
         $this->direzione = 0;
         return true;
