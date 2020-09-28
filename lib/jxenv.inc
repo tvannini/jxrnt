@@ -2257,6 +2257,12 @@ class o2_dbview extends o2_view {
                     $c_c       = constant("o2_".$this->file->db->server->type."_c");
                     $field_obj = $this->campi[$aggr['field']];
                     $field     = $c_o.$field_obj->file.$c_c.'.'.$field_obj->nome_fisico;
+                    if ($field_obj->formula) {
+                        $field = $field_obj->formula;
+                        }
+                    else {
+                        $field = $c_o.$field_obj->file.$c_c.'.'.$field_obj->nome_fisico;
+                        }
                     $arr_local["JXFUNC_".$i] = array('func'  => $aggr['func'],
                                                      'field' => $field);
                     }
