@@ -1826,7 +1826,8 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
                 waitCtrl.style.display = 'none';
                 // __________________________ Simulate original control as a container ___
                 o2jse.waitObj = o2jse.createEl(false, 'DIV', cClass);
-                pNode.insertBefore(o2jse.waitObj, waitCtrl);
+                // _________________________________________ This is an insertAfter()! ___
+                pNode.insertBefore(o2jse.waitObj, waitCtrl.nextSibling);
                 var bgImg = (o2jse.waitObj.currentStyle ||
                              window.getComputedStyle(o2jse.waitObj,
                                                      false)).backgroundImage;
@@ -2880,8 +2881,6 @@ o2jse.tab.moveSel = function(sourceRow, targetRow, noRequest) {
                             var targetClone       = targetField.cloneNode(true);
                             targetClone.innerHTML = sourceField.innerHTML;
                             sourceField.innerHTML = targetField.innerHTML;
-//                            targetField.id        = sourceField.id;
-//                            sourceField.removeAttribute('id');
                             targetParent.replaceChild(sourceField, targetField);
                             sourceParent.innerHTML = "";
                             sourceParent.appendChild(targetClone);
