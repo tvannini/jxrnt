@@ -3309,21 +3309,29 @@ class o2_app {
         ksort($log);
         foreach($log as &$views) {
             ksort($views);
-            foreach($views as &$dbs) {
-                ksort($dbs);
+            foreach ($views as &$tables) {
+                ksort($tables);
+                foreach($tables as &$dbs) {
+                    ksort($dbs);
+                    }
                 }
             }
         unset($views);
+        unset($tables);
         unset($dbs);
         $prg_len  = 0;
         $view_len = 0;
+        $tab_len  = 0;
         $db_len   = 0;
         foreach ($log as $prg => $views) {
             $prg_len = max($prg_len, strlen($prg));
-            foreach ($views as $view => $dbs) {
+            foreach ($views as $view => $tables) {
                 $view_len = max($view_len, strlen($view));
-                foreach ($dbs as $db => $modes) {
-                    $db_len = max($db_len, strlen($db));
+                foreach ($tables as $table => $dbs) {
+                    $tab_len = max($tab_len, strlen($table));
+                    foreach ($dbs as $db => $modes) {
+                        $db_len = max($db_len, strlen($db));
+                        }
                     }
                 }
             }
@@ -3332,22 +3340,29 @@ class o2_app {
             $title = '[SQL STATISTICS] Read: '.intval($total['R']).
                                      ' Write: '.intval($total['W'])."\n";
             $code  = "\n ".str_pad('Program', $prg_len).'   '.str_pad('View', $view_len).
-                     '   '.str_pad('DB', $db_len).'   Read  Write'."\n ".
-                     str_repeat('-', $prg_len + $view_len + $db_len + 20)."\n";
+                     '   '.str_pad('DB', $tab_len).'   '.str_pad('DB', $db_len).
+                     '   Read  Write'."\n ".
+                     str_repeat('-', $prg_len + $view_len + $db_len + $tab_len + 20)."\n";
             foreach ($log as $prg => $views) {
                 $prg_f = true;
-                foreach ($views as $view => $dbs) {
+                foreach ($views as $view => $tables) {
                     $view_f = true;
-                    foreach ($dbs as $db => $modes) {
-                        $code.= ' '.($prg_f  ? str_pad($prg, $prg_len) :
-                                               str_repeat(' ', $prg_len)).'   '.
-                                    ($view_f ? str_pad($view, $view_len) :
-                                               str_repeat(' ', $view_len)).'   '.
-                                    str_pad($db, $db_len).' '.
-                                    str_pad($modes['R'], 5, ' ', STR_PAD_LEFT).'  '.
-                                    str_pad($modes['W'], 5, ' ', STR_PAD_LEFT)."\n";
-                        $prg_f  = false;
-                        $view_f = false;
+                    foreach ($tables as $table => $dbs) {
+                        $tab_f = true;
+                        foreach ($dbs as $db => $modes) {
+                            $code.= ' '.($prg_f  ? str_pad($prg, $prg_len) :
+                                                str_repeat(' ', $prg_len)).'   '.
+                                        ($view_f ? str_pad($view, $view_len) :
+                                                str_repeat(' ', $view_len)).'   '.
+                                        ($tab_f ? str_pad($table, $tab_len) :
+                                                str_repeat(' ', $tab_len)).'   '.
+                                        str_pad($db, $db_len).' '.
+                                        str_pad($modes['R'], 5, ' ', STR_PAD_LEFT).'  '.
+                                        str_pad($modes['W'], 5, ' ', STR_PAD_LEFT)."\n";
+                            $prg_f  = false;
+                            $view_f = false;
+                            $tab_f  = false;
+                            }
                         }
                     }
                 }
@@ -3365,19 +3380,25 @@ class o2_app {
         // ____________________________________________________________ Log to console ___
         if (!$app->mutelog && !$app->rpc_server) {
             $code = '<table cellspacing="0" cellpadding="0"><tr><th>Program</th>'.
-                    '<th>View</th><th>DB</th><th>Read</th><th>Write</th></tr>';
+                    '<th>View</th><th>Table</th><th>DB</th><th>Read</th>'.
+                    '<th>Write</th></tr>';
             foreach ($log as $prg => $views) {
                 $prg_f = true;
-                foreach ($views as $view => $dbs) {
+                foreach ($views as $view => $tables) {
                     $view_f = true;
-                    foreach ($dbs as $db => $modes) {
-                        $code.= '<tr '.($prg_f ? 'class="dbgh"' : '').'><td>'.
-                                          ($prg_f  ? $prg  : '&nbsp').'</td><td>'.
-                                          ($view_f ? $view : '&nbsp').'</td><td>'.
-                                          $db.'</td><td>'.$modes['R'].'</td><td>'.
-                                                          $modes['W'].'</td></tr>';
-                        $prg_f  = false;
-                        $view_f = false;
+                    foreach ($tables as $table => $dbs) {
+                        $tab_f = true;
+                        foreach ($dbs as $db => $modes) {
+                            $code.= '<tr '.($prg_f ? 'class="dbgh"' : '').'><td>'.
+                                            ($prg_f  ? $prg  : '&nbsp').'</td><td>'.
+                                            ($view_f ? $view : '&nbsp').'</td><td>'.
+                                            ($tab_f ? $table : '&nbsp').'</td><td>'.
+                                            $db.'</td><td>'.$modes['R'].'</td><td>'.
+                                                            $modes['W'].'</td></tr>';
+                            $prg_f  = false;
+                            $view_f = false;
+                            $tab_f  = false;
+                            }
                         }
                     }
                 }

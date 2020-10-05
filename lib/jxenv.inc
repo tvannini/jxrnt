@@ -8348,10 +8348,14 @@ function jxsql_stat($view, $mode = 'R', $table = false) {
     if (!isset($GLOBALS['jxsql_stat'][$prg][$view])) {
         $GLOBALS['jxsql_stat'][$prg][$view] = array();
         }
-    if (!isset($GLOBALS['jxsql_stat'][$prg][$view][$db])) {
-        $GLOBALS['jxsql_stat'][$prg][$view][$db] = array('R' => 0, 'W' => 0);
+    if (!isset($GLOBALS['jxsql_stat'][$prg][$view][$tab_obj->repos_index])) {
+        $GLOBALS['jxsql_stat'][$prg][$view][$tab_obj->repos_index] = array();
         }
-    $GLOBALS['jxsql_stat'][$prg][$view][$db][$mode]++;
+    if (!isset($GLOBALS['jxsql_stat'][$prg][$view][$tab_obj->repos_index][$db])) {
+        $GLOBALS['jxsql_stat'][$prg][$view][$tab_obj->repos_index][$db] = array('R' => 0,
+                                                                                'W' => 0);
+        }
+    $GLOBALS['jxsql_stat'][$prg][$view][$tab_obj->repos_index][$db][$mode]++;
     $GLOBALS['jxsql_stat']['#TOTAL'][$mode]++;
 
     }
