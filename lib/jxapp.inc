@@ -3340,9 +3340,9 @@ class o2_app {
             $title = '[SQL STATISTICS] Read: '.intval($total['R']).
                                      ' Write: '.intval($total['W'])."\n";
             $code  = "\n ".str_pad('Program', $prg_len).'   '.str_pad('View', $view_len).
-                     '   '.str_pad('DB', $tab_len).'   '.str_pad('DB', $db_len).
+                     '   '.str_pad('Table', $tab_len).'   '.str_pad('DB', $db_len).
                      '   Read  Write'."\n ".
-                     str_repeat('-', $prg_len + $view_len + $db_len + $tab_len + 20)."\n";
+                     str_repeat('-', $prg_len + $view_len + $db_len + $tab_len + 23)."\n";
             foreach ($log as $prg => $views) {
                 $prg_f = true;
                 foreach ($views as $view => $tables) {
