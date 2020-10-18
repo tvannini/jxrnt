@@ -171,6 +171,7 @@ class o2_app {
     public $profiling       = false;   /* Enables runtime profiling capabilities        */
     public $wait_on_ctrl    = true;    /* If waiting icon is displayed on submit control*/
     public $fastmsg_time    = 5;       /* Fast messages time-out to fade away           */
+    public $prgs_path_inc   = false;   /* List of extra paths to look for prgs in       */
     /*     _____ Miscellaneous ________________________________________________________ */
     public $host            = '';      /* Machine registered name in a Janox network    */
     public $zoom            = true;    /* Enables activation for zoomable fields        */
@@ -1362,6 +1363,24 @@ class o2_app {
         if (isset($conf['unlockprg'])) {
             $this->prg_unlock = $conf['unlockprg'];
             }
+        if (isset($conf['prgs_path_inc'])) {
+            $this->prgs_path_inc = array();
+            foreach(explode(';', $conf['prgs_path_inc']) as $path) {
+                if (strcspn($path, '\\/', 0, 1) &&
+                    !preg_match('/\w\:/', $path[0].$path[1])) {
+                    if ($path[0] == '.') {
+                        $path = $this->dir_home.ltrim(substr($path, 1), '\\/');
+                        }
+                    else {
+                        $path = $this->dir_home.$path;
+                        }
+                    }
+                if (is_dir($path)) {
+                    $this->prgs_path_inc[] = rtrim(realpath($path), '\\/').
+                                             DIRECTORY_SEPARATOR;
+                    }
+                }
+            }
         if (isset($conf['msg_del'])) {
             $this->msg_del = $conf['msg_del'];
             }
@@ -2008,6 +2027,15 @@ class o2_app {
             $this->istanze_prg[$this->progressivo_istanze]->load_custom_grids();
             }
         else {
+            if ($this->prgs_path_inc) {
+                foreach ($this->prgs_path_inc as $path) {
+                    if (@include_once($path.$prg_name.'.prg')) {
+                        $this->istanze_prg[$this->progressivo_istanze]
+                                                                    ->load_custom_grids();
+                        return;
+                        }
+                    }
+                }
             throw new o2_exception("Cannot find file <i>".$script_local.
                                    "</i> requested as PRG module for program <i>".
                                    $prg_name."</i>.",
@@ -2062,6 +2090,13 @@ class o2_app {
             $script_local = $this->dir_progs.$prg_name.".prf";
             }
         if (!@include_once($script_local)) {
+            if ($this->prgs_path_inc) {
+                foreach ($this->prgs_path_inc as $path) {
+                    if (@include_once($path.$prg_name.'.prf')) {
+                        return;
+                        }
+                    }
+                }
             throw new o2_exception("Cannot find file <i>".$script_local.
                                    "</i> requested as PRF module for program <i>".
                                    $prg_name."</i>.",

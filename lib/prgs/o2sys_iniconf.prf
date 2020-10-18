@@ -961,6 +961,13 @@ $list = array(
                                "Name of an application program to be executed each time control get back to ".
                                "the server (each user activity). This program must be a \"pure batch\" (no windows allowed).",
                      "default" => ""),
+   "prgs_path_inc" => array("rntval" => null,
+                            "appval" => null,
+                            "desc" => "   *** Programs path inclusion ***\n\n".
+                                      "List of column (;) separated paths to include programs from.\n".
+                                      "When one or more paths are set, these paths will be checked AFTER ".
+                                      "standard folders for programs scripts existance, in the set order.",
+                            "default" => ""),
    "services" => array("rntval" => null,
                        "appval" => null,
                        "desc" => "   *** Services ***\n\n".
@@ -1397,6 +1404,7 @@ function o2sys_iniconf_exp_34() {
               "warning_log",
               "reporter",
               "jxsql",
+              "prgs_path_inc",
               "",
               "decimals",
               "thousands",
