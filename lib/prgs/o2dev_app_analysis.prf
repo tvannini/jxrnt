@@ -1119,16 +1119,153 @@ return (o2val('prg§_§var','analysis_model') == "SQLFORMULA");
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_32() {
-	$app    = $_SESSION['o2_app'];
-$prgs   = array();
+	/*   Define function to get links with bad criteria   */
+$bad_criteria = function($cont) {
+
+   $app  = $_SESSION['o2_app'];
+   $tabs = array_combine(array_keys($app->tab), array_keys($app->tab));
+   $res  = array();
+   /*   LOOP ON ALL TABLES   */
+   foreach ($app->tab as $tab_name => $tab) {
+      $pk = array();
+      foreach ($tab->chiave->segmenti as $segm) {
+         $pk[$segm->campo->name] = $segm->campo->name;
+         }
+      /*   EXCLUDE LOG TABLES   */
+      if (substr($tab_name, -4) == "_log") {
+         unset($tabs[$tab_name]);
+         }
+       /*   GET TABLES USED AS LINK TABLE  */
+      elseif (strpos($cont, '->usa_file_link("'.$tab_name.'"')) {
+         $matches = array();
+         preg_match_all('/\$task_([^-$]*)->usa_file_link\("'.$tab_name.'","([^"]*)",/s',
+                        $cont, $matches);
+         /*   LOOP ON TABLES USES BY ALIAS   */
+         foreach ($matches[2] as $link_idx => $link_alias) {
+            $pka              = $pk;
+            $view             = $matches[1][$link_idx];
+            $matches2         = array();
+            $matches7         = array();
+            $bad_criteria_exp = false;
+            /*   FIND CRITERIA FOR EACH LINKED TABLE   */
+            preg_match_all('/\$task_'.$view.
+                           '->unisci\("[^"]*","'.$link_alias.
+                           /*  <field>   <min>   <max>   <not>  <like>   */
+                           '","([^"]*)",([^,]*),([^,]*),([^,]*),([^,;]*)\);/s',
+                           $cont, $matches2);
+            /*   LOOP ON LINK CRITERIA FOR EACH LINK ALIAS   */
+            foreach ($matches2[1] as $field_idx => $field) {
+               /*   REMOVE PK USED SEGMENTS FROM LIST   */
+               if (isset($pka[$field])) {
+                  unset($pka[$field]);
+                  }
+               /*   CHECK EXPRESSION CRITERIA   */
+               $min  = trim($matches2[2][$field_idx], '"');
+               $max  = trim($matches2[3][$field_idx], '"');
+               $not  = trim($matches2[4][$field_idx], '"');
+               $like = trim($matches2[5][$field_idx], '"');
+               /*   DEFINE BAD CRITERIA BY EXPRESSIONS ANALYSIS   */
+               $bad_criteria_exp = $bad_criteria_exp ||
+                                   ($min != $max) ||
+                                   ($not && strtolower($not) != "null") ||
+                                   ($like && strtolower($like) != "null");
+               /*   CHECK FIELDS TYPE COMPATIBILITY   */
+               if (!$bad_criteria_exp && substr($min, -2) == "()") {
+                  $matches3 = array();
+                  preg_match_all('/function '.$min.'\(\) {\s*return \(\s*'.
+                                 /*               <view>                    <field>   */
+                                 'o2val\(\s*["\']([^\'"]*)["\']\s*,\s*["\']([^\'"]*)["\']\s*\)\s*\);/s',
+                                 $cont, $matches3);
+                  $exp_view  = $matches3[2][0];
+                  $exp_field = $matches3[3][0];
+                  /*   LINKS ARE JOIN-ABLE ONLY IF FIELDS ARE FROM THE SAME VIEW   */
+                  if ($exp_view == $view) {
+                     $matches4 = array();
+                     preg_match_all('/\$task_'.$view.
+                                    /*                        <table>   <field>   */
+                                    '->usa\("'.$exp_field.'","([^"]*)","([^"]*)",/s',
+                                    $cont, $matches4);
+                     $exp_tab_alias = $matches4[1][0];
+                     $exp_tab_field = $matches4[2][0];
+                     /*   IF SELECT FOUND   */
+                     if ($exp_tab_field) {
+                        /*   GET TABLE FROM ALIAS   */
+                        $matches5 = array();
+                        preg_match_all('/\$task_'.$view.
+                                       '->usa_file(_link)*\("([^"]*)","'.$exp_tab_alias.'",/s',
+                                       $cont, $matches5);
+                        $exp_tab_name   = $matches5[2][0];
+                        $field_type     = $tab->campi[$field]->maschera->tipo;
+                        $exp_field_type = $app->tab[$exp_tab_name]->campi[$exp_tab_field]->maschera->tipo;
+                        /*   IF FIELDS DO NOT MATCH BY TYPE   */
+                        if ($field_type != $exp_field_type) {
+                           $res[$view][$link_alias] = 1;
+                           }
+                        }
+                     /*   IF SELECT NOT FOUND LOOK FOR FORMULA   */
+                     else {
+                        $res[$view][$link_alias] = 1;
+                        }
+                     }
+                  }
+               }
+            /*   ADD LINKS WITH BAD CRITERIA BY EXPRESSION   */
+            if ($bad_criteria_exp) {
+               $res[$view][$link_alias] = 1;
+               }
+            /*   MISSING PK SEGMENTS IN LINK CRITERIA (NOT REMOVED FROM LIST)   */
+            if (count($pka)) {
+               $res[$view][$link_alias] = 1;
+               }
+            }
+         }
+      }
+   return $res;
+
+   };
+
+
+$app    = $_SESSION['o2_app'];
 $insp   = new o2_inspector();
+$prgs   = array();
+$n      = 0;
+$bads   = array();
+$bads_n = 0;
 $outdir = new o2_dir(o2app_dir_prgs().'jxconcat'.DIRECTORY_SEPARATOR);
+$outdir->remove();
 $outdir->crea();
-$n = 0;
 /*   LOOP ON ALL PROGRAMS   */
 foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
-   $prg  = $prf->nome;
-   $cont = file_get_contents($prf->nome_completo);
+   $prg       = $prf->nome;
+   $cont      = file_get_contents($prf->nome_completo);
+   $bad_links = $bad_criteria($cont);   
+   $alist     = array();
+   /*   LIST OF FIELDS -> TABLE-ALIAS   */
+   foreach ($insp::get_prg_selects($cont) as $prgview => $prgtabs) {
+      $alist[$prgview] = array();      
+      foreach ($prgtabs as $prgtab => $prgfields) {      
+         foreach ($prgfields as $prgfield) {
+            $alist[$prgview][$prgfield['alias']] = $prgtab;         
+            }
+         }
+      }
+   /*   LIST OF BAD LINKS TABLES IN VIEWS   */
+   $tlist = array();
+   foreach ($insp::get_prg_tabs($cont) as $reptab => $prgviews) {
+      foreach ($prgviews as $prgview => $viewtabs) {
+         foreach ($viewtabs as $prgtab => $prgtabinfo) {
+            if (!$prgtabinfo['main']) {
+               if (!isset($tlist[$prgview])) {
+                  $tlist[$prgview] = array();
+                  }
+               if (isset($bad_links[$prgview][$prgtab])) {
+                  $tlist[$prgview][$prgtab] = true;
+                  }
+               }
+            }
+         }
+      }      
+   
    /*   FIND ALL FORMULAS   */
    $parts = array();
    preg_match_all('/(\$task_(\w+))->calcola\((["\']\w+["\']\s*,\s*["\']\w+["\']\s*,\s*)["\']'.$prg.
@@ -1201,7 +1338,7 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
                               }
                            // If reading 1st level parameter (no sub function) _
                            elseif ($param_idx) {
-                              // ______________________ Add text to paramter ___
+                              // _____________________ Add text to parameter ___
                               $params[$param_idx].= '(';
                               }
                            break;
@@ -1224,14 +1361,14 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
                               }
                            // If reading 1st level parameter (no sub function) _
                            elseif ($param_idx) {
-                              // ______________________ Add text to paramter ___
+                              // _____________________ Add text to parameter ___
                               $params[$param_idx].= ',';
                               }
                            break;
                         default:
                            // If reading 1st level parameter (no sub function) _
                            if ($param_idx) {
-                              // ______________________ Add text to paramter ___
+                              // _____________________ Add text to parameter ___
                               $params[$param_idx].= trim($token);
                               }
                            break;
@@ -1241,7 +1378,18 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
                          $nest_level == 0 &&
                          count($params) == 2) {
                         if (trim($params[1], '\'"') == $view) {
-                           $res[] = '['.$params[2].']';
+                           //  Check if tab is in list of view excluded tabs ___                     
+                           if (!isset($tlist[$view][$alist[$view][trim($params[2], '\'"')]])) {
+                              $res[] = '['.$params[2].']';
+                              }
+                           else {
+                              // _______ Add case to bad cases fro reporting ___
+                              list($f, $m) = explode(',', $parts[3][$partid]);
+                              $bads[$prg][$view][] = trim($f, '\'"');
+                              $bads_n++;
+                              $res = false;
+                              break;
+                              }
                            }
                         else {
                            $res = false;
@@ -1295,13 +1443,25 @@ if (count($prgs)) {
    foreach ($prgs as $prg_name) {
       $res+= array($prg_name => array("jxresult", $prg_name, "<jx>/img/tabadmin/tree/tab.png"));
       }
-   o2tree_def("jxresult", $res);
-   o2tree_node_show("jxresult", $prg_name);
    }
 else {
    $res = array("jxresult" => array(0, "No patches appplied"));
    o2tree_def("jxresult", $res);
    }
+if ($bads_n) {
+   $res+= array('jxbads' => array(0, 'Unable to convert '.$bads_n.' formulas', "<jx>/img/tabadmin/tree/folder.png"));
+   foreach ($bads as $prg_name => $prg_views) {
+      $res+= array('JXBAD_'.$prg_name => array('jxbads', $prg_name, "<jx>/img/tabadmin/tree/tab.png"));
+      foreach ($prg_views as $prg_view_name => $prg_view) {
+         $res+= array('JXBAD_'.$prg_view_name => array('JXBAD_'.$prg_name, $prg_view_name, "<jx>/img/tabadmin/tree/reference.png"));
+         foreach ($prg_view as $formula) {
+            $res+= array('JXBAD_'.$formula => array('JXBAD_'.$prg_view_name, $formula, "<jx>/img/tabadmin/tree/field.png"));
+            }
+         }
+      }
+   }
+o2tree_def("jxresult", $res);
+o2tree_node_show("jxresult", $prg_name);
 return (true);
 	} //|o2_fine_exp|
 
