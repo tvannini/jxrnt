@@ -6555,16 +6555,19 @@ class o2_ctrl_imglist extends o2_ctrl {
      */
     function get_code() {
 
-        $del_img = $_SESSION['o2_app']->runtime->alias."img/ctrl_delete.png";
-        $code    = "";
-        $style   = "";
-        $cc      = "";
-        $cd      = "";
+        $del_img = $_SESSION['o2_app']->runtime->alias.'img/ctrl_delete.png';
+        $code    = '';
+        $style   = '';
+        $cc      = '';
+        $cd      = '';
+        if (!$this->scripting) {
+            $val = $this->ctrl2sql();
+            }
         if ($this->items_w) {
-            $style.= "width:".$this->items_w."px;";
+            $style.= 'width:'.$this->items_w.'px;';
             }
         if ($this->items_h) {
-            $style.= "height:".$this->items_h."px;";
+            $style.= 'height:'.$this->items_h.'px;';
             }
         if ($this->azione_submit) {
             $cc = ' onclick="o2jse.il.c(this,\'';
@@ -6574,7 +6577,16 @@ class o2_ctrl_imglist extends o2_ctrl {
             $ce = '\');e=o2jse.event.std(event);e.stop()"';
             }
         foreach ($this->list as $key => $item) {
-            $code.= '<div class="jximglist_frame" style="'.$style.'"'.
+            $si = '';
+            if ($this->scripting) {
+                if ($key == $this->last_item) {
+                    $si = ' jximglist_select';
+                    }
+                }
+            elseif ($key == $val) {
+                $si = ' jximglist_select';
+                }
+            $code.= '<div class="jximglist_frame'.$si.'" style="'.$style.'"'.
                     ($cc ? $cc.$key.'\');"' : "").
                     ($cd ?
                      ' onmouseover="document.getElementById(\''.
