@@ -272,24 +272,42 @@ return ('A');
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_7() {
-	$arr_files = array();
-$dir       = o2app_dir_home()."/prgs/";
+	$app  = $_SESSION['o2_app'];
+$prgs = array();
+$dir  = o2app_dir_home()."/prgs/";
 if (is_dir($dir)) {
    if ($dh = opendir($dir)) {
       while (($file = readdir($dh)) !== false) {
          if (substr(trim($file), -3) == 'prg') {
             if (o2zero('prg§_§var','filter_string') ||
                 substr_count(trim($file), trim(o2val('prg§_§var','filter_string')))) {
-               $prg_name             = substr(trim($file), 0, strlen(trim($file)) - 4);
-               $arr_files[$prg_name] = $prg_name;
+               $prg_name        = substr(trim($file), 0, strlen(trim($file)) - 4);
+               $prgs[$prg_name] = $prg_name;
                }
             }
          }
       closedir($dh);
       }
    }
-asort($arr_files);
-return ($arr_files);
+if ($app->prgs_path_inc) {
+   foreach ($app->prgs_path_inc as $path) {
+      if ($dh = opendir($path)) {
+         $path = addcslashes($path, '\\');
+         while (($file = readdir($dh)) !== false) {
+            if (substr(trim($file), -3) == 'prg') {
+               if (o2zero('prg§_§var','filter_string') ||
+                   substr_count(trim($file), trim(o2val('prg§_§var','filter_string')))) {
+                  $prg_name        = substr(trim($file), 0, strlen(trim($file)) - 4);
+                  $prgs[$prg_name] = $prg_name.' ['.$path.']';
+                  }
+               }
+            }
+         closedir($dh);
+         }
+      }
+   }
+asort($prgs);
+return ($prgs);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_8() {
