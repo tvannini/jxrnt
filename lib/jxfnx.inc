@@ -6263,6 +6263,7 @@ function o2view_fetch($view_name) {
             $view_obj->statement->closeCursor();
             $view_obj->statement  = null;
             $view_obj->looping_on = false;
+            $view_obj->computing  = false;
             return false;
             }
         // _________________________________________ Error on statement (during fetch) ___
@@ -6311,6 +6312,7 @@ function o2view_fetch($view_name) {
             }
         $view_obj->statement  = $stm;
         $view_obj->looping_on = true;
+        $view_obj->computing  = true;
         return o2view_fetch($view_name);
         }
     else {
