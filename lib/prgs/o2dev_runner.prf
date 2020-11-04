@@ -281,7 +281,7 @@ if (is_dir($dir)) {
          if (substr(trim($file), -3) == 'prg') {
             if (o2zero('prg§_§var','filter_string') ||
                 substr_count(trim($file), trim(o2val('prg§_§var','filter_string')))) {
-               $prg_name        = substr(trim($file), 0, strlen(trim($file)) - 4);
+               $prg_name        = substr(trim($file), 0, -4);
                $prgs[$prg_name] = $prg_name;
                }
             }
@@ -294,10 +294,10 @@ if ($app->prgs_path_inc) {
       if ($dh = opendir($path)) {
          $path = addcslashes($path, '\\');
          while (($file = readdir($dh)) !== false) {
-            if (substr(trim($file), -3) == 'prg') {
+            $prg_name = substr(trim($file), 0, -4);
+            if (substr(trim($file), -3) == 'prg' && !isset($prgs[$prg_name])) {
                if (o2zero('prg§_§var','filter_string') ||
                    substr_count(trim($file), trim(o2val('prg§_§var','filter_string')))) {
-                  $prg_name        = substr(trim($file), 0, strlen(trim($file)) - 4);
                   $prgs[$prg_name] = $prg_name.' ['.$path.']';
                   }
                }
