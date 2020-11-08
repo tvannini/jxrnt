@@ -339,6 +339,7 @@ class o2html {
               "o2jse.conf.sessName('".$app->session_name."');\n".
               ($app->keep_alive ?
                "o2jse.conf.keepAlive(".($app->timeout * 60 - 30).");\n" : "").
+              (!$app->logout_on_close ? "o2jse.conf.closeLogout(false)\n" : '').
               ($app->network_errors ? "o2jse.conf.netErr();\n" : '').
               ($app->refresh_prg && $app->refresh_time ?
                "o2jse.conf.setRefresh(".$app->refresh_time.");\n" : "").

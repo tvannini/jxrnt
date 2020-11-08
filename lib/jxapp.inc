@@ -99,6 +99,7 @@ class o2_app {
     public $user_rights        = array();   /* List of rights owned by logged user      */
     public $allow_history      = false;     /* If user can get back pages pressing back */
     public $logout_url         = false;     /* URL to logout app to, by o2app_logout()  */
+    public $logout_on_close    = true;      /* Logout session on browser close          */
     public $lock               = false;     /* Deny standard logins under maintenance   */
     public $job_worker         = false;     /* Job running in session, if any           */
     /*     _____ Repositories _________________________________________________________ */
@@ -1329,6 +1330,9 @@ class o2_app {
             }
         if (isset($conf['logout_url'])) {
             $this->logout_url = $conf['logout_url'];
+            }
+        if (isset($conf['logout_on_close'])) {
+            $this->logout_on_close = ($conf['logout_on_close'] ? true : false);
             }
         if (isset($conf['sesserror'])) {
             $this->sess_error = $conf['sesserror'];

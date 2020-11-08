@@ -828,7 +828,7 @@ $list = array(
                          "desc" => "   *** URL to logout to ***\n\n".
                                    "Set HTML page where users will be redirected to, after logout.\n".
                                    "URL will be used by function o2app_logout(), when called without parameters.\n".
-                                   "If URL starts with \"http://\" then it's absolute, else it's considered ".
+                                   "If URL starts with \"http[s]://\" then it's absolute, else it's considered ".
                                    "relative to application alias.",
                          "default" => ""),
    "unlockprg" => array("rntval" => null,
@@ -926,6 +926,15 @@ $list = array(
                                 "will be allowed on current session and a new login is required.\n".
                                 "Time is set in minutes.",
                       "default" => 10),
+   "logout_on_close" => array("rntval" => null,
+                              "appval" => null,
+                              "desc" => "   *** Logout on browser close ***\n\n".
+                                        "When set to ON closing or browsing away from application page in the ".
+                                        "browser will send a message to server, to execute a session logout.\n".
+                                        "On application logout session will be immediatly destroyed and removed, ".
+                                        "regardless timeout expiration (see \"timeout\" parameter).\n",
+                              "default" => "on",
+                              "values" => array("off", "on")),                      
    "allow_history" => array("rntval" => null,
                             "appval" => null,
                             "desc" => "   *** Allow browser history ***\n\n".
@@ -1365,12 +1374,13 @@ function o2sys_iniconf_exp_34() {
               "ldap_search_domain",
               "ldap_base_dn",
               "timeout",
-              "allow_history",
               "keepalive",
+              "logout_on_close",
+              "logout_url",
+              "allow_history",
               "nologin",
               "lockpage",
               "unlockprg",
-              "logout_url",
               "sesserror",
               "startprg",
               "reqprg",
