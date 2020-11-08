@@ -146,6 +146,13 @@ if (session_start()) {
                 $app->logout();
                 }
             break;
+        case "keepalive": // ________________________________________ Open new session ___
+            if (is_a($app, "o2_app")) {
+                provide_db($app);
+                // _____________________________________ ESECUZIONE DEL PRG DI REQUEST ___
+                $app->intcall("tools/o2sys_request");
+                }
+            break;
         case "jxdev": // _________________________________________ Development command ___
             header("Content-type: text/html; charset=".$app->chr_encoding);
             provide_prg($app);

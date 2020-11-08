@@ -91,7 +91,8 @@ var o2jse = {
     dev             : false,       /* Developer tools collection or FALSE if no devmode */
     decimalsPoint   : ',',         /* Character to use as decimal point separator       */
     thousandsPoint  : ' ',         /* Character to use as thousands point separator     */
-    keepAlive       : 0,           /* Number of seconds for reload count-down (0=OFF)   */
+    keepAlive       : 0,           /* Number of seconds for keep-alive sending (0=OFF)  */
+    keepAliveHdl    : null,        /* Keep-alive timeout handler */
     refreshTime     : 0,           /* Number of seconds for refresh count-down (0=OFF)  */
     maxMultiReq     : 5,           /* Max allowed number of unresponsed requests        */
     menuStyle       : 'T',         /* Menu style [T]op or [L]eft                        */
@@ -211,16 +212,19 @@ o2jse.init = function() {
     document.oncontextmenu = o2jse.cMenu.setOn;
     // ________________________________________________________________ Set keep-alive ___
     if (o2jse.keepAlive) {
-        setTimeout(function() {
-                        // __________________ Blur control to save last modified value ___
-                        var id = o2jse.infoForm['o2lastctrl'].value +
-                                 document.forms.o2form['o2_prgexeid'].value;
-                        if (o2jse.infoForm[id] && o2jse.infoForm[id].blur) {
-                            o2jse.infoForm[id].blur();
-                            }
-                        o2jse.cmd.submit();
-                        },
-                   o2jse.keepAlive);
+        if (o2jse.keepAliveHdl) {
+            clearTimeout(o2jse.keepAliveHdl);
+            }
+        o2jse.keepAliveExe = function() {
+                                var fd = new FormData();
+                                fd.append('JXSESSNAME', o2jse.sessName);
+                                fd.append('jxact', 'keepalive');
+                                navigator.sendBeacon(o2jse.rntAlias + 'jxr.php', fd);
+                                clearTimeout(o2jse.keepAliveHdl);
+                                o2jse.keepAliveHdl = setTimeout(o2jse.keepAliveExe,
+                                                                o2jse.keepAlive);
+                                }
+        o2jse.keepAliveHdl = setTimeout(o2jse.keepAliveExe, o2jse.keepAlive);
         }
     // ___________________________________________________ Set refresh (update notify) ___
     if (o2jse.notify.timeOut) {
