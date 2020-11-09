@@ -223,7 +223,7 @@ o2jse.init = function() {
                                 clearTimeout(o2jse.keepAliveHdl);
                                 o2jse.keepAliveHdl = setTimeout(o2jse.keepAliveExe,
                                                                 o2jse.keepAlive);
-                                }
+                                };
         o2jse.keepAliveHdl = setTimeout(o2jse.keepAliveExe, o2jse.keepAlive);
         }
     // ___________________________________________________ Set refresh (update notify) ___
