@@ -10,8 +10,8 @@ o2def::prg("o2sys_request", "verify_session", "", __FILE__);
 
 o2def::view('prg§_§var');
 o2def::view("sessions", False, "", "", 1);
-o2def::act("session_error", "");
-o2def::act("update_db_session", "");
-o2def::act("verify_db_session", "");
-o2def::act("verify_session", "");
+o2def::act("session_error");
+o2def::act("update_db_session");
+o2def::act("verify_db_session");
+o2def::act("verify_session");
 ?>

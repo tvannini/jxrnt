@@ -76,6 +76,7 @@ else {
    }
 $verified = trim(o2val('sessions','o2user')) == o2app_user() && 
             $expire >= o2val('prg§_§var','now');
+
 return ($verified);
 	} //|o2_fine_exp|
 

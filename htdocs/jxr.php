@@ -119,6 +119,9 @@ if (session_start()) {
             break;
         case "sessopen": // _________________________________________ Open new session ___
             if (is_a($app, "o2_app")) {
+                provide_db($app);
+                // _____________________________________ ESECUZIONE DEL PRG DI REQUEST ___
+                $app->intcall("tools/o2sys_request");
                 // _________________________________ Clear all previous output, if any ___
                 ob_end_clean();
                 // ________________________________ Add parameters to open new session ___

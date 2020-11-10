@@ -242,7 +242,7 @@ o2jse.init = function() {
                                                                     'JXSESSNAME=' +
                                                                     o2jse.sessName,
                                                                     o2jse.progress,
-                                                                    jxjs.jsEval,
+                                                                   o2jse.progress.getCode,
                                                                     true);
                                                 },
                                             3000);
@@ -7648,6 +7648,34 @@ o2jse.progress.start = function() {
 o2jse.progress.stop = function() {
 
     o2jse.progress.active = false;
+
+    };
+
+
+/**
+ * Manage progress-bar update AJAX-style receiving. Page, requested by method
+ * o2jse.requester.exe(), is recovered and analysed to get new progress value.
+ *
+ * @param {Object} reqObj
+ * @param {String} reqJs
+ */
+o2jse.progress.getCode = function(reqObj, reqJs) {
+
+    // ________________________________________________________ Evaluate response code ___
+    o2jse.exeCode(reqJs);
+    if (o2jse.progress.active && !o2jse.progress.timeOut) {
+        o2jse.progress.timeOut = setTimeout(function() {
+                                                delete o2jse.progress.timeOut;
+                                                o2jse.requester.exe('progress',
+                                                                    'JXSESSNAME=' +
+                                                                    o2jse.sessName,
+                                                                    o2jse.progress,
+                                                                   o2jse.progress.getCode,
+                                                                    true);
+                                                },
+                                            3000);
+        }
+
 
     };
 
