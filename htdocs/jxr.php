@@ -40,6 +40,11 @@
 //usleep(mt_rand(1, 1000) * 1000);
 // ___________________________________________________________________ Include runtime ___
 include_once '../jxrnt.php';
+// ________________________________________________________________________ Keep alive ___
+if ($_REQUEST['jxact'] == 'keepalive') {
+    update_session();
+    die();
+    }
 // ____________________________________________________ If called by a working session ___
 session_name($_REQUEST["JXSESSNAME"]);
 if (session_start()) {
@@ -147,13 +152,6 @@ if (session_start()) {
                 // _________________________________ Clear all previous output, if any ___
                 ob_end_clean();
                 $app->logout();
-                }
-            break;
-        case "keepalive": // ________________________________________ Open new session ___
-            if (is_a($app, "o2_app")) {
-                provide_db($app);
-                // _____________________________________ ESECUZIONE DEL PRG DI REQUEST ___
-                $app->intcall("tools/o2sys_request");
                 }
             break;
         case "jxdev": // _________________________________________ Development command ___
@@ -359,6 +357,52 @@ function provide_db($app) {
         }
     // _________________________________________________________________ Load gateways ___
     $app->load_gateways();
+
+    }
+
+/**
+ * Performs session record update
+ * A file with needed informations is supposed to be in TMP folder (see o2sys_start)
+ *
+ */
+function update_session() {
+
+    list($server_type,
+         $server_server,
+         $server_user,
+         $server_password,
+         $db_name,
+         $db_owner,
+         $tab_name,
+         $sets,
+         $where,
+         $timeout) = explode("\n",
+                             file_get_contents(rtrim(sys_get_temp_dir(), '\\/').
+                             DIRECTORY_SEPARATOR.
+                             'jx_'.$_COOKIE[$_REQUEST["JXSESSNAME"]]));
+    $sets          = unserialize($sets);
+    $ks            = array_keys($sets);
+    $now           = time();
+    $exp           = $now + ($timeout * 60);
+    $sets[$ks[0]]  = "'".date('Ymd', $now)."'";
+    $sets[$ks[1]]  = "'".date('His', $now)."'";
+    $sets[$ks[2]]  = "'".date('Ymd', $exp)."'";
+    $sets[$ks[3]]  = "'".date('His', $exp)."'";
+    $GLOBALS['o2_runtime']->load_gateway($server_type);
+    o2_gateway::modifyrec($server_type,
+                          $server_server,
+                          $server_user,
+                          $server_password,
+                          $db_name,
+                          $db_owner,
+                          $tab_name,
+                          'jxsessions',
+                          $sets,
+                          $where);
+    o2_gateway::commit($server_type,
+                       $server_server,
+                       $server_user,
+                       $server_password);
 
     }
 

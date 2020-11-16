@@ -134,6 +134,8 @@ function o2sys_start§§db_session_act(&$o2exe) {
 	$o2exe->s(13) && True && o2act::set("sessions", "run_mode", o2sys_start_exp_59()) && $o2exe->e();
 	$o2exe->s(14) && True && o2act::set("sessions", "host", o2sys_start_exp_60()) && $o2exe->e();
 	$o2exe->s(15) && True && o2act::view("sessions", "S", "") && $o2exe->e();
+//	$o2exe->s(16) && True && o2act::remark("Save session update query for keepalive") && $o2exe->e();
+	$o2exe->s(17) && True && o2act::script(o2sys_start_exp_27()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§insert_jxsys_act(&$o2exe) {
@@ -274,12 +276,12 @@ function o2sys_start§§terminal_id_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_start_exp_1() {
-	
+
 return (o2app_user());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_2() {
-	
+
 return ('root');
 	} //|o2_fine_exp|
 
@@ -287,7 +289,7 @@ function o2sys_start_exp_3() {
 	$correct  = false;
 $app_user = o2app_user();
 $reg_user = o2val('users','o2user');
-/*   User is provided and it matches a registered user   */  
+/*   User is provided and it matches a registered user   */
 if ($app_user && $reg_user && ($app_user === $reg_user)) {
    /*   "jxsys" user: only CMD login   */
    if ($app_user == 'jxsys') {
@@ -295,46 +297,46 @@ if ($app_user && $reg_user && ($app_user === $reg_user)) {
          $correct = true;
          }
       }
-   elseif (o2zero('users','o2password') || 
+   elseif (o2zero('users','o2password') ||
            (o2val('users','o2password') === $_SESSION['o2_app']->password)) {
-      $correct = true;   
+      $correct = true;
       }
    }
 return ($correct);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_4() {
-	
+
 return (o2app_sid());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_5() {
-	
+
 return (array());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_6() {
-	
+
 return (date("Ymd", o2val('prg§_§var','now')));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_7() {
-	
+
 return (date("His", o2val('prg§_§var','now')));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_8() {
-	
+
 return (date("Ymd", o2val('prg§_§var','expire')));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_9() {
-	
+
 return (date("His", o2val('prg§_§var','expire')));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_10() {
-	
+
 return (o2app_user() == 'root' && !o2view_rec("root_lookup"));
 	} //|o2_fine_exp|
 
@@ -344,13 +346,13 @@ if (o2rnt_interface() == 'HTML') {
    /* Send HTTP error code 401 */
    header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized", true, 401);
    /* Redirect to no-login page */
-   if (o2app_nologin()) {   
+   if (o2app_nologin()) {
       die('<form name="jxlogout" method="POST" enctype="text/plain" action="'.
           o2app_nologin().
-          '"></form><script>document.forms["jxlogout"].submit();</script>');   
+          '"></form><script>document.forms["jxlogout"].submit();</script>');
       }
    else {
-      die('<br><br><center><h4>Access denied</h4></center>');   
+      die('<br><br><center><h4>Access denied</h4></center>');
       }
    }
 /* CMD BAT */
@@ -362,12 +364,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_12() {
-	
+
 return (o2val('prg§_§var','login_correct'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_13() {
-	
+
 return (o2val('prg§_§var','login_type') == 'STD');
 	} //|o2_fine_exp|
 
@@ -380,12 +382,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_15() {
-	
+
 return (!o2val('prg§_§var','login_correct'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_16() {
-	
+
 return (time());
 	} //|o2_fine_exp|
 
@@ -406,32 +408,32 @@ return ($expire);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_18() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_19() {
-	
+
 return (o2app_validate());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_20() {
-	
+
 return (o2val('prg§_§var','lookup_user'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_21() {
-	
+
 return (o2val('users','area'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_22() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_23() {
-	
+
 return (o2app_user() == 'jxsys' && !o2view_rec("jxsys_lookup"));
 	} //|o2_fine_exp|
 
@@ -446,8 +448,32 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_26() {
-	
+
 return ('jxsys');
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_27() {
+	$app    = $_SESSION['o2_app'];
+$tab    = $app->get_table('o2_sessions');
+$db     = $tab->db;
+$server = $db->server;
+$sets   = array($tab->campi['a_date']->nome_fisico => "'<a_date>'",
+                $tab->campi['a_time']->nome_fisico => "'<a_time>'",
+                $tab->campi['e_date']->nome_fisico => "'<e_date>'",
+                $tab->campi['e_time']->nome_fisico => "'<e_time>'");
+$where  = $tab->campi['sid']->nome_fisico."='".o2app_sid()."'";
+file_put_contents(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR.'jx_'.o2app_sid(),
+                  $server->type."\n".
+                  $server->server."\n".
+                  $server->user."\n".
+                  $server->password."\n".
+                  $db->nome."\n".
+                  $db->proprietario."\n".
+                  $tab->nome."\n".
+                  serialize($sets)."\n".
+                  $where."\n".
+                  o2app_timeout());
+return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_28() {
@@ -456,18 +482,23 @@ return ($cond);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_29() {
-	
+
 return (o2app_name());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_30() {
-	
+
 return (o2val('roles','role_name'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_31() {
 	$list = array_merge(o2val('prg§_§var','rights'), o2_view2list("rights_per_role", "right_code", "right_code"));
 return ($list);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_32() {
+
+return ('10000000');
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_33() {
@@ -477,12 +508,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_34() {
-	
+
 return (o2val('prg§_§var','roles'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_35() {
-	
+
 return (0);
 	} //|o2_fine_exp|
 
@@ -492,42 +523,52 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_37() {
-	
+
 return (o2val('prg§_§var','terminal_id'));
 	} //|o2_fine_exp|
 
+function o2sys_start_exp_38() {
+
+return ('100000');
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_39() {
+
+return ('01000000');
+	} //|o2_fine_exp|
+
 function o2sys_start_exp_40() {
-	
+
 return (!o2view_rec("sessions"));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_41() {
-	
+
 return (isset($_COOKIE) && count($_COOKIE));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_42() {
-	
+
 return (o2val('terminals','terminal_id'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_43() {
-	
+
 return (in_array(o2val('terminals','sid'), $_COOKIE));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_44() {
-	
+
 return (o2zero('prg§_§var','terminal_id'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_45() {
-	
+
 return (mt_rand(0, 999999));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_46() {
-	
+
 return (o2zero('users','expire_date') || (o2val('users','expire_date') > date('Ymd', o2val('prg§_§var','now'))));
 	} //|o2_fine_exp|
 
@@ -544,7 +585,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_48() {
-	
+
 return (o2val('prg§_§var','login_type') == 'LDAP');
 	} //|o2_fine_exp|
 
@@ -560,11 +601,11 @@ if (o2zero('prg§_§var','original_login_name')) {
 else {
    $user = o2val('prg§_§var','original_login_name');
    }
-   
+
 // ______________________ No domain in username: add domain from app options ___
 if (strpos($user, '@') === false) {
-   $domain = ($app->ldap_search_domain ? 
-              $app->ldap_search_domain : 
+   $domain = ($app->ldap_search_domain ?
+              $app->ldap_search_domain :
               substr($server, strpos($server, '.') + 1));
    $user   = $user.'@'.$domain;
    }
@@ -603,12 +644,12 @@ else {
          }
       else {
          $base_dn = array("CN=Users,DC=".join(',DC=', explode('.', $domain)),
-                          "OU=Users,OU=People,DC=".join(',DC=', 
+                          "OU=Users,OU=People,DC=".join(',DC=',
                                                         explode('.', $domain)));
          }
       $link = array();
       for($i = 0; $i < count($base_dn); $i++) {
-         $link[] = $conn; 
+         $link[] = $conn;
          }
       /* ___________________________________________ Execute LDAP request ___ */
       $result = ldap_search($link, $base_dn, "(cn=*)");
@@ -624,15 +665,15 @@ else {
             for ($i = 0; $i < $info['count']; $i++) {
                /* _____________________________ If user found in response ___ */
                if (isset($info[$i]['userprincipalname'])) {
-                  $ldap_user = explode('@', 
-                                 strtolower($info[$i]['userprincipalname'][0])); 
+                  $ldap_user = explode('@',
+                                 strtolower($info[$i]['userprincipalname'][0]));
                   /* ___________________________________________ Login OK ___ */
                   if ($ldap_user == $username) {
                      $login_ok = true;
                      break;
                      }
                   }
-               }  
+               }
 	    }
          }
       }
@@ -651,7 +692,7 @@ return ($correct);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_50() {
-	
+
 return (md5($_REQUEST['password']));
 	} //|o2_fine_exp|
 
@@ -689,7 +730,7 @@ return ($type);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_52() {
-	
+
 return ((o2rnt_interface() == 'BAT') && o2app_user() && o2val('users','o2user'));
 	} //|o2_fine_exp|
 
@@ -700,23 +741,23 @@ $user     = o2app_user();
 $luser    = strtolower($user);
 if (strpos($user, '@') !== false) {
    $user      = substr($user, 0, strpos($user, '@'));
-   $app->user = $user; 
+   $app->user = $user;
    }
 return ($user);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_54() {
-	
+
 return (o2val('prg§_§var','user_name'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_55() {
-	
+
 return (!o2val('prg§_§var','login_correct') && (strpos(o2val('prg§_§var','user_name'), '@') !== false));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_56() {
-	
+
 return (substr(o2val('prg§_§var','user_name'), 0, strpos(o2val('prg§_§var','user_name'), '@')));
 	} //|o2_fine_exp|
 
@@ -733,14 +774,14 @@ elseif (o2val('users','no_pwd_change')) {
 elseif ($_SESSION['o2_app']->password_change) {
    /* _________________ Missing last password date: always reset password ___ */
    if (o2zero('users','last_pwd_date')) {
-      $f = 1;   
+      $f = 1;
       }
    else {
       /* __________________________________________________ Expiring days ___ */
       $e = $_SESSION['o2_app']->password_change;
       $l = o2_date_obj(o2val('users','last_pwd_date'));
       $n = new DateTime();
-      $d = $l->diff($n)->days;     
+      $d = $l->diff($n)->days;
       /* ____________________________________________ If password expired ___ */
       $f = ($d >= $e ? 1 : 0);
       }
@@ -753,17 +794,35 @@ return ($f);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_58() {
-	
+
 return (o2app_user() != "root" && o2app_user() != "jxsys");
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_59() {
-	
+
 return (o2app_runmode());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_60() {
-	
+
 return (o2app_host());
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_61() {
+
+return ('010000');
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_62() {
+	$q = $GLOBALS['jxviewsql'];
+unset($GLOBALS['jxviewsql']);
+$app = $_SESSION['o2_app'];
+$t = $app->get_table('o2_sessions');
+$s = $t->db->server;
+
+file_put_contents(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR.'jx_'.o2app_sid(),
+                  $server."\n".$q);
+o2log($server."\n".$q, 1);
+return (true);
 	} //|o2_fine_exp|
 ?>

@@ -211,20 +211,14 @@ o2jse.init = function() {
     // ________________________________ Manage right-click events to open context menu ___
     document.oncontextmenu = o2jse.cMenu.setOn;
     // ________________________________________________________________ Set keep-alive ___
-    if (o2jse.keepAlive) {
-        if (o2jse.keepAliveHdl) {
-            clearTimeout(o2jse.keepAliveHdl);
-            }
+    if (o2jse.keepAlive && !o2jse.keepAliveHdl) {
         o2jse.keepAliveExe = function() {
-                                var fd = new FormData();
-                                fd.append('JXSESSNAME', o2jse.sessName);
-                                fd.append('jxact', 'keepalive');
-                                navigator.sendBeacon(o2jse.rntAlias + 'jxr.php', fd);
+                                jxjs.beacon('keepalive');
                                 clearTimeout(o2jse.keepAliveHdl);
                                 o2jse.keepAliveHdl = setTimeout(o2jse.keepAliveExe,
                                                                 o2jse.keepAlive);
                                 };
-        o2jse.keepAliveHdl = setTimeout(o2jse.keepAliveExe, o2jse.keepAlive);
+        o2jse.keepAliveExe();
         }
     // ___________________________________________________ Set refresh (update notify) ___
     if (o2jse.notify.timeOut) {
@@ -257,17 +251,19 @@ o2jse.init = function() {
     o2jse.waitDocReady();
     // ______________________________________________ Application logout on page close ___
     if (o2jse.closeLogout) {
-        window.onunload    = logout;
+        window.onunload    = function() { jxjs.beacon('logout'); };
         window.onmouseover = function () { if (!o2jse.closeWait) {
                                               window.onunload = null; } };
         window.onmouseout  = function () { if (!o2jse.submitting) {
-                                              window.onunload = logout; } };
-        window.onfocus     = function () { window.onunload = null;
+                                              window.onunload = function() {
+                                                                   jxjs.beacon('logout');
+                                                                   }; } };
+        window.onclick     = function () { window.onunload = null;
                                            o2jse.closeWait = false; };
         document.onkeydown = function (e) {
             if (e.key == 'Control' || e.key == 'Alt') {
                 if (!o2jse.submitting) {
-                    window.onunload = logout;
+                    window.onunload = function() { jxjs.beacon('logout'); };
                     o2jse.closeWait = true;
                     }
                 }
@@ -276,15 +272,6 @@ o2jse.init = function() {
                 o2jse.closeWait = false;
                 }
             };
-
-        function logout() {
-
-            var fd = new FormData();
-            fd.append('JXSESSNAME', o2jse.sessName);
-            fd.append('jxact', 'logout');
-            navigator.sendBeacon(o2jse.rntAlias + 'jxr.php', fd);
-
-            }
         }
     // _____________________________________________________________ Set focus control ___
     if (o2jse.ctrl.focusCtrl) {
@@ -7852,6 +7839,27 @@ jxjs.jsEval = function(reqObj, reqJs) {
         o2jse.exeCode(scriptList);
         }
     o2jse.init();
+
+    };
+
+
+/**
+ * Manage requester end on FULL-AJAX mode. Evaluate returned script to update interface.
+ *
+ * @param {String} jxact
+ * @param {Object} params
+ */
+jxjs.beacon = function(jxact, params) {
+
+console.log('BEACON: ' + jxact);
+    var fd = new FormData();
+    fd.append('JXSESSNAME', o2jse.sessName);
+    fd.append('jxact', jxact);
+    if (params && params.length) {
+        Object.keys(params).forEach(function(k) { fd.append(k, params[k]); });
+        }
+    navigator.sendBeacon(o2jse.rntAlias + 'jxr.php', fd);
+    delete(fd);
 
     };
 
