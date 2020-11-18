@@ -525,6 +525,7 @@ class o2_app {
      */
     function logout($exit_url = "", $params = false) {
 
+        // _____________________________________________________ Remove session record ___
         $sess_tab = $this->get_table('o2_sessions');
         o2_gateway::deleterec($sess_tab->db->server->type,
                               $sess_tab->db->server->server,
@@ -537,6 +538,15 @@ class o2_app {
                               $sess_tab->campi['sid']->nome_fisico." = '".
                                                                    $this->session_id."'");
         $this->commit_all(true);
+        // ____________________________________________________ Remove user tmp-folder ___
+        $this->dir_tmp->remove();
+        // _____________________________________ Remove keepalive file from system TMP ___
+        $tmp_d = new o2_dir(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR);
+        $tmp_f = $tmp_d->element('jx_'.$this->session_id);
+        if ($tmp_d->exists($tmp_f->nome_completo)) {
+            unlink($tmp_f->nome_completo);
+            }
+        // ____________________________________________________ Remove session cookies ___
         if (session_id()) {
             if (ini_get("session.use_cookies")) {
                 $cookies = session_get_cookie_params();
@@ -1032,6 +1042,14 @@ class o2_app {
                         $tmp_dir->remove();
                         }
                     }
+                }
+            }
+        // ___________________________________________ Delete tmp files for keep-alive ___
+        $tmp_dir = new o2_dir(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR);
+        foreach ($tmp_dir->all_elements('jx_*') as $tmp_f) {
+            // ____________________________________________ Check if session is active ___
+            if (!in_array(substr($tmp_f->nome, 3), $active_sess)) {
+                unlink($tmp_f->nome_completo);
                 }
             }
 
