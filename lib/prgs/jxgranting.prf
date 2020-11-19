@@ -1019,11 +1019,12 @@ function jxgranting§§password_edit_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting§§right_create_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::view("rights", "I", "") && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("prg§_§var", "creation_description", jxgranting_exp_30()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::call(jxgranting_exp_53(), False, "rights§§right_code", "prg§_§var§§action_ok", "prg§_§var§§creation_description") && $o2exe->e();
-	$o2exe->s(4) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("rights", "A", "") && $o2exe->e();
-	$o2exe->s(5) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("right_write", True, "") && $o2exe->e();
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "filter_right", jxgranting_exp_30()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("rights", "I", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "creation_description", jxgranting_exp_30()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::call(jxgranting_exp_53(), False, "rights§§right_code", "prg§_§var§§action_ok", "prg§_§var§§creation_description") && $o2exe->e();
+	$o2exe->s(5) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("rights", "A", "") && $o2exe->e();
+	$o2exe->s(6) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("right_write", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting§§right_delete_act(&$o2exe) {
@@ -1064,11 +1065,12 @@ function jxgranting§§role_add_right_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting§§role_create_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::view("roles", "I", "") && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("prg§_§var", "creation_description", jxgranting_exp_30()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::call(jxgranting_exp_55(), False, "roles§§role_name", "prg§_§var§§action_ok", "prg§_§var§§creation_description") && $o2exe->e();
-	$o2exe->s(4) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("roles", "A", "") && $o2exe->e();
-	$o2exe->s(5) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("role_write", True, "") && $o2exe->e();
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "filter_role", jxgranting_exp_30()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("roles", "I", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "creation_description", jxgranting_exp_30()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::call(jxgranting_exp_55(), False, "roles§§role_name", "prg§_§var§§action_ok", "prg§_§var§§creation_description") && $o2exe->e();
+	$o2exe->s(5) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("roles", "A", "") && $o2exe->e();
+	$o2exe->s(6) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("role_write", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting§§role_delete_act(&$o2exe) {
@@ -1139,19 +1141,20 @@ function jxgranting§§user_add_role_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting§§user_create_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::view("users", "I", "") && $o2exe->e();
-	$o2exe->s(2) && True && o2act::call(jxgranting_exp_31(), False, "users§§o2user", "users§§area", "users§§expire_date", "users§§login_type", "users§§pwds_history", "users§§force_pwd_change", "users§§no_pwd_change", "prg§_§var§§action_ok") && $o2exe->e();
-	$o2exe->s(3) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("users", "A", "") && $o2exe->e();
-//	$o2exe->s(4) && True && o2act::remark("Set creation date") && $o2exe->e();
-	$o2exe->s(5) && (jxgranting_exp_37() || $o2exe->e()) && o2act::set("users", "creation_date", jxgranting_exp_115()) && $o2exe->e();
-//	$o2exe->s(6) && True && o2act::remark("Set random password untill a password is provided") && $o2exe->e();
-	$o2exe->s(7) && (jxgranting_exp_37() || $o2exe->e()) && o2act::set("users", "o2password", jxgranting_exp_111()) && $o2exe->e();
-	$o2exe->s(8) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
-//	$o2exe->s(9) && True && o2act::remark("Preserve flag throw password set") && $o2exe->e();
-	$o2exe->s(10) && True && o2act::set("prg§_§var", "force_pwd_change_save", jxgranting_exp_113()) && $o2exe->e();
-	$o2exe->s(11) && (jxgranting_exp_37() || $o2exe->e()) && o2act::call(jxgranting_exp_36(), False, jxgranting_exp_7(), jxgranting_exp_9999(), "prg§_§var§§action_ok") && $o2exe->e();
-	$o2exe->s(12) && True && o2act::set("users", "force_pwd_change", jxgranting_exp_114()) && $o2exe->e();
-	$o2exe->s(13) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "filter_user", jxgranting_exp_30()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("users", "I", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::call(jxgranting_exp_31(), False, "users§§o2user", "users§§area", "users§§expire_date", "users§§login_type", "users§§pwds_history", "users§§force_pwd_change", "users§§no_pwd_change", "prg§_§var§§action_ok") && $o2exe->e();
+	$o2exe->s(4) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("users", "A", "") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Set creation date") && $o2exe->e();
+	$o2exe->s(6) && (jxgranting_exp_37() || $o2exe->e()) && o2act::set("users", "creation_date", jxgranting_exp_115()) && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Set random password untill a password is provided") && $o2exe->e();
+	$o2exe->s(8) && (jxgranting_exp_37() || $o2exe->e()) && o2act::set("users", "o2password", jxgranting_exp_111()) && $o2exe->e();
+	$o2exe->s(9) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
+//	$o2exe->s(10) && True && o2act::remark("Preserve flag throw password set") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "force_pwd_change_save", jxgranting_exp_113()) && $o2exe->e();
+	$o2exe->s(12) && (jxgranting_exp_37() || $o2exe->e()) && o2act::call(jxgranting_exp_36(), False, jxgranting_exp_7(), jxgranting_exp_9999(), "prg§_§var§§action_ok") && $o2exe->e();
+	$o2exe->s(13) && True && o2act::set("users", "force_pwd_change", jxgranting_exp_114()) && $o2exe->e();
+	$o2exe->s(14) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting§§user_delete_act(&$o2exe) {
