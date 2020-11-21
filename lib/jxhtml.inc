@@ -1776,8 +1776,8 @@ class o2html {
                       ",cT:'form',f:'".$o2form_obj->nome.
                       "',alignH:'".$o2form_obj->align_o.
                       "',alignV:'".$o2form_obj->align_v.
-                      "',x:".$halign_val.
-                       ",y:".$valign_val.
+                      "'".($halign_val ? ",x:".$halign_val : '').
+                       ($valign_val ? ",y:".$valign_val : '').
                       ($o2form_obj->refresh_action ?
                        ",r:'".$o2form_obj->refresh_action."'" : '').
                        ",exit:".($o2form_obj->title_bar &&
