@@ -272,38 +272,11 @@ return ('A');
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_7() {
-	$app  = $_SESSION['o2_app'];
-$prgs = array();
-$dir  = o2app_dir_home()."/prgs/";
-if (is_dir($dir)) {
-   if ($dh = opendir($dir)) {
-      while (($file = readdir($dh)) !== false) {
-         if (substr(trim($file), -3) == 'prg') {
-            if (o2zero('prg§_§var','filter_string') ||
-                substr_count(trim($file), trim(o2val('prg§_§var','filter_string')))) {
-               $prg_name        = substr(trim($file), 0, -4);
-               $prgs[$prg_name] = $prg_name;
-               }
-            }
-         }
-      closedir($dh);
-      }
-   }
-if ($app->prgs_path_inc) {
-   foreach ($app->prgs_path_inc as $path) {
-      if ($dh = opendir($path)) {
-         $path = addcslashes($path, '\\');
-         while (($file = readdir($dh)) !== false) {
-            $prg_name = substr(trim($file), 0, -4);
-            if (substr(trim($file), -3) == 'prg' && !isset($prgs[$prg_name])) {
-               if (o2zero('prg§_§var','filter_string') ||
-                   substr_count(trim($file), trim(o2val('prg§_§var','filter_string')))) {
-                  $prgs[$prg_name] = $prg_name.' ['.$path.']';
-                  }
-               }
-            }
-         closedir($dh);
-         }
+	$prgs = array();
+$flt  = trim(o2val('prg§_§var','filter_string')); 
+foreach (array_keys(o2_inspector::get_app_prgs()) as $prg ) {
+   if (!$flt || substr_count($prg, $flt)) {
+      $prgs[$prg] = $prg;
       }
    }
 asort($prgs);

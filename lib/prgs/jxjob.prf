@@ -397,8 +397,15 @@ if (!o2zero('prg§_§var','job_prg')) {
    elseif (file_exists($app->dir_cvs_progs.$prgname.'.prg')) {
       $prg = $app->dir_cvs_progs.$prgname.'.prg';
       }
-   else {
+   elseif (file_exists($app->dir_progs.$prgname.'.prg')) {
       $prg = $app->dir_progs.$prgname.'.prg';   
+      }
+   elseif ($app->prgs_path_inc) {
+      foreach ($app->prgs_path_inc as $path) {
+         if (file_exists(rtrim($path, "\\/").DIRECTORY_SEPARATOR.$prgname.'.prg')) {
+            $prg = rtrim($path, "\\/").DIRECTORY_SEPARATOR.$prgname.'.prg';   
+            }
+         }
       }
    $parts   = array();
    $prg_txt = file_get_contents($prg);

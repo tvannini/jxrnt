@@ -2712,22 +2712,14 @@ function o2app_createtables() {
  */
 function o2app_prgs_list() {
 
-    $list = array();
-    $dir  = o2app_dir_prgs();
-    if (is_dir($dir)) {
-        if ($dh = opendir($dir)) {
-            while (($file = readdir($dh)) !== false) {
-                $file = trim($file);
-                if (substr($file, -3) == 'prg') {
-                    $prg        = substr($file, 0, -4);
-                    $list[$prg] = $prg;
-                    }
-                }
-            }
-        closedir($dh);
+
+
+    $prgs = array();
+    foreach (array_keys(o2_inspector::get_app_prgs()) as $prg ) {
+        $prgs[$prg] = $prg;
         }
-    asort($list);
-    return $list;
+    asort($prgs);
+    return $prgs;
 
     }
 

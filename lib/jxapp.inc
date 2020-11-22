@@ -7525,13 +7525,27 @@ class o2_inspector {
 
         $app       = $_SESSION['o2_app'];
         $prgs_list = array();
+        // _______________________________________________ Load standard programs list ___
         foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
             $prgs_list[$prf->nome] = $prf->nome_completo;
             }
-        // _________________________________________________ Load custom programs list ___
+        // ____________________________________________ Load development programs list ___
         if ($app->developer) {
             foreach ($app->dir_cvs_progs->all_elements("*.prf") as $prf) {
                 $prgs_list[$prf->nome] = $prf->nome_completo;
+                }
+            }
+        // _________________________________________________ Load custom programs list ___
+        if ($app->prgs_path_inc) {
+            foreach ($app->prgs_path_inc as $path) {
+                if ($dh = new o2_dir($path)) {
+                    foreach ($dh->all_elements("*.prf") as $prf) {
+                        if (!isset($prgs_list[$prf->nome])) {
+                            $prgs_list[$prf->nome] = $prf->nome_completo;
+                            }
+                        }
+                    unset($dh);
+                    }
                 }
             }
         return $prgs_list;
