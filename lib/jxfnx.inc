@@ -2712,8 +2712,6 @@ function o2app_createtables() {
  */
 function o2app_prgs_list() {
 
-
-
     $prgs = array();
     foreach (array_keys(o2_inspector::get_app_prgs()) as $prg ) {
         $prgs[$prg] = $prg;
