@@ -477,7 +477,8 @@ if ($server->type == 'sqlite3') {
 else {
    $host = $server->server;
    }
-file_put_contents(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR.'jx_'.o2app_sid(),
+file_put_contents(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR.
+                  'jx_'.o2app_instance_id().'_'.o2app_sid(),
                   $server->type."\n".
                   $host."\n".
                   $server->user."\n".
@@ -843,6 +844,6 @@ return (true);
 
 function o2sys_start_exp_63() {
 	
-return (o2val('sessions','run_mode') == 'WEB');
+return ((o2val('sessions','run_mode') == 'WEB') && $_SESSION['o2_app']->keep_alive);
 	} //|o2_fine_exp|
 ?>

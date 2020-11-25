@@ -59,6 +59,7 @@ class o2_app {
     public $referer          = '';      /* <alias>/<name>.php ($_SERVER['PHP_SELF'])    */
     public $versione         = '';      /* Version (in the form v.s.r)                  */
     public $titolo           = '';      /* Text to write in the browser title bar       */
+    public $instance_id      = '';      /* Application instance unique id               */
     public $chr_encoding     = '';      /* Character encoding (default windows-1252)    */
     public $default          = '';      /* Document to be included when nothing to do   */
     public $no_login         = '';      /* Failed login page                            */
@@ -355,7 +356,9 @@ class o2_app {
                 $this->crea_cartelle();
                 break;
             }
-        $this->host = strtoupper($this->nome.'@'.gethostname());
+        $this->host        = strtoupper($this->nome.'@'.gethostname());
+        // ________________________________ Set application instance unique identifier ___
+        $this->instance_id = hash('crc32b', $this->dir_home);
         if (!$this->titolo) {
             $this->titolo = $this->nome;
             }
@@ -541,10 +544,12 @@ class o2_app {
         // ____________________________________________________ Remove user tmp-folder ___
         $this->dir_tmp->remove();
         // _____________________________________ Remove keepalive file from system TMP ___
-        $tmp_d = new o2_dir(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR);
-        $tmp_f = $tmp_d->element('jx_'.$this->session_id);
-        if ($tmp_d->exists($tmp_f->nome_completo)) {
-            unlink($tmp_f->nome_completo);
+        if ($this->keep_alive) {
+            $tmp_d = new o2_dir(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR);
+            $tmp_f = $tmp_d->element('jx_'.$this->instance_id.'_'.$this->session_id);
+            if ($tmp_d->exists($tmp_f->nome_completo)) {
+                unlink($tmp_f->nome_completo);
+                }
             }
         // ____________________________________________________ Remove session cookies ___
         if (session_id()) {
@@ -1046,9 +1051,9 @@ class o2_app {
             }
         // ___________________________________________ Delete tmp files for keep-alive ___
         $tmp_dir = new o2_dir(rtrim(sys_get_temp_dir(), '\\/').DIRECTORY_SEPARATOR);
-        foreach ($tmp_dir->all_elements('jx_*') as $tmp_f) {
+        foreach ($tmp_dir->all_elements('jx_'.$this->instance_id.'_*') as $tmp_f) {
             // ____________________________________________ Check if session is active ___
-            if (!in_array(substr($tmp_f->nome, 3), $active_sess)) {
+            if (!in_array(substr($tmp_f->nome, 12), $active_sess)) {
                 unlink($tmp_f->nome_completo);
                 }
             }

@@ -2338,6 +2338,22 @@ function o2app_name() {
 
 
 /**
+ * Returns application instance unique ID.
+ * This ID is a 8 characters string, unique for application home folder.
+ * Instance ID is useful for generating unique file names in applications shared folders.
+ *
+ * @package application
+ * @return  string
+ * @see     o2app_name(), o2app_alias()
+ */
+function o2app_instance_id() {
+
+    return $_SESSION['o2_app']->instance_id;
+
+    }
+
+
+/**
  * Returns application alias as an URL prefix, mostly useful to address application
  * resources (images, JS libraries, ...)
  *
