@@ -86,6 +86,7 @@ var o2jse = {
     appAlias        : "/",         /* Alias of virtual host where is Janox application  */
     charSet         : "UTF-8",     /* Page character set                                */
     sessName        : "PHPSESSID", /* PHP session name                                  */
+    instId          : '',          /* Application instance ID (used by keep-alive)      */
     user            : "default",   /* Currently logged user                             */
     superUser       : false,       /* If user is logged as "root" (or is DEVELOPER)     */
     dev             : false,       /* Developer tools collection or FALSE if no devmode */
@@ -213,7 +214,7 @@ o2jse.init = function() {
     // ________________________________________________________________ Set keep-alive ___
     if (o2jse.keepAlive && !o2jse.keepAliveHdl) {
         o2jse.keepAliveExe = function() {
-                                jxjs.beacon('keepalive');
+                                jxjs.beacon('keepalive', { 'instid' : o2jse.instId });
                                 clearTimeout(o2jse.keepAliveHdl);
                                 o2jse.keepAliveHdl = setTimeout(o2jse.keepAliveExe,
                                                                 o2jse.keepAlive);
@@ -764,9 +765,10 @@ o2jse.conf.closeLogout = function(closeOnLogout) {
  *
  * @param {Integer} tSecs   Number of seconds of the count-down
  */
-o2jse.conf.keepAlive = function(tSecs) {
+o2jse.conf.keepAlive = function(tSecs, instId) {
 
     o2jse.keepAlive = tSecs * 1000;
+    o2jse.instId    = instId;
 
     };
 
@@ -7851,11 +7853,10 @@ jxjs.jsEval = function(reqObj, reqJs) {
  */
 jxjs.beacon = function(jxact, params) {
 
-console.log('BEACON: ' + jxact);
     var fd = new FormData();
     fd.append('JXSESSNAME', o2jse.sessName);
     fd.append('jxact', jxact);
-    if (params && params.length) {
+    if (params && Object.keys(params).length) {
         Object.keys(params).forEach(function(k) { fd.append(k, params[k]); });
         }
     navigator.sendBeacon(o2jse.rntAlias + 'jxr.php', fd);

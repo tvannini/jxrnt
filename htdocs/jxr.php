@@ -379,7 +379,8 @@ function update_session() {
          $timeout) = explode("\n",
                              file_get_contents(rtrim(sys_get_temp_dir(), '\\/').
                              DIRECTORY_SEPARATOR.
-                             'jx_'.$_COOKIE[$_REQUEST["JXSESSNAME"]]));
+                             'jx_'.$_REQUEST['instid'].
+                             '_'.$_COOKIE[$_REQUEST["JXSESSNAME"]]));
     $sets          = unserialize($sets);
     $ks            = array_keys($sets);
     $now           = time();
