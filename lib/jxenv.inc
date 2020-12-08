@@ -4833,22 +4833,8 @@ class o2_dbview extends o2_view {
         $update_arr = array();
         $db_type    = $this->file->db->server->type;
         // ____________________________________________________ Insert trace on record ___
-        if ($app->record_trace &&
-            (!isset($GLOBALS['jxtracesuspend']) ||
-             !in_array($this->file->repos_index, $GLOBALS['jxtracesuspend']))) {
-            $trace_c_user = $this->file->record_trace['cu'];
-            $trace_c_date = $this->file->record_trace['cd'];
-            $trace_c_time = $this->file->record_trace['ct'];
-            $trace_u_user = $this->file->record_trace['uu'];
-            $trace_u_date = $this->file->record_trace['ud'];
-            $trace_u_time = $this->file->record_trace['ut'];
-            $app_c_user   = $app->record_trace['cu'];
-            $app_c_date   = $app->record_trace['cd'];
-            $app_c_time   = $app->record_trace['ct'];
-            $app_u_user   = $app->record_trace['uu'];
-            $app_u_date   = $app->record_trace['ud'];
-            $app_u_time   = $app->record_trace['ut'];
-            }
+        $tracer     = new jx_record_tracer($this->file);
+        $tracer->record();
         foreach ($this->campi as $singolo_campo) {
             if ($singolo_campo->file == $this->file->indice) {
                 $field_name = $singolo_campo->nome;
@@ -4856,47 +4842,8 @@ class o2_dbview extends o2_view {
                     ($this->corrente[$field_name] !== $this->precedente[$field_name])) {
                     $value = $this->corrente[$field_name];
                     // ___________________ Trace columns are removed if valued by user ___
-                    if ($trace_c_user && $field_name == $app_c_user) {
-                        $trace_c_user = false;
-                        // _______________ Zero valued trace fields are left unchenged ___
-                        if (!$value) {
-                            continue;
-                            }
-                        }
-                    elseif ($trace_c_date && $field_name == $app_c_date) {
-                        $trace_c_date = false;
-                        // _______________ Zero valued trace fields are left unchenged ___
-                        if (!trim($value, '0')) {
-                            continue;
-                            }
-                        }
-                    elseif ($trace_c_time && $field_name == $app_c_time) {
-                        $trace_c_time = false;
-                        // _______________ Zero valued trace fields are left unchenged ___
-                        if (!trim($value, '0')) {
-                            continue;
-                            }
-                        }
-                    elseif ($trace_u_user && $field_name == $app_u_user) {
-                        $trace_u_user = false;
-                        // _______________ Zero valued trace fields are left unchenged ___
-                        if (!$value) {
-                            continue;
-                            }
-                        }
-                    elseif ($trace_u_date && $field_name == $app_u_date) {
-                        $trace_u_date = false;
-                        // _______________ Zero valued trace fields are left unchenged ___
-                        if (!trim($value, '0')) {
-                            continue;
-                            }
-                        }
-                    elseif ($trace_u_time && $field_name == $app_u_time) {
-                        $trace_u_time = false;
-                        // _______________ Zero valued trace fields are left unchenged ___
-                        if (!trim($value, '0')) {
-                            continue;
-                            }
+                    if ($tracer->field($singolo_campo, $value)) {
+                        continue;
                         }
                     $f_name = $singolo_campo->nome_fisico;
                     switch ($singolo_campo->maschera->tipo) {
@@ -4941,18 +4888,8 @@ class o2_dbview extends o2_view {
                     $this->file->log_write_full("C", $prev_key);
                     }
                 }
-            // _______________________________________ Update existing tracing columns ___
-            if ($trace_u_user) {
-                $update_arr[$trace_u_user] = "'".
-                                             o2_gateway::normalize($db_type, $app->user).
-                                             "'";
-                }
-            if ($trace_u_date) {
-                $update_arr[$trace_u_date] = "'".date('Ymd')."'";
-                }
-            if ($trace_u_time) {
-                $update_arr[$trace_u_time] = "'".date('His')."'";
-                }
+            // _________________________________________ Update needed tracing columns ___
+            $update_arr+= $tracer->update();
             // __________________________________________ Manage snapshot informations ___
             if ($this->snapshot && !$this->corrente['JXSNPS_STATUS']) {
                 // __ Store previous key needed to copy back updates in original table ___
@@ -4994,6 +4931,7 @@ class o2_dbview extends o2_view {
             }
         $this->precedente = $this->corrente;
         $this->modificato = false;
+        unset($tracer);
         return true;
 
         }
@@ -5019,26 +4957,13 @@ class o2_dbview extends o2_view {
             }
         $doit = false;
         // ____________________________________________________ Insert trace on record ___
-        if ($app->record_trace &&
-            (!isset($GLOBALS['jxtracesuspend']) ||
-             !in_array($this->file->repos_index, $GLOBALS['jxtracesuspend']))) {
-            $trace_c_user = $this->file->record_trace['cu'];
-            $trace_c_date = $this->file->record_trace['cd'];
-            $trace_c_time = $this->file->record_trace['ct'];
-            $trace_u_user = $this->file->record_trace['uu'];
-            $trace_u_date = $this->file->record_trace['ud'];
-            $trace_u_time = $this->file->record_trace['ut'];
-            $app_c_user   = $app->record_trace['cu'];
-            $app_c_date   = $app->record_trace['cd'];
-            $app_c_time   = $app->record_trace['ct'];
-            $app_u_user   = $app->record_trace['uu'];
-            $app_u_date   = $app->record_trace['ud'];
-            $app_u_time   = $app->record_trace['ut'];
-            }
+        $tracer = new jx_record_tracer($this->file);
+        $tracer->record();
         foreach ($this->campi as $singolo_campo) {
             if ($singolo_campo->file == $this->file->indice) {
                 $field_name = $singolo_campo->nome;
-                if ($this->corrente[$field_name] != $this->precedente[$field_name]) {
+                $value      = $this->corrente[$field_name];
+                if ($value != $this->precedente[$field_name]) {
                     $insert_nomi_arr[] = $singolo_campo->nome_fisico;
                     // _____________________ Bulk insert mode: collect fields defaults ___
                     if ($this->bulk_mode) {
@@ -5052,40 +4977,22 @@ class o2_dbview extends o2_view {
                             }
                         }
                     // ___________________ Trace columns are removed if valued by user ___
-                    if ($trace_c_user && $field_name == $app_c_user) {
-                        $trace_c_user = false;
-                        }
-                    elseif ($trace_c_date && $field_name == $app_c_date) {
-                        $trace_c_date = false;
-                        }
-                    elseif ($trace_c_time && $field_name == $app_c_time) {
-                        $trace_c_time = false;
-                        }
-                    elseif ($trace_u_user && $field_name == $app_u_user) {
-                        $trace_u_user = false;
-                        }
-                    elseif ($trace_u_date && $field_name == $app_u_date) {
-                        $trace_u_date = false;
-                        }
-                    elseif ($trace_u_time && $field_name == $app_u_time) {
-                        $trace_u_time = false;
-                        }
+                    $tracer->field($singolo_campo, $value);
                     switch ($singolo_campo->maschera->tipo) {
                         case 'A': // ___________________________________________ Alpha ___
                         case 'S': // _______________________________________ Structure ___
                             $insert_valori_arr[] = "'".o2_gateway::normalize($db_type,
-                                                        $this->corrente[$field_name])."'";
+                                                                             $value)."'";
                             break;
                         case 'D': // ____________________________________________ Date ___
                         case 'O': // ____________________________________________ Time ___
-                            $insert_valori_arr[] = "'".$this->corrente[$field_name]."'";
+                            $insert_valori_arr[] = "'".$value."'";
                             break;
                         case 'L': // _________________________________________ Logical ___
-                            $insert_valori_arr[] = ($this->corrente[$field_name] ?
-                                                    "'1'" : "'0'");
+                            $insert_valori_arr[] = ($value ? "'1'" : "'0'");
                             break;
                         default: // ___________________________________________ Number ___
-                            $insert_valori_arr[] = $this->corrente[$field_name];
+                            $insert_valori_arr[] = $value;
                             break;
                         }
                     $doit = true;
@@ -5094,39 +5001,15 @@ class o2_dbview extends o2_view {
             }
         if ($doit) {
             // _______________________________________ Update existing tracing columns ___
-            $t = time();
-            if ($trace_c_user) {
-                $insert_nomi_arr[]       = $trace_c_user;
-                $insert_valori_arr[]     = "'".o2_gateway::normalize($db_type,$app->user).
-                                           "'";
-                $defaults[$trace_c_user] = "''";
-                }
-            if ($trace_c_date) {
-                $insert_nomi_arr[]       = $trace_c_date;
-                $insert_valori_arr[]     = "'".date('Ymd', $t)."'";
-                $defaults[$trace_c_date] = "'00000000'";
-                }
-            if ($trace_c_time) {
-                $insert_nomi_arr[]       = $trace_c_time;
-                $insert_valori_arr[]     = "'".date('His', $t)."'";
-                $defaults[$trace_c_time] = "'000000'";
-                }
-            if ($trace_u_user) {
-                $insert_nomi_arr[]       = $trace_u_user;
-                $insert_valori_arr[]     = "'".o2_gateway::normalize($db_type,$app->user).
-                                           "'";
-                $defaults[$trace_u_user] = "''";
-                }
-            if ($trace_u_date) {
-                $insert_nomi_arr[]       = $trace_u_date;
-                $insert_valori_arr[]     = "'".date('Ymd', $t)."'";
-                $defaults[$trace_u_date] = "'00000000'";
-                }
-            if ($trace_u_time) {
-                $insert_nomi_arr[]       = $trace_u_time;
-                $insert_valori_arr[]     = "'".date('His', $t)."'";
-                $defaults[$trace_u_time] = "'000000'";
-                }
+            $trace_fields         = array();
+            $trace_values         = array();
+            $trace_defaults       = array();
+            list($trace_fields,
+                 $trace_values,
+                 $trace_defaults) = $tracer->insert();
+            $insert_nomi_arr      = array_merge($insert_nomi_arr, $trace_fields);
+            $insert_valori_arr    = array_merge($insert_valori_arr, $trace_values);
+            $defaults             = array_merge($defaults, $trace_defaults);
             // __________________________________________ Manage snapshot informations ___
             if ($this->snapshot) {
                 $insert_nomi_arr[]               = 'JXSNPS_STATUS';
@@ -5183,6 +5066,7 @@ class o2_dbview extends o2_view {
         $this->totale_record++;
         $this->precedente = $this->corrente;
         $this->modificato = false;
+        unset($tracer);
         return true;
 
         }
@@ -5901,6 +5785,8 @@ class o2_dbview extends o2_view {
             $db_owner   = $table->db->proprietario;
             // _______________________________ Statement to execute prepared delations ___
             $del_stmt   = null;
+            // ________________________________________________________ Tracing fields ___
+            $tracer = new jx_record_tracer($table);
             // __________________________________________________ Compose fields names ___
             $fields   = array();
             $fld_list = array();
@@ -5913,11 +5799,13 @@ class o2_dbview extends o2_view {
             $cache = array();
             $recs = 0;
             while ($row = o2view_fetch($this->nome)) {
+                $tracer->record();
                 switch ($row['JXSNPS_STATUS']) {
                     case 'I':
                         // ______________________________________ Compose values cache ___
                         $rec  = '';
                         foreach ($fld_list as $fld_name => $fld) {
+                            $tracer->field($fld, $row[$fld_name]);
                             if ($rec !== '') {
                                 $rec.= ',';
                                 }
@@ -5935,6 +5823,15 @@ class o2_dbview extends o2_view {
                                                                  true)."'";
                                 }
                             }
+                        // ___________________________ Update existing tracing columns ___
+                        $trace_fields       = array();
+                        $trace_values       = array();
+                        list($trace_fields,
+                             $trace_values) = $tracer->insert();
+                        $fields             = array_merge($fields, $trace_fields);
+                        $rec               .= (count($trace_values) ?
+                                               ','.implode(',', $trace_values) : '');
+                        // ________________________________ Add record to insert cache ___
                         $cache[] = $rec;
                         $recs++;
                         // ________________________________________ Insert cache chunk ___
@@ -5960,6 +5857,7 @@ class o2_dbview extends o2_view {
                         $prev_key = $row['JXSNPS_PRVKEY'];
                         $rec      = array();
                         foreach ($fld_list as $fld_name => $fld) {
+                            $tracer->field($fld, $row[$fld_name]);
                             if ($fld->tipo == 'N') {
                                 if ($row[$fld_name]) {
                                     $rec[] = $row[$fld_name];
@@ -5974,7 +5872,7 @@ class o2_dbview extends o2_view {
                                                                    true)."'";
                                 }
                             }
-                        $update_arr = array_combine($fields, $rec);
+                        $update_arr = array_combine($fields, $rec) + $tracer->update();
                         if ($app->sqltrace) {
                             jxsql_stat($view, 'W');
                             }
@@ -6059,6 +5957,7 @@ class o2_dbview extends o2_view {
                 }
             // _______________________________________________ Free source view cursor ___
             o2view_fetch_free($this->nome);
+            unset($tracer);
             // ______________________________ Delete records with JXSNPS_STATUS to 'D' ___
             if ($app->sqltrace) {
                 jxsql_stat($this, 'W');
@@ -6377,6 +6276,209 @@ class o2_dbview extends o2_view {
         // ___________________________________________ Add table to application tables ___
         $_SESSION['o2_app']->tab[$tab_name] = $table;
         return $table;
+
+        }
+
+    }
+
+
+/**
+ * Manage record tracing fields for a table on insert and update events
+ *
+ */
+class jx_record_tracer {
+
+    private $table        = null;    /* Table tracer is working on                      */
+    private $trace        = false;   /* If tracing is active for view                   */
+    private $trace_c_user = false;   /* If creation user tracing is activer in view     */
+    private $trace_c_date = false;   /* If creation date tracing is activer in view     */
+    private $trace_c_time = false;   /* If creation time tracing is activer in view     */
+    private $trace_u_user = false;   /* If update user tracing is activer in view       */
+    private $trace_u_date = false;   /* If update date tracing is activer in view       */
+    private $trace_u_time = false;   /* If update time tracing is activer in view       */
+    private $app_c_user   = false;   /* Field name for tracing creation user            */
+    private $app_c_date   = false;   /* Field name for tracing creation date            */
+    private $app_c_time   = false;   /* Field name for tracing creation time            */
+    private $app_u_user   = false;   /* Field name for tracing update user              */
+    private $app_u_date   = false;   /* Field name for tracing update date              */
+    private $app_u_time   = false;   /* Field name for tracing update time              */
+
+
+    /**
+     * Preset tracing on passed table and store application tracing fields
+     *
+     *@param o2_file $table   Table tracer is working on
+     */
+    function __construct($table) {
+
+        $app = $_SESSION['o2_app'];
+        // ______________________ Preset fields names for tracing and tracing activity ___
+        if ($app->record_trace &&
+            $table->record_trace &&
+            (!isset($GLOBALS['jxtracesuspend']) ||
+             !in_array($tab->repos_index, $GLOBALS['jxtracesuspend']))) {
+            $this->trace      = true;
+            $this->app_c_user = $app->record_trace['cu'];
+            $this->app_c_date = $app->record_trace['cd'];
+            $this->app_c_time = $app->record_trace['ct'];
+            $this->app_u_user = $app->record_trace['uu'];
+            $this->app_u_date = $app->record_trace['ud'];
+            $this->app_u_time = $app->record_trace['ut'];
+            }
+        $this->table = $table;
+
+        }
+
+    /**
+     * Preset tracing fields for a single record
+     *
+     */
+    function record() {
+
+        if ($this->trace) {
+            $this->trace_c_user = $this->table->record_trace['cu'];
+            $this->trace_c_date = $this->table->record_trace['cd'];
+            $this->trace_c_time = $this->table->record_trace['ct'];
+            $this->trace_u_user = $this->table->record_trace['uu'];
+            $this->trace_u_date = $this->table->record_trace['ud'];
+            $this->trace_u_time = $this->table->record_trace['ut'];
+            }
+
+        }
+
+
+    /**
+     * Check single fields to be removed from tracing when valued in view
+     *
+     * @param  o2_campo_task $field
+     * @return boolean
+     */
+    function field($field, $value) {
+
+        if ($this->trace) {
+            $field_name = $field->nome;
+            // ___________________________ Trace columns are removed if valued by user ___
+            if ($this->trace_c_user && $field_name == $this->app_c_user) {
+                $this->trace_c_user = false;
+                // _______________________ Zero valued trace fields are left unchenged ___
+                if (!$value) {
+                    return true;
+                    }
+                }
+            elseif ($this->trace_c_date && $field_name == $this->app_c_date) {
+                $this->trace_c_date = false;
+                // _______________________ Zero valued trace fields are left unchenged ___
+                if (!trim($value, '0')) {
+                    return true;
+                    }
+                }
+            elseif ($this->trace_c_time && $field_name == $this->app_c_time) {
+                $this->trace_c_time = false;
+                // _______________________ Zero valued trace fields are left unchenged ___
+                if (!trim($value, '0')) {
+                    return true;
+                    }
+                }
+            elseif ($this->trace_u_user && $field_name == $this->app_u_user) {
+                $this->trace_u_user = false;
+                // _______________________ Zero valued trace fields are left unchenged ___
+                if (!$value) {
+                    return true;
+                    }
+                }
+            elseif ($this->trace_u_date && $field_name == $this->app_u_date) {
+                $this->trace_u_date = false;
+                // _______________________ Zero valued trace fields are left unchenged ___
+                if (!trim($value, '0')) {
+                    return true;
+                    }
+                }
+            elseif ($this->trace_u_time && $field_name == $this->app_u_time) {
+                $this->trace_u_time = false;
+                // _______________________ Zero valued trace fields are left unchenged ___
+                if (!trim($value, '0')) {
+                    return true;
+                    }
+                }
+            }
+        return false;
+
+        }
+
+
+    /**
+     * Returns tracing valued fields to be added to update action
+     *
+     * @return array
+     */
+    function update() {
+
+        $t            = time();
+        $trace_fields = array();
+        if ($this->trace) {
+            // _________________________________________ Update needed tracing columns ___
+            if ($this->trace_u_user) {
+                $trace_fields[$this->trace_u_user] = "'".
+                                     o2_gateway::normalize($this->table->db->server->type,
+                                                           $_SESSION['o2_app']->user)."'";
+                }
+            if ($this->trace_u_date) {
+                $trace_fields[$this->trace_u_date] = "'".date('Ymd', $t)."'";
+                }
+            if ($this->trace_u_time) {
+                $trace_fields[$this->trace_u_time] = "'".date('His', $t)."'";
+                }
+            }
+        return $trace_fields;
+
+        }
+
+
+    /**
+     * Returns tracing valued fields to be added to insert action
+     *
+     * @return array
+     */
+    function insert() {
+
+        // _______________________________________ Update existing tracing columns ___
+        $t            = time();
+        $trace_fields = array();
+        $trace_values = array();
+        $defaults     = array();
+        if ($this->trace_c_user) {
+            $trace_fields[] = $this->trace_c_user;
+            $trace_values[] = "'".o2_gateway::normalize($this->table->db->server->type,
+                                                        $_SESSION['o2_app']->user)."'";
+            $defaults[$this->trace_c_user] = "''";
+            }
+        if ($this->trace_c_date) {
+            $trace_fields[]                 = $this->trace_c_date;
+            $trace_values[]                 = "'".date('Ymd', $t)."'";
+            $defaults[$this-> trace_c_date] = "'00000000'";
+            }
+        if ($this->trace_c_time) {
+            $trace_fields[]                = $this->trace_c_time;
+            $trace_values[]                = "'".date('His', $t)."'";
+            $defaults[$this->trace_c_time] = "'000000'";
+            }
+        if ($this->trace_u_user) {
+            $trace_fields[] = $this->trace_u_user;
+            $trace_values[] = "'".o2_gateway::normalize($this->table->db->server->type,
+                                                        $_SESSION['o2_app']->user)."'";
+            $defaults[$this->trace_u_user] = "''";
+            }
+        if ($this->trace_u_date) {
+            $trace_fields[]                = $this->trace_u_date;
+            $trace_values[]                = "'".date('Ymd', $t)."'";
+            $defaults[$this->trace_u_date] = "'00000000'";
+            }
+        if ($this->trace_u_time) {
+            $trace_fields[]                = $this->trace_u_time;
+            $trace_values[]                = "'".date('His', $t)."'";
+            $defaults[$this->trace_u_time] = "'000000'";
+            }
+        return array($trace_fields, $trace_values, $defaults);
 
         }
 
