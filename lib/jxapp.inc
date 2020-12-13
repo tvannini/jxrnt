@@ -5513,6 +5513,7 @@ class o2_run_job {
      * @param  string  $job_name          Job name to filter request on
      * @param  string  $status            Process status to filter request on
      * @param  integer $last_days         Filter run-jobs for last N days (0 = always)
+     * @param  string  $asp_id            Filter run-jobs for execution ASP-Id
      * @return string
      */
     static function get_monitor($user            = '',
@@ -5521,7 +5522,8 @@ class o2_run_job {
                                 $buttons_action  = '',
                                 $job_name        = '',
                                 $status          = '',
-                                $last_days       = 0) {
+                                $last_days       = 0,
+                                $asp_id          = '') {
 
         $app       = $_SESSION['o2_app'];
         $rnt       = $GLOBALS['o2_runtime'];
@@ -5573,7 +5575,7 @@ class o2_run_job {
         $where     = ($user ?
                       $f['run_user']." ='".$user."'".
                       ($aspid ? ' AND '.$f['run_aspid']."='".$aspid."'" : '') :
-                      '');
+                      ($asp_id ? $f['run_aspid']."='".$asp_id."'" : ''));
         $orderby   = $f['run_start_date'].' DESC,'.$f['run_start_time'].' DESC';
         $run_jobs  = o2_gateway::recordset($server->type,
                                            $server->server,
