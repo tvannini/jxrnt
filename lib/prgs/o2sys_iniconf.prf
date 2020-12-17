@@ -726,7 +726,7 @@ $list = array(
                    "desc" => "   *** Host name ***\n\n".
                              "The host name is used by an application installation to register ".
                              "into a Janox network.\n".
-                             "Host name is primarily instended to be used with jobs, to indicate ".
+                             "Host name is primarily intended to be used with jobs, to indicate ".
                              "the machine running a job process, to match machines with services and so on.\n",
                    "default" => ""),
    "activemenu" => array("rntval" => null,
@@ -934,7 +934,7 @@ $list = array(
                                         "On application logout session will be immediatly destroyed and removed, ".
                                         "regardless timeout expiration (see \"timeout\" parameter).\n",
                               "default" => "on",
-                              "values" => array("off", "on")),                      
+                              "values" => array("off", "on")),
    "allow_history" => array("rntval" => null,
                             "appval" => null,
                             "desc" => "   *** Allow browser history ***\n\n".
@@ -994,7 +994,7 @@ $list = array(
                                             "When this parameter is set all jobs executions (run and queue) will be assigned ".
                                             "to this service, regardless all other logics.\n".
                                             "To use this parameter set it to the name of a registered service.",
-                               "default" => ""),                               
+                               "default" => ""),
    "jobs_use_local_host" => array("rntval" => null,
                             "appval"  => null,
                             "desc"    => "   *** Use local host for jobs executions ***\n\n".
@@ -1003,7 +1003,7 @@ $list = array(
                                          "assigned to the job and of the application parameter \"service_redirect\".\n".
                                          "Parameter \"host\" in function o2job_queue(), when passed, is still used, however.\n",
                             "default" => "off",
-                            "values"  => array("off", "on")),                               
+                            "values"  => array("off", "on")),
    "rpc_server" => array("rntval" => null,
                          "appval" => null,
                          "desc" => "   *** Remote Procedure Call (RPC) Server ***\n\n".
@@ -1044,7 +1044,7 @@ $list = array(
                                       "As a Service enabled: see \"rpc_server\" and \"db_as_service\" ".
                                       "parameters.\n",
                             "default" => "off",
-                            "values" => array("off", "on")),   
+                            "values" => array("off", "on")),
    "network_errors" => array("rntval" => null,
                              "appval" => null,
                              "desc" => "   *** Network errors reporting ***\n\n".
@@ -1098,7 +1098,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_4() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
@@ -1109,12 +1109,12 @@ return ($v);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_6() {
-	
+
 return (o2val('prg§_§var','selected_word') && !o2exp(5) && !o2val('prg§_§var','wide'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_7() {
-	
+
 return (o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "desc"));
 	} //|o2_fine_exp|
 
@@ -1158,72 +1158,72 @@ return ($set);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_12() {
-	
+
 return (o2val('prg§_§var','value'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_13() {
-	
+
 return (o2zero('prg§_§var','set_value'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_14() {
-	
+
 return (o2val('prg§_§var','set_value'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_15() {
-	
+
 return (o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default"));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_16() {
-	
+
 return (strpos(o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default"), "\n") !== false);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_17() {
-	
+
 return (o2val('prg§_§var','selected_word') && !o2val('prg§_§var','wide'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_18() {
-	
+
 return (o2val('prg§_§var','selected_word') && o2val('prg§_§var','wide'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_19() {
-	
+
 return (o2val('prg§_§var','selected_word') && !o2exp(5) && o2val('prg§_§var','wide'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_20() {
-	
+
 return (is_numeric(o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default")));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_21() {
-	
+
 return (o2val('prg§_§var','is_number') && !is_numeric(o2val('prg§_§var','value')));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_22() {
-	
+
 return ("Insert a valid number!");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_23() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_24() {
-	
+
 return (o2val('prg§_§var','is_number'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_25() {
-	
+
 return ("alert_msg");
 	} //|o2_fine_exp|
 
@@ -1234,7 +1234,7 @@ $values   = parse_ini_file($ini);
 $struct   = o2val('prg§_§var','ini_struct');
 foreach (array_keys($struct) as $key) {
    if (isset($values[$key])) {
-      if (is_array($struct[$key]['values']) && 
+      if (is_array($struct[$key]['values']) &&
           count($struct[$key]['values']) == 2 &&
           in_array("on", $struct[$key]['values']) &&
           in_array("off", $struct[$key]['values'])) {
@@ -1257,7 +1257,7 @@ $values = parse_ini_file($ini);
 $struct = o2val('prg§_§var','ini_struct');
 foreach (array_keys($struct) as $key) {
    if (isset($values[$key])) {
-      if (is_array($struct[$key]['values']) && 
+      if (is_array($struct[$key]['values']) &&
           count($struct[$key]['values']) == 2 &&
           in_array("on", $struct[$key]['values'], true) &&
           in_array("off", $struct[$key]['values'], true)) {
@@ -1282,12 +1282,12 @@ return ($struct);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_28() {
-	
+
 return (' jxbtn_save');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_29() {
-	
+
 return (' jxbtn_cancel');
 	} //|o2_fine_exp|
 
@@ -1335,12 +1335,12 @@ return ($struct);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_32() {
-	
+
 return ("ATTENTION!\nActual application configuration file will be overwritten.\nProceed?");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_33() {
-	
+
 return ("Configuration applied.\nRelogin to the application to make changes effective.");
 	} //|o2_fine_exp|
 
@@ -1433,27 +1433,27 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_35() {
-	
+
 return (o2app_dir_home().o2app_name().".ini");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_36() {
-	
+
 return (o2val('prg§_§var','save_as'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_37() {
-	
+
 return (o2app_dir_home().o2val('prg§_§var','file_name').".ini");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_38() {
-	
+
 return (!o2val('prg§_§var','save_as'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_39() {
-	
+
 return (o2val('prg§_§var','create_start'));
 	} //|o2_fine_exp|
 
@@ -1479,17 +1479,17 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_43() {
-	
+
 return (o2app_dir_home());
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_44() {
-	
+
 return ("*");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_45() {
-	
+
 return ("Verify file(s) creation");
 	} //|o2_fine_exp|
 
@@ -1502,32 +1502,32 @@ return ( $code);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_47() {
-	
+
 return (o2val('prg§_§var','selected_word'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_48() {
-	
+
 return ("disp_area");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_49() {
-	
+
 return ('hidden');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_50() {
-	
+
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_51() {
-	
+
 return ('nav_big');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_9999() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 ?>
