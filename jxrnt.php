@@ -44,7 +44,11 @@ $jxrel = "2.6.03";
  *
  * @global string $jxbuilt
  */
+<<<<<<< HEAD
 $jxbuilt = "20201228";
+=======
+$jxbuilt = "20201226";
+>>>>>>> f885663fa1d1c697427fbf7f6fb1747ef1ea2f88
 
 /**
  * Start execution time
