@@ -1878,6 +1878,7 @@ class o2_file {
                                        are: FALSE, [C]olumn, [S]chema, [D]atabase       */
     public $campi        = array(); /* Array degli oggetti o2_campo della tabella       */
     public $chiavi       = array(); /* Array degli oggetti o2_chiave della tabella      */
+    public $fix_nukeys   = array(); /* Array of not unique keys with mssing pk-segments */
     /**
      * @var o2_chiave
      */
@@ -6114,9 +6115,9 @@ class o2def {
     static function nuindex($con_nome) {
 
         $segmenti      = array();
-        $pk_segments   = array();
         $uno_si_uno_no = false;
         $tab_local     = end($_SESSION['o2_app']->tab);
+        $pk_segments   = $tab_local->pk_segments;
         $tot_args      = func_num_args();
         for ($i = 1; $i < $tot_args; $i++) {
             if ($uno_si_uno_no = !$uno_si_uno_no) {
@@ -6125,10 +6126,22 @@ class o2def {
                 $campo->name = $field_name;
                 $direzione   = func_get_arg($i + 1);
                 $segmenti[]  = new o2_segmento_indice($campo, $direzione);
-                $pk_segments[$campo->nome_fisico] = $field_name;
+                if (isset($pk_segments[$campo->nome_fisico])) {
+                    unset($pk_segments[$campo->nome_fisico]);
+                    }
                 }
             }
         $tab_local->chiavi[$con_nome] = new o2_chiave($con_nome, $segmenti, false);
+        // ____ Create a copy of index, fixed to be unique, adding missing pk-segments ___
+        foreach ($pk_segments as $pk_seg) {
+            foreach ($tab_local->chiave->segmenti as $key_seg) {
+                if ($key_seg->campo->name == $pk_seg) {
+                    break;
+                    }
+                }
+            $segmenti[] = new o2_segmento_indice($key_seg->campo, $key_seg->direzione);
+            }
+        $tab_local->fix_nukeys[$con_nome] = new o2_chiave($con_nome, $segmenti, true);
 
         }
 

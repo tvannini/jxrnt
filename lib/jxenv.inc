@@ -1696,7 +1696,14 @@ class o2_dbview extends o2_view {
                     }
                 }
             $pk_segms = $single_file->pk_segments;
-            $used_key = $single_file->chiavi[$this->chiavi_in_uso[$file_name]];
+            // ___________________________________ If key is not unique use fixed copy ___
+            $key_name = $this->chiavi_in_uso[$file_name];
+            if ($single_file->chiavi[$key_name]->unique) {
+                $used_key = $single_file->chiavi[$key_name];
+                }
+            else {
+                $used_key = $single_file->fix_nukeys[$key_name];
+                }
             foreach ($used_key->segmenti as &$single_seg) {
                 $fieldname     = strtoupper($single_seg->campo->phys_name);
                 $fieldname_kf  = $fieldname."_JXKF";
@@ -1733,7 +1740,7 @@ class o2_dbview extends o2_view {
                     $seg_name = $seg_field.'_JXKF';
                     $this->campi[$seg_name] = new o2_campo_task($seg_name,
                                                                 $file_name,
-                                                      $single_file->campi[$seg_field],
+                                                          $single_file->campi[$seg_field],
                                                                 null,
                                                                 null,
                                                                 null,
@@ -1832,7 +1839,7 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Imposta il main file per il task
+     * Set main table for the view
      *
      * @param string $tabella    Table name from the tables-repository
      * @param string $con_nome   Table alias used in the view
@@ -1849,7 +1856,7 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Imposta l'indice per i file non primari
+     * Set a link table for the view
      *
      * @param string $tabella    Table name from the tables-repository
      * @param string $con_nome   Table alias used in the view
@@ -4314,12 +4321,20 @@ class o2_dbview extends o2_view {
 
         $app              = $_SESSION['o2_app'];
         $condizione_local = array();
-        $key_segments     = (!$use_pkey && $this->chiavi_in_uso[$file->indice] ?
-                            $file->chiavi[$this->chiavi_in_uso[$file->indice]]->segmenti :
-                            $file->chiave->segmenti);
-        $db_type          = ($engine ? $engine : $this->file->db->server->type);
-        $c_o              = constant("o2_".$db_type."_o");
-        $c_c              = constant("o2_".$db_type."_c");
+        $key_name         = $this->chiavi_in_uso[$file->indice];
+        // _______________________________________ If key is not unique use fixed copy ___
+        if ($use_pkey || !$key_name) {
+            $key_segments = $file->chiave->segmenti;
+            }
+        elseif ($file->chiavi[$key_name]->unique) {
+            $key_segments = $file->chiavi[$key_name]->segmenti;
+            }
+        else {
+            $key_segments = $file->fix_nukeys[$key_name]->segmenti;
+            }
+        $db_type = ($engine ? $engine : $this->file->db->server->type);
+        $c_o     = constant("o2_".$db_type."_o");
+        $c_c     = constant("o2_".$db_type."_c");
         // _____________________________________________ Include custom sorting fields ___
         if (count($this->sort) && !$no_custom_sort) {
             foreach (array_reverse($this->sort) as $sort_segment => $sort_segment_dir) {
@@ -4579,7 +4594,13 @@ class o2_dbview extends o2_view {
             }
         // _______________________________________________________________ Custom sort ___
         if ($table == $this->file->indice && count($this->sort)) {
-            $key_obj = clone $this->files[$table]->chiavi[$chiave];
+            // ___________________________________ If key is not unique use fixed copy ___
+            if ($this->files[$table]->chiavi[$chiave]->unique) {
+                $key_obj = clone $this->files[$table]->chiavi[$chiave];
+                }
+            else {
+                $key_obj = clone $this->files[$table]->fix_nukeys[$chiave];
+                }
             foreach (array_reverse($this->sort) as $sort_segment => $sort_segment_dir) {
                 $seg_field   = $this->campi[$sort_segment];
                 // _______________________________________________________ SQL-formula ___
@@ -4615,9 +4636,17 @@ class o2_dbview extends o2_view {
             }
         // ______________________________________________________________ Standard key ___
         else {
-            return $this->files[$table]->chiavi[$chiave]->order_by($this,
-                                                                   $table,
-                                                                   $invertito);
+            // ___________________________________ If key is not unique use fixed copy ___
+            if ($this->files[$table]->chiavi[$chiave]->unique) {
+                return $this->files[$table]->chiavi[$chiave]->order_by($this,
+                                                                       $table,
+                                                                       $invertito);
+                }
+            else {
+                return $this->files[$table]->fix_nukeys[$chiave]->order_by($this,
+                                                                           $table,
+                                                                           $invertito);
+                }
             }
 
         }
