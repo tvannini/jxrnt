@@ -146,7 +146,7 @@ if (session_start()) {
                 print "o2jse.cmd.post(false, ".json_encode($params).", true);\n";
                 }
             break;
-        case "logout": // _________________________________________ Open new session ___
+        case "logout": // ______________________________________________ Close session ___
             if (is_a($app, "o2_app")) {
                 provide_db($app);
                 // _________________________________ Clear all previous output, if any ___
