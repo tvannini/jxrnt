@@ -46,7 +46,7 @@ function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "")
 	$task_sessions->calcola("mode","o2sys_long_str","o2sys_sessions_admin_exp_27()",null,null,null,null);
 }
 function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
-	$form_sessions_admin->x(389);
+	$form_sessions_admin->x(450);
 	$form_sessions_admin->y(50);
 	$form_sessions_admin->larghezza(900);
 	$form_sessions_admin->altezza(632);
@@ -103,16 +103,16 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2multipage2->css_label_off(o2sys_sessions_admin_exp_21());
 		$ctrl_o2multipage2->buttons("T");
 	$ctrl_o2label4 = &$form_sessions_admin->ctrldef("o2label4", "label", "o2multipage2", "", "");
-		$ctrl_o2label4->x(163);
+		$ctrl_o2label4->x(173);
 		$ctrl_o2label4->y(10);
 		$ctrl_o2label4->larghezza(30);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(0));
 		$ctrl_o2label4->label("min.");
 	$ctrl_o2label3 = &$form_sessions_admin->ctrldef("o2label3", "label", "o2multipage2", "", "");
-		$ctrl_o2label3->x(210);
+		$ctrl_o2label3->x(220);
 		$ctrl_o2label3->y(10);
-		$ctrl_o2label3->larghezza(60);
+		$ctrl_o2label3->larghezza(50);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->info_padre(array(0));
 		$ctrl_o2label3->label("Activity:");
@@ -138,9 +138,9 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2label7->info_padre(array(0));
 		$ctrl_o2label7->label("Scheduler:");
 	$ctrl_o2label2 = &$form_sessions_admin->ctrldef("o2label2", "label", "o2multipage2", "", "");
-		$ctrl_o2label2->x(60);
+		$ctrl_o2label2->x(80);
 		$ctrl_o2label2->y(10);
-		$ctrl_o2label2->larghezza(60);
+		$ctrl_o2label2->larghezza(50);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->info_padre(array(0));
 		$ctrl_o2label2->label("Logged:");
@@ -152,7 +152,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2label8->info_padre(array(0));
 		$ctrl_o2label8->label("Rum mode:");
 	$ctrl_o2edit8 = &$form_sessions_admin->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "create_minutes");
-		$ctrl_o2edit8->x(120);
+		$ctrl_o2edit8->x(130);
 		$ctrl_o2edit8->y(10);
 		$ctrl_o2edit8->larghezza(40);
 		$ctrl_o2edit8->altezza(20);
@@ -202,8 +202,19 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2ListBox3->info_padre(array(0));
 		$ctrl_o2ListBox3->valori(o2sys_sessions_admin_exp_28());
 		$ctrl_o2ListBox3->righe(1);
+	$ctrl_o2image4 = &$form_sessions_admin->ctrldef("o2image4", "img", "o2multipage2", "", "");
+		$ctrl_o2image4->x(39);
+		$ctrl_o2image4->y(6);
+		$ctrl_o2image4->larghezza(24);
+		$ctrl_o2image4->altezza(24);
+		$ctrl_o2image4->visibile(o2sys_sessions_admin_exp_31());
+		$ctrl_o2image4->azione("access_log");
+		$ctrl_o2image4->info_padre(array(0));
+		$ctrl_o2image4->label("Browse access log");
+		$ctrl_o2image4->css(o2sys_sessions_admin_exp_22());
+		$ctrl_o2image4->imgexp(o2sys_sessions_admin_exp_30());
 	$ctrl_o2htmlarea2 = &$form_sessions_admin->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
-		$ctrl_o2htmlarea2->x(50);
+		$ctrl_o2htmlarea2->x(70);
 		$ctrl_o2htmlarea2->y(10);
 		$ctrl_o2htmlarea2->larghezza(10);
 		$ctrl_o2htmlarea2->altezza(20);
@@ -281,6 +292,10 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2edit6->altezza(20);
 		$ctrl_o2edit6->info_padre(array("01", "10", "10", "Expiration", False, "", False, "", o2sys_sessions_admin_exp_10(), "tab_foot_dx", ""));
 		}
+
+function o2sys_sessions_admin§§access_log_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::gotoprg(o2sys_sessions_admin_exp_32(), false) && $o2exe->e();
+	} //|o2_fine_act|
 
 function o2sys_sessions_admin§§app_lock_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::call(o2sys_sessions_admin_exp_1(), False) && $o2exe->e();
@@ -514,6 +529,21 @@ return (array('' => '', 'WEB' => 'WEB', 'JOB' => 'JOB', 'CMD' => 'CMD', 'RPC' =>
 function o2sys_sessions_admin_exp_29() {
 	
 return ((o2zero('prg§_§var','run_mode') ? null : o2val('prg§_§var','run_mode')));
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_30() {
+	
+return ('<jx>/img/tabadmin/logbrowse.png');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_31() {
+	
+return ($_SESSION['o2_app']->access_log);
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_32() {
+	
+return ('tools/jxaccesslog_browser');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_9999() {

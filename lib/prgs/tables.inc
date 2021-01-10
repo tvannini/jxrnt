@@ -287,4 +287,22 @@ o2def::tab("jx_translations", "default", "jx_translations", "lang_ctrl");
 	o2def::index("lang_string", "mlt_lang","A", "mlt_base_str","A", "mlt_prg","A", "mlt_ctrl","A", "mlt_property","A", "mlt_prop_value","A");
 
 
+o2def::tab("jx_access_log", "default", "jx_access_log", "pk");
+
+	o2def::field("timestamp", "timestamp", "o2sys_timestamp");
+	o2def::field("access_flag", "access_flag", "jxaccess_flag");
+	o2def::field("user", "user", "jxuser");
+	o2def::field("app_name", "app_name", "_o2alpha");
+	o2def::field("host", "host", "jxhost");
+	o2def::field("run_mode", "run_mode", "o2sys_app_run_mode");
+	o2def::field("session_id", "session_id", "_o2sid");
+	o2def::field("terminal", "terminal", "jxterminal_id");
+	o2def::field("developer", "developer", "_o2alpha");
+
+	o2def::index("pk", "timestamp","D", "terminal","A");
+	o2def::index("related", "session_id","A", "access_flag","D", "app_name","A", "user","A", "terminal","A");
+
+	o2def::nuindex("user", "app_name","A", "user","A");
+	o2def::nuindex("flag", "access_flag","A", "timestamp","D");
+
 ?>

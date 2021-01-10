@@ -7,6 +7,7 @@ o2def::model("_o2sid", "A", "C32", "");
 o2def::model("_o2structure", "S", "", "");
 o2def::model("_o2text", "A", "C10000000", "");
 o2def::model("_o2time", "O", ":", "");
+o2def::model("jxaccess_flag", "A", "U1[In|Out|Failed]", "");
 o2def::model("jxhost", "A", "U50", "");
 o2def::model("jxjob_block_mode", "A", "U1[Block|Queue]", "");
 o2def::model("jxjob_desc", "A", "C250", "");

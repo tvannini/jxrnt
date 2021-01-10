@@ -6651,7 +6651,8 @@ endofjxmsg;
                      'jx_scheduler',
                      'jx_services',
                      'jx_hosts',
-                     'jx_translations');
+                     'jx_translations',
+                     'jx_access_log');
 
         }
 

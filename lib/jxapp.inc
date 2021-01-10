@@ -86,6 +86,7 @@ class o2_app {
     public $validazione        = 0;         /* Validation level (0=none,1=full,2=mixed))*/
     public $session_name       = '';        /* Session name (PHPSESSID)                 */
     public $session_id         = '';        /* Session unique id                        */
+    public $terminal_id        = 0;         /* Terminal ID, common to user multisession */
     public $user               = 'default'; /* Logged user ID                           */
     public $password           = '';        /* Logged user password                     */
     public $password_strength  = 0;         /* Rules to enforce password strength       */
@@ -101,6 +102,7 @@ class o2_app {
     public $allow_history      = false;     /* If user can get back pages pressing back */
     public $logout_url         = false;     /* URL to logout app to, by o2app_logout()  */
     public $logout_on_close    = true;      /* Logout session on browser close          */
+    public $access_log         = 0;         /* O=No log; 1=Login/logout; 2=attempts too */
     public $lock               = false;     /* Deny standard logins under maintenance   */
     public $job_worker         = false;     /* Job running in session, if any           */
     /*     _____ Repositories _________________________________________________________ */
@@ -528,6 +530,10 @@ class o2_app {
      */
     function logout($exit_url = "", $params = false) {
 
+        // __________________________________________________________ Log logout event ___
+        if ($this->access_log) {
+            $this->log_access('O');
+            }
         // _____________________________________________________ Remove session record ___
         $sess_tab = $this->get_table('o2_sessions');
         o2_gateway::deleterec($sess_tab->db->server->type,
@@ -594,6 +600,62 @@ class o2_app {
                 }
             }
         die();
+
+        }
+
+    /**
+     * Logs login, logout and login attempt events to database
+     *
+     * @param  string $exit_url
+     * @param  array  $params
+     */
+    function log_access($type = '') {
+
+        $tab = $this->get_table('jx_access_log');
+        $f   = $tab->campi;
+        switch (strtoupper($type)) {
+            case 'O':
+                $type = 'O';
+                $user = $this->user;
+                break;
+            case 'F':
+                $type = 'F';
+                $user = (isset($_REQUEST['user']) ? $_REQUEST['user'] : $this->user);
+                break;
+            case 'I':
+            default:
+                $type = 'I';
+                $user = $this->user;
+                break;
+            }
+        $fields = array($f['timestamp']->nome_fisico,
+                        $f['access_flag']->nome_fisico,
+                        $f['user']->nome_fisico,
+                        $f['app_name']->nome_fisico,
+                        $f['host']->nome_fisico,
+                        $f['run_mode']->nome_fisico,
+                        $f['session_id']->nome_fisico,
+                        $f['terminal']->nome_fisico,
+                        $f['developer']->nome_fisico);
+        $values = array(time(),
+                        "'".$type."'",
+                        "'".$user."'",
+                        "'".$this->nome."'",
+                        "'".$this->host."'",
+                        "'".o2app_runmode()."'",
+                        "'".$this->session_id."'",
+                        "'".$this->terminal_id."'",
+                        "'".$this->developer."'");
+        o2_gateway::insertrec($tab->db->server->type,
+                              $tab->db->server->server,
+                              $tab->db->server->user,
+                              $tab->db->server->password,
+                              $tab->db->nome,
+                              $tab->db->proprietario,
+                              $tab->nome,
+                              $tab->nome,
+                              $fields,
+                              $values);
 
         }
 
@@ -1356,6 +1418,9 @@ class o2_app {
             }
         if (isset($conf['logout_on_close'])) {
             $this->logout_on_close = ($conf['logout_on_close'] ? true : false);
+            }
+        if (isset($conf['access_log'])) {
+            $this->access_log = intval($conf['access_log']);
             }
         if (isset($conf['sesserror'])) {
             $this->sess_error = $conf['sesserror'];

@@ -29,7 +29,7 @@ function o2sys_start§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("last_pwd_date","users","last_pwd_date",null,null,null,null);
 	$task_users->usa("force_pwd_change","users","force_pwd_change",null,null,null,null);
 	$task_users->usa("no_pwd_change","users","no_pwd_change",null,null,null,null);
-	$task_users->calcola("active","o2sys_long_str","o2sys_start_exp_46()",null,null,"o2sys_start_exp_18()",null);
+	$task_users->calcola("active","_o2logical","o2sys_start_exp_46()",null,null,"o2sys_start_exp_18()",null);
 }
 
 function o2sys_start§§sessions_def(&$task_sessions, $_o2viewalias = "") {
@@ -218,8 +218,10 @@ function o2sys_start§§login_correct_ldap_act(&$o2exe) {
 function o2sys_start§§login_failed_act(&$o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Set "default" user") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_start_exp_25()) && $o2exe->e();
-//	$o2exe->s(3) && True && o2act::remark("Manage login error") && $o2exe->e();
-	$o2exe->s(4) && (o2sys_start_exp_28() || $o2exe->e()) && o2act::script(o2sys_start_exp_11()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Set terminal-ID if needed for logging") && $o2exe->e();
+	$o2exe->s(4) && (o2sys_start_exp_67() || $o2exe->e()) && o2act::exe("terminal_id", True, "") && $o2exe->e();
+//	$o2exe->s(5) && True && o2act::remark("Manage login error & log access failed") && $o2exe->e();
+	$o2exe->s(6) && (o2sys_start_exp_28() || $o2exe->e()) && o2act::script(o2sys_start_exp_11()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_ldap_act(&$o2exe) {
@@ -244,7 +246,7 @@ function o2sys_start§§login_std_act(&$o2exe) {
 
 function o2sys_start§§session_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "expire", o2sys_start_exp_17()) && $o2exe->e();
-//	$o2exe->s(2) && True && o2act::remark("Set Terminal-ID") && $o2exe->e();
+//	$o2exe->s(2) && True && o2act::remark("Set terminal ID") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("terminal_id", True, "") && $o2exe->e();
 //	$o2exe->s(4) && True && o2act::remark("========== DATABASE SESSIONS =========") && $o2exe->e();
 	$o2exe->s(5) && True && o2act::exe("db_session", True, "") && $o2exe->e();
@@ -267,12 +269,16 @@ function o2sys_start§§start_act(&$o2exe) {
 	$o2exe->s(12) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
 	$o2exe->s(13) && (o2sys_start_exp_58() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
 	$o2exe->s(14) && True && o2act::exe("load_logged", True, "") && $o2exe->e();
+//	$o2exe->s(15) && True && o2act::remark("Log login access event") && $o2exe->e();
+	$o2exe->s(16) && (o2sys_start_exp_64() || $o2exe->e()) && o2act::script(o2sys_start_exp_65()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§terminal_id_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "terminal_id", o2sys_start_exp_35()) && $o2exe->e();
 	$o2exe->s(2) && (o2sys_start_exp_41() || $o2exe->e()) && o2act::exe("check_session_terminal", False, "terminals") && $o2exe->e();
 	$o2exe->s(3) && (o2sys_start_exp_44() || $o2exe->e()) && o2act::set("prg§_§var", "terminal_id", o2sys_start_exp_45()) && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("Set terminal-ID in application") && $o2exe->e();
+	$o2exe->s(5) && True && o2act::script(o2sys_start_exp_66()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start_exp_1() {
@@ -341,7 +347,13 @@ return (o2app_user() == 'root' && !o2view_rec("root_lookup"));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_11() {
-	/* WEB-HTML */
+	/* Log access failed event */ 
+$app = $_SESSION['o2_app'];
+if ($app->access_log == 2) {
+   $app->log_access('F'); 
+   o2dbs_commit(o2db_server(o2tab_db('jx_access_log')));
+   }
+/* WEB-HTML */
 if (o2rnt_interface() == 'HTML') {
    /* Send HTTP error code 401 */
    header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized", true, 401);
@@ -845,5 +857,25 @@ return (true);
 function o2sys_start_exp_63() {
 	
 return ((o2val('sessions','run_mode') == 'WEB') && $_SESSION['o2_app']->keep_alive);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_64() {
+	
+return ($_SESSION['o2_app']->access_log);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_65() {
+	$_SESSION['o2_app']->log_access();
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_66() {
+	$_SESSION['o2_app']->terminal_id = o2val('prg§_§var','terminal_id');
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_67() {
+	
+return ((o2app_validate() == 1) && ($_SESSION['o2_app']->access_log == 2));
 	} //|o2_fine_exp|
 ?>
