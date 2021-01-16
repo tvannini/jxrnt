@@ -400,7 +400,8 @@ function jxaccesslog_browser§§refresh_act(&$o2exe) {
 
 function jxaccesslog_browser§§start_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::exe("load_lists", True, "") && $o2exe->e();
-	$o2exe->s(2) && True && o2act::script(jxaccesslog_browser_exp_6()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "dev_show", jxaccesslog_browser_exp_9()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::script(jxaccesslog_browser_exp_6()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxaccesslog_browser_exp_1() {
