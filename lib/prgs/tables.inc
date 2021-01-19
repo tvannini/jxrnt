@@ -305,4 +305,13 @@ o2def::tab("jx_access_log", "default", "jx_access_log", "pk");
 	o2def::nuindex("user", "app_name","A", "user","A");
 	o2def::nuindex("flag", "access_flag","A", "timestamp","D");
 
+o2def::tab("jx_asp_areas", "default", "jx_asp_areas", "area");
+
+	o2def::field("asp_area", "asp_area", "_o2alpha");
+	o2def::field("area_desc", "area_desc", "o2sys_long_str");
+
+	o2def::index("area", "asp_area","A");
+
+	o2def::nuindex("desc", "area_desc","A");
+
 ?>

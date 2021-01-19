@@ -141,6 +141,7 @@ class o2_app {
     public $bulk_limit      = 499;     /* Maximum number of records for single insert   */
     public $db_timeout_lock = false;   /* Set lock-timeout for db session               */
     public $db_timeout_stm  = false;   /* Set statement-timeout for db session          */
+    public $use_asp_table   = false;   /* Use sys table for ASPIDs or DISTINCT on users */
     /*     _____ Triggers _____________________________________________________________ */
     public $exe_prg_start   = false;   /* Start program has to be executed              */
     public $prg_start       = '';      /* Start program name                            */
@@ -1167,32 +1168,59 @@ class o2_app {
 
 
     /**
-     * Returns the list of ASP-IDs defined in users table.
+     * Returns the list of ASP-IDs.
+     *
+     * ASP-IDs can be gotten in 2 ways, depending on app parameter "asp_areas_table":
+     *  - from system table "jx_asp_areas";
+     *  - as a DISTINCT on defined users.
      *
      * @return array
      */
     function asp_codes() {
 
-        $app    = $_SESSION['o2_app'];
-        $users  = $app->get_table('o2_users');
-        $db     = $users->db;
-        $server = $db->server;
-        $co     = constant("o2_".$server->type."_o");
-        $cc     = constant("o2_".$server->type."_c");
-        $area   = $users->campi['area']->nome_fisico;
-        $list   = o2_gateway::recordset($server->type,
-                                        $server->server,
-                                        $server->user,
-                                        $server->password,
-                                        $db->nome,
-                                        $db->proprietario,
-                                        $users->nome,
-                                        $users->nome,
-                                        "DISTINCT ".$area." ".$co."AREA".$cc,
-                                        false,
-                                        false,
-                                        1000000);
-        $ret    = array();
+        // _____________________________ Get the list from the system table for ASPIDs ___
+        if ($this->use_asp_table) {
+            $users  = $this->get_table('o2_users');
+            $db     = $users->db;
+            $server = $db->server;
+            $co     = constant("o2_".$server->type."_o");
+            $cc     = constant("o2_".$server->type."_c");
+            $area   = $users->campi['area']->nome_fisico;
+            $list   = o2_gateway::recordset($server->type,
+                                            $server->server,
+                                            $server->user,
+                                            $server->password,
+                                            $db->nome,
+                                            $db->proprietario,
+                                            $users->nome,
+                                            $users->nome,
+                                            "DISTINCT ".$area." ".$co."AREA".$cc,
+                                            false,
+                                            false,
+                                            1000000);
+            }
+        // ____________________________ Get the list of ASP-IDs defined in users table ___
+        else {
+            $asps   = $this->get_table('jx_asp_areas');
+            $db     = $asps->db;
+            $server = $db->server;
+            $co     = constant("o2_".$server->type."_o");
+            $cc     = constant("o2_".$server->type."_c");
+            $area   = $asps->campi['asp_area']->nome_fisico;
+            $list   = o2_gateway::recordset($server->type,
+                                            $server->server,
+                                            $server->user,
+                                            $server->password,
+                                            $db->nome,
+                                            $db->proprietario,
+                                            $asps->nome,
+                                            $asps->nome,
+                                            $area." ".$co."AREA".$cc,
+                                            false,
+                                            false,
+                                            1000000);
+            }
+        $ret = array();
         foreach ($list as $rec) {
             if ($rec["AREA"]) {
                 $ret[] = $rec["AREA"];
@@ -1332,6 +1360,9 @@ class o2_app {
             }
         if (isset($conf['split_rep'])) {
             $this->split_tab_repos = $this->run_level == "EXE" && $conf['split_rep'];
+            }
+        if (isset($conf['asp_areas_table'])) {
+            $this->use_asp_table = ($conf['asp_areas_table'] ? true : false);
             }
         if (isset($conf['tables_create'])) {
             $this->tables_create = ($conf['tables_create'] ? true : false);

@@ -540,6 +540,15 @@ $list = array(
                                        "be defined in the database repository and correctly matching a server.\n".
                                        "When parameter is unset, snapshots are created on default session db \"jxsess_db\"",
                           "default" => null),
+   "asp_areas_table" => array("rntval" => null,
+                              "appval" => null,
+                              "desc" => "   *** Get ASP areas IDs from table ***\n\n".
+                                        "When set to ON Janox runtime will use system table \"jx_asp_areas\" ".
+                                        "to get the list of active ASP areas IDs.\n".
+                                        "In this scenario system table feeding and syncing is demanded to the application.\n\n".
+                                        "When set to OFF Janox runtime will get the list of ASP areas IDs from users system table.",
+                         "default" => "off",
+                         "values" => array("off", "on")),
    "record_trace" => array("rntval"  => null,
                            "appval"  => null,
                            "desc"    => "   *** Record tracing system ***\n\n".
@@ -1388,6 +1397,7 @@ function o2sys_iniconf_exp_34() {
               "logout_on_close",
               "logout_url",
               "access_log",
+              "asp_areas_table",
               "allow_history",
               "nologin",
               "lockpage",

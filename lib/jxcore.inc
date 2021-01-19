@@ -6652,7 +6652,8 @@ endofjxmsg;
                      'jx_services',
                      'jx_hosts',
                      'jx_translations',
-                     'jx_access_log');
+                     'jx_access_log',
+                     'jx_asp_areas');
 
         }
 
