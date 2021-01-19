@@ -263,6 +263,28 @@ function jxgranting_user§§user_form_def(&$form_user) {
 		$ctrl_o2image4->label("Clear passwords history");
 		$ctrl_o2image4->css(jxgranting_user_exp_36());
 		$ctrl_o2image4->imgexp(jxgranting_user_exp_35());
+	$ctrl_plugin_profile = &$form_user->ctrldef("plugin_profile", "img", "o2multipage2", "", "");
+		$ctrl_plugin_profile->x(37);
+		$ctrl_plugin_profile->y(8);
+		$ctrl_plugin_profile->larghezza(24);
+		$ctrl_plugin_profile->altezza(24);
+		$ctrl_plugin_profile->visibile(jxgranting_user_exp_63());
+		$ctrl_plugin_profile->azione("plugin_profile");
+		$ctrl_plugin_profile->info_padre(array(0));
+		$ctrl_plugin_profile->label("User profile");
+		$ctrl_plugin_profile->css(jxgranting_user_exp_36());
+		$ctrl_plugin_profile->imgexp(jxgranting_user_exp_65());
+	$ctrl_plugin_area = &$form_user->ctrldef("plugin_area", "img", "o2multipage2", "", "");
+		$ctrl_plugin_area->x(61);
+		$ctrl_plugin_area->y(8);
+		$ctrl_plugin_area->larghezza(24);
+		$ctrl_plugin_area->altezza(24);
+		$ctrl_plugin_area->visibile(jxgranting_user_exp_64());
+		$ctrl_plugin_area->azione("plugin_area");
+		$ctrl_plugin_area->info_padre(array(0));
+		$ctrl_plugin_area->label("Assign ASP areas to user");
+		$ctrl_plugin_area->css(jxgranting_user_exp_36());
+		$ctrl_plugin_area->imgexp(jxgranting_user_exp_66());
 		}
 
 function jxgranting_user§§area_code_select_act(&$o2exe) {
@@ -308,6 +330,14 @@ function jxgranting_user§§free_area_code_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "free_area_code", jxgranting_user_exp_8()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "asp_area", jxgranting_user_exp_9()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::script(jxgranting_user_exp_20()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_user§§plugin_area_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxgranting_user_exp_64(), False, jxgranting_user_exp_10()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_user§§plugin_profile_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::call(jxgranting_user_exp_63(), False, jxgranting_user_exp_10()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§save_act(&$o2exe) {
@@ -677,5 +707,25 @@ return (preg_match('/[^a-z0-9_\-@.]/', o2val('prg§_§var','user_name')));
 function jxgranting_user_exp_62() {
 	
 return ("ATTENTION: Unallowed characters replaced in user name!");
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_63() {
+	
+return ($_SESSION['o2_app']->prg_user_prof);
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_64() {
+	
+return ($_SESSION['o2_app']->prg_user_area);
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_65() {
+	
+return ('<jx>/img/grant/profile.png');
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_66() {
+	
+return ('<jx>/img/grant/asp_area.png');
 	} //|o2_fine_exp|
 ?>

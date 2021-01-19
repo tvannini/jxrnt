@@ -9,6 +9,7 @@ function o2sys_iniconf§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("ini_file", "_o2alpha");
 	$task_prg§_§var->definisci("ini_struct", "_o2structure");
 	$task_prg§_§var->definisci("is_number", "_o2logical");
+	$task_prg§_§var->definisci("prgs", "_o2structure");
 	$task_prg§_§var->definisci("save_as", "_o2logical");
 	$task_prg§_§var->definisci("search", "_o2alpha");
 	$task_prg§_§var->definisci("selected_word", "_o2alpha");
@@ -402,6 +403,7 @@ function o2sys_iniconf§§start_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::exe("parse_app_ini", True, "") && $o2exe->e();
 	$o2exe->s(9) && True && o2act::set("prg§_§var", "selected_word", o2sys_iniconf_exp_9()) && $o2exe->e();
 	$o2exe->s(10) && True && o2act::exe("select_word", True, "") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "prgs", o2sys_iniconf_exp_52()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_iniconf_exp_1() {
@@ -413,118 +415,119 @@ return ($val);
 function o2sys_iniconf_exp_2() {
 	$list = array();
 $list = array(
-   "refresh_prg" => array("rntval" => null,
-                          "appval" => null,
-                          "desc" => "   *** Refresh program ***\n\n".
-                                    "Program to be executed on session refresh. ".
-                                    "Leave it blank to disable refresh.\n".
-                                    "See \"refresh_time\" parameter too.",
-                          "default" => ""),
-   "refresh_time" => array("rntval" => null,
-                           "appval" => null,
-                           "desc" => "   *** Refresh time ***\n\n".
-                                     "This is the time to wait before session refresh. ".
-                                     "Set it to 0 (zero) to disable refresh.\n".
-                                     "See \"refresh_prg\" parameter too.\n".
-                                     "Refresh time is set in seconds. Minimum value is 3.",
+   "refresh_prg" => array("rntval"  => null,
+                          "appval"  => null,
+                          "desc"    => "   *** Refresh program ***\n\n".
+                                       "Program to be executed on session refresh. ".
+                                       "Leave it blank to disable refresh.\n".
+                                       "See \"refresh_time\" parameter too.",
+                          "default" => "",
+                          "values"  => 'prg'),
+   "refresh_time" => array("rntval"  => null,
+                           "appval"  => null,
+                           "desc"    => "   *** Refresh time ***\n\n".
+                                        "This is the time to wait before session refresh. ".
+                                        "Set it to 0 (zero) to disable refresh.\n".
+                                        "See \"refresh_prg\" parameter too.\n".
+                                        "Refresh time is set in seconds. Minimum value is 3.",
                            "default" => 0),
-   "maint_time" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Maintenance time ***\n\n".
-                                   "Maintenance activities are run at next login after maintenance ".
-                                   "time has expired since last execution.\n".
-                                   "Set value to 0 (zero) to disable system maintenance service.\n".
-                                   "Maintenance time is set in hours..\n",
+   "maint_time" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Maintenance time ***\n\n".
+                                      "Maintenance activities are run at next login after maintenance ".
+                                      "time has expired since last execution.\n".
+                                      "Set value to 0 (zero) to disable system maintenance service.\n".
+                                      "Maintenance time is set in hours..\n",
                          "default" => 100),
-   "data_chunk" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Default data chunk ***\n\n".
-                                   "Default chunk size (in bytes) for all databases data retrieving streams.\n".
-                                   "This value is used for defining the number of records retrieved each time ".
-                                   "from a table while looping on it, by the formula:\n\n".
-                                   "   rn = MAX(16, INT(dc / rs))\n\nwhere\n\n".
-                                   "   rn = number of retrieved records\n".
-                                   "   dc = database data chunk\n".
-                                   "   rs = estimated record size (by runtime)",
+   "data_chunk" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Default data chunk ***\n\n".
+                                      "Default chunk size (in bytes) for all databases data retrieving streams.\n".
+                                      "This value is used for defining the number of records retrieved each time ".
+                                      "from a table while looping on it, by the formula:\n\n".
+                                      "   rn = MAX(16, INT(dc / rs))\n\nwhere\n\n".
+                                      "   rn = number of retrieved records\n".
+                                      "   dc = database data chunk\n".
+                                      "   rs = estimated record size (by runtime)",
                          "default" => 65535),
-   "db_timeout_lock" => array("rntval" => null,
-                              "appval" => null,
-                              "desc" => "   *** Database lock-timeout ***\n\n".
-                                        "Sets the time statements will wait for acquiring a lock.\n".
-                                        "After that time, if locks are not released, statements will end up with an error.\n".
-                                        "With a value of 0 (zero) statements will wait indefinitely (default behaviour).\n\n".
-                                        "Lock-timeout time is set in milliseconds.",
+   "db_timeout_lock" => array("rntval"  => null,
+                              "appval"  => null,
+                              "desc"    => "   *** Database lock-timeout ***\n\n".
+                                           "Sets the time statements will wait for acquiring a lock.\n".
+                                           "After that time, if locks are not released, statements will end up with an error.\n".
+                                           "With a value of 0 (zero) statements will wait indefinitely (default behaviour).\n\n".
+                                           "Lock-timeout time is set in milliseconds.",
                               "default" => 0),
-   "db_timeout_stm" => array("rntval" => null,
-                             "appval" => null,
-                             "desc" => "   *** Database statement-timeout ***\n\n".
-                                       "Sets the maximum time statements can take to end.\n".
-                                       "If a statement, or query, will take a longer time to finish, then it will end up with an error.\n".
-                                       "With a value of 0 (zero) statements will take time indefinitely (default behaviour).\n\n".
-                                       "Statement-timeout time is set in milliseconds.",
-                              "default" => 0),
-   "bug_aggregate" => array("rntval" => null,
-                            "appval" => null,
-                            "desc" => "   *** BUG Compatibility for aggregations ***\n\n".
-                                      "ATTENTION: this parameter is a bug compatibility tip and it is useful ".
-                                      "for compatibility with programs relying on an old buggy fixed behavior.\n\n".
-                                      "Aggregation functions in views are solved as a SQL query when it is possible, ".
-                                      "when not an aggregation loop is used and performances can be heavily affected.\n\n".
-                                      "When this parameter is ON not-SQL-solved aggregations are skipped and they are ".
-                                      "always valued to zero.\n\n.".
-                                      "Skipped aggregations can be reported as a \"warning\" in \"error.log\" file for ".
-                                      "debugging purposes (see parameter \"warning_log\").",
+   "db_timeout_stm" => array("rntval"  => null,
+                             "appval"  => null,
+                             "desc"    => "   *** Database statement-timeout ***\n\n".
+                                          "Sets the maximum time statements can take to end.\n".
+                                          "If a statement, or query, will take a longer time to finish, then it will end up with an error.\n".
+                                          "With a value of 0 (zero) statements will take time indefinitely (default behaviour).\n\n".
+                                          "Statement-timeout time is set in milliseconds.",
+                             "default" => 0),
+   "bug_aggregate" => array("rntval"  => null,
+                            "appval"  => null,
+                            "desc"    => "   *** BUG Compatibility for aggregations ***\n\n".
+                                         "ATTENTION: this parameter is a bug compatibility tip and it is useful ".
+                                         "for compatibility with programs relying on an old buggy fixed behavior.\n\n".
+                                         "Aggregation functions in views are solved as a SQL query when it is possible, ".
+                                         "when not an aggregation loop is used and performances can be heavily affected.\n\n".
+                                         "When this parameter is ON not-SQL-solved aggregations are skipped and they are ".
+                                         "always valued to zero.\n\n.".
+                                         "Skipped aggregations can be reported as a \"warning\" in \"error.log\" file for ".
+                                         "debugging purposes (see parameter \"warning_log\").",
+                            "default" => "off",
+                            "values"  => array("off", "on")),
+   "fetch_loop" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Statement fetching instead of paging in loops ***\n\n".
+                                      "When looping an action on a big dataset not all records are retrieved at the same time ".
+                                      "and pagination is used to go through the entire dataset.\n".
+                                      "When this parameter is ON the very first query statement is saved and used to retrieve next ".
+                                      "records going on fetching on it.\n".
+                                      "This can speed up looping sensibly, because queries are always solved only once, ".
+                                      "regardless the number of returned records.",
                          "default" => "off",
-                         "values" => array("off", "on")),
-   "fetch_loop" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Statement fetching instead of paging in loops ***\n\n".
-                                   "When looping an action on a big dataset not all records are retrieved at the same time ".
-                                   "and pagination is used to go through the entire dataset.\n".
-                                   "When this parameter is ON the very first query statement is saved and used to retrieve next ".
-                                   "records going on fetching on it.\n".
-                                   "This can speed up looping sensibly, because queries are always solved only once, ".
-                                   "regardless the number of returned records.",
+                         "values"  => array("off", "on")),
+   "tables_create" => array("rntval"  => null,
+                            "appval"  => null,
+                            "desc"    => "   *** Tables automatic creation ***\n\n".
+                                         "Enables tables creation at login.\n\n".
+                                         "ATTENTION: This option enables tables creation for the Janox runtime, ".
+                                         "but tables will be created only for databases with \"manage_tables\" flag ON.\n",
+                            "default" => "on",
+                            "values"  => array("off", "on")),
+   "tables_log" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Tables changes log ***\n\n".
+                                      "Enables tables changes log capabilities.\n\n".
+                                      "WARNING: This option only enables log capability for the Janox runtime. ".
+                                      "To start logging a table you must activate log on the table by ".
+                                      "Tables Administration system interface.",
                          "default" => "off",
-                         "values" => array("off", "on")),
-   "tables_create" => array("rntval" => null,
-                            "appval" => null,
-                            "desc" => "   *** Tables automatic creation ***\n\n".
-                                      "Enables tables creation at login.\n\n".
-                                      "ATTENTION: This option enables tables creation for the Janox runtime, ".
-                                      "but tables will be created only for databases with \"manage_tables\" flag ON.\n",
-                         "default" => "on",
-                         "values" => array("off", "on")),
-   "tables_log" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Tables changes log ***\n\n".
-                                   "Enables tables changes log capabilities.\n\n".
-                                   "WARNING: This option only enables log capability for the Janox runtime. ".
-                                   "To start logging a table you must activate log on the table by ".
-                                   "Tables Administration system interface.",
-                         "default" => "off",
-                         "values" => array("off", "on")),
-   "log_rebuild" => array("rntval" => null,
-                          "appval" => null,
-                          "desc" => "   *** Log-tables rebuild ***\n\n".
-                                    "Set log-tables behavior on related table rebuilding.\n".
-                                    "When a logged table is rebuilt we can have two different behaviors for ".
-                                    "related log-table:\n\n".
-                                    " 1. log_rebuild = ON\n".
-                                    "Log-table is also rebuilt, according with new table structure. ".
-                                    "Savable data are conserved.\n".
-                                    " 2. log_rebuild = OFF\n".
-                                    "Log-table is dropped and newly created. All table data are lost.",
+                         "values"  => array("off", "on")),
+   "log_rebuild" => array("rntval"  => null,
+                          "appval"  => null,
+                          "desc"    => "   *** Log-tables rebuild ***\n\n".
+                                       "Set log-tables behavior on related table rebuilding.\n".
+                                       "When a logged table is rebuilt we can have two different behaviors for ".
+                                       "related log-table:\n\n".
+                                       " 1. log_rebuild = ON\n".
+                                       "Log-table is also rebuilt, according with new table structure. ".
+                                       "Savable data are conserved.\n".
+                                       " 2. log_rebuild = OFF\n".
+                                       "Log-table is dropped and newly created. All table data are lost.",
                           "default" => "on",
-                          "values" => array("off", "on")),
-   "log_backup" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Log-table backup ***\n\n".
-                                   "Enables log-tables backup on related table rebuild or drop.\n".
-                                   "When a logged table is rebuilt or dropped, related log-table can be ".
-                                   "archived before being dropped or converted (see directive \"log_rebuild\").",
+                          "values"  => array("off", "on")),
+   "log_backup" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Log-table backup ***\n\n".
+                                      "Enables log-tables backup on related table rebuild or drop.\n".
+                                      "When a logged table is rebuilt or dropped, related log-table can be ".
+                                      "archived before being dropped or converted (see directive \"log_rebuild\").",
                          "default" => "on",
-                         "values" => array("off", "on")),
+                         "values"  => array("off", "on")),
    "log_db" => array("rntval"  => null,
                      "appval"  => null,
                      "desc"    => "   *** Log database ***\n\n".
@@ -540,15 +543,15 @@ $list = array(
                                        "be defined in the database repository and correctly matching a server.\n".
                                        "When parameter is unset, snapshots are created on default session db \"jxsess_db\"",
                           "default" => null),
-   "asp_areas_table" => array("rntval" => null,
-                              "appval" => null,
-                              "desc" => "   *** Get ASP areas IDs from table ***\n\n".
-                                        "When set to ON Janox runtime will use system table \"jx_asp_areas\" ".
-                                        "to get the list of active ASP areas IDs.\n".
-                                        "In this scenario system table feeding and syncing is demanded to the application.\n\n".
-                                        "When set to OFF Janox runtime will get the list of ASP areas IDs from users system table.",
-                         "default" => "off",
-                         "values" => array("off", "on")),
+   "asp_areas_table" => array("rntval"  => null,
+                              "appval"  => null,
+                              "desc"    => "   *** Get ASP areas IDs from table ***\n\n".
+                                           "When set to ON Janox runtime will use system table \"jx_asp_areas\" ".
+                                           "to get the list of active ASP areas IDs.\n".
+                                           "In this scenario system table feeding and syncing is demanded to the application.\n\n".
+                                           "When set to OFF Janox runtime will get the list of ASP areas IDs from users system table.",
+                              "default" => "off",
+                              "values"  => array("off", "on")),
    "record_trace" => array("rntval"  => null,
                            "appval"  => null,
                            "desc"    => "   *** Record tracing system ***\n\n".
@@ -566,445 +569,470 @@ $list = array(
                                         " \",,,m_user\"\n".
                                         "to trace the last-update-user only.",
                            "default" => ""),
-   "jxsql" => array("rntval" => null,
-                    "appval" => null,
-                    "desc" => "   *** Enable internal JXSQL ***\n\n".
-                              "Enables using Janox internal JXSQL parser.\n",
+   "jxsql" => array("rntval"  => null,
+                    "appval"  => null,
+                    "desc"    => "   *** Enable internal JXSQL ***\n\n".
+                                 "Enables using Janox internal JXSQL parser.\n",
+                    "default" => "off",
+                    "values"  => array("off", "on")),
+   "profiling" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** Runtime profiling (displaying/hiding controls by rights) ***\n\n".
+                                     "Enables SuperUser to set controls granting properties at runtime.\n".
+                                     "Controls and menu items needing rights not owned by user will be removed from list.\n\n".
+                                     "Parameter can assume 4 different values:\n".
+                                     "   off       Profiling not activated\n".
+                                     "   on/(both) Profiling activated for menus and controls\n".
+                                     "   menu      Profiling activated only for menus\n".
+                                     "   ctrl      Profiling activated only for controls",
+                        "default" => "off",
+                        "values"  => array("off", "on", "menu", "ctrl")),
+   "error_mode" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Errors management mode ***\n\n".
+                                      "Set error level management for PHP errors.\n".
+                                      "Possible values are:\n".
+                                      "   off   settings from php.ini are used\n".
+                                      "   DEV   development mode\n".
+                                      "   EXE   production mode.",
                          "default" => "off",
-                         "values" => array("off", "on")),
-   "profiling" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** Runtime profiling (displaying/hiding controls by rights) ***\n\n".
-                                  "Enables SuperUser to set controls granting properties at runtime.\n".
-                                  "Controls and menu items needing rights not owned by user will be removed from list.\n\n".
-                                  "Parameter can assume 4 different values:\n".
-                                  "   off       Profiling not activated\n".
-                                  "   on/(both) Profiling activated for menus and controls\n".
-                                  "   menu      Profiling activated only for menus\n".
-                                  "   ctrl      Profiling activated only for controls",
+                         "values"  => array("off", "DEV", "EXE")),
+   "errors_log" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Log errors to file ***\n\n".
+                                      "Enables errors logging on file (<app-dir>/logs/errors.log).",
+                         "default" => "off",
+                         "values"  => array("off", "on")),
+   "warning_log" => array("rntval"  => null,
+                          "appval"  => null,
+                          "desc"    => "   *** Log warning events to file ***\n\n".
+                                       "Enables warning logging on file (<app-dir>/logs/warning.log).\n".
+                                       "This function is used to log particular internal events, ".
+                                       "that may require your attention. This kind of events are not errors, ".
+                                       "but they can compromise performances and results.",
+                          "default" => "off",
+                          "values"  => array("off", "on")),
+   "grid_plus" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** DB-grid control extra functions ***\n\n".
+                                     "Enables extra functions for DB-grid control, like columns arranging, ".
+                                     "data export, data filter, ...",
                         "default" => "off",
-                        "values" => array("off", "on", "menu", "ctrl")),
-   "error_mode" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Errors management mode ***\n\n".
-                                   "Set error level management for PHP errors.\n".
-                                   "Possible values are:\n".
-                                   "   off   settings from php.ini are used\n".
-                                   "   DEV   development mode\n".
-                                   "   EXE   production mode.",
-                           "default" => "off",
-                           "values" => array("off", "DEV", "EXE")),
-   "errors_log" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Log errors to file ***\n\n".
-                                   "Enables errors logging on file (<app-dir>/logs/errors.log).",
-                           "default" => "off",
-                           "values" => array("off", "on")),
-   "warning_log" => array("rntval" => null,
-                          "appval" => null,
-                          "desc" => "   *** Log warning events to file ***\n\n".
-                                    "Enables warning logging on file (<app-dir>/logs/warning.log).\n".
-                                    "This function is used to log particular internal events, ".
-                                    "that may require your attention. This kind of events are not errors, ".
-                                    "but they can compromise performances and results.",
-                           "default" => "off",
-                           "values" => array("off", "on")),
-   "grid_plus" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** DB-grid control extra functions ***\n\n".
-                                  "Enables extra functions for DB-grid control, like columns arranging, ".
-                                  "data export, data filter, ...",
-                        "default" => "off",
-                        "values" => array("off", "on")),
-   "grid_multidel" => array("rntval" => null,
-                            "appval" => null,
-                            "desc" => "   *** Delete multiple rows in DB-grid ***\n\n".
-                                      "Enables function \"Delete filtered data\" in DB-grid context menu.\n\n".
-                                      "NOTE: this is only useful when \"grid_plus\" parameter si set to On.",
+                        "values"  => array("off", "on")),
+   "grid_multidel" => array("rntval"  => null,
+                            "appval"  => null,
+                            "desc"    => "   *** Delete multiple rows in DB-grid ***\n\n".
+                                         "Enables function \"Delete filtered data\" in DB-grid context menu.\n\n".
+                                         "NOTE: this is only useful when \"grid_plus\" parameter si set to On.",
                             "default" => "on",
-                            "values" => array("off", "on")),
-   "zoom" => array("rntval" => null,
-                   "appval" => null,
-                   "desc" => "   *** Field activation (zoom) ***\n\n".
-                             "Enables activation for zoomable fields.",
+                            "values"  => array("off", "on")),
+   "zoom" => array("rntval"  => null,
+                   "appval"  => null,
+                   "desc"    => "   *** Field activation (zoom) ***\n\n".
+                                "Enables activation for zoomable fields.",
                    "default" => "on",
-                   "values" => array("off", "on")),
-   "max_req_n" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** Max requests number ***\n\n".
-                                  "User can start multiple actions (requests) at the same time.\n".
-                                  "This parameter sets the maximum number of allowed requests.\n".
-                                  "When user reaches the maximum number or requests no more actions are allowed, ".
-                                  "until all responses are ended.\nMinimum value is 1.",
+                   "values"  => array("off", "on")),
+   "max_req_n" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** Max requests number ***\n\n".
+                                     "User can start multiple actions (requests) at the same time.\n".
+                                     "This parameter sets the maximum number of allowed requests.\n".
+                                     "When user reaches the maximum number or requests no more actions are allowed, ".
+                                     "until all responses are ended.\nMinimum value is 1.",
                         "default" => 5),
-   "wait_on_ctrl" => array("rntval" => null,
-                           "appval" => null,
-                           "desc" => "   *** Mark waiting control ***\n\n".
-                                  "If set to ON submitting controls are marked with a waiting icon.\n".
-                                  "Parameter doesn't affect db-grid behaviour.",
+   "wait_on_ctrl" => array("rntval"  => null,
+                           "appval"  => null,
+                           "desc"    => "   *** Mark waiting control ***\n\n".
+                                        "If set to ON submitting controls are marked with a waiting icon.\n".
+                                        "Parameter doesn't affect db-grid behaviour.",
                            "default" => "on",
-                           "values" => array("off", "on")),
-   "fastmsg_time" => array("rntval" => null,
-                           "appval" => null,
-                           "desc" => "   *** Fast messages time-out ***\n\n".
-                                     "This is the time fast messages will persist before fading away.\n".
-                                     "Time-out is set in seconds. Minimum value is 3.",
+                           "values"  => array("off", "on")),
+   "fastmsg_time" => array("rntval"  => null,
+                           "appval"  => null,
+                           "desc"    => "   *** Fast messages time-out ***\n\n".
+                                        "This is the time fast messages will persist before fading away.\n".
+                                        "Time-out is set in seconds. Minimum value is 3.",
                            "default" => 5),
-   "decimals" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Decimal separator ***\n\n".
-                                 "Character to be used as decimal separator in number displaying.",
+   "decimals" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Decimal separator ***\n\n".
+                                    "Character to be used as decimal separator in number displaying.",
                        "default" => "."),
-   "thousands" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** Thousands separator ***\n\n".
-                                  "Character to be used as thousands separator in number displaying.",
-                       "default" => ","),
-   "msg_del" => array("rntval" => null,
-                      "appval" => null,
-                      "desc" => "   *** Record delete ***\n\n".
-                                "Message to be displayed in confirm dialogs when the user clicks ".
-                                "on navigators \"record delete\" button.",
+   "thousands" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** Thousands separator ***\n\n".
+                                     "Character to be used as thousands separator in number displaying.",
+                        "default" => ","),
+   "msg_del" => array("rntval"  => null,
+                      "appval"  => null,
+                      "desc"    => "   *** Record delete ***\n\n".
+                                   "Message to be displayed in confirm dialogs when the user clicks ".
+                                   "on navigators \"record delete\" button.",
                       "default" => "ATTENTION: current record is going to be deleted.\nProceed?"),
-   "msg_undo" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Undo changes ***\n\n".
-                                 "Message to be displayed in confirm dialogs when the user clicks ".
-                                 "on navigators \"undo changes\" button.",
+   "msg_undo" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Undo changes ***\n\n".
+                                    "Message to be displayed in confirm dialogs when the user clicks ".
+                                    "on navigators \"undo changes\" button.",
                        "default" => "ATTENTION: current record updates are going to be discarded.\nProceed?"),
-   "msg_norec" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** No records in db-grid ***\n\n".
-                                  "Message to be displayed in db-grids when no records are present.",
+   "msg_norec" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** No records in db-grid ***\n\n".
+                                     "Message to be displayed in db-grids when no records are present.",
                         "default" => "No records within selection"),
-   "models" => array("rntval" => null,
-                     "appval" => null,
-                     "desc" => "   *** Models repository ***\n\n".
-                               "Name of the file containing data models definition informations.\n".
-                               "The file must be in the folder \"[app]/prgs/\".",
+   "models" => array("rntval"  => null,
+                     "appval"  => null,
+                     "desc"    => "   *** Models repository ***\n\n".
+                                  "Name of the file containing data models definition informations.\n".
+                                  "The file must be in the folder \"[app]/prgs/\".",
                      "default" => "mod_repository.inc"),
-   "dbs" => array("rntval" => null,
-                  "appval" => null,
-                  "desc" => "   *** Servers and databases repository ***\n\n".
-                            "Name of the file containing servers and databases definition informations.\n".
-                            "The file must be in the folder \"[app]/prgs/\".",
-                  "default" => "db_repository.inc"),
-   "tables" => array("rntval" => null,
-                     "appval" => null,
-                     "desc" => "   *** Tables repository ***\n\n".
-                               "Name of the file containing tables definition informations.\n".
+   "dbs" => array("rntval"  => null,
+                  "appval"  => null,
+                  "desc"    => "   *** Servers and databases repository ***\n\n".
+                               "Name of the file containing servers and databases definition informations.\n".
                                "The file must be in the folder \"[app]/prgs/\".",
+                  "default" => "db_repository.inc"),
+   "tables" => array("rntval"  => null,
+                     "appval"  => null,
+                     "desc"    => "   *** Tables repository ***\n\n".
+                                  "Name of the file containing tables definition informations.\n".
+                                  "The file must be in the folder \"[app]/prgs/\".",
                      "default" => "file_repository.inc"),
-   "vars" => array("rntval" => null,
-                   "appval" => null,
-                   "desc" => "   *** Application variables repository ***\n\n".
-                             "Name of the file containing application variables definition informations.\n".
-                             "The file must be in the folder \"[app]/prgs/\".",
+   "vars" => array("rntval"  => null,
+                   "appval"  => null,
+                   "desc"    => "   *** Application variables repository ***\n\n".
+                                "Name of the file containing application variables definition informations.\n".
+                                "The file must be in the folder \"[app]/prgs/\".",
                    "default" => "var_repository.inc"),
-   "viewmodels" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** View models repository ***\n\n".
-                                   "Name of the file containing view models definition informations.\n".
-                                   "The file must be in the folder \"[app]/prgs/\".",
+   "viewmodels" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** View models repository ***\n\n".
+                                      "Name of the file containing view models definition informations.\n".
+                                      "The file must be in the folder \"[app]/prgs/\".",
                          "default" => "view_repository.inc"),
-   "menus" => array("rntval" => null,
-                    "appval" => null,
-                    "desc" => "   *** Menus repository ***\n\n".
-                              "Name of the file containing menus definition informations.\n".
-                              "The file must be in the folder \"[app]/prgs/\".",
+   "menus" => array("rntval"  => null,
+                    "appval"  => null,
+                    "desc"    => "   *** Menus repository ***\n\n".
+                                 "Name of the file containing menus definition informations.\n".
+                                 "The file must be in the folder \"[app]/prgs/\".",
                     "default" => "menu_repository.inc"),
-   "alias" => array("rntval" => null,
-                    "appval" => null,
-                    "desc" => "   *** Application WEB alias ***\n\n".
-                              "Application alias is usually extracted by login URL, so you don't need ".
-                              "to set this parameter.\n\n".
-                              "However, in some proxy configuration systems, alias may be not correctly deduced.\n".
-                              "In these cases you can use this parameter to set the correct alias for the application.\n\n".
-                              "NOTE: application alias is the first part of URLs where application resuources ".
-                              "are served out from (\"app_root/htdocs/\"). It should start with a \"/\" or ".
-                              "with a protocol (\"http://\", \"https://\", ...)",
+   "alias" => array("rntval"  => null,
+                    "appval"  => null,
+                    "desc"    => "   *** Application WEB alias ***\n\n".
+                                 "Application alias is usually extracted by login URL, so you don't need ".
+                                 "to set this parameter.\n\n".
+                                 "However, in some proxy configuration systems, alias may be not correctly deduced.\n".
+                                 "In these cases you can use this parameter to set the correct alias for the application.\n\n".
+                                 "NOTE: application alias is the first part of URLs where application resuources ".
+                                 "are served out from (\"app_root/htdocs/\"). It should start with a \"/\" or ".
+                                 "with a protocol (\"http://\", \"https://\", ...)",
                     "default" => ""),
-   "title" => array("rntval" => null,
-                    "appval" => null,
-                    "desc" => "   *** Application title ***\n\n".
-                              "Application title that will be displayed on browser title bar.\n".
-                              "This setting can be overridden by application logics.",
+   "title" => array("rntval"  => null,
+                    "appval"  => null,
+                    "desc"    => "   *** Application title ***\n\n".
+                                 "Application title that will be displayed on browser title bar.\n".
+                                 "This setting can be overridden by application logics.",
                     "default" => ""),
-   "host" => array("rntval" => null,
-                   "appval" => null,
-                   "desc" => "   *** Host name ***\n\n".
-                             "The host name is used by an application installation to register ".
-                             "into a Janox network.\n".
-                             "Host name is primarily intended to be used with jobs, to indicate ".
-                             "the machine running a job process, to match machines with services and so on.\n",
+   "host" => array("rntval"  => null,
+                   "appval"  => null,
+                   "desc"    => "   *** Host name ***\n\n".
+                                "The host name is used by an application installation to register ".
+                                "into a Janox network.\n".
+                                "Host name is primarily intended to be used with jobs, to indicate ".
+                                "the machine running a job process, to match machines with services and so on.\n",
                    "default" => ""),
-   "activemenu" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Application main menu ***\n\n".
-                                   "Default application main menu, displayed as menu bar on top or left of ".
-                                   "main window. This setting can be overridden by application logics.\n".
-                                   "Leave it blank to hide application menu.",
+   "activemenu" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Application main menu ***\n\n".
+                                      "Default application main menu, displayed as menu bar on top or left of ".
+                                      "main window. This setting can be overridden by application logics.\n".
+                                      "Leave it blank to hide application menu.",
                          "default" => ""),
-   "menu_style" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Application main menu style ***\n\n".
-                                   "Default application main menu position.\n".
-                                   "Menu style can be [T]op, [L]eft or [H]idden.\n".
-                                   "Default style is [T]op.",
+   "menu_style" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Application main menu style ***\n\n".
+                                      "Default application main menu position.\n".
+                                      "Menu style can be [T]op, [L]eft or [H]idden.\n".
+                                      "Default style is [T]op.",
                          "default" => "Top",
-                         "values" => array("Top", "Left", "Hidden")),
-   "encoding" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Application encoding ***\n\n".
-                                 "Set here the encoding for the application. Encoding will be used ".
-                                 "for databases data storing and HTML and filesystem productions.\n\n".
-                                 "To use \"UTF-8\" encoding multibyte string extension is required ".
-                                 "and it must be enabled in php.ini (see mb_string PHP extension).\n\n".
-                                 "\"ISO8859-1\" is recomanded for AS400 based installations.\n",
+                         "values"  => array("Top", "Left", "Hidden")),
+   "encoding" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Application encoding ***\n\n".
+                                    "Set here the encoding for the application. Encoding will be used ".
+                                    "for databases data storing and HTML and filesystem productions.\n\n".
+                                    "To use \"UTF-8\" encoding multibyte string extension is required ".
+                                    "and it must be enabled in php.ini (see mb_string PHP extension).\n\n".
+                                    "\"ISO8859-1\" is recomanded for AS400 based installations.\n",
                        "default" => "windows-1252",
-                       "values" => array("windows-1252", "UTF-8", "ISO8859-1")),
-   "css" => array("rntval" => null,
-                  "appval" => null,
-                  "desc" => "   *** Application style ***\n\n".
-                            "List of comma separated style files to load for application.\n".
-                            "System style (o2sys.css/rcs) is always loaded out of specification.\n".
-                            "Use an exlamation mark (\"!\") as first character to avoid system ".
-                            "style loading.",
+                       "values"  => array("windows-1252", "UTF-8", "ISO8859-1")),
+   "css" => array("rntval"  => null,
+                  "appval"  => null,
+                  "desc"    => "   *** Application style ***\n\n".
+                               "List of comma separated style files to load for application.\n".
+                               "System style (o2sys.css/rcs) is always loaded out of specification.\n".
+                               "Use an exlamation mark (\"!\") as first character to avoid system ".
+                               "style loading.",
                   "default" => ""),
-   "defaultpage" => array("rntval" => null,
-                          "appval" => null,
-                          "desc" => "   *** HTML default page ***\n\n".
-                                    "HTML page to be included when no program is running.\n".
-                                    "Application will look for this page in its \"htdocs\" folder.\n".
+   "defaultpage" => array("rntval"  => null,
+                          "appval"  => null,
+                          "desc"    => "   *** HTML default page ***\n\n".
+                                       "HTML page to be included when no program is running.\n".
+                                       "Application will look for this page in its \"htdocs\" folder.\n".
+                                       "This setting is useful only in HTML context.",
+                          "default" => ""),
+   "header" => array("rntval"  => null,
+                     "appval"  => null,
+                     "desc"    => "   *** HTML header ***\n\n".
+                                  "HTML page to be included before any application page production.\n".
+                                  "Application will look for this page in its \"htdocs\" folder.\n".
+                                  "This setting is useful only in HTML context.",
+                     "default" => ""),
+   "footer" => array("rntval"  => null,
+                     "appval"  => null,
+                     "desc"    => "   *** HTML footer ***\n\n".
+                                  "HTML page to be included after any application page production.\n".
+                                  "Application will look for this page in its \"htdocs\" folder.\n".
+                                  "This setting is useful only in HTML context.",
+                     "default" => ""),
+   "extrainc" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** PHP inclusions ***\n\n".
+                                    "List of comma separeted PHP files to be included in application.\n".
+                                    "Application will look for this page in its \"prgs\" folder.\n".
+                                    "Useful for including custom functions files.",
+                       "default" => ""),
+   "errorinc" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** HTML-PHP custom error message ***\n\n".
+                                    "This server side code is included inside error boxes to create ".
+                                    "custom messages.\n".
+                                    "If this file is a PHP file, then you can use all application-level Janox ".
+                                    "functions, like o2user_*(), o2app_*(), o2dir_*(), o2error_*(), ...\n".
+                                    "Application will look for this file under its \"prgs\" folder.\n",
+                       "default" => ""),
+   "htmlhead" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** HTML HEAD inclusions ***\n\n".
+                                    "A list of comma separeted files to be client-side-included in the ".
+                                    "HEAD declaration of each page.\n".
+                                    "Application will look for this page under its \"prgs\" folder.\n".
+                                    "Useful for including custom Javascript and CSS files.\n",
                                     "This setting is useful only in HTML context.",
-                          "default" => ""),
-   "header" => array("rntval" => null,
-                     "appval" => null,
-                     "desc" => "   *** HTML header ***\n\n".
-                               "HTML page to be included before any application page production.\n".
-                               "Application will look for this page in its \"htdocs\" folder.\n".
-                               "This setting is useful only in HTML context.",
-                     "default" => ""),
-   "footer" => array("rntval" => null,
-                     "appval" => null,
-                     "desc" => "   *** HTML footer ***\n\n".
-                               "HTML page to be included after any application page production.\n".
-                               "Application will look for this page in its \"htdocs\" folder.\n".
-                               "This setting is useful only in HTML context.",
-                     "default" => ""),
-   "extrainc" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** PHP inclusions ***\n\n".
-                                 "List of comma separeted PHP files to be included in application.\n".
-                                 "Application will look for this page in its \"prgs\" folder.\n".
-                                 "Useful for including custom functions files.",
                        "default" => ""),
-   "errorinc" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** HTML-PHP custom error message ***\n\n".
-                                 "This server side code is included inside error boxes to create ".
-                                 "custom messages.\n".
-                                 "If this file is a PHP file, then you can use all application-level Janox ".
-                                 "functions, like o2user_*(), o2app_*(), o2dir_*(), o2error_*(), ...\n".
-                                 "Application will look for this file under its \"prgs\" folder.\n",
-                       "default" => ""),
-   "htmlhead" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** HTML HEAD inclusions ***\n\n".
-                                 "A list of comma separeted files to be client-side-included in the ".
-                                 "HEAD declaration of each page.\n".
-                                 "Application will look for this page under its \"prgs\" folder.\n".
-                                 "Useful for including custom Javascript and CSS files.\n",
-                                 "This setting is useful only in HTML context.",
-                       "default" => ""),
-   "nologin" => array("rntval" => null,
-                      "appval" => null,
-                      "desc" => "   *** Login failed page ***\n\n".
-                                "HTML page where the user will be redirected after login failed ".
-                                "(see \"validate\" setting).\n".
-                                "Application will look for this page in its \"htdocs\" folder.\n",
+   "nologin" => array("rntval"  => null,
+                      "appval"  => null,
+                      "desc"    => "   *** Login failed page ***\n\n".
+                                   "HTML page where the user will be redirected after login failed ".
+                                   "(see \"validate\" setting).\n".
+                                   "Application will look for this page in its \"htdocs\" folder.\n",
                       "default" => ""),
-   "lockpage" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Lock page for Under Maintenance ***\n\n".
-                                 "HTML page where users trying to login will be redirected, ".
-                                 "when application is lock for maintenance.\n".
-                                 "Application will look for this page in its \"htdocs\" folder.\n".
-                                 "(See \"unlockprg\" setting.)\n",
+   "lockpage" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Lock page for Under Maintenance ***\n\n".
+                                    "HTML page where users trying to login will be redirected, ".
+                                    "when application is lock for maintenance.\n".
+                                    "Application will look for this page in its \"htdocs\" folder.\n".
+                                    "(See \"unlockprg\" setting.)\n",
                        "default" => ""),
-   "logout_url" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** URL to logout to ***\n\n".
-                                   "Set HTML page where users will be redirected to, after logout.\n".
-                                   "URL will be used by function o2app_logout(), when called without parameters.\n".
-                                   "If URL starts with \"http[s]://\" then it's absolute, else it's considered ".
-                                   "relative to application alias.",
+   "logout_url" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** URL to logout to ***\n\n".
+                                      "Set HTML page where users will be redirected to, after logout.\n".
+                                      "URL will be used by function o2app_logout(), when called without parameters.\n".
+                                      "If URL starts with \"http[s]://\" then it's absolute, else it's considered ".
+                                      "relative to application alias.",
                          "default" => ""),
-   "unlockprg" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** Unlock program ***\n\n".
-                                  "Name of an application program to be executed on application unlock.\n".
-                                  "(See \"lockpage\" setting.)",
+   "unlockprg" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** Unlock program ***\n\n".
+                                     "Name of an application program to be executed on application unlock.\n".
+                                     "(See \"lockpage\" setting.)",
+                        "default" => "",
+                        "values"  => 'prg'),
+   "sesserror" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** Session error page ***\n\n".
+                                     "HTML page where the user will be redirected when session validation ".
+                                     "fails (see \"validate\" setting).\n".
+                                     "User can get to this page in two ways:\n".
+                                     "1. session has expired and a new validation is needed;\n".
+                                     "2. session has never been granted: for example, user got the URL from ".
+                                     "an active session (or he tried to sniff it!).\n".
+                                     "Result is always the same: a new validation is neeeded, so this page ".
+                                     "should contain a link to the login page.\n".
+                                     "Application will look for this page in its \"htdocs\" folder.\n",
                         "default" => ""),
-   "sesserror" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** Session error page ***\n\n".
-                                  "HTML page where the user will be redirected when session validation".
-                                  " fails (see \"validate\" setting).\n".
-                                  "User can get to this page in two ways:\n".
-                                  "1. session has expired and a new validation is needed;\n".
-                                  "2. session has never been granted: for example, user got the URL from ".
-                                  "an active session (or he tried to sniff it!).\n".
-                                  "Result is always the same: a new validation is neeeded, so this page ".
-                                  "should contain a link to the login page.\n".
-                                  "Application will look for this page in its \"htdocs\" folder.\n",
-                      "default" => ""),
-   "validate" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Validation level ***\n\n".
-                                 "Validation level required for application. Level can be set to ".
-                                 "0, 1 or 2:\n\n".
-                                 "  0. No validation required: all user are logged in as \"default\"\n\n".
-                                 "  1. Mandatary: only users with valid credentials can log to the application\n\n".
-                                 "  2. Mixed: users with valid credentials are logged in with their own user-name, ".
-                                 "others will be logged in as \"default\"",
+   "validate" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Validation level ***\n\n".
+                                    "Validation level required for application. Level can be set to ".
+                                    "0, 1 or 2:\n\n".
+                                    "  0. No validation required: all user are logged in as \"default\"\n\n".
+                                    "  1. Mandatary: only users with valid credentials can log to the application\n\n".
+                                    "  2. Mixed: users with valid credentials are logged in with their own user-name, ".
+                                    "others will be logged in as \"default\"",
                        "default" => 0,
-                       "values" => array(0, 1, 2)),
-   "password_change" => array("rntval" => null,
-                              "appval" => null,
-                              "desc" => "   *** Password expiration days ***\n\n".
-                                        "Set the number of days for passwords to expire.\n".
-                                        "Users will be forced to enter a new password every expiration days to login.\n".
-                                        "Set 0 (zero) days to make passwords never expire.\n",
+                       "values"  => array(0, 1, 2)),
+   "password_change" => array("rntval"  => null,
+                              "appval"  => null,
+                              "desc"    => "   *** Password expiration days ***\n\n".
+                                           "Set the number of days for passwords to expire.\n".
+                                           "Users will be forced to enter a new password every expiration days to login.\n".
+                                           "Set 0 (zero) days to make passwords never expire.\n",
                               "default" => 0),
-   "password_strength" => array("rntval" => null,
-                                "appval" => null,
-                                "desc" => "   *** Password strength ***\n\n".
-                                          "Rules to enforce password strength. ".
-                                          "Only passwords matching defined rules will be accepted.\n\n".
-                                          "Password strength can be set to one of this values:\n\n".
-                                          " 0. No rules\nAccept any password.\n\n".
-                                          " 1. Password rules\nPassowrd can't be shorter then 8 characters and ".
-                                          "it must contain at least ".
-                                          "1 lowercase character, 1 uppercase character, 1 digit and ".
-                                          "1 special character.\n\n".
-                                          " 2. Password and history rules\n".
-                                          "Password must match rules from point 1 and it can't be one of ".
-                                          "the last 4 used passwords.\n",
+   "password_strength" => array("rntval"  => null,
+                                "appval"  => null,
+                                "desc"    => "   *** Password strength ***\n\n".
+                                             "Rules to enforce password strength. ".
+                                             "Only passwords matching defined rules will be accepted.\n\n".
+                                             "Password strength can be set to one of this values:\n\n".
+                                             " 0. No rules\nAccept any password.\n\n".
+                                             " 1. Password rules\nPassowrd can't be shorter then 8 characters and ".
+                                             "it must contain at least ".
+                                             "1 lowercase character, 1 uppercase character, 1 digit and ".
+                                             "1 special character.\n\n".
+                                             " 2. Password and history rules\n".
+                                             "Password must match rules from point 1 and it can't be one of ".
+                                             "the last 4 used passwords.\n",
                                 "default" => 0,
-                                "values" => array(0, 1, 2)),
-   "ldap_server" => array("rntval" => null,
-                          "appval" => null,
-                          "desc" => "   *** LDAP authority server for validation ***\n\n".
-                                    "Enables using LDAP authority to validate user credentials.\n".
-                                    "When LDAP is set to ON, for \"LDAP\" users login password is not matched against ".
-                                    "local stored credentials, but it is passed to LDAP sub-system for validation.\n\n".
-                                    "Single users \"login type\" can be set to \"LDAP\" by System Granting tools\n\n".
-                                    "ATTENTION: This option requires login password to be provided clear (unhashed).\n\n".
-                                    "ATTENTION: This option requires \"ldap\" capabilities to be enabled for PHP.\n\n".
-                                    "Leave it blank to disable use of LDAP, else set it to the LDAP server name, ".
-                                    "in the form &lt;server&gt;.&lt;domain&gt;",
+                                "values"  => array(0, 1, 2)),
+   "ldap_server" => array("rntval"  => null,
+                          "appval"  => null,
+                          "desc"    => "   *** LDAP authority server for validation ***\n\n".
+                                       "Enables using LDAP authority to validate user credentials.\n".
+                                       "When LDAP is set to ON, for \"LDAP\" users login password is not matched against ".
+                                       "local stored credentials, but it is passed to LDAP sub-system for validation.\n\n".
+                                       "Single users \"login type\" can be set to \"LDAP\" by System Granting tools\n\n".
+                                       "ATTENTION: This option requires login password to be provided clear (unhashed).\n\n".
+                                       "ATTENTION: This option requires \"ldap\" capabilities to be enabled for PHP.\n\n".
+                                       "Leave it blank to disable use of LDAP, else set it to the LDAP server name, ".
+                                       "in the form &lt;server&gt;.&lt;domain&gt;",
                           "default" => ""),
-   "ldap_search_domain" => array("rntval" => null,
-                                 "appval" => null,
-                                 "desc" => "   *** LDAP search domain for validation ***\n\n".
-                                           "When this parameter is set it used as search domain to look ".
-                                           "up for registered users.\n".
-                                           "If you leave it blank search domain is extracted from ".
-                                           "LDAP_SERVER parameter.\n\n".
-                                           "See LDAP_SERVER parameter for further informations.\n\n".
-                                           "Leave it blank to use LDAP_SERVER domain or set it to the LDAP ".
-                                           "search domain name, in the form &lt;domain&gt;[.&lt;ext&gt;]",
+   "ldap_search_domain" => array("rntval"  => null,
+                                 "appval"  => null,
+                                 "desc"    => "   *** LDAP search domain for validation ***\n\n".
+                                              "When this parameter is set it used as search domain to look ".
+                                              "up for registered users.\n".
+                                              "If you leave it blank search domain is extracted from ".
+                                              "LDAP_SERVER parameter.\n\n".
+                                              "See LDAP_SERVER parameter for further informations.\n\n".
+                                              "Leave it blank to use LDAP_SERVER domain or set it to the LDAP ".
+                                              "search domain name, in the form &lt;domain&gt;[.&lt;ext&gt;]",
                                  "default" => ""),
-   "ldap_base_dn" => array("rntval" => null,
-                           "appval" => null,
-                           "desc" => "   *** LDAP base DN string ***\n\n".
-                                     "When this parameter is set it used as search base DN string ".
-                                     "for registered users.\n".
-                                     "If you leave it blank default base DN string will be used ".
-                                     "(CN=Users, DC=[domain], OU=Users, OU=People, DC=[domain]).\n\n".
-                                     "See LDAP_SERVER parameter for further informations.\n\n".
-                                     "Leave it blank to use LDAP base DN default string or set it ".
-                                     "to your custom search string",
+   "ldap_base_dn" => array("rntval"  => null,
+                           "appval"  => null,
+                           "desc"    => "   *** LDAP base DN string ***\n\n".
+                                        "When this parameter is set it used as search base DN string ".
+                                        "for registered users.\n".
+                                        "If you leave it blank default base DN string will be used ".
+                                        "(CN=Users, DC=[domain], OU=Users, OU=People, DC=[domain]).\n\n".
+                                        "See LDAP_SERVER parameter for further informations.\n\n".
+                                        "Leave it blank to use LDAP base DN default string or set it ".
+                                        "to your custom search string",
                            "default" => ""),
-   "timeout" => array("rntval" => null,
-                      "appval" => null,
-                      "desc" => "   *** Sessions time-out ***\n\n".
-                                "Session time-out is the maximum time a session can wait for user activity. ".
-                                "After this time has expired since last user activity, no other activity ".
-                                "will be allowed on current session and a new login is required.\n".
-                                "Time is set in minutes.",
+   "timeout" => array("rntval"  => null,
+                      "appval"  => null,
+                      "desc"    => "   *** Sessions time-out ***\n\n".
+                                   "Session time-out is the maximum time a session can wait for user activity. ".
+                                   "After this time has expired since last user activity, no other activity ".
+                                   "will be allowed on current session and a new login is required.\n".
+                                   "Time is set in minutes.",
                       "default" => 10),
-   "logout_on_close" => array("rntval" => null,
-                              "appval" => null,
-                              "desc" => "   *** Logout on browser close ***\n\n".
-                                        "When set to ON closing or browsing away from application page in the ".
-                                        "browser will send a message to server, to execute a session logout.\n".
-                                        "On application logout session will be immediatly destroyed and removed, ".
-                                        "regardless timeout expiration (see \"timeout\" parameter).\n",
+   "logout_on_close" => array("rntval"  => null,
+                              "appval"  => null,
+                              "desc"    => "   *** Logout on browser close ***\n\n".
+                                           "When set to ON closing or browsing away from application page in the ".
+                                           "browser will send a message to server, to execute a session logout.\n".
+                                           "On application logout session will be immediatly destroyed and removed, ".
+                                           "regardless timeout expiration (see \"timeout\" parameter).\n",
                               "default" => "on",
-                              "values" => array("off", "on")),
-   "access_log" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Log login, logout and attempts ***\n\n".
-                                   "This option enables logging on database login and logout events and login attempts too.\n".
-                                   "Log level can be set to 0, 1 or 2:\n\n".
-                                   "  0. No log;\n\n".
-                                   "  1. Log login and logout events;\n\n".
-                                   "  2. Log login and logout events and failed login attempts, too.\n\n",
+                              "values"  => array("off", "on")),
+   "access_log" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Log login, logout and attempts ***\n\n".
+                                      "This option enables logging on database login and logout events and login attempts too.\n".
+                                      "Log level can be set to 0, 1 or 2:\n\n".
+                                      "  0. No log;\n\n".
+                                      "  1. Log login and logout events;\n\n".
+                                      "  2. Log login and logout events and failed login attempts, too.\n\n",
                          "default" => 0,
-                         "values" => array(0, 1, 2)),
-   "allow_history" => array("rntval" => null,
-                            "appval" => null,
-                            "desc" => "   *** Allow browser history ***\n\n".
-                                      "When set to ON users can recover past pages from history, using 'back' button.\n".
-                                      "When set to OFF last server state is resent to client each time users try to ".
-                                      "submits past pages recovered from history.\n".
-                                      "This setting is useful only in HTML context.",
+                         "values"  => array(0, 1, 2)),
+   "allow_history" => array("rntval"  => null,
+                            "appval"  => null,
+                            "desc"    => "   *** Allow browser history ***\n\n".
+                                         "When set to ON users can recover past pages from history, using 'back' button.\n".
+                                         "When set to OFF last server state is resent to client each time users try to ".
+                                         "submits past pages recovered from history.\n".
+                                         "This setting is useful only in HTML context.",
                             "default" => "off",
-                            "values" => array("off", "on")),
-   "keepalive" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** HTML keep-alive ***\n\n".
-                                  "When set to ON keep-alive option forces the page to be reloaded, based on ".
-                                  "application timeout.\nEach page starts a count-down to session expiring time: ".
-                                  "if no user activity refreshes session in this while, a page reload is ".
-                                  "automatically forced.\nThis setting is useful only in HTML context.",
+                            "values"  => array("off", "on")),
+   "keepalive" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** HTML keep-alive ***\n\n".
+                                     "When set to ON keep-alive option forces the page to be reloaded, based on ".
+                                     "application timeout.\nEach page starts a count-down to session expiring time: ".
+                                     "if no user activity refreshes session in this while, a page reload is ".
+                                     "automatically forced.\nThis setting is useful only in HTML context.",
                         "default" => "on",
-                        "values" => array("off", "on")),
-   "reporter" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Reporter executable ***\n\n".
-                                 "Path to the Reporter executable.\n".
-                                 "Reporter is used for utput productions (PDF).",
+                        "values"  => array("off", "on")),
+   "reporter" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Reporter executable ***\n\n".
+                                    "Path to the Reporter executable.\n".
+                                    "Reporter is used for output productions (PDF).",
                        "default" => ""),
-   "startprg" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Start program ***\n\n".
-                                 "Name of an application program to be executed just after login.",
-                       "default" => ""),
-   "reqprg" => array("rntval" => null,
-                     "appval" => null,
-                     "desc" => "   *** Request program ***\n\n".
-                               "Name of an application program to be executed each time control get back to ".
-                               "the server (each user activity). This program must be a \"pure batch\" (no windows allowed).",
-                     "default" => ""),
-   "prgs_path_inc" => array("rntval" => null,
-                            "appval" => null,
-                            "desc" => "   *** Programs path inclusion ***\n\n".
-                                      "List of column (;) separated paths to include programs from.\n".
-                                      "When one or more paths are set, these paths will be checked AFTER ".
-                                      "standard folders for programs scripts existance, in the set order.\n\n".
-                                      "Paths can be absolute or relative. Relative paths are relative to application root folder.\n".
-                                      "To set a relative path you can just set the relative part of the path or use \"./\".\n".
-                                      "For example, to use folder \"[app]/extra_prgs/\" you can set \"./extra_prgs/\" ".
-                                      "or just \"extra_prgs/\" (ending slash is optional).",
+   "startprg" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Start program ***\n\n".
+                                    "Name of an application program to be executed just after login.",
+                       "default" => "",
+                       "values"  => 'prg'),
+   "reqprg" => array("rntval"  => null,
+                     "appval"  => null,
+                     "desc"    => "   *** Request program ***\n\n".
+                                  "Name of an application program to be executed each time control get back to ".
+                                  "the server (each user activity). This program must be a \"pure batch\" (no windows allowed).",
+                     "default" => "",
+                     "values"  => 'prg'),
+   "user_profile_prg" => array("rntval"  => null,
+                               "appval"  => null,
+                               "desc"    => "   *** User profiling plugin program ***\n\n".
+                                            "Name of an application program to be used as a plugin in ".
+                                            "Granting user definition interface.\n".
+                                            "This program can be useful to link users to a custom profiling ".
+                                            "logic, inside the application.\n\n".
+                                            "Setting this parameter a new icon is shown in User Details ".
+                                            "toolbar, to execute the plugin program.",
+                               "default" => "",
+                               "values"  => 'prg'),
+   "user_area_prg" => array("rntval"  => null,
+                            "appval"  => null,
+                            "desc"    => "   *** User ASP area plugin program ***\n\n".
+                                         "Name of an application program to be used as a plugin in ".
+                                         "Granting user definition interface.\n".
+                                         "This program can be useful to implement a custom logic, inside ".
+                                         "the application, to manage assignment of ASP areas to users.\n\n".
+                                         "Setting this parameter a new icon is shown in User Details ".
+                                         "toolbar, to execute the plugin program.",
+                            "default" => "",
+                            "values"  => 'prg'),
+   "prgs_path_inc" => array("rntval"  => null,
+                            "appval"  => null,
+                            "desc"    => "   *** Programs path inclusion ***\n\n".
+                                         "List of column (;) separated paths to include programs from.\n".
+                                         "When one or more paths are set, these paths will be checked AFTER ".
+                                         "standard folders for programs scripts existance, in the set order.\n\n".
+                                         "Paths can be absolute or relative. Relative paths are relative to application root folder.\n".
+                                         "To set a relative path you can just set the relative part of the path or use \"./\".\n".
+                                         "For example, to use folder \"[app]/extra_prgs/\" you can set \"./extra_prgs/\" ".
+                                         "or just \"extra_prgs/\" (ending slash is optional).",
                             "default" => ""),
-   "services" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Services ***\n\n".
-                                 "List of names of services enabled for application jobs executions.\n".
-                                 "Names can be separated with \",\", \";\" or with a white space.",
+   "services" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Services ***\n\n".
+                                    "List of names of services enabled for application jobs executions.\n".
+                                    "Names can be separated with \",\", \";\" or with a white space.",
                        "default" => "_internal"),
    "service_redirect" => array("rntval"  => null,
                                "appval"  => null,
@@ -1014,81 +1042,80 @@ $list = array(
                                             "to this service, regardless all other logics.\n".
                                             "To use this parameter set it to the name of a registered service.",
                                "default" => ""),
-   "jobs_use_local_host" => array("rntval" => null,
+   "jobs_use_local_host" => array("rntval"  => null,
+                                  "appval"  => null,
+                                  "desc"    => "   *** Use local host for jobs executions ***\n\n".
+                                               "When set to ON jobs queued from this machine use local host for their execution.\n".
+                                               "This parameter overrides services logics: local host is used regardless of the service ".
+                                               "assigned to the job and of the application parameter \"service_redirect\".\n".
+                                               "Parameter \"host\" in function o2job_queue(), when passed, is still used, however.\n",
+                                  "default" => "off",
+                                  "values"  => array("off", "on")),
+   "rpc_server" => array("rntval"  => null,
+                         "appval"  => null,
+                         "desc"    => "   *** Remote Procedure Call (RPC) Server ***\n\n".
+                                      "When enabled Application is used as a RPC Server.\n".
+                                      "When set to ON start-program is executed every request, ".
+                                      "windows and controls are not displayed and programs execution ".
+                                      "hierarchy is discarded on session saving.\n\n".
+                                      " - Usage model -\n".
+                                      "First call to RPC Server with granting (user and password).\n".
+                                      "First call returns the JXSESSNAME variable value.\n".
+                                      "Next calls are made passing JXSESSNAME=[sessname].\n",
+                         "default" => "off",
+                         "values"  => array("off", "on")),
+   "db_as_service" => array("rntval"  => null,
                             "appval"  => null,
-                            "desc"    => "   *** Use local host for jobs executions ***\n\n".
-                                         "When set to ON jobs queued from this machine use local host for their execution.\n".
-                                         "This parameter overrides services logics: local host is used regardless of the service ".
-                                         "assigned to the job and of the application parameter \"service_redirect\".\n".
-                                         "Parameter \"host\" in function o2job_queue(), when passed, is still used, however.\n",
+                            "desc"    => "   *** Database As a Service ***\n\n".
+                                         "This parameter is intended to use application as a Janox Service ".
+                                         "to expose access to a database.\n".
+                                         "If parameter is set to an application database (logical) name, ".
+                                         "then application becomes a \"gateway\" to that database.\n\n".
+                                         "Applications will be able to access remote Database As a Service, ".
+                                         "defining a \"jxsdb\" server, with \"host\" set to remote ".
+                                         "application script ([url_to_sdb]/[app_name].php) and \"user\" ".
+                                         "and \"password\" fields set to aplication credentials.\n".
+                                         "Service returns JSON formatted responses.\n\n".
+                                         " - NOTE -\n\n".
+                                         "This parameter is effective only in RPC mode: see \"rpc_server\" ".
+                                         "parameter.\n",
+                            "default" => ""),
+   "dbas_readonly" => array("rntval"  => null,
+                            "appval"  => null,
+                            "desc"    => "   *** Database As s Service Read-only ***\n\n".
+                                         "When enabled the DBAS service will prevent modification actions ".
+                                         "(create, alter, delete, modify, ...) on exposed database.\n\n".
+                                         " - Note -\n\n".
+                                         "This parameter is effective ony in RPC mode and with Database ".
+                                         "As a Service enabled: see \"rpc_server\" and \"db_as_service\" ".
+                                         "parameters.\n",
                             "default" => "off",
                             "values"  => array("off", "on")),
-   "rpc_server" => array("rntval" => null,
-                         "appval" => null,
-                         "desc" => "   *** Remote Procedure Call (RPC) Server ***\n\n".
-                                 "When enabled Application is used as a RPC Server.\n".
-                                 "When set to ON start-program is executed every request, ".
-                                 "windows and controls are not displayed and programs execution ".
-                                 "hierarchy is discarded on session saving.\n\n".
-                                 " - Usage model -\n".
-                                 "First call to RPC Server with granting (user and password).\n".
-                                 "First call returns the JXSESSNAME variable value.\n".
-                                 "Next calls are made passing JXSESSNAME=[sessname].\n",
+   "network_errors" => array("rntval"  => null,
+                             "appval"  => null,
+                             "desc"    => "   *** Network errors reporting ***\n\n".
+                                          "When enabled network errors from AJAX requests are reported to user.\n\n".
+                                          "This parameter is mostly useful for debugging porpouses.\n",
+                             "default" => "off",
+                             "values"  => array("off", "on")),
+   "split_rep" => array("rntval"  => null,
+                        "appval"  => null,
+                        "desc"    => "   *** Splitted repository ***\n\n".
+                                     "Set to ON to use single definition files for each table.\n".
+                                     "Set to OFF to use whole repository definition (see \"tables\" setting).",
                         "default" => "off",
-                        "values" => array("off", "on")),
-   "db_as_service" => array("rntval" => null,
-                            "appval" => null,
-                            "desc" => "   *** Database As a Service ***\n\n".
-                                      " - EXPERIMENTAL - \n\n".
-                                      "This parameter is intended to use application as a Janox Service ".
-                                      "to expose access to a database.\n".
-                                      "If parameter is set to an application database (logical) name, ".
-                                      "then application becomes a \"gateway\" to that database.\n\n".
-                                      "Applications will be able to access remote Database As a Service, ".
-                                      "defining a \"jxsdb\" server, with \"host\" set to remote ".
-                                      "application script ([url_to_sdb]/[app_name].php) and \"user\" ".
-                                      "and \"password\" fields set to aplication credentials.\n".
-                                      "Service returns JSON formatted responses.\n\n".
-                                      " - NOTE -\n\n".
-                                      "This parameter is effective ony in RPC mode: see \"rpc_server\" ".
-                                      "parameter.\n",
-                            "default" => ""),
-   "dbas_readonly" => array("rntval" => null,
-                            "appval" => null,
-                            "desc" => "   *** Database As s Service Read-only ***\n\n".
-                                      "When enabled the DBAS service will prevent modification actions ".
-                                      "(create, alter, delete, modify, ...) on exposed database.\n\n".
-                                      " - Note -\n\n".
-                                      "This parameter is effective ony in RPC mode and with Database ".
-                                      "As a Service enabled: see \"rpc_server\" and \"db_as_service\" ".
-                                      "parameters.\n",
-                            "default" => "off",
-                            "values" => array("off", "on")),
-   "network_errors" => array("rntval" => null,
-                             "appval" => null,
-                             "desc" => "   *** Network errors reporting ***\n\n".
-                                 "When enabled network errors from AJAX requests are reported to user.\n\n".
-                                 "This parameter is mostly useful for debugging porpouses.\n",
-                        "default" => "off",
-                        "values" => array("off", "on")),
-   "split_rep" => array("rntval" => null,
-                        "appval" => null,
-                        "desc" => "   *** Splitted repository ***\n\n".
-                                  "Set to ON to use single definition files for each table.\n".
-                                  "Set to OFF to use whole repository definition (see \"tables\" setting).",
-                        "default" => "off",
-                        "values" => array("off", "on")),
-   "doc" => array("rntval" => null,
-                  "appval" => null,
-                  "desc" => "   *** Documentor ***\n\n".
-                            "Set to ON to enable jxDocumentor capabilities for application.",
+                        "values"  => array("off", "on")),
+   "doc" => array("rntval"  => null,
+                  "appval"  => null,
+                  "desc"    => "   *** Documentor ***\n\n".
+                               "Set to ON to enable jxDocumentor capabilities for application.",
                   "default" => "off",
-                  "values" => array("off", "on")),
-   "sharedir" => array("rntval" => null,
-                       "appval" => null,
-                       "desc" => "   *** Absolute application path ***\n\n".
-                                 "Set here the absolute path, leading to the application main ".
-                                 "folder from clients in your net.",
+                  "values"  => array("off", "on")),
+   "sharedir" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Absolute application path ***\n\n".
+                                    "Set here the absolute path, leading to the application main ".
+                                    "folder from clients in your net.",
                        "default" => "")
 
    );
@@ -1122,9 +1149,8 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_5() {
-	$l = o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values");
-$v = o2val('prg§_§var','set_value') && is_array($l) && count($l);
-return ($v);
+	
+return (o2val('prg§_§var','set_value') && o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values"));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_6() {
@@ -1139,7 +1165,13 @@ return (o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "des
 
 function o2sys_iniconf_exp_8() {
 	$values = o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values");
-$list = (is_array($values) && count($values) ? array_combine($values, $values) : array());
+$list   = array();
+if (is_array($values) && count($values)) {
+   $list = array_combine($values, $values);
+   }
+elseif($values == 'prg') {
+   $list = o2val('prg§_§var','prgs'); 
+   }
 return ($list);
 	} //|o2_fine_exp|
 
@@ -1405,6 +1437,8 @@ function o2sys_iniconf_exp_34() {
               "sesserror",
               "startprg",
               "reqprg",
+              "user_profile_prg",
+              "user_area_prg",
               "services",
               "service_redirect",
               "jobs_use_local_host",
@@ -1545,6 +1579,12 @@ return ('nowindow');
 function o2sys_iniconf_exp_51() {
 	
 return ('nav_big');
+	} //|o2_fine_exp|
+
+function o2sys_iniconf_exp_52() {
+	$list = array_keys(o2_inspector::get_app_prgs());
+$list = array('' => '') + array_combine($list, $list);
+return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_9999() {

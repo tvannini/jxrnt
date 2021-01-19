@@ -22,6 +22,8 @@ o2def::act("copy_role");
 o2def::act("copy_roles");
 o2def::act("create_new");
 o2def::act("free_area_code");
+o2def::act("plugin_area");
+o2def::act("plugin_profile");
 o2def::act("save");
 o2def::act("start");
 o2def::act("user_exists");

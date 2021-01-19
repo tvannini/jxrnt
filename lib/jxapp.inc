@@ -148,6 +148,9 @@ class o2_app {
     public $prg_request     = '';      /* Request program name                          */
     public $prg_unlock      = '';      /* Program to be executed on application unlock  */
     public $maint_time      = 100;     /* Number of hours for maintenance frequency     */
+    /* _____________________________________________________________________ Plugin ___ */
+    public $prg_user_prof   = false;   /* Program to customize user profiling (details) */
+    public $prg_user_area   = false;   /* Program to customize user ASP area (details)  */
     /*     _____ Executions ___________________________________________________________ */
     public $chiamate        = array(); /* Calls and responses list                      */
     public $istanze_prg     = array(); /* Running programs instances list               */
@@ -1567,6 +1570,14 @@ class o2_app {
             }
         if (isset($conf['rpc_server'])) {
             $this->rpc_server = ($conf['rpc_server'] ? true : false);
+            }
+        if (isset($conf['user_profile_prg'])) {
+            $this->prg_user_prof = ($conf['user_profile_prg'] ?
+                                    $conf['user_profile_prg'] : false);
+            }
+        if (isset($conf['user_area_prg'])) {
+            $this->prg_user_area = ($conf['user_area_prg'] ?
+                                    $conf['user_area_prg'] : false);
             }
         if (isset($conf['db_as_service'])) {
             $this->db_as_service = $conf['db_as_service'];
