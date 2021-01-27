@@ -30,13 +30,20 @@ function jxaccesslog_browser§§access_log_def(&$task_access_log, $_o2viewalias = 
 	$task_access_log->unisci("rel_login_app_name_join_","rel_login","app_name","jxaccesslog_browser_exp_28()","jxaccesslog_browser_exp_28()",null,null);
 	$task_access_log->unisci("rel_login_user_join_","rel_login","user","jxaccesslog_browser_exp_29()","jxaccesslog_browser_exp_29()",null,null);
 	$task_access_log->unisci("rel_login_terminal_join_","rel_login","terminal","jxaccesslog_browser_exp_30()","jxaccesslog_browser_exp_30()",null,null);
-	$task_access_log->usa_file_link("jx_access_log","re_logout","related",null,null);
+	$task_access_log->usa_file_link("jx_access_log","rel_logout","related",null,null);
 
-	$task_access_log->unisci("re_logout_session_id_join_","re_logout","session_id","jxaccesslog_browser_exp_25()","jxaccesslog_browser_exp_25()",null,null);
-	$task_access_log->unisci("re_logout_access_flag_join_","re_logout","access_flag","jxaccesslog_browser_exp_27()","jxaccesslog_browser_exp_27()",null,null);
-	$task_access_log->unisci("re_logout_app_name_join_","re_logout","app_name","jxaccesslog_browser_exp_28()","jxaccesslog_browser_exp_28()",null,null);
-	$task_access_log->unisci("re_logout_user_join_","re_logout","user","jxaccesslog_browser_exp_29()","jxaccesslog_browser_exp_29()",null,null);
-	$task_access_log->unisci("re_logout_terminal_join_","re_logout","terminal","jxaccesslog_browser_exp_30()","jxaccesslog_browser_exp_30()",null,null);
+	$task_access_log->unisci("rel_logout_terminal_join_","rel_logout","terminal","jxaccesslog_browser_exp_30()","jxaccesslog_browser_exp_30()",null,null);
+	$task_access_log->unisci("rel_logout_user_join_","rel_logout","user","jxaccesslog_browser_exp_29()","jxaccesslog_browser_exp_29()",null,null);
+	$task_access_log->unisci("rel_logout_app_name_join_","rel_logout","app_name","jxaccesslog_browser_exp_28()","jxaccesslog_browser_exp_28()",null,null);
+	$task_access_log->unisci("rel_logout_access_flag_join_","rel_logout","access_flag","jxaccesslog_browser_exp_27()","jxaccesslog_browser_exp_27()",null,null);
+	$task_access_log->unisci("rel_logout_session_id_join_","rel_logout","session_id","jxaccesslog_browser_exp_25()","jxaccesslog_browser_exp_25()",null,null);
+	$task_access_log->usa_file_link("jx_access_log","rel_expired","related",null,null);
+
+	$task_access_log->unisci("rel_expired_session_id_join_","rel_expired","session_id","jxaccesslog_browser_exp_25()","jxaccesslog_browser_exp_25()",null,null);
+	$task_access_log->unisci("rel_expired_app_name_join_","rel_expired","app_name","jxaccesslog_browser_exp_28()","jxaccesslog_browser_exp_28()",null,null);
+	$task_access_log->unisci("rel_expired_user_join_","rel_expired","user","jxaccesslog_browser_exp_29()","jxaccesslog_browser_exp_29()",null,null);
+	$task_access_log->unisci("rel_expired_terminal_join_","rel_expired","terminal","jxaccesslog_browser_exp_30()","jxaccesslog_browser_exp_30()",null,null);
+	$task_access_log->unisci("rel_expired_access_flag_join_","rel_expired","access_flag","jxaccesslog_browser_exp_36()","jxaccesslog_browser_exp_36()",null,null);
 
 	$task_access_log->usa("timestamp","jx_access_log","timestamp","jxaccesslog_browser_exp_7()","jxaccesslog_browser_exp_8()",null,null);
 	$task_access_log->usa("access_flag","jx_access_log","access_flag",null,null,null,null);
@@ -50,7 +57,8 @@ function jxaccesslog_browser§§access_log_def(&$task_access_log, $_o2viewalias = 
 	$task_access_log->calcola("date","o2sys_short_date","jxaccesslog_browser_exp_4()",null,null,null,null);
 	$task_access_log->calcola("time","o2sys_short_time","jxaccesslog_browser_exp_5()",null,null,null,null);
 	$task_access_log->usa("timestamp_login","rel_login","timestamp",null,null,null,null);
-	$task_access_log->usa("timestamp_logout","re_logout","timestamp",null,null,null,null);
+	$task_access_log->usa("timestamp_logout","rel_logout","timestamp",null,null,null,null);
+	$task_access_log->usa("timestamp_expired","rel_expired","timestamp",null,null,null,null);
 }
 function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_browser_1) {
 	$form_jxaccesslog_browser_1->x(450);
@@ -646,20 +654,39 @@ return (o2val('access_log','terminal'));
 function jxaccesslog_browser_exp_31() {
 	$rf  = o2val('access_log','access_flag');
 $rel = '';
+// ___________________________________________________________________ LOGIN ___
 if ($rf == 'I') {
+   // __________________________________________ Exists related LogOut event ___
    if (!o2zero('access_log','timestamp_logout')) {
       $ts  = o2val('access_log','timestamp_logout');
       $rel = 'Session logged out on '. o2format(date('Ymd', $ts), 'o2sys_short_date').
              ' '.o2format(date('His', $ts), 'o2sys_short_time');
-      } 
+      }
+   // _________________________________________ Exists related Expired event ___
+   elseif (!o2zero('access_log','timestamp_expired')) {
+      $ts  = o2val('access_log','timestamp_expired');
+      $rel = 'Session expired on '. o2format(date('Ymd', $ts), 'o2sys_short_date').
+             ' '.o2format(date('His', $ts), 'o2sys_short_time');
+      }    
    }
+// __________________________________________________________________ LOGOUT ___
 elseif ($rf == 'O') {
+   // ___________________________________________ Exists related LogIn event ___
    if (!o2zero('access_log','timestamp_login')) {
       $ts  = o2val('access_log','timestamp_login');
       $rel = 'Session logged in on '. o2format(date('Ymd', $ts), 'o2sys_short_date').
              ' '.o2format(date('His', $ts), 'o2sys_short_time');
       }
    }
+// _________________________________________________________________ EXPIRED ___
+elseif ($rf == 'E') {
+   // ___________________________________________ Exists related LogIn event ___
+   if (!o2zero('access_log','timestamp_login')) {
+      $ts  = o2val('access_log','timestamp_login');
+      $rel = 'Session logged in on '. o2format(date('Ymd', $ts), 'o2sys_short_date').
+             ' '.o2format(date('His', $ts), 'o2sys_short_time');
+      }
+   }   
 return ($rel);
 	} //|o2_fine_exp|
 
@@ -681,6 +708,11 @@ return (o2val('prg§_§var','dev_show'));
 function jxaccesslog_browser_exp_35() {
 	
 return ((o2val('prg§_§var','dev_show') ? null : ''));
+	} //|o2_fine_exp|
+
+function jxaccesslog_browser_exp_36() {
+	
+return ('E');
 	} //|o2_fine_exp|
 
 function jxaccesslog_browser_exp_9999() {

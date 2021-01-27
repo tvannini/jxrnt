@@ -610,26 +610,66 @@ class o2_app {
     /**
      * Logs login, logout and login attempt events to database
      *
-     * @param  string $exit_url
-     * @param  array  $params
+     * @param string  $type         Out, Failed, Expired or In
+     * @param integer $timestamp    Timestamp (Expired only)
+     * @param string  $sess_id      Session ID (Expired only)
+     * @param string  $sess_user    User (Expired only)
+     * @param string  $sess_app     Application name (Expired only)
+     * @param string  $sess_runm    Run mode (Expired only)
+     * @param string  $sess_term    Terminal ID (Expired only)
      */
-    function log_access($type = '') {
+    function log_access($type       = '',
+                        $timestamp  = 0,
+                        $sess_id    = '',
+                        $sess_user  = '',
+                        $sess_app   = '',
+                        $sess_host  = '',
+                        $sess_runm  = '',
+                        $sess_term  = 0) {
 
         $tab = $this->get_table('jx_access_log');
         $f   = $tab->campi;
         switch (strtoupper($type)) {
             case 'O':
-                $type = 'O';
-                $user = $this->user;
+                $type     = 'O';
+                $time     = time();
+                $sessid   = $this->session_id;
+                $user     = $this->user;
+                $app      = $this->nome;
+                $host     = $this->host;
+                $run_mode = o2app_runmode();
+                $terminal = $this->terminal_id;
                 break;
             case 'F':
-                $type = 'F';
-                $user = (isset($_REQUEST['user']) ? $_REQUEST['user'] : $this->user);
+                $type     = 'F';
+                $time     = time();
+                $sessid   = $this->session_id;
+                $user     = (isset($_REQUEST['user']) ? $_REQUEST['user'] : $this->user);
+                $app      = $this->nome;
+                $host     = $this->host;
+                $run_mode = o2app_runmode();
+                $terminal = $this->terminal_id;
+                break;
+            case 'E':
+                $type     = 'E';
+                $time     = $timestamp;
+                $sessid   = $sess_id;
+                $user     = $sess_user;
+                $app      = $sess_app;
+                $host     = $sess_host;
+                $run_mode = $sess_runm;
+                $terminal = $sess_term;
                 break;
             case 'I':
             default:
-                $type = 'I';
-                $user = $this->user;
+                $type     = 'I';
+                $time     = time();
+                $sessid   = $this->session_id;
+                $user     = $this->user;
+                $app      = $this->nome;
+                $host     = $this->host;
+                $run_mode = o2app_runmode();
+                $terminal = $this->terminal_id;
                 break;
             }
         $fields = array($f['timestamp']->nome_fisico,
@@ -641,14 +681,14 @@ class o2_app {
                         $f['session_id']->nome_fisico,
                         $f['terminal']->nome_fisico,
                         $f['developer']->nome_fisico);
-        $values = array(time(),
+        $values = array("'".$time."'",
                         "'".$type."'",
                         "'".$user."'",
-                        "'".$this->nome."'",
-                        "'".$this->host."'",
-                        "'".o2app_runmode()."'",
-                        "'".$this->session_id."'",
-                        "'".$this->terminal_id."'",
+                        "'".$app."'",
+                        "'".$host."'",
+                        "'".$run_mode."'",
+                        "'".$sessid."'",
+                        $terminal,
                         "'".$this->developer."'");
         o2_gateway::insertrec($tab->db->server->type,
                               $tab->db->server->server,
@@ -1010,12 +1050,34 @@ class o2_app {
         $sessions = $this->get_table('o2_sessions');
         $db       = $sessions->db;
         $server   = $db->server;
+        $co       = constant("o2_".$server->type."_o");
+        $cc       = constant("o2_".$server->type."_c");
         $f        = $sessions->campi;
         // ==================================================== Clear expired sessions ===
-        $today    = "'".date('Ymd')."'";
-        $now      = "'".date('His')."'";
+        $now      = time();
+        $today    = "'".date('Ymd', $now)."'";
+        $now      = "'".date('His', $now)."'";
         $where    = $f['e_date'].'<'.$today.' OR ('.
                     $f['e_date'].'='.$today.' AND '.$f['e_time'].'<'.$now.')';
+        $recs     = o2_gateway::recordset($server->type,
+                                          $server->server,
+                                          $server->user,
+                                          $server->password,
+                                          $db->nome,
+                                          $db->proprietario,
+                                          $sessions->nome,
+                                          "jxsessions",
+                                          $f['sid'].' '.$co.'SID'.$cc.', '.
+                                          $f['o2user'].' '.$co.'USER'.$cc.', '.
+                                          $f['app_name'].' '.$co.'APP'.$cc.', '.
+                                          $f['host'].' '.$co.'HOST'.$cc.', '.
+                                          $f['run_mode'].' '.$co.'RUNM'.$cc.', '.
+                                          $f['terminal_id'].' '.$co.'TERM'.$cc.', '.
+                                          $f['e_date'].' '.$co.'DATE'.$cc.', '.
+                                          $f['e_time'].' '.$co.'TIME'.$cc,
+                                          $where,
+                                          false,
+                                          10000);
         o2_gateway::deleterec($server->type,
                               $server->server,
                               $server->user,
@@ -1025,6 +1087,18 @@ class o2_app {
                               $sessions->nome,
                               "jxsessions",
                               $where);
+        // ______________________________________________________ Log expired sessions ___
+        foreach ($recs as $rec) {
+            $dt = o2_date_obj($rec['DATE'], $rec['TIME']);
+            $this->log_access('E',
+                              $dt->getTimestamp(),
+                              $rec['SID'],
+                              $rec['USER'],
+                              $rec['APP'],
+                              $rec['HOST'],
+                              $rec['RUNM'],
+                              $rec['TERM']);
+            }
         // ============================= Clear jobs sessions without process (run-job) ===
         $runjobs  = $this->get_table(o2_run_job::$run_table);
         $run_db   = $runjobs->db;
