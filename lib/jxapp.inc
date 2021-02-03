@@ -1088,16 +1088,18 @@ class o2_app {
                               "jxsessions",
                               $where);
         // ______________________________________________________ Log expired sessions ___
-        foreach ($recs as $rec) {
-            $dt = o2_date_obj($rec['DATE'], $rec['TIME']);
-            $this->log_access('E',
-                              $dt->getTimestamp(),
-                              $rec['SID'],
-                              $rec['USER'],
-                              $rec['APP'],
-                              $rec['HOST'],
-                              $rec['RUNM'],
-                              $rec['TERM']);
+        if ($this->access_log) {
+            foreach ($recs as $rec) {
+                $dt = o2_date_obj($rec['DATE'], $rec['TIME']);
+                $this->log_access('E',
+                                  $dt->getTimestamp(),
+                                  $rec['SID'],
+                                  $rec['USER'],
+                                  $rec['APP'],
+                                  $rec['HOST'],
+                                  $rec['RUNM'],
+                                  $rec['TERM']);
+                }
             }
         // ============================= Clear jobs sessions without process (run-job) ===
         $runjobs  = $this->get_table(o2_run_job::$run_table);
