@@ -6559,6 +6559,22 @@ function o2view_selector_get_selected($view_name) {
 
 
 /**
+ * Returns TRUE if the view is currently in snapshot mode, else FALSE.
+ *
+ * @package view
+ * @param   string $view_name
+ * @return  boolean
+ * @see     o2view_snapshot_name()
+ */
+function o2view_snapshot($view_name) {
+
+    $app = $_SESSION['o2_app'];
+    return $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name]->snapshot;
+
+    }
+
+
+/**
  * Returns or sets snapshot table name for the view.
  * When called without $snapshot_name parameter function returns the used snapshot table
  * name (useful in table expression for a view, to address other views snapshots).
@@ -6569,7 +6585,7 @@ function o2view_selector_get_selected($view_name) {
  * @param   string $view_name
  * @param   string $snapshot_name
  * @return  string
- * @see     o2view_fetch(), o2view_fetch_free()
+ * @see     o2view_snapshot()
  */
 function o2view_snapshot_name($view_name, $snapshot_name = false) {
 
