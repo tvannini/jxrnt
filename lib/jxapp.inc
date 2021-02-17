@@ -5414,7 +5414,9 @@ class o2_run_job {
         $f        = $tab->campi;
         $aspfld   = $f['run_aspid']->nome_fisico;
         // ______________________________________________________ Filter by HOST or... ___
-        $where    = $f['run_status']."='Q' AND (".$f['run_host']."='".$app->host."'";
+        $where    = $f['run_status']."='Q' AND ".
+                    $f['run_sched_id']."=0 AND (".
+                    $f['run_host']."='".$app->host."'";
         // ______________________________________________________ ...filter by SERVICE ___
         $services = array_keys(o2_service::get_all_host_services());
         if (count($services)) {
@@ -5481,7 +5483,9 @@ class o2_run_job {
                     $f['run_at_date'].' '.$co.'RUN_AT_DATE'.$cc.','.
                     $f['run_at_time'].' '.$co.'RUN_AT_TIME'.$cc;
         $aspfld   = $f['run_aspid']->nome_fisico;
-        $where    = ($user ? $f['run_user']." ='".$user."'".
+        // ___ Recs from scheduler already have their own process, so can't be locked! ___
+        $where    = ($with_lock ? $f['run_sched_id']."=0" : '').
+                    ($user ? ' AND '.$f['run_user']." ='".$user."'".
                              ($aspid ? ' AND '.$aspfld."='".$aspid."'" : '') : '');
         $ord      = ($with_lock ? ' ASC' : ' DESC');
         $orderby  = $f['run_start_date'].$ord.','.$f['run_start_time'].$ord;
