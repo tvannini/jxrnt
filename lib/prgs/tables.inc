@@ -299,7 +299,7 @@ o2def::tab("jx_access_log", "default", "jx_access_log", "pk");
 	o2def::field("terminal", "terminal", "jxterminal_id");
 	o2def::field("developer", "developer", "_o2alpha");
 
-	o2def::index("pk", "timestamp","D", "terminal","A");
+	o2def::index("pk", "timestamp","D", "terminal","A", "session_id","A");
 	o2def::index("related", "session_id","A", "access_flag","D", "app_name","A", "user","A", "terminal","A");
 
 	o2def::nuindex("user", "app_name","A", "user","A");
