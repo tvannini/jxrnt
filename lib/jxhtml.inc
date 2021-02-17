@@ -331,125 +331,127 @@ class o2html {
         $rnt_alias = $app->runtime->alias;
         $so        = '<script src="';
         $sc        = "\"></script>\n";
+        $lu_time   = $app->option_get('lookup_time');
         print $so.$rnt_alias.'js/'.$app->js_file.$sc.
-              ($app->run_level == "DEV" ? $so.$rnt_alias."js/dev.js".$sc : "").
-              ($app->menu_link ? $so.$app->menu_link.$sc : "").
+              ($app->run_level == 'DEV' ? $so.$rnt_alias.'js/dev.js'.$sc : '').
+              ($app->menu_link ? $so.$app->menu_link.$sc : '').
               "<script>\no2jse.conf.user('".$app->user."');\n".
               "o2jse.conf.rntAlias('".$rnt_alias."');\n".
               "o2jse.conf.sessName('".$app->session_name."');\n".
               ($app->keep_alive ?
-               "o2jse.conf.keepAlive(".($app->timeout * 60 - 10).", '".
-                                        $app->instance_id."');\n" : "").
+               'o2jse.conf.keepAlive('.($app->timeout * 60 - 10).", '".
+                                        $app->instance_id."');\n" : '').
               (!$app->logout_on_close ? "o2jse.conf.closeLogout(false)\n" : '').
               ($app->network_errors ? "o2jse.conf.netErr();\n" : '').
               ($app->refresh_prg && $app->refresh_time ?
-               "o2jse.conf.setRefresh(".$app->refresh_time.");\n" : "").
-              "o2jse.conf.setMaxReq(".$app->max_req_n.");\n".
-              "o2jse.conf.setWaiting(".($app->wait_on_ctrl ? "!0" : "!1").");\n".
-              "o2jse.conf.setFastMsgTime(".$app->fastmsg_time.");\n".
+               'o2jse.conf.setRefresh('.$app->refresh_time.");\n" : '').
+              ($lu_time >= 300 ? 'o2jse.conf.luReqTime('.$lu_time.");\n" : '').
+              'o2jse.conf.setMaxReq('.$app->max_req_n.");\n".
+              'o2jse.conf.setWaiting('.($app->wait_on_ctrl ? '!0' : '!1').");\n".
+              'o2jse.conf.setFastMsgTime('.$app->fastmsg_time.");\n".
               "o2jse.conf.decimalsPoint('".$app->decimals_point()."');\n".
               "o2jse.conf.thousandsPoint('".$app->thousands_point()."');\n".
-              ($app->grid_plus ? "o2jse.conf.gridPlus(".
-                                ($app->option_get("tab_settings_save") ? "\"".
-                                 $app->option_get("tab_settings_save")."\"" : "!1").",".
-                                ($app->grid_multidel ? "!0" : "!1").");\n" : "").
-              "o2jse.conf.gridDblClick('".($app->option_get("tab_dblclick"))."');\n".
-              "o2jse.conf.gridWheel('".($app->option_get("tab_wheel"))."');\n".
+              ($app->grid_plus ? 'o2jse.conf.gridPlus('.
+                                ($app->option_get('tab_settings_save') ? '"'.
+                                 $app->option_get('tab_settings_save').'"' : '!1').','.
+                                ($app->grid_multidel ? '!0' : '!1').");\n" : '').
+              "o2jse.conf.gridDblClick('".($app->option_get('tab_dblclick'))."');\n".
+              "o2jse.conf.gridWheel('".($app->option_get('tab_wheel'))."');\n".
               ($app->menu_style != 'T' ?
                "o2jse.conf.menuStyle('".($app->menu_style)."');\n" : '').
-              "o2jse.conf.contextMenu({app:".($app->option_get("menu_app") ? "!0" : "!1").
-                                     ",newsess:".
-                                       ($app->option_get("menu_newsess") ? "!0" : "!1").
-                                     ",help:".
+              "o2jse.conf.contextMenu({app:".($app->option_get('menu_app') ? '!0' : '!1').
+                                     ',newsess:'.
+                                       ($app->option_get('menu_newsess') ? '!0' : '!1').
+                                     ',help:'.
                                        ($app->doc_enabled &&
-                                        $app->option_get("menu_help") ? "!0" : "!1").
+                                        $app->option_get('menu_help') ? '!0' : '!1').
                                      "});\n".
-              ($app->profiling ? "o2jse.conf.setProfiling('".$app->profiling."');\n" :"").
-              ($app->doc_enabled ? "o2jse.conf.doc();\n" : "").
-              ($app->run_level == "DEV" ?
+              ($app->profiling ? "o2jse.conf.setProfiling('".$app->profiling."');\n" :'').
+              ($app->doc_enabled ? "o2jse.conf.doc();\n" : '').
+              ($app->run_level == 'DEV' ?
                "o2jse.conf.devel('".$app->developer."');\n".$app->rights_list().
                                                             $app->roles_list().
-                                                            $app->reqdata_list() : "");
+                                                            $app->reqdata_list() : '');
         // __________________________________________________________ Keyboard control ___
-        $ctrls_list   = array("sele"   => 15,
-                              "detail" => 16,
-                              "new"    => 11,
-                              "del"    => 12,
-                              "save"   => 13,
-                              "undo"   => 14,
-                              "first"  => 1,
-                              "prevpg" => 2,
-                              "prev"   => 3,
-                              "next"   => 4,
-                              "nextpg" => 5,
-                              "last"   => 6);
+        $ctrls_list   = array('sele'   => 15,
+                              'detail' => 16,
+                              'new'    => 11,
+                              'del'    => 12,
+                              'save'   => 13,
+                              'undo'   => 14,
+                              'first'  => 1,
+                              'prevpg' => 2,
+                              'prev'   => 3,
+                              'next'   => 4,
+                              'nextpg' => 5,
+                              'last'   => 6);
         $script_local = "";
         // ______________________________________________ Navigation & record controls ___
         foreach ($ctrls_list as $code_local => $function_code) {
-            $splitted_local = explode(";", $app->option_get('keyb_nav_'.$code_local));
+            $splitted_local = explode(';', $app->option_get('keyb_nav_'.$code_local));
             $key_local      = intval($splitted_local[0]);
-            $shift_local    = ($splitted_local[1] ? "!0" : "!1");
-            $ctrl_local     = ($splitted_local[2] ? "!0" : "!1");
-            $alt_local      = ($splitted_local[3] ? "!0" : "!1");
-            print "/* ".str_pad($code_local, 7)." */ o2jse.conf.addKey(".
-                  $key_local.",".
-                  $shift_local.",".
-                  $ctrl_local.",".
-                  $alt_local.",".
+            $shift_local    = ($splitted_local[1] ? '!0' : '!1');
+            $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
+            $alt_local      = ($splitted_local[3] ? '!0' : '!1');
+            print '/* '.str_pad($code_local, 7).' */ o2jse.conf.addKey('.
+                  $key_local.','.
+                  $shift_local.','.
+                  $ctrl_local.','.
+                  $alt_local.','.
                   $function_code.");\n";
             }
         // ___________________________________________________________________ Refresh ___
-        $splitted_local = explode(";", $app->option_get('keyb_form_refresh'));
+        $splitted_local = explode(';', $app->option_get('keyb_form_refresh'));
         $key_local      = intval($splitted_local[0]);
-        $shift_local    = ($splitted_local[1] ? "!0" : "!1");
-        $ctrl_local     = ($splitted_local[2] ? "!0" : "!1");
-        $alt_local      = ($splitted_local[3] ? "!0" : "!1");
-        print "/* Refresh */ o2jse.conf.addKey(".
-                  $key_local.",".
-                  $shift_local.",".
-                  $ctrl_local.",".
+        $shift_local    = ($splitted_local[1] ? '!0' : '!1');
+        $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
+        $alt_local      = ($splitted_local[3] ? '!0' : '!1');
+        print '/* Refresh */ o2jse.conf.addKey('.
+                  $key_local.','.
+                  $shift_local.','.
+                  $ctrl_local.','.
                   $alt_local.",17);\n";
         // ______________________________________________________________________ Exit ___
-        $splitted_local = explode(";", $app->option_get('keyb_form_exit'));
+        $splitted_local = explode(';', $app->option_get('keyb_form_exit'));
         $key_local      = intval($splitted_local[0]);
-        $shift_local    = ($splitted_local[1] ? "!0" : "!1");
-        $ctrl_local     = ($splitted_local[2] ? "!0" : "!1");
-        $alt_local      = ($splitted_local[3] ? "!0" : "!1");
-        print "/* Exit    */ o2jse.conf.addKey(".
-                  $key_local.",".
-                  $shift_local.",".
-                  $ctrl_local.",".
+        $shift_local    = ($splitted_local[1] ? '!0' : '!1');
+        $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
+        $alt_local      = ($splitted_local[3] ? '!0' : '!1');
+        print '/* Exit    */ o2jse.conf.addKey('.
+                  $key_local.','.
+                  $shift_local.','.
+                  $ctrl_local.','.
                   $alt_local.",19);\n";
         // ______________________________________________________________________ Zoom ___
         if ($app->zoom) {
-            $splitted_local = explode(";", $app->option_get('keyb_ctrl_zoom'));
+            $splitted_local = explode(';', $app->option_get('keyb_ctrl_zoom'));
             $key_local      = intval($splitted_local[0]);
-            $shift_local    = ($splitted_local[1] ? "!0" : "!1");
-            $ctrl_local     = ($splitted_local[2] ? "!0" : "!1");
-            $alt_local      = ($splitted_local[3] ? "!0" : "!1");
-            print "/* Zoom    */ o2jse.conf.addKey(".
-                      $key_local.",".
-                      $shift_local.",".
-                      $ctrl_local.",".
+            $shift_local    = ($splitted_local[1] ? '!0' : '!1');
+            $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
+            $alt_local      = ($splitted_local[3] ? '!0' : '!1');
+            print '/* Zoom    */ o2jse.conf.addKey('.
+                      $key_local.','.
+                      $shift_local.','.
+                      $ctrl_local.','.
                       $alt_local.",20);\n";
             }
         // _________________________________________________________ Documentor (help) ___
         if ($app->doc_enabled) {
-            $splitted_local = explode(";", $app->option_get('keyb_help'));
+            $splitted_local = explode(';', $app->option_get('keyb_help'));
             $key_local      = intval($splitted_local[0]);
-            $shift_local    = ($splitted_local[1] ? "!0" : "!1");
-            $ctrl_local     = ($splitted_local[2] ? "!0" : "!1");
-            $alt_local      = ($splitted_local[3] ? "!0" : "!1");
+            $shift_local    = ($splitted_local[1] ? '!0' : '!1');
+            $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
+            $alt_local      = ($splitted_local[3] ? '!0' : '!1');
             if (!$key_local) {
-                $key_local   = "112";
-                $shift_local = "!0";
-                $ctrl_local  = "!1";
-                $alt_local   = "!1";
+                $key_local   = '112';
+                $shift_local = '!0';
+                $ctrl_local  = '!1';
+                $alt_local   = '!1';
                 }
-            print "/* Doc     */ o2jse.conf.addKey(".
-                      $key_local.",".
-                      $shift_local.",".
-                      $ctrl_local.",".
+            print '/* Doc     */ o2jse.conf.addKey('.
+                      $key_local.','.
+                      $shift_local.','.
+                      $ctrl_local.','.
                       $alt_local.",18);\n";
             }
         print "</script>\n";

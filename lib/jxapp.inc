@@ -607,6 +607,7 @@ class o2_app {
 
         }
 
+
     /**
      * Logs login, logout and login attempt events to database
      *

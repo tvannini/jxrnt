@@ -984,6 +984,20 @@ o2jse.conf.gridWheel = function(wheel) {
 
 
 /**
+ * Set lookup control request delay time.
+ * This is the time after which request will be fired while typing.
+ * Minimum allowed time is 300 ms.
+ *
+ * @param {Boolean} reqTime   Timein milliseconds
+ */
+o2jse.conf.luReqTime = function(reqTime) {
+
+    o2jse.lu.reqDelay = (reqTime >= 300 ? reqTime : 300);
+
+    };
+
+
+/**
  * Set on network errors reporting
  *
  */
@@ -5403,6 +5417,7 @@ o2jse.win.repos = function(win_id) {
 o2jse.lu = {
 
     listObj    : null,   /* Last active list (see descField.listObj)                    */
+    reqDelay   : 300,    /* Time after which request is fired while typing              */
     openTimer  : null,   /* Timeout object for delayed popup                            */
     closeTimer : null    /* Timeout object for items list closing                       */
 
@@ -5970,7 +5985,7 @@ o2jse.lu.list = function(targetObj, complete, immediate, stdEvent) {
             }
         else {
             o2jse.lu.openTimer = setTimeout(function() { o2jse.lu.exeReq(targetObj); },
-                                            300);
+                                            o2jse.lu.reqDelay);
             }
         }
     // ______________________________________________________________ Static data list ___
