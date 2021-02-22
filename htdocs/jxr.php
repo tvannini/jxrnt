@@ -367,6 +367,7 @@ function provide_db($app) {
  */
 function update_session() {
 
+    $sess_id = $_COOKIE[$_REQUEST["JXSESSNAME"]];
     list($server_type,
          $server_server,
          $server_user,
@@ -379,8 +380,7 @@ function update_session() {
          $timeout) = explode("\n",
                              file_get_contents(rtrim(sys_get_temp_dir(), '\\/').
                              DIRECTORY_SEPARATOR.
-                             'jx_'.$_REQUEST['instid'].
-                             '_'.$_COOKIE[$_REQUEST["JXSESSNAME"]]));
+                             'jx_'.$_REQUEST['instid'].'_'.$sess_id));
     $sets          = unserialize($sets);
     $ks            = array_keys($sets);
     $now           = time();
@@ -404,6 +404,8 @@ function update_session() {
                        $server_server,
                        $server_user,
                        $server_password);
+    // ________________________________ Touch PHP session file to avoid deleting by GA ___
+    touch(session_save_path().'/sess_'.$sess_id);
 
     }
 
