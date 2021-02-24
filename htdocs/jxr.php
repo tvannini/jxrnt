@@ -404,8 +404,10 @@ function update_session() {
                        $server_server,
                        $server_user,
                        $server_password);
-    // ________________________________ Touch PHP session file to avoid deleting by GA ___
-    touch(session_save_path().'/sess_'.$sess_id);
+    // ________________________________ Touch PHP session file to avoid deleting by GC ___
+    if (ini_get('session.save_handler') == 'files') {
+        touch(session_save_path().'/sess_'.$sess_id);
+        }
 
     }
 
