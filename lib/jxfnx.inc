@@ -890,6 +890,19 @@ function o2_play($sound_file = false) {
     }
 
 
+/**
+ * Sets status bar custom content.
+ * Content $code can be plain text or HTML code.
+ *
+ * @param string $code
+ */
+function o2_status($code) {
+
+    $_SESSION['o2_app']->status_custom = trim($code);
+
+    }
+
+
 //= ==================================== CONTROL =========================================
 
 /**

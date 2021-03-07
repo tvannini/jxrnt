@@ -2,26 +2,43 @@
 
 .o2statusbar {
     background-color: #e0ddd9;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     border-top: 1px solid var(--jx-color-border);
+    padding: 4px 0 4px 0;
+    }
+
+.o2statusinfo {
+    color: #595959;
+    float: left;
+    white-space: nowrap;
+    padding-left: 5px;
+    padding-right: 10px;
+    border-right: 1px solid var(--jx-color-border);
+    }
+
+.o2statusinfo img {
+    opacity: 0.65;
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
     }
 
 .o2statustext {
     color: #595959;
-    padding: 3px 5px 3px 7px;
+    float: left;
     white-space: nowrap;
-    }
-
-.o2statustext img {
-    opacity: 0.65;
+    padding-left: 10px;
+    padding-right: 10px;
     }
 
 .o2notify {
     font-weight: bold;
     text-align: center;
     width: 60px;
+    float: right;
     border-left: 1px solid var(--jx-color-border);
     }
 

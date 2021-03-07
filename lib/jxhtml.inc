@@ -837,20 +837,39 @@ class o2html {
                 $app->intcall($app->refresh_prg);
                 }
             }
-        if ($app->statusbar_text) {
-            $status = jx_encode($app->statusbar_text);
-            $app->statusbar_text = "";
+        // _____________________________________________ User & Developer informations ___
+        $user_info = '<img style="display:inline" src="'.$app->runtime->alias.
+                     'img/user.png" width="12px" height="12px"> &nbsp;'.
+                     ($app->user != 'default' ? $app->user : 'anonymous');
+        $dev_info  = ($app->run_level == 'DEV' ?
+                      '&nbsp;<img src="'.$app->runtime->alias.
+                      'img/dev.png" width="12px" height="12px"> &nbsp;'.
+                      $app->developer : '');
+        $info      = '<div class="o2statusinfo">'.$user_info.$dev_info.'</div>';
+        // _________________________________________________ Custom HTML on status-bar ___
+        if ($app->status_custom) {
+            $c_txt     = jx_encode($app->status_custom);
+            $c_txt_len = strlen($app->status_custom);
+            if ($app->status_custom{0} == '|') {
+                $custom_info = $info.'<div id="o2status" class="o2statustext">'.
+                               jx_encode(substr($app->status_custom, 1)).'</div>';
+                }
+            elseif ($app->status_custom{$c_txt_len - 1} == '|') {
+                $custom_info = '<div id="o2status" class="o2statustext">'.
+                               jx_encode(substr($app->status_custom, 0, -1)).
+                               '</div>'.$info;
+                }
+            else {
+                $custom_info = '<div id="o2status" class="o2statustext">'.
+                               jx_encode($app->status_custom).'</div>';
+                }
             }
         else {
-            $user_info = "<img style='display:inline' src='".$app->runtime->alias.
-                         "img/user.png' width='12px' height='12px'> &nbsp;".
-                         ($app->user != "default" ? $app->user : "anonymous");
-            $dev_info  = ($app->run_level == "DEV" ?
-                          str_repeat(" &nbsp;", 3)."<img style='display:inline' src='".
-                          $app->runtime->alias.
-                         "img/dev.png' width='12px' height='12px'> &nbsp;".
-                          $app->developer : "");
-            $status    = $user_info.$dev_info;
+            $custom_info = $info;
+            }
+        if ($app->statusbar_text) {
+            $status = $app->statusbar_text;
+            $app->statusbar_text = '';
             }
         // _________________________________________________________ Notification area ___
         $dispatcher = o2_dispatcher::get_dispatcher();
@@ -858,33 +877,32 @@ class o2html {
         $count      = $dispatcher->count();
         // ___________________________________________________________ Status 1 (info) ___
         if ($count) {
-            $tooltip    = "You have ".$count." unread messages";
-            $notify_img = $app->runtime->alias."img/notify/msg.png";
+            $tooltip    = 'You have '.$count.' unread messages';
+            $notify_img = $app->runtime->alias.'img/notify/msg.png';
             $active     = true;
             }
         // __________________________________________________________ Status 0 (empty) ___
         else {
-            $tooltip    = "No messages";
-            $notify_img = $app->runtime->alias."img/notify/".
-                          ($refresh ? "empty.png" : "off.png");
+            $tooltip    = 'No messages';
+            $notify_img = $app->runtime->alias.'img/notify/'.
+                          ($refresh ? 'empty.png' : 'off.png');
             $active     = false;
             }
         if ($active || $refresh) {
-            $notify_js  = " onClick='o2jse.notify.clickOnIcon();'";
-            $notify_css = " style='cursor:pointer;'";
+            $notify_js  = ' onClick="o2jse.notify.clickOnIcon();"';
+            $notify_css = ' style="cursor:pointer;"';
             }
         else {
-            $notify_js  = "";
-            $notify_css = "";
+            $notify_js  = '';
+            $notify_css = '';
             }
-        $notify    = "<td><div id='jxnotify' class='o2notify'".$notify_js.$notify_css.
-                     " title='".$tooltip."'><img src='".$notify_img."'><div>".
-                     ($count ? $count : "&nbsp;")."</div></div></td>";
+        $notify    = '<div id="jxnotify" class="o2notify"'.$notify_js.$notify_css.
+                     ' title="'.$tooltip.'"><img src="'.$notify_img.'"><div>'.
+                     ($count ? $count : '&nbsp;').'</div></div>';
         // _______________________________________________________________ Compose all ___
-        print "<div id='o2status' class='o2statusbar' style='position:fixed;'>".
-              "<table cellpadding='0' cellspacing='0'><tr><td id='o2statustext'".
-              " class='o2statustext' width='100%'>".$status."</td>".$notify.
-              "</tr></table></div>\n";
+        print '<div class="o2statusbar">'.$custom_info.
+              '<div id="o2statustext" class="o2statustext">'.$status.'</div>'.
+              $notify."</div>\n";
         $alert = $dispatcher->get_alert();
         if ($alert) {
             print "<script> alert('".addcslashes($alert, "\r\n\'\"\\")."');\n </script>";

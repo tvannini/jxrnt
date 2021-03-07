@@ -7927,7 +7927,7 @@ jxjs.cError = function(ex, reqJs){
                 reqJs + "</pre></td>\n</tr>\n</table></div>\n";
         document.body.innerHTML = jsErr + document.body.innerHTML;
         }
-    document.getElementById("o2statustext").innerHTML = "<b>Ajax request error!</b>";
+    document.getElementById("o2statustext").innerHTML = "<b>Error in response</b>";
     o2jse.submitting                                  = false;
     o2jse.cliMode                                     = false;
 

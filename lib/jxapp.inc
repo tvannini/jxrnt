@@ -199,6 +199,7 @@ class o2_app {
     public $defining_combo  = null;    /* o2_ctrl_listcombo ctrl to set as lookup ctrl  */
     public $defining_check  = null;    /* o2_ctrl_check ctrl to use as view-selection   */
     public $statusbar_text  = '';      /* Text to print in statusbar                    */
+    public $status_custom   = false;    /* Custom HTML to display on status-bar          */
     public $status_height   = 0;       /* Status bar height                             */
     public $html_started    = false;   /* If HTML document has been opened              */
     public $mouse_point     = false;   /* Customized GdkCursor for pointer (default)    */
