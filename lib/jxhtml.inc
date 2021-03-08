@@ -1453,11 +1453,11 @@ class o2html {
          * status-bar    jxsbh                        height (in px)                    *
          ********************************************************************************/
         if ($_REQUEST['jxcsw']) {
-            $app->client_width  = $_REQUEST['jxcsw'];
-            $app->client_height = $_REQUEST['jxcsh'];
-            $app->menu_width    = $_REQUEST['jxmbw'];
-            $app->menu_height   = $_REQUEST['jxmbh'];
-            $app->status_height = $_REQUEST['jxsbh'];
+            $app->client_width  = intval($_REQUEST['jxcsw']);
+            $app->client_height = intval($_REQUEST['jxcsh']);
+            $app->menu_width    = intval($_REQUEST['jxmbw']);
+            $app->menu_height   = intval($_REQUEST['jxmbh']);
+            $app->status_height = intval($_REQUEST['jxsbh']);
             }
 
         }
@@ -1746,7 +1746,7 @@ class o2html {
             switch ($o2form_obj->align_v) {
                 case "middle":
                     $valign_val             = max(0, intval($cli_h / 2 - $o2form_obj->y +
-                                                            $bar_h / 2));
+                                                            $bar_h / 2 - $stb_h / 2));
                     $align_buffer          .= "top:".$valign_val."px;";
                     $o2form_obj->absolute_y = $valign_val;
                     $valign_val             = $o2form_obj->y;
