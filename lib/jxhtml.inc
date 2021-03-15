@@ -851,16 +851,16 @@ class o2html {
             $c_txt     = jx_encode($app->status_custom);
             $c_txt_len = strlen($app->status_custom);
             if ($app->status_custom{0} == '|') {
-                $custom_info = $info.'<div id="o2status" class="o2statustext">'.
+                $custom_info = $info.'<div class="o2statustext">'.
                                jx_encode(substr($app->status_custom, 1)).'</div>';
                 }
             elseif ($app->status_custom{$c_txt_len - 1} == '|') {
-                $custom_info = '<div id="o2status" class="o2statustext">'.
+                $custom_info = '<div class="o2statustext">'.
                                jx_encode(substr($app->status_custom, 0, -1)).
                                '</div>'.$info;
                 }
             else {
-                $custom_info = '<div id="o2status" class="o2statustext">'.
+                $custom_info = '<div class="o2statustext">'.
                                jx_encode($app->status_custom).'</div>';
                 }
             }
@@ -900,7 +900,7 @@ class o2html {
                      ' title="'.$tooltip.'"><img src="'.$notify_img.'"><div>'.
                      ($count ? $count : '&nbsp;').'</div></div>';
         // _______________________________________________________________ Compose all ___
-        print '<div class="o2statusbar">'.$custom_info.
+        print '<div id="o2status" class="o2statusbar">'.$custom_info.
               '<div id="o2statustext" class="o2statustext">'.$status.'</div>'.
               $notify."</div>\n";
         $alert = $dispatcher->get_alert();
