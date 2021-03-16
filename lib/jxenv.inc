@@ -3806,6 +3806,7 @@ class o2_dbview extends o2_view {
      */
     function verifica_record($record = 0) {
 
+        $app               = $_SESSION['o2_app'];
         $transazione_local = $this->computing;
         $this->computing   = true;
         // ____________________________________________________ Loop on standard links ___
