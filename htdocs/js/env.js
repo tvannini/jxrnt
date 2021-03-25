@@ -8222,6 +8222,7 @@ jxc = function(defObj) {
             return;
             }
         // _________________________________________________________ Set o2 properties ___
+        o2_save    = ctrlObj.o2;
         ctrlObj.o2 = defObj.p;
         switch (defObj.t) {
             // ================================================================= LABEL ===
@@ -8229,12 +8230,19 @@ jxc = function(defObj) {
                 // ____________________________________________________ Set visibility ___
                 if (defObj.v) {
                     ctrlObj.style.display = "";
-                    ctrlObj.style.width   = defObj.w + 'px';
-                    ctrlObj.style.height  = defObj.h + 'px';
                     if (defObj.p.pT != 'tab') {
                         ctrlObj.parentNode.style.left = defObj.x + 'px';
                         ctrlObj.parentNode.style.top  = defObj.y + 'px';
+                        ctrlObj.style.width           = defObj.w + 'px';
                         }
+                    // _______________________ Edit, text and combo in disabled tables ___
+                    else if (o2_save.cT != 'label') {
+                        ctrlObj.style.maxWidth = defObj.w + 'px';
+                        }
+                    else {
+                        ctrlObj.style.width = defObj.w + 'px';
+                        }
+                    ctrlObj.style.height = defObj.h + 'px';
                     // _______________________________________________ Set style class ___
                     if (ctrlObj.className != defObj.s) {
                         ctrlObj.className = defObj.s;

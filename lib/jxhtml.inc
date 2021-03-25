@@ -3518,11 +3518,14 @@ class o2html {
                     if (trim($valore_local) == "") {
                         $valore_local = "&nbsp;";
                         }
-                    print '<div style="max-width:'.$col_size.
+                    print '<div '.
+                          ($o2ctrl_obj->riga_corrente ?
+                           ' id="'.$ctrl->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
+                          ' style="max-width:'.$col_size.
                                   'px;height:'.$ctrl->altezza.'px;'.
                                   ($ctrl->maschera->allineamento == "Right" ?
-                                   'float:right;" ' : '" ').
-                                  $ctrl->js_props().'>'.$valore_local."</div>";
+                                  'float:right;" ' : '" ').
+                          $ctrl->js_props().'>'.$valore_local."</div>";
                     }
                 else {
                     $ctrl->active_by_tab = ($o2ctrl_obj->modificabile &&

@@ -269,8 +269,8 @@ class jxjs {
                          "l:'".str_replace(array("\n","\r"), ' ',
                                            addslashes(jx_encode($label))).
                          "',s:'".$o2ctrl_obj->css.
-                         "',x:".$o2ctrl_obj->x.
-                         ',y:'.$o2ctrl_obj->y.
+                         "'".(!$o2ctrl_obj->tab_index ?
+                              ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
                          ',w:'.$o2ctrl_obj->larghezza.
                          ',h:'.$o2ctrl_obj->altezza,
                          ($o2ctrl_obj->popup_exp ?
@@ -345,8 +345,8 @@ class jxjs {
                                                   ($zoom ? ' jxzoom' : '').
                                                   ($o2ctrl_obj->forza_submit &&
                                                    $enabled ? ' jxsoc' : '').
-                         "',x:".$o2ctrl_obj->x.
-                         ',y:'.$o2ctrl_obj->y.
+                         "'".(!$o2ctrl_obj->tab_index ?
+                              ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
                          ',w:'.$o2ctrl_obj->larghezza.
                          ',h:'.$o2ctrl_obj->altezza,
                          $o2ctrl_obj->js_props(($zoom ? "z:!0" : "z:!1"), true));
@@ -377,8 +377,8 @@ class jxjs {
                                                   ($zoom ? ' jxzoom' : '').
                                                   ($o2ctrl_obj->forza_submit &&
                                                    $enabled ? ' jxsoc' : '').
-                         "',x:".$o2ctrl_obj->x.
-                         ',y:'.$o2ctrl_obj->y.
+                         "'".(!$o2ctrl_obj->tab_index ?
+                              ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
                          ',w:'.$o2ctrl_obj->larghezza.
                          ',h:'.$o2ctrl_obj->altezza,
                          $o2ctrl_obj->js_props("cssc:'".$css."',".$rte.
@@ -422,8 +422,8 @@ class jxjs {
               ",vS:".($submit).
               ",d:".($o2ctrl_obj->sql2ctrl() ? "!0" : "!1").
               ",s:'".$o2ctrl_obj->css.
-              "',x:".$o2ctrl_obj->x.
-              ',y:'.$o2ctrl_obj->y.
+              "'".(!$o2ctrl_obj->tab_index ?
+                   ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
               ",p:".$o2ctrl_obj->js_props("", true)."});\n";
 
         }
@@ -493,8 +493,8 @@ class jxjs {
                            "',boxtype:'lookup',s:'".
                            $o2ctrl_obj->css.($enabled ? "" : "_dis").
                            "',er:".($o2ctrl_obj->error ? "!0" : "!1").
-                            ',x:'.$o2ctrl_obj->x.
-                            ',y:'.$o2ctrl_obj->y.
+                           (!$o2ctrl_obj->tab_index ?
+                            ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
                             ',w:'.$o2ctrl_obj->larghezza.
                             ',h:'.$o2ctrl_obj->altezza,
                            $o2ctrl_obj->js_props("cssf:'".$o2ctrl_obj->css.
@@ -590,10 +590,10 @@ class jxjs {
                          "l:'".addslashes(jx_encode($label)).
                          "',s:'".$hover_before.($o2ctrl_obj->modificabile ? '' : '_dis').
                                 ($hover_after ? ' '.$hover_after : '').
-                         "',x:".$o2ctrl_obj->x.
-                          ',y:'.$o2ctrl_obj->y.
-                          ',w:'.$o2ctrl_obj->larghezza.
-                          ',h:'.$o2ctrl_obj->altezza,
+                         "'".(!$o2ctrl_obj->tab_index ?
+                              ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
+                         ',w:'.$o2ctrl_obj->larghezza.
+                         ',h:'.$o2ctrl_obj->altezza,
                          $o2ctrl_obj->js_props("action:'".$o2ctrl_obj->azione_submit."'",
                                                true));
 
@@ -658,8 +658,8 @@ class jxjs {
                          "',srcover:'".$o2ctrl_obj->srcover().
                          "',s:'".$o2ctrl_obj->css.
                          "',e:".($on ? '!0' : '!1').
-                          ',x:'.$o2ctrl_obj->x.
-                          ',y:'.$o2ctrl_obj->y.
+                         (!$o2ctrl_obj->tab_index ?
+                          ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
                           ',w:'.$o2ctrl_obj->larghezza.
                           ',h:'.$o2ctrl_obj->altezza,
                          ($on ?
@@ -976,9 +976,9 @@ class jxjs {
      */
     static function ctrl_doc($o2ctrl_obj) {
 
-        print jxjs::ctrl($o2ctrl_obj, "u:'".$o2ctrl_obj->path.
-                                      "',x:".$o2ctrl_obj->x.
-                                      ',y:'.$o2ctrl_obj->y.
+        print jxjs::ctrl($o2ctrl_obj, "u:'".$o2ctrl_obj->path."'".
+                                      (!$o2ctrl_obj->tab_index ?
+                                       ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
                                       ',w:'.$o2ctrl_obj->larghezza.
                                       ',h:'.$o2ctrl_obj->altezza);
 
@@ -1072,6 +1072,18 @@ class jxjs {
                         if (trim($valore_local) == "") {
                             $valore_local = "&nbsp;";
                             }
+                        $l_ctrl                = new o2_ctrl_label();
+                        $l_ctrl->nome          = $ctrl->nome;
+                        $l_ctrl->padre         = $tab_name;
+                        $l_ctrl->id_esecuzione = $ctrl->id_esecuzione;
+                        $l_ctrl->form          = $ctrl->form;
+                        $l_ctrl->tab_index     = $tab_index;
+                        $l_ctrl->label         = $valore_local;
+                        $l_ctrl->larghezza     = $ctrl->larghezza;
+                        $l_ctrl->altezza       = $ctrl->altezza;
+                        $l_ctrl->css           = false;
+                        $l_ctrl->disegna();
+                        unset($l_ctrl);
                         }
                     else {
                         $ctrl->active_by_tab = ($o2ctrl_obj->modificabile &&
