@@ -5415,8 +5415,7 @@ class o2_run_job {
         $f        = $tab->campi;
         $aspfld   = $f['run_aspid']->nome_fisico;
         // ______________________________________________________ Filter by HOST or... ___
-        $where    = $f['run_status']."='Q' AND ".
-                    $f['run_sched_id']."=0 AND (".
+        $where    = $f['run_status']."='Q' AND (".
                     $f['run_host']."='".$app->host."'";
         // ______________________________________________________ ...filter by SERVICE ___
         $services = array_keys(o2_service::get_all_host_services());
@@ -5485,9 +5484,8 @@ class o2_run_job {
                     $f['run_at_time'].' '.$co.'RUN_AT_TIME'.$cc;
         $aspfld   = $f['run_aspid']->nome_fisico;
         // ___ Recs from scheduler already have their own process, so can't be locked! ___
-        $where    = ($with_lock ? $f['run_sched_id']."=0" : '').
-                    ($user ? ' AND '.$f['run_user']." ='".$user."'".
-                             ($aspid ? ' AND '.$aspfld."='".$aspid."'" : '') : '');
+        $where    = ($user ? ' AND '.$f['run_user']." ='".$user."'".
+                    ($aspid ? ' AND '.$aspfld."='".$aspid."'" : '') : '');
         $ord      = ($with_lock ? ' ASC' : ' DESC');
         $orderby  = $f['run_start_date'].$ord.','.$f['run_start_time'].$ord;
         $run_jobs = o2_gateway::recordset($server->type,
@@ -7034,9 +7032,18 @@ class o2_scheduler {
                 elseif ($job['aspid']) {
                     print '   Run job "'.$job['job'].
                           '" for ASP-ID "'.$job['aspid']."\"\n";
+                    o2_run_job::queue(o2_job::get_by_id($job['job']),
+                                      array(),
+                                      $job['aspid'],
+                                      false,
+                                      false,
+                                      false,
+                                      $sched_id);
+/*
                     o2_job::get_by_id($job['job'])->run($job['aspid'],
                                                         array(),
                                                         $sched_id);
+*/
                     }
                 // __________________________________________ Run once for each ASP-ID ___
                 else {
@@ -7050,9 +7057,18 @@ class o2_scheduler {
                         foreach ($aspids as $aspid) {
                             if ($aspid) {
                                 print "    - ASP-ID \"".$aspid."\"\n";
+                                o2_run_job::queue(o2_job::get_by_id($job['job']),
+                                                  array(),
+                                                  $aspid,
+                                                  false,
+                                                  false,
+                                                  false,
+                                                  $sched_id);
+/*
                                 o2_job::get_by_id($job['job'])->run($aspid,
                                                                     array(),
                                                                     $sched_id);
+*/
                                 }
                             }
                         }
