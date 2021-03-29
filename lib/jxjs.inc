@@ -1057,11 +1057,13 @@ class jxjs {
             $o2ctrl_obj->save_modify = $o2ctrl_obj->modificabile;
             $o2ctrl_obj->form_obj->read_def();
             $o2ctrl_obj->modificabile = $o2ctrl_obj->save_modify;
-            $tab_index = $o2ctrl_obj->view_obj->selezione + 1;
+            $tab_index                = $o2ctrl_obj->view_obj->selezione + 1;
             // ________ Open table controls list (row to match against view selection) ___
             print "if(o2jse.infoForm['".$o2ctrl_obj->view_obj->nome."_vs".
                                         $o2ctrl_obj->id_esecuzione."'].value==".
                       $tab_index."){\n";
+            $rm_col = ($o2ctrl_obj->row_marker ? 0 : 1);
+            $footer = array();
             foreach ($o2ctrl_obj->form_obj->controlli as &$ctrl) {
                 // _________________________________________ Controls inside the table ___
                 if ($ctrl->padre == $tab_name) {
@@ -1093,6 +1095,21 @@ class jxjs {
                         $ctrl->active_by_tab = true;
                         unset($ctrl->tab_index);
                         }
+                    // _____________________________________________ Footer expression ___
+                    if (isset($ctrl->info_padre[8]) && $ctrl->info_padre[8]) {
+                        if ($app->multilang) {
+                            $f = jx_encode($app->translate($ctrl->nome,
+                                                        'grid_foot',
+                                                        0,
+                                                        $ctrl->info_padre[8]));
+                            }
+                        else {
+                            $f = jx_encode($ctrl->info_padre[8]);
+                            }
+                        $footer[] = "{c:".(intval($ctrl->info_padre[1]) - $rm_col).
+                                    ",r:".(intval($ctrl->info_padre[0]) - 1).
+                                    ",l:'".$f."'}";
+                        }
                     }
                 }
             // _____________________________________________ Close table controls list ___
@@ -1108,7 +1125,6 @@ class jxjs {
                     $row_code        = "";
                     $view->selezione = $selection;
                     $view->corrente  = &$view->recordset[$selection];
-                    $rm_col          = ($o2ctrl_obj->row_marker ? 0 : 1);
                     $view->comunica_variazioni();
                     $o2ctrl_obj->form_obj->read_def();
                     $o2ctrl_obj->riga_corrente = false;
@@ -1203,6 +1219,7 @@ class jxjs {
                                      'lastRow:'.$selection.
                                      ',lines:'.$o2ctrl_obj->lines_per_row.
                                      ',rowList:['.substr($row_code, 0, -1).'],'.
+                                     ($footer ? 'foot:['.implode(',', $footer).'],' : '').
                                      'x:'.$o2ctrl_obj->x.
                                      ',y:'.$o2ctrl_obj->y.
                                      ',w:'.$o2ctrl_obj->larghezza.

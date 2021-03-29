@@ -8138,6 +8138,11 @@ jxc = function(defObj) {
                                getElementsByTagName("tbody")[0].rows;
                 var rowNum  = defObj.lastRow;
                 var lastRow = tRows[rowNum];
+                if (defObj.foot) {
+                    var myFoot = document.getElementById(defObj.i + '_pseudoF').
+                                  getElementsByTagName('tfoot')[0].
+                                   getElementsByTagName('tr');
+                    }
                 for (var cellId in defObj.rowList) {
                     var valObj  = null;
                     var newCell = defObj.rowList[cellId];
@@ -8172,6 +8177,14 @@ jxc = function(defObj) {
                         var tdObj = valObj.parentNode;
                         tdObj.onmouseover = null;
                         tdObj.onmouseout  = null;
+                        }
+                    }
+                // _______________________________________________________ Footer sent ___
+                if (defObj.foot) {
+                    for (var footC in defObj.foot) {
+                        myFootC = defObj.foot[footC];
+                        myFoot[myFootC.r].getElementsByTagName('td')[myFootC.c].
+                         innerText = myFootC.l;
                         }
                     }
                 // _____________________________________________ Set row o2 properties ___
