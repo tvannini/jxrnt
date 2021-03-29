@@ -37,14 +37,14 @@
  *
  * @global string $jxrel
  */
-$jxrel = "2.6.03";
+$jxrel = "2.6.04";
 
 /**
  * Janox built date string
  *
  * @global string $jxbuilt
  */
-$jxbuilt = "20210308";
+$jxbuilt = "20210330";
 
 /**
  * Start execution time
