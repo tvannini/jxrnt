@@ -8138,10 +8138,11 @@ jxc = function(defObj) {
                                getElementsByTagName("tbody")[0].rows;
                 var rowNum  = defObj.lastRow;
                 var lastRow = tRows[rowNum];
-                if (defObj.foot) {
-                    var myFoot = document.getElementById(defObj.i + '_pseudoF').
-                                  getElementsByTagName('tfoot')[0].
-                                   getElementsByTagName('tr');
+                // _____________________________________________ Footer sent & visible ___
+                if (defObj.foot &&
+                    (pseudoF = document.getElementById(defObj.i + '_pseudoF'))) {
+                    var myFoot = pseudoF.getElementsByTagName('tfoot')[0].
+                                          getElementsByTagName('tr');
                     }
                 for (var cellId in defObj.rowList) {
                     var valObj  = null;
@@ -8179,8 +8180,8 @@ jxc = function(defObj) {
                         tdObj.onmouseout  = null;
                         }
                     }
-                // _______________________________________________________ Footer sent ___
-                if (defObj.foot) {
+                // _____________________________________________ Footer sent & visible ___
+                if (myFoot) {
                     for (var footC in defObj.foot) {
                         myFootC = defObj.foot[footC];
                         myFoot[myFootC.r].getElementsByTagName('td')[myFootC.c].
