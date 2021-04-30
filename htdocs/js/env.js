@@ -2406,8 +2406,11 @@ o2jse.tab.rowDblClick = function(eventObj) {
         }
     var stdEvent  = o2jse.event.std(eventObj);
     var targetObj = stdEvent.target;
-    o2jse.ctrl.init(targetObj);
-    var infoObj = targetObj.o2;
+    var trObj     = (targetObj.tagName.toLowerCase() == 'tr' ?
+                     targetObj :
+                     o2jse.getParentTag(targetObj, 'tr'));
+    o2jse.ctrl.init(trObj);
+    var infoObj = trObj.o2;
     var navName = "";
     // _________________________________________________ Get related navigator control ___
     if (infoObj.nav) {
