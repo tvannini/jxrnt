@@ -8239,6 +8239,9 @@ jxc = function(defObj) {
             return;
             }
         // _________________________________________________________ Set o2 properties ___
+        if (typeof(ctrlObj.o2) == 'undefined') {
+            o2jse.ctrl.init(ctrlObj);
+            }
         o2_save    = ctrlObj.o2;
         ctrlObj.o2 = defObj.p;
         switch (defObj.t) {
