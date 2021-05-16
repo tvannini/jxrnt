@@ -3975,6 +3975,38 @@ function o2field_model($table_name, $field_name) {
 // ====================================== TABLE ==========================================
 
 /**
+ * Returns TRUE if table is defined in session (in application repository or in other
+ * way).
+ *
+ * @package table
+ * @param   string $table_name
+ * @return  boolean
+ */
+function o2tab_is_defined($table_name) {
+
+    $app = $_SESSION['o2_app'];
+    // _______________________________________________________ Table is already loaded ___
+    if (isset($app->tab[$table_name])) {
+        return true;
+        }
+    // ____________________________________________________ Splitted tables repository ___
+    elseif ($app->split_tab_repos &&
+            @include_once($this->dir_progs."jx_tables".DIRECTORY_SEPARATOR.
+                          $table_name.".tab")) {
+        return true;
+        }
+    elseif ($app->doc_enabled) {
+        $app->doc->repository();
+        return isset($app->tab[$table_name]);
+        }
+    else {
+        return false;
+        }
+
+    }
+
+
+/**
  * Returns true if table physically exists, else false
  *
  * @package table

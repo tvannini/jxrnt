@@ -232,10 +232,12 @@ class JXSQLparser {
             }
         // __________________________________________________________ Store alias name ___
         $this->aliases[$tabalias] = $tabname;
-        try {
+        // ___________ If table is defined then it is qualified by table informations  ___
+        if (o2tab_is_defined($tabname)) {
             $qname = o2tab_qname($tabname);
             }
-        catch (o2_exception $e) {
+        // _________________________ Else it is qualified by JXSQL-parser informations ___
+        else {
             $qname = o2_gateway::qualify($this->dbengine,
                                          $this->db_phys_name,
                                          o2db_schema($this->databasename),
