@@ -1080,7 +1080,7 @@ class jxjs {
                         $l_ctrl->id_esecuzione = $ctrl->id_esecuzione;
                         $l_ctrl->form          = $ctrl->form;
                         $l_ctrl->tab_index     = $tab_index;
-                        $l_ctrl->label         = $valore_local;
+                        $l_ctrl->label         = stripslashes($valore_local);
                         $l_ctrl->larghezza     = $ctrl->larghezza;
                         $l_ctrl->altezza       = $ctrl->altezza;
                         $l_ctrl->css           = false;
