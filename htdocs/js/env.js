@@ -2706,7 +2706,9 @@ o2jse.tab.changeRow = function(targetObj, movDir, navName) {
         return false;
         }
     targetObj.blur();
-    var sourceRow = targetObj.parentNode.parentNode;
+    var sourceRow = (targetObj.o2.cT == 'listcombo' ?
+                     targetObj.parentNode.parentNode.parentNode :
+                     targetObj.parentNode.parentNode);
     var targetRow;
     // _________________________________________________________ Go to previous record ___
     if (movDir == "P") {
@@ -2861,11 +2863,13 @@ o2jse.tab.moveSel = function(sourceRow, targetRow, noRequest) {
                             }
                         // _____________________________________________ Combo look-up ___
                         else {
+                            sourceFrame = sourceField;
+                            sourceField = o2jse.firstRealChild(sourceFrame);
                             // _____________________ Move hidden field with code value ___
-                            $code_field = document.getElementsByName(targetField.o2.c +
-                                                                     targetField.o2.e);
-                            if ($code_field[0]) {
-                                targetParent.appendChild($code_field[0]);
+                            code_field = document.getElementsByName(targetField.o2.c +
+                                                                    targetField.o2.e);
+                            if (code_field[0]) {
+                                targetField.appendChild(code_field[0].cloneNode(true));
                                 }
                             // ______________________________________________ Disabled ___
                             if (sourceField.tagName.toLowerCase() == 'div') {
@@ -2882,11 +2886,12 @@ o2jse.tab.moveSel = function(sourceRow, targetRow, noRequest) {
                             // _______________________________________________ Enabled ___
                             else {
                                 targetClone.innerHTML      = sourceField.value;
-                                var newValue               = targetField.innerHTML.trim();
+                                var newValue               = targetField.firstChild
+                                                             .textContent.trim();
                                 sourceField.value          = newValue.decode();
                                 sourceField.dropDownActive = false;
                                 delete sourceField.saveValue;
-                                targetParent.replaceChild(sourceField, targetField);
+                                targetParent.replaceChild(sourceFrame, targetField);
                                 sourceParent.insertBefore(targetClone,
                                                           sourceParent.firstChild);
                                 }
@@ -5930,6 +5935,67 @@ o2jse.lu.ck = function(targetObj) {
 
 
 /**
+ * Handler for onMouseDown events on lookup open icon
+ *
+ * @param {object} targetObj   Lookup pseudo-element icon receiving event
+ */
+ o2jse.lu.ick = function(targetObj) {
+
+    ctrlObj = o2jse.firstRealChild(targetObj.parentNode);
+    if (ctrlObj.listObj) {
+        return o2jse.lu.listOff(ctrlObj);
+        }
+    else {
+        o2jse.lu.list(ctrlObj, true, true);
+        }
+    if (ctrlObj.select) {
+        ctrlObj.select();
+        }
+    return false;
+
+    };
+
+
+/**
+ * Handler for OnMouseOver events on lookup open icon to magnify it
+ *
+ * @param object targetObj   HTML element (DIV) on which event is fired
+ */
+ o2jse.lu.onI = function(targetObj) {
+
+    var ratio = 1.2;
+    if (o2jse.lu.effectTimeout) {
+        clearTimeout(o2jse.lu.effectTimeout);
+        }
+    if (o2jse.lu.btnEffectObj) {
+        o2jse.removeEl(o2jse.lu.btnEffectObj);
+        o2jse.lu.btnEffectObj = null;
+        }
+    var bigImg            = o2jse.createEl(targetObj.parentNode,
+                                           'DIV',
+                                           targetObj.className);
+    var pos               = o2jse.getPos(targetObj);
+    bigImg.style          = 'transform:scale(' + ratio + ');';
+    bigImg.style.position = 'absolute';
+    bigImg.style.width    = parseInt(targetObj.offsetWidth * ratio) + 'px';
+    bigImg.style.height   = parseInt(targetObj.offsetHeight * ratio) + 'px';
+    bigImg.style.left     = pos.x + 'px';
+    bigImg.style.top      = pos.y + 'px';
+    bigImg.style.cursor   = 'pointer';
+    bigImg.onclick        = function() { bigImg.onmouseout();
+                                         targetObj.onmouseover = null;
+                                         targetObj.onclick(targetObj); };
+    bigImg.onmouseout     = function() { o2jse.removeEl(bigImg); delete bigImg; };
+    targetObj.onmouseout  = function() { targetObj.onmouseover = function() {
+                                                                     o2jse.lu.onI(this);
+                                                                 }; };
+    o2jse.lu.btnEffectObj = bigImg;
+    o2jse.elBody.appendChild(o2jse.lu.btnEffectObj);
+
+    };
+
+
+/**
  * Compose and display items list panel
  *
  * @param {object}  targetObj   o2 lookup INPUT field
@@ -8520,7 +8586,7 @@ jxc = function(defObj) {
                             }
                         // __________________________________________________ Disabled ___
                         else {
-                            divObj.onclick     = null;
+                            divObj.onclick = null;
                             }
                         // _________________________ Reload listbox options from items ___
                         var opts = divObj.getElementsByTagName("div");
@@ -8561,10 +8627,10 @@ jxc = function(defObj) {
                         descField.style.width   = defObj.w + 'px';
                         descField.style.height  = defObj.h + 'px';
                         if (defObj.p.pT != 'tab') {
-                            descField.parentNode.style.left = defObj.x + 'px';
-                            descField.parentNode.style.top  = defObj.y + 'px';
+                            descField.parentNode.parentNode.style.left = defObj.x + 'px';
+                            descField.parentNode.parentNode.style.top  = defObj.y + 'px';
                             }
-                        var disabled                    = descField.nodeName != "INPUT";
+                        var disabled = descField.nodeName != "INPUT";
                         if (disabled == defObj.e) {
                             // ________________________________ Replace DIV with INPUT ___
                             if (defObj.e) {
@@ -8613,7 +8679,6 @@ jxc = function(defObj) {
                         // ____________________________________________ Active control ___
                         var zoom = defObj.p.z;
                         if (defObj.e) {
-                            descField.style.cursor = "pointer";
                             if (defObj.dyn) {
                                 descField.o2.dyn = true;
                                 }
@@ -8623,10 +8688,18 @@ jxc = function(defObj) {
                                 }
                             descField.o2.rows   = defObj.p.rows;
                             descField.onkeydown = function(e) { o2jse.lu.k(e, this); };
-                            descField.onclick   = function() { o2jse.lu.ck(this); };
                             descField.onpaste   = function() { o2jse.lu.p(this); };
                             descField.onfocus   = function() { o2jse.lu.f(this); };
                             descField.onblur    = function() { o2jse.lu.b(this); };
+                            if (defObj.o) {
+                                iObj = descField.parentNode.getElementsByTagName('div')[0];
+                                iObj.onclick = function() { o2jse.lu.ick(this); };
+                                descField.style.cursor = 'auto';
+                                }
+                            else {
+                                descField.onclick = function() { o2jse.lu.ck(this); };
+                                descField.style.cursor = 'pointer';
+                                }
                             }
                         // __________________________________________________ Disabled ___
                         else {

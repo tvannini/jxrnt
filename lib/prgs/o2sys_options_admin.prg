@@ -18,6 +18,8 @@ o2def::act("mod_grid_dblclick");
 o2def::act("mod_grid_settings");
 o2def::act("mod_grid_wheel");
 o2def::act("mod_language");
+o2def::act("mod_lookup_effect");
+o2def::act("mod_lookup_handler");
 o2def::act("mod_lookup_time");
 o2def::act("mod_menu_help");
 o2def::act("mod_menu_open_on");

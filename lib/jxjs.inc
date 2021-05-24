@@ -496,7 +496,8 @@ class jxjs {
                            (!$o2ctrl_obj->tab_index ?
                             ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
                             ',w:'.$o2ctrl_obj->larghezza.
-                            ',h:'.$o2ctrl_obj->altezza,
+                            ',h:'.$o2ctrl_obj->altezza.
+                           ($app->option_get('lookup_handler') ? ',o:!0' : ',o:!1'),
                            $o2ctrl_obj->js_props("cssf:'".$o2ctrl_obj->css.
                                                  ($enabled ? '_field' : '_field_dis').
                                                  ($zoom ? ' jxzoom' : '').

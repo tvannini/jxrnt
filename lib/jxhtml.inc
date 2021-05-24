@@ -2461,24 +2461,40 @@ class o2html {
                                           ($zoom ? ",z:!0" : ",z:!1"));
         $htmlname = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
         if ($enabled && $enabled_in_tab && $active) {
+            // ___________________________ Handler icon to open or click on full field ___
+            $handler = $app->option_get('lookup_handler');
             $js_change = 'onKeyDown="o2jse.lu.k(event, this);" '.
-                         'onClick="o2jse.lu.ck(this);" '.
+                         ($handler ? '' : 'onClick="o2jse.lu.ck(this);" ').
                          'onPaste="o2jse.lu.p(this);" '.
                          ($zoom ? 'onDblClick="o2jse.ctrl.zoom(event);" ' : '').
                          'onFocus="o2jse.lu.f(this);" onBlur="o2jse.lu.b(this);"';
-            print '<input type="text" id="'.$htmlname.
+            print '<div style="position:relative;width:'.$o2ctrl_obj->larghezza.'px;" '.
+                  $js_prop.'><input type="text" id="'.$htmlname.
                   '_desc" value="'.str_replace('"', "&quot;", $desc_value).
                        '" class="'.$o2ctrl_obj->css."_field".($zoom ? ' jxzoom' : '').
                                               ($o2ctrl_obj->forza_submit ? ' jxsoc' : '').
                                                    ($o2ctrl_obj->error ? ' jxerror' : '').
                        '" style="width:'.$o2ctrl_obj->larghezza.'px;height:'.
-                                         $o2ctrl_obj->altezza."px;cursor:pointer".
+                                         $o2ctrl_obj->altezza.
+                       "px;cursor:".($handler ? 'auto' : 'pointer').
                        ($o2ctrl_obj->visibile ? "" : ";display:none")."\"\n".
                   $js_prop.$js_change.
                   ($o2ctrl_obj->popup_exp ?
                    ' onMouseOver="o2jse.pu.i(event)" onMouseOut="o2jse.pu.o()"' : '').
-                  ">\n<input type=\"hidden\" name=\"".$htmlname.
-                  '" value="'.$code_value.'" '.$js_prop.">\n";
+                  ">\n";
+            // _________________________________________ Add DIV for open icon handler ___
+            if ($handler && $o2ctrl_obj->visibile) {
+                $effect = $app->option_get('lookup_effect');
+                print '<div class="'.$o2ctrl_obj->css.'_field" '.
+                      'style="position:absolute;width:'.$o2ctrl_obj->altezza.
+                      'px;height:'.$o2ctrl_obj->altezza.'px;right:0;top:0;'.
+                      'background-color:transparent;border-color:transparent;'.
+                      'cursor:pointer" onClick="o2jse.lu.ick(this);"'.
+                      ($effect ? ' onMouseOver="o2jse.lu.onI(this);"' : '').
+                      '>&nbsp;</div>';
+                }
+            print '<input type="hidden" name="'.$htmlname.'" value="'.$code_value.'" '.
+                  $js_prop."></div>\n";
             }
         else {
             if (!$desc_value) {

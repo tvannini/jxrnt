@@ -12,6 +12,8 @@ function o2sys_options_admin§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("opt_grid_scroll", "_o2logical");
 	$task_prg§_§var->definisci("opt_grid_settings", "o2sys_generic_opt");
 	$task_prg§_§var->definisci("opt_language", "o2sys_language");
+	$task_prg§_§var->definisci("opt_lookup_effect", "_o2logical");
+	$task_prg§_§var->definisci("opt_lookup_handler", "_o2logical");
 	$task_prg§_§var->definisci("opt_lookup_time", "_o2number");
 	$task_prg§_§var->definisci("opt_menu_app", "_o2logical");
 	$task_prg§_§var->definisci("opt_menu_help", "_o2logical");
@@ -48,7 +50,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2multipage7->y(20);
 		$ctrl_o2multipage7->larghezza(370);
 		$ctrl_o2multipage7->altezza(260);
-		$ctrl_o2multipage7->label(array("Language","Menu","Tables","Themes","Miscellaneous"));
+		$ctrl_o2multipage7->label(array("Language","Menu","Tables","Themes","Combo-lookup"));
 		$ctrl_o2multipage7->buttons("T");
 	$ctrl_o2button2 = &$form_options_admin->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(220);
@@ -351,6 +353,20 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2label21->altezza(20);
 		$ctrl_o2label21->info_padre(array(4));
 		$ctrl_o2label21->label("NOTE: Minimum allowed time is 300 ms.");
+	$ctrl_o2label22 = &$form_options_admin->ctrldef("o2label22", "label", "o2multipage7", "", "");
+		$ctrl_o2label22->x(30);
+		$ctrl_o2label22->y(100);
+		$ctrl_o2label22->larghezza(160);
+		$ctrl_o2label22->altezza(20);
+		$ctrl_o2label22->info_padre(array(4));
+		$ctrl_o2label22->label("Click on icon handler to open:");
+	$ctrl_o2label23 = &$form_options_admin->ctrldef("o2label23", "label", "o2multipage7", "", "");
+		$ctrl_o2label23->x(30);
+		$ctrl_o2label23->y(125);
+		$ctrl_o2label23->larghezza(160);
+		$ctrl_o2label23->altezza(20);
+		$ctrl_o2label23->info_padre(array(4));
+		$ctrl_o2label23->label("Magnify icon handler on over:");
 	$ctrl_o2edit4 = &$form_options_admin->ctrldef("o2edit4", "edit", "o2multipage7", "prg§_§var", "opt_lookup_time");
 		$ctrl_o2edit4->x(190);
 		$ctrl_o2edit4->y(50);
@@ -359,6 +375,23 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2edit4->azione("mod_lookup_time");
 		$ctrl_o2edit4->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2edit4->info_padre(array(4));
+	$ctrl_o2checkbox7 = &$form_options_admin->ctrldef("o2checkbox7", "check", "o2multipage7", "prg§_§var", "opt_lookup_handler");
+		$ctrl_o2checkbox7->x(190);
+		$ctrl_o2checkbox7->y(100);
+		$ctrl_o2checkbox7->larghezza(20);
+		$ctrl_o2checkbox7->altezza(20);
+		$ctrl_o2checkbox7->azione("mod_lookup_handler");
+		$ctrl_o2checkbox7->on_change(o2sys_options_admin_exp_5());
+		$ctrl_o2checkbox7->info_padre(array(4));
+	$ctrl_o2checkbox8 = &$form_options_admin->ctrldef("o2checkbox8", "check", "o2multipage7", "prg§_§var", "opt_lookup_effect");
+		$ctrl_o2checkbox8->x(190);
+		$ctrl_o2checkbox8->y(125);
+		$ctrl_o2checkbox8->larghezza(20);
+		$ctrl_o2checkbox8->altezza(20);
+		$ctrl_o2checkbox8->modificabile(o2sys_options_admin_exp_58());
+		$ctrl_o2checkbox8->azione("mod_lookup_effect");
+		$ctrl_o2checkbox8->on_change(o2sys_options_admin_exp_5());
+		$ctrl_o2checkbox8->info_padre(array(4));
 		}
 
 function o2sys_options_admin§§add_skin_act(&$o2exe) {
@@ -406,6 +439,12 @@ function o2sys_options_admin§§load_options_act(&$o2exe) {
 //	$o2exe->s(36) && True && o2act::remark("Lookup request delay time while typing") && $o2exe->e();
 	$o2exe->s(37) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_34()) && $o2exe->e();
 	$o2exe->s(38) && True && o2act::set("prg§_§var", "opt_lookup_time", o2sys_options_admin_exp_40()) && $o2exe->e();
+//	$o2exe->s(39) && True && o2act::remark("Lookup uses icon handler or full field to open") && $o2exe->e();
+	$o2exe->s(40) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_52()) && $o2exe->e();
+	$o2exe->s(41) && True && o2act::set("prg§_§var", "opt_lookup_handler", o2sys_options_admin_exp_4()) && $o2exe->e();
+//	$o2exe->s(42) && True && o2act::remark("Lookup maginfy handler icon on over") && $o2exe->e();
+	$o2exe->s(43) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_53()) && $o2exe->e();
+	$o2exe->s(44) && True && o2act::set("prg§_§var", "opt_lookup_effect", o2sys_options_admin_exp_54()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_options_admin§§load_skins_act(&$o2exe) {
@@ -432,6 +471,15 @@ function o2sys_options_admin§§mod_grid_wheel_act(&$o2exe) {
 
 function o2sys_options_admin§§mod_language_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_options_admin§§mod_lookup_effect_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_options_admin§§mod_lookup_handler_act(&$o2exe) {
+	$o2exe->s(1) && (o2sys_options_admin_exp_57() || $o2exe->e()) && o2act::set("prg§_§var", "opt_lookup_effect", o2sys_options_admin_exp_8()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_options_admin§§mod_lookup_time_act(&$o2exe) {
@@ -587,7 +635,19 @@ function o2sys_options_admin§§save_options_act(&$o2exe) {
 	$o2exe->s(82) && True && o2act::set("options", "code", o2sys_options_admin_exp_2()) && $o2exe->e();
 	$o2exe->s(83) && True && o2act::set("options", "value", o2sys_options_admin_exp_35()) && $o2exe->e();
 	$o2exe->s(84) && True && o2act::view("options", "S", "") && $o2exe->e();
-	$o2exe->s(85) && True && o2act::alert(o2sys_options_admin_exp_45(), 0) && $o2exe->e();
+	$o2exe->s(85) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_52()) && $o2exe->e();
+	$o2exe->s(86) && (o2sys_options_admin_exp_6() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(87) && True && o2act::set("options", "o2user", o2sys_options_admin_exp_1()) && $o2exe->e();
+	$o2exe->s(88) && True && o2act::set("options", "code", o2sys_options_admin_exp_2()) && $o2exe->e();
+	$o2exe->s(89) && True && o2act::set("options", "value", o2sys_options_admin_exp_55()) && $o2exe->e();
+	$o2exe->s(90) && True && o2act::view("options", "S", "") && $o2exe->e();
+	$o2exe->s(91) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_53()) && $o2exe->e();
+	$o2exe->s(92) && (o2sys_options_admin_exp_6() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(93) && True && o2act::set("options", "o2user", o2sys_options_admin_exp_1()) && $o2exe->e();
+	$o2exe->s(94) && True && o2act::set("options", "code", o2sys_options_admin_exp_2()) && $o2exe->e();
+	$o2exe->s(95) && True && o2act::set("options", "value", o2sys_options_admin_exp_56()) && $o2exe->e();
+	$o2exe->s(96) && True && o2act::view("options", "S", "") && $o2exe->e();
+	$o2exe->s(97) && True && o2act::alert(o2sys_options_admin_exp_45(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_options_admin§§start_act(&$o2exe) {
@@ -896,5 +956,40 @@ return ("nav_effects");
 function o2sys_options_admin_exp_51() {
 	
 return ((o2val('prg§_§var','opt_nav_effects') ? true : false));
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_52() {
+	
+return ('lookup_handler');
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_53() {
+	
+return ('lookup_effect');
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_54() {
+	
+return ((o2val('prg§_§var','opt_lookup_handler') && o2val('options','value') ? true : false));
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_55() {
+	
+return ((o2val('prg§_§var','opt_lookup_handler') ? true : false));
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_56() {
+	
+return ((o2val('prg§_§var','opt_lookup_handler') && o2val('prg§_§var','opt_lookup_effect') ? true : false));
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_57() {
+	
+return (!o2val('prg§_§var','opt_lookup_handler'));
+	} //|o2_fine_exp|
+
+function o2sys_options_admin_exp_58() {
+	
+return (o2val('prg§_§var','opt_lookup_handler'));
 	} //|o2_fine_exp|
 ?>
