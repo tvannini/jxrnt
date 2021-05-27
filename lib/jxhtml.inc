@@ -2464,7 +2464,7 @@ class o2html {
             // ___________________________ Handler icon to open or click on full field ___
             $handler = $app->option_get('lookup_handler');
             $js_change = 'onKeyDown="o2jse.lu.k(event, this);" '.
-                         ($handler ? '' : 'onClick="o2jse.lu.ck(this);" ').
+                         'onClick="o2jse.lu.ck(this,'.($handler ? '!0' : '!1').');" '.
                          'onPaste="o2jse.lu.p(this);" '.
                          ($zoom ? 'onDblClick="o2jse.ctrl.zoom(event);" ' : '').
                          'onFocus="o2jse.lu.f(this);" onBlur="o2jse.lu.b(this);"';
@@ -2485,11 +2485,10 @@ class o2html {
             // _________________________________________ Add DIV for open icon handler ___
             if ($handler && $o2ctrl_obj->visibile) {
                 $effect = $app->option_get('lookup_effect');
-                print '<div class="'.$o2ctrl_obj->css.'_field" '.
-                      'style="position:absolute;width:'.$o2ctrl_obj->altezza.
-                      'px;height:'.$o2ctrl_obj->altezza.'px;right:0;top:0;'.
-                      'background-color:transparent;border-color:transparent;'.
-                      'cursor:pointer" onClick="o2jse.lu.ick(this);"'.
+                print '<div class="'.$o2ctrl_obj->css.'_handler" '.
+                      'style="width:'.$o2ctrl_obj->altezza.
+                      'px;height:'.$o2ctrl_obj->altezza.'px;" '.
+                      'onClick="o2jse.lu.ick(this);"'.
                       ($effect ? ' onMouseOver="o2jse.lu.onI(this);"' : '').
                       '>&nbsp;</div>';
                 }

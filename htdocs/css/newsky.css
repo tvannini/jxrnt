@@ -195,6 +195,25 @@ div.o2_ctrl_listcombo_field {
     border: 1px solid var(--jx-color-title);
     }
 
+.o2_ctrl_listcombo_handler {
+    background-color: transparent;
+    background-image: url(newsky/listcombo/down.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    border: 1px solid transparent;
+    border-top-right-radius: var(--jx-radius);
+    border-bottom-right-radius: var(--jx-radius);
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    }
+
+.o2_ctrl_listcombo_handler:hover {
+    background-color: var(--jx-color-btn);
+    border: 1px solid var(--jx-color-border);
+    }
+
 .o2_ctrl_listcombo_list {
     max-height: 250px;
     background-color: #ffffff;

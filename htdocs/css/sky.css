@@ -214,6 +214,25 @@ div.o2_ctrl_listcombo_field {
     border-radius: 5px;
     }
 
+.o2_ctrl_listcombo_handler {
+    background-color: transparent;
+    background-image: url(sky/listcombo/down.png);
+    background-position: right;
+    background-repeat: no-repeat;
+    border: 1px solid transparent;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    }
+
+.o2_ctrl_listcombo_handler:hover {
+    background-color: #efeeec;
+    border: 1px solid #a7bde4;
+    }
+
 .o2_ctrl_listcombo_list {
     color: #000000;
     max-height: 250px;

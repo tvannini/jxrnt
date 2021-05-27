@@ -5901,14 +5901,15 @@ o2jse.lu.e = function(targetObj, eventObj) {
 /**
  * Handler for onMouseDown events on lookup control
  *
- * @param {object} targetObj   Lookup editable INPUT field receiving event
+ * @param {object}  targetObj    Lookup editable INPUT field receiving event
+ * @param {boolean} useHandler   Use icon handler click to open lookup control
  */
-o2jse.lu.ck = function(targetObj) {
+o2jse.lu.ck = function(targetObj, useHandler) {
 
     if (targetObj.listObj) {
         return o2jse.lu.listOff(targetObj);
         }
-    else {
+    else if (!useHandler) {
         // ________________________ Delay click execution to solve double-click events ___
         if (targetObj.getAttribute("jx-dblclick") == null) {
             targetObj.setAttribute("jx-dblclick", 1);
@@ -5925,9 +5926,9 @@ o2jse.lu.ck = function(targetObj) {
         else {
             targetObj.removeAttribute("jx-dblclick");
             }
-        if (targetObj.select) {
-            targetObj.select();
-            }
+        }
+    if (targetObj.select) {
+        targetObj.select();
         }
     return false;
 
