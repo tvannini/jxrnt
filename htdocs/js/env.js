@@ -8701,7 +8701,7 @@ jxc = function(defObj) {
                                     iObj = o2jse.createEl(descField.parentNode,
                                                           'DIV',
                                                           defObj.s + '_handler',
-                                                          '&nbsp;')
+                                                          '&nbsp;');
                                     iObj.style.width  = defObj.h + 'px';
                                     iObj.style.height = defObj.h + 'px';
                                     }
