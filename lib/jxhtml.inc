@@ -2503,7 +2503,8 @@ class o2html {
                 $js_change = ' onDblClick="o2jse.ctrl.zoom(event);"';
                 }
             if ($active && $enabled_in_tab) {
-                print '<div class="'.$o2ctrl_obj->css.($enabled ? "_field" :"_field_dis").
+                print '<div style="position:relative;width:'.$o2ctrl_obj->larghezza.'px;" '.
+                      $js_prop.'><div class="'.$o2ctrl_obj->css.($enabled ? "_field" :"_field_dis").
                          '" id="'.$htmlname.'_desc" style="width:'.$o2ctrl_obj->larghezza.
                                                   'px;height:'.$o2ctrl_obj->altezza.'px;'.
                                            ($o2ctrl_obj->visibile ? "" : "display:none;").
@@ -2512,7 +2513,7 @@ class o2html {
                        ' onMouseOver="o2jse.pu.i(event)" onMouseOut="o2jse.pu.o()"' : '').
                       '>'.$desc_value."</div>\n".
                    '<input type="hidden" name="'.$htmlname.
-                        '" value="'.$code_value.'" '.$js_prop.'>';
+                        '" value="'.$code_value.'" '.$js_prop.'></div>';
                 }
             else {
                 print '<div '.

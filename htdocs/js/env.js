@@ -2863,8 +2863,6 @@ o2jse.tab.moveSel = function(sourceRow, targetRow, noRequest) {
                             }
                         // _____________________________________________ Combo look-up ___
                         else {
-                            sourceFrame = sourceField;
-                            sourceField = o2jse.firstRealChild(sourceFrame);
                             // _____________________ Move hidden field with code value ___
                             code_field = document.getElementsByName(targetField.o2.c +
                                                                     targetField.o2.e);
@@ -2872,24 +2870,25 @@ o2jse.tab.moveSel = function(sourceRow, targetRow, noRequest) {
                                 targetField.appendChild(code_field[0].cloneNode(true));
                                 }
                             // ______________________________________________ Disabled ___
-                            if (sourceField.tagName.toLowerCase() == 'div') {
+                            if (sourceField.tagName.toLowerCase() == 'div' &&
+                                !sourceField.firstElementChild) {
                                 targetClone.innerHTML = sourceField.innerHTML;
                                 sourceField.innerHTML = targetField.innerHTML;
                                 targetParent.replaceChild(sourceField, targetField);
                                 sourceParent.innerHTML = "";
                                 sourceParent.appendChild(targetClone);
-                                sourceField.dropDownActive = false;
                                 delete sourceField.saveValue;
                                 sourceParent.insertBefore(targetClone,
                                                           sourceParent.firstChild);
                                 }
                             // _______________________________________________ Enabled ___
                             else {
-                                targetClone.innerHTML      = sourceField.value;
-                                var newValue               = targetField.firstChild
-                                                             .textContent.trim();
-                                sourceField.value          = newValue.decode();
-                                sourceField.dropDownActive = false;
+                                sourceFrame = sourceField;
+                                sourceField = o2jse.firstRealChild(sourceFrame);
+                                targetClone.innerHTML = sourceField.value;
+                                var newValue          = targetField.firstChild
+                                                        .textContent.trim();
+                                sourceField.value     = newValue.decode();
                                 delete sourceField.saveValue;
                                 targetParent.replaceChild(sourceFrame, targetField);
                                 sourceParent.insertBefore(targetClone,
@@ -8692,8 +8691,20 @@ jxc = function(defObj) {
                             descField.onpaste   = function() { o2jse.lu.p(this); };
                             descField.onfocus   = function() { o2jse.lu.f(this); };
                             descField.onblur    = function() { o2jse.lu.b(this); };
+                            // _____________________ If control with open icon handler ___
                             if (defObj.o) {
-                                iObj = descField.parentNode.getElementsByTagName('div')[0];
+                                iObjs = descField.parentNode.getElementsByTagName('div');
+                                if (iObjs[0]) {
+                                    iObj = iObjs[0];
+                                    }
+                                else {
+                                    iObj = o2jse.createEl(descField.parentNode,
+                                                          'DIV',
+                                                          defObj.s + '_handler',
+                                                          '&nbsp;')
+                                    iObj.style.width  = defObj.h + 'px';
+                                    iObj.style.height = defObj.h + 'px';
+                                    }
                                 iObj.onclick = function() { o2jse.lu.ick(this); };
                                 descField.style.cursor = 'auto';
                                 }
@@ -8706,11 +8717,12 @@ jxc = function(defObj) {
                         else {
                             descField.style.cursor = "default";
                             o2jse.lu.listOff(descField);
-                            // __________________________ Disactivate drop-down button ___
-                            if (descField.dropDownActive) {
-                                o2jse.removeEl(descField.parentNode.
-                                                getElementsByTagName("div")[0]);
-                                descField.dropDownActive = false;
+                            // _____________________ If control with open icon handler ___
+                            if (defObj.o) {
+                                iObjs = descField.parentNode.getElementsByTagName('div');
+                                if (iObjs[1]) {
+                                    o2jse.removeEl(iObjs[1]);
+                                    }
                                 }
                             }
                         // ________ Check if control has been edited since last submit ___
