@@ -8706,6 +8706,7 @@ jxc = function(defObj) {
                                     iObj.style.height = defObj.h + 'px';
                                     }
                                 iObj.onclick = function() { o2jse.lu.ick(this); };
+                                iObj.style.display     = 'block';
                                 descField.style.cursor = 'auto';
                                 }
                             else {
@@ -8754,7 +8755,16 @@ jxc = function(defObj) {
                         }
                     // _____________________________________________________ Invisible ___
                     else {
-                        descField.style.display = "none";
+                        descField.style.display = 'none';
+                        // _________________________ If control with open icon handler ___
+                        if (defObj.o) {
+                            iObjs = descField.parentNode.getElementsByTagName('div');
+                            if (iObjs[0]) {
+                                iObj = iObjs[0];
+                                iObj.style.display = 'none';
+                                }
+                            }
+
                         }
                     }
                 break;
