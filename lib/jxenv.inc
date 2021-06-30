@@ -2501,14 +2501,9 @@ class o2_dbview extends o2_view {
                             $pk_segms     = $this->check_join_field($file_in_esame,
                                                                     $campo,
                                                                     $pk_segms);
-                            // _ Save link where clausole, used by ->verifica_record() ___
-                            if ($this->status == "I" || $this->modificato) {
-                                eval("\$valore_local = ".$campo->min.";");
-                                }
                             }
-                        else {
-                            eval("\$valore_local = ".$campo->min.";");
-                            }
+                        // _____ Save link where clausole, used by ->verifica_record() ___
+                        eval("\$valore_local = ".$campo->min.";");
                         }
                     // _________________________________________________________ Value ___
                     else {
@@ -3449,8 +3444,19 @@ class o2_dbview extends o2_view {
         // ===============================================================================
         $this->direzione = 100;
         $this->seleziona_riga($selezione_originaria);
+        // ___________________________ Preload link-cache for links solved as SQL join ___ù
+        foreach ($this->files as $single_file) {
+            $idx = $single_file->indice;
+            if ($idx !== $mainfile && $single_file->link_by_sql) {
+                $this->range2where($idx, $this->selezione);
+                $this->link_cache[$idx."_where"] = $this->wheres[$idx];
+                // ______________________________________ See ->verifica_record method ___
+                $this->link_cache[$idx]          = 0;
+                }
+            }
         $this->computing = false;
         $this->vista     = true;
+
         }
 
 
@@ -3872,10 +3878,15 @@ class o2_dbview extends o2_view {
                     }
                 elseif ($this->link_cache[$file_name."_where"] ===
                         $this->wheres[$file_name]) {
-                    if ($this->link_cache[$file_name] !== false) {
+                    if (is_array($this->link_cache[$file_name])) {
                         $ret_val = $this->link_cache[$file_name];
                         }
+                    // ___ Set to 0 (zero) in ->crea_recordset() to preload link cache ___
+                    elseif ($this->link_cache[$file_name] !== false) {
+                        continue;
+                        }
                     else {
+                        $this->computing = $transazione_local;
                         return false;
                         }
                     }
