@@ -3219,6 +3219,7 @@ class o2_dbview extends o2_view {
         $file_type        = $this->file->db->server->type;
         $c_o              = constant("o2_".$file_type."_o");
         $c_c              = constant("o2_".$file_type."_c");
+        $last             = $this->direzione == 3;
         // _______________________________________ Where clause from range expressions ___
         foreach ($this->files as $single_file) {
             $this->range2where($single_file->indice);
@@ -3443,8 +3444,14 @@ class o2_dbview extends o2_view {
             }
         // ===============================================================================
         $this->direzione = 100;
-        $this->seleziona_riga($selezione_originaria);
-        // ___________________________ Preload link-cache for links solved as SQL join ___ù
+        if ($last) {
+            // __________________________________________ See method ->record_ultimo() ___
+            $this->seleziona_riga(count($this->recordset) - 1);
+            }
+        else {
+            $this->seleziona_riga($selezione_originaria);
+            }
+        // ___________________________ Preload link-cache for links solved as SQL join ___
         foreach ($this->files as $single_file) {
             $idx = $single_file->indice;
             if ($idx !== $mainfile && $single_file->link_by_sql) {
