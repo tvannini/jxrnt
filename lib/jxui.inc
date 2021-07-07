@@ -1260,13 +1260,6 @@ class o2_form {
                                                                  $x_list[$axis_ctrl]);
                             }
                         else {
-/*
-o2log($expanded_ctrl.' - '.$axis_ctrl.' ('.in_array($expanded_ctrl, $x_list[$axis_ctrl], true).')');
-o2log($x_list[$expanded_ctrl]);
-o2log();
-o2log($x_list[$axis_ctrl]);
-o2log('=======================');
-*/
                             $save_ctrl  = $expanded_ctrl;
                             $save_share = $x_list[$expanded_ctrl]['#share'];
                             $save_path  = $x_list[$expanded_ctrl]['#path'];
@@ -1387,13 +1380,6 @@ o2log('=======================');
                             }
                         // _______________ If paths are the same don't change anything ___
                         else {
-/*
-o2log($expanded_ctrl);
-o2log($y_list[$expanded_ctrl]);
-o2log($axis_ctrl);
-o2log($y_list[$axis_ctrl]);
-o2log('=======================');
-*/
                             $save_ctrl  = $expanded_ctrl;
                             $save_share = $y_list[$expanded_ctrl]['#share'];
                             $save_path  = $y_list[$expanded_ctrl]['#path'];
