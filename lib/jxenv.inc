@@ -5844,14 +5844,25 @@ class o2_dbview extends o2_view {
                     $fields[]            = $fld->nome_fisico;
                     }
                 }
+            $ifields = $fields;
+            if ($table->asp == 'C') {
+                array_unshift($ifields, 'O2ASPID');
+                }
             $cache = array();
-            $recs = 0;
+            $recs  = 0;
             while ($row = o2view_fetch($this->nome)) {
                 $tracer->record();
                 switch ($row['JXSNPS_STATUS']) {
                     case 'I':
                         // ______________________________________ Compose values cache ___
-                        $rec  = '';
+                        if ($table->asp == 'C') {
+                            $rec = "'".o2_gateway::normalize($srv_type,
+                                                             $app->vars['_area']->valore).
+                                   "'";
+                            }
+                        else {
+                            $rec = '';
+                            }
                         foreach ($fld_list as $fld_name => $fld) {
                             $tracer->field($fld, $row[$fld_name]);
                             if ($rec !== '') {
@@ -5876,7 +5887,7 @@ class o2_dbview extends o2_view {
                         $trace_values       = array();
                         list($trace_fields,
                              $trace_values) = $tracer->insert();
-                        $fields             = array_merge($fields, $trace_fields);
+                        $ifields            = array_merge($ifields, $trace_fields);
                         $rec               .= (count($trace_values) ?
                                                ','.implode(',', $trace_values) : '');
                         // ________________________________ Add record to insert cache ___
@@ -5895,7 +5906,7 @@ class o2_dbview extends o2_view {
                                                   $db_owner,
                                                   $table->write_name,
                                                   $table->indice,
-                                                  $fields,
+                                                  $ifields,
                                                   array(implode('),(', $cache)));
                             $cache = array();
                             $recs  = 0;
@@ -6000,7 +6011,7 @@ class o2_dbview extends o2_view {
                                       $db_owner,
                                       $table->write_name,
                                       $table->indice,
-                                      $fields,
+                                      $ifields,
                                       array(implode('),(', $cache)));
                 }
             // _______________________________________________ Free source view cursor ___
