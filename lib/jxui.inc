@@ -907,21 +907,15 @@ class o2_form {
     function leggi_valori_vista() {
 
         $app = $_SESSION['o2_app'];
-        foreach ($this->controlli as &$singolo_controllo) {
+        foreach ($this->controlli as &$ctrl) {
             // ________________________________________ If there is a field in control ___
-            $ctrl_local = $singolo_controllo->campo_in_ctrl;
-            if ($ctrl_local) {
-                $view = $app->istanze_prg[$this->id_esecuzione]->
-                         contesto[$singolo_controllo->task];
+            $field = $ctrl->campo_in_ctrl;
+            if ($field) {
+                $view = $app->istanze_prg[$this->id_esecuzione]->contesto[$ctrl->task];
                 // ________________________________________ Gets field value from view ___
-                $singolo_controllo->valore = $view->campo($ctrl_local);
-                // ______________________________ Reset cached descriptions for combos ___
-                if (isset($view->corrente[$ctrl_local."_jxcbdesc"])) {
-                    unset($view->corrente[$ctrl_local."_jxcbdesc"]);
-                    }
-                if (isset($view->formule[$ctrl_local]) &&
-                    $view->formule[$ctrl_local]->selector) {
-                    $singolo_controllo->selector = true;
+                $ctrl->valore = $view->campo($field);
+                if (isset($view->formule[$field]) && $view->formule[$field]->selector) {
+                    $ctrl->selector = true;
                     }
                 }
             }
