@@ -6297,6 +6297,7 @@ class o2_ctrl_imglist extends o2_ctrl {
     public $items_w    = false;   /* Items width (if FALSE width wides as needed)       */
     public $items_h    = false;   /* Items height (if FALSE height wides as needed)     */
     public $scripting  = false;   /* If control is defined in old scripting style       */
+    public $vscroll    = 0;       /* Control vertical srolling value                    */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css        = "jximglist"; /* Whole control space <DIV>                      */
 

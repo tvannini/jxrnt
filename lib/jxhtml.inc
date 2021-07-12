@@ -1082,6 +1082,13 @@ class o2html {
                             else {
                                 $ctrl_obj->item_activate($ctrl_obj->valore);
                                 }
+                            // ___________________________________ Get vertical scroll ___
+                            if (isset($_REQUEST[$ctrl_obj->nome.$ctrl_obj->id_esecuzione.
+                                "_vscroll"])) {
+                                $ctrl_obj->vscroll = intval($_REQUEST[$ctrl_obj->nome.
+                                                            $ctrl_obj->id_esecuzione.
+                                                            "_vscroll"]);
+                                }
                             }
                         // _____________________________________ Other valued controls ___
                         else {
@@ -4578,25 +4585,24 @@ JANOX_PAGE_SCRIPT;
      */
     static function ctrl_imglist($o2ctrl_obj) {
 
+        $ctrlId  = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
+        $scrollF = '<input type="hidden" name="'.$ctrlId.'_vscroll">';
+        if ($o2ctrl_obj->vscroll) {
+            $js = "<script>o2jse.il.set('".$ctrlId."',".
+                                           $o2ctrl_obj->vscroll.');</script>';
+            }
+        else {
+            $js = '';
+            }
         if ($o2ctrl_obj->scripting) {
             $app    = $_SESSION['o2_app'];
-            $jsp    = "o2=\"e:".$o2ctrl_obj->id_esecuzione.
+            $jsp    = 'o2="e:'.$o2ctrl_obj->id_esecuzione.
                          ",c:'".$o2ctrl_obj->nome."',cT:'imglist',std:!1,pT:'html'\"\n";
-            $style = " style=\"width:100%;height:100%\"";
-            $focus = "";
-            $act   = "";
+            $style = ' style="width:100%;height:100%"';
+            $act   = '';
             // _____________________________________ Focus has been set by last action ___
-            if ($_REQUEST['jxillastctrl'] == $o2ctrl_obj->nome) {
-                // ________________________________ Override standard focus management ___
-                unset($app->caret_position[$app->progressivo_istanze]);
-                $focus = "<script>(fC = document.getElementById('".$name.
-                         "_jxFocusItem')) && fC.focus();</script>";
-                }
-            // __________________________________________________ If no focus item set ___
-            if (!$o2ctrl_obj->focus_item) {
-    //            $act = 'tabindex="0" onKeyDown="o2jse.il.k(event, true);" ';
-                }
-            return "<div ".$act.$jsp.$style.">".$o2ctrl_obj->get_code()."</div>".$focus;
+            return "<div ".$act.$jsp.$style.">".$o2ctrl_obj->get_code()."</div>".
+                   $scrollF.$js;
             }
         else {
             $jsp = $o2ctrl_obj->js_props('std:!0');
@@ -4605,8 +4611,10 @@ JANOX_PAGE_SCRIPT;
                        ' class="'.$o2ctrl_obj->css.
                       '" style="width:'.$o2ctrl_obj->larghezza.
                             'px;height:'.$o2ctrl_obj->altezza.'px;'.
-                         ($o2ctrl_obj->visibile ? '' : 'display:none;').'" '.$jsp.'>'.
-                  $o2ctrl_obj->get_code().'</div>';
+                         ($o2ctrl_obj->visibile ? '' : 'display:none;').
+                         '" onscroll="o2jse.lu.listOff();document.forms.o2form[\''.
+                            $ctrlId.'_vscroll\'].value=this.scrollTop;"'.$jsp.'>'.
+                  $o2ctrl_obj->get_code().'</div>'.$scrollF.$js;
             }
 
         }

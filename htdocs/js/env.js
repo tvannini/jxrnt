@@ -7334,6 +7334,19 @@ o2jse.il.d = function(imglistObj, item) {
 
 
 /**
+ * Set vertical scroll for image lister control
+ *
+ * @param {String}  ilName       Name of the image lister control
+ * @param {Integer} vertScroll   Images lister vertical scroll
+ */
+ o2jse.il.set = function(ilName, vertScroll) {
+
+    document.getElementById(ilName).scrollTop = vertScroll;
+
+    };
+
+
+/**
  * Fast Message Box related functions collection
  *
  */
