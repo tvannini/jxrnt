@@ -3592,12 +3592,13 @@ class o2_ctrl_listcombo extends o2_ctrl {
      */
     function get_desc() {
 
-        $app         = $_SESSION['o2_app'];
-        $prg         = $app->istanze_prg[$this->id_esecuzione];
-        $view        = $prg->contesto[$this->task];
-        $value       = trim($this->ctrl2sql());
-        $ret         = "";
-        $this->error = false;
+        $app          = $_SESSION['o2_app'];
+        $prg          = $app->istanze_prg[$this->id_esecuzione];
+        $view         = $prg->contesto[$this->task];
+        $this->valore = $view->corrente[$this->campo_in_ctrl];
+        $value        = trim($this->ctrl2sql());
+        $ret          = "";
+        $this->error  = false;
         // ______________________________________ If combo description has been cached ___
         if (isset($view->corrente[$this->campo_in_ctrl."_jxcbdesc"])) {
             $ret = $view->corrente[$this->campo_in_ctrl."_jxcbdesc"];
