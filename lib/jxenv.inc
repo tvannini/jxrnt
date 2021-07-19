@@ -2501,9 +2501,14 @@ class o2_dbview extends o2_view {
                             $pk_segms     = $this->check_join_field($file_in_esame,
                                                                     $campo,
                                                                     $pk_segms);
+                            // _ Save link where clausole, used by ->verifica_record() ___
+                            if ($this->status == "I" || $this->modificato) {
+                                eval("\$valore_local = ".$campo->min.";");
+                                }
                             }
-                        // _____ Save link where clausole, used by ->verifica_record() ___
-                        eval("\$valore_local = ".$campo->min.";");
+                        else {
+                            eval("\$valore_local = ".$campo->min.";");
+                            }
                         }
                     // _________________________________________________________ Value ___
                     else {
@@ -3451,6 +3456,7 @@ class o2_dbview extends o2_view {
         else {
             $this->seleziona_riga($selezione_originaria);
             }
+/*
         // ___________________________ Preload link-cache for links solved as SQL join ___
         foreach ($this->files as $single_file) {
             $idx = $single_file->indice;
@@ -3461,6 +3467,7 @@ class o2_dbview extends o2_view {
                 $this->link_cache[$idx]          = 0;
                 }
             }
+*/
         $this->computing = false;
         $this->vista     = true;
 
