@@ -7220,6 +7220,31 @@ o2jse.tv.sortSwitch = function() {
 
 
 /**
+ * Set vertical scroll for tree view control
+ *
+ * @param {String}  tvName       Name of the tree view control
+ * @param {Integer} vertScroll   Tree view vertical scroll
+ */
+ o2jse.tv.set = function(tvName, vertScroll) {
+
+    tvCtrl = document.getElementById(tvName);
+    o2jse.ctrl.init(tvCtrl);
+    if (!tvCtrl.o2.std) {
+        tvCtrl.parentNode.onscroll = function() {
+                                        o2jse.lu.listOff();
+                                        document.forms.o2form[tvName + '_vscroll'].value =
+                                           this.scrollTop;
+                                        };
+        tvCtrl.parentNode.scrollTop = vertScroll;
+        }
+    else {
+        tvCtrl.scrollTop = vertScroll;
+        }
+
+    };
+
+
+/**
  * Images lister related functions collection
  *
  */

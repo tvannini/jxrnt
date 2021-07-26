@@ -1059,6 +1059,13 @@ class o2html {
                             else {
                                 $value = $ctrl_obj->valore;
                                 }
+                            // ___________________________________ Get vertical scroll ___
+                            if (isset($_REQUEST[$ctrl_obj->nome.$ctrl_obj->id_esecuzione.
+                                "_vscroll"])) {
+                                $ctrl_obj->vscroll = intval($_REQUEST[$ctrl_obj->nome.
+                                                            $ctrl_obj->id_esecuzione.
+                                                            "_vscroll"]);
+                                }
                             $view_obj->imposta($ctrl_obj->campo_in_ctrl, $value);
                             $ctrl_obj->node_select($ctrl_obj->valore);
                             }
@@ -1366,6 +1373,12 @@ class o2html {
                 elseif ($_REQUEST['jxtreesort']) {
                     $ctrl_obj->switch_sort();
                     }
+                }
+            // ___________________________________ Get vertical scroll ___
+            if (isset($_REQUEST[$ctrl_obj->nome.$ctrl_obj->id_esecuzione.'_vscroll'])) {
+                $ctrl_obj->vscroll = intval($_REQUEST[$ctrl_obj->nome.
+                                                      $ctrl_obj->id_esecuzione.
+                                                      '_vscroll']);
                 }
             }
         // _________________________________ Images lister control (old scripting way) ___
@@ -4541,6 +4554,15 @@ JANOX_PAGE_SCRIPT;
         if (!$o2ctrl_obj->focus_node) {
             $act = 'tabindex="0" onKeyDown="o2jse.tv.k(event, true);" ';
             }
+        $ctrlId  = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
+        $scrollF = '<input type="hidden" name="'.$ctrlId.'_vscroll">';
+        if ($o2ctrl_obj->vscroll || $o2ctrl_obj->scripting) {
+            $js = "<script>o2jse.tv.set('".$ctrlId."',".
+                                           $o2ctrl_obj->vscroll.');</script>';
+            }
+        else {
+            $js = '';
+            }
         if ($o2ctrl_obj->scripting) {
             $style = ' style="width:100%;height:100%"';
             $focus = '';
@@ -4555,8 +4577,8 @@ JANOX_PAGE_SCRIPT;
                 $focus = "<script>(fC = document.getElementById('".$o2ctrl_obj->nome.
                          "_jxFocusNode')) && fC.focus();</script>";
                 }
-            return '<div '.$act.$jsp.$style.'>'.$o2ctrl_obj->get_node_code(0, -1).
-                   '</div>'.$focus;
+            return '<div id="'.$ctrlId.'" '.$act.$jsp.$style.'>'.
+                   $o2ctrl_obj->get_node_code(0, -1).'</div>'.$focus.$scrollF.$js;
             }
         else {
             $value = $o2ctrl_obj->sql2ctrl();
@@ -4567,12 +4589,14 @@ JANOX_PAGE_SCRIPT;
                                          ($o2ctrl_obj->sorted ? "!0" : "!1").
                                          ',aL:'.($o2ctrl_obj->act_level));
             print '<div'.($o2ctrl_obj->active_by_tab ?
-                          ' id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
+                          ' id="'.$ctrlId.'"' : '').
                        ' class="'.$o2ctrl_obj->css.
                       '" style="width:'.$o2ctrl_obj->larghezza.
                             'px;height:'.$o2ctrl_obj->altezza.'px;'.
                          ($o2ctrl_obj->visibile ? '' : 'display:none;').
-                  '" '.$act.$jsp.' >'.$o2ctrl_obj->get_node_code(0, -1).'</div>';
+                  '" onscroll="o2jse.lu.listOff();document.forms.o2form[\''.
+                  $ctrlId.'_vscroll\'].value=this.scrollTop;" '.$act.$jsp.'>'.
+                  $o2ctrl_obj->get_node_code(0, -1).'</div>'.$scrollF.$js;
             }
 
         }

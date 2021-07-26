@@ -5678,6 +5678,7 @@ class o2_ctrl_tree extends o2_ctrl {
     public $sorted     = false;    /* If TRUE tree elements are sorted by label         */
     public $filter_txt = false;    /* Text to use for filtering elements labels by      */
     public $scripting  = false;    /* If control is defined in old scripting style      */
+    public $vscroll    = 0;        /* Control vertical srolling value                   */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css        = "jxtree"; /* Whole control space <DIV>                   */
 
