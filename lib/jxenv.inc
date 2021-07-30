@@ -6212,6 +6212,10 @@ class o2_dbview extends o2_view {
         else {
             $snps_view->chiavi_in_uso = array($table->indice => $table->chiave->nome);
             }
+        // ____ If original view had a grid elector replicate formula in snapshot view ___
+        if ($table->snp_selector) {
+            $snps_view->formule[$table->snp_selector->nome] = $table->snp_selector;
+            }
         $snps_view->righe_vis     = $this->righe_vis;
         $snps_view->prefisso      = $this->prefisso;
         $snps_view->suffisso      = $this->suffisso;
@@ -6256,13 +6260,20 @@ class o2_dbview extends o2_view {
                 }
             }
         // _______________________________________________ Create fields from formulas ___
+        $this->calcola_formule();
         foreach ($this->formule as $field) {
-            $fld_name                = $field->nome;
-            $table->campi[$fld_name] = new o2_campo($table,
-                                                    $fld_name.'_'.$uid,
-                                                    $co.$fld_name.'_'.$uid.$cc,
-                                                    $field->maschera->nome);
-            $uid++;
+            // _________ If field is a grid selecto preserve formula on snapshot view  ___
+            if ($field->selector) {
+                $table->snp_selector = $field;
+                }
+            else {
+                $fld_name                = $field->nome;
+                $table->campi[$fld_name] = new o2_campo($table,
+                                                        $fld_name.'_'.$uid,
+                                                        $co.$fld_name.'_'.$uid.$cc,
+                                                        $field->maschera->nome);
+                $uid++;
+                }
             }
         // ________________________________________________________ Add "status" field ___
         $fld_name                = 'JXSNPS_STATUS';
