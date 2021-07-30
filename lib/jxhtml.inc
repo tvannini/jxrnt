@@ -575,6 +575,9 @@ class o2html {
                 }
             print $app->menu_cache;
             }
+        else {
+            print "<script> o2jse.menu.appMainMenu=false; </script>\n";
+            }
         // _____________________________________________________ Menu must be produced ___
         if (!$app->menu_link &&
             ($menu_name || $app->user == "root" || $app->run_level == "DEV")) {
