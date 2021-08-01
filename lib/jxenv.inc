@@ -5813,6 +5813,7 @@ class o2_dbview extends o2_view {
 
         $app        = $_SESSION['o2_app'];
         $bulk_limit = $app->bulk_limit;
+        $aspid      = $app->vars['_area']->valore;
         // _________________________________________________________ Get original view ___
         $view  = $app->istanze_prg[$this->id_esecuzione]->contesto[$this->nome.'_jxsnps'];
         // ________________________________________________________ Get original table ___
@@ -5841,10 +5842,10 @@ class o2_dbview extends o2_view {
             // _______________________________ Statement to execute prepared delations ___
             $del_stmt   = null;
             // ________________________________________________________ Tracing fields ___
-            $tracer = new jx_record_tracer($table);
+            $tracer     = new jx_record_tracer($table);
             // __________________________________________________ Compose fields names ___
-            $fields   = array();
-            $fld_list = array();
+            $fields     = array();
+            $fld_list   = array();
             foreach ($view->campi as $fld_name => $fld) {
                 if ($fld->file == $table->indice && !$fld->virtual) {
                     $fld_list[$fld_name] = $fld;
@@ -5863,9 +5864,7 @@ class o2_dbview extends o2_view {
                     case 'I':
                         // ______________________________________ Compose values cache ___
                         if ($table->asp == 'C') {
-                            $rec = "'".o2_gateway::normalize($srv_type,
-                                                             $app->vars['_area']->valore).
-                                   "'";
+                            $rec = "'".$aspid."'";
                             }
                         else {
                             $rec = '';
@@ -5920,7 +5919,13 @@ class o2_dbview extends o2_view {
                             }
                         break;
                     case 'U':
-                        $prev_key = $row['JXSNPS_PRVKEY'];
+                        if ($table->asp == 'C') {
+                            $prev_key = '('.$row['JXSNPS_PRVKEY'].") AND O2ASPID='".
+                                        $aspid."'";
+                            }
+                        else {
+                            $prev_key = $row['JXSNPS_PRVKEY'];
+                            }
                         $rec      = array();
                         foreach ($fld_list as $fld_name => $fld) {
                             $tracer->field($fld, $row[$fld_name]);
@@ -5973,6 +5978,9 @@ class o2_dbview extends o2_view {
                             foreach ($prev_key as $par_id => $par) {
                                 $del_key.= ($del_key ? ' AND ' : '').$par[0].'='.$par_id;
                                 }
+                            if ($table->asp == 'C') {
+                                $del_key = '('.$del_key.") AND O2ASPID='".$aspid."'";
+                                }
                             // _____________________________ Retrieve DELETE statement ___
                             $GLOBALS['jxviewsql'] = true;
                             o2_gateway::deleterec($srv_type,
@@ -5998,6 +6006,9 @@ class o2_dbview extends o2_view {
                             $del_pars[$par_id] = $par[1];
                             }
                         $del_stmt->execute($del_pars);
+                        if ($del_stmt->errorCode()) {
+                            // _______________________________ TODO: Handle error here ___
+                            }
                         break;
                     }
                 };
