@@ -6007,7 +6007,10 @@ class o2_dbview extends o2_view {
                             }
                         $del_stmt->execute($del_pars);
                         if ($del_stmt->errorCode()) {
-                            // _______________________________ TODO: Handle error here ___
+                            $info = $del_stmt->errorInfo();
+                            // _ In some cases statement is not unset by script ending ___
+                            unset($this->statement);
+                            throw new o2_exception($info[2], o2error_DBRECDELETE);
                             }
                         break;
                     }
