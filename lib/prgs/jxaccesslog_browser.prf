@@ -51,6 +51,7 @@ function jxaccesslog_browser§§access_log_def(&$task_access_log, $_o2viewalias = 
 	$task_access_log->usa("app_name","jx_access_log","app_name","jxaccesslog_browser_exp_17()","jxaccesslog_browser_exp_17()",null,null);
 	$task_access_log->usa("host","jx_access_log","host","jxaccesslog_browser_exp_18()","jxaccesslog_browser_exp_18()",null,null);
 	$task_access_log->usa("run_mode","jx_access_log","run_mode","jxaccesslog_browser_exp_19()","jxaccesslog_browser_exp_19()",null,null);
+	$task_access_log->usa("client_ip","jx_access_log","client_ip",null,null,null,null);
 	$task_access_log->usa("session_id","jx_access_log","session_id",null,null,null,null);
 	$task_access_log->usa("terminal","jx_access_log","terminal","jxaccesslog_browser_exp_20()","jxaccesslog_browser_exp_20()",null,null);
 	$task_access_log->usa("developer","jx_access_log","developer","jxaccesslog_browser_exp_35()","jxaccesslog_browser_exp_35()",null,"jxaccesslog_browser_exp_16()");
@@ -380,20 +381,28 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2edit5->y(10);
 		$ctrl_o2edit5->larghezza(180);
 		$ctrl_o2edit5->altezza(20);
+		$ctrl_o2edit5->expand("H");
 		$ctrl_o2edit5->info_padre(array("01", "08", "08", "Session-ID", False, "", 0, "", "", "", "", ""));
+	$ctrl_o2edit16 = &$form_jxaccesslog_browser_1->ctrldef("o2edit16", "edit", "o2table2", "access_log", "client_ip");
+		$ctrl_o2edit16->x(710);
+		$ctrl_o2edit16->y(10);
+		$ctrl_o2edit16->larghezza(60);
+		$ctrl_o2edit16->altezza(20);
+		$ctrl_o2edit16->expand("H");
+		$ctrl_o2edit16->info_padre(array("01", "09", "09", "Client IP", False, "", 0, "", "", "", "", ""));
 	$ctrl_o2edit6 = &$form_jxaccesslog_browser_1->ctrldef("o2edit6", "edit", "o2table2", "access_log", "terminal");
-		$ctrl_o2edit6->x(710);
+		$ctrl_o2edit6->x(770);
 		$ctrl_o2edit6->y(10);
 		$ctrl_o2edit6->larghezza(50);
 		$ctrl_o2edit6->altezza(20);
-		$ctrl_o2edit6->info_padre(array("01", "09", "09", "Terminal", False, "", 0, "", "", "", "", ""));
+		$ctrl_o2edit6->info_padre(array("01", "10", "10", "Terminal", False, "", 0, "", "", "", "", ""));
 	$ctrl_o2edit7 = &$form_jxaccesslog_browser_1->ctrldef("o2edit7", "edit", "o2table2", "access_log", "developer");
-		$ctrl_o2edit7->x(760);
+		$ctrl_o2edit7->x(820);
 		$ctrl_o2edit7->y(10);
 		$ctrl_o2edit7->larghezza(150);
 		$ctrl_o2edit7->altezza(20);
 		$ctrl_o2edit7->expand("H");
-		$ctrl_o2edit7->info_padre(array("01", "10", "10", "Developer", False, "", 0, "", "", "", "", ""));
+		$ctrl_o2edit7->info_padre(array("01", "11", "11", "Developer", False, "", 0, "", "", "", "", ""));
 		}
 
 function jxaccesslog_browser§§load_lists_act(&$o2exe) {
@@ -686,7 +695,7 @@ elseif ($rf == 'E') {
       $rel = 'Session logged in on '. o2format(date('Ymd', $ts), 'o2sys_short_date').
              ' '.o2format(date('His', $ts), 'o2sys_short_time');
       }
-   }   
+   }
 return ($rel);
 	} //|o2_fine_exp|
 

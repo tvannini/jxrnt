@@ -295,6 +295,7 @@ o2def::tab("jx_access_log", "default", "jx_access_log", "pk");
 	o2def::field("app_name", "app_name", "_o2alpha");
 	o2def::field("host", "host", "jxhost");
 	o2def::field("run_mode", "run_mode", "o2sys_app_run_mode");
+	o2def::field("client_ip", "client_ip", "_o2alpha");
 	o2def::field("session_id", "session_id", "_o2sid");
 	o2def::field("terminal", "terminal", "jxterminal_id");
 	o2def::field("developer", "developer", "_o2alpha");

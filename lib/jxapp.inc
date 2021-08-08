@@ -619,6 +619,7 @@ class o2_app {
      * @param string  $sess_app     Application name (Expired only)
      * @param string  $sess_runm    Run mode (Expired only)
      * @param string  $sess_term    Terminal ID (Expired only)
+     * @param string  $sess_ip      IP address of remote client (Expired only)
      */
     function log_access($type       = '',
                         $timestamp  = 0,
@@ -627,7 +628,8 @@ class o2_app {
                         $sess_app   = '',
                         $sess_host  = '',
                         $sess_runm  = '',
-                        $sess_term  = 0) {
+                        $sess_term  = 0,
+                        $sess_ip    = '') {
 
         $tab = $this->get_table('jx_access_log');
         $f   = $tab->campi;
@@ -641,6 +643,7 @@ class o2_app {
                 $host     = $this->host;
                 $run_mode = o2app_runmode();
                 $terminal = $this->terminal_id;
+                $ip       = $_SERVER['REMOTE_ADDR'];
                 break;
             case 'F':
                 $type     = 'F';
@@ -651,6 +654,7 @@ class o2_app {
                 $host     = $this->host;
                 $run_mode = o2app_runmode();
                 $terminal = $this->terminal_id;
+                $ip       = $_SERVER['REMOTE_ADDR'];
                 break;
             case 'E':
                 $type     = 'E';
@@ -661,6 +665,7 @@ class o2_app {
                 $host     = $sess_host;
                 $run_mode = $sess_runm;
                 $terminal = $sess_term;
+                $ip       = $sess_ip;
                 break;
             case 'I':
             default:
@@ -672,6 +677,7 @@ class o2_app {
                 $host     = $this->host;
                 $run_mode = o2app_runmode();
                 $terminal = $this->terminal_id;
+                $ip       = $_SERVER['REMOTE_ADDR'];
                 break;
             }
         $fields = array($f['timestamp']->nome_fisico,
@@ -680,6 +686,7 @@ class o2_app {
                         $f['app_name']->nome_fisico,
                         $f['host']->nome_fisico,
                         $f['run_mode']->nome_fisico,
+                        $f['client_ip']->nome_fisico,
                         $f['session_id']->nome_fisico,
                         $f['terminal']->nome_fisico,
                         $f['developer']->nome_fisico);
@@ -689,6 +696,7 @@ class o2_app {
                         "'".$app."'",
                         "'".$host."'",
                         "'".$run_mode."'",
+                        "'".$ip."'",
                         "'".$sessid."'",
                         $terminal,
                         "'".$this->developer."'");
@@ -1074,6 +1082,7 @@ class o2_app {
                                           $f['app_name'].' '.$co.'APP'.$cc.', '.
                                           $f['host'].' '.$co.'HOST'.$cc.', '.
                                           $f['run_mode'].' '.$co.'RUNM'.$cc.', '.
+                                          $f['client_ip'].' '.$co.'IP'.$cc.', '.
                                           $f['terminal_id'].' '.$co.'TERM'.$cc.', '.
                                           $f['e_date'].' '.$co.'DATE'.$cc.', '.
                                           $f['e_time'].' '.$co.'TIME'.$cc,
@@ -1100,7 +1109,8 @@ class o2_app {
                                   $rec['APP'],
                                   $rec['HOST'],
                                   $rec['RUNM'],
-                                  $rec['TERM']);
+                                  $rec['TERM'],
+                                  $rec['IP']);
                 }
             }
         // ============================= Clear jobs sessions without process (run-job) ===
