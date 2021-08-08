@@ -4856,8 +4856,10 @@ class o2_run_job {
                     // ______________________________ Get developer password if needed ___
                     $dev = false;
                     if ($run_job->developer) {
+                        // ___________________________ Read list of allowed developers ___
+                        include_once($rnt->root."developers");
                         $dev    = true;
-                        $devkey = $rnt->developers[$run_job->developer];
+                        $devkey = $rnt->developers[strtolower($run_job->developer)];
                         }
                     $cmd = '"'.$rnt->php_engine.'" '.
                            $app->dir_htdocs.$app->nome.'.php jxrnt="'.$rnt->rnt_script.
@@ -7014,7 +7016,7 @@ class o2_scheduler {
 
     /**
      * Run current session as a scheduler, running pending tasks.
-     * If run as scheduler returns numeber of run tasks, else returns FALSE.
+     * If run as scheduler returns number of run tasks, else returns FALSE.
      *
      * @param  boolean $force   Force session to run as scheduler
      * @return boolean
