@@ -249,9 +249,7 @@ class o2html {
 
         $app = $_SESSION['o2_app'];
         // ______________________________________________________________________ Menu ___
-        if ($app->menu_attivo || $app->user == "root" || $app->run_level == "DEV") {
-            o2html::menu();
-            }
+        o2html::menu();
         // ________________________________________________________________ Status-bar ___
         o2html::statusbar();
         // _________________________________________________________ Page HTML sufffix ___
