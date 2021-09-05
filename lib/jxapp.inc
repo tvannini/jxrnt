@@ -1082,7 +1082,6 @@ class o2_app {
                                           $f['app_name'].' '.$co.'APP'.$cc.', '.
                                           $f['host'].' '.$co.'HOST'.$cc.', '.
                                           $f['run_mode'].' '.$co.'RUNM'.$cc.', '.
-                                          $f['client_ip'].' '.$co.'IP'.$cc.', '.
                                           $f['terminal_id'].' '.$co.'TERM'.$cc.', '.
                                           $f['e_date'].' '.$co.'DATE'.$cc.', '.
                                           $f['e_time'].' '.$co.'TIME'.$cc,
@@ -1109,8 +1108,7 @@ class o2_app {
                                   $rec['APP'],
                                   $rec['HOST'],
                                   $rec['RUNM'],
-                                  $rec['TERM'],
-                                  $rec['IP']);
+                                  $rec['TERM']);
                 }
             }
         // ============================= Clear jobs sessions without process (run-job) ===
