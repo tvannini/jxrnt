@@ -2431,11 +2431,16 @@ class o2_dbview extends o2_view {
      * record della vista. Ritorna true se le clausole sono variate dall'ultima produzione
      * della vista
      *
+     * NOTA: Il parametro $for_cache è usato per storicizzare le WHERE delle link risolte
+     *       in JOIN.
+     *       Vedi la parte finale del metodo ->crea_recordset().
+     *
      * @param  string  $file_in_esame
      * @param  integer $record
+     * @param  boolean $for_cache
      * @return boolean
      */
-    function range2where($file_in_esame, $record = -1) {
+    function range2where($file_in_esame, $record = -1, $for_cache = false) {
 
         $app              = $_SESSION['o2_app'];
         $prg              = $app->istanze_prg[$this->id_esecuzione];
@@ -2502,7 +2507,7 @@ class o2_dbview extends o2_view {
                                                                     $campo,
                                                                     $pk_segms);
                             // _ Save link where clausole, used by ->verifica_record() ___
-                            if ($this->status == "I" || $this->modificato) {
+                            if ($this->status == "I" || $this->modificato || $for_cache) {
                                 eval("\$valore_local = ".$campo->min.";");
                                 }
                             }
@@ -2877,7 +2882,7 @@ class o2_dbview extends o2_view {
                 unset($this->link_wheres[$file_in_esame]);
                 return $this->range2where($file_in_esame, $record);
                 }
-            elseif ($this->status != "I" && !$this->modificato) {
+            elseif ($this->status != "I" && !$this->modificato && !$for_cache) {
                 $record = -1;
                 }
             }
@@ -3456,18 +3461,16 @@ class o2_dbview extends o2_view {
         else {
             $this->seleziona_riga($selezione_originaria);
             }
-/*
         // ___________________________ Preload link-cache for links solved as SQL join ___
         foreach ($this->files as $single_file) {
             $idx = $single_file->indice;
             if ($idx !== $mainfile && $single_file->link_by_sql) {
-                $this->range2where($idx, $this->selezione);
+                $this->range2where($idx, $this->selezione, true);
                 $this->link_cache[$idx."_where"] = $this->wheres[$idx];
                 // ______________________________________ See ->verifica_record method ___
                 $this->link_cache[$idx]          = 0;
                 }
             }
-*/
         $this->computing = false;
         $this->vista     = true;
 
