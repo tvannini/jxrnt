@@ -6609,7 +6609,7 @@ function o2view_selector_get_selected($view_name) {
  * @package view
  * @param   string $view_name
  * @return  boolean
- * @see     o2view_snapshot_name()
+ * @see     o2view_snapshot_name(), o2view_snapshot_exists()
  */
 function o2view_snapshot($view_name) {
 
@@ -6630,7 +6630,7 @@ function o2view_snapshot($view_name) {
  * @param   string $view_name
  * @param   string $snapshot_name
  * @return  string
- * @see     o2view_snapshot()
+ * @see     o2view_snapshot(), o2view_snapshot_exists()
  */
 function o2view_snapshot_name($view_name, $snapshot_name = false) {
 
@@ -6646,6 +6646,23 @@ function o2view_snapshot_name($view_name, $snapshot_name = false) {
         $view->snapshot_name = $snapshot_name;
         }
     return $view->snapshot_name;
+
+    }
+
+
+/**
+ * Returns TRUE if the snapshot for the view $view_name already exists in session
+ *
+ * @package view
+ * @param   string $view_name
+ * @return  boolean
+ * @see     o2view_snapshot(), o2view_snapshot_name()
+ */
+function o2view_snapshot_exists($view_name) {
+
+    $app  = $_SESSION['o2_app'];
+    $view = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    return isset($app->tab[$view->snapshot_name]);
 
     }
 
