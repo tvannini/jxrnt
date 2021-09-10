@@ -3991,7 +3991,7 @@ function o2tab_is_defined($table_name) {
         }
     // ____________________________________________________ Splitted tables repository ___
     elseif ($app->split_tab_repos &&
-            @include_once($this->dir_progs."jx_tables".DIRECTORY_SEPARATOR.
+            @include_once($app->dir_progs."jx_tables".DIRECTORY_SEPARATOR.
                           $table_name.".tab")) {
         return true;
         }
