@@ -665,7 +665,32 @@ class o2_app {
                 $host     = $sess_host;
                 $run_mode = $sess_runm;
                 $terminal = $sess_term;
-                $ip       = $sess_ip;
+                if ($sess_ip) {
+                    $ip = $sess_ip;
+                    }
+                else {
+                    // ______________________________ Get IP from related Login record ___
+                    $co    = constant('o2_'.$tab->db->server->type.'_o');
+                    $cc    = constant('o2_'.$tab->db->server->type.'_c');
+                    $where = $f['session_id']."='".$sessid."' AND ".
+                             $f['access_flag']."='I' AND ".
+                             $f['app_name']."='".$app."' AND ".
+                             $f['user']."='".$user."' AND ".
+                             $f['terminal']."=".$terminal;
+                    $rec   = o2_gateway::recordset($tab->db->server->type,
+                                                   $tab->db->server->server,
+                                                   $tab->db->server->user,
+                                                   $tab->db->server->password,
+                                                   $tab->db->nome,
+                                                   $tab->db->proprietario,
+                                                   $tab->nome,
+                                                   $tab->nome,
+                                                   $f['client_ip'].' '.$co.'CIP'.$cc,
+                                                   $where,
+                                                   false,
+                                                   1);
+                    $ip    = $rec[0]['CIP'];
+                    }
                 break;
             case 'I':
             default:
