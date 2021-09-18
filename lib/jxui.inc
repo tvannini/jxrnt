@@ -936,6 +936,7 @@ class o2_form {
     function ctrldef($alias_ctrl, $tipo, $padre, $task, $campo_task) {
 
         $app        = $_SESSION['o2_app'];
+        $prg_obj    = $app->istanze_prg[$this->id_esecuzione];
         $campo_task = strtoupper($campo_task);
         if (!isset($this->controlli[$alias_ctrl])) {
             switch ($tipo) {
@@ -1009,15 +1010,27 @@ class o2_form {
             $new_ctrl->html_form     = $this->nome."_".$this->id_esecuzione."_html_form";
             $new_ctrl->js_form       = "document.o2form";
             $new_ctrl->js_name       = $new_ctrl->js_form.".".$new_ctrl->nome;
+            if ($padre) {
+                $parent = $this->controlli[$padre];
+                if ($parent->tipo_ctrl == 'tab') {
+                    $prg_obj->drawing_grid = $parent;
+                    }
+                else {
+                    $prg_obj->drawing_grid = false;
+                    }
+                }
+            else {
+                $prg_obj->drawing_grid = false;
+                }
             if ($task) {
                 $new_ctrl->task = $task;
-                $prg_obj        = $app->istanze_prg[$this->id_esecuzione];
                 $view_obj       = &$prg_obj->contesto[$task];
                 // _______________________________ To set table used objects reference ___
                 if ($tipo == "tab") {
-                    $new_ctrl->prg_obj  = $prg_obj;
-                    $new_ctrl->view_obj = &$view_obj;
-                    $new_ctrl->form_obj = $this;
+                    $new_ctrl->prg_obj     = $prg_obj;
+                    $new_ctrl->view_obj    = &$view_obj;
+                    $new_ctrl->form_obj    = $this;
+                    $prg_obj->drawing_grid = $new_ctrl;
                     }
                 if ($campo_task) {
                     $field_obj = $view_obj->campo_per_controllo($campo_task);
@@ -1075,8 +1088,9 @@ class o2_form {
      */
     function read_def() {
 
-        $app          = $_SESSION['o2_app'];
-        $def_function = $this->prg."§§".$this->nome."_def";
+        $app               = $_SESSION['o2_app'];
+        $def_function      = $this->prg."§§".$this->nome."_def";
+        $prg->drawing_grid = false;
         if (is_callable($def_function)) {
             $def_function($this);
             $this->defined = true;
@@ -4829,6 +4843,7 @@ class o2_ctrl_tab extends o2_ctrl {
     public $vscroll        = 0;       /* Table body vertical scrolling value            */
     public $custom_colsord = false;   /* Custom columns order set                       */
     public $pinned_cols    = false;   /* Number of pinned columns                       */
+    public $dependences    = array(); /* List of variables/fields this view depends on  */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $spazio_class   = "o2_tab_space";  /* Whole external assigned space <DIV>    */
     public $tab_class      = "o2_tab_tab";    /* Whole actually used space <TABLE>      */

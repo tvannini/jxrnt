@@ -71,6 +71,9 @@ class o2_prg {
     /*     _____ VIEWS REFRESH ________________________________________________________ */
     public $variazioni      = array(); /* Modified views list                           */
     public $evaluating_view = "";      /* View evaluating dependence for                */
+    /* ______________________________________________ GRID REDRAW (RESPONSE RESEND) ___ */
+    public $grid_changes    = array(); /* Modified fields list                          */
+    public $drawing_grid    = false;   /* Grid evaluating dependence for                */
     /*     _____ INTERNAL TOOL FLAG ___________________________________________________ */
     public $internal_tool   = false;   /* Program is an internal tool ("tools", "doc")  */
     /*     _____ SQL JOIN on prg views ________________________________________________ */
@@ -1565,6 +1568,14 @@ class o2_view {
                 unset($this->dipendenze[$pending_view]);
                 }
             }
+
+        }
+
+    /**
+     * Set view(/field) changed for grid depending on it
+     *
+     */
+    function set_grid_changes($field) {
 
         }
 
@@ -5702,6 +5713,7 @@ class o2_dbview extends o2_view {
 
     function campo($field_name) {
 
+        $prg        = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
         $field_name = strtoupper($field_name);
         $field_file = $this->campi[$field_name]->file;
         $main_file  = $this->file->indice;
@@ -5739,10 +5751,12 @@ class o2_dbview extends o2_view {
                 $this->verified[$main_file] = $this->corrente;
                 }
             }
-        $evaluating_view = $_SESSION['o2_app']->
-                            istanze_prg[$this->id_esecuzione]->evaluating_view;
+        $evaluating_view = $prg->evaluating_view;
         if ($evaluating_view && $evaluating_view != $this->nome) {
             $this->dipendenze[$evaluating_view] = false;
+            }
+        if ($prg->drawing_grid && $prg->drawing_grid->view_obj->nome != $this->nome) {
+            $prg->drawing_grid->dependences[$this->nome][$field_name] = false;
             }
         return (!is_null($this->corrente[$field_name]) ?
                 $this->corrente[$field_name]           :
@@ -6726,6 +6740,9 @@ class o2_virtualview extends o2_view {
             }
         if ($prg->evaluating_view) {
             $this->dipendenze[$prg->evaluating_view] = false;
+            }
+        if ($prg->drawing_grid && $prg->drawing_grid->view_obj->nome != $this->nome) {
+            $prg->drawing_grid->dependences[$this->nome][$field] = false;
             }
         return (!is_null($this->corrente[$field]) ? $this->corrente[$field] :
                 (isset($this->variabili[$field]->maschera->default) ?
