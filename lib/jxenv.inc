@@ -6038,8 +6038,7 @@ class o2_dbview extends o2_view {
                             // _____________________________ Bind placeholder to value ___
                             $del_pars[$par_id] = $par[1];
                             }
-                        $del_stmt->execute($del_pars);
-                        if ($del_stmt->errorCode()) {
+                        if ($del_stmt->execute($del_pars) === false) {
                             $info = $del_stmt->errorInfo();
                             // _ In some cases statement is not unset by script ending ___
                             unset($this->statement);
