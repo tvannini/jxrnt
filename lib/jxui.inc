@@ -936,69 +936,89 @@ class o2_form {
     function ctrldef($alias_ctrl, $tipo, $padre, $task, $campo_task) {
 
         $app        = $_SESSION['o2_app'];
-        $prg_obj    = $app->istanze_prg[$this->id_esecuzione];
+        $prg        = $app->istanze_prg[$this->id_esecuzione];
         $campo_task = strtoupper($campo_task);
         if (!isset($this->controlli[$alias_ctrl])) {
             switch ($tipo) {
-                case "button":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_button();
+                case 'button':
+                    $this->controlli[$alias_ctrl]      = new o2_ctrl_button();
+                    $prg->ctrls['button'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "map":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_button();
+                case 'map':
+                    $this->controlli[$alias_ctrl]   = new o2_ctrl_button();
+                    $prg->ctrls['map'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "check":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_check();
+                case 'check':
+                    $this->controlli[$alias_ctrl]     = new o2_ctrl_check();
+                    $prg->ctrls['check'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "document":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_doc();
+                case 'document':
+                    $this->controlli[$alias_ctrl]        = new o2_ctrl_doc();
+                    $prg->ctrls['document'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "edit":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_edit();
+                case 'edit':
+                    $this->controlli[$alias_ctrl]    = new o2_ctrl_edit();
+                    $prg->ctrls['edit'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "file":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_file();
+                case 'file':
+                    $this->controlli[$alias_ctrl]    = new o2_ctrl_file();
+                    $prg->ctrls['file'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "htmlarea":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_html();
+                case 'htmlarea':
+                    $this->controlli[$alias_ctrl]        = new o2_ctrl_html();
+                    $prg->ctrls['htmlarea'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "img":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_img();
+                case 'img':
+                    $this->controlli[$alias_ctrl]   = new o2_ctrl_img();
+                    $prg->ctrls['img'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "label":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_label();
+                case 'label':
+                    $this->controlli[$alias_ctrl]     = new o2_ctrl_label();
+                    $prg->ctrls['label'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "line":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_line();
+                case 'line':
+                    $this->controlli[$alias_ctrl]    = new o2_ctrl_line();
+                    $prg->ctrls['line'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "listcombo":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_listcombo();
+                case 'listcombo':
+                    $this->controlli[$alias_ctrl]         = new o2_ctrl_listcombo();
+                    $prg->ctrls['listcombo'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "multipage":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_multipage();
+                case 'multipage':
+                    $this->controlli[$alias_ctrl]         = new o2_ctrl_multipage();
+                    $prg->ctrls['multipage'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "navigator":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_navigator();
+                case 'navigator':
+                    $this->controlli[$alias_ctrl]         = new o2_ctrl_navigator();
+                    $prg->ctrls['navigator'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "tab":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_tab();
+                case 'tab':
+                    $this->controlli[$alias_ctrl]   = new o2_ctrl_tab();
+                    $prg->ctrls['tab'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "text":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_text();
+                case 'text':
+                    $this->controlli[$alias_ctrl]    = new o2_ctrl_text();
+                    $prg->ctrls['text'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "tree":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_tree();
+                case 'tree':
+                    $this->controlli[$alias_ctrl]    = new o2_ctrl_tree();
+                    $prg->ctrls['tree'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "imglist":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_imglist();
+                case 'imglist':
+                    $this->controlli[$alias_ctrl]       = new o2_ctrl_imglist();
+                    $prg->ctrls['imglist'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "progress":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_progress();
+                case 'progress':
+                    $this->controlli[$alias_ctrl]        = new o2_ctrl_progress();
+                    $prg->ctrls['progress'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "flowbox":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_flowbox();
+                case 'flowbox':
+                    $this->controlli[$alias_ctrl]       = new o2_ctrl_flowbox();
+                    $prg->ctrls['flowbox'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
-                case "frame":
-                    $this->controlli[$alias_ctrl] = new o2_ctrl_frame();
+                case 'frame':
+                    $this->controlli[$alias_ctrl]     = new o2_ctrl_frame();
+                    $prg->ctrls['frame'][$alias_ctrl] = $this->controlli[$alias_ctrl];
                     break;
                 }
             $new_ctrl                = $this->controlli[$alias_ctrl];
@@ -1013,24 +1033,24 @@ class o2_form {
             if ($padre) {
                 $parent = $this->controlli[$padre];
                 if ($parent->tipo_ctrl == 'tab') {
-                    $prg_obj->drawing_grid = $parent;
+                    $prg->drawing_grid = $parent;
                     }
                 else {
-                    $prg_obj->drawing_grid = false;
+                    $prg->drawing_grid = false;
                     }
                 }
             else {
-                $prg_obj->drawing_grid = false;
+                $prg->drawing_grid = false;
                 }
             if ($task) {
                 $new_ctrl->task = $task;
-                $view_obj       = &$prg_obj->contesto[$task];
+                $view_obj       = &$prg->contesto[$task];
                 // _______________________________ To set table used objects reference ___
                 if ($tipo == "tab") {
-                    $new_ctrl->prg_obj     = $prg_obj;
-                    $new_ctrl->view_obj    = &$view_obj;
-                    $new_ctrl->form_obj    = $this;
-                    $prg_obj->drawing_grid = $new_ctrl;
+                    $new_ctrl->prg_obj  = $prg;
+                    $new_ctrl->view_obj = &$view_obj;
+                    $new_ctrl->form_obj = $this;
+                    $prg->drawing_grid  = $new_ctrl;
                     }
                 if ($campo_task) {
                     $field_obj = $view_obj->campo_per_controllo($campo_task);
@@ -1090,15 +1110,15 @@ class o2_form {
 
         $app               = $_SESSION['o2_app'];
         $def_function      = $this->prg."§§".$this->nome."_def";
-        $prg->drawing_grid = false;
         if (is_callable($def_function)) {
+            $prg = $app->istanze_prg[$this->id_esecuzione];
             $def_function($this);
-            $this->defined = true;
+            $this->defined     = true;
+            $prg->drawing_grid = false;
             // ____________________________________________________ Controls profiling ___
             if (($app->profiling == "C" || $app->profiling == "B") &&
                 ($this->id_esecuzione == count($app->istanze_prg)) &&
-                ($app->user != 'root') &&
-                !$app->istanze_prg[$this->id_esecuzione]->internal_tool) {
+                ($app->user != 'root') && !$prg->internal_tool) {
                 $app->intcall("tools/o2sys_filter_ctrl", $this->nome);
                 }
             }
@@ -5216,6 +5236,40 @@ class o2_ctrl_tab extends o2_ctrl {
 
         $this->norec_msg = $message;
         return true;
+
+        }
+
+
+    /**
+     * Check if grid dependences are changed since last output send
+     *
+     */
+    function check_dependences() {
+
+        $app = $_SESSION['o2_app'];
+        $prg = $app->istanze_prg[$this->id_esecuzione];
+        $chs = $prg->changes;
+        $dps = $this->dependences;
+        if (is_array($dps)) {
+            foreach($dps as $view => $fields) {
+                if ($chs[$view]) {
+                    if ($chs[$view] === true) {
+                        return true;
+                        }
+                    else {
+                        foreach($fields as $field => $dummy_val) {
+                            if (isset($chs[$view][$field])) {
+                                return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            return false;
+            }
+        else {
+            return false;
+            }
 
         }
 

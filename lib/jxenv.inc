@@ -59,6 +59,7 @@ class o2_prg {
     public $par_names       = array(); /* List of parameters names                      */
     public $contesto        = array(); /* Views list                                    */
     public $form            = array(); /* Forms list                                    */
+    public $ctrls           = array(); /* List of references to forms controls for type */
     public $azioni          = array(); /* Actions list                                  */
     public $protocolli      = array(); /* Input/output protocols list                   */
     public $risorse         = array(); /* Input/output channels list                    */
@@ -72,7 +73,7 @@ class o2_prg {
     public $variazioni      = array(); /* Modified views list                           */
     public $evaluating_view = "";      /* View evaluating dependence for                */
     /* ______________________________________________ GRID REDRAW (RESPONSE RESEND) ___ */
-    public $grid_changes    = array(); /* Modified fields list                          */
+    public $changes         = array(); /* Modified fields list (for controls resend)    */
     public $drawing_grid    = false;   /* Grid evaluating dependence for                */
     /*     _____ INTERNAL TOOL FLAG ___________________________________________________ */
     public $internal_tool   = false;   /* Program is an internal tool ("tools", "doc")  */
@@ -460,6 +461,7 @@ class o2_prg {
                 }
             }
         $app->block_exe = false;
+        $this->changes  = false;
 
         }
 
@@ -1572,10 +1574,21 @@ class o2_view {
         }
 
     /**
-     * Set view(/field) changed for grid depending on it
+     * Set view(/field) changed
      *
      */
-    function set_grid_changes($field) {
+    function set_changes($field = '') {
+
+        $prg = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
+        if ($field) {
+            if (!isset($prg->changes[$this->nome]) ||
+                $prg->changes[$this->nome] !== true) {
+                $prg->changes[$this->nome][$field] = true;
+                }
+            }
+        elseif ($this instanceof o2_dbview) {
+            $prg->changes[$this->nome] = true;
+            }
 
         }
 
@@ -3235,6 +3248,7 @@ class o2_dbview extends o2_view {
         $this->link_cache    = array();
         $this->link_wheres   = array();
         $this->comunica_variazioni();
+        $this->set_changes();
         $this->dipendenze = array();
         $mainfile         = $this->file->indice;
         $file_type        = $this->file->db->server->type;
@@ -4033,6 +4047,7 @@ class o2_dbview extends o2_view {
             $this->modificato = false;
             }
         $this->comunica_variazioni();
+        $this->set_changes();
 
         }
 
@@ -5698,6 +5713,7 @@ class o2_dbview extends o2_view {
                 unset($this->corrente[$campo.'_jxcbdesc']);
                 }
             $this->comunica_variazioni();
+            $this->set_changes($campo);
             }
         return true;
 
@@ -6690,6 +6706,7 @@ class o2_virtualview extends o2_view {
                 unset($this->corrente[$field."_jxcbdesc"]);
                 }
             $this->comunica_variazioni();
+            $this->set_changes($field);
             }
 
         }
