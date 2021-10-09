@@ -1020,6 +1020,11 @@ class jxjs {
             $send_all                        = true;
             $o2ctrl_obj->view_obj->relocated = false;
             }
+        // ___________________________ If view changed range rebuild view and send-all ___
+        elseif (!$send_all && $o2ctrl_obj->view_obj->range_mod()) {
+            $send_all                           = true;
+            $o2ctrl_obj->view_obj->ultima_where = array();
+            }
         // ___________________ DB-grid HTML code is resent (NOT preserve client focus) ___
         if ($send_all) {
             $o2ctrl_obj->view_obj->sele_by_table = false;
