@@ -230,14 +230,18 @@ class JXSQLparser {
         if (!$tabalias) {
             $tabalias = $tabname;
             }
-        // __________________________________________________________ Store alias name ___
-        $this->aliases[$tabalias] = $tabname;
         // ___________ If table is defined then it is qualified by table informations  ___
-        if (o2tab_is_defined($tabname)) {
-            $qname = o2tab_qname($tabname);
+        if ($real_tab_name = o2tab_is_defined($tabname)) {
+            // ______________________________________________________ Store alias name ___
+            $this->aliases[$tabalias] = $real_tab_name;
+            // _____________________________ Table is qualified by table informations  ___
+            $qname = o2tab_qname($real_tab_name);
             }
         // _________________________ Else it is qualified by JXSQL-parser informations ___
         else {
+            // ______________________________________________________ Store alias name ___
+            $this->aliases[$tabalias] = $tabname;
+            // _______________________ Table is qualified by JXSQL-parser informations ___
             $qname = o2_gateway::qualify($this->dbengine,
                                          $this->db_phys_name,
                                          o2db_schema($this->databasename),
@@ -268,8 +272,7 @@ class JXSQLparser {
                 $tabname   = $this->aliases[$aliasname];
                 // __________________________________________ Get column physical name ___
                 if ($colname != '*') {
-                    $col_phys_name = o2field_name(strtolower($tabname),
-                                                  strtolower($colname));
+                    $col_phys_name = o2field_name($tabname, $colname);
                     /**
                      * Lowercasing O2ASPID column otherwise if used with delimitators
                      * doesn't work in query execution

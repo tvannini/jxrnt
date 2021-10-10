@@ -3975,8 +3975,10 @@ function o2field_model($table_name, $field_name) {
 // ====================================== TABLE ==========================================
 
 /**
- * Returns TRUE if table is defined in session (in application repository or in other
- * way).
+ * Checks if table is defined in session (in application repository or in other way).
+ * Table name passed as parameter is not key-sensitive.
+ * If table is defined then function returns the real key-sensitive name of the table,
+ * else it returns FALSE.
  *
  * @package table
  * @param   string $table_name
@@ -3985,23 +3987,38 @@ function o2field_model($table_name, $field_name) {
 function o2tab_is_defined($table_name) {
 
     $app = $_SESSION['o2_app'];
-    // _______________________________________________________ Table is already loaded ___
+    // ___________________________________________________ Table is already loaded ___
     if (isset($app->tab[$table_name])) {
-        return true;
+        return $table_name;
         }
     // ____________________________________________________ Splitted tables repository ___
-    elseif ($app->split_tab_repos &&
-            @include_once($app->dir_progs."jx_tables".DIRECTORY_SEPARATOR.
+    elseif ($app->split_tab_repos) {
+        if (@include_once($app->dir_progs."jx_tables".DIRECTORY_SEPARATOR.
                           $table_name.".tab")) {
-        return true;
+            }
+        else {
+            // ______________________________ Look for a key unsensitive matching name ___
+            $table_name = strtolower($table_name);
+            $dir_obj    = new o2_dir($app->dir_progs."jx_tables".DIRECTORY_SEPARATOR);
+            foreach ($dir_obj->all_elements() as $single_file) {
+                if (strtolower($single_file->nome) === $table_name &&
+                    strtolower($single_file->ext === 'tab')) {
+                    return $single_file->nome;
+                    }
+                }
+            }
         }
-    elseif ($app->doc_enabled) {
-        $app->doc->repository();
-        return isset($app->tab[$table_name]);
-        }
+    // __________________________________________________ Unsplitted tables repository ___
     else {
-        return false;
+        // __________________________________ Look for a key unsensitive matching name ___
+        $table_name = strtolower($table_name);
+        foreach ($app->tab as $alias => $tab_obj) {
+            if (strtolower($alias) === $table_name) {
+                return $tab_obj->indice;
+                }
+            }
         }
+    return false;
 
     }
 
