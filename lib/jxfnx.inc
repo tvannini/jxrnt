@@ -3995,6 +3995,7 @@ function o2tab_is_defined($table_name) {
     elseif ($app->split_tab_repos) {
         if (@include_once($app->dir_progs."jx_tables".DIRECTORY_SEPARATOR.
                           $table_name.".tab")) {
+            return $table_name;
             }
         else {
             // ______________________________ Look for a key unsensitive matching name ___
