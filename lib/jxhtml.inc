@@ -1139,7 +1139,7 @@ class o2html {
                             $del_cmd   = $single_ctrl.'_jxddel'.$app->progressivo_istanze;
                             $save_cmd  = $single_ctrl.'_jxsave'.$app->progressivo_istanze;
                             $reset_cmd = $single_ctrl.'_jxresc'.$app->progressivo_istanze;
-                            // ______________________________ Get table columns sizing ___
+                            // _______________________ Get table column header actions ___
                             if ($_REQUEST[$colex_cmd]) {
                                 $prg_local->esegui_azione($_REQUEST[$colex_cmd]);
                                 unset($_REQUEST["o2_modfields"]);
@@ -1167,16 +1167,22 @@ class o2html {
                                 list($col, $size) = explode(":", $_REQUEST[$size_cmd]);
                                 $ctrl_obj->user_set_size($col, $size);
                                 unset($_REQUEST["o2_modfields"]);
+                                // ____________________ Needed to resend table content ___
+                                $ctrl_obj->view_obj->relocated = true;
                                 }
                             // __________________________ Get table columns visibility ___
                             elseif (isset($_REQUEST[$vis_cmd])) {
                                 $ctrl_obj->user_set_vis(explode(";",$_REQUEST[$vis_cmd]));
                                 unset($_REQUEST["o2_modfields"]);
+                                // ____________________ Needed to resend table content ___
+                                $ctrl_obj->view_obj->relocated = true;
                                 }
                             // _______________________________ Get table columns order ___
                             elseif (isset($_REQUEST[$c_ord_cmd])) {
                                 $ctrl_obj->user_set_order($_REQUEST[$c_ord_cmd]);
                                 unset($_REQUEST["o2_modfields"]);
+                                // ____________________ Needed to resend table content ___
+                                $ctrl_obj->view_obj->relocated = true;
                                 }
                             // _____________________________________ Filter table data ___
                             elseif (isset($_REQUEST[$fltr_cmd])) {
@@ -1189,6 +1195,8 @@ class o2html {
                             elseif (isset($_REQUEST[$msort_cmd])) {
                                 $ctrl_obj->user_set_sort($_REQUEST[$msort_cmd]);
                                 unset($_REQUEST["o2_modfields"]);
+                                // ____________________ Needed to resend table content ___
+                                $ctrl_obj->view_obj->relocated = true;
                                 }
                             // _______________________________________ Set rows number ___
                             elseif (isset($_REQUEST[$rowsn_cmd])) {
@@ -1212,6 +1220,8 @@ class o2html {
                             elseif (isset($_REQUEST[$reset_cmd])) {
                                 $ctrl_obj->user_reset();
                                 unset($_REQUEST["o2_modfields"]);
+                                // ____________________ Needed to resend table content ___
+                                $ctrl_obj->view_obj->relocated = true;
                                 }
                             else {
                                 // ___________________________ Receive table selection ___
