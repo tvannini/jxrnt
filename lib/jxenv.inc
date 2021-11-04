@@ -4440,9 +4440,11 @@ class o2_dbview extends o2_view {
             if ($segmento_chiave->custom_sorted) {
                 $field_name = ($hide_table ? "" :
                                $c_o.$segmento_chiave->campo->file.$c_c.".").$phys_fld;
+                $tab_name   = $segmento_chiave->campo->file;
                 }
             else {
                 $field_name = ($hide_table ? "" : $c_o.$file->indice.$c_c.".").$phys_fld;
+                $tab_name   = false;
                 }
             $key_field_name = strtoupper($nome_campo_local)."_JXKF";
             $valore_local   = $segmento_chiave->campo->maschera->default;
@@ -4453,7 +4455,8 @@ class o2_dbview extends o2_view {
             foreach ($this->campi as $singolo_campo) {
                 if ($nome_campo_local == $singolo_campo->phys_name &&
                     ($singolo_campo->file == $file->indice ||
-                     $segmento_chiave->custom_sorted) &&
+                     ($segmento_chiave->custom_sorted &&
+                      $singolo_campo->file == $tab_name)) &&
                     $singolo_campo->nome != $key_field_name) {
                     $valore_local = ($precedente ?
                                      $this->precedente($singolo_campo->nome) :
