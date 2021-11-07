@@ -3436,8 +3436,8 @@ o2jse.tab.visibleCols = function(jxInfo) {
     var colsLen    = cols.length;
     // __________________________ Skip last pseudo-column (used to resize last column) ___
     for (var i = 0; i < colsLen - 1; i++) {
-        if (cols[i].className != "o2_tab_marker") {
-            o2jse.ctrl.init(cols[i]);
+        o2jse.ctrl.init(cols[i]);
+        if (cols[i].className != "o2_tab_marker" && cols[i].o2.v) {
             var singleRow       = frameTable.insertRow(-1);
             var fieldCell       = singleRow.insertCell(-1);
             var valueCell       = singleRow.insertCell(-1);
@@ -3477,11 +3477,11 @@ o2jse.tab.sortCols = function(jxInfo) {
     var sortList   = [];
     // _______________________________________________________________ Loop on columns ___
     for (var i = 0; i < colsLen - 1; i++) {
+        o2jse.ctrl.init(cols[i]);
         var singleRow = frameTable.insertRow(-1);
         var sortSpans = cols[i].getElementsByTagName("span");
         // _________________________________________________ Add only sortable columns ___
-        if (sortSpans[0]) {
-            o2jse.ctrl.init(cols[i]);
+        if (sortSpans[0] && cols[i].o2.v) {
             var sortField      = cols[i].o2.inctrl;
             var sortTag        = " class='" + sortSpans[0].className +
                                  "' style='cursor:pointer'";
@@ -3594,8 +3594,8 @@ o2jse.tab.orderCols = function(jxInfo) {
     var btnDownObj;
     // __________________________ Skip last pseudo-column (used to resize last column) ___
     for (var i = 0; i < colsLen - 1; i++) {
-        if (cols[i].className != "o2_tab_marker") {
-            o2jse.ctrl.init(cols[i]);
+        o2jse.ctrl.init(cols[i]);
+        if (cols[i].className != "o2_tab_marker" && cols[i].o2.v) {
             var ctrlName        = cols[i].o2.inctrl;
             singleRow           = frameTable.insertRow(-1);
             fieldCell           = singleRow.insertCell(-1);

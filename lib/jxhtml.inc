@@ -3375,6 +3375,7 @@ class o2html {
                           "',inctrl:'".$ctrl->nome.
                           "',col:".($puntatore_col - $rm_col).
                            ",rows:".$view->righe_vis.
+                          ',v:'.($ctrl->visibile ? '!0' : '!1').
                            ',fret:!0,msg:\'\'" class="'.$cssc.
                                                         ($ordinabile ? ' jxord' : '').'"'.
                           (($ctrl->info_padre[2] - $ctrl->info_padre[1]) ?
