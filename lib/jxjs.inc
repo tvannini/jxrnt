@@ -1122,6 +1122,7 @@ class jxjs {
             print "}\n";
             // ________________________________ Moved from selection (resend last row) ___
             if ($GLOBALS['jxtablastrow'] &&
+                in_array($o2ctrl_obj->nome, $mod_ctrls) &&
                 ($o2ctrl_obj->id_esecuzione == $app->istanza_attiva)) {
                 $o2ctrl_obj->status_open();
                 $view      = $o2ctrl_obj->view_obj;
