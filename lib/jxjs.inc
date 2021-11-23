@@ -995,7 +995,7 @@ class jxjs {
 
         // ____________________________________________ Logic to preserve client focus ___
         $app       = $_SESSION['o2_app'];
-        $send_all  = $o2ctrl_obj->check_dependences();
+        $send_all  = $o2ctrl_obj->view_shared || $o2ctrl_obj->check_dependences();
         $tab_name  = $o2ctrl_obj->nome;
         $mod_ctrls = explode(";", $_REQUEST["o2_modfields"]);
         array_pop($mod_ctrls);

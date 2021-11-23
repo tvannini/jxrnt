@@ -1051,6 +1051,17 @@ class o2_form {
                     $new_ctrl->view_obj = &$view_obj;
                     $new_ctrl->form_obj = $this;
                     $prg->drawing_grid  = $new_ctrl;
+                    if (isset($prg->view_grids[$task])) {
+                        // ___________________________________ View used by other grid ___
+                        if ($prg->view_grids[$task] != $alias_ctrl) {
+                            $new_ctrl->view_shared                                 = true;
+                            $this->controlli[$prg->view_grids[$task]]->view_shared = true;
+                            }
+                        }
+                    // _________________________________________ Set view used by grid ___
+                    else {
+                        $prg->view_grids[$task] = $alias_ctrl;
+                        }
                     }
                 if ($campo_task) {
                     $field_obj = $view_obj->campo_per_controllo($campo_task);
@@ -4853,6 +4864,7 @@ class o2_ctrl_tab extends o2_ctrl {
     public $view_obj       = null;    /* Reference to obj o2_view used by table         */
     public $form_obj       = null;    /* Reference to obj o2_form containing the table  */
     public $riga_corrente  = false;   /* If rendering current record row                */
+    public $view_shared    = false;   /* If used view is shared with other grids ctrls  */
     /**
      * @var o2_ctrl_navigator
      */

@@ -69,6 +69,7 @@ class o2_prg {
     public $custom_ctrls    = array(); /* Controls custom position and size             */
     public $tree_ctrls      = array(); /* List of defined treeview controls             */
     public $imglist_ctrls   = array(); /* List of defined images-lister controls        */
+    public $view_grids      = array(); /* List of grids using each view                 */
     /*     _____ VIEWS REFRESH ________________________________________________________ */
     public $variazioni      = array(); /* Modified views list                           */
     public $evaluating_view = "";      /* View evaluating dependence for                */
@@ -5157,7 +5158,6 @@ class o2_dbview extends o2_view {
         return true;
 
         }
-
 
 
    /**
