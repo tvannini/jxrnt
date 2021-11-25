@@ -4,6 +4,7 @@ function o2dev_app_analysis§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("analysis_model", "_o2alpha");
 	$task_prg§_§var->definisci("done", "_o2logical");
+	$task_prg§_§var->definisci("ext_data", "_o2structure");
 	$task_prg§_§var->definisci("models_list", "_o2structure");
 		}
 function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analysis) {
@@ -65,7 +66,8 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 		}
 
 function o2dev_app_analysis§§a_build_tabs_relations_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_24()) && $o2exe->e();
+	$o2exe->s(1) && True && o2act::call(o2dev_app_analysis_exp_43(), False, "prg§_§var§§ext_data") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::script(o2dev_app_analysis_exp_42()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§a_check_exps_act(&$o2exe) {
@@ -78,6 +80,10 @@ function o2dev_app_analysis§§a_check_links_act(&$o2exe) {
 
 function o2dev_app_analysis§§a_check_locks_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_40()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2dev_app_analysis§§a_check_tabs_relations_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_24()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§a_duplicated_fileds_act(&$o2exe) {
@@ -131,16 +137,17 @@ function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(4) && (o2dev_app_analysis_exp_15() || $o2exe->e()) && o2act::exe("a_unused_progs", True, "") && $o2exe->e();
 	$o2exe->s(5) && (o2dev_app_analysis_exp_17() || $o2exe->e()) && o2act::exe("a_unused_keys", True, "") && $o2exe->e();
 	$o2exe->s(6) && (o2dev_app_analysis_exp_19() || $o2exe->e()) && o2act::exe("a_check_links", True, "") && $o2exe->e();
-	$o2exe->s(7) && (o2dev_app_analysis_exp_23() || $o2exe->e()) && o2act::exe("a_build_tabs_relations", True, "") && $o2exe->e();
-	$o2exe->s(8) && (o2dev_app_analysis_exp_25() || $o2exe->e()) && o2act::exe("a_views_in_loop", True, "") && $o2exe->e();
-	$o2exe->s(9) && (o2dev_app_analysis_exp_27() || $o2exe->e()) && o2act::exe("a_check_exps", True, "") && $o2exe->e();
-	$o2exe->s(10) && (o2dev_app_analysis_exp_29() || $o2exe->e()) && o2act::exe("a_session", True, "") && $o2exe->e();
-	$o2exe->s(11) && (o2dev_app_analysis_exp_31() || $o2exe->e()) && o2act::exe("a_sql_formulas", True, "") && $o2exe->e();
-	$o2exe->s(12) && (o2dev_app_analysis_exp_33() || $o2exe->e()) && o2act::exe("a_duplicated_fileds", True, "") && $o2exe->e();
-	$o2exe->s(13) && (o2dev_app_analysis_exp_35() || $o2exe->e()) && o2act::exe("a_nuidxs_to_rep", True, "") && $o2exe->e();
-	$o2exe->s(14) && (o2dev_app_analysis_exp_37() || $o2exe->e()) && o2act::exe("a_report_alias", True, "") && $o2exe->e();
-	$o2exe->s(15) && (o2dev_app_analysis_exp_39() || $o2exe->e()) && o2act::exe("a_check_locks", True, "") && $o2exe->e();
-	$o2exe->s(16) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
+	$o2exe->s(7) && (o2dev_app_analysis_exp_41() || $o2exe->e()) && o2act::exe("a_build_tabs_relations", True, "") && $o2exe->e();
+	$o2exe->s(8) && (o2dev_app_analysis_exp_23() || $o2exe->e()) && o2act::exe("a_check_tabs_relations", True, "") && $o2exe->e();
+	$o2exe->s(9) && (o2dev_app_analysis_exp_25() || $o2exe->e()) && o2act::exe("a_views_in_loop", True, "") && $o2exe->e();
+	$o2exe->s(10) && (o2dev_app_analysis_exp_27() || $o2exe->e()) && o2act::exe("a_check_exps", True, "") && $o2exe->e();
+	$o2exe->s(11) && (o2dev_app_analysis_exp_29() || $o2exe->e()) && o2act::exe("a_session", True, "") && $o2exe->e();
+	$o2exe->s(12) && (o2dev_app_analysis_exp_31() || $o2exe->e()) && o2act::exe("a_sql_formulas", True, "") && $o2exe->e();
+	$o2exe->s(13) && (o2dev_app_analysis_exp_33() || $o2exe->e()) && o2act::exe("a_duplicated_fileds", True, "") && $o2exe->e();
+	$o2exe->s(14) && (o2dev_app_analysis_exp_35() || $o2exe->e()) && o2act::exe("a_nuidxs_to_rep", True, "") && $o2exe->e();
+	$o2exe->s(15) && (o2dev_app_analysis_exp_37() || $o2exe->e()) && o2act::exe("a_report_alias", True, "") && $o2exe->e();
+	$o2exe->s(16) && (o2dev_app_analysis_exp_39() || $o2exe->e()) && o2act::exe("a_check_locks", True, "") && $o2exe->e();
+	$o2exe->s(17) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§export_act(&$o2exe) {
@@ -181,6 +188,7 @@ function o2dev_app_analysis_exp_4() {
               "UUMODELS"    => "Unused data types in repository",
               "UUPROGS"     => "Unused programs",
               "TABSREL"     => "Build tables relations structure",
+              "CHECKSREL"   => "Check tables relations criteria",
               "CHECKLINKS"  => "Check links criteria",
               "CHECKLOOP"   => "Check view rebuilds while looping",
               "CHECKEXPS"   => "Check for columns (;) in return expressions",
@@ -765,7 +773,7 @@ return (true);
 
 function o2dev_app_analysis_exp_23() {
 	
-return (o2val('prg§_§var','analysis_model') == "TABSREL");
+return (o2val('prg§_§var','analysis_model') == "CHECKSREL");
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_24() {
@@ -1719,5 +1727,48 @@ if ($id_prg) {
    o2tree_node_show("jxresult", 'P'.$id_prg);
    }
 return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_41() {
+	
+return (o2val('prg§_§var','analysis_model') == "TABSREL");
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_42() {
+	$rels = o2val('prg§_§var','ext_data');
+$res  = array();
+$tabn = 0;
+$reln = 0;
+$imgs = '<jx>/img/tabadmin/tree/';
+$show = 'jxresult';
+foreach ($rels as $main_tab => $links) {
+   $res[$main_tab] = array('jxresult', 
+                           $main_tab, 
+                           $imgs.'tab.png');
+   $show = $main_tab;
+   foreach ($links as $link_tab => $links) {   
+      $res[$main_tab.'|'.$link_tab] = array($main_tab,
+                                            $link_tab,
+                                            $imgs.'reference.png');
+      foreach ($links as $link_id => $criteria) {
+         $res[$main_tab.'|'.$link_tab.'|'.$link_id] = array($main_tab.'|'.$link_tab,
+                                                            implode(', ', $criteria),
+                                                            $imgs.'constraint.png');
+         $reln++;
+         }
+      $tabn++;         
+      }
+   }
+$res['jxresult'] = array(0,
+                         $reln.' relations in '.$tabn.' tables',
+                         '<jx>/img/tabadmin/tree/folder.png');
+o2tree_def('jxresult', $res);
+o2tree_node_show("jxresult", $show);
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_43() {
+	
+return ('tools/o2sys_tables_relations');
 	} //|o2_fine_exp|
 ?>

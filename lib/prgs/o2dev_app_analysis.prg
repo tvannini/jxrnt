@@ -13,6 +13,7 @@ o2def::act("a_build_tabs_relations");
 o2def::act("a_check_exps");
 o2def::act("a_check_links");
 o2def::act("a_check_locks");
+o2def::act("a_check_tabs_relations");
 o2def::act("a_duplicated_fileds");
 o2def::act("a_nuidxs_to_rep");
 o2def::act("a_report_alias");

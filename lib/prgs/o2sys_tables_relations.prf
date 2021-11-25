@@ -1,0 +1,186 @@
+<?php
+
+function o2sys_tables_relations§§do_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(1, o2sys_tables_relations_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_tables_relations_exp_1() {
+	$app  = $_SESSION['o2_app'];
+$res  = array();
+$chc  = array();
+$keys = array();
+$tabs = array_combine(array_keys($app->tab), array_keys($app->tab));
+foreach ($app->tab as $tab_name => $tab) {
+   /*   EXCLUDE SYSTEM TABLES   */
+   if ((substr($tab_name, 0, 3) == "o2_") ||
+       (substr($tab_name, 0, 6) == "jxdoc_")) {
+      unset($tabs[$tab_name]);
+      }
+   /*   EXCLUDE LOG TABLES   */
+   elseif (substr($tab_name, -4) == "_log") {
+      unset($tabs[$tab_name]);
+      }
+   /*   STORE TABLES PKEYS   */
+   else {
+      $pk = array();
+      foreach ($tab->chiave->segmenti as $segm) {
+         $pk[$segm->campo->name] = $segm->campo->name;
+         }
+      $keys[$tab_name] = $pk;
+      }
+   }
+/*   LOOP ON ALL PROGRAMS   */
+foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
+   $cont = file_get_contents($prf->nome_completo);
+   /*   LOOP ON ALL TABLES   */
+   foreach ($tabs as $tab_name) {
+      $tab = $app->tab[$tab_name];
+      $pk  = $keys[$tab_name];
+      if (strpos($cont, '->usa_file("'.$tab_name.'"')) {
+         $matches = array();
+         preg_match_all('/\$task_([^-$]*)->usa_file\("'.$tab_name.'","([^"]*)",/s',
+                        $cont, $matches);
+         foreach ($matches[2] as $view_idx => $tab_alias) {
+            $view = $matches[1][$view_idx];
+            if (strpos($cont, '->valori(o2_view2list("'.$view.'"')) {
+               $matches2 = array();
+               preg_match_all('/\$ctrl_(\w+)->valori\(o2_view2list\("'.$view.
+                              '"\s*,\s*"([^"]*)"/s',
+                              $cont, $matches2);
+               /*   LOOP ON CONTROLS USING VIEW   */
+               foreach ($matches2[1] as $ctrl_idx => $ctrl) {
+                  $code_field = $matches2[2][$ctrl_idx];
+                  $matches3   = array();
+                  preg_match_all('/->ctrldef\("'.$ctrl.'", "listcombo", "\w*", "([^"]*)", "([^"]*)"\)/s',
+                                 $cont, $matches3);
+                  $main_view  = $matches3[1][0];
+                  $main_field = $matches3[2][0];
+                  /*   SEARCH FOR MAIN FILED   */
+                  if ($main_view) {
+                     $matches3 = array();
+                     preg_match_all('/\$task_'.$main_view.
+                                    /*                         <table>   <field>   */
+                                    '->usa\("'.$main_field.'","([^"]*)","([^"]*)",/s',
+                                    $cont, $matches3);
+                     $main_tab_alias = $matches3[1][0];
+                     $main_tab_field = $matches3[2][0];
+                     /*   IF SELECT FOUND   */
+                     if ($main_tab_alias) {
+                        $matches3 = array();
+                        preg_match_all('/\$task_'.$main_view.'->usa_file\("'.$main_tab_alias.
+                                       '","([^"]*)",/s',
+                                       $cont, $matches3);
+                        $main_tab     = $matches3[1][0];
+                        $link_tab     = $tab_name;
+                        $criteria     = array($main_tab_field.'-'.$code_field);
+                        $criteria_str = $main_tab.'-'.$link_tab.'-'.
+                                        implode('|', $criteria);
+                        /*   ADD TABLES RELATION AND CRITERIA   */
+                        if (!isset($res[$main_tab])) {
+                           $res[$main_tab] = array();
+                           }
+                        if (!isset($chc[$criteria_str])) {
+                           $res[$main_tab][$link_tab][] = $criteria;
+                           $chc[$criteria_str]          = true;
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      /*   GET TABLES USED AS LINK TABLE  */
+      if (strpos($cont, '->usa_file_link("'.$tab_name.'"')) {
+         $matches = array();
+         preg_match_all('/\$task_([^-$]*)->usa_file_link\("'.$tab_name.'","([^"]*)",/s',
+                        $cont, $matches);
+         /*   LOOP ON TABLES USES BY ALIAS   */
+         foreach ($matches[2] as $link_idx => $link_alias) {
+            $view           = $matches[1][$link_idx];
+            $matches2       = array();
+            $criteria_ok    = true;
+            $criteria       = array();
+            $check_tab_name = "";
+            /*   FIND CRITERIA FOR EACH LINKED TABLE   */
+            preg_match_all('/\$task_'.$view.
+                           '->unisci\("[^"]*","'.$link_alias.
+                           /*  <field>   <min>   <max>   <not>  <like>   */
+                           '","([^"]*)",([^,]*),([^,]*),([^,]*),([^,;]*)\);/s',
+                           $cont, $matches2);
+            /*   LOOP ON LINK CRITERIA FOR EACH LINK ALIAS   */
+            foreach ($matches2[1] as $field_idx => $field) {
+               /*   CHECK EXPRESSION CRITERIA   */
+               $min = trim($matches2[2][$field_idx], '"');
+               $max = trim($matches2[3][$field_idx], '"');
+               /*   CRITERIA FOR RELATION   */
+               if ($min == $max && substr($min, -2) == "()") {
+                  $matches3 = array();
+                  preg_match_all('/function '.$min.'\(\) {\s*return \(\s*'.
+                                 /*               <view>                    <field>   */
+                                 'o2val\(\s*["\']([^\'"]*)["\']\s*,\s*["\']([^\'"]*)["\']\s*\)\s*\);/s',
+                                 $cont, $matches3);
+                  $exp_view  = $matches3[2][0];
+                  $exp_field = $matches3[3][0];
+                  /*   LINKS ARE JOIN-ABLE ONLY IF FIELDS ARE FROM THE SAME VIEW   */
+                  if ($exp_view == $view) {
+                     $matches4 = array();
+                     preg_match_all('/\$task_'.$view.
+                                    /*                        <table>   <field>   */
+                                    '->usa\("'.$exp_field.'","([^"]*)","([^"]*)",/s',
+                                    $cont, $matches4);
+                     $exp_tab_alias = $matches4[1][0];
+                     $exp_tab_field = $matches4[2][0];
+                     /*   IF SELECT FOUND   */
+                     if ($exp_tab_alias) {
+                        $check_tab_alias = $exp_tab_alias;
+                        $criteria[]      = $exp_tab_field.'-'.$field;
+                        /*   GET TABLE FROM ALIAS   */
+                        $matches5 = array();
+                        preg_match_all('/\$task_'.$view.
+                                       '->usa_file(_link)*\("([^"]*)","'.$exp_tab_alias.'",/s',
+                                       $cont, $matches5);
+                        $exp_tab_name = $matches5[2][0];
+                        /*   IF CRITERIA ARE ALL FROM THE SAME TABLE   */
+                        if (!$check_tab_name || $check_tab_name == $exp_tab_name) {
+                           $check_tab_name = $exp_tab_name;
+                           }
+                        else {
+                           $criteria_ok = false;
+                           break;
+                           }
+                        }
+                     else {
+                        $criteria_ok = false;
+                        break;
+                        }
+                     }
+                  else {
+                     $criteria_ok = false;
+                     break;
+                     }
+                  }
+               else {
+                  $criteria_ok = false;
+                  break;
+                  }
+               }
+            if ($check_tab_name && $tab_name && $criteria_ok) {
+               sort($criteria);
+               $criteria_str = $check_tab_name.'-'.$tab_name.'-'.implode('|', $criteria);
+               /*   ADD TABLE USED AS MAIN   */
+               if (!isset($res[$check_tab_name])) {
+                  $res[$check_tab_name] = array();
+                  }
+               if (!isset($chc[$criteria_str])) {
+                  $res[$check_tab_name][$tab_name][] = $criteria;
+                  $chc[$criteria_str]                = true;
+                  }
+               }
+            }
+         }
+      }
+   }
+ksort($res);
+return ($res);
+	} //|o2_fine_exp|
+?>
