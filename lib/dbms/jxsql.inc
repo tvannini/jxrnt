@@ -284,11 +284,11 @@ class JXSQLparser {
                     elseif ($col_phys_name == '') {
                         $col_phys_name = '--WRONG-COL-NAME--';
                         }
-                    $sret = ($tabname != $aliasname ? $aliasname.'.' : '').
+                    $sret = $aliasname.'.'.
                             $this->qualifier_o.$col_phys_name.$this->qualifier_c;
                     }
                 else {
-                    $sret = $aliasname.'.'.'*';
+                    $sret = $aliasname.'.*';
                     }
                 }
             // ____________________ Alias is missing: simply add delimiters to content ___
