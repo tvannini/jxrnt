@@ -2786,14 +2786,20 @@ class o2html {
         print '<div id="'.$html_name.'" class="'.$o2ctrl_obj->css.'" style="width:'.
               $o2ctrl_obj->larghezza.'px;height:'.$o2ctrl_obj->altezza.'px;'.
               ($o2ctrl_obj->visibile ? "" : "display:none;")."\">\n";
-        $prg  = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
-        $form = $prg->form[$o2ctrl_obj->form];
-        foreach ($form->controlli as &$singolo_ctrl) {
+        $prg   = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+        $form  = $prg->form[$o2ctrl_obj->form];
+        $ctrls = array();
+        foreach ($form->controlli as $singolo_ctrl) {
             // ___________________________________________________ Controls in flowbox ___
             if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
-                $singolo_ctrl->disegna();
+                $ctrls[$singolo_ctrl->info_padre[0]] = $singolo_ctrl;
                 }
             }
+        ksort($ctrls);
+        foreach ($ctrls as $ctrl) {
+            $ctrl->disegna();
+            }
+        unset($ctrls);
         print "</div>\n";
 
         }
