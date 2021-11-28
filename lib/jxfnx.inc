@@ -7622,12 +7622,48 @@ function o2tree_destroy($name) {
  * Fold all foldable nodes in treeview down to $level.
  * If $level is 0 all folders are expanded.
  *
+ * NOTE: This function is going to be deprecated.
+ *       Use o2tree_expand() instead.
+ *
  * @package treeview
  * @param   string  $name    Control unique name
  * @param   integer $level   Folding level to fold down to
  * @return  boolean
  */
 function o2tree_fold($name, $level = 0) {
+
+    return o2tree_expand($name, $level);
+
+    }
+
+
+/**
+ * Unfold all foldable nodes in treeview
+ *
+ * NOTE: This function is going to be deprecated.
+ *       Use o2tree_collapse() instead.
+ *
+ * @package treeview
+ * @param   string $name     Control unique name
+ * @return  boolean
+ */
+function o2tree_unfold($name) {
+
+    return o2tree_collapse($name);
+
+    }
+
+
+/**
+ * Expand all expandable nodes in treeview down to $level.
+ * If $level is 0 all folders are expanded.
+ *
+ * @package treeview
+ * @param   string  $name    Control unique name
+ * @param   integer $level   Folding level to fold down to
+ * @return  boolean
+ */
+function o2tree_expand($name, $level = 0) {
 
     $app  = $_SESSION['o2_app'];
     $prg  = $app->istanze_prg[$app->progressivo_istanze];
@@ -7656,13 +7692,13 @@ function o2tree_fold($name, $level = 0) {
 
 
 /**
- * Unfold all foldable nodes in treeview
+ * Collapse all foldable nodes in treeview
  *
  * @package treeview
  * @param   string $name     Control unique name
  * @return  boolean
  */
-function o2tree_unfold($name) {
+function o2tree_collapse($name) {
 
     $app  = $_SESSION['o2_app'];
     $prg  = $app->istanze_prg[$app->progressivo_istanze];
@@ -7693,12 +7729,48 @@ function o2tree_unfold($name) {
 /**
  * Fold a node in treeview.
  *
+ * NOTE: This function is going to be deprecated.
+ *       Use o2tree_node_expand() instead.
+ *
  * @package treeview
  * @param   string  $name      Control unique name
  * @param   mix     $node_id   Folding node ID
  * @return  boolean
  */
 function o2tree_node_fold($name, $node_id) {
+
+    return o2tree_node_expand($name, $node_id);
+
+    }
+
+
+/**
+ * Unfold a node in treeview.
+ *
+ * NOTE: This function is going to be deprecated.
+ *       Use o2tree_node_collapse() instead.
+ *
+ * @package treeview
+ * @param   string $name      Control unique name
+ * @param   mix    $node_id   Unfolding node ID
+ * @return  boolean
+ */
+function o2tree_node_unfold($name, $node_id) {
+
+    return o2tree_node_collapse($name, $node1_id);
+
+    }
+
+
+/**
+ * Fold a node in treeview.
+ *
+ * @package treeview
+ * @param   string  $name      Control unique name
+ * @param   mix     $node_id   Folding node ID
+ * @return  boolean
+ */
+function o2tree_node_expand($name, $node_id) {
 
     $app  = $_SESSION['o2_app'];
     $prg  = $app->istanze_prg[$app->progressivo_istanze];
@@ -7734,7 +7806,7 @@ function o2tree_node_fold($name, $node_id) {
  * @param   mix    $node_id   Unfolding node ID
  * @return  boolean
  */
-function o2tree_node_unfold($name, $node_id) {
+function o2tree_node_collapse($name, $node_id) {
 
     $app  = $_SESSION['o2_app'];
     $prg  = $app->istanze_prg[$app->progressivo_istanze];

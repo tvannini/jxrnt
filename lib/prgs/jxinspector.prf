@@ -364,12 +364,12 @@ function jxinspector§§unfold_all_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxinspector_exp_1() {
-	
+
 return ("jxtree jxtree_bottom_left");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_2() {
-	
+
 return (array('[root]' => array(0, '')));
 	} //|o2_fine_exp|
 
@@ -380,12 +380,12 @@ return ($cond);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_4() {
-	
+
 return (o2val('prg§_§var','element_type') == "string");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_5() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
@@ -419,7 +419,7 @@ return ($cond);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_9() {
-	
+
 return (o2val('prg§_§var','element_type') == "key");
 	} //|o2_fine_exp|
 
@@ -515,47 +515,47 @@ switch (o2val('prg§_§var','element_type')) {
 if ($list == array()) {
    $list["[info]"] = array(0, "No valid search");
    }
-o2tree_fold('result', 1);
+o2tree_expand('result', 1);
 return ($list);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_12() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_13() {
-	
+
 return ("<jx>/img/jobs/separator.png");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_14() {
-	
+
 return (o2val('prg§_§var','result'));
 	} //|o2_fine_exp|
 
 function jxinspector_exp_15() {
-	
+
 return ("jximgbtn");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_16() {
-	
+
 return ("<jx>/img/tools/tree/fold.png");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_17() {
-	
+
 return ("<jx>/img/tools/tree/unfold.png");
 	} //|o2_fine_exp|
 
 function jxinspector_exp_18() {
-	o2tree_fold("result");
+	o2tree_expand("result");
 return (true);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_19() {
-	o2tree_unfold("result");
+	o2tree_collapse("result");
 return (true);
 	} //|o2_fine_exp|
 
@@ -565,7 +565,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_21() {
-	
+
 return ("<jx>/img/tools/tree/export.png");
 	} //|o2_fine_exp|
 
@@ -590,7 +590,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_24() {
-	
+
 return ((o2exp(33) ? o2val('prg§_§var','prgs_list') : array()));
 	} //|o2_fine_exp|
 
@@ -620,7 +620,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_28() {
-	
+
 return (o2val('prg§_§var','element_type') == "model");
 	} //|o2_fine_exp|
 
@@ -648,7 +648,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_31() {
-	
+
 return (o2val('prg§_§var','element_type') == "prg_exp");
 	} //|o2_fine_exp|
 
@@ -677,7 +677,7 @@ return ($cond);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_34() {
-	
+
 return (o2val('prg§_§var','element_type') == "prg_par");
 	} //|o2_fine_exp|
 
@@ -710,7 +710,7 @@ $type     = o2val('prg§_§var','element_type');
 if ($prg_name && o2exp(36)) {
    $views = array("" => "") + o2_inspector::get_prg_views_list($prg_name);
    if ($type == "prg_view") {
-      unset($views['prg§_§var']);   
+      unset($views['prg§_§var']);
       }
    }
 else {
@@ -749,7 +749,7 @@ return ($acts);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_41() {
-	
+
 return (o2val('prg§_§var','element_type') == "appvar");
 	} //|o2_fine_exp|
 
@@ -768,22 +768,22 @@ return ($vars);
 	} //|o2_fine_exp|
 
 function jxinspector_exp_43() {
-	
+
 return ('hidden');
 	} //|o2_fine_exp|
 
 function jxinspector_exp_44() {
-	
+
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function jxinspector_exp_45() {
-	
+
 return ('nav_big');
 	} //|o2_fine_exp|
 
 function jxinspector_exp_46() {
-	
+
 return (!o2zero('prg§_§var','element_type'));
 	} //|o2_fine_exp|
 ?>

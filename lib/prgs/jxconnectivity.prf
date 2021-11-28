@@ -2674,7 +2674,7 @@ if ($needle) {
       $f_list["res"] = array(0, "No result", $imgpath."folder.png");
       }
    o2tree_def("tables", $f_list, 1, "tree_select");
-   o2tree_fold("tables");
+   o2tree_expand("tables");
    $list = $f_list;
    }
 else {
@@ -2925,7 +2925,7 @@ return (basename(o2val('prg§_§var','selected_file')));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_42() {
-	o2tree_fold("tables");
+	o2tree_expand("tables");
 return (true);
 	} //|o2_fine_exp|
 
@@ -2988,7 +2988,7 @@ return (o2val('prg§_§var','tab4check') != o2val('prg§_§var','table'));
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_53() {
-	o2tree_unfold("tables");
+	o2tree_collapse("tables");
 return (true);
 	} //|o2_fine_exp|
 

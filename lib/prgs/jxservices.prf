@@ -260,52 +260,52 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxservices_exp_2() {
-	
+
 return (o2tree_get_code('services'));
 	} //|o2_fine_exp|
 
 function jxservices_exp_3() {
-	
+
 return (o2_str_nice(o2val('prg§_§var','sele_host')));
 	} //|o2_fine_exp|
 
 function jxservices_exp_4() {
-	
+
 return ('jximgbtn');
 	} //|o2_fine_exp|
 
 function jxservices_exp_5() {
-	
+
 return ('<jx>/img/jobs/refresh.png');
 	} //|o2_fine_exp|
 
 function jxservices_exp_6() {
-	
+
 return ('<jx>/img/jobs/separator.png');
 	} //|o2_fine_exp|
 
 function jxservices_exp_7() {
-	
+
 return ('jxtoolbar');
 	} //|o2_fine_exp|
 
 function jxservices_exp_8() {
-	
+
 return ('<jx>/img/jobs/jobs24.png');
 	} //|o2_fine_exp|
 
 function jxservices_exp_9() {
-	
+
 return ('jxtree jxtree_bottom');
 	} //|o2_fine_exp|
 
 function jxservices_exp_10() {
-	
+
 return ('tools/jxjobs');
 	} //|o2_fine_exp|
 
 function jxservices_exp_11() {
-	
+
 return ('disp_area');
 	} //|o2_fine_exp|
 
@@ -315,12 +315,12 @@ return ($text);
 	} //|o2_fine_exp|
 
 function jxservices_exp_13() {
-	
+
 return ('<jx>/img/jxpowered.png');
 	} //|o2_fine_exp|
 
 function jxservices_exp_14() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
@@ -335,7 +335,7 @@ return ($type);
 	} //|o2_fine_exp|
 
 function jxservices_exp_16() {
-	
+
 return (o2val('prg§_§var','sele_type') == 'host');
 	} //|o2_fine_exp|
 
@@ -350,7 +350,7 @@ return ($host);
 	} //|o2_fine_exp|
 
 function jxservices_exp_18() {
-	
+
 return (o2val('prg§_§var','sele_type') == 'srv');
 	} //|o2_fine_exp|
 
@@ -365,42 +365,42 @@ return ($srv);
 	} //|o2_fine_exp|
 
 function jxservices_exp_20() {
-	
+
 return (o2val('prg§_§var','sele_type') != 'host');
 	} //|o2_fine_exp|
 
 function jxservices_exp_21() {
-	
+
 return (o2val('prg§_§var','sele_type') == 'host');
 	} //|o2_fine_exp|
 
 function jxservices_exp_22() {
-	
+
 return (o2val('prg§_§var','nice_host'));
 	} //|o2_fine_exp|
 
 function jxservices_exp_23() {
-	
+
 return (o2_service::get_host_services(o2val('prg§_§var','sele_host')));
 	} //|o2_fine_exp|
 
 function jxservices_exp_24() {
-	
+
 return (o2val('prg§_§var','host_services'));
 	} //|o2_fine_exp|
 
 function jxservices_exp_25() {
-	o2tree_node_fold('services', o2tree_get_selection('services'));
+	o2tree_node_expand('services', o2tree_get_selection('services'));
 return (true);
 	} //|o2_fine_exp|
 
 function jxservices_exp_26() {
-	
+
 return ('<jx>/img/jobs/srv_host.png');
 	} //|o2_fine_exp|
 
 function jxservices_exp_27() {
-	
+
 return ('<jx>/img/jobs/host_dele'.(o2val('prg§_§var','sele_type') == 'host' ? '' : '_dis').'.png');
 	} //|o2_fine_exp|
 
@@ -416,17 +416,17 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function jxservices_exp_30() {
-	
+
 return ('');
 	} //|o2_fine_exp|
 
 function jxservices_exp_31() {
-	
+
 return (array());
 	} //|o2_fine_exp|
 
 function jxservices_exp_32() {
-	
+
 return ('tools/jxservice_add_host');
 	} //|o2_fine_exp|
 
@@ -442,7 +442,7 @@ return ($img);
 	} //|o2_fine_exp|
 
 function jxservices_exp_34() {
-	
+
 return ('tools/jxcron');
 	} //|o2_fine_exp|
 
@@ -452,37 +452,37 @@ return ($code);
 	} //|o2_fine_exp|
 
 function jxservices_exp_36() {
-	
+
 return ('<jx>/img/jobs/run_job.png');
 	} //|o2_fine_exp|
 
 function jxservices_exp_37() {
-	
+
 return ('<jx>/img/jobs/scheduler.png');
 	} //|o2_fine_exp|
 
 function jxservices_exp_38() {
-	
+
 return ('tools/jxprocesses');
 	} //|o2_fine_exp|
 
 function jxservices_exp_39() {
-	
+
 return ('tools/jxscheduler');
 	} //|o2_fine_exp|
 
 function jxservices_exp_40() {
-	
+
 return ('hidden');
 	} //|o2_fine_exp|
 
 function jxservices_exp_41() {
-	
+
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function jxservices_exp_42() {
-	
+
 return ('nav_big');
 	} //|o2_fine_exp|
 ?>
