@@ -31,7 +31,7 @@
  *
  * @name      jxhtml
  * @package   janox/jxhtml.inc
- * @version   2.6
+ * @version   2.7
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */

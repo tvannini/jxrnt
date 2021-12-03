@@ -27,7 +27,7 @@
  *
  * @name      jxsdb
  * @package   janox/dbms/jxdb_jxsdb.php
- * @version   2.6
+ * @version   2.7
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */

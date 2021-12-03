@@ -6,12 +6,12 @@
  *
  * @name      jxconv
  * @package   janox/bin/jxconv.php
- * @version   2.6
+ * @version   2.7
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
-$jxrel = "2.6";
+$jxrel = "2.7";
 $info  = <<<JANOX_SCRIPT_HEAD
 
                       Janox Upgrade Tool
@@ -1002,6 +1002,42 @@ class upgrades_collection {
                 $files+= $file->get_elements();
                 }
             }
+
+        }
+
+
+    /**
+     * Upgrades application to release 2.7
+     *
+     * Add fields to system tables:
+     *  - o2_users:
+     *     - admin   User administrator flag
+     *
+     * @param string $app_name Application name
+     * @param jxdir  $app_dir  Application root directory
+     */
+    static function to2_7($app_name, $app_dir) {
+
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
+        // ________________________________________________ Get tables definition code ___
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        // ____________________________________________________________ Add new fields ___
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'admin',
+                              'admin',
+                              '_o2logical');
+        // ____________________________________________ Write down new repository code ___
+        file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
         }
 

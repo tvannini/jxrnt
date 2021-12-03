@@ -29,6 +29,7 @@ function o2sys_start§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("last_pwd_date","users","last_pwd_date",null,null,null,null);
 	$task_users->usa("force_pwd_change","users","force_pwd_change",null,null,null,null);
 	$task_users->usa("no_pwd_change","users","no_pwd_change",null,null,null,null);
+	$task_users->usa("admin","users","admin",null,null,null,null);
 	$task_users->calcola("active","_o2logical","o2sys_start_exp_46()",null,null,"o2sys_start_exp_18()",null);
 }
 
@@ -148,7 +149,8 @@ function o2sys_start§§insert_jxsys_act(&$o2exe) {
 function o2sys_start§§insert_root_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::view("users", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("users", "o2user", o2sys_start_exp_2()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::view("users", "S", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("users", "admin", o2sys_start_exp_69()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::view("users", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§ldap_with_domain_act(&$o2exe) {
@@ -191,14 +193,17 @@ function o2sys_start§§login_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::set("prg§_§var", "login_type", o2sys_start_exp_51()) && $o2exe->e();
 	$o2exe->s(7) && (o2sys_start_exp_13() || $o2exe->e()) && o2act::exe("login_std", True, "") && $o2exe->e();
 	$o2exe->s(8) && (o2sys_start_exp_48() || $o2exe->e()) && o2act::exe("login_ldap", True, "") && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("Set Administrator") && $o2exe->e();
+	$o2exe->s(10) && (o2sys_start_exp_12() || $o2exe->e()) && o2act::script(o2sys_start_exp_68()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_correct_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("_o2SESSION", "_area", o2sys_start_exp_21()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("users", "last_date", o2sys_start_exp_6()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("users", "last_time", o2sys_start_exp_7()) && $o2exe->e();
-	$o2exe->s(4) && True && o2act::view("users", "S", "") && $o2exe->e();
-	$o2exe->s(5) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
+	$o2exe->s(4) && (o2sys_start_exp_70() || $o2exe->e()) && o2act::set("users", "admin", o2sys_start_exp_69()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::view("users", "S", "") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_correct_ldap_act(&$o2exe) {
@@ -211,8 +216,9 @@ function o2sys_start§§login_correct_ldap_act(&$o2exe) {
 //	$o2exe->s(7) && True && o2act::remark("Update local password from LDAP validation") && $o2exe->e();
 //	$o2exe->s(8) && True && o2act::remark("Override app password with clear one in $_REQUEST") && $o2exe->e();
 	$o2exe->s(9) && True && o2act::set("users", "o2password", o2sys_start_exp_50()) && $o2exe->e();
-	$o2exe->s(10) && True && o2act::view("users", "S", "") && $o2exe->e();
-	$o2exe->s(11) && True && o2act::ret(6, o2sys_start_exp_18()) && $o2exe->e();
+	$o2exe->s(10) && (o2sys_start_exp_70() || $o2exe->e()) && o2act::set("users", "admin", o2sys_start_exp_69()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::view("users", "S", "") && $o2exe->e();
+	$o2exe->s(12) && True && o2act::ret(6, o2sys_start_exp_18()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_failed_act(&$o2exe) {
@@ -877,5 +883,25 @@ return (true);
 function o2sys_start_exp_67() {
 	
 return ((o2app_validate() == 1) && ($_SESSION['o2_app']->access_log == 2));
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_68() {
+	if (o2val('users','admin')) {
+   $_SESSION['o2_app']->user_is_admin = true;
+   }
+else {
+   $_SESSION['o2_app']->user_is_admin = false;
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_69() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_70() {
+	
+return (o2app_user() == 'root');
 	} //|o2_fine_exp|
 ?>
