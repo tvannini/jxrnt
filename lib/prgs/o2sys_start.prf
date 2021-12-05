@@ -902,6 +902,6 @@ return (true);
 
 function o2sys_start_exp_70() {
 	
-return (o2app_user() == 'root');
+return (o2app_user() == 'root' || o2app_user() == 'jxsys');
 	} //|o2_fine_exp|
 ?>

@@ -163,14 +163,14 @@ function jxprocesses§§start_act(&$o2exe) {
 
 function jxprocesses_exp_1() {
 	$user   = o2app_user();
-$user   = ($user == 'root' || o2par(1) ? '' : $user);
+$user   = ($o2user_is_admin() || o2par(1) ? '' : $user);
 $job    = (o2par(4) ? o2par(4) : o2val('prg§_§var','flt_job'));
 $status = o2val('prg§_§var','flt_status');
 $days   = o2val('prg§_§var','days_filter');
-$aspid  = o2val('prg§_§var','flt_aspid');  
-$code   = o2_run_job::get_monitor($user, 
-                                  'refresh', 
-                                  'refresh', 
+$aspid  = o2val('prg§_§var','flt_aspid');
+$code   = o2_run_job::get_monitor($user,
+                                  'refresh',
+                                  'refresh',
                                   'btn_click',
                                   $job,
                                   $status,
@@ -180,32 +180,32 @@ return ($code);
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_2() {
-	
+
 return ("jxtree jxtree_bottom");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_3() {
-	
+
 return ("tools/jxprocess_files");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_4() {
-	
+
 return ("jxtoolbar");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_5() {
-	
+
 return ("jximgbtn");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_6() {
-	
+
 return ("<jx>/img/jobs/refresh.png");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_7() {
-	
+
 return ("<jx>/img/jobs/separator.png");
 	} //|o2_fine_exp|
 
@@ -216,17 +216,17 @@ return ($files);
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_9() {
-	
+
 return (o2_reqpar(1) == "show");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_10() {
-	
+
 return (o2_reqpar(1) == "attach");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_11() {
-	
+
 return (!o2par(4));
 	} //|o2_fine_exp|
 
@@ -238,7 +238,7 @@ $db       = $tab->db;
 $server   = $db->server;
 $co       = constant('o2_'.$server->type.'_o');
 $cc       = constant('o2_'.$server->type.'_c');
-$select   = 'DISTINCT '.$tab->campi['job_id']->nome_fisico.' '.$co.'JOB_ID'.$cc;            
+$select   = 'DISTINCT '.$tab->campi['job_id']->nome_fisico.' '.$co.'JOB_ID'.$cc;
 $aspfld   = $tab->campi['run_aspid']->nome_fisico;
 $where    = ($aspid ?
              $aspfld."='' OR ".
@@ -270,42 +270,42 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_13() {
-	
+
 return (o2_reqpar(2));
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_14() {
-	
+
 return ("<jx>/img/jobs/jobs24.png");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_15() {
-	
+
 return ("<jx>/img/jobs/scheduler.png");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_16() {
-	
+
 return ("tools/jxprocess");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_17() {
-	
+
 return ("tools/jxjobs");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_18() {
-	
+
 return ("tools/jxscheduler");
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_19() {
-	
+
 return (!o2par(2));
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_20() {
-	
+
 return (!o2par(3));
 	} //|o2_fine_exp|
 
@@ -320,42 +320,42 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_22() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_23() {
-	
+
 return ('Filter by job name');
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_24() {
-	
+
 return ('Filter by process status');
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_25() {
-	
+
 return (3);
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_26() {
-	
+
 return (o2val('prg§_§var','jobs_names'));
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_27() {
-	
+
 return ('nav_big');
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_28() {
-	
+
 return ('hidden');
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_29() {
-	
+
 return ('nowindow');
 	} //|o2_fine_exp|
 
@@ -372,22 +372,22 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_31() {
-	
+
 return (o2val('prg§_§var','aspids'));
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_32() {
-	
+
 return ('Filter by execution date');
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_33() {
-	
+
 return ('Filter by ASP-ID');
 	} //|o2_fine_exp|
 
 function jxprocesses_exp_34() {
-	
-return (count(o2asp_codes()) && ((o2app_user() == 'root') || o2par(1)));
+
+return (count(o2asp_codes()) && (o2user_is_admin() || o2par(1)));
 	} //|o2_fine_exp|
 ?>

@@ -274,7 +274,7 @@ if ($trace['cu'] || $trace['cd'] || $trace['ct']) {
 if ($trace['uu'] || $trace['ud'] || $trace['ut']) {
    $code.= '<td class="o2_ctrl_label" style="text-align:center">Last update:</td>';
    }
-if ((o2app_runlevel() == 'DEV') || (o2app_user() == 'root')) {
+if ((o2app_runlevel() == 'DEV') || o2user_is_admin()) {
    $tname = $set['tab'];
    }
 else {

@@ -88,7 +88,7 @@ var o2jse = {
     sessName        : "PHPSESSID", /* PHP session name                                  */
     instId          : '',          /* Application instance ID (used by keep-alive)      */
     user            : "default",   /* Currently logged user                             */
-    superUser       : false,       /* If user is logged as "root" (or is DEVELOPER)     */
+    superUser       : false,       /* If user logged as Administrator (or is DEVELOPER) */
     dev             : false,       /* Developer tools collection or FALSE if no devmode */
     decimalsPoint   : ',',         /* Character to use as decimal point separator       */
     thousandsPoint  : ' ',         /* Character to use as thousands point separator     */
@@ -871,6 +871,17 @@ o2jse.conf.user = function(userId) {
     if (userId.toLowerCase() == "root") {
         o2jse.superUser = true;
         }
+
+    };
+
+
+/**
+ * Sets currently logged user as Administrator
+ *
+ */
+ o2jse.conf.superUser = function() {
+
+    o2jse.superUser = true;
 
     };
 

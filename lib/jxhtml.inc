@@ -334,6 +334,7 @@ class o2html {
               ($app->run_level == 'DEV' ? $so.$rnt_alias.'js/dev.js'.$sc : '').
               ($app->menu_link ? $so.$app->menu_link.$sc : '').
               "<script>\no2jse.conf.user('".$app->user."');\n".
+              ($app->user_is_admin ? "o2jse.conf.superUser();\n" : '').
               "o2jse.conf.rntAlias('".$rnt_alias."');\n".
               "o2jse.conf.sessName('".$app->session_name."');\n".
               ($app->keep_alive ?
@@ -578,7 +579,7 @@ class o2html {
             }
         // _____________________________________________________ Menu must be produced ___
         if (!$app->menu_link &&
-            ($menu_name || $app->user == "root" || $app->run_level == "DEV")) {
+            ($menu_name || $app->user_is_admin || $app->run_level == "DEV")) {
             print "<script>\n";
             // ____________________________________________________ Start caching code ___
             $htmllen = ob_get_length();
@@ -591,7 +592,7 @@ class o2html {
                 print "};\n";
                 }
             // ____________________________________________________________ Admin menu ___
-            if ($app->user == "root" || $app->run_level == "DEV") {
+            if ($app->user_is_admin || $app->run_level == "DEV") {
                 // ____________________________________________ Menu translation tools ___
                 if ($app->multilang) {
                     o2html::lang_menu($app->menu["o2admin"]);
@@ -1458,7 +1459,7 @@ class o2html {
         if ($_REQUEST['jxlogctrl']) {
             $app->intcall("tools/o2sys_datahistory",
                           $prg_local->log_history($_REQUEST['jxlogctrl'], true),
-                          ($app->developer || ($app->user == 'root')));
+                          ($app->developer || $app->user_is_admin));
             }
         // ____________________________________________________ Execute system actions ___
         if ($_REQUEST['jxact']) {

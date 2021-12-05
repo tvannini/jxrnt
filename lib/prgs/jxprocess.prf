@@ -467,7 +467,7 @@ function jxprocess§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxprocess_exp_1() {
-	
+
 return (o2_run_job::get_by_id(o2par(1)));
 	} //|o2_fine_exp|
 
@@ -526,10 +526,10 @@ function jxprocess_exp_10() {
 	$img    = "<jx>/img/jobs/";
 $status = o2val('prg§_§var','run_status');
 if ($status == "Running") {
-   $img.= "pause24.png"; 
+   $img.= "pause24.png";
    }
 else {
-   $img.= "pause_dis24.png"; 
+   $img.= "pause_dis24.png";
    }
 return ($img);
 	} //|o2_fine_exp|
@@ -590,18 +590,18 @@ return ($val);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_16() {
-	
+
 return (o2val('prg§_§var','run_params'));
 	} //|o2_fine_exp|
 
 function jxprocess_exp_17() {
-	$job = o2_job::get_by_id(o2val('prg§_§var','run_job')); 
+	$job = o2_job::get_by_id(o2val('prg§_§var','run_job'));
 $val = $job->name;
 return ($val);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_18() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
@@ -632,17 +632,17 @@ return ($img);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_21() {
-	
+
 return ("nav_big");
 	} //|o2_fine_exp|
 
 function jxprocess_exp_22() {
-	
+
 return ("<jx>/img/jobs/separator.png");
 	} //|o2_fine_exp|
 
 function jxprocess_exp_23() {
-	
+
 return ("<jx>/img/jobs/refresh.png");
 	} //|o2_fine_exp|
 
@@ -650,16 +650,16 @@ function jxprocess_exp_24() {
 	$img    = "<jx>/img/jobs/";
 $status = o2val('prg§_§var','run_status');
 if ($status == "Running" || $status == "Queued") {
-   $img.= "stop24.png"; 
+   $img.= "stop24.png";
    }
 else {
-   $img.= "stop_dis24.png"; 
+   $img.= "stop_dis24.png";
    }
 return ($img);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_25() {
-	
+
 return (o2val('prg§_§var','run_status') == "Running" || o2val('prg§_§var','run_status') == "Queued");
 	} //|o2_fine_exp|
 
@@ -667,10 +667,10 @@ function jxprocess_exp_26() {
 	$params = o2val('prg§_§var','run_files');
 $img    = "<jx>/img/jobs/";
 if (is_array($params) && count($params)) {
-   $img.= "attach24.png"; 
+   $img.= "attach24.png";
    }
 else {
-   $img.= "attach_dis24.png"; 
+   $img.= "attach_dis24.png";
    }
 return ($img);
 	} //|o2_fine_exp|
@@ -684,16 +684,16 @@ return ($cond);
 function jxprocess_exp_28() {
 	$img = "<jx>/img/jobs/";
 if (o2zero('prg§_§var','run_error')) {
-   $img.= "error_dis24.png"; 
+   $img.= "error_dis24.png";
    }
 else {
-   $img.= "error24.png"; 
+   $img.= "error24.png";
    }
 return ($img);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_29() {
-	
+
 return (!o2zero('prg§_§var','run_error'));
 	} //|o2_fine_exp|
 
@@ -704,17 +704,17 @@ return ($val);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_31() {
-	
+
 return (o2val('prg§_§var','show_error'));
 	} //|o2_fine_exp|
 
 function jxprocess_exp_32() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_33() {
-	
+
 return (o2val('prg§_§var','show_files'));
 	} //|o2_fine_exp|
 
@@ -725,7 +725,7 @@ foreach (o2val('prg§_§var','run_files') as $path) {
    $style = 'style="background-color:#ffffff;border:1px solid #bbbbbb;cursor:pointer;padding:3px;"';
    $div   = '<div '.$style.' onclick="'.o2_act4js(0, "show_file", $path).'">'.$file.'</div>';
    $dwnl  = '<div><img class="jximgbtn" onclick="'.o2_act4js(0, "download_file", $path).
-            '" title="Download" src="'.o2rnt_alias().'img/jobs/attach24.png"></div>';  
+            '" title="Download" src="'.o2rnt_alias().'img/jobs/attach24.png"></div>';
    $code .= '<tr><td>'.$div.'</td><td>'.$dwnl.'</td></tr>';
    }
 $code.= '</table>';
@@ -739,32 +739,32 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_36() {
-	
+
 return ("jximgbtn");
 	} //|o2_fine_exp|
 
 function jxprocess_exp_37() {
-	
+
 return ((o2val('prg§_§var','run_status') == "Running" ? "jximgbtn" : ""));
 	} //|o2_fine_exp|
 
 function jxprocess_exp_38() {
-	
+
 return ((o2exp(27) ? "jximgbtn" : ""));
 	} //|o2_fine_exp|
 
 function jxprocess_exp_39() {
-	
+
 return ((o2exp(29) ? "jximgbtn" : ""));
 	} //|o2_fine_exp|
 
 function jxprocess_exp_40() {
-	
+
 return ("tools/jxvisor");
 	} //|o2_fine_exp|
 
 function jxprocess_exp_41() {
-	
+
 return (o2_reqpar(1));
 	} //|o2_fine_exp|
 
@@ -775,33 +775,33 @@ return ($host);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_43() {
-	
-return ('<jx>/img/jobs/reexe'.(o2app_user() == 'root' ? '' : '_dis').'.png');
+
+return ('<jx>/img/jobs/reexe'.(o2user_is_admin() ? '' : '_dis').'.png');
 	} //|o2_fine_exp|
 
 function jxprocess_exp_44() {
 	$run_job = o2val('prg§_§var','run_obj');
-$new_job = o2_run_job::queue(o2_job::get_by_id($run_job->job), 
-                             $run_job->params, 
-                             $run_job->aspid,                              
+$new_job = o2_run_job::queue(o2_job::get_by_id($run_job->job),
+                             $run_job->params,
+                             $run_job->aspid,
                              $run_job->service);
 $new_id  = $new_job->id;
 return ($new_id);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_45() {
-	
+
 return (o2_run_job::get_by_id(o2val('prg§_§var','new_run_id')));
 	} //|o2_fine_exp|
 
 function jxprocess_exp_46() {
-	
-return (o2app_user() == 'root');
+
+return (o2user_is_admin());
 	} //|o2_fine_exp|
 
 function jxprocess_exp_47() {
-	
-return ((o2app_user() == 'root' ? 'jximgbtn' : ''));
+
+return ((o2user_is_admin() ? 'jximgbtn' : ''));
 	} //|o2_fine_exp|
 
 function jxprocess_exp_48() {
@@ -811,13 +811,13 @@ return ($val);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_49() {
-	
+
 return ('disp_area');
 	} //|o2_fine_exp|
 
 function jxprocess_exp_50() {
-	
-return (o2app_user() == 'root' || o2app_runlevel() == 'DEV');
+
+return (o2user_is_admin() || o2app_runlevel() == 'DEV');
 	} //|o2_fine_exp|
 
 function jxprocess_exp_51() {
@@ -826,7 +826,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_52() {
-	$zip  = new ZipArchive(); 
+	$zip  = new ZipArchive();
 $name = o2app_dir_tmp().o2val('prg§_§var','job_name').'-'.o2val('prg§_§var','run_id').'.zip';
 o2file_delete($name);
 $zip->open($name, ZipArchive::CREATE);
@@ -857,7 +857,7 @@ return ($desc);
 	} //|o2_fine_exp|
 
 function jxprocess_exp_55() {
-	
+
 return (!o2zero('prg§_§var','run_sched_id'));
 	} //|o2_fine_exp|
 ?>

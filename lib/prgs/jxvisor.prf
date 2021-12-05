@@ -72,12 +72,12 @@ function jxvisor§§write_option_act(&$o2exe) {
 
 function jxvisor_exp_1() {
 	$user = o2app_user();
-$user = ($user == "root" ? "" : $user);
+$user = (o2user_is_admin() ? "" : $user);
 return ($user);
 	} //|o2_fine_exp|
 
 function jxvisor_exp_2() {
-	$left = o2val('prg§_§var','win_x'); 
+	$left = o2val('prg§_§var','win_x');
 if (!$left) {
    $left = 160;
    }
@@ -109,77 +109,77 @@ return ($width);
 	} //|o2_fine_exp|
 
 function jxvisor_exp_6() {
-	
+
 return (o2_path(o2par(1)));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_7() {
-	
+
 return (o2val('prg§_§var','option_code'));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_8() {
-	
+
 return ("visor_left");
 	} //|o2_fine_exp|
 
 function jxvisor_exp_9() {
-	
+
 return (o2form_x("jxvisor_1"));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_10() {
-	
+
 return ("visor_top");
 	} //|o2_fine_exp|
 
 function jxvisor_exp_11() {
-	
+
 return (o2form_y("jxvisor_1"));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_12() {
-	
+
 return ("visor_width");
 	} //|o2_fine_exp|
 
 function jxvisor_exp_13() {
-	
+
 return (o2form_width("jxvisor_1"));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_14() {
-	
+
 return ("visor_height");
 	} //|o2_fine_exp|
 
 function jxvisor_exp_15() {
-	
+
 return (o2form_height("jxvisor_1"));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_16() {
-	
+
 return (!o2view_rec("options"));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_17() {
-	
+
 return (o2val('options','value'));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_18() {
-	
+
 return (basename(o2par(1)));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_19() {
-	
+
 return (o2val('prg§_§var','option_value'));
 	} //|o2_fine_exp|
 
 function jxvisor_exp_20() {
-	
+
 return (o2val('prg§_§var','url'));
 	} //|o2_fine_exp|
 

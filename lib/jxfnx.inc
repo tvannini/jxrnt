@@ -1321,8 +1321,8 @@ function o2session_is_scheduler() {
  *
  * Function returns boolean new application lock status.
  *
- * ATTENTION: This function is intended to be an administrative tool and only "root" and
- *            developers can call this function!
+ * ATTENTION: This function is intended to be an administrative tool and only
+ *            administrators and developers can call this function!
  *
  * @package   session
  * @parameter $on
@@ -1333,7 +1333,7 @@ function o2session_lock($on = true) {
 
     $app = $_SESSION['o2_app'];
     $ret = $app->lock;
-    if (($app->user == 'root' || $app->run_level == 'DEV') && $app->lock != $on) {
+    if (($app->user_is_admin || $app->run_level == 'DEV') && $app->lock != $on) {
         $res = $app->intcall('tools/jxlock', true);
         $ret = $res[1];
         }
@@ -1935,6 +1935,20 @@ function o2user_is($role_name) {
     else {
         return true;
         }
+
+    }
+
+
+/**
+ * Returns TRUE if logged user is Administrator
+ *
+ * @package user
+ * @return  boolean
+ * @see     o2user_is(), o2user_roles(), o2user_has()
+ */
+function o2user_is_admin() {
+
+    return ($_SESSION['o2_app']->user_is_admin ? true : false);
 
     }
 

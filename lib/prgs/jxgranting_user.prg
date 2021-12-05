@@ -1,5 +1,5 @@
 <?php
-//2.6
+//2.7
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -37,6 +37,7 @@ o2def::par(4, "login_type", "o2sys_login_type");
 o2def::par(5, "pwds_history", "o2sys_long_str");
 o2def::par(6, "force_pwd_change", "_o2logical");
 o2def::par(7, "no_pwd_change", "_o2logical");
-o2def::par(8, "create_ok", "_o2logical");
+o2def::par(8, "admin", "_o2logical");
+o2def::par(9, "create_ok", "_o2logical");
 
 ?>

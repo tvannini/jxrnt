@@ -443,89 +443,89 @@ function jxdoc_start§§verify_links_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxdoc_start_exp_1() {
-	
+
 return (o2par(1));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_2() {
-	
+
 return (o2par(5));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_3() {
-	
+
 return (o2val('container','node_id'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_4() {
-	
+
 return ("Add parent control \"".(o2par(6) ? o2par(6) : o2par(5))."\" documentation");
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_5() {
-	
+
 return (o2val('prg§_§var','selected_node'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_6() {
-	
+
 return (o2par(5) && o2zero('container','node_id'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_7() {
-	
+
 return (o2par(2));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_8() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_9() {
-	
+
 return ("Control ".o2par(4));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_10() {
-	$parent = (o2zero('container','node_id') ? 
-           o2val('app_links_form','node_id') : 
+	$parent = (o2zero('container','node_id') ?
+           o2val('app_links_form','node_id') :
            o2val('container','node_id'));
 return ($parent);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_11() {
-	
+
 return ("Window ".o2par(3));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_12() {
-	
+
 return ("Program ".o2par(2));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_13() {
-	
+
 return (o2par(2));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_14() {
-	
+
 return (o2par(3));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_15() {
-	
+
 return (o2par(4));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_16() {
-	
+
 return ((o2par(6) ? o2par(6) : "Container ".o2par(5)));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_17() {
-	
+
 return ("ctrl::".o2par(5).(o2par(6) ? "_".o2par(6) : ""));
 	} //|o2_fine_exp|
 
@@ -539,7 +539,7 @@ return ($type);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_19() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
@@ -554,7 +554,7 @@ return ($type);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_21() {
-	
+
 return (995);
 	} //|o2_fine_exp|
 
@@ -568,7 +568,7 @@ return ($level);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_23() {
-	
+
 return (o2par(5) && o2zero('container','node_id') && o2val('prg§_§var','insert_level') == "C");
 	} //|o2_fine_exp|
 
@@ -578,11 +578,11 @@ if (o2val('prg§_§var','insert_level')) {
    switch (o2val('prg§_§var','insert_level')) {
       case "C":
          $text = 'control "'.o2par(4).'"';
-         break; 
+         break;
       case "F":
          $text = ($r == "C" ? 'control "'.o2par(4).'" + ' : '').
                  'form "'.o2par(3).'"';
-         break; 
+         break;
       case "P":
          $text = ($r == "C" ? 'control "'.o2par(4).'" + ' : '').
                  ($r == "C" || $r == "F" ? 'form "'.o2par(3).'" + ' : '').
@@ -601,10 +601,10 @@ function jxdoc_start_exp_25() {
 	switch (o2val('prg§_§var','link_found')) {
        case "C":
             $text = "control ".o2par(4);
-            break; 
+            break;
        case "F":
             $text = "form ".o2par(3);
-            break; 
+            break;
        case "P":
             $text = "program ".o2par(2);
             break;
@@ -614,178 +614,178 @@ return ($text);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_26() {
-	
+
 return (o2val('prg§_§var','selected_node'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_27() {
-	
+
 return (o2par(5).(o2par(6) ? "|".o2par(6) : ""));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_28() {
-	
+
 return ("Add grand-parent control \"".(o2par(8) ? o2par(8) : o2par(7))."\" documentation");
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_29() {
-	$node = (!o2zero('app_links_ctrl','node_id') ? 
-         o2val('app_links_ctrl','node_id') : 
-         (!o2zero('app_links_form','node_id') ? 
-          o2val('app_links_form','node_id') : 
+	$node = (!o2zero('app_links_ctrl','node_id') ?
+         o2val('app_links_ctrl','node_id') :
+         (!o2zero('app_links_form','node_id') ?
+          o2val('app_links_form','node_id') :
           o2val('app_link_prg','node_id')));
 return ($node);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_30() {
-	
+
 return (o2par(2) && o2val('app_link_prg','node_id'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_31() {
-	
+
 return (0);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_32() {
-	
+
 return (o2val('prg§_§var','insert_level') == "C");
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_33() {
-	
+
 return (o2val('prg§_§var','insert_level') == "F");
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_34() {
-	
+
 return (o2val('prg§_§var','insert_level') == "P");
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_35() {
-	
+
 return (o2val('prg§_§var','link_found') >= o2val('prg§_§var','link_request'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_36() {
-	
+
 return (o2val('nodes_id','id') + 1);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_37() {
-	
+
 return ("ctrl::".o2par(4));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_38() {
-	
+
 return (997);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_39() {
-	
+
 return (o2val('app_links_form','node_id'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_40() {
-	
+
 return (o2val('sub_nodes','position') + 1);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_41() {
-	
+
 return (o2val('prg§_§var','position_local'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_42() {
-	
+
 return ("form::".o2par(3));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_43() {
-	
+
 return (o2val('app_link_prg','node_id'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_44() {
-	
+
 return (998);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_45() {
-	
+
 return (o2par(7) && o2zero('p_container','node_id') && o2val('prg§_§var','insert_level') == "C");
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_46() {
-	
+
 return ("prg::".o2par(2));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_47() {
-	
+
 return (999);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_48() {
-	
+
 return (o2val('p_container','node_id'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_49() {
-	
+
 return ((o2app_name() == "jxdoc" ? "jxdoc_node" : "doc/jxdoc_node"));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_50() {
-	
+
 return (o2par(7).(o2par(8) ? "|".o2par(8) : ""));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_51() {
 	$val = (o2val('prg§_§var','insert_level') == "C" ?
-        (o2zero('p_container','node_id') ?  
-         (o2zero('container','node_id') ? 
-          o2val('app_links_form','node_id') : 
+        (o2zero('p_container','node_id') ?
+         (o2zero('container','node_id') ?
+          o2val('app_links_form','node_id') :
           o2val('container','node_id')) :
-         o2val('p_container','node_id')) : 
-        (o2val('prg§_§var','insert_level') == "F" ? 
+         o2val('p_container','node_id')) :
+        (o2val('prg§_§var','insert_level') == "F" ?
          o2val('app_link_prg','node_id') : 0));
 return ($val);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_52() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_53() {
-	
+
 return (o2val('prg§_§var','insert_level'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_54() {
-	
+
 return ((o2app_name() == "jxdoc" ? "nodes_select" : "doc/nodes_select"));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_55() {
-	
+
 return (o2par(7) && o2zero('p_container','node_id'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_56() {
-	
+
 return ("ctrl::".o2par(7).(o2par(8) ? "_".o2par(8) : ""));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_57() {
-	
+
 return ((o2par(8) ? o2par(8) : "Container ".o2par(7)));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_58() {
-	$parent = (o2zero('p_container','node_id') ? 
+	$parent = (o2zero('p_container','node_id') ?
            o2val('app_links_form','node_id') :
            o2val('p_container','node_id'));
 return ($parent);
@@ -796,10 +796,10 @@ function jxdoc_start_exp_59() {
    switch (o2val('prg§_§var','insert_level')) {
       case "C":
          $text = 'control "'.o2par(4).'"';
-         break; 
+         break;
       case "F":
          $text = 'form "'.o2par(3).'"';
-         break; 
+         break;
       case "P":
          $text = 'program "'.o2par(2).'"';
          break;
@@ -814,71 +814,71 @@ return ($text);
 
 function jxdoc_start_exp_60() {
 	$r    = o2val('prg§_§var','link_request');
-$f    = o2val('prg§_§var','link_found');   
+$f    = o2val('prg§_§var','link_found');
 $cond = ($r == "C") && ($f != "C");
 return ($cond);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_61() {
 	$r    = o2val('prg§_§var','link_request');
-$f    = o2val('prg§_§var','link_found');   
+$f    = o2val('prg§_§var','link_found');
 $cond = ($r == "C" || $r == "F") && ($f != "C") && ($f != "F");
 return ($cond);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_62() {
-	$f    = o2val('prg§_§var','link_found');   
+	$f    = o2val('prg§_§var','link_found');
 $cond = ($f != "P") && ($f != "F") && ($f != "C");
 return ($cond);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_63() {
-	
+
 return (o2val('prg§_§var','link_request') != o2val('prg§_§var','insert_level'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_64() {
-	
+
 return (o2val('prg§_§var','id_from_selection'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_65() {
-	
+
 return (o2val('prg_forms','position') + 1);
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_66() {
-	
-return (o2app_developer() || o2app_user() == "root");
+
+return (o2app_developer() || o2user_is_admin());
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_67() {
-	
+
 return (o2val('prg§_§var','selected_node') && o2val('prg§_§var','edit_mode'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_68() {
-	
+
 return (o2val('prg§_§var','selected_node') && !o2val('prg§_§var','edit_mode'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_69() {
-	
+
 return (o2val('prg§_§var','link_found'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_70() {
-	
+
 return (o2zero('prg§_§var','link_found') && !o2val('prg§_§var','edit_mode'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_71() {
-	
+
 return (o2val('prg§_§var','edit_mode'));
 	} //|o2_fine_exp|
 
 function jxdoc_start_exp_72() {
-	
+
 return ((o2app_name() == "jxdoc" ? "get_settings" : "doc/get_settings"));
 	} //|o2_fine_exp|
 

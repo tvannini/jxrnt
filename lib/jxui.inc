@@ -1129,7 +1129,7 @@ class o2_form {
             // ____________________________________________________ Controls profiling ___
             if (($app->profiling == "C" || $app->profiling == "B") &&
                 ($this->id_esecuzione == count($app->istanze_prg)) &&
-                ($app->user != 'root') && !$prg->internal_tool) {
+                !$app->user_is_admin && !$prg->internal_tool) {
                 $app->intcall("tools/o2sys_filter_ctrl", $this->nome);
                 }
             }
@@ -5547,7 +5547,7 @@ class o2_ctrl_tab extends o2_ctrl {
         $prg   = $app->istanze_prg[$this->id_esecuzione];
         $prg_n = $prg->nome;
         $view  = $this->view_obj;
-        $user  = ($app->user == "root" ? "" : $app->user);
+        $user  = ($app->user_is_admin ? "" : $app->user);
         // ________________________________________________________ Global persistence ___
         $cs_tab    = $app->get_table("o2_custom_grids");
         $cs_db     = $cs_tab->db;
@@ -5675,7 +5675,7 @@ class o2_ctrl_tab extends o2_ctrl {
         $prg  = $app->istanze_prg[$this->id_esecuzione];
         $form = $this->form_obj;
         $view = $this->view_obj;
-        $user = ($app->user == "root" ? "" : $app->user);
+        $user = ($app->user_is_admin ? "" : $app->user);
         // _________________________________________________________ Local persistance ___
         if (isset($prg->custom_grids[$view->nome]["R"])) {
             unset($prg->custom_grids[$view->nome]["R"]);

@@ -428,7 +428,7 @@ function o2sys_fs_browser_exp_5() {
 elseif (o2app_runlevel() == "DEV") {
    $folder = o2app_dir_home();
    }
-elseif (o2app_user() != "root") {
+elseif (!o2user_is_admin()) {
    $folder = o2app_dir_user();
    }
 else {

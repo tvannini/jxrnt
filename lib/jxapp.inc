@@ -88,6 +88,7 @@ class o2_app {
     public $session_id         = '';        /* Session unique id                        */
     public $terminal_id        = 0;         /* Terminal ID, common to user multisession */
     public $user               = 'default'; /* Logged user ID                           */
+    public $user_is_admin      = false;     /* If logged user is Administrator          */
     public $password           = '';        /* Logged user password                     */
     public $password_strength  = 0;         /* Rules to enforce password strength       */
     public $password_change    = false;     /* Force password to be changed every N days*/
@@ -952,7 +953,7 @@ class o2_app {
                         $this->db[$single_db]->set_sysrel($rnt_rel);
                         }
                     // __________________________________ If user is developer or root ___
-                    elseif ($this->user == "root" || $this->run_level == "DEV") {
+                    elseif (o2user_is_admin() || $this->run_level == "DEV") {
                         switch ($this->runtime->interface) {
                             case "HTML":
                                 o2html::page_prefix();
@@ -1809,9 +1810,7 @@ class o2_app {
      */
     function is_user($role_name) {
 
-        return (($this->user == "root") ||
-                ($this->user == "jxsys") ||
-                in_array($role_name, $this->user_roles));
+        return ($this->user_is_admin || in_array($role_name, $this->user_roles));
 
         }
 
@@ -1824,9 +1823,7 @@ class o2_app {
      */
     function has_right($right_code) {
 
-        return (($this->user == "root") ||
-                ($this->user == "jxsys") ||
-                in_array($right_code, $this->user_rights));
+        return ($this->user_is_admin || in_array($right_code, $this->user_rights));
 
         }
 
@@ -1857,7 +1854,7 @@ class o2_app {
              $this->force_pwd_change) = $this->intcall("tools/o2sys_start");
         // ________________________________________________ Lock for Under Maintenance ___
         if ($this->option_get("lock")) {
-            if ($this->user != "root" && $this->run_level != "DEV") {
+            if (!$this->user_is_admin && $this->run_level != "DEV") {
                 if ($this->lock_page) {
                     o2act::gotourl($this->alias.$this->lock_page);
                     }
@@ -1879,7 +1876,7 @@ class o2_app {
         $this->runtime->decimals_point  = $this->decimals_point();
         $this->runtime->thousands_point = $this->thousands_point();
         // ________________________________________________________________ Admin menu ___
-        if ($this->user == "root" || $this->run_level == "DEV") {
+        if ($this->user_is_admin || $this->run_level == "DEV") {
             $this->runtime->menu();
             if (!$this->doc_activate() && isset($this->menu['jxdoc_folder'])) {
                 unset($this->menu['jxdoc_folder']);
@@ -2659,7 +2656,7 @@ class o2_app {
                     if (($this->profiling == "M" || $this->profiling == "B") &&
                         !isset($this->menu_prgs[$_REQUEST['o2c']]) &&
                         $this->run_level != "DEV" &&
-                        ($this->user != "root" ||
+                        (!$this->user_is_admin ||
                          substr($_REQUEST['o2c'], 0, 6) != "tools/")) {
                         throw new o2_exception("Can't call program <i>".$_REQUEST['o2c'].
                                                "</i>",

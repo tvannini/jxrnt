@@ -50,12 +50,12 @@ function o2sys_filter_menu§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_filter_menu_exp_1() {
-	
+
 return ("M");
 	} //|o2_fine_exp|
 
 function o2sys_filter_menu_exp_2() {
-	
+
 return (o2val('prg§_§var','right_vis') && !o2val('prg§_§var','user_has_right'));
 	} //|o2_fine_exp|
 
@@ -73,12 +73,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_filter_menu_exp_4() {
-	
-return (o2app_user() == "root");
+
+return (o2user_is_admin());
 	} //|o2_fine_exp|
 
 function o2sys_filter_menu_exp_5() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
@@ -91,7 +91,7 @@ return ($l);
 	} //|o2_fine_exp|
 
 function o2sys_filter_menu_exp_7() {
-	
+
 return (o2val('prg§_§var','right_vis') && o2val('prg§_§var','user_has_right'));
 	} //|o2_fine_exp|
 
@@ -119,17 +119,17 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_filter_menu_exp_10() {
-	
+
 return (count(o2val('prg§_§var','exclude_list')));
 	} //|o2_fine_exp|
 
 function o2sys_filter_menu_exp_11() {
-	
+
 return (!o2zero('objs_rights','right_vis'));
 	} //|o2_fine_exp|
 
 function o2sys_filter_menu_exp_12() {
-	
+
 return (o2user_has(o2val('objs_rights','right_vis')));
 	} //|o2_fine_exp|
 ?>

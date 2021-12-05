@@ -904,7 +904,7 @@ class o2_prg {
                                   $csf_col.' '.$co.$csn_col.$cc.','.
                                   $csf_value.' '.$co.$csn_value.$cc;
             // ____________________________ Blank user records are default set by root ___
-            if ($app->user == 'root') {
+            if ($app->user_is_admin) {
                 $where = $csf_user."='' AND ".$csf_prg."='".$this->nome."'";
                 }
             else {

@@ -1099,7 +1099,7 @@ function o2sys_key_mapping§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_key_mapping_exp_1() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
@@ -1124,12 +1124,12 @@ $html = '<script>
                    jxkm_altKey   = window.event.altKey;
                    }
               o2jse.ctrl.init(jxkm_target);
-              var baseName          = jxkm_target.id;              
-              var exeId             = '.$id.';         
+              var baseName          = jxkm_target.id;
+              var exeId             = '.$id.';
               var elementKey        = o2jse.infoForm[baseName + "_key"   + exeId];
               var elementShift      = o2jse.infoForm[baseName + "_shift" + exeId];
               var elementCtrl       = o2jse.infoForm[baseName + "_ctrl"  + exeId];
-              var elementAlt        = o2jse.infoForm[baseName + "_alt"   + exeId];              
+              var elementAlt        = o2jse.infoForm[baseName + "_alt"   + exeId];
               elementKey.disabled   = false;
               elementKey.readonly   = true;
               elementShift.disabled = false;
@@ -1137,7 +1137,7 @@ $html = '<script>
               elementCtrl.disabled  = false;
               elementCtrl.readonly  = true;
               elementAlt.disabled   = false;
-              elementAlt.readonly   = true;                            
+              elementAlt.readonly   = true;
               elementKey.value   = jxkm_key;
               elementShift.value = (jxkm_shiftKey ? "X" : "");
               elementCtrl.value  = (jxkm_ctrlKey  ? "X" : "");
@@ -1265,67 +1265,67 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_14() {
-	
+
 return (o2val('prg§_§var','user_code'));
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_15() {
-	
+
 return (o2val('prg§_§var','option_code'));
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_16() {
-	
+
 return ("keyb_nav_first");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_17() {
-	
+
 return ("keyb_nav_prevpg");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_18() {
-	
+
 return ("keyb_nav_prev");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_19() {
-	
+
 return ("keyb_nav_next");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_20() {
-	
+
 return ("keyb_nav_nextpg");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_21() {
-	
+
 return ("keyb_nav_last");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_22() {
-	
+
 return ("keyb_nav_sele");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_23() {
-	
+
 return ("keyb_nav_new");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_24() {
-	
+
 return ("keyb_nav_del");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_25() {
-	
+
 return ("keyb_nav_save");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_26() {
-	
+
 return ("keyb_nav_undo");
 	} //|o2_fine_exp|
 
@@ -1354,12 +1354,12 @@ return ($key);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_31() {
-	
+
 return (o2val('prg§_§var','user_code'));
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_32() {
-	
+
 return (!o2view_rec("options"));
 	} //|o2_fine_exp|
 
@@ -1452,77 +1452,77 @@ return ($value);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_44() {
-	
+
 return (36);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_45() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_46() {
-	
+
 return (33);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_47() {
-	
+
 return (38);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_48() {
-	
+
 return (40);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_49() {
-	
+
 return (34);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_50() {
-	
+
 return (35);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_51() {
-	
+
 return (13);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_52() {
-	
+
 return (115);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_53() {
-	
+
 return (119);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_54() {
-	
+
 return (123);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_55() {
-	
+
 return (113);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_56() {
-	
+
 return ("X");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_57() {
-	
-return ((o2app_user() != "" ? (o2app_user() != "root" ? o2app_user() : "") : "default"));
+
+return ((o2app_user() != "" ? (!o2user_is_admin() ? o2app_user() : "") : "default"));
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_58() {
-	
+
 return ("keyb_nav_detail");
 	} //|o2_fine_exp|
 
@@ -1535,7 +1535,7 @@ return ($value);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_60() {
-	
+
 return (32);
 	} //|o2_fine_exp|
 
@@ -1549,7 +1549,7 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_62() {
-	$html = '<div id="exit" 
+	$html = '<div id="exit"
               title="Close window"
               class="o2_form_exit"
               tabindex="0"
@@ -1558,7 +1558,7 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_63() {
-	
+
 return ("keyb_form_exit");
 	} //|o2_fine_exp|
 
@@ -1571,12 +1571,12 @@ return ($value);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_65() {
-	
+
 return (27);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_66() {
-	
+
 return ("keyb_form_refresh");
 	} //|o2_fine_exp|
 
@@ -1589,7 +1589,7 @@ return ($value);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_68() {
-	
+
 return (116);
 	} //|o2_fine_exp|
 
@@ -1613,12 +1613,12 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_103() {
-	
+
 return ("keyb_ctrl_zoom");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_104() {
-	
+
 return (90);
 	} //|o2_fine_exp|
 

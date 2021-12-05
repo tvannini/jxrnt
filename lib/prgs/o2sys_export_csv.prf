@@ -454,42 +454,42 @@ function o2sys_export_csv§§write_options_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_export_csv_exp_1() {
-	
+
 return (array("," => ",", ";" => ";"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_2() {
-	
+
 return (array('D' => '"', "S" => "'"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_3() {
-	
+
 return (array("." => ".", "," => ","));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_4() {
-	
+
 return (array("" => "None", "/" => "/", "-" => "-", "." => "."));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_5() {
-	
+
 return (array("" => "None", ":" => ":"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_6() {
-	
-return ((o2app_user() != 'root' ? o2app_user() : ''));
+
+return (o2user_is_admin() ? '' : o2app_user());
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_7() {
-	
+
 return (o2val('prg§_§var','option_code'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_8() {
-	
+
 return ("csv_field_sep");
 	} //|o2_fine_exp|
 
@@ -505,7 +505,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_10() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
@@ -540,7 +540,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_12() {
-	
+
 return ("<jx>/img/wait.gif");
 	} //|o2_fine_exp|
 
@@ -559,87 +559,87 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_14() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_15() {
-	
+
 return ("csv_text_delimiter");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_16() {
-	
+
 return ("csv_decimal_sep");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_17() {
-	
+
 return ("csv_date_sep");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_18() {
-	
+
 return ("csv_date_format");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_19() {
-	
+
 return ("csv_time_sep");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_20() {
-	
+
 return ("csv_time_seconds");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_21() {
-	
+
 return (o2val('user_options','value'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_22() {
-	
+
 return (!o2view_rec("user_options"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_23() {
-	
+
 return (o2val('prg§_§var','fields_sep'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_24() {
-	
+
 return (o2val('prg§_§var','text_del'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_25() {
-	
+
 return (o2val('prg§_§var','decimal_point'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_26() {
-	
+
 return (o2val('prg§_§var','date_sep'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_27() {
-	
+
 return (o2val('prg§_§var','date_format'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_28() {
-	
+
 return (o2val('prg§_§var','time_sep'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_29() {
-	
+
 return (o2val('prg§_§var','with_seconds'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_30() {
-	
+
 return (trim(o2par(1))."_".date("Ymd_Hms"));
 	} //|o2_fine_exp|
 
@@ -659,14 +659,14 @@ foreach ($prg->form as $form) {
                 $form->controlli[$ctrl->padre]->tipo_ctrl == "tab") {
                if ($ctrl->info_padre[3]) {
                   if ($app->multilang) {
-                     $title = $app->translate($ctrl->nome, 
-                                              'grid_title', 
-                                              0, 
-                                              $ctrl->info_padre[3]); 
-                     }  
+                     $title = $app->translate($ctrl->nome,
+                                              'grid_title',
+                                              0,
+                                              $ctrl->info_padre[3]);
+                     }
                   else {
                      $title = $ctrl->info_padre[3];
-                     }              
+                     }
                   $titles[] = array('F' => $ctrl->campo_in_ctrl,
                                     'T' => $title);
                   }
@@ -690,67 +690,67 @@ return ($prg);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_33() {
-	
+
 return (o2val('prg§_§var','prg_name'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_34() {
-	
+
 return (o2par(1));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_35() {
-	
+
 return ('E');
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_36() {
-	
+
 return (count(o2val('prg§_§var','view_columns')));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_37() {
-	
+
 return (o2val('prg§_§var','columns_idx') >= o2val('prg§_§var','columns_total'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_38() {
-	
+
 return (o2val('prg§_§var','columns_idx') + 1);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_39() {
-	
+
 return (o2val('prg§_§var','view_columns', o2val('prg§_§var','columns_idx'), 'F'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_40() {
-	
+
 return ((o2zero('prg§_§var','col_name') ? null : o2val('prg§_§var','col_name')));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_41() {
-	
+
 return (o2view_rec("custom_cols"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_42() {
-	
+
 return (o2val('prg§_§var','col_name'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_43() {
-	
+
 return (o2val('tmp','field_name'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_44() {
-	
+
 return (o2val('prg§_§var','show_cols_sele'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_45() {
-	
+
 return ('');
 	} //|o2_fine_exp|
 
@@ -760,17 +760,17 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_47() {
-	
+
 return (o2view_selector('tmp'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_48() {
-	
+
 return (!o2val('prg§_§var','col_excluded'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_49() {
-	
+
 return (array());
 	} //|o2_fine_exp|
 
@@ -781,40 +781,40 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_51() {
-	
+
 return (!o2val('tmp','col_selection'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_52() {
-	
+
 return ('W');
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_53() {
-	
+
 return (o2app_sid());
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_54() {
-	
+
 return (0);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_55() {
-	
+
 return (o2val('prg§_§var','columns_idx') + 1);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_56() {
-	
+
 return (o2val('prg§_§var','view_columns', o2val('prg§_§var','columns_idx'), 'T'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_57() {
 	$app = $_SESSION['o2_app'];
-if ($app->user == 'root') {
+if ($app->user_is_admin) {
    $app->app_options['csv_date_format']    = o2val('prg§_§var','date_format');
-   $app->app_options['csv_date_sep']       = o2val('prg§_§var','date_sep'); 
+   $app->app_options['csv_date_sep']       = o2val('prg§_§var','date_sep');
    $app->app_options['csv_decimal_sep']    = o2val('prg§_§var','decimal_point');
    $app->app_options['csv_field_sep']      = o2val('prg§_§var','fields_sep');
    $app->app_options['csv_text_delimiter'] = o2val('prg§_§var','text_del');
@@ -823,7 +823,7 @@ if ($app->user == 'root') {
    }
 else {
    $app->user_options['csv_date_format']    = o2val('prg§_§var','date_format');
-   $app->user_options['csv_date_sep']       = o2val('prg§_§var','date_sep'); 
+   $app->user_options['csv_date_sep']       = o2val('prg§_§var','date_sep');
    $app->user_options['csv_decimal_sep']    = o2val('prg§_§var','decimal_point');
    $app->user_options['csv_field_sep']      = o2val('prg§_§var','fields_sep');
    $app->user_options['csv_text_delimiter'] = o2val('prg§_§var','text_del');
@@ -834,17 +834,17 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_58() {
-	
-return (o2app_user() != 'root' && !o2view_rec("user_options") && o2view_rec("default_options"));
+
+return (!o2user_is_admin() && !o2view_rec("user_options") && o2view_rec("default_options"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_59() {
-	
+
 return (o2val('default_options','value'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_9999() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 ?>

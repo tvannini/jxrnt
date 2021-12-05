@@ -181,42 +181,42 @@ function jxgranting_pwd§§wrong_repeat_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting_pwd_exp_1() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_2() {
-	
+
 return ("User: ".o2val('prg§_§var','user'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_3() {
-	
+
 return ("jxwiz_cancel");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_4() {
-	
+
 return ("jxwiz_save");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_5() {
-	
+
 return (o2val('prg§_§var','password_check') == 1);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_6() {
-	
+
 return (o2zero('prg§_§var','password_check'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_7() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_8() {
-	
+
 return ("Not matching repeated password.");
 	} //|o2_fine_exp|
 
@@ -231,22 +231,22 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_10() {
-	
+
 return ((o2zero('prg§_§var','password') ? "" : md5(o2val('prg§_§var','password'))));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_11() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_12() {
-	
+
 return (o2val('prg§_§var','user'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_13() {
-	
+
 return ('<jx>/img/info.png');
 	} //|o2_fine_exp|
 
@@ -254,37 +254,37 @@ function jxgranting_pwd_exp_14() {
 	$txt = '';
 switch ($_SESSION['o2_app']->password_strength) {
    case 2:
-      $txt = "Password cannot be one of the last 4 used passwords.\n";   
+      $txt = "Password cannot be one of the last 4 used passwords.\n";
    case 1:
       $txt = "Passowrd cannot be shorter then 8 characters and ".
              "it must contain at least:\n".
              " - 1 uppercase character;\n".
              " - 1 lowercase character;\n".
              " - 1 digit;\n".
-             " - 1 special character (!#*^...).\n\n".$txt;   
+             " - 1 special character (!#*^...).\n\n".$txt;
    }
 return ($txt);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_15() {
 	$s = $_SESSION['o2_app']->password_strength;
-$v = (o2app_user() != 'root') && ($s === 1 || $s === 2);
+$v = o2user_is_admin() && ($s === 1 || $s === 2);
 return ($v);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_16() {
-	
+
 return ('o2_ctrl_button jxbtn_save');
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_17() {
-	
+
 return (' jxbtn_cancel');
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_18() {
 	o2js_load_script(o2rnt_alias().'js/md5.js');
-$su  = (o2app_user() == 'root' ? '!0' : '!1');
+$su  = (o2user_is_admin() ? '!0' : '!1');
 $idx = count(o2app_prg());
 $btn = '<div class="o2_ctrl_button jxbtn_save" style="width:100%;height:100%;line-height:30px;" '.
        'onkeyup="e=o2jse.event.std(event);if(e.keyCode==32||e.keyCode==13||(e.keyCode==83&&e.altKey)){'.
@@ -307,7 +307,7 @@ $btn.= '<script>function jxpwdcheck(event) {'.
               " - 1 lowercase character;\n" +
               " - 1 digit;\n" +
               " - 1 special character (!#*^...).");'.
-       'pwd.value="";pwdo.value="";pwdr.value="";o2jse.ctrl.c(pwd);pwd.focus();'.    
+       'pwd.value="";pwdo.value="";pwdr.value="";o2jse.ctrl.c(pwd);pwd.focus();'.
        '}};</script>';
 o2js_doc_ready('var pwd  = o2jse.infoForm["pwd'.$idx.'"];'.
                'var pwdr = o2jse.infoForm["pwd_repeat'.$idx.'"];'.
@@ -330,34 +330,34 @@ if ($_SESSION['o2_app']->password_strength === 2) {
    $h = o2val('user','pwds_history');
    $c = (strpos($h, $p.';') !== false ? 3 : $c);
    }
-/* No rules for "root" */
-$c = (o2app_user() == 'root' ? 0 : $c);   
+/* No rules for administrators */
+$c = (o2user_is_admin() ? 0 : $c);
 /* Check password repeat */
 $c = ($p === $r ? $c : 2);
 /* Old password */
 if (o2par(2) && !o2zero('user','o2password')) {
-   $c = ($o === o2val('user','o2password') ? $c : 1); 
+   $c = ($o === o2val('user','o2password') ? $c : 1);
    }
 return ($c);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_20() {
-	
+
 return ("Password cannot be one of the last 4 used passwords.");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_21() {
-	
+
 return (o2val('prg§_§var','password_check') == 2);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_22() {
-	
+
 return (o2val('prg§_§var','password'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_23() {
-	
+
 return (date('Ymd'));
 	} //|o2_fine_exp|
 
@@ -370,22 +370,22 @@ return ($h);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_25() {
-	
+
 return (o2par(2) && !o2zero('user','o2password'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_26() {
-	
+
 return (!o2par(2) || o2zero('user','o2password'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_27() {
-	
+
 return ("Wrong password.");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_28() {
-	
+
 return (o2val('prg§_§var','password_check') == 3);
 	} //|o2_fine_exp|
 
@@ -400,7 +400,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_30() {
-	
+
 return ((o2par(1) ? o2par(1) : $_SESSION['o2_app']->user));
 	} //|o2_fine_exp|
 
@@ -411,7 +411,7 @@ switch ($GLOBALS['jxPwdChangeCode']) {
       $msg.= '<b>Your password expired!</b><br>Please enter a new one.';
       break;
    case 2:
-      $msg.= '<b>Enter new password!</b><br>System required a password change.'; 
+      $msg.= '<b>Enter new password!</b><br>System required a password change.';
       break;
    default:
       break;
@@ -421,7 +421,7 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_32() {
-	
+
 return ($GLOBALS['jxPwdChangeCode']);
 	} //|o2_fine_exp|
 ?>
