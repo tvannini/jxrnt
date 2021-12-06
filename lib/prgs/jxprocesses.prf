@@ -163,7 +163,7 @@ function jxprocesses§§start_act(&$o2exe) {
 
 function jxprocesses_exp_1() {
 	$user   = o2app_user();
-$user   = ($o2user_is_admin() || o2par(1) ? '' : $user);
+$user   = (o2user_is_admin() || o2par(1) ? '' : $user);
 $job    = (o2par(4) ? o2par(4) : o2val('prg§_§var','flt_job'));
 $status = o2val('prg§_§var','flt_status');
 $days   = o2val('prg§_§var','days_filter');
