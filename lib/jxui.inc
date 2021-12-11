@@ -1044,18 +1044,31 @@ class o2_form {
                 }
             if ($task) {
                 $new_ctrl->task = $task;
-                $view_obj       = &$prg->contesto[$task];
+                $view_obj       = $prg->contesto[$task];
                 // _______________________________ To set table used objects reference ___
                 if ($tipo == "tab") {
                     $new_ctrl->prg_obj  = $prg;
-                    $new_ctrl->view_obj = &$view_obj;
+                    $new_ctrl->view_obj = $view_obj;
                     $new_ctrl->form_obj = $this;
                     $prg->drawing_grid  = $new_ctrl;
-                    if (isset($prg->view_grids[$task])) {
+                    if ($share_grid = $prg->view_grids[$task]) {
                         // ___________________________________ View used by other grid ___
-                        if ($prg->view_grids[$task] != $alias_ctrl) {
-                            $new_ctrl->view_shared                                 = true;
-                            $this->controlli[$prg->view_grids[$task]]->view_shared = true;
+                        if ($share_grid != $alias_ctrl) {
+                            $new_ctrl->view_shared = true;
+                            // _____________________ Sharing-grid is on this same form ___
+                            if (isset($this->controlli[$share_grid])) {
+                                $this->controlli[$share_grid]->view_shared = true;
+                                }
+                            // _________________________ Sharing-grid is on other form ___
+                            else {
+                                foreach ($prg->form as $single_form) {
+                                    if (isset($single_form->controlli[$share_grid])) {
+                                        $single_form->controlli[$share_grid]->view_shared
+                                                                                   = true;
+                                        break;
+                                        }
+                                    }
+                                }
                             }
                         }
                     // _________________________________________ Set view used by grid ___
