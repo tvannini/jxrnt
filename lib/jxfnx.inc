@@ -7633,11 +7633,12 @@ function o2tree_destroy($name) {
 
 
 /**
+ * DEPRECATED!
+ * This function is deprecated.
+ * Use o2tree_expand() instead.
+ *
  * Fold all foldable nodes in treeview down to $level.
  * If $level is 0 all folders are expanded.
- *
- * NOTE: This function is going to be deprecated.
- *       Use o2tree_expand() instead.
  *
  * @package treeview
  * @param   string  $name    Control unique name
@@ -7646,16 +7647,18 @@ function o2tree_destroy($name) {
  */
 function o2tree_fold($name, $level = 0) {
 
+    o2_exception::deprecate('o2tree_fold', 'o2tree_expand');
     return o2tree_expand($name, $level);
 
     }
 
 
 /**
- * Unfold all foldable nodes in treeview
+ * DEPRECATED!
+ * This function is deprecated.
+ * Use o2tree_collapse() instead.
  *
- * NOTE: This function is going to be deprecated.
- *       Use o2tree_collapse() instead.
+ * Unfold all foldable nodes in treeview
  *
  * @package treeview
  * @param   string $name     Control unique name
@@ -7663,6 +7666,7 @@ function o2tree_fold($name, $level = 0) {
  */
 function o2tree_unfold($name) {
 
+    o2_exception::deprecate('o2tree_unfold', 'o2tree_collapse');
     return o2tree_collapse($name);
 
     }
@@ -7741,10 +7745,11 @@ function o2tree_collapse($name) {
 
 
 /**
- * Fold a node in treeview.
+ * DEPRECATE!
+ * This function is deprecated.
+ * Use o2tree_node_expand() instead.
  *
- * NOTE: This function is going to be deprecated.
- *       Use o2tree_node_expand() instead.
+ * Fold a node in treeview.
  *
  * @package treeview
  * @param   string  $name      Control unique name
@@ -7753,16 +7758,18 @@ function o2tree_collapse($name) {
  */
 function o2tree_node_fold($name, $node_id) {
 
+    o2_exception::deprecate('o2tree_node_fold', 'o2tree_node_expand');
     return o2tree_node_expand($name, $node_id);
 
     }
 
 
 /**
- * Unfold a node in treeview.
+ * DEPRECATED!
+ * This function is deprecated.
+ * Use o2tree_node_collapse() instead.
  *
- * NOTE: This function is going to be deprecated.
- *       Use o2tree_node_collapse() instead.
+ * Unfold a node in treeview.
  *
  * @package treeview
  * @param   string $name      Control unique name
@@ -7771,6 +7778,7 @@ function o2tree_node_fold($name, $node_id) {
  */
 function o2tree_node_unfold($name, $node_id) {
 
+    o2_exception::deprecate('o2tree_node_unfold', 'o2tree_node_collapse');
     return o2tree_node_collapse($name, $node1_id);
 
     }
