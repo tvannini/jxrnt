@@ -2305,7 +2305,7 @@ class o2_file {
             // ______________________________________________________ Create TMP-table ___
             $tabella_local       = clone $this;
             if ($engine == "oracle") {
-                list ($mt, $t)       = split(" ", microtime(false));
+                list ($mt, $t)       = explode(" ", microtime(false));
                 $mt                  = substr($mt, 2, -2);
                 $tabella_local->nome = "rebuild_".date("His").$mt;
                 }
