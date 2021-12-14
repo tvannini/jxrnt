@@ -21,9 +21,9 @@ function jxgranting§§prg§_§var_def(&$task_prg§_§var) {
 function jxgranting§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->righe_vis = 100;
 
-	$task_users->usa_file("o2_users","o2_users","jxgranting_exp_21()",null,null);
+	$task_users->usa_file("o2_users","o2_users","jxgranting_exp_21()",null,jxgranting_exp_117());
 
-	$task_users->usa("o2user","o2_users","o2user",null,null,"jxgranting_exp_116()","jxgranting_exp_4()");
+	$task_users->usa("o2user","o2_users","o2user",null,null,null,"jxgranting_exp_4()");
 	$task_users->usa("o2password","o2_users","o2password",null,null,null,null);
 	$task_users->usa("area","o2_users","area","jxgranting_exp_58()","jxgranting_exp_58()",null,null);
 	$task_users->usa("expire_date","o2_users","expire_date",null,null,null,null);
@@ -1822,6 +1822,18 @@ return (date('Ymd'));
 function jxgranting_exp_116() {
 	
 return (o2user_is_admin() ? null : 'root');
+	} //|o2_fine_exp|
+
+function jxgranting_exp_117() {
+	if (o2user_is_admin()) {
+   $tab = null;
+   }
+else {
+   $uf  = o2field_fname('o2_users', 'o2user'); 
+   $tab = 'SELECT * FROM '.o2tab_qname('o2_users').
+          ' WHERE '.$uf."<>'root' AND ".$uf."<>'jxsys'";
+   }
+return ($tab);
 	} //|o2_fine_exp|
 
 function jxgranting_exp_9999() {
