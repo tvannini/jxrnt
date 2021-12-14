@@ -7647,7 +7647,7 @@ function o2tree_destroy($name) {
  */
 function o2tree_fold($name, $level = 0) {
 
-    o2_exception::deprecate('o2tree_fold', 'o2tree_expand');
+    //o2_exception::deprecate('o2tree_fold', 'o2tree_expand');
     return o2tree_expand($name, $level);
 
     }
@@ -7666,7 +7666,7 @@ function o2tree_fold($name, $level = 0) {
  */
 function o2tree_unfold($name) {
 
-    o2_exception::deprecate('o2tree_unfold', 'o2tree_collapse');
+    //o2_exception::deprecate('o2tree_unfold', 'o2tree_collapse');
     return o2tree_collapse($name);
 
     }
@@ -7758,7 +7758,7 @@ function o2tree_collapse($name) {
  */
 function o2tree_node_fold($name, $node_id) {
 
-    o2_exception::deprecate('o2tree_node_fold', 'o2tree_node_expand');
+    //o2_exception::deprecate('o2tree_node_fold', 'o2tree_node_expand');
     return o2tree_node_expand($name, $node_id);
 
     }
@@ -7778,7 +7778,7 @@ function o2tree_node_fold($name, $node_id) {
  */
 function o2tree_node_unfold($name, $node_id) {
 
-    o2_exception::deprecate('o2tree_node_unfold', 'o2tree_node_collapse');
+    //o2_exception::deprecate('o2tree_node_unfold', 'o2tree_node_collapse');
     return o2tree_node_collapse($name, $node1_id);
 
     }
