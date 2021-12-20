@@ -249,7 +249,7 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2image6->y(42);
 		$ctrl_o2image6->larghezza(24);
 		$ctrl_o2image6->altezza(24);
-		$ctrl_o2image6->modificabile(jxgranting_exp_95());
+		$ctrl_o2image6->modificabile(jxgranting_exp_118());
 		$ctrl_o2image6->azione("user_delete");
 		$ctrl_o2image6->info_padre(array(0));
 		$ctrl_o2image6->label("Delete user");
@@ -271,6 +271,7 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2image5->y(42);
 		$ctrl_o2image5->larghezza(24);
 		$ctrl_o2image5->altezza(24);
+		$ctrl_o2image5->modificabile(jxgranting_exp_118());
 		$ctrl_o2image5->azione("user_detail");
 		$ctrl_o2image5->info_padre(array(0));
 		$ctrl_o2image5->label("User details");
@@ -281,7 +282,7 @@ function jxgranting§§jxgranting_form_def(&$form_jxgranting) {
 		$ctrl_o2image7->y(42);
 		$ctrl_o2image7->larghezza(24);
 		$ctrl_o2image7->altezza(24);
-		$ctrl_o2image7->modificabile(jxgranting_exp_95());
+		$ctrl_o2image7->modificabile(jxgranting_exp_118());
 		$ctrl_o2image7->azione("password_edit");
 		$ctrl_o2image7->info_padre(array(0));
 		$ctrl_o2image7->label("Set/change password");
@@ -1248,12 +1249,12 @@ return ("<jx>/img/grant/user_add.png");
 
 function jxgranting_exp_12() {
 	
-return ("<jx>/img/grant/user_del".(o2view_rec("users") ? '' : '_dis').".png");
+return ("<jx>/img/grant/user_del".(o2view_rec('users') && (o2zero('users','admin') || o2user_is_admin() || o2app_runlevel() == 'DEV') ? '' : '_dis').".png");
 	} //|o2_fine_exp|
 
 function jxgranting_exp_13() {
 	
-return ("<jx>/img/grant/pwd".(o2view_rec("users") ? '' : '_dis').".png");
+return ("<jx>/img/grant/pwd".(o2view_rec('users') && (o2zero('users','admin') || o2user_is_admin() || o2app_runlevel() == 'DEV') ? '' : '_dis').".png");
 	} //|o2_fine_exp|
 
 function jxgranting_exp_14() {
@@ -1786,7 +1787,7 @@ return ($sql);
 
 function jxgranting_exp_109() {
 	
-return ('<jx>/img/grant/user_edit'.(o2zero('users','o2user') ? '_dis' : '').'.png');
+return ('<jx>/img/grant/user_edit'.(o2view_rec('users') && (o2zero('users','admin') || o2user_is_admin() || o2app_runlevel() == 'DEV') ? '' : '_dis').'.png');
 	} //|o2_fine_exp|
 
 function jxgranting_exp_110() {
@@ -1825,7 +1826,7 @@ return (o2user_is_admin() ? null : 'root');
 	} //|o2_fine_exp|
 
 function jxgranting_exp_117() {
-	if (o2user_is_admin()) {
+	if ((o2app_user() == 'root') || (o2app_runlevel() == 'DEV')) {
    $tab = null;
    }
 else {
@@ -1834,6 +1835,11 @@ else {
           ' WHERE '.$uf."<>'root' AND ".$uf."<>'jxsys'";
    }
 return ($tab);
+	} //|o2_fine_exp|
+
+function jxgranting_exp_118() {
+	
+return (o2view_rec('users') && (o2zero('users','admin') || o2user_is_admin() || o2app_runlevel() == 'DEV'));
 	} //|o2_fine_exp|
 
 function jxgranting_exp_9999() {

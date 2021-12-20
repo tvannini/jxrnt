@@ -757,6 +757,6 @@ return (o2val('prg§_§var','user_is_admin'));
 
 function jxgranting_user_exp_69() {
 	
-return (o2user_is_admin() && o2val('prg§_§var','user_name') != 'root' && o2val('prg§_§var','user_name') != 'jxsys');
+return ((o2user_is_admin() || o2app_runlevel() == 'DEV') && o2val('prg§_§var','user_name') != 'root' && o2val('prg§_§var','user_name') != 'jxsys');
 	} //|o2_fine_exp|
 ?>
