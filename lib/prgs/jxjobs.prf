@@ -582,7 +582,8 @@ function jxjobs_exp_1() {
 	$structure = o2_job::get_for_tree(0,
                                   50,
                                   o2val('prg§_§var','group_tree'),
-                                  o2val('prg§_§var','sort_tree'));
+                                  o2val('prg§_§var','sort_tree'),
+                                  true);
 o2tree_def("jobs", $structure, 1, "node_detail");
 return (true);
 	} //|o2_fine_exp|
@@ -593,7 +594,7 @@ return ($code);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_3() {
-
+	
 return ("jxtree jxtree_bottom");
 	} //|o2_fine_exp|
 
@@ -637,32 +638,32 @@ return ($params);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_10() {
-
+	
 return ("jxtoolbar");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_11() {
-
+	
 return ("jximgbtn");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_12() {
-
+	
 return ("<jx>/img/jobs/fold.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_13() {
-
+	
 return ("<jx>/img/jobs/unfold.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_14() {
-
+	
 return ((o2val('prg§_§var','sort_tree') ? "Sort by definition order" : "Sort by alphabetical order"));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_15() {
-
+	
 return (!o2val('prg§_§var','sort_tree'));
 	} //|o2_fine_exp|
 
@@ -672,12 +673,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_17() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_18() {
-
+	
 return ("<jx>/img/jobs/".(o2val('prg§_§var','sort_tree') ? "unsort.png" : "sort.png"));
 	} //|o2_fine_exp|
 
@@ -732,22 +733,22 @@ return ($code);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_22() {
-
+	
 return (o2val('prg§_§var','run_jobs_list'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_23() {
-
+	
 return ("o2_ctrl_text_dis");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_24() {
-
+	
 return (false);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_25() {
-
+	
 return (o2val('prg§_§var','sched_job_list'));
 	} //|o2_fine_exp|
 
@@ -774,7 +775,7 @@ return ($code);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_27() {
-
+	
 return ("disp_area");
 	} //|o2_fine_exp|
 
@@ -784,27 +785,27 @@ return ($text);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_29() {
-
+	
 return ("<jx>/img/jxpowered.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_30() {
-
+	
 return (o2zero('prg§_§var','job_id'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_31() {
-
+	
 return (!o2zero('prg§_§var','job_id'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_32() {
-
+	
 return (o2val('prg§_§var','job_id'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_33() {
-
+	
 return (o2val('prg§_§var','job_name'));
 	} //|o2_fine_exp|
 
@@ -814,47 +815,47 @@ return ($label);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_35() {
-
+	
 return (o2val('prg§_§var','job_prg'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_36() {
-
+	
 return ("jximgbtn");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_37() {
-
+	
 return ("<jx>/img/jobs/job_add.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_38() {
-
+	
 return ("<jx>/img/jobs/job_del.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_39() {
-
+	
 return ("ATTENTION! This job is going to be deleted.\nProceed?");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_40() {
-
+	
 return ("<jx>/img/jobs/refresh.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_41() {
-
+	
 return ("<jx>/img/jobs/separator.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_42() {
-
+	
 return ("<jx>/img/jobs/sched_add.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_43() {
-
+	
 return ("<jx>/img/jobs/exe".(o2val('prg§_§var','job_disabled') ? "_dis" : "").".png");
 	} //|o2_fine_exp|
 
@@ -867,12 +868,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_45() {
-
+	
 return ("<jx>/img/jobs/scheduler.png");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_46() {
-
+	
 return ("<jx>/img/jobs/run_job.png");
 	} //|o2_fine_exp|
 
@@ -884,12 +885,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_48() {
-
+	
 return (0);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_49() {
-
+	
 return ("<jx>/img/jobs/job_edit.png");
 	} //|o2_fine_exp|
 
@@ -899,12 +900,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_51() {
-
+	
 return ($id);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_52() {
-
+	
 return (o2_reqpar(1));
 	} //|o2_fine_exp|
 
@@ -915,32 +916,32 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_54() {
-
+	
 return (o2_reqpar(1));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_55() {
-
+	
 return ("tools/jxjob");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_56() {
-
+	
 return ("tools/jxprocesses");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_57() {
-
+	
 return ("tools/jxscheduler");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_58() {
-
+	
 return ("tools/jxtask");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_59() {
-
+	
 return ("tools/jxprocess");
 	} //|o2_fine_exp|
 
@@ -984,42 +985,42 @@ return ($dis);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_66() {
-
+	
 return (o2val('prg§_§var','job_max_instances'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_67() {
-
+	
 return (o2format(o2val('prg§_§var','job_block_mode'), "jxjob_block_mode"));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_68() {
-
+	
 return (o2val('prg§_§var','job_max_instances'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_69() {
-
+	
 return (!o2val('prg§_§var','job_disabled'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_70() {
-
+	
 return ("jximgbtn".(o2val('prg§_§var','job_disabled') ? "_dis" : ""));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_71() {
-
+	
 return ("Job schedule is going to be deleted.\nProceed?");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_72() {
-
+	
 return (o2val('prg§_§var','confirm'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_73() {
-
+	
 return (o2_reqpar(1));
 	} //|o2_fine_exp|
 
@@ -1030,17 +1031,17 @@ return ($srv);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_75() {
-
+	
 return ('<jx>/img/jobs/'.(o2val('prg§_§var','group_tree') ? 'byjob.png' : 'bysrv.png'));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_76() {
-
+	
 return ((o2zero('prg§_§var','job_service') ? 'Default' : o2val('prg§_§var','job_service')));
 	} //|o2_fine_exp|
 
 function jxjobs_exp_77() {
-
+	
 return (!o2val('prg§_§var','group_tree'));
 	} //|o2_fine_exp|
 
@@ -1050,12 +1051,12 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_79() {
-
+	
 return ('hidden');
 	} //|o2_fine_exp|
 
 function jxjobs_exp_80() {
-
+	
 return ("<jx>/img/jobs/queue".(o2val('prg§_§var','job_disabled') ? "_dis" : "").".png");
 	} //|o2_fine_exp|
 
@@ -1068,7 +1069,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_82() {
-
+	
 return ("<jx>/img/jobs/services.png");
 	} //|o2_fine_exp|
 
@@ -1078,17 +1079,17 @@ return ($code);
 	} //|o2_fine_exp|
 
 function jxjobs_exp_84() {
-
+	
 return ("tools/jxservices");
 	} //|o2_fine_exp|
 
 function jxjobs_exp_85() {
-
+	
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function jxjobs_exp_86() {
-
+	
 return ('nav_big');
 	} //|o2_fine_exp|
 ?>

@@ -12,6 +12,7 @@ function o2sys_sessions_admin§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("since_minutes", "_o2number");
 	$task_prg§_§var->definisci("to_cdate", "o2sys_short_date");
 	$task_prg§_§var->definisci("to_ctime", "o2sys_long_time");
+	$task_prg§_§var->definisci("total_sessions", "_o2number");
 		}
 
 function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "") {
@@ -290,7 +291,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2edit6->y(10);
 		$ctrl_o2edit6->larghezza(130);
 		$ctrl_o2edit6->altezza(20);
-		$ctrl_o2edit6->info_padre(array("01", "10", "10", "Expiration", False, "", False, "", o2sys_sessions_admin_exp_10(), "tab_foot_dx", ""));
+		$ctrl_o2edit6->info_padre(array("01", "10", "10", "Expiration", False, "", 0, "", o2sys_sessions_admin_exp_33(), "tab_foot_dx", "", ""));
 		}
 
 function o2sys_sessions_admin§§access_log_act(&$o2exe) {
@@ -304,6 +305,7 @@ function o2sys_sessions_admin§§app_lock_act(&$o2exe) {
 
 function o2sys_sessions_admin§§refresh_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::view("sessions", "1", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "total_sessions", o2sys_sessions_admin_exp_10()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_sessions_admin§§sessions_delete_act(&$o2exe) {
@@ -315,7 +317,8 @@ function o2sys_sessions_admin§§sessions_delete_act(&$o2exe) {
 
 function o2sys_sessions_admin§§start_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "apps_list", o2sys_sessions_admin_exp_2()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::script(o2sys_sessions_admin_exp_12()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "total_sessions", o2sys_sessions_admin_exp_10()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::script(o2sys_sessions_admin_exp_12()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_sessions_admin_exp_1() {
@@ -544,6 +547,11 @@ return ($_SESSION['o2_app']->access_log);
 function o2sys_sessions_admin_exp_32() {
 	
 return ('tools/jxaccesslog_browser');
+	} //|o2_fine_exp|
+
+function o2sys_sessions_admin_exp_33() {
+	
+return (o2val('prg§_§var','total_sessions'));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_9999() {

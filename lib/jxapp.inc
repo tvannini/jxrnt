@@ -4064,35 +4064,32 @@ class o2_job {
      * @param  mix     $root           Root node ID
      * @param  integer $desc_len       Max number of chars for nodes descritions
      * @param  boolean $group_by_srv   Group jobs by service
+     * @param  boolean $simple_list    Skip infos about last and next scheduled executions
      * @return array
      */
     static function get_for_tree($root          = 0,
                                  $desc_len      = 50,
                                  $group_by_srv  = false,
-                                 $order_by_name = false) {
+                                 $order_by_name = false,
+                                 $simple_list   = false) {
 
         $app      = $_SESSION['o2_app'];
         $aspid    = $app->vars['_area']->valore;
         $tab      = $app->get_table(self::$jobs_table);
         $db       = $tab->db;
         $server   = $db->server;
-        $co       = constant("o2_".$server->type."_o");
-        $cc       = constant("o2_".$server->type."_c");
-        $select   = $tab->campi["job_id"]->nome_fisico." ".$co."JOB_ID".$cc.",".
-                    $tab->campi["job_name"]->nome_fisico." ".$co."JOB_NAME".$cc.",".
-                    $tab->campi["job_prg"]->nome_fisico." ".$co."JOB_PRG".$cc.",".
-                    $tab->campi["job_service"]->nome_fisico." ".$co."JOB_SERVICE".$cc.",".
-                    $tab->campi["job_params"]->nome_fisico." ".$co."JOB_PARAMS".$cc.",".
-                    $tab->campi["job_keep_days"]->nome_fisico." ".$co."JOB_KEEP_DAYS".
-                                                                  $cc.",".
-                    $tab->campi["job_max_instances"]->nome_fisico." ".
-                                                          $co."JOB_MAX_INSTANCES".$cc.",".
-                    $tab->campi["job_block_mode"]->nome_fisico." ".$co."JOB_BLOCK_MODE".
-                                                                   $cc.",".
-                    $tab->campi["job_disabled"]->nome_fisico." ".$co."JOB_DISABLED".
-                                                                 $cc.",".
-                    $tab->campi["job_desc"]->nome_fisico." ".$co."JOB_DESC".$cc;
-        $order_by = $tab->campi["job_name"]->nome_fisico.' ASC';
+        $co       = constant('o2_'.$server->type.'_o');
+        $cc       = constant('o2_'.$server->type.'_c');
+        $f        = $tab->campi;
+        $select   = $f['job_id'].' '.$co.'JOB_ID'.$cc.','.
+                    $f['job_name'].' '.$co.'JOB_NAME'.$cc.','.
+                    $f['job_prg'].' '.$co.'JOB_PRG'.$cc.','.
+                    $f['job_service'].' '.$co.'JOB_SERVICE'.$cc.','.
+                    $f['job_params'].' '.$co.'JOB_PARAMS'.$cc.','.
+                    $f['job_keep_days'].' '.$co.'JOB_KEEP_DAYS'.$cc.','.
+                    $f['job_disabled'].' '.$co.'JOB_DISABLED'.$cc.','.
+                    $f['job_desc'].' '.$co.'JOB_DESC'.$cc;
+        $order_by = $f['job_name'].' ASC';
         $job_recs = o2_gateway::recordset($server->type,
                                           $server->server,
                                           $server->user,
@@ -4100,13 +4097,13 @@ class o2_job {
                                           $db->nome,
                                           $db->proprietario,
                                           $tab->nome,
-                                          "jx_jobs",
+                                          'jx_jobs',
                                           $select,
                                           '',
                                           ($order_by_name ? $order_by : ''),
                                           1000000);
         $list     = array();
-        $img_path = "<jx>/img/jobs/tree/";
+        $img_path = '<jx>/img/jobs/tree/';
         foreach ($job_recs as $job_rec) {
             $srv_id = $job_rec['JOB_SERVICE'].'_srv';
             // __________________________________________ Create services folder nodes ___
@@ -4116,98 +4113,101 @@ class o2_job {
                                            ($job_rec['JOB_SERVICE'] ?
                                             o2_str_nice($job_rec['JOB_SERVICE']) :
                                             'Default'),
-                                           $img_path."service.png",
+                                           $img_path.'service.png',
                                            'srv',
                                            0);
                     }
                 }
             // _______________________________________________________________ Add job ___
             $job_id           = ($job_rec['JOB_ID'] ? $job_rec['JOB_ID'] : 0);
-            $id               = "jxjob_".$job_id;
+            $id               = 'jxjob_'.$job_id;
             $list[$id]        = array(($group_by_srv ? $srv_id : $root),
                                       $job_rec['JOB_NAME'],
                                       $img_path.($job_rec['JOB_DISABLED'] ?
-                                                 "job_dis.png" : "job.png"),
-                                      "job",
+                                                 'job_dis.png' : 'job.png'),
+                                      'job',
                                       $job_id);
-            if ($job_rec['job_desc']) {
+            if ($job_rec['JOB_DESC']) {
                 $desc              = $job_rec['JOB_DESC'];
                 $desc              = (strlen($desc) < $desc_len ?
-                                      $desc : substr($desc, 0, $desc_len - 3)."...");
-                $list[$id."_desc"] = array($id,
-                                           "<i>".$desc."</i>",
-                                           $img_path."desc.png",
-                                           "desc",
+                                      $desc : substr($desc, 0, $desc_len - 3).'...');
+                $list[$id.'_desc'] = array($id,
+                                           '<i>&nbsp;'.$desc.'</i>',
+                                           null,
+                                           'desc',
                                            $job_id);
                 }
             // ________________________________________________________ Add prg module ___
-            $list[$id."_prg"] = array($id,
-                                      "Module: ".$job_rec['JOB_PRG'],
-                                      $img_path."prg.png",
-                                      "prg",
+            $list[$id.'_prg'] = array($id,
+                                      'Module: '.$job_rec['JOB_PRG'],
+                                      $img_path.'prg.png',
+                                      'prg',
                                       $job_id);
             // _____________________________________________________ Add module params ___
             if ($job_rec['JOB_PARAMS']) {
                 foreach (unserialize($job_rec['JOB_PARAMS']) as $par_id => $par) {
-                    $desc                      = $par_id.": ".$par;
+                    $desc                      = $par_id.': '.$par;
                     $desc                      = (strlen($desc) < $desc_len ? $desc :
-                                                  substr($desc, 0, $desc_len - 3)."...");
-                    $list[$id."_par_".$par_id] = array($id."_prg",
+                                                  substr($desc, 0, $desc_len - 3).'...');
+                    $list[$id.'_par_'.$par_id] = array($id.'_prg',
                                                        $desc,
-                                                       $img_path."par.png",
-                                                       "param",
+                                                       $img_path.'par.png',
+                                                       'param',
                                                        $job_id);
                     }
                 }
             // ___________________________________________________________ Add service ___
             if (!$group_by_srv) {
-                $list[$id."_srv"] = array($id,
-                                          "Service: ".
+                $list[$id.'_srv'] = array($id,
+                                          'Service: '.
                                           ($job_rec['JOB_SERVICE'] ?
                                            o2_str_nice($job_rec['JOB_SERVICE']) :
                                            'Default'),
-                                          $img_path."service.png",
-                                          "srv",
+                                          $img_path.'service.png',
+                                          'srv',
                                           $job_id);
                 }
-            // ____________________________________________________ Add last execution ___
-            $last = o2_run_job::get_last_job($job_id, $aspid);
-            if ($last) {
-                $last_img          = $img_path.($last->error || $last->progress < 100 ?
-                                                "ko.png" : "ok.png");
-                $list[$id."_last"] = array($id,
-                                           "Last run: ".date("d/m/Y H:i", $last->start),
-                                           $last_img,
-                                           "last",
-                                           $job_id);
-                }
-            // __________________________________________ Add next scheduled execution ___
-            $next = o2_scheduler::get_next_job($job_id);
-            if ($next["sched_id"]) {
-                $sched                 = o2_scheduler::get_task_by_id($next["sched_id"]);
-                $sched_desc            = $sched->get_description();
-                $list[$id."_next"]     = array($id,
-                                               "Next run: ".
-                                               ($next["next"] === false ? "Never" :
-                                                ($next["next"] === 0 ? "Waiting..." :
-                                                 $next["next"]->format("d/m/Y H:i"))),
-                                               $img_path."next.png",
-                                               "next",
-                                               $job_id);
-                $list[$id."_nextdesc"] = array($id."_next",
-                                               "<i>".$sched_desc."</i>",
-                                               $img_path."desc.png",
-                                               "nextdesc",
+            if (!$simple_list) {
+                // ________________________________________________ Add last execution ___
+                $last = o2_run_job::get_last_job($job_id, $aspid);
+                if ($last) {
+                    $last_img          = $img_path.
+                                         ($last->error || $last->progress < 100 ?
+                                          'ko.png' : 'ok.png');
+                    $list[$id.'_last'] = array($id,
+                                             'Last run: '.date('d/m/Y H:i', $last->start),
+                                             $last_img,
+                                             'last',
+                                             $job_id);
+                    }
+                // ______________________________________ Add next scheduled execution ___
+                $next = o2_scheduler::get_next_job($job_id);
+                if ($next['sched_id']) {
+                    $sched             = o2_scheduler::get_task_by_id($next['sched_id']);
+                    $sched_desc        = $sched->get_description();
+                    $list[$id.'_next'] = array($id,
+                                               'Next run: '.
+                                                ($next['next'] === false ? 'Never' :
+                                                    ($next['next'] === 0 ? 'Waiting...' :
+                                                    $next['next']->format('d/m/Y H:i'))),
+                                                $img_path.'next.png',
+                                                'next',
                                                 $job_id);
+                    $list[$id.'_nextdesc'] = array($id.'_next',
+                                                   '<i>'.$sched_desc.'</i>',
+                                                   $img_path.'desc.png',
+                                                   'nextdesc',
+                                                   $job_id);
+                    }
                 }
             // _____________________________________________ Add run-jobs keeping time ___
-            $list[$id."_keep"] = array($id,
-                                       "Keeping time: ".
+            $list[$id.'_keep'] = array($id,
+                                       'Keeping time: '.
                                        ($job_rec['JOB_KEEP_DAYS'] ?
-                                        $job_rec['JOB_KEEP_DAYS']." days" :
-                                        "forever"),
-                                       $img_path."trash.png",
-                                       "keep",
+                                        $job_rec['JOB_KEEP_DAYS'].' days' :
+                                        'forever'),
+                                       $img_path.'trash.png',
+                                       'keep',
                                        $job_id);
             }
         return $list;
