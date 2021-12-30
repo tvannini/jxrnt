@@ -2790,7 +2790,7 @@ o2jse.tab.changeRow = function(targetObj, movDir, navName) {
  *
  * @param object  sourceRow   Coming-from row (actually selected - contains fields)
  * @param object  targetRow   Going-to row (actually unselected - contains text id DIVs)
- * @param noolean noRequest   Avoid request execution, used by pinned columns
+ * @param boolean noRequest   Avoid request execution, used by pinned columns
  */
 o2jse.tab.moveSel = function(sourceRow, targetRow, noRequest) {
 
