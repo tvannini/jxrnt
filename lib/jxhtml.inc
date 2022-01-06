@@ -3573,6 +3573,8 @@ class o2html {
                     if (trim($valore_local) == "") {
                         $valore_local = "&nbsp;";
                         }
+                    $ctrl->active_by_tab = false;
+                    $ctrl->tab_row       = !$o2ctrl_obj->riga_corrente;
                     print '<div '.
                           ($o2ctrl_obj->riga_corrente ?
                            ' id="'.$ctrl->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
@@ -3595,9 +3597,9 @@ class o2html {
                         $ctrl->larghezza = $col_size;
                         }
                     $ctrl->disegna();
-                    $ctrl->active_by_tab = true;
-                    $ctrl->tab_row       = false;
                     }
+                $ctrl->active_by_tab = true;
+                $ctrl->tab_row       = false;
                 print "</td>\n";
                 $puntatore_col = $info_col_end;
                 $coda          = "</tr>";

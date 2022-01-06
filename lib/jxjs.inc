@@ -256,6 +256,14 @@ class jxjs {
         $parent = "pT:'".($o2ctrl_obj->padre ?
                           $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
                           'form')."'";
+        // _____________________________ Labels are used for fields in disabled grids! ___
+        $exeid  = ($o2ctrl_obj->popup_exp || $o2ctrl_obj->log_level ?
+                   ',e:'.$o2ctrl_obj->id_esecuzione : '');
+        $popup  = ($o2ctrl_obj->popup_exp ?
+                   ",puact:'".$o2ctrl_obj->popup_act.
+                   "',puexp:'".$o2ctrl_obj->popup_exp."'" : '');
+        $log    = ($o2ctrl_obj->log_level ?
+                   ",log:!0,c:'".$o2ctrl_obj->nome."'"  : '');
         if ($app->multilang) {
             $label = $app->translate($o2ctrl_obj->nome,
                                      'label',
@@ -273,12 +281,7 @@ class jxjs {
                               ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
                          ',w:'.$o2ctrl_obj->larghezza.
                          ',h:'.$o2ctrl_obj->altezza,
-                         ($o2ctrl_obj->popup_exp ?
-                          "{e:".$o2ctrl_obj->id_esecuzione.
-                           ','.$parent.
-                           ",puact:'".$o2ctrl_obj->popup_act.
-                          "',puexp:'".$o2ctrl_obj->popup_exp."'}" :
-                          '{'.$parent.'}'));
+                         '{'.$parent.$exeid.$popup.$log.'}');
 
         }
 
@@ -1090,6 +1093,7 @@ class jxjs {
                         $l_ctrl->larghezza     = $ctrl->larghezza;
                         $l_ctrl->altezza       = $ctrl->altezza;
                         $l_ctrl->css           = false;
+                        $l_ctrl->log_level     = $ctrl->log_level;
                         $l_ctrl->disegna();
                         unset($l_ctrl);
                         }

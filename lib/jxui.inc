@@ -2305,7 +2305,7 @@ class o2_ctrl {
                     }
                 }
             // _____________________________________ Check active log level on control ___
-            if ($this->log_level) {
+            if ($this->log_level && !$this->tab_row) {
                 $log = ',log:!0';
                 }
             }
@@ -2320,28 +2320,29 @@ class o2_ctrl {
             $msg = $this->confirm_message;
             }
         return  ($as_obj ? "{" : "o2=\"").
-                    "e:".$this->id_esecuzione.
-                    ",c:'".$this->nome.
-                   "',cT:'".$this->tipo_ctrl.
-                   "',v:'".$this->task.
-                   "',f:'".$this->form.
-                   "',pT:'".($parent ? $parent->tipo_ctrl : 'form').
-                   "',dT:'".$this->maschera->tipo.
-                   "',m:'".addslashes($this->maschera->maschera).
-                   "',s:".intval($this->maschera->dimensione).
-                   $log.
-                    ",fret:".($this->forza_submit ? '!0' : '!1').
-                    ($this->tab_row ? ',tabRow:!0' : '').
-                    ",nav:'".$nav_local.
-                   ($this->css ? "',cssc:'".$this->css : "").
-                   (strpos($extraProps, "msg:'") !== false ?
-                    "'" :
-                    "',msg:'".($as_obj ?
-                               addcslashes($msg, "\r\n\'\"\\") :
-                               str_replace("'", "\'", addcslashes($msg, "\r\n")))."'").
-                   ($this->popup_exp ? ",puact:'".$this->popup_act.
-                                       "',puexp:'".$this->popup_exp."'" : "").
-                   ($extraProps ? ','.$extraProps : '').($as_obj ? "}" : "\"\n");
+                "e:".$this->id_esecuzione.
+                ",c:'".$this->nome.
+                "',cT:'".$this->tipo_ctrl.
+                "',v:'".$this->task.
+                "',f:'".$this->form.
+                "',pT:'".($parent ? $parent->tipo_ctrl : 'form').
+                "',dT:'".$this->maschera->tipo.
+                "',m:'".addslashes($this->maschera->maschera).
+                "',s:".intval($this->maschera->dimensione).
+                $log.
+                ",fret:".($this->forza_submit ? '!0' : '!1').
+                ($this->tab_row ? ',tabRow:!0' : '').
+                ",nav:'".$nav_local.
+                ($this->css ? "',cssc:'".$this->css : "").
+                (strpos($extraProps, "msg:'") !== false ?
+                 "'" :
+                 "',msg:'".($as_obj ?
+                            addcslashes($msg, "\r\n\'\"\\") :
+                            str_replace("'", "\'", addcslashes($msg, "\r\n")))."'").
+                ($this->popup_exp ? ",puact:'".$this->popup_act.
+                                    "',puexp:'".$this->popup_exp."'" : "").
+                ($extraProps ? ','.$extraProps : '').
+                ($as_obj ? "}" : "\"\n");
 
         }
 
