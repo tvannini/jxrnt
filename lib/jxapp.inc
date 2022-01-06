@@ -2271,7 +2271,7 @@ class o2_app {
         else {
             if ($this->prgs_path_inc) {
                 foreach ($this->prgs_path_inc as $path) {
-                    if (@include_once($path.$prg_name.'.prg')) {
+                    if (@include($path.$prg_name.'.prg')) {
                         $this->istanze_prg[$this->progressivo_istanze]
                                                                     ->load_custom_grids();
                         return;
