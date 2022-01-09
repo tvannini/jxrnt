@@ -6554,7 +6554,20 @@ function o2view_selector_none($view_name) {
     $prg              = $app->istanze_prg[$app->progressivo_istanze];
     $view             = $prg->contesto[$view_name];
     $view->selections = array();
-    $view->smart_refresh();
+    $view->relocated  = true;
+    $selector         = false;
+    // ______________________________________ Set to FALSE formula values in recordset ___
+    foreach ($view->formule as $formula) {
+        if ($formula->selector) {
+            $selector = $formula->nome;
+            }
+        break;
+        }
+    if ($selector) {
+        foreach ($view->recordset as $rec_id => $rec) {
+            $view->recordset[$rec_id][$selector] = false;
+            }
+        }
     return true;
 
     }
