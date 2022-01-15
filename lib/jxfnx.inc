@@ -2827,7 +2827,7 @@ function o2app_submit($index = false) {
  *
  * @package application
  * @return  string
- * @see     o2app_sharedir(), o2app_name(), o2app_alias()
+ * @see     o2app_name(), o2app_alias()
  */
 function o2app_dir_home() {
 
