@@ -27,20 +27,21 @@
 ; You have to correctly set up this parameter in order to use Janox
 ; runtime with a WEB Server.
 ;
+; NOTE: This directive is the same old parameter "o2_alias".
+;
 ; Examples:
 ;  - "/janox/"
 ;  - "http://127.0.0.1/jxrnt/"
 ;  - "http://www.somenet.com/jx/"
 ;
-o2_alias = "/janox/"
+jx_alias = "/janox/"
 
 
 ; ___________________________________________________ PHP executable ___
 ;
 ; Full path to PHP (or PHP CLI) executable, used to perform batch
 ; executions.
-; You have to correctly set up this parameter in order to run deferred
-; executions: see "Execution splitting" directive ("split_exec").
+; You have to correctly set up this parameter in order to run jobs.
 ;
 ; Examples:
 ;  - "c:\programmi\php\php.exe"

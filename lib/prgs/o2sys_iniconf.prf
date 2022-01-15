@@ -19,16 +19,16 @@ function o2sys_iniconf§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("wide", "_o2logical");
 		}
 function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
-	$form_o2sys_iniconf_1->x(273);
+	$form_o2sys_iniconf_1->x(350);
 	$form_o2sys_iniconf_1->y(80);
-	$form_o2sys_iniconf_1->larghezza(650);
-	$form_o2sys_iniconf_1->altezza(570);
+	$form_o2sys_iniconf_1->larghezza(700);
+	$form_o2sys_iniconf_1->altezza(600);
 	$form_o2sys_iniconf_1->align_o("Center");
 	$form_o2sys_iniconf_1->titolo("Application configuration");
 	$form_o2sys_iniconf_1->css_body("o2_form_body open_body");
 	$form_o2sys_iniconf_1->css_doc("sys_options_doc");
 	$ctrl_o2label5 = &$form_o2sys_iniconf_1->ctrldef("o2label5", "label", "", "", "");
-		$ctrl_o2label5->x(320);
+		$ctrl_o2label5->x(370);
 		$ctrl_o2label5->y(80);
 		$ctrl_o2label5->larghezza(300);
 		$ctrl_o2label5->altezza(40);
@@ -36,14 +36,14 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2label5->visibile(o2sys_iniconf_exp_18());
 		$ctrl_o2label5->label(o2sys_iniconf_exp_15());
 	$ctrl_o2label3 = &$form_o2sys_iniconf_1->ctrldef("o2label3", "label", "", "", "");
-		$ctrl_o2label3->x(220);
+		$ctrl_o2label3->x(270);
 		$ctrl_o2label3->y(160);
 		$ctrl_o2label3->larghezza(90);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2label3->label("Set value:");
 	$ctrl_o2label4 = &$form_o2sys_iniconf_1->ctrldef("o2label4", "label", "", "", "");
-		$ctrl_o2label4->x(320);
+		$ctrl_o2label4->x(370);
 		$ctrl_o2label4->y(120);
 		$ctrl_o2label4->larghezza(300);
 		$ctrl_o2label4->altezza(40);
@@ -51,14 +51,14 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2label4->visibile(o2sys_iniconf_exp_18());
 		$ctrl_o2label4->label(o2sys_iniconf_exp_1());
 	$ctrl_o2label2 = &$form_o2sys_iniconf_1->ctrldef("o2label2", "label", "", "", "");
-		$ctrl_o2label2->x(220);
+		$ctrl_o2label2->x(270);
 		$ctrl_o2label2->y(120);
 		$ctrl_o2label2->larghezza(90);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2label2->label("From runtime:");
 	$ctrl_o2label8 = &$form_o2sys_iniconf_1->ctrldef("o2label8", "label", "", "", "");
-		$ctrl_o2label8->x(320);
+		$ctrl_o2label8->x(370);
 		$ctrl_o2label8->y(80);
 		$ctrl_o2label8->larghezza(300);
 		$ctrl_o2label8->altezza(20);
@@ -66,14 +66,14 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2label8->visibile(o2sys_iniconf_exp_17());
 		$ctrl_o2label8->label(o2sys_iniconf_exp_15());
 	$ctrl_o2label6 = &$form_o2sys_iniconf_1->ctrldef("o2label6", "label", "", "", "");
-		$ctrl_o2label6->x(220);
+		$ctrl_o2label6->x(270);
 		$ctrl_o2label6->y(80);
 		$ctrl_o2label6->larghezza(100);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2label6->label("Default:");
 	$ctrl_o2label7 = &$form_o2sys_iniconf_1->ctrldef("o2label7", "label", "", "", "");
-		$ctrl_o2label7->x(320);
+		$ctrl_o2label7->x(370);
 		$ctrl_o2label7->y(120);
 		$ctrl_o2label7->larghezza(300);
 		$ctrl_o2label7->altezza(20);
@@ -89,15 +89,15 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 	$ctrl_keys_list = &$form_o2sys_iniconf_1->ctrldef("keys_list", "listcombo", "", "prg§_§var", "selected_word");
 		$ctrl_keys_list->x(20);
 		$ctrl_keys_list->y(80);
-		$ctrl_keys_list->larghezza(170);
-		$ctrl_keys_list->altezza(450);
+		$ctrl_keys_list->larghezza(230);
+		$ctrl_keys_list->altezza(470);
 		$ctrl_keys_list->expand("V");
 		$ctrl_keys_list->azione("select_word");
 		$ctrl_keys_list->on_change(o2sys_iniconf_exp_4());
 		$ctrl_keys_list->valori(o2sys_iniconf_exp_3());
 		$ctrl_keys_list->righe(10);
 	$ctrl_o2edit3 = &$form_o2sys_iniconf_1->ctrldef("o2edit3", "edit", "", "prg§_§var", "value");
-		$ctrl_o2edit3->x(320);
+		$ctrl_o2edit3->x(370);
 		$ctrl_o2edit3->y(160);
 		$ctrl_o2edit3->larghezza(300);
 		$ctrl_o2edit3->altezza(20);
@@ -107,7 +107,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2edit3->azione("check_value");
 		$ctrl_o2edit3->on_change(o2sys_iniconf_exp_24());
 	$ctrl_o2ListBox3 = &$form_o2sys_iniconf_1->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "value");
-		$ctrl_o2ListBox3->x(320);
+		$ctrl_o2ListBox3->x(370);
 		$ctrl_o2ListBox3->y(160);
 		$ctrl_o2ListBox3->larghezza(300);
 		$ctrl_o2ListBox3->altezza(20);
@@ -118,7 +118,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2ListBox3->valori(o2sys_iniconf_exp_8());
 		$ctrl_o2ListBox3->righe(1);
 	$ctrl_o2checkbox2 = &$form_o2sys_iniconf_1->ctrldef("o2checkbox2", "check", "", "prg§_§var", "set_value");
-		$ctrl_o2checkbox2->x(290);
+		$ctrl_o2checkbox2->x(340);
 		$ctrl_o2checkbox2->y(160);
 		$ctrl_o2checkbox2->larghezza(20);
 		$ctrl_o2checkbox2->altezza(20);
@@ -126,7 +126,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2checkbox2->azione("enable_value");
 		$ctrl_o2checkbox2->on_change(o2sys_iniconf_exp_4());
 	$ctrl_o2textarea3 = &$form_o2sys_iniconf_1->ctrldef("o2textarea3", "text", "", "prg§_§var", "value");
-		$ctrl_o2textarea3->x(320);
+		$ctrl_o2textarea3->x(370);
 		$ctrl_o2textarea3->y(160);
 		$ctrl_o2textarea3->larghezza(300);
 		$ctrl_o2textarea3->altezza(70);
@@ -136,16 +136,16 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2textarea3->azione("save_value");
 		$ctrl_o2textarea3->on_change(o2sys_iniconf_exp_4());
 	$ctrl_o2button3 = &$form_o2sys_iniconf_1->ctrldef("o2button3", "button", "", "", "");
-		$ctrl_o2button3->x(320);
-		$ctrl_o2button3->y(490);
+		$ctrl_o2button3->x(370);
+		$ctrl_o2button3->y(520);
 		$ctrl_o2button3->larghezza(90);
 		$ctrl_o2button3->altezza(30);
 		$ctrl_o2button3->azione("open_save_as");
 		$ctrl_o2button3->label("&Save as");
 		$ctrl_o2button3->css(o2sys_iniconf_exp_28());
 	$ctrl_o2button4 = &$form_o2sys_iniconf_1->ctrldef("o2button4", "button", "", "", "");
-		$ctrl_o2button4->x(425);
-		$ctrl_o2button4->y(490);
+		$ctrl_o2button4->x(475);
+		$ctrl_o2button4->y(520);
 		$ctrl_o2button4->larghezza(90);
 		$ctrl_o2button4->altezza(30);
 		$ctrl_o2button4->azione("apply_conf");
@@ -153,8 +153,8 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2button4->confirm_message(o2sys_iniconf_exp_32());
 		$ctrl_o2button4->css(o2sys_iniconf_exp_28());
 	$ctrl_o2button2 = &$form_o2sys_iniconf_1->ctrldef("o2button2", "button", "", "", "");
-		$ctrl_o2button2->x(530);
-		$ctrl_o2button2->y(490);
+		$ctrl_o2button2->x(580);
+		$ctrl_o2button2->y(520);
 		$ctrl_o2button2->larghezza(90);
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("quit");
@@ -163,7 +163,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 	$ctrl_o2multipage2 = &$form_o2sys_iniconf_1->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(0);
 		$ctrl_o2multipage2->y(0);
-		$ctrl_o2multipage2->larghezza(652);
+		$ctrl_o2multipage2->larghezza(700);
 		$ctrl_o2multipage2->altezza(40);
 		$ctrl_o2multipage2->expand("H");
 		$ctrl_o2multipage2->label(array("Frame"));
@@ -173,29 +173,29 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2multipage2->css_label_off(o2sys_iniconf_exp_49());
 		$ctrl_o2multipage2->buttons("T");
 	$ctrl_o2htmlarea3 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea3->x(220);
-		$ctrl_o2htmlarea3->y(490);
+		$ctrl_o2htmlarea3->x(270);
+		$ctrl_o2htmlarea3->y(520);
 		$ctrl_o2htmlarea3->larghezza(80);
 		$ctrl_o2htmlarea3->altezza(30);
 		$ctrl_o2htmlarea3->expand("H");
 	$ctrl_o2htmlarea2 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(220);
+		$ctrl_o2htmlarea2->x(270);
 		$ctrl_o2htmlarea2->y(230);
 		$ctrl_o2htmlarea2->larghezza(400);
-		$ctrl_o2htmlarea2->altezza(240);
+		$ctrl_o2htmlarea2->altezza(280);
 		$ctrl_o2htmlarea2->expand("B");
 		$ctrl_o2htmlarea2->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2htmlarea2->html(o2sys_iniconf_exp_46());
 		$ctrl_o2htmlarea2->css(o2sys_iniconf_exp_48());
 	$ctrl_o2label9 = &$form_o2sys_iniconf_1->ctrldef("o2label9", "label", "o2multipage2", "", "");
-		$ctrl_o2label9->x(400);
+		$ctrl_o2label9->x(450);
 		$ctrl_o2label9->y(10);
 		$ctrl_o2label9->larghezza(70);
 		$ctrl_o2label9->altezza(20);
 		$ctrl_o2label9->info_padre(array(0));
 		$ctrl_o2label9->label("Search:");
 	$ctrl_o2edit2 = &$form_o2sys_iniconf_1->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "search");
-		$ctrl_o2edit2->x(470);
+		$ctrl_o2edit2->x(520);
 		$ctrl_o2edit2->y(10);
 		$ctrl_o2edit2->larghezza(150);
 		$ctrl_o2edit2->altezza(20);
@@ -716,6 +716,20 @@ $list = array(
                                  "Name of the file containing menus definition informations.\n".
                                  "The file must be in the folder \"[app]/prgs/\".",
                     "default" => "menu_repository.inc"),
+   "jx_alias" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** Janox runtime WEB alias ***\n\n".
+                                    "Janox runtime alias is usually set in janox.ini (runtime ".
+                                    "configuration file), so you don't need to set this parameter ".
+                                    "here.\n\n".
+                                    "However, in some configuration systems, janx.ini file may be not ".
+                                    "accessible.\n".
+                                    "In these cases you can use this application parameter to set the ".
+                                    "alias for the Janox runtime.\n\n".
+                                    "NOTE: runtime alias is the first part of URLs where Janox resuources ".
+                                    "are served out from (\"jxrnt/htdocs/\"). ".
+                                    "It should start with a \"/\" or with a protocol (\"http://\", \"https://\", ...)",
+                       "default" => ""),
    "alias" => array("rntval"  => null,
                     "appval"  => null,
                     "desc"    => "   *** Application WEB alias ***\n\n".
@@ -1280,54 +1294,63 @@ return ("alert_msg");
 
 function o2sys_iniconf_exp_26() {
 	$rnt_root = new o2_dir(o2rnt_root());
-$ini      = $rnt_root."janox.ini";
+$ini      = $rnt_root.'janox.ini';
 $values   = parse_ini_file($ini);
 $struct   = o2val('prg§_§var','ini_struct');
 foreach (array_keys($struct) as $key) {
    if (isset($values[$key])) {
       if (is_array($struct[$key]['values']) &&
           count($struct[$key]['values']) == 2 &&
-          in_array("on", $struct[$key]['values']) &&
-          in_array("off", $struct[$key]['values'])) {
-         $struct[$key]["rntval"] = ($values[$key] ? "on" : "off");
+          in_array('on', $struct[$key]['values']) &&
+          in_array('off', $struct[$key]['values'])) {
+         $struct[$key]['rntval'] = ($values[$key] ? 'on' : 'off');
          }
       else {
-         $struct[$key]["rntval"] = $values[$key];
+         $struct[$key]['rntval'] = $values[$key];
          }
       }
    else {
-      $struct[$key]["rntval"] = null;
+      $struct[$key]['rntval'] = null;
       }
+   }
+/*   Use value from old "o2_alias" to "jx_alias" parameter   */   
+if (!isset($struct['jx_alias']['rntval']) && isset($values['o2_alias'])) {
+   $struct['jx_alias']['rntval'] = $values['o2_alias'];
    }
 return ($struct);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_27() {
-	$ini    = o2app_dir_home().o2app_name().".ini";
+	$ini    = o2app_dir_home().o2app_name().'.ini';
 $values = parse_ini_file($ini);
 $struct = o2val('prg§_§var','ini_struct');
 foreach (array_keys($struct) as $key) {
    if (isset($values[$key])) {
       if (is_array($struct[$key]['values']) &&
           count($struct[$key]['values']) == 2 &&
-          in_array("on", $struct[$key]['values'], true) &&
-          in_array("off", $struct[$key]['values'], true)) {
-         $struct[$key]["appval"] = ($values[$key] ? "on" : "off");
+          in_array('on', $struct[$key]['values'], true) &&
+          in_array('off', $struct[$key]['values'], true)) {
+         $struct[$key]['appval'] = ($values[$key] ? 'on' : 'off');
          }
       elseif (is_array($struct[$key]['values']) &&
-      	      in_array("on", $struct[$key]['values'], true) &&
-              ($values[$key] === "1" || $values[$key] === "")) {
-         $struct[$key]["appval"] = ($values[$key] === "1" ? "on" : "off");
+      	      in_array('on', $struct[$key]['values'], true) &&
+              ($values[$key] === '1' || $values[$key] === '')) {
+         $struct[$key]['appval'] = ($values[$key] === '1' ? 'on' : 'off');
          }
       else {
-         $struct[$key]["appval"] = $values[$key];
+         $struct[$key]['appval'] = $values[$key];
          }
-      $struct[$key]["setval"] = $struct[$key]["appval"];
+      $struct[$key]['setval'] = $struct[$key]['appval'];
       }
    else {
-      $struct[$key]["appval"] = null;
-      unset($struct[$key]["setval"]);
+      $struct[$key]['appval'] = null;
+      unset($struct[$key]['setval']);
       }
+   }
+/*   Use value from old "o2_alias" to "jx_alias" parameter   */   
+if (!isset($struct['jx_alias']['setval']) && isset($values['o2_alias'])) {
+   $struct['jx_alias']['appval'] = $values['o2_alias'];
+   $struct['jx_alias']['setval'] = $values['o2_alias'];
    }
 return ($struct);
 	} //|o2_fine_exp|
@@ -1403,6 +1426,7 @@ function o2sys_iniconf_exp_34() {
               "viewmodels",
               "menus",
               "",
+              "jx_alias",
               "alias",
               "title",
               "host",

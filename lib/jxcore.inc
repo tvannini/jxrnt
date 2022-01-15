@@ -6707,6 +6707,7 @@ endofjxmsg;
             return;
             }
         $conf['o2_alias']         && $this->alias           = $conf['o2_alias'];
+        $conf['jx_alias']         && $this->alias           = $conf['jx_alias'];
         isset($conf['decimals'])  && $this->decimals_point  = $conf['decimals'];
         isset($conf['thousands']) && $this->thousands_point = $conf['thousands'];
         isset($conf['data_chunk']) && $this->def_datachunk  = intval($conf['data_chunk']);
