@@ -1033,15 +1033,26 @@ $list = array(
                             "values"  => 'prg'),
    "prgs_path_inc" => array("rntval"  => null,
                             "appval"  => null,
-                            "desc"    => "   *** Programs path inclusion ***\n\n".
-                                         "List of column (;) separated paths to include programs from.\n".
+                            "desc"    => "   *** Programs and repositories extra path ***\n\n".
+                                         "List of column (;) separated paths to include programs and repositories from.\n".
                                          "When one or more paths are set, these paths will be checked AFTER ".
-                                         "standard folders for programs scripts existance, in the set order.\n\n".
+                                         "standard folder for scripts existance, in the set order.\n\n".
                                          "Paths can be absolute or relative. Relative paths are relative to application root folder.\n".
                                          "To set a relative path you can just set the relative part of the path or use \"./\".\n".
                                          "For example, to use folder \"[app]/extra_prgs/\" you can set \"./extra_prgs/\" ".
                                          "or just \"extra_prgs/\" (ending slash is optional).",
                             "default" => ""),
+   "templates_path_inc" => array("rntval"  => null,
+                                 "appval"  => null,
+                                 "desc"    => "   *** Reports templates extra path ***\n\n".
+                                              "List of column (;) separated paths to use reports templates from.\n".
+                                              "When one or more paths are set, these paths will be checked AFTER ".
+                                              "standard folder for templates existance, in the set order.\n\n".
+                                              "Paths can be absolute or relative. Relative paths are relative to application root folder.\n".
+                                              "To set a relative path you can just set the relative part of the path or use \"./\".\n".
+                                              "For example, to use folder \"[app]/extra_templates/\" you can set \"./extra_templates/\" ".
+                                              "or just \"extra_templates/\" (ending slash is optional).",
+                                 "default" => ""),
    "services" => array("rntval"  => null,
                        "appval"  => null,
                        "desc"    => "   *** Services ***\n\n".
@@ -1498,6 +1509,7 @@ function o2sys_iniconf_exp_34() {
               "reporter",
               "jxsql",
               "prgs_path_inc",
+              "templates_path_inc",
               "",
               "decimals",
               "thousands",
