@@ -12,6 +12,7 @@ function jxdbcopy§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("jxdb_asp", "_o2alpha");
 	$task_prg§_§var->definisci("result", "_o2text");
 	$task_prg§_§var->definisci("row_count", "_o2number");
+	$task_prg§_§var->definisci("save_encoding", "_o2alpha");
 	$task_prg§_§var->definisci("src_tab_exists", "_o2logical");
 	$task_prg§_§var->definisci("start_time", "_o2sid");
 	$task_prg§_§var->definisci("tab_index", "_o2number");
@@ -105,12 +106,16 @@ function jxdbcopy§§loop_on_tabs_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxdbcopy§§start_act(&$o2exe) {
-//	$o2exe->s(1) && True && o2act::remark("Reset tables repository in case of split") && $o2exe->e();
-	$o2exe->s(2) && (jxdbcopy_exp_15() || $o2exe->e()) && o2act::script(jxdbcopy_exp_14()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::set("prg§_§var", "action", jxdbcopy_exp_3()) && $o2exe->e();
-	$o2exe->s(4) && True && o2act::set("prg§_§var", "jxdb", jxdbcopy_exp_33()) && $o2exe->e();
-	$o2exe->s(5) && True && o2act::set("prg§_§var", "jxdb_asp", jxdbcopy_exp_26()) && $o2exe->e();
-	$o2exe->s(6) && True && o2act::exe("execute", True, "") && $o2exe->e();
+//	$o2exe->s(1) && True && o2act::remark("Force encodin") && $o2exe->e();
+	$o2exe->s(2) && (jxdbcopy_exp_16() || $o2exe->e()) && o2act::set("prg§_§var", "save_encoding", jxdbcopy_exp_17()) && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Reset tables repository in case of split") && $o2exe->e();
+	$o2exe->s(4) && (jxdbcopy_exp_15() || $o2exe->e()) && o2act::script(jxdbcopy_exp_14()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "action", jxdbcopy_exp_3()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "jxdb", jxdbcopy_exp_33()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "jxdb_asp", jxdbcopy_exp_26()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::exe("execute", True, "") && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("Reset application encoding") && $o2exe->e();
+	$o2exe->s(10) && (jxdbcopy_exp_16() || $o2exe->e()) && o2act::script(jxdbcopy_exp_32()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxdbcopy_exp_1() {
@@ -208,6 +213,25 @@ return (true);
 function jxdbcopy_exp_15() {
 	
 return ($_SESSION['o2_app']->split_tab_repos);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_16() {
+	
+return (o2par(10));
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_17() {
+	$old_enc = $_SESSION['o2_app']->chr_encoding;
+$new_enc = strtoupper(o2par(10));
+if (($new_enc != strtoupper($old_enc)) &&
+    ($new_enc == 'UTF-8' ||
+     $new_enc == 'WINDOWS-1252' ||
+     $new_enc == 'ISO8859-1')) {
+   $_SESSION['o2_app']->chr_encoding = $new_enc;
+   /* Force new connections with new encoding */ 
+   o2transaction_isolate();
+   }
+return ($old_enc);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_18() {
@@ -370,6 +394,11 @@ if (o2session_is_job()) {
 elseif (o2rnt_interface() == 'BAT') {
    print "\n\n".$txt;
    }
+return (true);
+	} //|o2_fine_exp|
+
+function jxdbcopy_exp_32() {
+	$_SESSION['o2_app']->chr_encoding = o2val('prg§_§var','save_encoding');
 return (true);
 	} //|o2_fine_exp|
 
