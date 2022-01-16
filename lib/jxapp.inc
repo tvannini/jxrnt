@@ -2205,9 +2205,17 @@ class o2_app {
                 $file2inc = $this->dir_progs->element($repository);
                 }
             if (!include_once($file2inc)) {
+                if ($this->prgs_path_inc) {
+                    foreach ($this->prgs_path_inc as $path) {
+                        if (@include_once($path.$repository)) {
+                            return true;
+                            }
+                        }
+                    }
                 throw new o2_exception("Cannot find file <i>".$repository.
-                                       "</i> requested as repository.",
-                                       o2error_MISSINGFILE);
+                                        "</i> requested as repository.",
+                                        o2error_MISSINGFILE);
+                return false;
                 }
             }
         return true;
