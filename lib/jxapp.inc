@@ -439,7 +439,7 @@ class o2_app {
             }
         // ____________________________ Server side extra script inclusion (extra.inc) ___
         if ($app->file_server_inc) {
-            include_once($app->dir_progs.$app->file_server_inc);
+            $app->include_extra();
             }
         // ______________________________ Run jobs if session is a worker (job-runner) ___
         if (o2_run_job::run_session()) { }
@@ -2243,6 +2243,33 @@ class o2_app {
 
 
     /**
+     * Include server side extra script in application.
+     *
+     */
+    function include_extra() {
+
+        if ($file = $this->file_server_inc) {
+            if (!include_once $this->dir_progs.$file) {
+                if ($this->prgs_path_inc) {
+                    foreach ($this->prgs_path_inc as $path) {
+                        if (@include_once($path.$file)) {
+                            return true;
+                            }
+                        }
+                    }
+                throw new o2_exception("Cannot find file <i>".$file.
+                                        "</i> requested as server side extra script.",
+                                        o2error_MISSINGFILE);
+                return false;
+                }
+            return true;
+            }
+        return false;
+
+        }
+
+
+    /**
      * Include lo script del modulo [prg] di un programma per la sua messa in esecuzione
      *
      * @param string $prg_name
@@ -2569,7 +2596,7 @@ class o2_app {
                 $this->runtime->load_gateway($dbas->server->type);
                 // ____________________ Server side extra script inclusion (extra.inc) ___
                 if ($this->file_server_inc) {
-                    include_once $this->dir_progs.$this->file_server_inc;
+                    $this->include_extra();
                     }
                 // _____________________________________________________________ JXSQL ___
                 if ($this->jxsql) {
@@ -2621,7 +2648,7 @@ class o2_app {
                 }
             // ________________________ Server side extra script inclusion (extra.inc) ___
             if ($this->file_server_inc) {
-                include_once $this->dir_progs.$this->file_server_inc;
+                $this->include_extra();
                 }
             // _________________________________________ Including view models scripts ___
             if ($this->file_viewmodels) {

@@ -118,7 +118,7 @@ class o2html {
             }
         // ____________________________ Server side extra script inclusion (extra.inc) ___
         if ($app->file_server_inc) {
-            include_once $app->dir_progs.$app->file_server_inc;
+            $app->include_extra();
             }
         // _______________________________________________________________ Page prefix ___
         o2html::page_prefix($app->allow_history ? 0 : $pmark);

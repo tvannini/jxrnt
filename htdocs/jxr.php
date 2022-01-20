@@ -55,7 +55,7 @@ if (session_start()) {
         }
     // _____________________________________________________ Server side extra scripts ___
     if ($app->file_server_inc) {
-        include_once $app->dir_progs.$app->file_server_inc;
+        $app->include_extra();
         }
     // __________________________________________________ Get client size informations ___
     o2html::client_info();
