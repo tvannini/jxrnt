@@ -778,20 +778,7 @@ class o2_app {
         $tabs_list    = array();
         $custom_map   = false;
         // ___________________________________________________ Custom tables remapping ___
-        if ($this->run_level == "DEV" && $this->dir_cvs_progs->exists('tables_map.ini')) {
-            $custom_map = $this->dir_cvs_progs.'tables_map.ini';
-            }
-        elseif ($this->dir_progs->exists('tables_map.ini')) {
-            $custom_map = $this->dir_progs.'tables_map.ini';
-            }
-        if ($custom_map && $map_conf = @parse_ini_file($custom_map)) {
-            $map_rep = new o2_fsitem($custom_map);
-            foreach ($map_conf as $map_tab => $map_db) {
-                if (isset($this->tab[$map_tab]) && isset($this->db[$map_db])) {
-                    $this->tab[$map_tab]->set_db($this->db[$map_db]);
-                    }
-                }
-            }
+        $this->remap_tables_on_db();
         // ___________________________________________________________ Tables creation ___
         if ($this->tables_create) {
             $this->upgrade_systabs();
@@ -855,9 +842,23 @@ class o2_app {
      */
     function remap_tables_on_db() {
 
+        // __________________________________________ Custom tables remapping from CVS ___
+        if ($this->run_level == "DEV" && $this->dir_cvs_progs->exists('tables_map.ini')) {
+            $custom_map = $this->dir_cvs_progs.'tables_map.ini';
+            }
         // ___________________________________________________ Custom tables remapping ___
-        if ($this->run_level != "DEV" && $this->dir_progs->exists('tables_map.ini')) {
+        elseif ($this->dir_progs->exists('tables_map.ini')) {
             $custom_map = $this->dir_progs.'tables_map.ini';
+            }
+        // _____________________________ Custom tables remapping from extra prgs paths ___
+        elseif ($this->prgs_path_inc) {
+            foreach ($this->prgs_path_inc as $path) {
+                $dir = new o2_dir($path);
+                if ($dir->file_exists('tables_map.ini')) {
+                    $custom_map = $dir.'tables_map.ini';
+                    break;
+                    }
+                }
             }
         if ($custom_map && $map_conf = @parse_ini_file($custom_map)) {
             foreach ($map_conf as $map_tab => $map_db) {
