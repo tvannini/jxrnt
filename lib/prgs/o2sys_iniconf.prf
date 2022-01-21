@@ -812,9 +812,9 @@ $list = array(
    "extrainc" => array("rntval"  => null,
                        "appval"  => null,
                        "desc"    => "   *** PHP inclusions ***\n\n".
-                                    "List of comma separeted PHP files to be included in application.\n".
-                                    "Application will look for this page in its \"prgs\" folder.\n".
-                                    "Useful for including custom functions files.",
+                                    "PHP file to be included in application.\n".
+                                    "Application will look for this script in \"prgs\" folder.\n".
+                                    "Useful for including custom functions and PHP libraries.",
                        "default" => ""),
    "errorinc" => array("rntval"  => null,
                        "appval"  => null,
