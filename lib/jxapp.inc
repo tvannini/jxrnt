@@ -1621,9 +1621,9 @@ class o2_app {
                     }
                 }
             }
-        if (isset($conf['template_path_inc'])) {
+        if (isset($conf['templates_path_inc'])) {
             $this->templ_path_inc = array();
-            foreach(explode(';', $conf['templ_path_inc']) as $path) {
+            foreach(explode(';', $conf['templates_path_inc']) as $path) {
                 if (strcspn($path, '\\/', 0, 1) &&
                     !preg_match('/\w\:/', $path[0].$path[1])) {
                     if ($path[0] == '.') {
