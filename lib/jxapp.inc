@@ -854,7 +854,7 @@ class o2_app {
         elseif ($this->prgs_path_inc) {
             foreach ($this->prgs_path_inc as $path) {
                 $dir = new o2_dir($path);
-                if ($dir->file_exists('tables_map.ini')) {
+                if ($dir->exists('tables_map.ini')) {
                     $custom_map = $dir.'tables_map.ini';
                     break;
                     }
