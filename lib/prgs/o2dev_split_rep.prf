@@ -21,6 +21,16 @@ if ($app->run_level == "DEV" && $app->dir_cvs_progs->exists('tables_map.ini')) {
 elseif ($app->dir_progs->exists('tables_map.ini')) {
    $custom_map = $app->dir_progs.'tables_map.ini';
    }
+// _____________________________ Custom tables remapping from extra prgs paths ___
+elseif ($app->prgs_path_inc) {
+   foreach ($app->prgs_path_inc as $path) {
+      $dir = new o2_dir($path);
+      if ($dir->exists('tables_map.ini')) {
+         $custom_map = $dir.'tables_map.ini';
+         break;
+         }
+      }
+   }
 if ($custom_map) {
    $map = @parse_ini_file($custom_map);
    }
@@ -36,7 +46,7 @@ foreach (file($rep_file) as $single_line) {
          preg_match_all('/o2def::tab\(["\'](\w*)["\']\s*,/', $single_line, $parts);
          $tab_name = $parts[1][0];
          if (isset($map[$tab_name]) && isset($app->db[$map[$tab_name]])) {
-            $single_line = preg_replace('/o2def::tab\(["\'](\w*)["\']\s*,\s*["\'](\w*)["\']\s*,/', 
+            $single_line = preg_replace('/o2def::tab\(["\'](\w*)["\']\s*,\s*["\'](\w*)["\']\s*,/',
                            'o2def::tab("$1", "'.$map[$tab_name].'",', $single_line);
             }
          break;
