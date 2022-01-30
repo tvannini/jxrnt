@@ -4164,6 +4164,7 @@ class o2_dbview extends o2_view {
         if ($this->record_suffix()) {
             if ($this->selezione < (count($this->recordset) - 1)) {
                 $this->seleziona_riga($this->selezione + 1);
+                $this->relocated       = true;
                 $this->relocate_to_key = false;
                 $ret_val               = true;
                 }
@@ -4198,6 +4199,7 @@ class o2_dbview extends o2_view {
         if ($this->record_suffix()) {
             if ($this->selezione > 0) {
                 $this->seleziona_riga($this->selezione - 1);
+                $this->relocated       = true;
                 $this->relocate_to_key = false;
                 $this->bof             = false;
                 return true;
