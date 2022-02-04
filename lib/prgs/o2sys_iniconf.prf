@@ -972,15 +972,6 @@ $list = array(
                                       "  2. Log login and logout events and failed login attempts, too.\n\n",
                          "default" => 0,
                          "values"  => array(0, 1, 2)),
-   "allow_history" => array("rntval"  => null,
-                            "appval"  => null,
-                            "desc"    => "   *** Allow browser history ***\n\n".
-                                         "When set to ON users can recover past pages from history, using 'back' button.\n".
-                                         "When set to OFF last server state is resent to client each time users try to ".
-                                         "submits past pages recovered from history.\n".
-                                         "This setting is useful only in HTML context.",
-                            "default" => "off",
-                            "values"  => array("off", "on")),
    "keepalive" => array("rntval"  => null,
                         "appval"  => null,
                         "desc"    => "   *** HTML keep-alive ***\n\n".
@@ -1465,7 +1456,6 @@ function o2sys_iniconf_exp_34() {
               "logout_url",
               "access_log",
               "asp_areas_table",
-              "allow_history",
               "nologin",
               "lockpage",
               "unlockprg",

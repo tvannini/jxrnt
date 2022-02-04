@@ -121,7 +121,7 @@ class o2html {
             $app->include_extra();
             }
         // _______________________________________________________________ Page prefix ___
-        o2html::page_prefix($app->allow_history ? 0 : $pmark);
+        o2html::page_prefix($pmark);
         // _____________________________________________________ Force password change ___
         if ($app->force_pwd_change) {
             $GLOBALS['jxPwdChangeCode'] = $app->force_pwd_change;
@@ -132,17 +132,12 @@ class o2html {
         /* _________________________________________________________________ Execution ___
          * Request unique page-mark is checked to avoid re-executions of old pages (from
          * browser cache). Request is considered new and executed if:
-         *  - <o2_app>->allow_history set to TRUE (no page-mark check performed)
          *  - No page-mark is provided by request (login, GET, ...)
          *  - Request page-mark match last session page-mark (normal interaction)
          *  - Coming from a goto: page-mark has already been checked at the very start
          */
         try {
-            if ($app->allow_history) {
-                $app->page_mark = 0;
-                $app->esecutivo();
-                }
-            elseif ($goto || !$req_pmark || $req_pmark == $app->page_mark) {
+            if ($goto || !$req_pmark || $req_pmark == $app->page_mark) {
                 $app->page_mark = $pmark;
                 $app->esecutivo();
                 }

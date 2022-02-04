@@ -836,32 +836,6 @@ function o2_translate($code, $string) {
 
 
 /**
- * Sets HTML headers to allow browsers to recover page in production
- * from cache. Returns TRUE if set possible, FALSE if headers
- * have already been sent.
- *
- * @param  boolean $allow
- * @return boolean
- */
-function o2_allow_history($allow = true) {
-
-    if (headers_sent()) {
-        return false;
-        }
-    elseif ($allow) {
-        session_cache_limiter("nocache");
-        print "<script> document.o2form.o2pagemark.value=''; </script>";
-        return true;
-        }
-    else {
-        session_cache_limiter("must_revalidate");
-        return true;
-        }
-
-    }
-
-
-/**
  * Plays an audio file.
  * The audio file parameter is the URL to the file to play.
  *

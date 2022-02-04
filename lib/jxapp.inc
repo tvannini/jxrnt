@@ -100,7 +100,6 @@ class o2_app {
     public $keep_alive         = true;      /* Set auto-refresh to keep session alive   */
     public $user_roles         = array();   /* List of roles for logged user            */
     public $user_rights        = array();   /* List of rights owned by logged user      */
-    public $allow_history      = false;     /* If user can get back pages pressing back */
     public $logout_url         = false;     /* URL to logout app to, by o2app_logout()  */
     public $logout_on_close    = true;      /* Logout session on browser close          */
     public $access_log         = 0;         /* O=No log; 1=Login/logout; 2=attempts too */
@@ -1510,9 +1509,6 @@ class o2_app {
             }
         if (isset($conf['keepalive'])) {
             $this->keep_alive = $conf['keepalive'];
-            }
-        if (isset($conf['allow_history'])) {
-            $this->allow_history = ($conf['allow_history'] ? true : false);
             }
         if (isset($conf['validate'])) {
             $this->validazione = intval($conf['validate']);
