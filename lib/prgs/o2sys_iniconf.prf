@@ -1126,14 +1126,7 @@ $list = array(
                   "desc"    => "   *** Documentor ***\n\n".
                                "Set to ON to enable jxDocumentor capabilities for application.",
                   "default" => "off",
-                  "values"  => array("off", "on")),
-   "sharedir" => array("rntval"  => null,
-                       "appval"  => null,
-                       "desc"    => "   *** Absolute application path ***\n\n".
-                                    "Set here the absolute path, leading to the application main ".
-                                    "folder from clients in your net.",
-                       "default" => "")
-
+                  "values"  => array("off", "on"))
    );
 
 ksort($list);
