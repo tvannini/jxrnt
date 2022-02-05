@@ -2271,13 +2271,16 @@ class o2_app {
      *
      * @param string $prg_name
      */
-    function includi_prg($prg_name = "") {
+    function includi_prg($prg_name = '') {
 
+        if (!$prg_name) {
+            return;
+            }
         $prg_name = trim($prg_name);
-        if (strpos($prg_name, "/")) {
-            list($prg_folder, $prg_name) = explode("/", $prg_name);
+        if (strpos($prg_name, '/')) {
+            list($prg_folder, $prg_name) = explode('/', $prg_name);
             switch ($prg_folder) {
-                case "tools":
+                case 'tools':
                     $this->runtime->prg($prg_name);
                     if (!$this->extcall_level) {
                         $this->extcall_level   = $this->progressivo_istanze;
@@ -2286,7 +2289,7 @@ class o2_app {
                     $this->istanze_prg[$this->progressivo_istanze]->internal_tool = true;
                     return;
                     break;
-                case "doc":
+                case 'doc':
                     if ($this->doc_activate()) {
                         $this->doc->prg($prg_name);
                         if (!$this->extcall_level) {
@@ -2297,24 +2300,17 @@ class o2_app {
                     $this->istanze_prg[$this->progressivo_istanze]->internal_tool = true;
                     return;
                     break;
-                case "app":
-                    $this->istanze_prg[$this->progressivo_istanze]->script = "";
+                case 'app':
+                    $this->istanze_prg[$this->progressivo_istanze]->script = '';
                     break;
                 }
             }
-        $script_local = "";
-        if (!$prg_name) {
-            $folder_local = new o2_dir(dirname($this->default).DIRECTORY_SEPARATOR);
-            if ($folder_local->exists(basename($this->default))) {
-                $script_local = $this->default;
-                }
-            }
-        elseif ($this->run_level == "DEV" &&
-                $this->dir_cvs_progs->exists($prg_name.".prg")) {
-            $script_local = $this->dir_cvs_progs.$prg_name.".prg";
+        $script_local = '';
+        if ($this->run_level == 'DEV' && $this->dir_cvs_progs->exists($prg_name.'.prg')) {
+            $script_local = $this->dir_cvs_progs.$prg_name.'.prg';
             }
         else {
-            $script_local = $this->dir_progs.$prg_name.".prg";
+            $script_local = $this->dir_progs.$prg_name.'.prg';
             }
         if (include($script_local)) {
             $this->istanze_prg[$this->progressivo_istanze]->load_custom_grids();
@@ -2329,12 +2325,11 @@ class o2_app {
                         }
                     }
                 }
-            throw new o2_exception("Cannot find file <i>".$script_local.
-                                   "</i> requested as PRG module for program <i>".
-                                   $prg_name."</i>.",
-                                   o2error_MISSINGFILE);
+            throw new o2_exception('Cannot find file <i>'.$script_local.
+                                    '</i> requested as PRG module for program <i>'.
+                                    $prg_name.'</i>.',
+                                    o2error_MISSINGFILE);
             }
-
         }
 
 
@@ -2345,42 +2340,39 @@ class o2_app {
      * @param string $prg_name
      * @param string $script
      */
-    function includi_prf($prg_name = "", $script = "") {
+    function includi_prf($prg_name = '', $script = '') {
 
+        if (!$prg_name) {
+            return;
+            }
         $prg_name = trim($prg_name);
-        if (strpos($prg_name, "/")) {
-            list($prg_folder, $prg_name) = explode("/", $prg_name);
+        if (strpos($prg_name, '/')) {
+            list($prg_folder, $prg_name) = explode('/', $prg_name);
             switch ($prg_folder) {
-                case "tools":
+                case 'tools':
                     return $this->runtime->prf($prg_name);
                     break;
-                case "doc":
+                case 'doc':
                     if ($this->doc_activate()) {
                         return $this->doc->prf($prg_name);
                         }
                     return;
                     break;
-                case "app":
-                    $this->istanze_prg[$this->progressivo_istanze]->script = "";
+                case 'app':
+                    $this->istanze_prg[$this->progressivo_istanze]->script = '';
                     break;
                 }
             }
-        $script_local = "";
+        $script_local = '';
         if ($script) {
-            $script_local = str_replace(".prg", ".prf", $script);
+            $script_local = str_replace('.prg', '.prf', $script);
             }
-        elseif (!$prg_name) {
-            $folder_local = new o2_dir(dirname($this->default).DIRECTORY_SEPARATOR);
-            if ($folder_local->exists(basename($this->default))) {
-                $script_local = $this->default;
-                }
-            }
-        elseif ($this->run_level == "DEV" &&
-                $this->dir_cvs_progs->exists($prg_name.".prf")) {
-            $script_local = $this->dir_cvs_progs.$prg_name.".prf";
+        elseif ($this->run_level == 'DEV' &&
+                $this->dir_cvs_progs->exists($prg_name.'.prf')) {
+            $script_local = $this->dir_cvs_progs.$prg_name.'.prf';
             }
         else {
-            $script_local = $this->dir_progs.$prg_name.".prf";
+            $script_local = $this->dir_progs.$prg_name.'.prf';
             }
         if (!@include_once($script_local)) {
             if ($this->prgs_path_inc) {
@@ -2390,9 +2382,9 @@ class o2_app {
                         }
                     }
                 }
-            throw new o2_exception("Cannot find file <i>".$script_local.
-                                   "</i> requested as PRF module for program <i>".
-                                   $prg_name."</i>.",
+            throw new o2_exception('Cannot find file <i>'.$script_local.
+                                   '</i> requested as PRF module for program <i>'.
+                                   $prg_name.'</i>.',
                                    o2error_MISSINGFILE);
             }
 
