@@ -781,13 +781,6 @@ $list = array(
                                "Use an exlamation mark (\"!\") as first character to avoid system ".
                                "style loading.",
                   "default" => ""),
-   "defaultpage" => array("rntval"  => null,
-                          "appval"  => null,
-                          "desc"    => "   *** HTML default page ***\n\n".
-                                       "HTML page to be included when no program is running.\n".
-                                       "Application will look for this page in its \"htdocs\" folder.\n".
-                                       "This setting is useful only in HTML context.",
-                          "default" => ""),
    "header" => array("rntval"  => null,
                      "appval"  => null,
                      "desc"    => "   *** HTML header ***\n\n".
@@ -1423,7 +1416,6 @@ function o2sys_iniconf_exp_34() {
               "activemenu",
               "menu_style",
               "",
-              "defaultpage",
               "footer",
               "header",
               "extrainc",

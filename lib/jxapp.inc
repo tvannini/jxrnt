@@ -1547,9 +1547,6 @@ class o2_app {
         if (isset($conf['css'])) {
             $this->css = $conf['css'];
             }
-        if (isset($conf['defaultpage'])) {
-            $this->default = $conf['defaultpage'];
-            }
         if (isset($conf['nologin'])) {
             $this->no_login = $conf['nologin'];
             }
