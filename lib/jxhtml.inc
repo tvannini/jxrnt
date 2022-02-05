@@ -341,7 +341,6 @@ class o2html {
                'o2jse.conf.setRefresh('.$app->refresh_time.");\n" : '').
               ($lu_time >= 300 ? 'o2jse.conf.luReqTime('.$lu_time.");\n" : '').
               'o2jse.conf.setMaxReq('.$app->max_req_n.");\n".
-              'o2jse.conf.setWaiting('.($app->wait_on_ctrl ? '!0' : '!1').");\n".
               'o2jse.conf.setFastMsgTime('.$app->fastmsg_time.");\n".
               "o2jse.conf.decimalsPoint('".$app->decimals_point()."');\n".
               "o2jse.conf.thousandsPoint('".$app->thousands_point()."');\n".

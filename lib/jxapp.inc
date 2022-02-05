@@ -177,7 +177,6 @@ class o2_app {
     public $msg_undo        = '';      /* Message to be displayed on record undo        */
     public $msg_norec       = '';      /* Message to be displayed in empty tables       */
     public $profiling       = false;   /* Enables runtime profiling capabilities        */
-    public $wait_on_ctrl    = true;    /* If waiting icon is displayed on submit control*/
     public $fastmsg_time    = 5;       /* Fast messages time-out to fade away           */
     public $prgs_path_inc   = false;   /* Extra paths to look for prgs in               */
     public $templ_path_inc  = false;   /* Extra paths to look for report templates in   */
@@ -1643,9 +1642,6 @@ class o2_app {
             }
         if (isset($conf['msg_norec'])) {
             $this->msg_norec = $conf['msg_norec'];
-            }
-        if (isset($conf['wait_on_ctrl'])) {
-            $this->wait_on_ctrl = ($conf['wait_on_ctrl'] ? true : false);
             }
         if (isset($conf['fastmsg_time'])) {
             $this->fastmsg_time = max(3, intval($conf['fastmsg_time']));

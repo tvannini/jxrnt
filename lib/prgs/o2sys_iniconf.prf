@@ -640,13 +640,6 @@ $list = array(
                                      "When user reaches the maximum number or requests no more actions are allowed, ".
                                      "until all responses are ended.\nMinimum value is 1.",
                         "default" => 5),
-   "wait_on_ctrl" => array("rntval"  => null,
-                           "appval"  => null,
-                           "desc"    => "   *** Mark waiting control ***\n\n".
-                                        "If set to ON submitting controls are marked with a waiting icon.\n".
-                                        "Parameter doesn't affect db-grid behaviour.",
-                           "default" => "on",
-                           "values"  => array("off", "on")),
    "fastmsg_time" => array("rntval"  => null,
                            "appval"  => null,
                            "desc"    => "   *** Fast messages time-out ***\n\n".
@@ -1478,7 +1471,6 @@ function o2sys_iniconf_exp_34() {
               "grid_multidel",
               "zoom",
               "max_req_n",
-              "wait_on_ctrl",
               "fastmsg_time",
               "split_rep",
               "profiling",
