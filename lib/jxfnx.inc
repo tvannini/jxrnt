@@ -6542,6 +6542,7 @@ function o2view_selector_none($view_name) {
             $view->recordset[$rec_id][$selector] = false;
             }
         }
+    $view->precedente[$selector] = false;
     return true;
 
     }
