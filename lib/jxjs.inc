@@ -872,11 +872,11 @@ class jxjs {
      */
     static function ctrl_area($o2ctrl_obj) {
 
-        $app    = $_SESSION['o2_app'];
-        $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
-        $parent = "{pT:'".($o2ctrl_obj->padre ?
-                           $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
-                           'form')."'}";
+        $app   = $_SESSION['o2_app'];
+        $form  = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
+        $props = "{pT:'".($o2ctrl_obj->padre ?
+                          $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
+                          'form')."',f:'".$o2ctrl_obj->form."'}";
         // _________________________________________ NOT EXPOSED! Used only internally ___
         if ($o2ctrl_obj->campo_in_ctrl) {
             $html = $o2ctrl_obj->valore;
@@ -891,7 +891,7 @@ class jxjs {
                          ',y:'.$o2ctrl_obj->y.
                          ',w:'.$o2ctrl_obj->larghezza.
                          ',h:'.$o2ctrl_obj->altezza,
-                         $parent);
+                         $props);
 
         }
 

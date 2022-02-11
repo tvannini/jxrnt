@@ -4585,12 +4585,13 @@ o2jse.cmd.run = function(prgName) {
  */
 o2jse.cmd.exe = function(eventObj, prgID, actName) {
 
+    var stdEvent = o2jse.event.std(eventObj);
     if (prgID > 0) {
         o2jse.infoForm['o2_prgexeid'].value = prgID;
         }
-    o2jse.infoForm['o2_action'].value   = actName;
-    o2jse.infoForm['o2lastform'].value  = "";
-    o2jse.infoForm['o2lastctrl'].value  = "";
+    o2jse.infoForm['o2_action'].value  = actName;
+    o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f || "";
+    o2jse.infoForm['o2lastctrl'].value = "";
     // ____________________ Remove previous external parameters fields (Full-AJAX only)___
     for (var i = o2jse.infoForm.elements.length; i > 0; i--) {
         var field = o2jse.infoForm.elements[i - 1];
@@ -4610,7 +4611,6 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
             }
         }
     // __________________________ If NOT fired from inside table row (not current row) ___
-    var stdEvent = o2jse.event.std(eventObj);
     if (!(stdEvent.target && stdEvent.target.o2.tabRow)) {
         stdEvent.stop();
         if (o2jse.cliMode) {
