@@ -4590,7 +4590,7 @@ o2jse.cmd.exe = function(eventObj, prgID, actName) {
         o2jse.infoForm['o2_prgexeid'].value = prgID;
         }
     o2jse.infoForm['o2_action'].value  = actName;
-    o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f || "";
+    o2jse.infoForm['o2lastform'].value = (stdEvent.target && stdEvent.target.o2.f) || "";
     o2jse.infoForm['o2lastctrl'].value = "";
     // ____________________ Remove previous external parameters fields (Full-AJAX only)___
     for (var i = o2jse.infoForm.elements.length; i > 0; i--) {
