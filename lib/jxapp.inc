@@ -705,36 +705,63 @@ class o2_app {
                 $ip       = $_SERVER['REMOTE_ADDR'];
                 break;
             }
-        $fields = array($f['timestamp']->nome_fisico,
-                        $f['access_flag']->nome_fisico,
-                        $f['user']->nome_fisico,
-                        $f['app_name']->nome_fisico,
-                        $f['host']->nome_fisico,
-                        $f['run_mode']->nome_fisico,
-                        $f['client_ip']->nome_fisico,
-                        $f['session_id']->nome_fisico,
-                        $f['terminal']->nome_fisico,
-                        $f['developer']->nome_fisico);
-        $values = array("'".$time."'",
-                        "'".$type."'",
-                        "'".$user."'",
-                        "'".$app."'",
-                        "'".$host."'",
-                        "'".$run_mode."'",
-                        "'".$ip."'",
-                        "'".$sessid."'",
-                        $terminal,
-                        "'".$this->developer."'");
-        o2_gateway::insertrec($tab->db->server->type,
-                              $tab->db->server->server,
-                              $tab->db->server->user,
-                              $tab->db->server->password,
-                              $tab->db->nome,
-                              $tab->db->proprietario,
-                              $tab->nome,
-                              $tab->nome,
-                              $fields,
-                              $values);
+        $fields               = array($f['timestamp']->nome_fisico,
+                                      $f['access_flag']->nome_fisico,
+                                      $f['user']->nome_fisico,
+                                      $f['app_name']->nome_fisico,
+                                      $f['host']->nome_fisico,
+                                      $f['run_mode']->nome_fisico,
+                                      $f['client_ip']->nome_fisico,
+                                      $f['session_id']->nome_fisico,
+                                      $f['terminal']->nome_fisico,
+                                      $f['developer']->nome_fisico);
+        $values               = array("'".$time."'",
+                                      "'".$type."'",
+                                      "'".$user."'",
+                                      "'".$app."'",
+                                      "'".$host."'",
+                                      "'".$run_mode."'",
+                                      "'".$ip."'",
+                                      "'".$sessid."'",
+                                      $terminal,
+                                      "'".$this->developer."'");
+        $t                    = $this->isolated_trans;
+        $this->isolated_trans = true;
+        $o2insertrec          = 'o2_'.$tab->db->server->type.'_insertrec';
+        $error                = false;
+        try {
+            $o2insertrec($tab->db->server->server,
+                         $tab->db->server->user,
+                         $tab->db->server->password,
+                         $tab->db->nome,
+                         $tab->db->proprietario,
+                         $tab->nome,
+                         $tab->nome,
+                         $fields,
+                         $values);
+            }
+        // __________________________________ Hide duplicated key errors on access-log ___
+        catch (Exception $e) {
+            o2_exception::warning('Access-log duplicated entry:<br>Log type: '.$type.
+                                  '<br>Timestamp: '.$timestamp.
+                                  '<br>Session ID: '.$sess_id.
+                                  '<br>User :'.$sess_user.
+                                  '<br>Application: '.$sess_app.
+                                  '<br>Host: '.$sess_host.
+                                  '<br>Run mode: '.$sess_runm.
+                                  '<br>Terminal: '.$sess_term.
+                                  '<br>IP: '.$sess_ip);
+            $e->cancel($tab->db->server);
+            $error = true;
+            }
+        if (!$error) {
+            o2_gateway::commit($tab->db->server->type,
+                               $tab->db->server->server,
+                               $tab->db->server->user,
+                               $tab->db->server->password,
+                               true);
+            }
+        $this->isolated_trans = $t;
 
         }
 

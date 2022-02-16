@@ -311,6 +311,51 @@ class o2_exception extends Exception {
 
 
     /**
+     * Cancel exception, avoid bubbling and sending.
+     * This method is intended to be used in a CATCH part of a TRY/CATCH block, to unset
+     * catched exception.
+     * If exception is generated on a db connection pass $server object parameter to
+     * identify server-key.
+     * All other connections are restored to be correctly committed, while session-key
+     * connection is sent to rollback.
+     */
+    public function cancel($server = false) {
+
+        $app = $_SESSION['o2_app'];
+        if (is_a($server, 'o2_server')) {
+            $errorkey = $server->server.$server->user.
+                       ($app->isolated_trans ? 'jxext' : '');
+            }
+        else {
+            $errorkey = '';
+            }
+        // __________________________________________ Clear error on all transactions  ___
+        foreach ($app->server as $app_server) {
+            $engine = $app_server->type;
+            if (isset($GLOBALS['o2_'.$engine.'_trans'])) {
+                foreach ($GLOBALS['o2_'.$engine.'_trans'] as $key => $trans) {
+                    // _____________________________ Skip passed $db connection if any ___
+                    if (($key != $errorkey) &&
+                        isset($GLOBALS['o2_'.$engine.'_error'][$key])) {
+                        unset($GLOBALS['o2_'.$engine.'_error'][$key]);
+                        }
+                    }
+                }
+            }
+        unset($GLOBALS["jxlasterror"]);
+        // ________________________________________________ Rollback passed connection ___
+        if ($errorkey && isset($GLOBALS['o2_'.$server->type.'_trans'][$errorkey])) {
+            o2_gateway::commit($server->type,
+                               $server->server,
+                               $server->user,
+                               $server->password,
+                               true);
+            }
+
+        }
+
+
+    /**
      * Handler for not-exception errors like warning, deprecated, ecc...
      *
      * @return boolean
@@ -885,7 +930,7 @@ class o2_exception extends Exception {
 
     /**
      * Method used to log internal "critical" events: no user error is generated and event
-     * in logged on "warning.log" file, in application logs directory
+     * is logged on "warning.log" file, in application logs directory
      *
      * @param string $warn_msg   Warning message
      */
