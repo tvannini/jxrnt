@@ -245,7 +245,7 @@ o2jse.init = function() {
     o2jse.reposAllWins();
     window.onresize = function() {
                          clearTimeout(o2jse.winResizing);
-                         o2jse.winResizing = setTimeout(o2jse.resizeBrowserWindow, 500);
+                         o2jse.winResizing = setTimeout(jxjs.request, 200);
                          };
     // _________________________________________________________ OnLoad portable logic ___
     o2jse.waitDocReady();
@@ -303,6 +303,10 @@ o2jse.waitDocReady = function() {
 /**
  * Manage resize events on browser window.
  * Uses timeout to run only once at the end of resizing.
+ *
+ * *** NOT USED! ***
+ * This method was used on event "window.onresize", after timeout "o2jse.winResizing".
+ * Now a full page refresh is requested instead.
  *
  */
 o2jse.resizeBrowserWindow = function() {
