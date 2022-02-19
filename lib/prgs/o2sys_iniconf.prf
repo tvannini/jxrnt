@@ -24,7 +24,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 	$form_o2sys_iniconf_1->larghezza(700);
 	$form_o2sys_iniconf_1->altezza(600);
 	$form_o2sys_iniconf_1->align_o("Center");
-	$form_o2sys_iniconf_1->titolo("Application configuration");
+	$form_o2sys_iniconf_1->titolo("Settings");
 	$form_o2sys_iniconf_1->css_body("o2_form_body open_body");
 	$form_o2sys_iniconf_1->css_doc("sys_options_doc");
 	$ctrl_o2label5 = &$form_o2sys_iniconf_1->ctrldef("o2label5", "label", "", "", "");
