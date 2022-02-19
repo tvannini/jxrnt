@@ -250,29 +250,25 @@ o2jse.init = function() {
     // _________________________________________________________ OnLoad portable logic ___
     o2jse.waitDocReady();
     // ______________________________________________ Application logout on page close ___
-    if (o2jse.closeLogout) {
-        window.onunload    = function() { jxjs.beacon('logout'); };
-        window.onmouseover = function () { if (!o2jse.closeWait) {
-                                              window.onunload = null; } };
-        window.onmouseout  = function () { if (!o2jse.submitting) {
-                                              window.onunload = function() {
-                                                                   jxjs.beacon('logout');
-                                                                   }; } };
-        window.onclick     = function () { window.onunload = null;
-                                           o2jse.closeWait = false; };
-        document.onkeydown = function (e) {
-            if (e.key == 'Control' || e.key == 'Alt') {
-                if (!o2jse.submitting) {
-                    window.onunload = function() { jxjs.beacon('logout'); };
-                    o2jse.closeWait = true;
-                    }
+    window.onunload    = function() { jxjs.beacon('logout'); };
+    window.onmouseover = function () { if (!o2jse.closeWait) { window.onunload = null; }};
+    window.onmouseout  = function () { if (!o2jse.submitting) {
+                                            window.onunload = function() {
+                                                                jxjs.beacon('logout');
+                                                                }; } };
+    window.onclick     = function () { window.onunload = null; o2jse.closeWait = false; };
+    document.onkeydown = function (e) {
+        if (e.key == 'Control' || e.key == 'Alt') {
+            if (!o2jse.submitting) {
+                window.onunload = function() { jxjs.beacon('logout'); };
+                o2jse.closeWait = true;
                 }
-            else {
-                window.onunload = null;
-                o2jse.closeWait = false;
-                }
-            };
-        }
+            }
+        else {
+            window.onunload = null;
+            o2jse.closeWait = false;
+            }
+        };
     // _____________________________________________________________ Set focus control ___
     if (o2jse.ctrl.focusCtrl) {
         o2jse.cmd.focus(o2jse.ctrl.focusCtrl, o2jse.ctrl.focusMode);
@@ -747,18 +743,6 @@ o2jse.conf.rntAlias = function(aliasStr) {
 o2jse.conf.sessName = function(phpSessName) {
 
     o2jse.sessName = phpSessName;
-
-    };
-
-
-/**
- * Sets logout execution on close or browsing away from application page
- *
- * @param {String} phpSessName   PHP session name
- */
-o2jse.conf.closeLogout = function(closeOnLogout) {
-
-    o2jse.closeLogout = (closeOnLogout ? true : false);
 
     };
 

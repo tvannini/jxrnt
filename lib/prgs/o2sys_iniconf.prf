@@ -939,15 +939,6 @@ $list = array(
                                    "will be allowed on current session and a new login is required.\n".
                                    "Time is set in minutes.",
                       "default" => 10),
-   "logout_on_close" => array("rntval"  => null,
-                              "appval"  => null,
-                              "desc"    => "   *** Logout on browser close ***\n\n".
-                                           "When set to ON closing or browsing away from application page in the ".
-                                           "browser will send a message to server, to execute a session logout.\n".
-                                           "On application logout session will be immediatly destroyed and removed, ".
-                                           "regardless timeout expiration (see \"timeout\" parameter).\n",
-                              "default" => "on",
-                              "values"  => array("off", "on")),
    "access_log" => array("rntval"  => null,
                          "appval"  => null,
                          "desc"    => "   *** Log login, logout and attempts ***\n\n".
@@ -1430,7 +1421,6 @@ function o2sys_iniconf_exp_34() {
               "ldap_base_dn",
               "timeout",
               "keepalive",
-              "logout_on_close",
               "logout_url",
               "access_log",
               "asp_areas_table",
