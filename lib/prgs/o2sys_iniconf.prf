@@ -733,7 +733,7 @@ $list = array(
                                  "NOTE: application alias is the first part of URLs where application resuources ".
                                  "are served out from (\"app_root/htdocs/\"). It should start with a \"/\" or ".
                                  "with a protocol (\"http://\", \"https://\", ...)",
-                    "default" => ""),
+                    "default" => dirname($_SESSION['o2_app']->referer)."/"),
    "title" => array("rntval"  => null,
                     "appval"  => null,
                     "desc"    => "   *** Application title ***\n\n".
