@@ -6534,8 +6534,8 @@ function o2view_selector_none($view_name) {
     foreach ($view->formule as $formula) {
         if ($formula->selector) {
             $selector = $formula->nome;
+            break;
             }
-        break;
         }
     if ($selector) {
         foreach ($view->recordset as $rec_id => $rec) {
