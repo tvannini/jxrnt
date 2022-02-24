@@ -190,7 +190,6 @@ class o2_app {
     public $errors_log      = false;   /* Enables errors logging on file                */
     public $errors_inc      = false;   /* File name to be included for custom error msgs*/
     public $custom_response = false;   /* FALSE or buffer length for custom output      */
-    public $network_errors  = false;   /* Enables network errors reporting (alert)      */
     public $jxsql           = false;   /* Enables internal JXSQL parser                 */
     /**
      * @var o2_ctrl_listcombo
@@ -1728,9 +1727,6 @@ class o2_app {
             }
         if (isset($conf['dbas_readonly'])) {
             $this->dbas_readonly = ($conf['dbas_readonly'] ? true : false);
-            }
-        if (isset($conf['network_errors'])) {
-            $this->network_errors = ($conf['network_errors'] ? true : false);
             }
         if (isset($conf['bug_aggregate'])) {
             $this->bug_aggregate = ($conf['bug_aggregate'] ? true : false);

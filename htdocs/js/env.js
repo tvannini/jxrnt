@@ -983,17 +983,6 @@ o2jse.conf.luReqTime = function(reqTime) {
 
 
 /**
- * Set on network errors reporting
- *
- */
-o2jse.conf.netErr = function() {
-
-    o2jse.netErr = true;
-
-    };
-
-
-/**
  * Object managing background requests to server by XMLHttpRequest
  *
  */
@@ -1094,9 +1083,7 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack, noFields = 
                 // ________________________ Exclude requests from refresh (dispatcher) ___
                 if (fromObj !== o2jse.notify) {
                     // _________________________________________ Report network errors ___
-                    if (o2jse.netErr) {
-                        alert("Network error: please try again.");
-                        }
+                    alert("Network error: please try again.");
                     }
                 else {
                     // _________________________________________ Reset refresh timeout ___

@@ -1084,13 +1084,6 @@ $list = array(
                                          "parameters.\n",
                             "default" => "off",
                             "values"  => array("off", "on")),
-   "network_errors" => array("rntval"  => null,
-                             "appval"  => null,
-                             "desc"    => "   *** Network errors reporting ***\n\n".
-                                          "When enabled network errors from AJAX requests are reported to user.\n\n".
-                                          "This parameter is mostly useful for debugging porpouses.\n",
-                             "default" => "off",
-                             "values"  => array("off", "on")),
    "split_rep" => array("rntval"  => null,
                         "appval"  => null,
                         "desc"    => "   *** Splitted repository ***\n\n".
@@ -1474,7 +1467,6 @@ function o2sys_iniconf_exp_34() {
               "msg_undo",
               "msg_norec",
               "",
-              "network_errors",
               "bug_aggregate",
               "fetch_loop");
 return ($list);
