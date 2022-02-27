@@ -82,7 +82,7 @@ function jxdbcopy§§loop_on_aspid_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxdbcopy§§loop_on_rows_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::view("target", "I", "") && $o2exe->e();
+	$o2exe->s(1) && True && o2act::view("target", "B", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(jxdbcopy_exp_25()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("target", "S", "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "row_count", jxdbcopy_exp_28()) && $o2exe->e();
@@ -99,10 +99,11 @@ function jxdbcopy§§loop_on_tabs_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::set("prg§_§var", "src_tab_exists", jxdbcopy_exp_37()) && $o2exe->e();
 //	$o2exe->s(9) && True && o2act::remark("Write from source to target") && $o2exe->e();
 	$o2exe->s(10) && (jxdbcopy_exp_40() || $o2exe->e()) && o2act::exe("loop_on_rows", False, "source") && $o2exe->e();
-	$o2exe->s(11) && (jxdbcopy_exp_41() || $o2exe->e()) && o2act::exe("export_all_aspids", True, "") && $o2exe->e();
-//	$o2exe->s(12) && True && o2act::remark("Commit each table") && $o2exe->e();
-	$o2exe->s(13) && True && o2act::script(jxdbcopy_exp_23()) && $o2exe->e();
-	$o2exe->s(14) && True && o2act::set("prg§_§var", "result", jxdbcopy_exp_38()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::view("target", "E", "") && $o2exe->e();
+	$o2exe->s(12) && (jxdbcopy_exp_41() || $o2exe->e()) && o2act::exe("export_all_aspids", True, "") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("Commit each table") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::script(jxdbcopy_exp_23()) && $o2exe->e();
+	$o2exe->s(15) && True && o2act::set("prg§_§var", "result", jxdbcopy_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxdbcopy§§start_act(&$o2exe) {
