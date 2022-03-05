@@ -99,8 +99,8 @@ function jxdbcopy§§loop_on_tabs_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::set("prg§_§var", "src_tab_exists", jxdbcopy_exp_37()) && $o2exe->e();
 //	$o2exe->s(9) && True && o2act::remark("Write from source to target") && $o2exe->e();
 	$o2exe->s(10) && (jxdbcopy_exp_40() || $o2exe->e()) && o2act::exe("loop_on_rows", False, "source") && $o2exe->e();
-	$o2exe->s(11) && True && o2act::view("target", "E", "") && $o2exe->e();
-	$o2exe->s(12) && (jxdbcopy_exp_41() || $o2exe->e()) && o2act::exe("export_all_aspids", True, "") && $o2exe->e();
+	$o2exe->s(11) && (jxdbcopy_exp_41() || $o2exe->e()) && o2act::exe("export_all_aspids", True, "") && $o2exe->e();
+	$o2exe->s(12) && True && o2act::view("target", "E", "") && $o2exe->e();
 //	$o2exe->s(13) && True && o2act::remark("Commit each table") && $o2exe->e();
 	$o2exe->s(14) && True && o2act::script(jxdbcopy_exp_23()) && $o2exe->e();
 	$o2exe->s(15) && True && o2act::set("prg§_§var", "result", jxdbcopy_exp_38()) && $o2exe->e();
@@ -229,8 +229,6 @@ if (($new_enc != strtoupper($old_enc)) &&
      $new_enc == 'WINDOWS-1252' ||
      $new_enc == 'ISO8859-1')) {
    $_SESSION['o2_app']->chr_encoding = $new_enc;
-   /* Force new connections with new encoding */ 
-   o2transaction_isolate();
    }
 return ($old_enc);
 	} //|o2_fine_exp|
@@ -291,6 +289,11 @@ $app->runtime->load_gateway($type);
 o2def::server('jxtserver_tmp', $type, $host, $user, $pswd, 0);
 o2def::db('jxtdb_tmp', 'jxtserver_tmp', $db, $schema, $asp_mode, $crea_tab);
 $app->set_aspid();
+/* Force new fresh connection on target db */
+$target = $app->db[o2val('prg§_§var','jxdb')]->server;
+o2dbs_commit($target->nome);
+$GLOBALS['o2_'.$target->type.'_conn'] = array();
+
 return (true);
 	} //|o2_fine_exp|
 
