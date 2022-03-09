@@ -982,7 +982,9 @@ class o2_fsitem {
         $parts               = pathinfo($this->nome_completo);
         $this->ext           = (isset($parts['extension']) ? $parts['extension'] : '');
         $this->nome          = $parts['filename'];
-        $this->path          = $parts['dirname'].DIRECTORY_SEPARATOR;
+        $this->path          = $parts['dirname'].
+                               ($parts['dirname'] != DIRECTORY_SEPARATOR ?
+                                DIRECTORY_SEPARATOR : '');
         $exists              = file_exists($this->nome_completo);
         if ($exists) {
             $timestamp_local     = @filemtime($this->nome_completo);
@@ -1053,7 +1055,9 @@ class o2_dir extends o2_fsitem {
         $parts               = pathinfo($dir);
         $this->ext           = (isset($parts['extension']) ? $parts['extension'] : "");
         $this->nome          = $parts['filename'];
-        $this->path          = $parts['dirname'].DIRECTORY_SEPARATOR;
+        $this->path          = $parts['dirname'].
+                               ($parts['dirname'] != DIRECTORY_SEPARATOR ?
+                                DIRECTORY_SEPARATOR : '');
         $this->nome_completo = $dir.(substr($dir, -1) != DIRECTORY_SEPARATOR ?
                                      DIRECTORY_SEPARATOR : "");
         $this->esistenza     = file_exists($this->nome_completo);
