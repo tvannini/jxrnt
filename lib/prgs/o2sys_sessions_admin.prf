@@ -151,7 +151,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2label8->larghezza(70);
 		$ctrl_o2label8->altezza(20);
 		$ctrl_o2label8->info_padre(array(0));
-		$ctrl_o2label8->label("Rum mode:");
+		$ctrl_o2label8->label("Run mode:");
 	$ctrl_o2edit8 = &$form_sessions_admin->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "create_minutes");
 		$ctrl_o2edit8->x(130);
 		$ctrl_o2edit8->y(10);
