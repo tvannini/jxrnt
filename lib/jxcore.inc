@@ -1101,8 +1101,16 @@ class o2_dir extends o2_fsitem {
         if (!$match) {
             $match = $this->match;
             }
+        // _________________________________________________ Match dot files (.myfile) ___
+        if ($match == '*') {
+            $match = '{.[!.],}*';
+            $opt   = GLOB_BRACE;
+            }
+        else {
+            $opt = null;
+            }
         $elements       = array();
-        $elements_names = glob($this->nome_completo.$match);
+        $elements_names = glob($this->nome_completo.$match, $opt);
         if ($elements_names) {
             foreach ($elements_names as $element) {
                 $fname = (realpath($element) ? realpath($element) : $element);
