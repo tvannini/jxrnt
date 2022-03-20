@@ -1233,12 +1233,17 @@ class o2_prg {
     /**
      * Start snapshot: create view dataset copy in session.
      *
+     * @param string $view_name       Name of view to snapshot
+     * @param string $snapshot_name   Table name for snapshot copy
      */
-    function snapshot_start($view_name) {
+    function snapshot_start($view_name, $snapshot_name = '') {
 
         $app       = $_SESSION['o2_app'];
         $snps_name = $view_name.'_jxsnps';
         $view      = $this->contesto[$view_name];
+        if ($snapshot_name) {
+            $view->snapshot_name = $snapshot_name;
+            }
         if (!$view->snapshot) {
             // ____ If already exists reuse snapshot table, else create it and fill it ___
             if (isset($app->tab[$view->snapshot_name])) {
@@ -8085,7 +8090,7 @@ class o2act {
      *
      * @param  string $task
      * @param  string $comando
-     * @param  array  $argomenti
+     * @param  mixed  $argomenti
      * @return boolean
      */
     static function view($task, $comando = "", $argomenti = "") {
@@ -8207,7 +8212,7 @@ class o2act {
                         }
                     break;
                 case "SS": // _________________________________________ Snapshot start ___
-                    $prg->snapshot_start($task);
+                    $prg->snapshot_start($task, $argomenti);
                     break;
                 case "SM": // __________________________________________ Snapshot sync ___
                     $prg->snapshot_merge($task);

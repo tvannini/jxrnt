@@ -6640,6 +6640,10 @@ function o2view_snapshot($view_name) {
 
 
 /**
+ * ATTENTION: Use of function o2view_snapshot_name() to set snapshot name is deprecated,
+ *            use parameter on Snapshot-start or Snapshot-attach instructions instead.
+ *            Function is still valid to get actual snapshot name from view.
+ *
  * Returns or sets snapshot table name for the view.
  * When called without $snapshot_name parameter function returns the used snapshot table
  * name (useful in table expression for a view, to address other views snapshots).
@@ -6656,6 +6660,11 @@ function o2view_snapshot_name($view_name, $snapshot_name = false) {
 
     $app  = $_SESSION['o2_app'];
     $view = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    if ($snapshot_name) {
+        o2_exception::deprecate('o2view_snapshot_name to set snapshot name',
+                                'Snapshot-start/Snapshot-attach parameter',
+                                'instruction');
+        }
     if ($snapshot_name && $view->snapshot) {
         throw new o2_exception('Cannot set snapshot name for view <i>'.$view_name.
                                '</i>: view is already in snapshot mode.',
