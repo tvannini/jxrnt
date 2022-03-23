@@ -906,7 +906,12 @@ class o2_exception extends Exception {
 
 
     /**
-     * Method used to send a DEPRECATION message to developers
+     * Method used to send a DEPRECATION message to developers.
+     * Method behaviour changes on application parameter "error_mode":
+     *  - "DEV": error is shown on interface, if user is developer, and in errors.log, if
+     *           it is active;
+     *  - "EXE" or "OFF": error is reported in warning.log, if activated, else it is
+     *                    ignored.
      *
      * @param string $oldfunc   Old deprecated function name
      * @param string $newfunc   New suggested function name
@@ -914,14 +919,37 @@ class o2_exception extends Exception {
      */
     public static function deprecate($oldfunc, $newfunc, $object = "function") {
 
-        if (($_SESSION['o2_app'] && $_SESSION['o2_app']->run_level == "DEV") ||
-            $GLOBALS['o2_runtime']->developer) {
+        if ($app = $_SESSION['o2_app']) {
             $o2e = new o2_exception("WARNING! ".ucfirst($object)." <b>".$oldfunc.
                                     "</b> has been DEPRECATED.<br>".
                                     "Relying on this feature is highly discouraged.<br>".
                                     "Please use ".$object." <b>".$newfunc."</b> instead.",
                                     o2error_DEPRECATED);
-            $o2e->send();
+            if ($app->error_mode == 'DEV') {
+                if ($app->run_level == "DEV") {
+                    $o2e->send();
+                    }
+                // _________________________________________________ Log error to file ___
+                elseif ($app->errors_log) {
+                    file_put_contents($app->dir_logs."errors.log",
+                                      ($app->run_level == "DEV" ?
+                                       "DEVELOPER: ".$app->developer."\n" : "").
+                                      "USER: ".$app->user."\n".
+                                      "SESSID: ".$app->session_id."\n".
+                                      $o2e->to_raw_text(),
+                                      FILE_APPEND);
+                    }
+                }
+            // ___________________________________________________ Log warning to file ___
+            elseif ($app->warning_log) {
+                file_put_contents($app->dir_logs."warning.log",
+                                  ($app->run_level == "DEV" ?
+                                   "DEVELOPER: ".$app->developer."\n" : "").
+                                  "USER: ".$app->user."\n".
+                                  "SESSID: ".$app->session_id."\n".
+                                  $o2e->to_raw_text(),
+                                  FILE_APPEND);
+                }
             }
         return false;
 
