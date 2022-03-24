@@ -6515,7 +6515,7 @@ function o2view_selector_all($view_name) {
 
 
 /**
- * Unselect all (filtered) rows of a view in a view-selector structure.
+ * Unselect all selected rows of a view in a view-selector structure.
  *
  * @package view
  * @param   string $view_name
