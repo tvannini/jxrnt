@@ -6579,7 +6579,7 @@ function o2view_selector_set($view_name, $on = true) {
         }
     else {
         $old_value = false;
-        if (($key = array_search($item, $view_obj->selections)) !== false) {
+        if (($key = array_search($item, $view->selections)) !== false) {
             unset($view->selections[$key]);
             $old_value = true;
             }
