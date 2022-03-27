@@ -6278,6 +6278,8 @@ function o2view_get_query($view_name, $with_orderby = false, $with_limit = false
  *         ...,
  *         'FIELD_NAMEn' => $vield_valueN)
  *
+ * NOTE: fields names are always uppercase.
+ *
  * This function can be used in this way:
  *
  *    while($record = o2view_fetch($view_name)) {
