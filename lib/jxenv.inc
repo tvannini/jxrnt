@@ -2929,7 +2929,7 @@ class o2_dbview extends o2_view {
                 $where_exp.= ' JXTAB('.$file->repos_index.':'.$file_alias.')';
                 }
             $where_exp.= '"';
-            eval("\$sql = jxsql('".$link_db->id."',".$where_exp.");");
+            eval("\$sql = jxsql('".$link_db->id."',".$where_exp.", true);");
             $sql = substr($sql, 0, strpos($sql, '##JX##'));
             // ___________________________________________ If custom part is not empty ___
             if ($sql) {

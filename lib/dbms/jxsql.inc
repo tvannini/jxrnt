@@ -39,29 +39,31 @@
 */
 class JXSQLparser {
 
-    public    $dbengine;
-    protected $databasename;
-    protected $dbserver;
-    protected $db_phys_name;
-    protected $qualifier_o;
-    protected $qualifier_c;
-    protected $aliases     = array();
+    public    $dbengine              = 'sqlite3';
+    protected $databasename          = '';
+    protected $dbserver              = '';
+    protected $db_phys_name          = '';
+    protected $qualifier_o           = '"';
+    protected $qualifier_c           = '"';
+    protected $fully_qualify_columns = false;
+    protected $aliases               = array();
 
-    protected $JXTAB       = 'JXTAB';
-    protected $JXCOL       = 'JXCOL';
-    protected $JXCONCAT    = 'JXCONCAT';
-    protected $JXSUBSTRING = 'JXSUBSTRING';
+    protected $JXTAB                 = 'JXTAB';
+    protected $JXCOL                 = 'JXCOL';
+    protected $JXCONCAT              = 'JXCONCAT';
+    protected $JXSUBSTRING           = 'JXSUBSTRING';
 
 
-    public function __construct($dbname) {
+    public function __construct($dbname, $fq_columns = false) {
 
-        $this->databasename = $dbname;
-        $this->dbserver     = o2db_server($dbname);
-        $this->dbengine     = o2dbs_engine($this->dbserver);
-        $this->db_phys_name = o2db_name($dbname);
-        $this->qualifier_o  = constant("o2_".$this->dbengine."_o");
-        $this->qualifier_c  = constant("o2_".$this->dbengine."_c");
-        $this->tab_qprefix  = o2db_qprefix($dbname);
+        $this->databasename          = $dbname;
+        $this->dbserver              = o2db_server($dbname);
+        $this->dbengine              = o2dbs_engine($this->dbserver);
+        $this->db_phys_name          = o2db_name($dbname);
+        $this->qualifier_o           = constant("o2_".$this->dbengine."_o");
+        $this->qualifier_c           = constant("o2_".$this->dbengine."_c");
+        $this->fully_qualify_columns = $fq_columns;
+        $this->tab_qprefix           = o2db_qprefix($dbname);
 
         }
 
@@ -284,7 +286,8 @@ class JXSQLparser {
                     elseif ($col_phys_name == '') {
                         $col_phys_name = '--WRONG-COL-NAME--';
                         }
-                    $sret = $aliasname.'.'.
+                    $sret = (($tabname != $aliasname) || $this->fully_qualify_columns ?
+                             $aliasname.'.' : '').
                             $this->qualifier_o.$col_phys_name.$this->qualifier_c;
                     }
                 else {
@@ -415,12 +418,19 @@ class JXSQLparser {
 
 
 /**
- * Function to parse JXSQL command to return an engine specifi query
+ * Function to parse JXSQL command to return an engine specific query.
  *
+ * Parameter $fq_columns is used by runtime to fully qualify columns used in custom-where
+ * expressions.
+ *
+ * @param  string  $dbname       Logical database to use as engine for the parser
+ * @param  string  $sql          JXSQL query to parse
+ * @param  boolean $fq_columns   Fully qualify columns names for custom-wheres
+ * @return string
  */
-function jxsql_parse($dbname, $sql) {
+function jxsql_parse($dbname, $sql, $fq_columns = false) {
 
-    $parser = new JXSQLparser($dbname);
+    $parser = new JXSQLparser($dbname, $fq_columns);
     if (strtolower($parser->dbengine) != 'jxsdb') {
         // _________________________________________ STAGE1: parse all JXTAB functions ___
         $sql    = $parser->parseSQL($sql, 1);
@@ -439,9 +449,9 @@ function jxsql_parse($dbname, $sql) {
  * Alias for function jxsql_parse()
  *
  */
-function jxsql($dbname, $sql) {
+function jxsql($dbname, $sql, $fq_columns = false) {
 
-    return jxsql_parse($dbname, $sql);
+    return jxsql_parse($dbname, $sql, $fq_columns);
 
     }
 
