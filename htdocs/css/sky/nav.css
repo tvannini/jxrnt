@@ -497,6 +497,17 @@
     }
 
 .nav_big .o2_ctrl_nav_prevpg {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/prev.png) no-repeat top;
+    cursor: pointer;
+    display: none;
+    }
+
+.nav_big .o2_ctrl_nav_prevpg.dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/prev_dis.png) no-repeat top;
     display: none;
     }
 
@@ -529,6 +540,17 @@
     }
 
 .nav_big .o2_ctrl_nav_nextpg {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/next.png) no-repeat top;
+    cursor: pointer;
+    display: none;
+    }
+
+.nav_big .o2_ctrl_nav_nextpg.dis {
+    width: 32px;
+    height: 25px;
+    background: url(nav/big/next_dis.png) no-repeat top;
     display: none;
     }
 
