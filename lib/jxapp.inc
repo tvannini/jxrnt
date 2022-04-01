@@ -7687,7 +7687,7 @@ class o2_inspector {
                                          "prgs".DIRECTORY_SEPARATOR);
             if (file_exists($this->dir_home.'users'.DIRECTORY_SEPARATOR.'root')) {
                 $this->dir_tmp = new o2_dir($this->dir_home.'users'.DIRECTORY_SEPARATOR.
-                                            'root'.DIRECTORY_SEPARATOR.'tmp');
+                                            'root'.DIRECTORY_SEPARATOR);
                 }
             elseif (file_exists($this->dir_home.'logs')) {
                 $this->dir_tmp = new o2_dir($this->dir_home.'logs');
@@ -10986,6 +10986,8 @@ class o2_inspector {
                           $conf['ACTIONS_EXCLUDE'] : array());
         $vars_excluded = (isset($conf['VARIABLES_EXCLUDE']) ?
                           $conf['VARIABLES_EXCLUDE'] : array());
+        $custom_levels = (isset($conf['PRG_CUSTOM_LEVEL']) ?
+                          $conf['PRG_CUSTOM_LEVEL'] : array());
         $ok            = true;
         $skip_msg      = "";
         if ($this->dir_prgs->exists($prg_name.'.prg')) {
@@ -10993,6 +10995,11 @@ class o2_inspector {
             $prg_file = $this->dir_prgs.$prg_name.'.prg';
             $prg_code = file_get_contents($prg_file);
             $prf_code = file_get_contents($prf_file);
+            // __________________________________________________ Program custom level ___
+            if (isset($custom_levels[$prg_name])) {
+                $level    = $custom_levels[$prg_name];
+                $skip_msg.= '  Custom level set to '.$level."\n";
+                }
             // ===================================================== REPLACE VARIABLES ===
             if ($level > 1) {
                 // __________________________________________________ Get actions list ___
