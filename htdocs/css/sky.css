@@ -455,6 +455,10 @@ option:hover {
     display: none;
     }
 
+.readonly {
+   pointer-events: none;
+   }
+
 .no_border {
     border: none;
     }

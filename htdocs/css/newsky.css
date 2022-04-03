@@ -422,6 +422,10 @@ div.o2_ctrl_listcombo_field {
     display: none;
     }
 
+.readonly {
+   pointer-events: none;
+   }
+
 .no_border {
     border: none;
     }
