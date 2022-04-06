@@ -1231,12 +1231,19 @@ class o2_prg {
 
 
     /**
-     * Start snapshot: create view dataset copy in session.
+     * Start snapshot: create a copy of view dataset in session.
      *
-     * @param string $view_name       Name of view to snapshot
-     * @param string $snapshot_name   Table name for snapshot copy
+     * If parameter $attach is passed as TRUE then method will force attaching of an
+     * existing snapshot.
+     * If $attach is TRUE and a snapshot doesn't exist yet, then an exception is thrown.
+     * This parameter is mostly useful in combination with $snapshot_name parameter, to
+     * attach existing snapshots from other programs or from other views.
+     *
+     * @param string  $view_name       Name of view to snapshot
+     * @param string  $snapshot_name   Table name for snapshot copy
+     * @param boolean $attach          Force snapshot to exist already
      */
-    function snapshot_start($view_name, $snapshot_name = '') {
+    function snapshot_start($view_name, $snapshot_name = '', $attach = false) {
 
         $app       = $_SESSION['o2_app'];
         $snps_name = $view_name.'_jxsnps';
@@ -1248,6 +1255,12 @@ class o2_prg {
             // ____ If already exists reuse snapshot table, else create it and fill it ___
             if (isset($app->tab[$view->snapshot_name])) {
                 $table = $app->get_table($view->snapshot_name);
+                }
+            elseif ($attach) {
+                throw new o2_exception('Can\'t attach snapshot for view "'.$view_name.
+                                       '"<br>An active snapshot with name "'.
+                                       $view->snapshot_name.'" does not exist.',
+                                       o2error_SNAPSHOT);
                 }
             else {
                 // ____________________________ Create virtual table from view dataset ___
@@ -8213,6 +8226,9 @@ class o2act {
                     break;
                 case "SS": // _________________________________________ Snapshot start ___
                     $prg->snapshot_start($task, $argomenti);
+                    break;
+                case "SA": // ________________________________________ Snapshot attach ___
+                    $prg->snapshot_start($task, $argomenti, true);
                     break;
                 case "SM": // __________________________________________ Snapshot sync ___
                     $prg->snapshot_merge($task);
