@@ -1385,7 +1385,7 @@ o2jse.ctrl.k = function(eventObj) {
         case "text":
             stdEvent.target.inEdit = true;
             // _____________________ Preserve RETURN and cursor movements in text area ___
-            if (keyCode == 13 || (keyCode >= 37 && keyCode <= 40)) {
+            if (keyCode == 13 || (keyCode >= 35 && keyCode <= 40)) {
                 return false;
                 }
             break;
