@@ -1108,14 +1108,9 @@ class o2_form {
             }
         // _____________________________________ Set enabled/disabled by table in view ___
         if ($campo_task) {
-            $view_obj  = $app->istanze_prg[$this->id_esecuzione]->contesto[$task];
-            $field_obj = $view_obj->campo_per_controllo($campo_task);
-            if ($field_obj->file != $view_obj->file->indice) {
-                $new_ctrl->modificabile = false;
-                }
-            else {
-                $new_ctrl->modificabile = true;
-                }
+            $view_obj = $app->istanze_prg[$this->id_esecuzione]->contesto[$task];
+            $field_obj              = $view_obj->campo_per_controllo($campo_task);
+            $new_ctrl->modificabile = $field_obj->file == $view_obj->file->indice;
             }
         // _______________________ Per attivare view su o2_view2list() per lookup ctrl ___
         if ($tipo == "listcombo") {
