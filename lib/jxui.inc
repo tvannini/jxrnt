@@ -943,7 +943,7 @@ class o2_form {
                 case 'button':
                     $this->controlli[$alias_ctrl]      = new o2_ctrl_button();
                     $prg->ctrls['button'][$alias_ctrl] = $this->controlli[$alias_ctrl];
-                    $prg->drawing_ctrl                 = false;
+                    $prg->drawing_ctrl                 = $this->controlli[$alias_ctrl];
                     break;
                 case 'map':
                     $this->controlli[$alias_ctrl]   = new o2_ctrl_button();

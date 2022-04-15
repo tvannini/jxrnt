@@ -566,43 +566,46 @@ class jxjs {
      */
     static function ctrl_button($o2ctrl_obj) {
 
-        $app = $_SESSION['o2_app'];
-        if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome,
-                                     'label',
-                                     0,
-                                     $o2ctrl_obj->label);
-            }
-        else {
-            $label = $o2ctrl_obj->label;
-            }
-        // _________________________________ Keyboard short-cuts are defined only once ___
-        if ($o2ctrl_obj->tab_row) {
-            $o2ctrl_obj->forza_submit = false;
-            $label                    = str_replace("&", "", $label);
-            }
-        else {
-            $o2ctrl_obj->forza_submit = true;
-            // _______________________________________ Modify label with short-cuts set___
-            if (($key_pos = strpos($label, "&")) !== false) {
-                $key_letter = trim(substr($label, $key_pos + 1, 1));
-                if ($key_letter) {
-                    $label = substr($label, 0, $key_pos)."<u>".$key_letter."</u>".
-                             substr($label, $key_pos + 2);
+        if ($o2ctrl_obj->check_dependences()) {
+            $app = $_SESSION['o2_app'];
+            if ($app->multilang) {
+                $label = $app->translate($o2ctrl_obj->nome,
+                                        'label',
+                                        0,
+                                        $o2ctrl_obj->label);
+                }
+            else {
+                $label = $o2ctrl_obj->label;
+                }
+            // _____________________________ Keyboard short-cuts are defined only once ___
+            if ($o2ctrl_obj->tab_row) {
+                $o2ctrl_obj->forza_submit = false;
+                $label                    = str_replace("&", "", $label);
+                }
+            else {
+                $o2ctrl_obj->forza_submit = true;
+                // ___________________________________ Modify label with short-cuts set___
+                if (($key_pos = strpos($label, "&")) !== false) {
+                    $key_letter = trim(substr($label, $key_pos + 1, 1));
+                    if ($key_letter) {
+                        $label = substr($label, 0, $key_pos)."<u>".$key_letter."</u>".
+                                substr($label, $key_pos + 2);
+                        }
                     }
                 }
+            list($hover_before, $hover_after) = explode(" ", $o2ctrl_obj->css, 2);
+            print jxjs::ctrl($o2ctrl_obj,
+                             "l:'".addslashes(jx_encode($label)).
+                             "',s:'".$hover_before.($o2ctrl_obj->modificabile ?
+                                                    '' : '_dis').
+                                     ($hover_after ? ' '.$hover_after : '').
+                             "'".(!$o2ctrl_obj->tab_index ?
+                                  ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
+                             ',w:'.$o2ctrl_obj->larghezza.
+                             ',h:'.$o2ctrl_obj->altezza,
+                             $o2ctrl_obj->js_props("action:'".
+                                                   $o2ctrl_obj->azione_submit."'", true));
             }
-        list($hover_before, $hover_after) = explode(" ", $o2ctrl_obj->css, 2);
-        print jxjs::ctrl($o2ctrl_obj,
-                         "l:'".addslashes(jx_encode($label)).
-                         "',s:'".$hover_before.($o2ctrl_obj->modificabile ? '' : '_dis').
-                                ($hover_after ? ' '.$hover_after : '').
-                         "'".(!$o2ctrl_obj->tab_index ?
-                              ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
-                         $o2ctrl_obj->js_props("action:'".$o2ctrl_obj->azione_submit."'",
-                                               true));
 
         }
 
