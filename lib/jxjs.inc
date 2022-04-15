@@ -443,117 +443,120 @@ class jxjs {
      */
     static function ctrl_listcombo($o2ctrl_obj) {
 
-        $app            = $_SESSION['o2_app'];
-        $prg            = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
-        $enabled_in_tab = $o2ctrl_obj->active_by_tab;
-        $enabled        = $o2ctrl_obj->is_enabled();
-        $active         = $o2ctrl_obj->is_active();
-        $zoom           = $o2ctrl_obj->is_zoomable();
-        $dyn_list       = "!1";
-        // ______________________________________________________________ Lookup combo ___
-        if ($o2ctrl_obj->righe == 1) {
-            $code_value = $o2ctrl_obj->ctrl2sql();
-            $desc_value = ($o2ctrl_obj->visibile ? $o2ctrl_obj->get_desc() : "");
-            if ($o2ctrl_obj->items_view) {
-                $dyn_list = "!0";
-                $rows     = $prg->contesto[$o2ctrl_obj->items_view]->righe_vis;
+        if ($o2ctrl_obj->check_dependences()) {
+            $app            = $_SESSION['o2_app'];
+            $prg            = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
+            $enabled_in_tab = $o2ctrl_obj->active_by_tab;
+            $enabled        = $o2ctrl_obj->is_enabled();
+            $active         = $o2ctrl_obj->is_active();
+            $zoom           = $o2ctrl_obj->is_zoomable();
+            $dyn_list       = "!1";
+            // __________________________________________________________ Lookup combo ___
+            if ($o2ctrl_obj->righe == 1) {
+                $code_value = $o2ctrl_obj->ctrl2sql();
+                $desc_value = ($o2ctrl_obj->visibile ? $o2ctrl_obj->get_desc() : "");
+                if ($o2ctrl_obj->items_view) {
+                    $dyn_list = "!0";
+                    $rows     = $prg->contesto[$o2ctrl_obj->items_view]->righe_vis;
+                    }
+                else {
+                    // ____________________________ Enabled and active (loop on items) ___
+                    if ($enabled_in_tab && $active) {
+                        $esiste_valore = false;
+                        $cod_default   = false;
+                        $desc_default  = false;
+                        $static_list   = array();
+                        foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
+                            if ($app->multilang) {
+                                $descrizione = $app->translate($o2ctrl_obj->nome,
+                                                            'item',
+                                                            $codice,
+                                                            $descrizione);
+                                }
+                            if ($cod_default === false) {
+                                $cod_default  = $codice;
+                                $desc_default = $descrizione;
+                                }
+                            $static_list[] = "['".addslashes($codice)."','".
+                                                  addslashes($descrizione)."']";
+                            if ((string) $code_value === trim($codice)) {
+                                $esiste_valore = true;
+                                }
+                            }
+                        $static_list = ",items:[".implode(",", $static_list)."]";
+                        // ________________________________ Set default value in field ___
+                        if ($o2ctrl_obj->visibile && !$esiste_valore && $enabled) {
+                            $prg->contesto[$o2ctrl_obj->task]->
+                                            imposta($o2ctrl_obj->campo_in_ctrl,
+                                                    $cod_default);
+                            $desc_value = addslashes($desc_default);
+                            }
+                        }
+                    $rows = count($o2ctrl_obj->valori);
+                    }
+                print jxjs::ctrl($o2ctrl_obj,
+                                 "d:'".addcslashes($code_value, "'\\\n\r").
+                               "',dyn:".$dyn_list.$static_list.
+                                ",desc:'".$desc_value.
+                               "',boxtype:'lookup',s:'".
+                                 $o2ctrl_obj->css.($enabled ? "" : "_dis").
+                               "',er:".($o2ctrl_obj->error ? "!0" : "!1").
+                                 (!$o2ctrl_obj->tab_index ?
+                                  ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
+                                ',w:'.$o2ctrl_obj->larghezza.
+                                ',h:'.$o2ctrl_obj->altezza.
+                                 ($app->option_get('lookup_handler') ? ',o:!0' : ',o:!1'),
+                            $o2ctrl_obj->js_props("cssf:'".$o2ctrl_obj->css.
+                                                  ($enabled ? '_field' : '_field_dis').
+                                                  ($zoom ? ' jxzoom' : '').
+                                                  ($o2ctrl_obj->forza_submit && $enabled ?
+                                                   ' jxsoc' : '').
+                                                  ($o2ctrl_obj->error ? ' jxerror' : '').
+                                                  "',cssl:'".$o2ctrl_obj->css.
+                                                  "_list',rows:".($rows ? $rows : "0").
+                                                  ($zoom ? ",z:!0" : ",z:!1"),
+                                                  true));
                 }
+            // ______________________________________________________________ List-box ___
             else {
-                // ________________________________ Enabled and active (loop on items) ___
-                if ($enabled_in_tab && $active) {
-                    $esiste_valore = false;
-                    $cod_default   = false;
-                    $desc_default  = false;
-                    $static_list   = array();
-                    foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
-                        if ($app->multilang) {
-                            $descrizione = $app->translate($o2ctrl_obj->nome,
-                                                           'item',
-                                                           $codice,
-                                                           $descrizione);
-                            }
-                        if ($cod_default === false) {
-                            $cod_default  = $codice;
-                            $desc_default = $descrizione;
-                            }
-                        $static_list[] = "['".addslashes($codice)."','".
-                                              addslashes($descrizione)."']";
-                        if ((string) $code_value === trim($codice)) {
-                            $esiste_valore = true;
-                            }
+                $mask = $o2ctrl_obj->maschera;
+                // __________________________________________ Values list from picture ___
+                if (!count($o2ctrl_obj->valori) && is_array($mask->valori)) {
+                    $o2ctrl_obj->valori = $mask->valori;
+                    }
+                $cod_default       = false;
+                $items             = "";
+                $o2ctrl_obj->error = true;
+                foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
+                    if ($app->multilang) {
+                        $descrizione = $app->translate($o2ctrl_obj->nome,
+                                                       'value',
+                                                       $codice,
+                                                       $descrizione);
                         }
-                    $static_list = ",items:[".implode(",", $static_list)."]";
-                    // ____________________________________ Set default value in field ___
-                    if ($o2ctrl_obj->visibile && !$esiste_valore && $enabled) {
-                        $prg->contesto[$o2ctrl_obj->task]->
-                                        imposta($o2ctrl_obj->campo_in_ctrl, $cod_default);
-                        $desc_value = addslashes($desc_default);
+                    $cod_default = ($cod_default !== false ? $cod_default : $codice);
+                    $v_local     = substr($o2ctrl_obj->ctrl2sql(), 0, $mask->dimensione);
+                    $items      .= "['".addslashes(trim($codice))."','".
+                                        addcslashes($descrizione, "'\\\n\r\"")."'],";
+                    if (trim($v_local) === trim($codice)) {
+                        $code_value        = $codice;
+                        $o2ctrl_obj->error = false;
                         }
                     }
-                $rows = count($o2ctrl_obj->valori);
+                print jxjs::ctrl($o2ctrl_obj,
+                                 "d:'".$code_value.
+                               "',boxtype:'list',s:'".
+                                  $o2ctrl_obj->css.($enabled ? '' : '_dis').
+                                                   ($zoom ? ' jxzoom' : '').
+                                                   ($o2ctrl_obj->forza_submit &&
+                                                    $enabled ? ' jxsoc' : '').
+                               "',items:[".($items ? substr($items, 0, -1) : '').
+                                       '],x:'.$o2ctrl_obj->x.
+                                        ',y:'.$o2ctrl_obj->y.
+                                        ',w:'.$o2ctrl_obj->larghezza.
+                                        ',h:'.$o2ctrl_obj->altezza,
+                                 $o2ctrl_obj->js_props(($zoom ? 'z:!0' : 'z:!1'), true));
                 }
-            print jxjs::ctrl($o2ctrl_obj,
-                             "d:'".addcslashes($code_value, "'\\\n\r").
-                           "',dyn:".$dyn_list.$static_list.
-                            ",desc:'".$desc_value.
-                           "',boxtype:'lookup',s:'".
-                           $o2ctrl_obj->css.($enabled ? "" : "_dis").
-                           "',er:".($o2ctrl_obj->error ? "!0" : "!1").
-                           (!$o2ctrl_obj->tab_index ?
-                            ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
-                            ',w:'.$o2ctrl_obj->larghezza.
-                            ',h:'.$o2ctrl_obj->altezza.
-                           ($app->option_get('lookup_handler') ? ',o:!0' : ',o:!1'),
-                           $o2ctrl_obj->js_props("cssf:'".$o2ctrl_obj->css.
-                                                 ($enabled ? '_field' : '_field_dis').
-                                                 ($zoom ? ' jxzoom' : '').
-                                                 ($o2ctrl_obj->forza_submit && $enabled ?
-                                                  ' jxsoc' : '').
-                                                 ($o2ctrl_obj->error ? ' jxerror' : '').
-                                                 "',cssl:'".$o2ctrl_obj->css.
-                                                 "_list',rows:".($rows ? $rows : "0").
-                                                 ($zoom ? ",z:!0" : ",z:!1"),
-                                                 true));
-            }
-        // __________________________________________________________________ List-box ___
-        else {
-            $mask = $o2ctrl_obj->maschera;
-            // ______________________________________________ Values list from picture ___
-            if (!count($o2ctrl_obj->valori) && is_array($mask->valori)) {
-                $o2ctrl_obj->valori = $mask->valori;
-                }
-            $cod_default       = false;
-            $items             = "";
-            $o2ctrl_obj->error = true;
-            foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
-                if ($app->multilang) {
-                    $descrizione = $app->translate($o2ctrl_obj->nome,
-                                                   'value',
-                                                   $codice,
-                                                   $descrizione);
-                    }
-                $cod_default = ($cod_default !== false ? $cod_default : $codice);
-                $v_local     = substr($o2ctrl_obj->ctrl2sql(), 0, $mask->dimensione);
-                $items      .= "['".addslashes(trim($codice))."','".
-                                    addcslashes($descrizione, "'\\\n\r\"")."'],";
-                if (trim($v_local) === trim($codice)) {
-                    $code_value        = $codice;
-                    $o2ctrl_obj->error = false;
-                    }
-                }
-            print jxjs::ctrl($o2ctrl_obj,
-                             "d:'".$code_value.
-                           "',boxtype:'list',s:'".
-                             $o2ctrl_obj->css.($enabled ? '' : '_dis').
-                                              ($zoom ? ' jxzoom' : '').
-                                              ($o2ctrl_obj->forza_submit && $enabled ?
-                                               ' jxsoc' : '').
-                           "',items:[".($items ? substr($items, 0, -1) : '').
-                           '],x:'.$o2ctrl_obj->x.
-                            ',y:'.$o2ctrl_obj->y.
-                            ',w:'.$o2ctrl_obj->larghezza.
-                            ',h:'.$o2ctrl_obj->altezza,
-                             $o2ctrl_obj->js_props(($zoom ? 'z:!0' : 'z:!1'), true));
             }
 
         }

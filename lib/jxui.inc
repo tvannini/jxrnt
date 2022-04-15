@@ -993,7 +993,7 @@ class o2_form {
                 case 'listcombo':
                     $this->controlli[$alias_ctrl]         = new o2_ctrl_listcombo();
                     $prg->ctrls['listcombo'][$alias_ctrl] = $this->controlli[$alias_ctrl];
-                    $prg->drawing_ctrl                    = false;
+                    $prg->drawing_ctrl                    = $this->controlli[$alias_ctrl];
                     break;
                 case 'multipage':
                     $this->controlli[$alias_ctrl]         = new o2_ctrl_multipage();
@@ -1096,13 +1096,13 @@ class o2_form {
                         $prg->view_grids[$task] = $alias_ctrl;
                         }
                     }
+                elseif ($prg->drawing_ctrl) {
+                    $new_ctrl->dependences[$task] = false;
+                    }
                 if ($campo_task) {
                     $field_obj = $view_obj->campo_per_controllo($campo_task);
                     $new_ctrl->campo_in_ctrl = $campo_task;
                     $new_ctrl->maschera      = $field_obj->maschera;
-                    if ($prg->drawing_ctrl) {
-                        $new_ctrl->dependences[$task][$campo_task] = false;
-                        }
                     }
                 // __________________ Check log activated for table binding to control ___
                 if ($app->tables_log) {
