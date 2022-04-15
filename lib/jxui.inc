@@ -943,82 +943,102 @@ class o2_form {
                 case 'button':
                     $this->controlli[$alias_ctrl]      = new o2_ctrl_button();
                     $prg->ctrls['button'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                 = false;
                     break;
                 case 'map':
                     $this->controlli[$alias_ctrl]   = new o2_ctrl_button();
                     $prg->ctrls['map'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl              = false;
                     break;
                 case 'check':
                     $this->controlli[$alias_ctrl]     = new o2_ctrl_check();
                     $prg->ctrls['check'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                = false;
                     break;
                 case 'document':
                     $this->controlli[$alias_ctrl]        = new o2_ctrl_doc();
                     $prg->ctrls['document'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                   = false;
                     break;
                 case 'edit':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_edit();
                     $prg->ctrls['edit'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl               = false;
                     break;
                 case 'file':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_file();
                     $prg->ctrls['file'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl               = false;
                     break;
                 case 'htmlarea':
                     $this->controlli[$alias_ctrl]        = new o2_ctrl_html();
                     $prg->ctrls['htmlarea'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                   = false;
                     break;
                 case 'img':
                     $this->controlli[$alias_ctrl]   = new o2_ctrl_img();
                     $prg->ctrls['img'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl              = false;
                     break;
                 case 'label':
                     $this->controlli[$alias_ctrl]     = new o2_ctrl_label();
                     $prg->ctrls['label'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                = $this->controlli[$alias_ctrl];
                     break;
                 case 'line':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_line();
                     $prg->ctrls['line'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl               = false;
                     break;
                 case 'listcombo':
                     $this->controlli[$alias_ctrl]         = new o2_ctrl_listcombo();
                     $prg->ctrls['listcombo'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                    = false;
                     break;
                 case 'multipage':
                     $this->controlli[$alias_ctrl]         = new o2_ctrl_multipage();
                     $prg->ctrls['multipage'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                    = false;
                     break;
                 case 'navigator':
                     $this->controlli[$alias_ctrl]         = new o2_ctrl_navigator();
                     $prg->ctrls['navigator'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                    = false;
                     break;
                 case 'tab':
                     $this->controlli[$alias_ctrl]   = new o2_ctrl_tab();
                     $prg->ctrls['tab'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl              = false;
                     break;
                 case 'text':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_text();
                     $prg->ctrls['text'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl               = false;
                     break;
                 case 'tree':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_tree();
                     $prg->ctrls['tree'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl               = false;
                     break;
                 case 'imglist':
                     $this->controlli[$alias_ctrl]       = new o2_ctrl_imglist();
                     $prg->ctrls['imglist'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                  = false;
                     break;
                 case 'progress':
                     $this->controlli[$alias_ctrl]        = new o2_ctrl_progress();
                     $prg->ctrls['progress'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                   = false;
                     break;
                 case 'flowbox':
                     $this->controlli[$alias_ctrl]       = new o2_ctrl_flowbox();
                     $prg->ctrls['flowbox'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                  = false;
                     break;
                 case 'frame':
                     $this->controlli[$alias_ctrl]     = new o2_ctrl_frame();
                     $prg->ctrls['frame'][$alias_ctrl] = $this->controlli[$alias_ctrl];
+                    $prg->drawing_ctrl                = false;
                     break;
                 }
             $new_ctrl                = $this->controlli[$alias_ctrl];
@@ -1134,6 +1154,7 @@ class o2_form {
             $def_function($this);
             $this->defined     = true;
             $prg->drawing_grid = false;
+            $prg->drawing_ctrl = false;
             // ____________________________________________________ Controls profiling ___
             if (($app->profiling == "C" || $app->profiling == "B") &&
                 ($this->id_esecuzione == count($app->istanze_prg)) &&
@@ -1627,6 +1648,7 @@ class o2_ctrl {
     public $active_by_tab   = true;    /* If control is "active by table": not in table
                                           or in current row of active table             */
     public $rows_vis        = array(); /* Rows visibility array                         */
+    public $dependences     = array(); /* List of variables/fields this ctrl depends on */
     /*     _____ Visuals ______________________________________________________________ */
     public $valore          = "";      /* Control value                                 */
     /**
@@ -1969,6 +1991,40 @@ class o2_ctrl {
         // _________________________________________________________ If form is active ___
         return $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione]->
                 form[$this->form]->attiva;
+
+        }
+
+
+    /**
+     * Check if control dependences are changed since last output send
+     *
+     */
+    function check_dependences() {
+
+        $app = $_SESSION['o2_app'];
+        $prg = $app->istanze_prg[$this->id_esecuzione];
+        $chs = $prg->changes;
+        $dps = $this->dependences;
+        if (is_array($dps)) {
+            foreach($dps as $view => $fields) {
+                if ($chs[$view]) {
+                    if ($chs[$view] === true) {
+                        return true;
+                        }
+                    else {
+                        foreach($fields as $field => $dummy_val) {
+                            if (isset($chs[$view][$field])) {
+                                return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            return false;
+            }
+        else {
+            return false;
+            }
 
         }
 
@@ -4884,7 +4940,6 @@ class o2_ctrl_tab extends o2_ctrl {
     public $vscroll        = 0;       /* Table body vertical scrolling value            */
     public $custom_colsord = false;   /* Custom columns order set                       */
     public $pinned_cols    = false;   /* Number of pinned columns                       */
-    public $dependences    = array(); /* List of variables/fields this view depends on  */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $spazio_class   = "o2_tab_space";  /* Whole external assigned space <DIV>    */
     public $tab_class      = "o2_tab_tab";    /* Whole actually used space <TABLE>      */
@@ -5257,40 +5312,6 @@ class o2_ctrl_tab extends o2_ctrl {
 
         $this->norec_msg = $message;
         return true;
-
-        }
-
-
-    /**
-     * Check if grid dependences are changed since last output send
-     *
-     */
-    function check_dependences() {
-
-        $app = $_SESSION['o2_app'];
-        $prg = $app->istanze_prg[$this->id_esecuzione];
-        $chs = $prg->changes;
-        $dps = $this->dependences;
-        if (is_array($dps)) {
-            foreach($dps as $view => $fields) {
-                if ($chs[$view]) {
-                    if ($chs[$view] === true) {
-                        return true;
-                        }
-                    else {
-                        foreach($fields as $field => $dummy_val) {
-                            if (isset($chs[$view][$field])) {
-                                return true;
-                                }
-                            }
-                        }
-                    }
-                }
-            return false;
-            }
-        else {
-            return false;
-            }
 
         }
 

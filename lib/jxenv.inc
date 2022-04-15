@@ -73,9 +73,10 @@ class o2_prg {
     /*     _____ VIEWS REFRESH ________________________________________________________ */
     public $variazioni      = array(); /* Modified views list                           */
     public $evaluating_view = "";      /* View evaluating dependence for                */
-    /* ______________________________________________ GRID REDRAW (RESPONSE RESEND) ___ */
+    /* __________________________________________ CONTROLS REDRAW (RESPONSE RESEND) ___ */
     public $changes         = array(); /* Modified fields list (for controls resend)    */
     public $drawing_grid    = false;   /* Grid evaluating dependence for                */
+    public $drawing_ctrl    = false;   /* Ctrl (not container) evaluating dependences   */
     /*     _____ INTERNAL TOOL FLAG ___________________________________________________ */
     public $internal_tool   = false;   /* Program is an internal tool ("tools", "doc")  */
     /*     _____ SQL JOIN on prg views ________________________________________________ */
@@ -5797,6 +5798,9 @@ class o2_dbview extends o2_view {
         if ($prg->drawing_grid && $prg->drawing_grid->view_obj->nome != $this->nome) {
             $prg->drawing_grid->dependences[$this->nome][$field_name] = false;
             }
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$this->nome][$field] = false;
+            }
         return (!is_null($this->corrente[$field_name]) ?
                 $this->corrente[$field_name]           :
                 (isset($this->campi[$field_name]->maschera->default) ?
@@ -6782,6 +6786,9 @@ class o2_virtualview extends o2_view {
             }
         if ($prg->drawing_grid && $prg->drawing_grid->view_obj->nome != $this->nome) {
             $prg->drawing_grid->dependences[$this->nome][$field] = false;
+            }
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$this->nome][$field] = false;
             }
         return (!is_null($this->corrente[$field]) ? $this->corrente[$field] :
                 (isset($this->variabili[$field]->maschera->default) ?

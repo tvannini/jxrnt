@@ -251,38 +251,39 @@ class jxjs {
     static function ctrl_label($o2ctrl_obj) {
 
 
-        $app    = $_SESSION['o2_app'];
-        $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
-        $parent = "pT:'".($o2ctrl_obj->padre ?
-                          $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
-                          'form')."'";
-        // _____________________________ Labels are used for fields in disabled grids! ___
-        $exeid  = ($o2ctrl_obj->popup_exp || $o2ctrl_obj->log_level ?
-                   ',e:'.$o2ctrl_obj->id_esecuzione : '');
-        $popup  = ($o2ctrl_obj->popup_exp ?
-                   ",puact:'".$o2ctrl_obj->popup_act.
-                   "',puexp:'".$o2ctrl_obj->popup_exp."'" : '');
-        $log    = ($o2ctrl_obj->log_level ?
-                   ",log:!0,c:'".$o2ctrl_obj->nome."'"  : '');
-        if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome,
-                                     'label',
-                                     0,
-                                     $o2ctrl_obj->label);
+        if ($o2ctrl_obj->check_dependences()) {
+            $app    = $_SESSION['o2_app'];
+            $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
+            $parent = "pT:'".($o2ctrl_obj->padre ?
+                            $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
+                            'form')."'";
+            // _________________________ Labels are used for fields in disabled grids! ___
+            $exeid  = ($o2ctrl_obj->popup_exp || $o2ctrl_obj->log_level ?
+                       ',e:'.$o2ctrl_obj->id_esecuzione : '');
+            $popup  = ($o2ctrl_obj->popup_exp ?
+                       ",puact:'".$o2ctrl_obj->popup_act.
+                       "',puexp:'".$o2ctrl_obj->popup_exp."'" : '');
+            $log    = ($o2ctrl_obj->log_level ?
+                       ",log:!0,c:'".$o2ctrl_obj->nome."'"  : '');
+            if ($app->multilang) {
+                $label = $app->translate($o2ctrl_obj->nome,
+                                         'label',
+                                         0,
+                                         $o2ctrl_obj->label);
+                }
+            else {
+                $label = $o2ctrl_obj->label;
+                }
+            print jxjs::ctrl($o2ctrl_obj,
+                             "l:'".str_replace(array("\n","\r"), ' ',
+                                               addslashes(jx_encode($label))).
+                             "',s:'".$o2ctrl_obj->css.
+                             "'".(!$o2ctrl_obj->tab_index ?
+                                  ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
+                             ',w:'.$o2ctrl_obj->larghezza.
+                             ',h:'.$o2ctrl_obj->altezza,
+                             '{'.$parent.$exeid.$popup.$log.'}');
             }
-        else {
-            $label = $o2ctrl_obj->label;
-            }
-        print jxjs::ctrl($o2ctrl_obj,
-                         "l:'".str_replace(array("\n","\r"), ' ',
-                                           addslashes(jx_encode($label))).
-                         "',s:'".$o2ctrl_obj->css.
-                         "'".(!$o2ctrl_obj->tab_index ?
-                              ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
-                         '{'.$parent.$exeid.$popup.$log.'}');
-
         }
 
 
