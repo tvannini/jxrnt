@@ -339,21 +339,23 @@ class jxjs {
      */
     static function ctrl_edit($o2ctrl_obj) {
 
-        $enabled = $o2ctrl_obj->is_enabled();
-        $zoom    = $o2ctrl_obj->is_zoomable();
-        print jxjs::ctrl($o2ctrl_obj,
-                         "d:'".$o2ctrl_obj->sql2ctrl().
-                         "',a:'".($o2ctrl_obj->maschera->allineamento == 'Right' ?
-                                  'right' : 'left').
-                         "',s:'".$o2ctrl_obj->css.($enabled ? '' : '_dis').
-                                                  ($zoom ? ' jxzoom' : '').
-                                                  ($o2ctrl_obj->forza_submit &&
-                                                   $enabled ? ' jxsoc' : '').
-                         "'".(!$o2ctrl_obj->tab_index ?
-                              ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
-                         $o2ctrl_obj->js_props(($zoom ? "z:!0" : "z:!1"), true));
+        if ($o2ctrl_obj->check_dependences()) {
+            $enabled = $o2ctrl_obj->is_enabled();
+            $zoom    = $o2ctrl_obj->is_zoomable();
+            print jxjs::ctrl($o2ctrl_obj,
+                             "d:'".$o2ctrl_obj->sql2ctrl().
+                             "',a:'".($o2ctrl_obj->maschera->allineamento == 'Right' ?
+                                      'right' : 'left').
+                             "',s:'".$o2ctrl_obj->css.($enabled ? '' : '_dis').
+                                                      ($zoom ? ' jxzoom' : '').
+                                                      ($o2ctrl_obj->forza_submit &&
+                                                       $enabled ? ' jxsoc' : '').
+                             "'".(!$o2ctrl_obj->tab_index ?
+                                  ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
+                             ',w:'.$o2ctrl_obj->larghezza.
+                             ',h:'.$o2ctrl_obj->altezza,
+                             $o2ctrl_obj->js_props(($zoom ? "z:!0" : "z:!1"), true));
+            }
 
         }
 

@@ -963,7 +963,7 @@ class o2_form {
                 case 'edit':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_edit();
                     $prg->ctrls['edit'][$alias_ctrl] = $this->controlli[$alias_ctrl];
-                    $prg->drawing_ctrl               = false;
+                    $prg->drawing_ctrl               = $this->controlli[$alias_ctrl];
                     break;
                 case 'file':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_file();
@@ -1100,6 +1100,9 @@ class o2_form {
                     $field_obj = $view_obj->campo_per_controllo($campo_task);
                     $new_ctrl->campo_in_ctrl = $campo_task;
                     $new_ctrl->maschera      = $field_obj->maschera;
+                    if ($prg->drawing_ctrl) {
+                        $new_ctrl->dependences[$task][$campo_task] = false;
+                        }
                     }
                 // __________________ Check log activated for table binding to control ___
                 if ($app->tables_log) {
