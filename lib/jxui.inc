@@ -1013,7 +1013,7 @@ class o2_form {
                 case 'text':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_text();
                     $prg->ctrls['text'][$alias_ctrl] = $this->controlli[$alias_ctrl];
-                    $prg->drawing_ctrl               = false;
+                    $prg->drawing_ctrl               = $this->controlli[$alias_ctrl];
                     break;
                 case 'tree':
                     $this->controlli[$alias_ctrl]    = new o2_ctrl_tree();

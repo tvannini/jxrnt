@@ -367,29 +367,31 @@ class jxjs {
      */
     static function ctrl_text($o2ctrl_obj) {
 
-        $enabled = $o2ctrl_obj->is_enabled();
-        $zoom    = $o2ctrl_obj->is_zoomable();
-        if ($o2ctrl_obj->html) {
-            $css = $o2ctrl_obj->css."_edit";
-            $rte = "rte:!0,";
+        if ($o2ctrl_obj->check_dependences()) {
+            $enabled = $o2ctrl_obj->is_enabled();
+            $zoom    = $o2ctrl_obj->is_zoomable();
+            if ($o2ctrl_obj->html) {
+                $css = $o2ctrl_obj->css."_edit";
+                $rte = "rte:!0,";
+                }
+            else {
+                $css = $o2ctrl_obj->css;
+                $rte = "";
+                }
+            print jxjs::ctrl($o2ctrl_obj,
+                            "text:'".$o2ctrl_obj->sql2ctrl().
+                            "',s:'".$o2ctrl_obj->css.($enabled ?"" : "_dis").
+                                                    ($zoom ? ' jxzoom' : '').
+                                                    ($o2ctrl_obj->forza_submit &&
+                                                    $enabled ? ' jxsoc' : '').
+                            "'".(!$o2ctrl_obj->tab_index ?
+                                ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
+                            ',w:'.$o2ctrl_obj->larghezza.
+                            ',h:'.$o2ctrl_obj->altezza,
+                            $o2ctrl_obj->js_props("cssc:'".$css."',".$rte.
+                                                ($zoom ? "z:!0" : "z:!1"),
+                                                true));
             }
-        else {
-            $css = $o2ctrl_obj->css;
-            $rte = "";
-            }
-        print jxjs::ctrl($o2ctrl_obj,
-                         "text:'".$o2ctrl_obj->sql2ctrl().
-                         "',s:'".$o2ctrl_obj->css.($enabled ?"" : "_dis").
-                                                  ($zoom ? ' jxzoom' : '').
-                                                  ($o2ctrl_obj->forza_submit &&
-                                                   $enabled ? ' jxsoc' : '').
-                         "'".(!$o2ctrl_obj->tab_index ?
-                              ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
-                         $o2ctrl_obj->js_props("cssc:'".$css."',".$rte.
-                                               ($zoom ? "z:!0" : "z:!1"),
-                                               true));
 
         }
 
