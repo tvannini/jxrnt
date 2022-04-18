@@ -5799,7 +5799,10 @@ class o2_dbview extends o2_view {
             $prg->drawing_grid->dependences[$this->nome][$field_name] = false;
             }
         if ($prg->drawing_ctrl) {
-            $prg->drawing_ctrl->dependences[$this->nome][$field] = false;
+            $dps = $prg->drawing_ctrl->dependences;
+            if (!isset($dps[$this->nome]) || is_array($dps[$this->nome])) {
+                $prg->drawing_ctrl->dependences[$this->nome][$field] = false;
+                }
             }
         return (!is_null($this->corrente[$field_name]) ?
                 $this->corrente[$field_name]           :
@@ -6788,7 +6791,10 @@ class o2_virtualview extends o2_view {
             $prg->drawing_grid->dependences[$this->nome][$field] = false;
             }
         if ($prg->drawing_ctrl) {
-            $prg->drawing_ctrl->dependences[$this->nome][$field] = false;
+            $dps = $prg->drawing_ctrl->dependences;
+            if (!isset($dps[$this->nome]) || is_array($dps[$this->nome])) {
+                $prg->drawing_ctrl->dependences[$this->nome][$field] = false;
+                }
             }
         return (!is_null($this->corrente[$field]) ? $this->corrente[$field] :
                 (isset($this->variabili[$field]->maschera->default) ?

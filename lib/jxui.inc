@@ -2014,6 +2014,9 @@ class o2_ctrl {
                     if ($chs[$view] === true) {
                         return true;
                         }
+                    elseif ($dps[$view] === false) {
+                        return true;
+                        }
                     else {
                         foreach($fields as $field => $dummy_val) {
                             if (isset($chs[$view][$field])) {
