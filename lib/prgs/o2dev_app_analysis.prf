@@ -166,17 +166,17 @@ function o2dev_app_analysis§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2dev_app_analysis_exp_1() {
-	
+
 return (o2val('prg§_§var','models_list'));
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_2() {
-	
+
 return (o2val('prg§_§var','analysis_model'));
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_3() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
@@ -202,12 +202,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_5() {
-	
+
 return ("jxtree");
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_6() {
-	
+
 return (o2tree_get_code("jxresult"));
 	} //|o2_fine_exp|
 
@@ -217,7 +217,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_8() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "UUTABLES");
 	} //|o2_fine_exp|
 
@@ -261,7 +261,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_10() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "UUFIELDS");
 	} //|o2_fine_exp|
 
@@ -335,7 +335,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_13() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "UUMODELS");
 	} //|o2_fine_exp|
 
@@ -422,7 +422,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_15() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "UUPROGS");
 	} //|o2_fine_exp|
 
@@ -470,7 +470,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_17() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "UUKEYS");
 	} //|o2_fine_exp|
 
@@ -551,7 +551,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_19() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "CHECKLINKS");
 	} //|o2_fine_exp|
 
@@ -762,7 +762,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_21() {
-	
+
 return (o2val('prg§_§var','done'));
 	} //|o2_fine_exp|
 
@@ -772,7 +772,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_23() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "CHECKSREL");
 	} //|o2_fine_exp|
 
@@ -931,7 +931,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_25() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "CHECKLOOP");
 	} //|o2_fine_exp|
 
@@ -1053,7 +1053,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_27() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "CHECKEXPS");
 	} //|o2_fine_exp|
 
@@ -1105,7 +1105,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_29() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "SESSION");
 	} //|o2_fine_exp|
 
@@ -1122,7 +1122,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_31() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "SQLFORMULA");
 	} //|o2_fine_exp|
 
@@ -1246,14 +1246,14 @@ $outdir->crea();
 foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
    $prg       = $prf->nome;
    $cont      = file_get_contents($prf->nome_completo);
-   $bad_links = $bad_criteria($cont);   
+   $bad_links = $bad_criteria($cont);
    $alist     = array();
    /*   LIST OF FIELDS -> TABLE-ALIAS   */
    foreach ($insp::get_prg_selects($cont) as $prgview => $prgtabs) {
-      $alist[$prgview] = array();      
-      foreach ($prgtabs as $prgtab => $prgfields) {      
+      $alist[$prgview] = array();
+      foreach ($prgtabs as $prgtab => $prgfields) {
          foreach ($prgfields as $prgfield) {
-            $alist[$prgview][$prgfield['alias']] = $prgtab;         
+            $alist[$prgview][$prgfield['alias']] = $prgtab;
             }
          }
       }
@@ -1272,8 +1272,8 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
                }
             }
          }
-      }      
-   
+      }
+
    /*   FIND ALL FORMULAS   */
    $parts = array();
    preg_match_all('/(\$task_(\w+))->calcola\((["\']\w+["\']\s*,\s*["\']\w+["\']\s*,\s*)["\']'.$prg.
@@ -1386,7 +1386,7 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
                          $nest_level == 0 &&
                          count($params) == 2) {
                         if (trim($params[1], '\'"') == $view) {
-                           //  Check if tab is in list of view excluded tabs ___                     
+                           //  Check if tab is in list of view excluded tabs ___
                            if (!isset($tlist[$view][$alist[$view][trim($params[2], '\'"')]])) {
                               $res[] = '['.$params[2].']';
                               }
@@ -1474,7 +1474,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_33() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "DUPFILEDS");
 	} //|o2_fine_exp|
 
@@ -1524,7 +1524,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_35() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "NUIDXTOREP");
 	} //|o2_fine_exp|
 
@@ -1552,7 +1552,7 @@ $idxs     = o2_gateway::recordset($idxs_ser->type,
                                   $idxs_whe,
                                   '',
                                   10000);
-                                  
+
 /* _________________ Read tab-repository file from INI or use default one ___ */
 $ini_content = file_get_contents(o2app_dir_home().o2app_name().".ini");
 $parts       = array();
@@ -1562,7 +1562,7 @@ if ($parts[1]) {
    }
 else {
    $tables = 'file_repository.inc';
-   }                                  
+   }
 /* ___________________________________________ Get tables repository code ___ */
 $code  = file_get_contents(o2app_dir_prgs().$tables);
 $n     = 0;
@@ -1577,17 +1577,17 @@ foreach ($idxs as $idx) {
                   '(o2def::(nu|)index\([^;]+\);\s+)++o2def::tab\(/',
                   $code, $parts, PREG_OFFSET_CAPTURE);
    /* _________________________ Check for index already existing in table ___ */
-   if (preg_match('/o2def::(nu|)index\(\s*[\'"]'.$index.'[\'"]\s*,/', 
+   if (preg_match('/o2def::(nu|)index\(\s*[\'"]'.$index.'[\'"]\s*,/',
                   $parts[0][0][0]) === 0) {
       /* _____________________________________ Last index definition code ___ */
       $i_code = $parts[2][0][0];
       if ($i_code) {
          $n++;
          if (!isset($added['T|'.$table])) {
-            $added['T|'.$table] = array("jxresult", $table, "<jx>/img/tabadmin/tree/tab.png");         
+            $added['T|'.$table] = array("jxresult", $table, "<jx>/img/tabadmin/tree/tab.png");
             }
          $added['F|'.$index] = array('T|'.$table, $index, "<jx>/img/tabadmin/tree/field.png");
-         /* ___________________________ last index definition code lenght ___ */
+         /* ___________________________ last index definition code length ___ */
          $i_len  = strlen($i_code);
          /* ________________________ Last index definition code last char ___ */
          $i_char = $parts[2][0][1] + $i_len;
@@ -1622,7 +1622,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_37() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "REPALIASLEN");
 	} //|o2_fine_exp|
 
@@ -1649,8 +1649,8 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
                      $res[$prg][$protocol] = array();
                      }
                   $res[$prg][$protocol][] = $alias;
-                  $n++;   
-                  }            
+                  $n++;
+                  }
                }
             }
          }
@@ -1678,7 +1678,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_39() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "CHECKLOCKS");
 	} //|o2_fine_exp|
 
@@ -1693,19 +1693,19 @@ $tool   = new o2_inspector();
 foreach ($tool->prgs_list as $prg => $prf) {
    $code = file_get_contents($prf);
    foreach (o2_inspector::get_prg_acts_view($code) as $view => $act_objs) {
-      /* _______________________________________ Look for recordset::lock ___ */   
+      /* _______________________________________ Look for recordset::lock ___ */
       if (isset($act_objs['LOCK'])) {
-      
+
          if (!isset($res['P'.$prg])) {
             $id_prg++;
-            $res['P'.$prg] = array($show, $prg, '<jx>/img/tabadmin/tree/tab.png');         
+            $res['P'.$prg] = array($show, $prg, '<jx>/img/tabadmin/tree/tab.png');
             }
-      
+
          $res['P'.$prg.'|V'.$view] = array('P'.$prg, $view, '<jx>/img/tabadmin/tree/reference.png');
-      
+
          }
       foreach ($act_objs['LOCK'] as $act_name => $steps) {
-         foreach ($steps as $step => $dummy_verb) {         
+         foreach ($steps as $step => $dummy_verb) {
                $res['P'.$prg.'|V'.$view.'|'.$act_name] = array('P'.$prg.'|V'.$view, $act_name.' ('.$step.')', '<jx>/img/tabadmin/tree/tab_sql.png');
                }
             }
@@ -1730,7 +1730,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_41() {
-	
+
 return (o2val('prg§_§var','analysis_model') == "TABSREL");
 	} //|o2_fine_exp|
 
@@ -1742,11 +1742,11 @@ $reln = 0;
 $imgs = '<jx>/img/tabadmin/tree/';
 $show = 'jxresult';
 foreach ($rels as $main_tab => $links) {
-   $res[$main_tab] = array('jxresult', 
-                           $main_tab, 
+   $res[$main_tab] = array('jxresult',
+                           $main_tab,
                            $imgs.'tab.png');
    $show = $main_tab;
-   foreach ($links as $link_tab => $links) {   
+   foreach ($links as $link_tab => $links) {
       $res[$main_tab.'|'.$link_tab] = array($main_tab,
                                             $link_tab,
                                             $imgs.'reference.png');
@@ -1756,7 +1756,7 @@ foreach ($rels as $main_tab => $links) {
                                                             $imgs.'constraint.png');
          $reln++;
          }
-      $tabn++;         
+      $tabn++;
       }
    }
 $res['jxresult'] = array(0,
@@ -1768,7 +1768,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_43() {
-	
+
 return ('tools/o2sys_tables_relations');
 	} //|o2_fine_exp|
 ?>

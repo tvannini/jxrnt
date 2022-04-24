@@ -305,7 +305,7 @@ function add_tab_field($code, $table, $field, $name, $model) {
         // ________________________________________________ Last field definition code ___
         $f_code = $parts[1][0][0];
         if ($f_code) {
-            // _____________________________________ last field definition code lenght ___
+            // _____________________________________ last field definition code length ___
             $f_len  = strlen($f_code);
             // __________________________________ Last field definition code last char ___
             $f_char = $parts[1][0][1] + $f_len;
@@ -341,7 +341,7 @@ function add_tab_index($code, $table, $index, $segms) {
         // ________________________________________________ Last index definition code ___
         $i_code = $parts[2][0][0];
         if ($i_code) {
-            // _____________________________________ last index definition code lenght ___
+            // _____________________________________ last index definition code length ___
             $i_len  = strlen($i_code);
             // __________________________________ Last index definition code last char ___
             $i_char = $parts[2][0][1] + $i_len;

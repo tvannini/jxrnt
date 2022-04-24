@@ -1907,7 +1907,7 @@ class o2html {
         // __________________________________________________ Visualizzazione standard ___
         else {
             if ($o2form_obj->attiva || !$o2form_obj->html_cache) {
-                $html_lenght_local = ob_get_length();
+                $html_length_local = ob_get_length();
                 if ($o2form_obj->attiva) {
                     $o2form_obj->leggi_valori_vista();
                     }
@@ -1939,7 +1939,7 @@ class o2html {
                         }
                     }
                 $o2form_obj->html_cache = (!$o2form_obj->attiva ?
-                                           substr(ob_get_contents(), $html_lenght_local) :
+                                           substr(ob_get_contents(), $html_length_local) :
                                            "");
                 }
             else {
