@@ -208,6 +208,7 @@ class o2_app {
     public $refresh_time    = 0;       /* Number of seconds to wait before refreshing   */
     public $refresh_last    = 0;       /* Last refresh execution time-out               */
     public $jxhttp_extra    = false;   /* Extra data for HTTP requests (see o2_post())  */
+    public $otp_time        = 3600;    /* Time (in seconds) One Time Passwords expire   */
     /*     _____ BUGS compatibility ___________________________________________________ */
     public $bug_aggregate   = false;   /* If TRUE uncountable aggregations are skipped  */
     /*     _____ HTML extras __________________________________________________________ */
@@ -1260,6 +1261,70 @@ class o2_app {
                 unlink($tmp_f->nome_completo);
                 }
             }
+        // ======================================================== Clear expired OTPs ===
+        $otps   = $this->get_table('jx_otp');
+        $db     = $otps->db;
+        $server = $db->server;
+        $f      = $otps->campi;
+        $now    = time();
+        $where  = $f['create_time'].'<'.($now - $this->otp_time);
+        o2_gateway::deleterec($server->type,
+                              $server->server,
+                              $server->user,
+                              $server->password,
+                              $db->nome,
+                              $db->proprietario,
+                              $otps->nome,
+                              "jx_otp",
+                              $where);
+
+        }
+
+
+    /**
+     * Generates a One Time Password for application user.
+     * OTP is a time-based access code provided to user to override his standard password
+     * and can be used only once.
+     * Returned OTP is a string of $otp_len chars, default length is 6.
+     * If $user is blank then OTP is generated for the currently logged user.
+     *
+     * @param  string $user       User to generate the OTP for
+     * @param  integer $otp_len   Length of the OTP token
+     * @return string
+     */
+    function otp($user = '', $otp_len = 6) {
+
+        if (!$user) {
+            $user = $this->user;
+            }
+        $code   = substr(str_shuffle(str_repeat('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                                                '1'.substr($this->runtime->microtime(),
+                                                           -1) + 0)), -$otp_len);
+        $tab    = $this->get_table('jx_otp');
+        $db     = $tab->db;
+        $server = $db->server;
+        $fields = array($tab->campi['code']->nome_fisico,
+                        $tab->campi['user']->nome_fisico,
+                        $tab->campi['create_time']->nome_fisico);
+        $values = array("'".md5($code)."'", "'".$user."'", time());
+        $trans  = $this->isolated_trans;
+        $this->isolated_trans = $this->progressivo_istanze;
+        o2_gateway::insertrec($server->type,
+                              $server->server,
+                              $server->user,
+                              $server->password,
+                              $db->nome,
+                              $db->proprietario,
+                              $tab->nome,
+                              "jx_otp",
+                              $fields,
+                              $values);
+        o2_gateway::commit($server->type,
+                           $server->server,
+                           $server->user,
+                           $server->password);
+        $this->isolated_trans = $trans;
+        return $code;
 
         }
 

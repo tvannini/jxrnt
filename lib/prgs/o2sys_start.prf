@@ -8,6 +8,7 @@ function o2sys_start§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("lookup_user", "_o2alpha");
 	$task_prg§_§var->definisci("now", "_o2sid");
 	$task_prg§_§var->definisci("original_login_name", "o2sys_long_str");
+	$task_prg§_§var->definisci("otp_code", "_o2sid");
 	$task_prg§_§var->definisci("rights", "_o2structure");
 	$task_prg§_§var->definisci("roles", "_o2structure");
 	$task_prg§_§var->definisci("terminal_id", "jxterminal_id");
@@ -115,6 +116,16 @@ function o2sys_start§§terminals_def(&$task_terminals, $_o2viewalias = "") {
 	$task_terminals->usa("terminal_id","o2_sessions","terminal_id",null,null,null,null);
 }
 
+function o2sys_start§§otp_def(&$task_otp, $_o2viewalias = "") {
+	$task_otp->righe_vis = 10;
+
+	$task_otp->usa_file("jx_otp","jx_otp","code",null,null);
+
+	$task_otp->usa("code","jx_otp","code","o2sys_start_exp_71()","o2sys_start_exp_71()",null,null);
+	$task_otp->usa("user","jx_otp","user","o2sys_start_exp_54()","o2sys_start_exp_54()",null,null);
+	$task_otp->usa("create_time","jx_otp","create_time","o2sys_start_exp_72()",null,null,null);
+}
+
 function o2sys_start§§check_session_terminal_act(&$o2exe) {
 	$o2exe->s(1) && (o2sys_start_exp_43() || $o2exe->e()) && o2act::set("prg§_§var", "terminal_id", o2sys_start_exp_42()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -203,7 +214,9 @@ function o2sys_start§§login_correct_act(&$o2exe) {
 	$o2exe->s(3) && True && o2act::set("users", "last_time", o2sys_start_exp_7()) && $o2exe->e();
 	$o2exe->s(4) && (o2sys_start_exp_70() || $o2exe->e()) && o2act::set("users", "admin", o2sys_start_exp_69()) && $o2exe->e();
 	$o2exe->s(5) && True && o2act::view("users", "S", "") && $o2exe->e();
-	$o2exe->s(6) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
+//	$o2exe->s(6) && True && o2act::remark("Remove used OTP") && $o2exe->e();
+	$o2exe->s(7) && (o2sys_start_exp_74() || $o2exe->e()) && o2act::view("otp", "C", "") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_correct_ldap_act(&$o2exe) {
@@ -263,20 +276,21 @@ function o2sys_start§§session_act(&$o2exe) {
 function o2sys_start§§start_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "now", o2sys_start_exp_16()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_1()) && $o2exe->e();
-//	$o2exe->s(3) && True && o2act::remark("---------------------------------------- Verify login") && $o2exe->e();
-	$o2exe->s(4) && (o2sys_start_exp_19() || $o2exe->e()) && o2act::exe("login", True, "") && $o2exe->e();
-//	$o2exe->s(5) && True && o2act::remark("---------------------------------------- Register session") && $o2exe->e();
-	$o2exe->s(6) && True && o2act::exe("session", True, "") && $o2exe->e();
-//	$o2exe->s(7) && True && o2act::remark("---------------------------------------- Commit all") && $o2exe->e();
-	$o2exe->s(8) && True && o2act::script(o2sys_start_exp_47()) && $o2exe->e();
-//	$o2exe->s(9) && True && o2act::remark("---------------------------------------- Load options") && $o2exe->e();
-	$o2exe->s(10) && True && o2act::exe("load_options", True, "") && $o2exe->e();
-	$o2exe->s(11) && True && o2act::ret(1, o2sys_start_exp_5()) && $o2exe->e();
-	$o2exe->s(12) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
-	$o2exe->s(13) && (o2sys_start_exp_58() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
-	$o2exe->s(14) && True && o2act::exe("load_logged", True, "") && $o2exe->e();
-//	$o2exe->s(15) && True && o2act::remark("Log login access event") && $o2exe->e();
-	$o2exe->s(16) && (o2sys_start_exp_64() || $o2exe->e()) && o2act::script(o2sys_start_exp_65()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "otp_code", o2sys_start_exp_73()) && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("---------------------------------------- Verify login") && $o2exe->e();
+	$o2exe->s(5) && (o2sys_start_exp_19() || $o2exe->e()) && o2act::exe("login", True, "") && $o2exe->e();
+//	$o2exe->s(6) && True && o2act::remark("---------------------------------------- Register session") && $o2exe->e();
+	$o2exe->s(7) && True && o2act::exe("session", True, "") && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("---------------------------------------- Commit all") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::script(o2sys_start_exp_47()) && $o2exe->e();
+//	$o2exe->s(10) && True && o2act::remark("---------------------------------------- Load options") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::exe("load_options", True, "") && $o2exe->e();
+	$o2exe->s(12) && True && o2act::ret(1, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(13) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(14) && (o2sys_start_exp_58() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
+	$o2exe->s(15) && True && o2act::exe("load_logged", True, "") && $o2exe->e();
+//	$o2exe->s(16) && True && o2act::remark("Log login access event") && $o2exe->e();
+	$o2exe->s(17) && (o2sys_start_exp_64() || $o2exe->e()) && o2act::script(o2sys_start_exp_65()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§terminal_id_act(&$o2exe) {
@@ -313,6 +327,9 @@ if ($app_user && $reg_user && ($app_user === $reg_user)) {
            (o2val('users','o2password') === $_SESSION['o2_app']->password)) {
       $correct = true;
       }
+   elseif (!o2zero('prg§_§var','otp_code') && o2view_rec('otp')) {
+      $correct = true;   
+      } 
    }
 return ($correct);
 	} //|o2_fine_exp|
@@ -746,7 +763,10 @@ if ($user == 'root' || $user == 'jxsys') {
    $type = 'STD';
    }
 /* _____________ LDAP enabled at app level: auth=local forces bypass LDAP ___ */
-elseif ($app->ldap_server && !$md5 && $_REQUEST['auth'] != 'local') {
+elseif ($app->ldap_server && 
+        !$md5 && 
+        !$_REQUEST['jxotp'] && 
+        $_REQUEST['auth'] != 'local') {
    /* _____________________________________________ LDAP enabled for user ___ */
    if (o2val('users','login_type') == 'LDAP') {
       $type = 'LDAP';
@@ -903,5 +923,25 @@ return (true);
 function o2sys_start_exp_70() {
 	
 return (o2app_user() == 'root' || o2app_user() == 'jxsys');
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_71() {
+	
+return (o2val('prg§_§var','otp_code'));
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_72() {
+	
+return (o2val('prg§_§var','now') - $_SESSION['o2_app']->otp_time);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_73() {
+	
+return (($_REQUEST['jxotp'] ? md5(strtoupper($_REQUEST['jxotp'])) : ''));
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_74() {
+	
+return (!o2zero('prg§_§var','otp_code') && o2view_rec('otp'));
 	} //|o2_fine_exp|
 ?>

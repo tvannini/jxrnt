@@ -316,4 +316,15 @@ o2def::tab("jx_asp_areas", "default", "jx_asp_areas", "area");
 
 	o2def::nuindex("desc", "area_desc","A");
 
+o2def::tab("jx_otp", "default", "jx_otp", "code");
+
+	o2def::field("code", "code", "_o2sid");
+	o2def::field("user", "user", "jxuser");
+	o2def::field("create_time", "create_time", "o2sys_full_number");
+
+	o2def::index("code", "code","A");
+
+	o2def::nuindex("user", "user","A");
+	o2def::nuindex("time", "create_time","D");
+
 ?>

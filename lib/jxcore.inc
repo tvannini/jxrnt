@@ -6738,7 +6738,8 @@ endofjxmsg;
                      'jx_hosts',
                      'jx_translations',
                      'jx_access_log',
-                     'jx_asp_areas');
+                     'jx_asp_areas',
+                     'jx_otp');
 
         }
 

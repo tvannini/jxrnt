@@ -18,6 +18,7 @@ o2def::view("rights_per_role", False, "", "", 1);
 o2def::view("logged_tabs", False, "", "", 1);
 o2def::view("jxsys_lookup", False, "", "", 1);
 o2def::view("terminals", False, "", "", 0);
+o2def::view("otp", False, "", "", 0);
 o2def::act("check_session_terminal");
 o2def::act("db_session");
 o2def::act("insert_jxsys");

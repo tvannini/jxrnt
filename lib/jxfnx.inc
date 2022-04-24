@@ -3019,6 +3019,28 @@ function o2app_logout($exit_url = false, $params = false) {
     }
 
 
+/**
+ * Generates a One Time Password for application user.
+ * OTP is a time-based access code provided to user to override his standard password
+ * and can be used only once.
+ * Returned OTP is a string of $otp_len chars, default length is 6.
+ * If $user is blank then OTP is generated for the currently logged user.
+ *
+ * OTP string can be used to access to the application by a request like this:
+ *
+ *  <domain>/app_name.php?user=otp_user&jxotp=otp_code
+ *
+ * @param  string  $user      User to generate the OTP for
+ * @param  integer $otp_len   Length of the OTP token
+ * @return string
+ */
+function o2app_otp($user = '', $otp_len = 6) {
+
+    return $_SESSION['o2_app']->otp($user, $otp_len);
+
+    }
+
+
 // ======================================= MENU ==========================================
 
 /**
