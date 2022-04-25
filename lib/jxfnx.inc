@@ -3000,9 +3000,17 @@ function o2app_logout($exit_url = false, $params = false) {
     if ($exit_url === true) {
         $exit_url = $app->referer;
         // ________________________________________ Add parameters to open new session ___
-        $params = array('user'     => $app->user,
-                        'password' => $app->password,
-                        'auth'     => 'local');
+        if ($app->block_md5_pwd) {
+            // _______________ If hashed passwords are blocked use OTP system to login ___
+            $params = array('user'  => $app->user,
+                            'jxotp' => $app->otp(),
+                            'auth'  => 'local');
+            }
+        else {
+            $params = array('user'     => $app->user,
+                            'password' => $app->password,
+                            'auth'     => 'local');
+            }
         if ($app->client_width) {
             $params['jxcsw'] = $app->client_width;
             }

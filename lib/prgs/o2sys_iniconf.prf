@@ -897,6 +897,14 @@ $list = array(
                                              "the last 4 used passwords.\n",
                                 "default" => 0,
                                 "values"  => array(0, 1, 2)),
+   "block_md5_password" => array("rntval"  => null,
+                                 "appval"  => null,
+                                 "desc"    => "   *** Block MD5 hashed passwords ***\n\n".
+                                              "When set to ON this parameter forces passwords accepted only ".
+                                              "in a clear form, not MD5 hashed.\n\n".
+                                              "ATTENTION: Enable this parameter only in secure contexts (HTTPS).\n",
+                                 "default" => "off",
+                                 "values"  => array("off", "on")),                                
    "ldap_server" => array("rntval"  => null,
                           "appval"  => null,
                           "desc"    => "   *** LDAP authority server for validation ***\n\n".
@@ -1409,6 +1417,7 @@ function o2sys_iniconf_exp_34() {
               "validate",
               "password_strength",
               "password_change",
+              "block_md5_password",
               "ldap_server",
               "ldap_search_domain",
               "ldap_base_dn",

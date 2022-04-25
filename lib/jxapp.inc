@@ -93,6 +93,7 @@ class o2_app {
     public $password_strength  = 0;         /* Rules to enforce password strength       */
     public $password_change    = false;     /* Force password to be changed every N days*/
     public $force_pwd_change   = false;     /* Password must be changed to login        */
+    public $block_md5_pwd      = false;     /* Block login with MD5 hashed passwords    */
     public $ldap_server        = false;     /* LDAP authority server for user validation*/
     public $ldap_search_domain = false;     /* LDAP search domain for user validation   */
     public $ldap_base_dn       = false;     /* LDAP base DN for user validation         */
@@ -1003,8 +1004,11 @@ class o2_app {
                                       "class='o2_ctrl_button'></center>".
                                       "<input type='hidden' name='user' value='".
                                       $this->user.
+                                      ($this->block_md5_pwd ?
+                                      "'><input type='hidden' name='jxotp' value='".
+                                      $this->otp() :
                                       "'><input type='hidden' name='password' value='".
-                                      $this->password.
+                                      $this->password).
                                       "'><input type='hidden' name='dev' value='".
                                       $this->developer.
                                       "'><input type='hidden' name='key' value='".
@@ -1608,6 +1612,9 @@ class o2_app {
         if (isset($conf['password_change'])) {
             $this->password_change = intval($conf['password_change']);
             }
+        if (isset($conf['block_md5_password'])) {
+            $this->block_md5_pwd = ($conf['block_md5_password'] ? true : false);
+            }
         if (isset($conf['ldap_server'])) {
             $this->ldap_server = $conf['ldap_server'];
             }
@@ -1936,7 +1943,8 @@ class o2_app {
             $password = $this->get_user_password($user);
             }
         // ____________________ This to allow clear password as command line parameter ___
-        $this->password = (strlen($password) < 32 ? md5($password) : $password);
+        $this->password = (strlen($password) < 32 || $this->block_md5_pwd ?
+                           md5($password) : $password);
         $this->user     = $user;
         // __________________________________ Login program execution and user options ___
         list($this->user_roles,
@@ -4584,7 +4592,9 @@ class o2_job {
             $cmd = '"'.$rnt->php_engine.'" '.$app->dir_htdocs.$app->nome.
                                      '.php jxrnt="'.$rnt->rnt_script.
                                         '" user='.$app->user.
-                                         ' password='.$app->password.
+                                        ($app->block_md5_pwd ?
+                                         ' jxotp='.$app->otp() :
+                                         ' password='.$app->password).
                                         ($app->run_level == "DEV" ?
                                          ' dev='.$app->developer.' key='.$app->dev_key :
                                          '').
@@ -5017,7 +5027,9 @@ class o2_run_job {
                     $cmd = '"'.$rnt->php_engine.'" '.
                            $app->dir_htdocs.$app->nome.'.php jxrnt="'.$rnt->rnt_script.
                            '" user='.$run_job->user.
-                           ' password='.$app->get_user_password($run_job->user).
+                           ($app->block_md5_pwd ?
+                            ' jxotp='.$app->otp($run_job->user) :
+                            ' password='.$app->get_user_password($run_job->user)).
                            ($dev ? ' dev='.$run_job->developer. ' key='.$devkey : '').' '.
                            self::$run_word.'='.$run_job->id;
                     $rnt->batch_exec($cmd);

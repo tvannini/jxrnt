@@ -130,9 +130,17 @@ if (session_start()) {
                 // _________________________________ Clear all previous output, if any ___
                 ob_end_clean();
                 // ________________________________ Add parameters to open new session ___
-                $params = array('user'     => $app->user,
-                                'password' => $app->password,
-                                'auth'     => 'local');
+                if ($app->block_md5_pwd) {
+                    // _______ If hashed passwords are blocked use OTP system to login ___
+                    $params = array('user'  => $app->user,
+                                    'jxotp' => $app->otp(),
+                                    'auth'  => 'local');
+                    }
+                else {
+                    $params = array('user'     => $app->user,
+                                    'password' => $app->password,
+                                    'auth'     => 'local');
+                    }
                 if ($app->client_width) {
                     $params['jxcsw'] = $app->client_width;
                     }
@@ -304,9 +312,17 @@ if (session_start()) {
                         }
                     setcookie('JXEMV', json_encode($vars), time() + 3600, '/');
                     // ____________________________ Add parameters to open new session ___
-                    $params = array('user'     => $app->user,
-                                    'password' => $app->password,
-                                    'auth'     => 'local');
+                    if ($app->block_md5_pwd) {
+                        // ___ If hashed passwords are blocked use OTP system to login ___
+                        $params = array('user'  => $app->user,
+                                        'jxotp' => $app->otp(),
+                                        'auth'  => 'local');
+                        }
+                    else {
+                        $params = array('user'     => $app->user,
+                                        'password' => $app->password,
+                                        'auth'     => 'local');
+                        }
                     if ($app->client_width) {
                         $params['jxcsw'] = $app->client_width;
                         }
