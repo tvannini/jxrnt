@@ -2871,6 +2871,18 @@ class o2_app {
         if ($this->runtime->interface == "HTML" && !$GLOBALS['jxjs']) {
             print "<div id='jxjsinsert'></div>\n";
             }
+        // ________________________________________________________ Display report-msg ___
+        if ($singola_istanza->report_msg) {
+            $text = implode('<br><hr>', $singola_istanza->report_msg);
+            if ($GLOBALS['jxjs']) {
+                print "o2jse.reportMsg.show('".$text."');\n";
+                }
+            else {
+                print "<script>o2jse.reportMsg.show('".$text."');</script>";
+                }
+            $singola_istanza->report_msg = array();
+            unset($this->caret_position[$singola_istanza->id]);
+            }
 
         }
 

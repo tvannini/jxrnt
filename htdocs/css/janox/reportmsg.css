@@ -1,0 +1,50 @@
+.jxreportmsg_frame {
+    border: 1px solid var(--jx-color-border);
+    border-radius: 4px;
+    background-color: var(--jx-color-form);
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    }
+
+.jxreportmsg {
+    background-color: var(--jx-color-space);
+    border: 1px solid var(--jx-color-border);
+    border-radius: 3px;
+    padding: 10px;
+    overflow: auto;
+    position: relative;
+    margin: 10px 10px 10px 10px;
+    }
+
+.jxreportmsg hr {
+    border: none;
+    border-top: 1px solid var(--jx-color-border);
+    }
+
+.jxreportmsg_cmd .o2_ctrl_button {
+    display: inline-block;
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    margin-right:10px;
+    }
+
+.jxreportmsg_cmd {
+    position: absolute;
+    width: 100%;
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+    }
+
+.jxreportmsg_frame .o2_form_titlebar {
+    border-bottom: 1px solid var(--jx-color-border);
+    }
+
+.jxreportmsg_frame .sys_alert_doc {
+    width: 100%;
+    border-top-right-radius: 4px;
+    }

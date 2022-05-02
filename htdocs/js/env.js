@@ -7486,6 +7486,56 @@ o2jse.fastMsg.fadeOut = function(winId) {
 
 
 /**
+ * Report Message related functions collection
+ *
+ */
+ o2jse.reportMsg = {};
+
+
+/**
+ * Show a message as a Report Message
+ *
+ * @param {String} msgCode   HTML code for message to display
+ */
+o2jse.reportMsg.show = function(msgCode) {
+
+    if (oldWin = document.getElementById('jxReportOkWin')) {
+        o2jse.cmd.stopGlass();
+        o2jse.removeEl(oldWin);
+        }
+    o2jse.cmd.startGlass(null, null, 'not-allowed', true);
+    // _______________________________________________________________________ Out box ___
+    reportObj              = o2jse.createEl(o2jse.elBody, 'DIV', 'jxreportmsg_frame');
+    reportObj.id           = 'jxReportOkWin';
+    reportObj.style.zIndex = 9999999;
+    reportTitle            = o2jse.createEl(reportObj,
+                                            'DIV',
+                                            'o2_form_titlebar',
+                                            '<div class="sys_alert_doc">&nbsp;</div>');
+    reportText             = o2jse.createEl(reportObj, 'DIV', 'jxreportmsg', msgCode);
+    reportCmd              = o2jse.createEl(reportObj, 'DIV', 'jxreportmsg_cmd');
+    reportOk               = o2jse.createEl(reportCmd,
+                                            'DIV',
+                                            'o2_ctrl_button',
+                                            'Ok');
+    reportOk.id            = 'jxReportOkBtn';
+    reportOk.onkeydown     = function (e) {
+                                 e = o2jse.event.std(e);
+                                 if(e.keyCode == 32 || e.keyCode == 13) {
+                                    reportOk.click()
+                                    };
+                                };
+    reportOk.onclick       = function() {
+                                o2jse.cmd.stopGlass();
+                                o2jse.removeEl(reportObj);
+                                };
+    reportOk.tabIndex      = '0';
+    o2jse.cmd.focus(reportOk.id);
+
+    };
+
+
+/**
  * Notification area related functions collection
  *
  */

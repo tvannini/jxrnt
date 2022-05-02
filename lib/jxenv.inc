@@ -70,6 +70,7 @@ class o2_prg {
     public $tree_ctrls      = array(); /* List of defined treeview controls             */
     public $imglist_ctrls   = array(); /* List of defined images-lister controls        */
     public $view_grids      = array(); /* List of grids using each view                 */
+    public $report_msg      = array(); /* List of messages to display at execution end  */
     /*     _____ VIEWS REFRESH ________________________________________________________ */
     public $variazioni      = array(); /* Modified views list                           */
     public $evaluating_view = "";      /* View evaluating dependence for                */
@@ -8015,6 +8016,12 @@ class o2act {
             else {
                 o2html::fast_msg($text);
                 }
+            return true;
+            }
+        // ____________________________________________________________________ Report ___
+        elseif ($media === 3) {
+            $app = $_SESSION['o2_app'];
+            return $app->istanze_prg[$app->progressivo_istanze]->report_msg[] = $text;
             return true;
             }
         // _______________________________________________________________ Message box ___
