@@ -335,7 +335,7 @@ class o2html {
               ($app->keep_alive ?
                'o2jse.conf.keepAlive('.($app->timeout * 60 - 10).", '".
                                         $app->instance_id."');\n" : '').
-              ($app->refresh_prg && $app->refresh_time ?
+              ($app->refresh_prg && $app->refresh_time && !$app->lock ?
                'o2jse.conf.setRefresh('.$app->refresh_time.");\n" : '').
               ($lu_time >= 300 ? 'o2jse.conf.luReqTime('.$lu_time.");\n" : '').
               'o2jse.conf.setMaxReq('.$app->max_req_n.");\n".

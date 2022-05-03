@@ -106,7 +106,7 @@ if (session_start()) {
             o2html::popup_req($_REQUEST['jxpuexp']);
             break;
         case "notify": // __________________________________________ Notification area ___
-            if (is_a($app, "o2_app")) {
+            if (is_a($app, "o2_app") && !$app->lock) {
                 provide_db($app);
                 if ($app->refresh_prg) {
                     $app->refresh_last = time();
