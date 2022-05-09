@@ -245,7 +245,7 @@ o2jse.init = function() {
     o2jse.reposAllWins();
     window.onresize = function() {
                          clearTimeout(o2jse.winResizing);
-                         o2jse.winResizing = setTimeout(jxjs.request, 200);
+                         o2jse.winResizing = setTimeout(o2jse.resizeBrowserWindow, 200);
                          };
     // _________________________________________________________ OnLoad portable logic ___
     o2jse.waitDocReady();
@@ -307,40 +307,11 @@ o2jse.waitDocReady = function() {
  */
 o2jse.resizeBrowserWindow = function() {
 
-    if (o2jse.started) {
-        o2jse.cli.width  = (window.innerWidth != null ?
-                            window.innerWidth :
-                            (document.documentElement &&
-                             document.documentElement.clientWidth ?
-                             document.documentElement.clientWidth :
-                             o2jse.elBody.clientWidth));
-        o2jse.cli.height = (window.innerHeight != null ?
-                            window.innerHeight :
-                            (document.documentElement &&
-                             document.documentElement.clientHeight ?
-                             document.documentElement.clientHeight :
-                             o2jse.elBody.clientHeight));
-        o2jse.reposAllWins();
-        if (o2jse.maximizedWin) {
-
-
-            maxWin = document.getElementById(o2jse.maximizedWin[0] + '_' +
-                                             o2jse.maximizedWin[1]);
-
-            o2jse.ctrl.init(maxWin);
-            formInfo = maxWin.o2;
-            // ________________________________________________________ Refresh action ___
-            var refrAct = formInfo.r;
-            // Set <form>_jxcmd = '3' to remove 'maximized' flag on form (server-side) ___
-            var cmdField   = o2jse.infoForm[o2jse.maximizedWin[0] +
-                                            o2jse.maximizedWin[1] + "_jxcmd"];
-            if (cmdField) {
-                cmdField.value = '4';
-                o2jse.infoForm['o2_modfields'].value+= cmdField.name + ";";
-                // __________________________________________ Refresh action on resize ___
-                jxjs.refresh(formInfo, refrAct);
-                }
-            }
+    rA = o2jse.createInput(o2jse.infoForm, "hidden", "", "1", "jxresizeall");
+    jxjs.request();
+    // ___________________________________________________ Remove resize all directive ___
+    if (rA) {
+        o2jse.removeEl(rA);
         }
 
     };
@@ -8111,6 +8082,7 @@ jxc = function(defObj) {
                 // _____________________________ Window passed from active to inactive ___
                 if (ctrlObj = document.getElementById(defObj.i)) {
                     ctrlObj.outerHTML = defObj.code;
+                    jxjs.runScripts(ctrlObj);
                     }
                 // ____________________________________________ Window is a new window ___
                 else {

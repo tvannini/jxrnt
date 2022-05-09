@@ -1528,6 +1528,19 @@ class o2html {
                     }
                 }
             }
+        elseif ($_REQUEST['jxresizeall']) {
+            foreach ($app->istanze_prg as $exe_id => $prg) {
+                $app->progressivo_istanze = $exe_id;
+                unset($app->open_wins[$exe_id]);
+                foreach ($prg->form as $form) {
+                    if ($form->maximized) {
+                        $form->maximized = false;
+                        $form->max_restore();
+                        $form->resize();
+                        }
+                    }
+                }
+            }
         // ___________________________________________ Verifico la posizione del caret ___
         if ($_REQUEST['o2lastctrl']) {
             $l_form           = $_REQUEST['o2lastform'];
