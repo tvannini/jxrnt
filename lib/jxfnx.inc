@@ -5853,8 +5853,12 @@ function o2viewtab_aspclone($view_name, $table_alias, $target_asp) {
 function o2view_mod($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         return $view_obj->modificato;
         }
     else {
@@ -5881,8 +5885,12 @@ function o2view_mod($view_name) {
 function o2view_status($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         return $view_obj->status;
         }
     else {
@@ -5906,8 +5914,12 @@ function o2view_status($view_name) {
 function o2view_ins($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         return ($view_obj->status == "I");
         }
     else {
@@ -5927,8 +5939,12 @@ function o2view_ins($view_name) {
 function o2view_start($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         if (!$view_obj->vista) {
             $view_obj->record_primo();
             }
@@ -5951,8 +5967,12 @@ function o2view_start($view_name) {
 function o2view_end($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         if (!$view_obj->vista) {
             $view_obj->record_primo();
             }
@@ -5979,8 +5999,12 @@ function o2view_end($view_name) {
 function o2view_reqrows($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         return $view_obj->righe_vis;
         }
     else {
@@ -6007,8 +6031,12 @@ function o2view_reqrows($view_name) {
 function o2view_retrows($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         if (!$view_obj->vista) {
             $view_obj->record_primo();
             }
@@ -6042,8 +6070,12 @@ function o2view_retrows($view_name) {
 function o2view_total($view_name, $from_cache = false) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         // _____________________________________ Custom FROM (table name or SQL query) ___
         if ($view_obj->custom_from) {
             // ________________________ Needed to fix defined check-box view-selectors ___
@@ -6121,8 +6153,12 @@ function o2view_total($view_name, $from_cache = false) {
 function o2view_rec($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         // __________________________________________ Used to update range expressions ___
         foreach ($view_obj->campi as $field) {
             if ($field->file == $view_obj->file->indice) {
@@ -6149,20 +6185,29 @@ function o2view_rec($view_name) {
 function o2view_row($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
-    if ($view_obj && count($view_obj->recordset)) {
-        $ret = array();
-        if (count($view_obj->campi)) {
-            foreach ($view_obj->campi as $field) {
-                $ret[$field->nome] = $view_obj->campo($field->nome);
-                }
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
+    if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
             }
-        if (count($view_obj->formule)) {
-            foreach ($view_obj->formule as $formula) {
-                $ret[$formula->nome] = $view_obj->corrente[$formula->nome];
+        if (count($view_obj->recordset)) {
+            $ret = array();
+            if (count($view_obj->campi)) {
+                foreach ($view_obj->campi as $field) {
+                    $ret[$field->nome] = $view_obj->campo($field->nome);
+                    }
                 }
+            if (count($view_obj->formule)) {
+                foreach ($view_obj->formule as $formula) {
+                    $ret[$formula->nome] = $view_obj->corrente[$formula->nome];
+                    }
+                }
+            return $ret;
             }
-        return $ret;
+        else {
+            return false;
+            }
         }
     else {
         return false;
@@ -6181,8 +6226,12 @@ function o2view_row($view_name) {
 function o2view_select($view_name) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $prg      = $app->istanze_prg[$app->progressivo_istanze];
+    $view_obj = $prg->contesto[$view_name];
     if ($view_obj) {
+        if ($prg->drawing_ctrl) {
+            $prg->drawing_ctrl->dependences[$view_name] = false;
+            }
         if (!$view_obj->vista) {
             $view_obj->record_primo();
             }
