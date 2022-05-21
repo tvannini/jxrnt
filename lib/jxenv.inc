@@ -470,6 +470,27 @@ class o2_prg {
 
 
     /**
+     * Displays report message for program
+     *
+     */
+    function display_report_msg() {
+
+        if ($this->report_msg) {
+            $text = implode('<br><hr>', $this->report_msg);
+            if ($GLOBALS['jxjs']) {
+                print "o2jse.reportMsg.show('".$text."');\n";
+                }
+            else {
+                print "<script>o2jse.reportMsg.show('".$text."');</script>";
+                }
+            $this->report_msg = array();
+            unset($_SESSION['o2_app']->caret_position[$this->id]);
+            }
+
+        }
+
+
+    /**
      * Conclude l'esecuzione del prg corrente
      *
      */
@@ -522,6 +543,7 @@ class o2_prg {
                 return false;
                 }
             }
+        $this->display_report_msg();
         return true;
 
         }

@@ -2858,6 +2858,7 @@ class o2_app {
      */
     function display_all() {
 
+
         $this->istanza_attiva = $this->progressivo_istanze;
         $this->relocate_now   = true;
         // _____________________________________________________ Loop on prg instances ___
@@ -2872,17 +2873,7 @@ class o2_app {
             print "<div id='jxjsinsert'></div>\n";
             }
         // ________________________________________________________ Display report-msg ___
-        if ($singola_istanza->report_msg) {
-            $text = implode('<br><hr>', $singola_istanza->report_msg);
-            if ($GLOBALS['jxjs']) {
-                print "o2jse.reportMsg.show('".$text."');\n";
-                }
-            else {
-                print "<script>o2jse.reportMsg.show('".$text."');</script>";
-                }
-            $singola_istanza->report_msg = array();
-            unset($this->caret_position[$singola_istanza->id]);
-            }
+        $singola_istanza->display_report_msg();
 
         }
 
