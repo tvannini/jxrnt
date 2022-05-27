@@ -2861,6 +2861,7 @@ class o2_app {
 
         $this->istanza_attiva = $this->progressivo_istanze;
         $this->relocate_now   = true;
+        $singola_istanza      = false;
         // _____________________________________________________ Loop on prg instances ___
         foreach ($this->istanze_prg as &$singola_istanza) {
             $this->progressivo_istanze = $singola_istanza->id;
@@ -2873,7 +2874,9 @@ class o2_app {
             print "<div id='jxjsinsert'></div>\n";
             }
         // ________________________________________________________ Display report-msg ___
-        $singola_istanza->display_report_msg();
+        if ($singola_istanza) {
+            $singola_istanza->display_report_msg();
+            }
 
         }
 
