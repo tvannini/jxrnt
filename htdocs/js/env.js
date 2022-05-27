@@ -7168,18 +7168,20 @@ o2jse.tv.sortSwitch = function() {
  */
  o2jse.tv.set = function(tvName, vertScroll) {
 
-    tvCtrl = document.getElementById(tvName);
-    o2jse.ctrl.init(tvCtrl);
-    if (!tvCtrl.o2.std) {
-        tvCtrl.parentNode.onscroll = function() {
-                                        o2jse.lu.listOff();
-                                        document.forms.o2form[tvName + '_vscroll'].value =
-                                           this.scrollTop;
-                                        };
-        tvCtrl.parentNode.scrollTop = vertScroll;
-        }
-    else {
-        tvCtrl.scrollTop = vertScroll;
+    if (tvCtrl = document.getElementById(tvName)) {
+        o2jse.ctrl.init(tvCtrl);
+        if (!tvCtrl.o2.std) {
+            tvCtrl.parentNode.onscroll = function() {
+                                            o2jse.lu.listOff();
+                                            document.forms.
+                                             o2form[tvName + '_vscroll'].value =
+                                            this.scrollTop;
+                                            };
+            tvCtrl.parentNode.scrollTop = vertScroll;
+            }
+        else {
+            tvCtrl.scrollTop = vertScroll;
+            }
         }
 
     };
