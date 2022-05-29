@@ -1022,7 +1022,6 @@ class jxjs {
             if ($field_obj = $o2ctrl_obj->form_obj->controlli[$ctrl]) {
                 // _________ Action from a control within grid (preserve client focus) ___
                 if ($field_obj->padre == $tab_name &&
-                    $field_obj->tipo_ctrl != "img" &&
                     $field_obj->tipo_ctrl != "navigator") {
                     $send_all = false;
                     break;
@@ -1249,6 +1248,13 @@ class jxjs {
                                      $rowprop,
                                      "{}");
                     }
+                }
+            elseif ($footer) {
+                print jxjs::ctrl($o2ctrl_obj,
+                                'lastRow:'.$o2ctrl_obj->view_obj->selezione.
+                                ',rowList:{},rowprop:{},'.
+                                'foot:['.implode(',', $footer).']',
+                                "{}");
                 }
             }
 
