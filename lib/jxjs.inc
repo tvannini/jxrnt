@@ -789,6 +789,19 @@ class jxjs {
                                  ',h:'.$o2ctrl_obj->altezza,
                                  $o2ctrl_obj->js_props("", true));
                 }
+            // ______________________________________________________ Not active pages ___
+            elseif ($o2ctrl_obj->sent_pages[$label_index]) {
+                foreach ($form_obj->controlli as $ctrl) {
+                    // _________________________________________ Controls in multipage ___
+                    if ($ctrl->padre == $o2ctrl_obj->nome &&
+                        $ctrl->info_padre[0] == $label_index &&
+                        $ctrl->check_dependences()) {
+                        // ____________________ Resend page next time, to show changes ___
+                        unset($o2ctrl_obj->sent_pages[$label_index]);
+                        break;
+                        }
+                    }
+                }
             }
 
         }
