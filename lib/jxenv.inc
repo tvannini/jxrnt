@@ -5824,7 +5824,7 @@ class o2_dbview extends o2_view {
         if ($prg->drawing_ctrl) {
             $dps = $prg->drawing_ctrl->dependences;
             if (!isset($dps[$this->nome]) || is_array($dps[$this->nome])) {
-                $prg->drawing_ctrl->dependences[$this->nome][$field] = false;
+                $prg->drawing_ctrl->dependences[$this->nome][$field_name] = false;
                 }
             }
         return (!is_null($this->corrente[$field_name]) ?
