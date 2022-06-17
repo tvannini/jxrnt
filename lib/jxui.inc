@@ -1135,9 +1135,19 @@ class o2_form {
             $field_obj              = $view_obj->campo_per_controllo($campo_task);
             $new_ctrl->modificabile = $field_obj->file == $view_obj->file->indice;
             }
-        // _______________________ Per attivare view su o2_view2list() per lookup ctrl ___
-        if ($tipo == "listcombo") {
-            $app->defining_combo = $new_ctrl;
+        // _________________________ Set drawing control to update control dependences ___
+        switch ($tipo) {
+            case 'button':
+            case 'edit':
+            case 'label':
+            case 'text':
+                $prg->drawing_ctrl = $new_ctrl;
+                break;
+                // _______________ Per attivare view su o2_view2list() per lookup ctrl ___
+            case 'listcombo':
+                $app->defining_combo = $new_ctrl;
+                $prg->drawing_ctrl   = $new_ctrl;
+                break;
             }
         return $new_ctrl;
 
