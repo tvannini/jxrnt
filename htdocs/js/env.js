@@ -9684,6 +9684,7 @@ o2jse.cMenu.setOn = function(eventObj) {
     var stdEvent       = o2jse.event.std(eventObj);
     o2jse.cMenu.target = stdEvent.target;
     if (o2jse.cMenu.loadItems()) {
+        o2jse.cMenu.stdEdit(stdEvent);
         stdEvent.stop();
         o2jse.cMenu.show(stdEvent);
         }
@@ -9803,6 +9804,62 @@ o2jse.cMenu.loadItems = function() {
     return somethingIn;
 
     };
+
+
+o2jse.cMenu.stdEdit = function(stdEvent) {
+
+    s = false;
+    f = false;
+    t = stdEvent.target;
+    if (s = document.getSelection().toString()) { }
+    else if (t.value) {
+        s = t.value.substring(t.selectionStart, t.selectionEnd);
+        f = s.length > 0;
+        }
+    o2jse.cMenu.addItem('S');
+    // ____________________________ If have a selected text and can write to clipboard ___
+    if (s && navigator.clipboard.writeText) {
+        o2jse.cachedText = s;
+        o2jse.cMenu.addItem('J',
+                            'jxCopy',
+                            'Copy',
+                            function() { navigator.clipboard.writeText(o2jse.cachedText);
+                                         o2jse.menu.closeAll(); },
+                            o2jse.rntAlias + 'img/edit_copy.png');
+        // __________________________________________ If have a field to cut text from ___
+        if (f) {
+            o2jse.cMenu.addItem('J',
+                                'jxCut',
+                                'Cut',
+                                function() {
+                                          navigator.clipboard.writeText(o2jse.cachedText);
+                                          t.value = t.value.slice(0, t.selectionStart) +
+                                                    t.value.slice(t.selectionEnd);
+                                          o2jse.menu.closeAll(); },
+                                o2jse.rntAlias + 'img/edit_cut.png');
+            }
+        s = false;
+        }
+    // ____________________________ If can read clipboard and have a field to paste to ___
+    if (navigator.clipboard.readText &&
+        (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) {
+        navigator.clipboard.readText().then(
+            function (s) {
+                if (s) {
+                    o2jse.cMenu.addItem('J',
+                                        'jxPaste',
+                                        'Paste',
+                                        function() {
+                                            t.value = t.value.slice(0, t.selectionStart) +
+                                                      s +
+                                                      t.value.slice(t.selectionEnd + 1);
+                                            o2jse.menu.closeAll();
+                                            },
+                                        o2jse.rntAlias + 'img/edit_paste.png')};
+            });
+        }
+
+    }
 
 
 /**
