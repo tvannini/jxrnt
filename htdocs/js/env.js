@@ -2945,7 +2945,9 @@ o2jse.tab.set = function(tabName,
                          scrollTop,
                          focusCtrl) {
 
-    var myTab        = document.getElementById(tabName + "_tab");
+    if (!(myTab = document.getElementById(tabName + "_tab"))) {
+        return false;
+        }
     var myCont       = myTab.parentNode;
     var contAll      = myCont.parentNode;
     var hScroll      = myCont.scrollWidth > myCont.clientWidth;
