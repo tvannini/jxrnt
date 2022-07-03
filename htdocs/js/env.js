@@ -9813,10 +9813,12 @@ o2jse.cMenu.stdEdit = function(stdEvent) {
     s = false;
     f = false;
     t = stdEvent.target;
-    if (s = document.getSelection().toString()) { }
-    else if (t.value) {
+    if (t.value) {
         s = t.value.substring(t.selectionStart, t.selectionEnd);
         f = s.length > 0;
+        }
+    else {
+        s = document.getSelection().toString()
         }
     o2jse.cMenu.addItem('S');
     // ____________________________ If have a selected text and can write to clipboard ___
