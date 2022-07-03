@@ -9863,7 +9863,7 @@ o2jse.cMenu.stdEdit = function(stdEvent) {
             });
         }
 
-    }
+    };
 
 
 /**
