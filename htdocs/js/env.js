@@ -9810,6 +9810,9 @@ o2jse.cMenu.loadItems = function() {
 
 o2jse.cMenu.stdEdit = function(stdEvent) {
 
+    if (typeof navigator.clipboard == "undefined") {
+        return;
+        }
     s = false;
     f = false;
     t = stdEvent.target;
