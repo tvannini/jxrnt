@@ -2019,6 +2019,9 @@ class o2_ctrl {
         $chs = $prg->changes;
         $dps = $this->dependences;
         if (is_array($dps)) {
+            if (isset($dps['_o2SESSION'])) {
+                return true;
+                }
             foreach($dps as $view => $fields) {
                 if ($chs[$view]) {
                     if ($chs[$view] === true) {

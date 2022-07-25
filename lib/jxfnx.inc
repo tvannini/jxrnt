@@ -83,6 +83,9 @@ function o2val($view_name, $field_name) {
                                    o2error_UNKNOWNAPPVAR);
             }
         else {
+            if ($prg->drawing_ctrl && ($field_name != '_area')) {
+                $prg->drawing_ctrl->dependences['_o2SESSION'] = false;
+                }
             return $app->vars[$field_name]->valore;
             }
         }
@@ -227,6 +230,10 @@ function o2zero($view_name, $field_name) {
     $app = $_SESSION['o2_app'];
     if ($view_name == '_o2SESSION') {
         if (array_key_exists($field_name, $app->vars)) {
+            $prg = $app->istanze_prg[$app->progressivo_istanze];
+            if ($prg->drawing_ctrl && ($field_name != '_area')) {
+                $prg->drawing_ctrl->dependences['_o2SESSION'] = false;
+                }
             $field_local = $app->vars[$field_name];
             }
         else {
