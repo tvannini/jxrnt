@@ -186,7 +186,7 @@ function node_text§§return_as_text_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function node_text_exp_1() {
-
+	
 return (o2par(1));
 	} //|o2_fine_exp|
 
@@ -202,22 +202,22 @@ return ($text);
 	} //|o2_fine_exp|
 
 function node_text_exp_3() {
-
+	
 return (o2val('prg§_§var','words_list').(o2val('prg§_§var','words_list') ? ", " : "").htmlentities(o2val('key_words','key_word'), ENT_COMPAT | ENT_HTML5, o2app_encoding()));
 	} //|o2_fine_exp|
 
 function node_text_exp_4() {
-
+	
 return (false);
 	} //|o2_fine_exp|
 
 function node_text_exp_5() {
-
+	
 return (o2val('prg§_§var','node_text')."<fieldset>".o2val('prg§_§var','links_list')."</fieldset>");
 	} //|o2_fine_exp|
 
 function node_text_exp_6() {
-
+	
 return (o2val('prg§_§var','node_text').o2val('prg§_§var','child_text'));
 	} //|o2_fine_exp|
 
@@ -239,67 +239,67 @@ return ($ref);
 	} //|o2_fine_exp|
 
 function node_text_exp_8() {
-
+	
 return (o2val('links','link'));
 	} //|o2_fine_exp|
 
 function node_text_exp_9() {
-
+	
 return ("");
 	} //|o2_fine_exp|
 
 function node_text_exp_10() {
-
-return (o2val('prg§_§var','node_text')."<fieldset>".o2val('prg§_§var','words_list')."</fieldset>\n");
+	
+return (o2val('prg§_§var','node_text')."<fieldset>".o2val('prg§_§var','words_list')."</fieldset><br>\n");
 	} //|o2_fine_exp|
 
 function node_text_exp_11() {
-
+	
 return (o2val('prg§_§var','node_text'));
 	} //|o2_fine_exp|
 
 function node_text_exp_12() {
-
+	
 return (o2val('sub_nodes','child'));
 	} //|o2_fine_exp|
 
 function node_text_exp_13() {
-
+	
 return (o2val('prg§_§var','child_text'));
 	} //|o2_fine_exp|
 
 function node_text_exp_14() {
-
+	
 return (o2val('prg§_§var','words_list'));
 	} //|o2_fine_exp|
 
 function node_text_exp_15() {
-
+	
 return (o2val('prg§_§var','links_list'));
 	} //|o2_fine_exp|
 
 function node_text_exp_17() {
-
+	
 return (o2par(10));
 	} //|o2_fine_exp|
 
 function node_text_exp_18() {
-
+	
 return (o2val('prg§_§var','node_text')."<ol>");
 	} //|o2_fine_exp|
 
 function node_text_exp_19() {
-
+	
 return (o2val('prg§_§var','node_text')."</ol>");
 	} //|o2_fine_exp|
 
 function node_text_exp_20() {
-
+	
 return (o2val('prg§_§var','nesting_level'));
 	} //|o2_fine_exp|
 
 function node_text_exp_21() {
-
+	
 return ("");
 	} //|o2_fine_exp|
 
@@ -320,7 +320,7 @@ return ($lev);
 	} //|o2_fine_exp|
 
 function node_text_exp_23() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
@@ -332,12 +332,12 @@ return ($dev);
 	} //|o2_fine_exp|
 
 function node_text_exp_25() {
-
+	
 return (o2par(5));
 	} //|o2_fine_exp|
 
 function node_text_exp_27() {
-
+	
 return (o2par(4));
 	} //|o2_fine_exp|
 
@@ -353,12 +353,12 @@ return ($lev);
 	} //|o2_fine_exp|
 
 function node_text_exp_29() {
-
+	
 return ((o2app_name() == "jxdoc" ? "node_text" : "doc/node_text"));
 	} //|o2_fine_exp|
 
 function node_text_exp_30() {
-
+	
 return (o2par(6));
 	} //|o2_fine_exp|
 
@@ -371,12 +371,12 @@ return ($cond);
 	} //|o2_fine_exp|
 
 function node_text_exp_32() {
-
+	
 return (!o2exp(31));
 	} //|o2_fine_exp|
 
 function node_text_exp_33() {
-
+	
 return (o2val('node','default_use'));
 	} //|o2_fine_exp|
 
@@ -398,43 +398,43 @@ return (true);
 	} //|o2_fine_exp|
 
 function node_text_exp_35() {
-
+	
 return (o2par(7));
 	} //|o2_fine_exp|
 
 function node_text_exp_36() {
-
+	
 return (o2par(8));
 	} //|o2_fine_exp|
 
 function node_text_exp_37() {
-
+	
 return (o2val('sub_nodes','use'));
 	} //|o2_fine_exp|
 
 function node_text_exp_38() {
-
+	
 return ((o2par(4) ? null : 0));
 	} //|o2_fine_exp|
 
 function node_text_exp_43() {
-
+	
 return (o2val('node','id'));
 	} //|o2_fine_exp|
 
 function node_text_exp_44() {
-
+	
 return (o2val('node','node_parent'));
 	} //|o2_fine_exp|
 
 function node_text_exp_45() {
-
+	
 return (o2val('node','use'));
 	} //|o2_fine_exp|
 
 function node_text_exp_46() {
-
-return (o2val('prg§_§var','node_text').o2val('prg§_§var','child_text'));
+	
+return (o2val('prg§_§var','node_text').'<p></p>'.o2val('prg§_§var','child_text'));
 	} //|o2_fine_exp|
 
 function node_text_exp_47() {
@@ -567,32 +567,32 @@ return ($text);
 	} //|o2_fine_exp|
 
 function node_text_exp_50() {
-
+	
 return (o2val('sub_nodes','child'));
 	} //|o2_fine_exp|
 
 function node_text_exp_51() {
-
+	
 return (o2val('prg§_§var','nesting_str'));
 	} //|o2_fine_exp|
 
 function node_text_exp_52() {
-
+	
 return (o2par(4));
 	} //|o2_fine_exp|
 
 function node_text_exp_53() {
-
+	
 return (o2par(5));
 	} //|o2_fine_exp|
 
 function node_text_exp_54() {
-
+	
 return (o2par(6));
 	} //|o2_fine_exp|
 
 function node_text_exp_55() {
-
+	
 return (o2par(7));
 	} //|o2_fine_exp|
 
@@ -614,37 +614,37 @@ return ($link);
 	} //|o2_fine_exp|
 
 function node_text_exp_57() {
-
+	
 return (o2val('node','node_parent'));
 	} //|o2_fine_exp|
 
 function node_text_exp_58() {
-
+	
 return (o2val('node','node_prev'));
 	} //|o2_fine_exp|
 
 function node_text_exp_59() {
-
+	
 return (o2val('node','node_next'));
 	} //|o2_fine_exp|
 
 function node_text_exp_60() {
-
+	
 return (o2val('prg§_§var','node_text'));
 	} //|o2_fine_exp|
 
 function node_text_exp_61() {
-
+	
 return (o2val('prg§_§var','nesting_str').".0");
 	} //|o2_fine_exp|
 
 function node_text_exp_62() {
-
+	
 return (o2val('node','incremental'));
 	} //|o2_fine_exp|
 
 function node_text_exp_63() {
-
+	
 return (o2par(8));
 	} //|o2_fine_exp|
 
@@ -663,7 +663,7 @@ return ($title);
 	} //|o2_fine_exp|
 
 function node_text_exp_65() {
-
+	
 return (o2par(9));
 	} //|o2_fine_exp|
 
@@ -682,22 +682,22 @@ return (o2par(9).$ref);
 	} //|o2_fine_exp|
 
 function node_text_exp_67() {
-
+	
 return (!o2exp(68));
 	} //|o2_fine_exp|
 
 function node_text_exp_68() {
-
+	
 return (!o2par(4) && o2val('node','incremental'));
 	} //|o2_fine_exp|
 
 function node_text_exp_69() {
-
+	
 return (o2val('prg§_§var','node_text')."<br />");
 	} //|o2_fine_exp|
 
 function node_text_exp_70() {
-
+	
 return (o2val('prg§_§var','child_text'));
 	} //|o2_fine_exp|
 ?>

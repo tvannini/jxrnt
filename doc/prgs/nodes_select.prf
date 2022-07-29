@@ -20,8 +20,8 @@ function nodes_select§§nodes_def(&$task_nodes, $_o2viewalias = "") {
 	$task_nodes->usa("title","nodes","title",null,null,null,null);
 	$task_nodes->usa("position","sub_nodes","position",null,null,null,null);
 	$task_nodes->usa("parent","sub_nodes","parent",null,null,null,null);
-	$task_nodes->calcola("free", "nodes_select_exp_16()",null,null,"nodes_select_exp_7()",null);
-	$task_nodes->calcola("full_descr", "nodes_select_exp_15()",null,null,null,"nodes_select_exp_4()");
+	$task_nodes->calcola("free","o2sys_long_str","nodes_select_exp_16()",null,null,"nodes_select_exp_7()",null);
+	$task_nodes->calcola("full_descr","o2sys_long_str","nodes_select_exp_15()",null,null,null,"nodes_select_exp_4()");
 }
 function nodes_select§§unic_form_def(&$form_unic) {
 	$form_unic->x(370);
