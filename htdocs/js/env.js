@@ -7487,7 +7487,8 @@ o2jse.reportMsg.show = function(msgCode) {
                                             'DIV',
                                             'o2_form_titlebar',
                                             '<div class="sys_alert_doc">&nbsp;</div>');
-    reportText             = o2jse.createEl(reportObj, 'DIV', 'jxreportmsg', msgCode);
+    reportView             = o2jse.createEl(reportObj, 'DIV', 'jxreportview');
+    reportText             = o2jse.createEl(reportView, 'DIV', 'jxreportmsg', msgCode);
     reportCmd              = o2jse.createEl(reportObj, 'DIV', 'jxreportmsg_cmd');
     reportOk               = o2jse.createEl(reportCmd,
                                             'DIV',

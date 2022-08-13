@@ -9,14 +9,22 @@
     height: 60%;
     }
 
+.jxreportview {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px 90px 10px;
+    }
+
 .jxreportmsg {
     background-color: var(--jx-color-space);
     border: 1px solid var(--jx-color-border);
     border-radius: 3px;
+    width: 100%;
+    height: 100%;
     padding: 10px;
-    overflow: auto;
     position: relative;
-    margin: 10px 10px 10px 10px;
+    overflow: auto;
     }
 
 .jxreportmsg hr {
