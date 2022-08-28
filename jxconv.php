@@ -6,12 +6,12 @@
  *
  * @name      jxconv
  * @package   janox/bin/jxconv.php
- * @version   2.7
+ * @version   2.8
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
-$jxrel = "2.7";
+$jxrel = "2.8";
 $info  = <<<JANOX_SCRIPT_HEAD
 
                       Janox Upgrade Tool
@@ -1038,6 +1038,20 @@ class upgrades_collection {
                               '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
+
+        }
+
+
+    /**
+     * Upgrades application to release 2.8
+     *
+     * Nothing to do: conversion is needed only to force CDS deletion in JXOB
+     *
+     * @param string $app_name Application name
+     * @param jxdir  $app_dir  Application root directory
+     */
+    static function to2_8($app_name, $app_dir) {
+
 
         }
 

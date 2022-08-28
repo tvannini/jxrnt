@@ -31,7 +31,7 @@
  *
  * @name      jxcore
  * @package   janox/jxcore.inc
- * @version   2.7
+ * @version   2.8
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
@@ -8170,7 +8170,7 @@ function o2_upgrade($table, $rel_code, $test = false) {
             }
         }
     // ________________________________________________________ Upgrade to Rel. 2.7.00 ___
-    if ($rel_code < '2.7.00') {
+    if ($rel_code < '2.7') {
         switch ($table->indice) {
             // _____________________________________________________ o2_users - 2.7.00 ___
             case "o2_users":

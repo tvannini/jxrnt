@@ -24,7 +24,7 @@
  *
  * @name      jxmysql
  * @package   janox/dbms/jxdb_mysql.php
- * @version   2.7
+ * @version   2.8
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
