@@ -197,24 +197,26 @@ function o2_postgres_connect($server, $user, $password, $trans) {
  *
  * For queries executing commands returns TRUE for correct execution
  *
- * @param  string  $query      Query to be executed
- * @param  string  $server     Host to connect to
- * @param  string  $user       Connecion user name
- * @param  string  $password   Connection user password
- * @param  boolean $only_exe   Execution only, no dataset returned
- * @param  boolean $trans      Transaction needed (insert, update, delete, ... queries)
- * @param  integer $limit      Number of records to fetch
- * @param  boolean $stm        Statement to fetch on
+ * @param  string  $query           Query to be executed
+ * @param  string  $server          Host to connect to
+ * @param  string  $user            Connecion user name
+ * @param  string  $password        Connection user password
+ * @param  boolean $only_exe        Execution only, no dataset returned
+ * @param  boolean $trans           Transaction needed (insert, update, ... / queries)
+ * @param  integer $limit           Number of records to fetch
+ * @param  boolean $stm             Statement to fetch on or prepared statement
+ * @param  array   $prepared_pars   Actual parameters for prepared statement
  * @return mix
  */
 function o2_postgres_execute($query,
                              $server,
                              $user,
                              $password,
-                             $only_exe = false,
-                             $trans    = true,
-                             $limit    = 0,
-                             &$stm     = false) {
+                             $only_exe      = false,
+                             $trans         = true,
+                             $limit         = 0,
+                             &$stm          = false,
+                             $prepared_pars = false) {
 
     // _____________________________________________________________________ SQL trace ___
     if ($_SESSION['o2_app']->sqltrace && !$stm) {
@@ -222,7 +224,10 @@ function o2_postgres_execute($query,
             o2log('(Start fetching) '.$query);
             }
         else {
-            o2log($query);
+            if ($prepared_pars) {
+                $ppars = "\nWith parameters: ".print_r($prepared_pars, 1);
+                }
+            o2log($query.$ppars);
             }
         }
     // _____________________________________________ Execution only, no dataset return ___
@@ -248,16 +253,37 @@ function o2_postgres_execute($query,
         if (!$stm) {
             // ______________________________________________ Get connection to server ___
             $conn = o2_postgres_connect($server, $user, $password, $trans);
-            // __________________________ Create statement and check execution failure ___
-            if (!($stm = $conn->query($query))) {
-                $err = $conn->errorInfo();
-                $conn->rollBack && @$conn->rollBack();
-                throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                                       "</i><br>query: <code>".$query."</code><hr>".
-                                       $err[2],
-                                       o2error_DBDATAQUERY);
-                return false;
+            // _________________ Create prepared statement for reusing with parameters ___
+            if ($prepared_pars) {
+                // ______________________ Create statement and check execution failure ___
+                if (!($stm = $conn->prepare($query))) {
+                    $err = $conn->errorInfo();
+                    $conn->rollBack && @$conn->rollBack();
+                    throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
+                                           '</i><br>Error preparing statement.'.
+                                           '<br>query: <code>'.$query.'</code><hr>'.
+                                           $err[2],
+                                           o2error_DBDATAQUERY);
+                    return false;
+                    }
                 }
+            // _____________________________ Create statement for reusing for fetching ___
+            else {
+                // ______________________ Create statement and check execution failure ___
+                if (!($stm = $conn->query($query))) {
+                    $err = $conn->errorInfo();
+                    $conn->rollBack && @$conn->rollBack();
+                    throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
+                                        "</i><br>query: <code>".$query."</code><hr>".
+                                        $err[2],
+                                        o2error_DBDATAQUERY);
+                    return false;
+                    }
+                }
+            }
+        // _______________________ If statement is prepared execute it with parameters ___
+        if ($prepared_pars) {
+            $stm->execute($prepared_pars);
             }
         // ____________________________________________________________ Return dataset ___
         if ($loop) {
@@ -267,7 +293,7 @@ function o2_postgres_execute($query,
                 $num++;
                 $set[] = $row;
                 }
-            if ($limit && $num < $limit) {
+            if ($limit && $num < $limit && !$prepared_pars) {
                 $stm->closeCursor();
                 $stm = null;
                 }
@@ -285,8 +311,10 @@ function o2_postgres_execute($query,
                                        $err[2],
                                        o2error_DBDATAQUERY);
                 }
-            $stm->closeCursor();
-            $stm = null;
+            if (!$prepared_pars) {
+                $stm->closeCursor();
+                $stm = null;
+                }
             return $data;
             }
         }
@@ -1466,6 +1494,7 @@ function o2_postgres_count($server,
  * @param  boolean $lock
  * @param  string  $page_where
  * @param  string  $stm_id
+ * @param  array   $prepared_pars
  * @return array
  */
 function o2_postgres_recordset($server,
@@ -1479,10 +1508,11 @@ function o2_postgres_recordset($server,
                                $where,
                                $order_by,
                                $recs,
-                               $links      = null,
-                               $lock       = false,
-                               $page_where = false,
-                               $stm_id     = false) {
+                               $links         = null,
+                               $lock          = false,
+                               $page_where    = false,
+                               $stm_id        = false,
+                               $prepared_pars = false) {
 
     // ____________________________________________ Statement recall in case of paging ___
     if ($page_where) {
@@ -1494,11 +1524,12 @@ function o2_postgres_recordset($server,
                                        false,
                                        false,
                                        $recs,
-                                       $GLOBALS['o2_postgres_stms'][$stm_id]);
+                                       $GLOBALS['o2_postgres_stms'][$stm_id],
+                                       $prepared_pars);
             }
         $where = $page_where.$where;
         }
-    elseif ($stm_id && isset($GLOBALS['o2_postgres_stms'][$stm_id])) {
+    elseif ($stm_id && isset($GLOBALS['o2_postgres_stms'][$stm_id]) && !$prepared_pars) {
         if ($GLOBALS['o2_postgres_stms'][$stm_id]) {
             $GLOBALS['o2_postgres_stms'][$stm_id]->closeCursor();
             }
@@ -1526,11 +1557,14 @@ function o2_postgres_recordset($server,
          (strpos($GLOBALS['jxviewsql'], 'O') !== false))) {
         $query.= ' ORDER BY '.$order_by;
         }
-    if ($stm_id) {
+    if ($stm_id && $prepared_pars && isset($GLOBALS['o2_postgres_stms'][$stm_id])) {
+        $stm = $GLOBALS['o2_postgres_stms'][$stm_id];
+        }
+    elseif ($stm_id) {
         $stm = 0;
         }
     else {
-        $stm   = false;
+        $stm = false;
         if ((strtoupper(substr($select_str, 0, 8)) != 'DISTINCT') &&
             (!isset($GLOBALS['jxviewsql']) ||
              (strpos($GLOBALS['jxviewsql'], 'L') !== false))) {
@@ -1553,7 +1587,8 @@ function o2_postgres_recordset($server,
                                    false,
                                    $lock,
                                    $recs,
-                                   $stm);
+                                   $stm,
+                                   $prepared_pars);
         if ($stm_id) {
             if ($stm) {
                 $GLOBALS['o2_postgres_stms'][$stm_id] = $stm;

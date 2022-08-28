@@ -574,7 +574,16 @@ $list = array(
                     "desc"    => "   *** Enable internal JXSQL ***\n\n".
                                  "Enables using Janox internal JXSQL parser.\n",
                     "default" => "off",
-                    "values"  => array("off", "on")),
+                    "values"  => array("off", "on")),                    
+   "prepared_statements" => array("rntval"  => null,
+                                  "appval"  => null,
+                                  "desc"    => "   *** Prepared statements ***\n\n".
+                                               "Enables the use of prepared statements for reading and/or writing in views.\n\n".
+                                               "NOTE: Prepared statements must be activated on the single view definition: ".
+                                               "this parameter is only useful to put them off all application wide.\n\n".
+                                               "Default value is ON\n",
+                                  "default" => "on",
+                                  "values"  => array("off", "on")),
    "profiling" => array("rntval"  => null,
                         "appval"  => null,
                         "desc"    => "   *** Runtime profiling (displaying/hiding controls by rights) ***\n\n".
@@ -1467,6 +1476,7 @@ function o2sys_iniconf_exp_34() {
               "warning_log",
               "reporter",
               "jxsql",
+              "prepared_statements",
               "prgs_path_inc",
               "templates_path_inc",
               "",

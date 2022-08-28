@@ -192,6 +192,7 @@ class o2_app {
     public $errors_inc      = false;   /* File name to be included for custom error msgs*/
     public $custom_response = false;   /* FALSE or buffer length for custom output      */
     public $jxsql           = false;   /* Enables internal JXSQL parser                 */
+    public $prepared_stmts  = true;    /* Enables use of prepared statements in views   */
     /**
      * @var o2_ctrl_listcombo
      */
@@ -1667,6 +1668,9 @@ class o2_app {
             }
         if (isset($conf['jxsql'])) {
             $this->jxsql = ($conf['jxsql'] ? true : false);
+            }
+        if (isset($conf['prepared_statements'])) {
+            $this->prepared_stmts = ($conf['prepared_statements'] ? true : false);
             }
         if (isset($conf['snapshot_db'])) {
             $this->snapshot_db = $conf['snapshot_db'];

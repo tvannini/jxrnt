@@ -4981,6 +4981,7 @@ class o2_gateway {
      * @param  boolean $lock
      * @param  string  $page_where
      * @param  string  $view_id
+     * @param  array   $prepared_pars
      * @return array
      */
     static function recordset($type,
@@ -4995,10 +4996,11 @@ class o2_gateway {
                               $where,
                               $order_by,
                               $recs,
-                              $links      = null,
-                              $lock       = false,
-                              $page_where = false,
-                              $view_id    = false) {
+                              $links         = null,
+                              $lock          = false,
+                              $page_where    = false,
+                              $view_id       = false,
+                              $prepared_pars = false) {
 
         $o2recordset = "o2_".$type."_recordset";
         try {
@@ -5016,7 +5018,8 @@ class o2_gateway {
                                     $links,
                                     $lock,
                                     $page_where,
-                                    $view_id);
+                                    $view_id,
+                                    $prepared_pars);
             }
         catch (o2_exception $o2e) {
             $o2e->send();
@@ -6398,18 +6401,21 @@ class o2def {
      * @param string  $prefix
      * @param string  $suffix
      * @param boolean $auto_aggr
+     * @param boolean $prepared_stmts
      */
     static function view($view_name,
-                         $not_used  = false,
-                         $prefix    = "",
-                         $suffix    = "",
-                         $auto_aggr = true) {
+                         $not_used       = false,
+                         $prefix         = '',
+                         $suffix         = '',
+                         $auto_aggr      = true,
+                         $prepared_stmts = false) {
 
         $app = $_SESSION['o2_app'];
         $app->istanze_prg[$app->progressivo_istanze]->create_view($view_name,
                                                                   $prefix,
                                                                   $suffix,
-                                                                  $auto_aggr);
+                                                                  $auto_aggr,
+                                                                  $prepared_stmts);
 
         }
 

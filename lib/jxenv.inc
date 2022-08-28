@@ -205,12 +205,16 @@ class o2_prg {
     /**
      * Creazione di una vista nel contesto del prg
      *
-     * @param string $nome
-     * @param string $prefisso
-     * @param string $suffisso
-     * @param string $modello_vista
+     * @param string  $nome
+     * @param string  $prefisso
+     * @param string  $suffisso
+     * @param boolean $auto_aggr
      */
-    function create_view($nome, $prefisso = "", $suffisso = "", $auto_aggr = true) {
+    function create_view($nome,
+                         $prefisso       = '',
+                         $suffisso       = '',
+                         $auto_aggr      = true,
+                         $prepared_stmts = false) {
 
         if (!isset($this->contesto[$nome])) {
             if ($nome != 'prg§_§var') {
@@ -218,6 +222,29 @@ class o2_prg {
                 $this->contesto[$nome]->prefisso  = $prefisso;
                 $this->contesto[$nome]->suffisso  = $suffisso;
                 $this->contesto[$nome]->auto_aggr = $auto_aggr;
+                // _______________________________________________ Prepared statements ___
+                switch ($prepared_stmts) {
+                    // _____________________________________________________ Only read ___
+                    case 1:
+                        $this->contesto[$nome]->prepared_read  = true;
+                        $this->contesto[$nome]->prepared_write = false;
+                        break;
+                    // ____________________________________________________ Only write ___
+                    case 2:
+                        $this->contesto[$nome]->prepared_read  = false;
+                        $this->contesto[$nome]->prepared_write = true;
+                        break;
+                    // __________________________________________________ Read & write ___
+                    case 3:
+                        $this->contesto[$nome]->prepared_read  = true;
+                        $this->contesto[$nome]->prepared_write = true;
+                        break;
+                    // __________________________________________________________ None ___
+                    default:
+                        $this->contesto[$nome]->prepared_read  = false;
+                        $this->contesto[$nome]->prepared_write = false;
+                        break;
+                    }
                 $this->contesto[$nome]->struttura();
                 }
             else {
@@ -1671,6 +1698,10 @@ class o2_dbview extends o2_view {
     /*     _____ SQL-LINK _____________________________________________________________ */
     public $link_on         = array(); /* SQL join on criteria for single tables        */
     public $link_wheres     = array(); /* Range (where) criteria for linked tables      */
+    /*     _____ PREPARED STATEMENTS __________________________________________________ */
+    public $prepared_read   = false;   /* If view use prepared statements when reading  */
+    public $prepared_write  = false;   /* If view use prepared statements when writing  */
+    public $prepared_pars   = array(); /* Last prepared statement parameters            */
     /*     _____ INTERNAL FLAGS _______________________________________________________ */
     public $selezione       = 0;       /* Index of current record in recordset          */
     public $totale_record   = 101;     /* Number of records filtered in whole main file */
@@ -2519,8 +2550,11 @@ class o2_dbview extends o2_view {
         $link_prefix      = o2_gateway::qualify($file_type,
                                                 $link_db->nome,
                                                 $link_db->proprietario);
-        $c_o              = constant("o2_".$file_type."_o");
-        $c_c              = constant("o2_".$file_type."_c");
+        $prepared         = $this->prepared_read && $app->prepared_stmts;
+        $ppars            = array();
+        $pp_id            = 0;
+        $c_o              = constant('o2_'.$file_type.'_o');
+        $c_c              = constant('o2_'.$file_type.'_c');
         $full_tab_alias   = $c_o.$file_in_esame.$c_c;
         $file_idx         = o2_gateway::qualify($file_type,
                                                 $link_db->nome,
@@ -2565,7 +2599,7 @@ class o2_dbview extends o2_view {
                 // _________________________________________ MIN == MAX - Strict range ___
                 if (!is_null($campo->min) && ($campo->min == $campo->max)) {
                     // ____________________________________________________ Expression ___
-                    if (strpos($campo->min, "_exp_") !== false) {
+                    if (strpos($campo->min, '_exp_') !== false) {
                         // __________________________________________________ SQL-LINK ___
                         if ($sql_join &&
                             !isset($this->esclusivi[$file_in_esame][$campo->nome])) {
@@ -2574,12 +2608,13 @@ class o2_dbview extends o2_view {
                                                                     $campo,
                                                                     $pk_segms);
                             // _ Save link where clausole, used by ->verifica_record() ___
-                            if ($this->status == "I" || $this->modificato || $for_cache) {
-                                eval("\$valore_local = ".$campo->min.";");
+                            if ($this->status == 'I' || $this->modificato || $for_cache) {
+                                eval('$valore_local = '.$campo->min.';');
+                                $prepared           = false;
                                 }
                             }
                         else {
-                            eval("\$valore_local = ".$campo->min.";");
+                            eval('$valore_local = '.$campo->min.';');
                             }
                         }
                     // _________________________________________________________ Value ___
@@ -2587,59 +2622,89 @@ class o2_dbview extends o2_view {
                         $valore_local = $campo->min;
                         }
                     if (!is_null($valore_local)) {
-                        if ($campo->tipo == "N") {
+                        if ($campo->tipo == 'N') {
                             if ($valore_local) {
-                                $single_cond = "(".$fld_name."=".
-                                               number_format($valore_local,
-                                                             $campo->maschera->decimali,
-                                                             ".",
-                                                             "").")";
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'= :_'.$pp_id.')';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name.'='.
+                                                   number_format($valore_local,
+                                                               $campo->maschera->decimali,
+                                                                 '.',
+                                                                 '').')';
+                                    }
                                 }
                             // _________________________________ Manage zero (0) value ___
                             else {
-                                $single_cond = "(".$fld_name."=0 OR ".
-                                                   $fld_name." IS NULL)";
+                                $single_cond = '('.$fld_name.'=0 OR '.
+                                                   $fld_name.' IS NULL)';
                                 }
                             }
-                        elseif ($campo->tipo == "L") {
+                        elseif ($campo->tipo == 'L') {
                             if ($valore_local) {
-                                $single_cond = "(".$fld_name."='1')";
+                                $single_cond = '('.$fld_name."='1')";
                                 }
                             // ____________________________________ Manage FALSE value ___
                             else {
-                                $single_cond = "(".$fld_name."<'1' OR ".
-                                                   $fld_name." IS NULL)";
+                                $single_cond = '('.$fld_name."<'1' OR ".
+                                                   $fld_name.' IS NULL)';
                                 }
                             }
-                        elseif ($campo->tipo == "D") {
-                            if ($valore_local && $valore_local != "00000000") {
-                                $single_cond = "(".$fld_name."='".$valore_local."')";
+                        elseif ($campo->tipo == 'D') {
+                            if ($valore_local && $valore_local != '00000000') {
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'= :_'.$pp_id.')';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name."='".$valore_local."')";
+                                    }
                                 }
                             // ________________________ Manage zero ('00000000') value ___
                             else {
-                                $single_cond = "(".$fld_name."='00000000' OR ".
-                                                   $fld_name." IS NULL)";
+                                $single_cond = '('.$fld_name."='00000000' OR ".
+                                                   $fld_name.' IS NULL)';
                                 }
                             }
-                        elseif ($campo->tipo == "O") {
-                            if ($valore_local && $valore_local != "000000") {
-                                $single_cond = "(".$fld_name."='".$valore_local."')";
+                        elseif ($campo->tipo == 'O') {
+                            if ($valore_local && $valore_local != '000000') {
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'= :_'.$pp_id.')';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name."='".$valore_local."')";
+                                    }
                                 }
                             // __________________________ Manage zero ('000000') value ___
                             else {
-                                $single_cond = "(".$fld_name."='000000' OR ".
-                                                   $fld_name." IS NULL)";
+                                $single_cond = '('.$fld_name."='000000' OR ".
+                                                   $fld_name.' IS NULL)';
                                 }
                             }
-                        elseif ($valore_local !== "") {
-                            $single_cond = "(".$fld_name.
-                                           "='".o2_gateway::normalize($file_type,
-                                                                      $valore_local)."')";
+                        elseif ($valore_local !== '') {
+                            if ($prepared) {
+                                $pp_id++;
+                                $single_cond       = '('.$fld_name.'= :_'.$pp_id.')';
+                                $ppars['_'.$pp_id] = o2_gateway::normalize($file_type,
+                                                                           $valore_local);
+                                }
+                            else {
+                                $single_cond = '('.$fld_name.
+                                               "='".o2_gateway::normalize($file_type,
+                                                                          $valore_local).
+                                               "')";
+                                }
                             }
                         // ___________________________________ Manage blank ('') value ___
                         else {
-                            $single_cond = "(RTRIM(".$fld_name.
-                                           ")='' OR RTRIM(".$fld_name.") IS NULL)";
+                            $single_cond = '(RTRIM('.$fld_name.
+                                           ")='' OR RTRIM(".$fld_name.') IS NULL)';
                             }
                         if (isset($this->esclusivi[$file_in_esame][$campo->nome])) {
                             $this->esclusivi[$file_in_esame][0] =
@@ -2648,7 +2713,7 @@ class o2_dbview extends o2_view {
                             if ($sql_join &&
                                 strpos($main_where, $single_cond) === false) {
                                 $this->link_wheres[$file_in_esame].= ($main_where ?
-                                                                      " AND " : "").
+                                                                      ' AND ' : '').
                                                                       $single_cond;
                                 }
                             }
@@ -2660,46 +2725,81 @@ class o2_dbview extends o2_view {
                     // _________________________________________________ MINIMUM Range ___
                     if (!is_null($campo->min)) {
                         // ________________________________________________ Expression ___
-                        if (strpos($campo->min, "_exp_") !== false) {
-                            eval("\$valore_local = ".$campo->min.";");
+                        if (strpos($campo->min, '_exp_') !== false) {
+                            eval('$valore_local = '.$campo->min.';');
                             }
                         // _____________________________________________________ Value ___
                         else {
                             $valore_local = $campo->min;
                             }
                         if (!is_null($valore_local)) {
-                            if ($campo->tipo == "N") {
+                            if ($campo->tipo == 'N') {
                                 if ($valore_local) {
-                                    $single_cond = "(".$fld_name.">=".
-                                                   number_format($valore_local,
+                                    if ($prepared) {
+                                        $pp_id++;
+                                        $single_cond       = '('.$fld_name.'>= :_'.
+                                                                 $pp_id.')';
+                                        $ppars['_'.$pp_id] = $valore_local;
+                                        }
+                                    else {
+                                        $single_cond = '('.$fld_name.'>='.
+                                                       number_format($valore_local,
                                                                $campo->maschera->decimali,
-                                                                 ".",
-                                                                 "").")";
+                                                                     '.',
+                                                                     '').')';
+                                        }
                                     }
                                 else {
-                                    $single_cond = "(".$fld_name.">=0 OR ".
-                                                       $fld_name." IS NULL)";
+                                    $single_cond = '('.$fld_name.'>=0 OR '.
+                                                       $fld_name.' IS NULL)';
                                     }
                                 }
-                            elseif ($campo->tipo == "L") {
+                            elseif ($campo->tipo == 'L') {
                                 if ($valore_local) {
-                                    $single_cond = "(".$fld_name."='1')";
+                                    $single_cond = '('.$fld_name."='1')";
                                     }
                                 }
-                            elseif ($campo->tipo == "D") {
-                                if ($valore_local && $valore_local != "00000000") {
-                                    $single_cond = "(".$fld_name.">='".$valore_local."')";
+                            elseif ($campo->tipo == 'D') {
+                                if ($valore_local && $valore_local != '00000000') {
+                                    if ($prepared) {
+                                        $pp_id++;
+                                        $single_cond       = '('.$fld_name.'>= :_'.
+                                                                 $pp_id.')';
+                                        $ppars['_'.$pp_id] = $valore_local;
+                                        }
+                                    else {
+                                        $single_cond = '('.$fld_name.">='".$valore_local.
+                                                       "')";
+                                        }
                                     }
                                 }
-                            elseif ($campo->tipo == "O") {
-                                if ($valore_local && $valore_local != "000000") {
-                                    $single_cond = "(".$fld_name.">='".$valore_local."')";
+                            elseif ($campo->tipo == 'O') {
+                                if ($valore_local && $valore_local != '000000') {
+                                    if ($prepared) {
+                                        $pp_id++;
+                                        $single_cond       = '('.$fld_name.'>= :_'.
+                                                                 $pp_id.')';
+                                        $ppars['_'.$pp_id] = $valore_local;
+                                        }
+                                    else {
+                                        $single_cond = '('.$fld_name.">='".$valore_local.
+                                                       "')";
+                                        }
                                     }
                                 }
-                            elseif ($valore_local !== "") {
-                                $single_cond = "(".$fld_name.">='".
-                                                o2_gateway::normalize($file_type,
-                                                                      $valore_local)."')";
+                            elseif ($valore_local !== '') {
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'>= :_'.$pp_id.')';
+                                    $ppars['_'.$pp_id] = o2_gateway::normalize($file_type,
+                                                                           $valore_local);
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name.">='".
+                                                   o2_gateway::normalize($file_type,
+                                                                         $valore_local).
+                                                   "')";
+                                    }
                                 }
                             if ($single_cond) {
                                 if (isset($this->esclusivi[$file_in_esame]
@@ -2710,7 +2810,7 @@ class o2_dbview extends o2_view {
                                     if ($sql_join &&
                                         strpos($main_where, $single_cond) === false) {
                                         $this->link_wheres[$file_in_esame].=($main_where ?
-                                                                            " AND " : "").
+                                                                            ' AND ' : '').
                                                                              $single_cond;
                                         }
                                     }
@@ -2728,53 +2828,85 @@ class o2_dbview extends o2_view {
                     // _________________________________________________ MAXIMUM Range ___
                     if (!is_null($campo->max)) {
                         // ________________________________________________ Expression ___
-                        if (strpos($campo->max, "_exp_") !== false) {
-                            eval("\$valore_local = ".$campo->max.";");
+                        if (strpos($campo->max, '_exp_') !== false) {
+                            eval('$valore_local = '.$campo->max.';');
                             }
                         // _____________________________________________________ Value ___
                         else {
                             $valore_local = $campo->max;
                             }
                         if (!is_null($valore_local)) {
-                            if ($campo->tipo == "N") {
+                            if ($campo->tipo == 'N') {
                                 if ($valore_local) {
-                                    $single_cond = "(".$fld_name.
-                                                   "<=".number_format($valore_local,
+                                    if ($prepared) {
+                                        $pp_id++;
+                                        $single_cond       = '('.$fld_name.'<= :_'.
+                                                                 $pp_id.')';
+                                        $ppars['_'.$pp_id] = $valore_local;
+                                        }
+                                    else {
+                                        $single_cond = '('.$fld_name.
+                                                       '<='.number_format($valore_local,
                                                                $campo->maschera->decimali,
-                                                                      ".",
-                                                                      "").")";
+                                                                          '.',
+                                                                          '').')';
+                                        }
                                     }
                                 else {
-                                    $single_cond = "(".$fld_name."<=0 OR ".
-                                                       $fld_name." IS NULL)";
+                                    $single_cond = '('.$fld_name.'<=0 OR '.
+                                                       $fld_name.' IS NULL)';
                                     }
                                 }
-                            elseif ($campo->tipo == "L") {
+                            elseif ($campo->tipo == 'L') {
                                 if (!$valore_local) {
-                                    $single_cond = "(".$fld_name."<'1' OR ".
-                                                       $fld_name." IS NULL)";
+                                    $single_cond = '('.$fld_name."<'1' OR ".
+                                                       $fld_name.' IS NULL)';
                                     }
                                 }
-                            elseif ($campo->tipo == "D") {
+                            elseif ($campo->tipo == 'D') {
                                 if (!$valore_local) {
-                                    $valore_local = "00000000";
+                                    $valore_local = '00000000';
                                     }
-                                $single_cond = "(".$fld_name."<='".$valore_local."' OR ".
-                                                   $fld_name." IS NULL)";
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'<= :_'.$pp_id.
+                                                            "' OR ".$fld_name.' IS NULL)';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name."<='".$valore_local.
+                                                   "' OR ".$fld_name.' IS NULL)';
+                                    }
                                 }
-                            elseif ($campo->tipo == "O") {
+                            elseif ($campo->tipo == 'O') {
                                 if (!$valore_local) {
-                                    $valore_local = "000000";
+                                    $valore_local = '000000';
                                     }
-                                $single_cond = "(".$fld_name."<='".$valore_local."' OR ".
-                                                   $fld_name." IS NULL)";
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'<= :_'.$pp_id.
+                                                         "' OR ".$fld_name.' IS NULL)';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name."<='".$valore_local.
+                                                   "' OR ".$fld_name.' IS NULL)';
+                                    }
                                 }
                             // ________________________ Manage blank ('') value & NULLs___
                             else {
-                                $single_cond = "(".$fld_name."<='".
-                                                   o2_gateway::normalize($file_type,
-                                                                         $valore_local).
-                                               "' OR RTRIM(".$fld_name.") IS NULL)";
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond = '('.$fld_name."<= :_".$pp_id.
+                                                   ' OR RTRIM('.$fld_name.') IS NULL)';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name."<='".
+                                                    o2_gateway::normalize($file_type,
+                                                                          $valore_local).
+                                                   "' OR RTRIM(".$fld_name.') IS NULL)';
+                                    }
                                 }
                             if ($single_cond) {
                                 if (isset($this->esclusivi[$file_in_esame]
@@ -2785,7 +2917,7 @@ class o2_dbview extends o2_view {
                                     if ($sql_join &&
                                         strpos($main_where, $single_cond) === false) {
                                         $this->link_wheres[$file_in_esame].=($main_where ?
-                                                                            " AND " : "").
+                                                                            ' AND ' : '').
                                                                             $single_cond;
                                         }
                                     }
@@ -2804,65 +2936,99 @@ class o2_dbview extends o2_view {
                 // _________________________________________________________ NOT Range ___
                 if (!is_null($campo->not)) {
                     // ____________________________________________________ Expression ___
-                    if (strpos($campo->not, "_exp_") !== false) {
-                        eval("\$valore_local = ".$campo->not.";");
+                    if (strpos($campo->not, '_exp_') !== false) {
+                        eval('$valore_local = '.$campo->not.';');
                         }
                     // _________________________________________________________ Value ___
                     else {
                         $valore_local = $campo->not;
                         }
                     if (!is_null($valore_local)) {
-                        if ($campo->tipo == "N") {
+                        if ($campo->tipo == 'N') {
                             if ($valore_local) {
-                                $single_cond = "(".$fld_name.
-                                               "<>".number_format($valore_local,
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'<> :_'.
+                                                             $pp_id.' OR '.
+                                                             $fld_name.' IS NULL )';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name.
+                                                    '<>'.number_format($valore_local,
                                                                $campo->maschera->decimali,
-                                                                  ".",
-                                                                  "")." OR ".
-                                                   $fld_name." IS NULL)";
+                                                                       '.',
+                                                                       '').
+                                                    ' OR '.$fld_name.' IS NULL)';
+                                    }
                                 }
                             else {
-                                $single_cond = "(".$fld_name."<>0)";
+                                $single_cond = '('.$fld_name.'<>0)';
                                 }
                             }
-                        elseif ($campo->tipo == "L") {
+                        elseif ($campo->tipo == 'L') {
                             if ($valore_local) {
-                                $single_cond = "(".$fld_name."<'1' OR ".
-                                                   $fld_name." IS NULL)";
+                                $single_cond = '('.$fld_name."<'1' OR ".
+                                                   $fld_name.' IS NULL)';
                                 }
                             else {
-                                $single_cond = "(".$fld_name."='1')";
+                                $single_cond = '('.$fld_name."='1')";
                                 }
                             }
-                        elseif ($campo->tipo == "D") {
-                            if ($valore_local && $valore_local != "00000000") {
-                                $single_cond = "(".$fld_name."<>'".$valore_local."' OR ".
-                                                   $fld_name." IS NULL)";
+                        elseif ($campo->tipo == 'D') {
+                            if ($valore_local && $valore_local != '00000000') {
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'<> :_'.$pp_id.
+                                                         "' OR ".$fld_name.' IS NULL)';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name."<>'".$valore_local.
+                                                   "' OR ".$fld_name.' IS NULL)';
+                                    }
                                 }
                             // ________________________ Manage zero ('00000000') value ___
                             else {
-                                $single_cond = "(".$fld_name."<>'00000000')";
+                                $single_cond = '('.$fld_name."<>'00000000')";
                                 }
                             }
-                        elseif ($campo->tipo == "O") {
-                            if ($valore_local && $valore_local != "000000") {
-                                $single_cond = "(".$fld_name."<>'".$valore_local."' OR ".
-                                                   $fld_name." IS NULL)";
+                        elseif ($campo->tipo == 'O') {
+                            if ($valore_local && $valore_local != '000000') {
+                                if ($prepared) {
+                                    $pp_id++;
+                                    $single_cond       = '('.$fld_name.'<> :_'.$pp_id.
+                                                         "' OR ".$fld_name.' IS NULL)';
+                                    $ppars['_'.$pp_id] = $valore_local;
+                                    }
+                                else {
+                                    $single_cond = '('.$fld_name."<>'".$valore_local.
+                                                   "' OR ".$fld_name.' IS NULL)';
+                                    }
                                 }
                             // __________________________ Manage zero ('000000') value ___
                             else {
-                                $single_cond = "(".$fld_name."<>'000000')";
+                                $single_cond = '('.$fld_name."<>'000000')";
                                 }
                             }
-                        elseif ($valore_local !== "") {
-                            $single_cond = "(".$fld_name.
-                                           "<>'".o2_gateway::normalize($file_type,
-                                                                       $valore_local).
-                                           "' OR ".$fld_name." IS NULL)";
+                        elseif ($valore_local !== '') {
+                            if ($prepared) {
+                                $pp_id++;
+                                $single_cond       = '('.$fld_name.'<> :_'.$pp_id.' OR '.
+                                                         $fld_name.' IS NULL)';
+                                $ppars['_'.$pp_id] = o2_gateway::normalize($file_type,
+                                                                           $valore_local);
+                                }
+                            else {
+                                $single_cond = '('.$fld_name.
+                                               "<>'".o2_gateway::normalize($file_type,
+                                                                           $valore_local).
+                                               "' OR ".$fld_name.' IS NULL)';
+                                }
                             }
                         // ___________________________________ Manage blank ('') value ___
                         else {
-                            $single_cond = "(RTRIM(".$fld_name.")>'')";
+                            $single_cond = '(RTRIM('.$fld_name.")>'')";
                             }
                         if ($single_cond) {
                             if (isset($this->esclusivi[$file_in_esame][$campo->nome])) {
@@ -2872,7 +3038,7 @@ class o2_dbview extends o2_view {
                                 if ($sql_join &&
                                     strpos($main_where, $single_cond) === false) {
                                     $this->link_wheres[$file_in_esame].= ($main_where ?
-                                                                          " AND " : "").
+                                                                          ' AND ' : '').
                                                                           $single_cond;
                                     }
                                 }
@@ -3015,6 +3181,9 @@ class o2_dbview extends o2_view {
                                                             $this->link_on[$file_idx]) {
             $this->ultima_where[$file_in_esame][$record] = $new_where.
                                                            $this->link_on[$file_idx];
+            if ($prepared) {
+                $this->prepared_pars[$file_in_esame] = $ppars;
+                }
             return true;
             }
         else {
@@ -3290,6 +3459,7 @@ class o2_dbview extends o2_view {
         $this->verified      = array();
         $this->link_cache    = array();
         $this->link_wheres   = array();
+        $this->prepared_pars = array();
         $this->comunica_variazioni();
         $this->set_changes();
         $this->dipendenze = array();
@@ -3672,7 +3842,16 @@ class o2_dbview extends o2_view {
         // __________________________________________________________________ SQL-LINK ___
         $links     = (is_array($this->link_on) ? $this->link_on : null);
         // ______________________________________ View unique ID to refetch statements ___
-        $view_id   = $this->nome.$this->id_esecuzione;
+        $view_id   = ($fetch_loop && $this->looping_on ?
+                      $this->nome.$this->id_esecuzione : false);
+        // _____________________________________________ Prepared statement parameters ___
+        if ($app->prepared_stmts && $this->prepared_read) {
+            $view_id  = $this->nome.'|'.$where_exp;
+            $ppars    = $this->prepared_pars[$file_name];
+            }
+        else {
+            $ppars = false;
+            }
         // ___________________________________________________________ Compose dataset ___
         switch ($this->direzione) {
             // _____________________________________________________________ First set ___
@@ -3695,9 +3874,8 @@ class o2_dbview extends o2_view {
                                                  $links,
                                                  $lock,
                                                  false,
-                                                 ($fetch_loop && $this->looping_on ?
-                                                  $view_id : false));
-
+                                                 $view_id,
+                                                 $ppars);
                 $ret_num               = count($ret_val);
                 $this->bof             = true;
                 $this->eof             = false;
@@ -3737,9 +3915,8 @@ class o2_dbview extends o2_view {
                                                  $links,
                                                  $lock,
                                                  $page_filter,
-                                                 ($fetch_loop && $this->looping_on ?
-                                                  $view_id : false));
-
+                                                 $view_id,
+                                                 $ppars);
                 $ret_num = count($ret_val);
                 if ($ret_num < $quanti) {
                     $this->direzione    = 0;
@@ -3785,8 +3962,8 @@ class o2_dbview extends o2_view {
                                                  $links,
                                                  $lock,
                                                  $page_filter,
-                                                 ($fetch_loop && $this->looping_on ?
-                                                  $view_id : false));
+                                                 $view_id,
+                                                 $ppars);
                 $ret_num           = count($ret_val);
                 $this->bof         = false;
                 if ($ret_num < $quanti) {
@@ -3820,8 +3997,8 @@ class o2_dbview extends o2_view {
                                                  $links,
                                                  $lock,
                                                  false,
-                                                 ($fetch_loop && $this->looping_on ?
-                                                  $view_id : false));
+                                                 $view_id,
+                                                 $ppars);
                 $ret_num               = count($ret_val);
                 $this->eof             = true;
                 $this->bof             = false;
@@ -3869,8 +4046,8 @@ class o2_dbview extends o2_view {
                                                  $links,
                                                  $lock,
                                                  false,
-                                                 ($fetch_loop && $this->looping_on ?
-                                                  $view_id : false));
+                                                 $view_id,
+                                                 $ppars);
                 $ret_num           = count($ret_val);
                 $this->bof         = false;
                 $this->offset_ini  = $this->totale_record - $ret_num;
