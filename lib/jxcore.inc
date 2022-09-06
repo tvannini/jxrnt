@@ -22,12 +22,12 @@
  *
  *
  * This script contains the whole runtime environment base elements:
- *  .:§ System functions
- *  .:§ Internal base objects
- *  .:§ Databases gateways interface
- *  .:§ Runtime object
- *  .:§ Definition methods (o2def)
- *  .:§ Exceptions handling
+ *  .: System functions
+ *  .: Internal base objects
+ *  .: Databases gateways interface
+ *  .: Runtime object
+ *  .: Definition methods (o2def)
+ *  .: Exceptions handling
  *
  * @name      jxcore
  * @package   janox/jxcore.inc
