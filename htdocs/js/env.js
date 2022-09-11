@@ -5822,7 +5822,8 @@ o2jse.lu.e = function(targetObj, eventObj) {
     if (targetObj.nodeName.toLowerCase() == "input") {
         descElement = targetObj;
         o2jse.lu.listOff(descElement);
-        descElement.value = descElement.saveValue;
+        descElement.value = (typeof descElement.saveValue !== "undefined" ?
+                             descElement.saveValue : '');
         if (descElement.select) {
             descElement.select();
             }
@@ -6085,7 +6086,8 @@ o2jse.lu.listOff = function(descField) {
         targetObj.listObj = null;
         o2jse.lu.listObj  = null;
         if (descField) {
-            descField.value = descField.saveValue;
+            descField.value = (typeof descField.saveValue !== "undefined" ?
+                               descField.saveValue : '');
             }
         }
 
