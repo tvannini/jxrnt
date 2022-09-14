@@ -1404,7 +1404,7 @@ class o2html {
             }
         // ______________________________________________________ JXDocumentor request ___
         elseif ($_REQUEST['jxdocreq'] && $app->doc_activate()) {
-            $app->doc->show_node($_REQUEST['o2_prgname'],
+            $app->doc->show_node($app->istanze_prg[$_REQUEST['jxdocexeid']]->nome,
                                  $_REQUEST['o2_formname'],
                                  $_REQUEST['o2_ctrlname'],
                                  $_REQUEST['o2_nodeid']);

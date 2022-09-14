@@ -4770,6 +4770,7 @@ o2jse.cmd.doc = function(targetObj) {
     o2jse.ctrl.init(targetObj);
     var infoObj = targetObj.o2;
     o2jse.createInput(o2jse.infoForm, "hidden", "", "help", "jxdocreq");
+    o2jse.createInput(o2jse.infoForm, "hidden", "", infoObj.e, "jxdocexeid");
     o2jse.createInput(o2jse.infoForm, "hidden", "", infoObj.f, "o2_formname");
     o2jse.createInput(o2jse.infoForm, "hidden", "", infoObj.c, "o2_ctrlname");
     o2jse.cmd.submit(0);
