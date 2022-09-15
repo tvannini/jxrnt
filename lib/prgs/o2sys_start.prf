@@ -216,7 +216,9 @@ function o2sys_start§§login_correct_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::view("users", "S", "") && $o2exe->e();
 //	$o2exe->s(6) && True && o2act::remark("Remove used OTP") && $o2exe->e();
 	$o2exe->s(7) && (o2sys_start_exp_74() || $o2exe->e()) && o2act::view("otp", "C", "") && $o2exe->e();
-	$o2exe->s(8) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("Set user password in application for OTP sessions") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::script(o2sys_start_exp_75()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_correct_ldap_act(&$o2exe) {
@@ -943,5 +945,10 @@ return (($_REQUEST['jxotp'] ? md5(strtoupper($_REQUEST['jxotp'])) : ''));
 function o2sys_start_exp_74() {
 	
 return (!o2zero('prg§_§var','otp_code') && o2view_rec('otp'));
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_75() {
+	$_SESSION['o2_app']->password = o2val('users','o2password');
+return (true);
 	} //|o2_fine_exp|
 ?>

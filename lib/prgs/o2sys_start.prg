@@ -1,5 +1,5 @@
 <?php
-//2.7
+//2.8
 //o2def::module("");
 //o2def::folder("triggers");
 /*
@@ -9,16 +9,16 @@ o2def::prgnotes("");
 o2def::prg("o2sys_start", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
-o2def::view("users", False, "", "", 1);
-o2def::view("sessions", False, "", "", 1);
-o2def::view("root_lookup", False, "", "", 1);
-o2def::view("options", False, "", "", 1);
-o2def::view("roles", False, "", "", 1);
-o2def::view("rights_per_role", False, "", "", 1);
-o2def::view("logged_tabs", False, "", "", 1);
-o2def::view("jxsys_lookup", False, "", "", 1);
-o2def::view("terminals", False, "", "", 0);
-o2def::view("otp", False, "", "", 0);
+o2def::view("users", false, "", "", 1, 0);
+o2def::view("sessions", false, "", "", 1, 0);
+o2def::view("root_lookup", false, "", "", 1, 0);
+o2def::view("options", false, "", "", 1, 0);
+o2def::view("roles", false, "", "", 1, 0);
+o2def::view("rights_per_role", false, "", "", 1, 0);
+o2def::view("logged_tabs", false, "", "", 1, 0);
+o2def::view("jxsys_lookup", false, "", "", 1, 0);
+o2def::view("terminals", false, "", "", 0, 0);
+o2def::view("otp", false, "", "", 0, 0);
 o2def::act("check_session_terminal");
 o2def::act("db_session");
 o2def::act("insert_jxsys");
