@@ -1143,8 +1143,8 @@ class o2_form {
             case 'text':
                 $prg->drawing_ctrl = $new_ctrl;
                 break;
-                // _______________ Per attivare view su o2_view2list() per lookup ctrl ___
             case 'listcombo':
+                // _______________ Per attivare view su o2_view2list() per lookup ctrl ___
                 $app->defining_combo = $new_ctrl;
                 $prg->drawing_ctrl   = $new_ctrl;
                 break;
