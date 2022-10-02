@@ -497,6 +497,34 @@ class o2_prg {
 
 
     /**
+     * Expands controls dependences from field to entire view.
+     * This method is usefull when view tables are requeried.
+     *
+     * @param string $view_name
+     */
+    function expand_dependences($view_name) {
+
+        // __________________________________________________ Loop on program controls ___
+        foreach ($this->ctrls as $type => $ctrls) {
+            // ____________________________________ Only controls that use dependences ___
+            if (in_array($type, array('button', 'edit', 'label', 'listcombo', 'text'))) {
+                foreach ($ctrls as $ctrl) {
+                    foreach ($ctrl->dependences as $view => $dependence) {
+                        // ___________________________ If found a dependence from view ___
+                        if ($view == $view_name) {
+                            // __________________ Expand dependence to the entire view ___
+                            $ctrl->dependences[$view_name] = false;
+                            break;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+    /**
      * Displays report message for program
      *
      */
@@ -3468,12 +3496,17 @@ class o2_dbview extends o2_view {
         $c_o              = constant("o2_".$file_type."_o");
         $c_c              = constant("o2_".$file_type."_c");
         $last             = $this->direzione == 3;
+        $to_do            = false;
         // _______________________________________ Where clause from range expressions ___
         foreach ($this->files as $single_file) {
-            $this->range2where($single_file->indice);
+            $to_do = $this->range2where($single_file->indice) || $to_do;
             }
         // __________________________________________________ Recalc range on formulas ___
         $this->range2formule();
+        // ______________ Expand dependences to the entire view for depending controls ___
+        if ($to_do) {
+            $app->istanze_prg[$this->id_esecuzione]->expand_dependences($this->nome);
+            }
         // ____________________________ Reset links cache (save mainfile and formulas) ___
         if (isset($this->ultima_where['o2calc§_§exps'])) {
             $this->ultima_where = array($mainfile       => $this->ultima_where[$mainfile],
@@ -4113,6 +4146,8 @@ class o2_dbview extends o2_view {
                     if ($app->sqltrace) {
                         jxsql_stat($this, 'R', $file_name);
                         }
+                    $app->istanze_prg[$this->id_esecuzione]->expand_dependences(
+                                                                             $this->nome);
                     // ______________________________________ Composizione della query ___
                     $ret_val = o2_gateway::verifyrec($singolo_file->db->server->type,
                                                      $singolo_file->db->server->server,
