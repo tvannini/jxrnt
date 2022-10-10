@@ -1806,9 +1806,8 @@ class o2html {
             $bar_w      = ($menu_v ? ($app->menu_width ? $app->menu_width : 100) : 0);
             $parent_win = $prg->form[$o2form_obj->linkto];
             // _____________________________________________________ Relative position ___
-            $align_buffer = "left:".($parent_win->absolute_x + $o2form_obj->x + $bar_w).
-                            "px; top:".
-                            ($parent_win->absolute_y + $o2form_obj->y + $bar_h)."px;";
+            $align_buffer = 'left:'.($parent_win->absolute_x + $o2form_obj->x).
+                            'px; top:'.($parent_win->absolute_y + $o2form_obj->y).'px;';
             $link_id      = 0;
             foreach ($parent_win->linked as $linked_form_name => $dummy_value) {
                 $link_id++;
