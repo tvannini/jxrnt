@@ -355,12 +355,12 @@ return (!o2zero('prg§_§var','date_to'));
 function o2sys_log_browser_exp_16() {
 	$o2date = o2val('prg§_§var','date_from');
 $o2time = o2val('prg§_§var','time_from');
-$from   = mktime($o2time{0}.$o2time{1},
-                 $o2time{2}.$o2time{3},
-                 $o2time{4}.$o2time{5},
-                 $o2date{4}.$o2date{5},
-                 $o2date{6}.$o2date{7},
-                 $o2date{0}.$o2date{1}.$o2date{2}.$o2date{3}).
+$from   = mktime($o2time[0].$o2time[1],
+                 $o2time[2].$o2time[3],
+                 $o2time[4].$o2time[5],
+                 $o2date[4].$o2date[5],
+                 $o2date[6].$o2date[7],
+                 $o2date[0].$o2date[1].$o2date[2].$o2date[3]).
           "000000";
 return ((o2zero('prg§_§var','date_from') ? null : $from));
 	} //|o2_fine_exp|
@@ -371,12 +371,12 @@ $o2time = o2val('prg§_§var','time_to');
 if ($o2time == '000000') {
    $o2time = '235959';
    }
-$to     = mktime($o2time{0}.$o2time{1},
-                 $o2time{2}.$o2time{3},
-                 $o2time{4}.$o2time{5},
-                 $o2date{4}.$o2date{5},
-                 $o2date{6}.$o2date{7},
-                 $o2date{0}.$o2date{1}.$o2date{2}.$o2date{3}).
+$to     = mktime($o2time[0].$o2time[1],
+                 $o2time[2].$o2time[3],
+                 $o2time[4].$o2time[5],
+                 $o2date[4].$o2date[5],
+                 $o2date[6].$o2date[7],
+                 $o2date[0].$o2date[1].$o2date[2].$o2date[3]).
           "999999";
 return ((o2zero('prg§_§var','date_to') ? null : $to));
 	} //|o2_fine_exp|

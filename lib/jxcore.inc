@@ -1858,7 +1858,7 @@ class o2_segmento_indice {
 
         $this->campo     = $campo;
         $this->direzione = strtoupper(trim($direzione));
-        $this->direzione = ($this->direzione{0} == "D" ? "D" : "A");
+        $this->direzione = ($this->direzione[0] == "D" ? "D" : "A");
 
         }
     }

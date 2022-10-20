@@ -322,7 +322,7 @@ function o2sys_sessions_admin§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_sessions_admin_exp_1() {
-	
+
 return ("tools/jxlock");
 	} //|o2_fine_exp|
 
@@ -337,12 +337,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_3() {
-	
+
 return (o2val('prg§_§var','apps_list'));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_4() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
@@ -355,12 +355,12 @@ if (o2val('sessions','sid') == o2app_sid()) {
 /* ______________________________________________________ Session expired ___ */
 $expd = o2val('sessions','e_date');
 $expt = o2val('sessions','e_time');
-$exp = mktime($expt{0}.$expt{1},
-              $expt{2}.$expt{3},
-              $expt{4}.$expt{5},
-              $expd{4}.$expd{5},
-              $expd{6}.$expd{7},
-              $expd{0}.$expd{1}.$expd{2}.$expd{3});
+$exp = mktime($expt[0].$expt[1],
+              $expt[2].$expt[3],
+              $expt[4].$expt[5],
+              $expd[4].$expd[5],
+              $expd[6].$expd[7],
+              $expd[0].$expd[1].$expd[2].$expd[3]);
 if ($exp <= time()) {
    $descr = "Expired";
    }
@@ -368,17 +368,17 @@ return ($descr);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_6() {
-	
+
 return (o2format(o2val('sessions','c_date'), "o2sys_short_date")." ".o2format(o2val('sessions','c_time'), "o2sys_long_time"));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_7() {
-	
+
 return (o2format(o2val('sessions','a_date'), "o2sys_short_date")." ".o2format(o2val('sessions','a_time'), "o2sys_long_time"));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_8() {
-	
+
 return (o2format(o2val('sessions','e_date'), "o2sys_short_date")." ".o2format(o2val('sessions','e_time'), "o2sys_long_time"));
 	} //|o2_fine_exp|
 
@@ -402,12 +402,12 @@ return ($css);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_10() {
-	
+
 return (o2view_total("sessions"));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_11() {
-	
+
 return ("Total sessions:");
 	} //|o2_fine_exp|
 
@@ -417,27 +417,27 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_13() {
-	
+
 return ((o2zero('prg§_§var','filter_app') ? null : o2val('prg§_§var','filter_app')));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_14() {
-	
+
 return (o2val('prg§_§var','scheduler_sessions') ? null : 'jxsys');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_15() {
-	
+
 return ('nav_big');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_16() {
-	
+
 return ('<jx>/img/tabadmin/separator.png');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_17() {
-	
+
 return ('<jx>/img/tools/blank.png');
 	} //|o2_fine_exp|
 
@@ -473,27 +473,27 @@ return ($tab);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_19() {
-	
+
 return ('tool_btn_refresh');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_20() {
-	
+
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_21() {
-	
+
 return ('hidden');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_22() {
-	
+
 return ('jximgbtn');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_23() {
-	
+
 return ('<jx>/img/tabadmin/lock.png');
 	} //|o2_fine_exp|
 
@@ -505,57 +505,57 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_25() {
-	
+
 return (o2val('sessions','sid'));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_26() {
-	
+
 return (o2val('sessions','job_id'));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_27() {
 	$r = o2val('sessions','run_mode');
 if ($r == 'JOB') {
-   $r.= ' ('.(o2zero('sessions','job_name') ? 
-              'missing process' : 
+   $r.= ' ('.(o2zero('sessions','job_name') ?
+              'missing process' :
               o2val('sessions','job_name')).')';
    }
 return ($r);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_28() {
-	
+
 return (array('' => '', 'WEB' => 'WEB', 'JOB' => 'JOB', 'CMD' => 'CMD', 'RPC' => 'RPC'));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_29() {
-	
+
 return ((o2zero('prg§_§var','run_mode') ? null : o2val('prg§_§var','run_mode')));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_30() {
-	
+
 return ('<jx>/img/tabadmin/logbrowse.png');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_31() {
-	
+
 return ($_SESSION['o2_app']->access_log);
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_32() {
-	
+
 return ('tools/jxaccesslog_browser');
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_33() {
-	
+
 return (o2val('prg§_§var','total_sessions'));
 	} //|o2_fine_exp|
 
 function o2sys_sessions_admin_exp_9999() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 ?>

@@ -153,7 +153,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_finestra = 'o2_form_window'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -174,7 +174,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_title = 'o2_form_title'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -195,7 +195,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_title_no = 'o2_form_title_no'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -216,7 +216,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_titlebar = 'o2_form_titlebar'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -237,7 +237,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_titlebar_no = 'o2_form_titlebar_no'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -258,7 +258,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_body = 'o2_form_body'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -279,7 +279,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_status = 'o2_form_status'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -300,7 +300,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_doc = 'o2_form_doc'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -321,7 +321,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_open = 'o2_form_open'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -342,7 +342,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_close = 'o2_form_close'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -363,7 +363,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_exit = 'o2_form_exit'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -384,7 +384,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_resize = 'o2_form_resize'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -405,7 +405,7 @@ class o2_form {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_corner = 'o2_form_corner'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -1833,15 +1833,15 @@ class o2_ctrl {
                     if (trim($this->valore) != "" &&
                         $this->valore != $mask->default) {
                             $ctrl_valore_local = str_replace(array("d", "m", "y"),
-                                                             array($this->valore{6}.
-                                                                   $this->valore{7},
-                                                                   $this->valore{4}.
-                                                                   $this->valore{5},
+                                                             array($this->valore[6].
+                                                                   $this->valore[7],
+                                                                   $this->valore[4].
+                                                                   $this->valore[5],
                                                                   ($mask->shortyear ? "" :
-                                                                    $this->valore{0}.
-                                                                    $this->valore{1}).
-                                                                   $this->valore{2}.
-                                                                   $this->valore{3}),
+                                                                    $this->valore[0].
+                                                                    $this->valore[1]).
+                                                                   $this->valore[2].
+                                                                   $this->valore[3]),
                                                            strtolower($mask->expression));
                         }
                     elseif (!$mask->zeroff) {
@@ -1863,12 +1863,12 @@ class o2_ctrl {
                     if (trim($this->valore) != "" &&
                         $this->valore != $mask->default) {
                         $ctrl_valore_local = str_replace(array("h", "m", "s"),
-                                                         array($this->valore{0}.
-                                                               $this->valore{1},
-                                                               $this->valore{2}.
-                                                               $this->valore{3},
-                                                               $this->valore{4}.
-                                                               $this->valore{5}),
+                                                         array($this->valore[0].
+                                                               $this->valore[1],
+                                                               $this->valore[2].
+                                                               $this->valore[3],
+                                                               $this->valore[4].
+                                                               $this->valore[5]),
                                                            strtolower($mask->expression));
                         }
                     elseif (!$mask->zeroff) {
@@ -2447,7 +2447,7 @@ class o2_ctrl_label extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_label'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -2520,7 +2520,7 @@ class o2_ctrl_line extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_separatore'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -2854,7 +2854,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_space = ($this->direction != 'V' ?
                                     'o2_ctrl_nav_space' :
                                     'o2_ctrl_navv_space').$css;
@@ -2879,7 +2879,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_i = ($this->direction != 'V' ?
                                 'o2_ctrl_nav_i' :
                                 'o2_ctrl_navv_i').$css;
@@ -2902,7 +2902,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_e = ($this->direction != 'V' ?
                                 'o2_ctrl_nav_e' :
                                 'o2_ctrl_navv_e').$css;
@@ -2925,7 +2925,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_new = ($this->direction != 'V' ?
                                 'o2_ctrl_nav_new' :
                                 'o2_ctrl_navv_new').$css;
@@ -2950,7 +2950,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_del = ($this->direction != 'V' ?
                                 'o2_ctrl_nav_del' :
                                 'o2_ctrl_navv_del').$css;
@@ -2975,7 +2975,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_save = ($this->direction != 'V' ?
                                 'o2_ctrl_nav_save' :
                                 'o2_ctrl_navv_save').$css;
@@ -3000,7 +3000,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_undo = ($this->direction != 'V' ?
                                    'o2_ctrl_nav_undo' :
                                    'o2_ctrl_navv_undo').$css;
@@ -3025,7 +3025,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_select = ($this->direction != 'V' ?
                                      'o2_ctrl_nav_sele' :
                                      'o2_ctrl_navv_sele').$css;
@@ -3050,7 +3050,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_detail = ($this->direction != 'V' ?
                                      'o2_ctrl_nav_det' :
                                      'o2_ctrl_navv_det').$css;
@@ -3075,7 +3075,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_primo = ($this->direction != 'V' ?
                                     'o2_ctrl_nav_first' :
                                     'o2_ctrl_navv_first').$css;
@@ -3100,7 +3100,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_precedente_pag = ($this->direction != 'V' ?
                                              'o2_ctrl_nav_prevpg' :
                                              'o2_ctrl_navv_prevpg').$css;
@@ -3125,7 +3125,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_precedente = ($this->direction != 'V' ?
                                          'o2_ctrl_nav_prev' :
                                          'o2_ctrl_navv_prev').$css;
@@ -3150,7 +3150,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_successivo = ($this->direction != 'V' ?
                                          'o2_ctrl_nav_next' :
                                          'o2_ctrl_navv_next').$css;
@@ -3175,7 +3175,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_successiva_pag = ($this->direction != 'V' ?
                                              'o2_ctrl_nav_nextpg' :
                                              'o2_ctrl_navv_nextpg').$css;
@@ -3200,7 +3200,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_ultimo = ($this->direction != 'V' ?
                                      'o2_ctrl_nav_last' :
                                      'o2_ctrl_navv_last').$css;
@@ -3272,7 +3272,7 @@ class o2_ctrl_edit extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_edit'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -3384,7 +3384,7 @@ class o2_ctrl_text extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_text'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -3492,7 +3492,7 @@ class o2_ctrl_check extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_check'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -3597,7 +3597,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_listcombo'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4060,7 +4060,7 @@ class o2_ctrl_button extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = ($this->style ? "o2_ctrl_ref" : "o2_ctrl_button").$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4185,7 +4185,7 @@ class o2_ctrl_file extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_file'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4279,7 +4279,7 @@ class o2_ctrl_img extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_img'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4454,7 +4454,7 @@ class o2_ctrl_multipage extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_spazio_out = 'o2_ctrl_multi_out'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4481,7 +4481,7 @@ class o2_ctrl_multipage extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_spazio_in = 'o2_ctrl_multi_in'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4507,7 +4507,7 @@ class o2_ctrl_multipage extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_label_on = 'o2_ctrl_multi_on'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4534,7 +4534,7 @@ class o2_ctrl_multipage extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css_label_off = 'o2_ctrl_multi_off'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4661,7 +4661,7 @@ class o2_ctrl_flowbox extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_box_out'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4745,7 +4745,7 @@ class o2_ctrl_frame extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_box_in'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4808,7 +4808,7 @@ class o2_ctrl_html extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_html'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -4879,7 +4879,7 @@ class o2_ctrl_doc extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'o2_ctrl_doc'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5002,7 +5002,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->spazio_class = 'o2_tab_space'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5023,7 +5023,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->tab_class = 'o2_tab_tab'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5044,7 +5044,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->testa_class = 'o2_tab_testa'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5065,7 +5065,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->footer_class = 'o2_tab_foot'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5086,7 +5086,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->corpo_class = 'o2_tab_corpo'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5107,7 +5107,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->riga_class = 'o2_tab_riga'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5128,7 +5128,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->alt_class = 'o2_tab_alt'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5149,7 +5149,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->point_class = 'o2_tab_point'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5170,7 +5170,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->sele_class = 'o2_tab_sele'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5191,7 +5191,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->sort_class = 'o2_tab_sort'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5212,7 +5212,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->sorta_class = 'o2_tab_sorta'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5233,7 +5233,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->sortd_class = 'o2_tab_sortd'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5254,7 +5254,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->marker_class = 'o2_tab_marker'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -5275,7 +5275,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->fcol_class = 'o2_tab_fcol'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -6379,7 +6379,7 @@ class o2_ctrl_tree extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'jxtree'.$css;
                 }
             // ________________________________________________ Replace standard class ___
@@ -6771,7 +6771,7 @@ class o2_ctrl_imglist extends o2_ctrl {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
-            if ($css{0} === ' ') {
+            if ($css[0] === ' ') {
                 $this->css = 'jximglist'.$css;
                 }
             // ________________________________________________ Replace standard class ___

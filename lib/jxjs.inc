@@ -1183,7 +1183,7 @@ class jxjs {
                             $ctrl_code = "v:''";
                             $info_css  = $ctrl->info_padre[5];
                             $cssc      = ($info_css ?
-                                          ($info_css{0} === ' ' ?
+                                          ($info_css[0] === ' ' ?
                                            $css_cella :
                                            '').$info_css :
                                           $css_cella);

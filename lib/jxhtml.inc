@@ -845,7 +845,7 @@ class o2html {
         if ($app->status_custom) {
             $c_txt     = jx_encode($app->status_custom);
             $c_txt_len = strlen($app->status_custom);
-            if ($app->status_custom{0} == '|') {
+            if ($app->status_custom[0] == '|') {
                 $custom_info = $info.'<div class="o2statustext">'.
                                jx_encode(substr($app->status_custom, 1)).'</div>';
                 }
@@ -3378,7 +3378,7 @@ class o2html {
                     }
                 $cssc = $ctrl->info_padre[7];
                 $cssc = ($cssc ?
-                         ($cssc{0} === ' ' ? $o2ctrl_obj->testa_class : '').$cssc :
+                         ($cssc[0] === ' ' ? $o2ctrl_obj->testa_class : '').$cssc :
                          $o2ctrl_obj->testa_class);
                 $code.= '<th o2="e:'.$o2ctrl_obj->id_esecuzione.
                            ",f:'".$o2ctrl_obj->form.
@@ -3539,13 +3539,13 @@ class o2html {
                 $client_vis  = $prg->custom_grids[$o2ctrl_obj->nome]["V"][$ctrl->nome];
                 // _____________________________________________________________ CELLA ___
                 $csst = ($info_css ?
-                         ($info_css{0} === ' ' ? $css_cella : '').$info_css :
+                         ($info_css[0] === ' ' ? $css_cella : '').$info_css :
                          $css_cella);
                 $cssc = ($info_css ?
-                        ($info_css{0} === ' ' ? $o2ctrl_obj->corpo_class : '').$info_css :
+                        ($info_css[0] === ' ' ? $o2ctrl_obj->corpo_class : '').$info_css :
                          $o2ctrl_obj->corpo_class);
                 $cssp = ($info_css ?
-                         ($info_css{0} === ' ' ? $o2ctrl_obj->sele_class : '').$info_css :
+                         ($info_css[0] === ' ' ? $o2ctrl_obj->sele_class : '').$info_css :
                          $o2ctrl_obj->sele_class);
                 print '<td class="'.$csst.'"'.
                       (($info_col_end - $info_col_start) ?
@@ -3671,7 +3671,7 @@ class o2html {
                                '"';
                 $cssc = $ctrl->info_padre[9];
                 $cssc = ($cssc ?
-                         ($cssc{0} === ' ' ? $o2ctrl_obj->footer_class : '').$cssc :
+                         ($cssc[0] === ' ' ? $o2ctrl_obj->footer_class : '').$cssc :
                          $o2ctrl_obj->footer_class);
                 print '<td class="'.$cssc.'"'.
                          (($ctrl->info_padre[2] - $ctrl->info_padre[1]) ?
