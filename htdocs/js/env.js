@@ -1605,9 +1605,10 @@ o2jse.ctrl.k = function(eventObj) {
 o2jse.ctrl.f = function(targetObj) {
 
     o2jse.ctrl.init(targetObj);
-    var objInfo = targetObj.o2;
+    var objInfo                        = targetObj.o2;
     o2jse.infoForm['o2lastform'].value = objInfo.f;
     o2jse.infoForm['o2lastctrl'].value = objInfo.c;
+    o2jse.ctrl.focusCtrl               = targetObj.name;
     if (objInfo.cT != "text" && targetObj.select) {
         targetObj.select();
         // ______________________________________ Prevent onMouseUp to unset selection ___
@@ -5648,6 +5649,7 @@ o2jse.lu.f = function(targetObj) {
         // ________________________________________________________ Reset TABbed value ___
         targetObj.tabbedValue = false;
         targetObj.pastedValue = false;
+        o2jse.ctrl.focusCtrl  = targetObj.name;
         }
 
     };
@@ -9687,7 +9689,15 @@ o2jse.cMenu.partnersA = [];    /* Registered "partners" adding items after std o
  */
 o2jse.cMenu.setOn = function(eventObj) {
 
-    var stdEvent       = o2jse.event.std(eventObj);
+    var stdEvent = o2jse.event.std(eventObj);
+    // __________________________________ Activated from user/devel info on status-bar ___
+    if ((stdEvent.target.className == 'o2statusinfo') && o2jse.ctrl.focusCtrl) {
+        stdEvent.target = document.getElementsByName(o2jse.ctrl.focusCtrl)[0];
+        }
+    // _________________________________________________ Activated from target control ___
+    else if (stdEvent.target.name) {
+        o2jse.ctrl.focusCtrl = stdEvent.target.name;
+        }
     o2jse.cMenu.target = stdEvent.target;
     if (o2jse.cMenu.loadItems()) {
         o2jse.cMenu.stdEdit(stdEvent);

@@ -839,7 +839,8 @@ class o2html {
                       '&nbsp;<img src="'.$app->runtime->alias.
                       'img/dev.png" width="12px" height="12px"> &nbsp;'.
                       $app->developer : '');
-        $info      = '<div class="o2statusinfo">'.$user_info.$dev_info.'</div>';
+        $info      = '<div class="o2statusinfo" onclick="o2jse.cMenu.setOn();">'.
+                     $user_info.$dev_info.'</div>';
         // _________________________________________________ Custom HTML on status-bar ___
         if ($app->status_custom) {
             $c_txt     = jx_encode($app->status_custom);
