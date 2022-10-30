@@ -1984,6 +1984,10 @@ class o2html {
                           ($time_local * 1000)."); </script>\n";
                     }
                 }
+            else {
+                print '<script> if(o2jse.jxRefresh) '.
+                      "{clearTimeout(o2jse.jxRefresh);} </script>\n";
+                }
             if ($o2form_obj->maximized) {
                 print "<script>o2jse.maximizedWin=['".$o2form_obj->nome."','".
                                                       $o2form_obj->id_esecuzione.
