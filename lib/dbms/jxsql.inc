@@ -105,7 +105,7 @@ class JXSQLparser {
         // ______________________________________ Parse command character by character ___
         while ($c < $len) {
             // _________________________________________________________ Get character ___
-            $ch = $sql{$c};
+            $ch = $sql[$c];
             // _________________________________________________ Check for parenthesis ___
             if ($ch == '(') {
                 $jxsql_function = null;
@@ -193,7 +193,7 @@ class JXSQLparser {
         $len       = strlen($mystr);
         while ($c < $len) {
             // _________________________________________________________ Get character ___
-            $ch = $mystr{$c};
+            $ch = $mystr[$c];
             // __________________________________ If there is another open parenthesis ___
             if ($ch == '(') {
                 // __________________________________________________ Up for one level ___
