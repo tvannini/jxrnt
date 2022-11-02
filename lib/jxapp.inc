@@ -349,7 +349,7 @@ class o2_app {
                 $this->session_id = "";
                 $chrs = "1234567890abcdefghijklmnopqrstuvwxyz";
                 for($i = 0; $i < 32; $i++) {
-                    $this->session_id.= $chrs{rand(0, 35)};
+                    $this->session_id.= $chrs[rand(0, 35)];
                     }
                 $this->alias = "";
                 // ______________________________________________ Set application name ___
