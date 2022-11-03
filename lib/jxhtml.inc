@@ -849,7 +849,7 @@ class o2html {
                 $custom_info = $info.'<div class="o2statustext">'.
                                jx_encode(substr($app->status_custom, 1)).'</div>';
                 }
-            elseif ($app->status_custom{$c_txt_len - 1} == '|') {
+            elseif ($app->status_custom[$c_txt_len - 1] == '|') {
                 $custom_info = '<div class="o2statustext">'.
                                jx_encode(substr($app->status_custom, 0, -1)).
                                '</div>'.$info;
