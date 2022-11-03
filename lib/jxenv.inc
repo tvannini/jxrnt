@@ -3239,8 +3239,9 @@ class o2_dbview extends o2_view {
         $qlfd_field = $c_o.$file.$c_c.".".$field->nome_fisico;
         $exp        = $field->min;
         // _____________________________________________________ Expression evaluation ___
-        $idx = count($prg->link_check);
+        $idx                   = count($prg->link_check);
         $prg->link_check[$idx] = true;
+        $prg->link_view[$idx]  = $this->nome;
         $valore_local          = false;
         eval("\$valore_local = ".$exp.";");
         // _______________ Constant JOIN criteria (no o2val() involved but "_SESSION") ___

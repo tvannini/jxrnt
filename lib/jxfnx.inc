@@ -97,13 +97,12 @@ function o2val($view_name, $field_name) {
                                o2error_UNKNOWNVIEW);
         }
     // ____ Tracing link criteria for SQL-LINK: excluded ones are treated as constants ___
-    if ($view_name != "prg§_§var" &&
+    $idx = (count($prg->link_check) - 1);
+    if ($view_name == $prg->link_view[$idx] &&
         $view_local->status != "I" &&
         !$view_local->modificato) {
-        $idx = (count($prg->link_check) - 1);
         if ($idx > -1) {
             $prg->link_field[$idx] = $field_name;
-            $prg->link_view[$idx]  = $view_name;
             $prg->link_check[$idx] = false;
             }
         }
