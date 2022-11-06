@@ -2842,7 +2842,7 @@ class o2_file {
 
 
     /**
-     * Se già non esiste crea il file fisico per la tabella come definita nel repository.
+     * Se già non esiste crea il file fisico per la tabella come definita nel repository.
      * Con $execute passato a FALSE ritorna lo script di creazione senza eseguirlo.
      *
      * @param  boolean $execute
@@ -6257,7 +6257,7 @@ class o2def {
 
     /**
      * Definisce un'applicazione per il contesto di interfaccia definito sulla runtime, di
-     * versione $release, e ne assicura la continuità  nella sessione.
+     * versione $release, e ne assicura la continuità nella sessione.
      *
      * @param string $release
      */
