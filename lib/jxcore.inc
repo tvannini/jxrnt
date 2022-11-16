@@ -37,9 +37,6 @@
  */
 
 
-new o2_runtime();
-
-
 /**
  * o2 exception class
  */
@@ -8320,5 +8317,8 @@ function read_func_def($text) {
     return $ret;
 
     }
+
+// _____________________________________________________ Create Janox runtime instance ___
+new o2_runtime();
 
 ?>

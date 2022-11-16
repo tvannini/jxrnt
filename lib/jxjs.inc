@@ -714,7 +714,7 @@ class jxjs {
             }
         foreach ($o2ctrl_obj->label as $label_index => $single_label) {
             // ___________________________________________________________ Active page ___
-            if ($o2ctrl_obj->valore == $label_index) {
+            if (intval($o2ctrl_obj->valore) == $label_index) {
                 // _______________________________________ If HTML code has to be sent ___
                 $send_all = !$o2ctrl_obj->sent_pages[$label_index];
                 if ($send_all) {

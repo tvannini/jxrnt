@@ -2906,7 +2906,7 @@ class o2html {
         $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
         $form_obj  = $prg_local->form[$o2ctrl_obj->form];
         foreach ($o2ctrl_obj->label as $label_index => $single_label) {
-            $active_page = ($o2ctrl_obj->valore == $label_index);
+            $active_page = (intval($o2ctrl_obj->valore) == $label_index);
             print '<div id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.
                   '_p'.$label_index.'" class="'.$o2ctrl_obj->css_spazio_in.'"'.
                   ($active_page ? '' : ' style="display:none;"').">\n";
