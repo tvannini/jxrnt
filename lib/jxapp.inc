@@ -2212,9 +2212,18 @@ class o2_app {
                 foreach ($single_prg->parametri as $par_id => $par) {
                     if ($calls[$single_id]['parametri'][$par_id - 1]) {
                         $par_val = $calls[$single_id]['parametri'][$par_id - 1]['valore'];
-                        $par_val = addcslashes((strlen($par_val) > 50 ?
-                                                substr($par_val, 0, 44).' [...]' :
-                                                $par_val), "'\\\r\n\"");
+                        if (is_bool($par_val) || is_numeric($par_val)) {
+                            $par_val = strval($par_val);
+                            }
+                        elseif (!is_string($par_val)) {
+                            $par_val = '[object]';
+                            }
+                        else {
+                            $par_val = addcslashes((strlen($par_val) > 50 ?
+                                                    substr($par_val, 0, 44).' [...]' :
+                                                    $par_val),
+                                       "'\\\r\n\"");
+                            }
                         }
                     else {
                         $par_val = $par->default;
