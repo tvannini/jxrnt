@@ -1759,6 +1759,7 @@ class o2_dbview extends o2_view {
     public $custom_where    = false;   /* Expression for custom WHERE code              */
     /*     _____ RECORDSET PAGING _____________________________________________________ */
     public $statement       = null;  /* PDO Statement opened on view (if any)           */
+    public $no_fetch        = false; /* Stop fetching for excluded recs (no-SQL filters)*/
     public $offset_ini      = 0;     /* First recordset row index in whole file         */
     public $offset_fine     = 0;     /* Last recordset row index in whole file          */
     public $direzione       = 0;     /* Records retrieving direction:
@@ -3649,6 +3650,22 @@ class o2_dbview extends o2_view {
                         break;
                         }
                     }
+                /*
+                 * Set off fetching for view when records are excluded by extra criteria
+                 * (formulas and no-JOIN links), because statement cursor is beyond last
+                 * added record, so we need to restart paging by WHERE clause.
+                 */
+                elseif (!$this->no_fetch) {
+                    $view_id = $this->nome.$this->id_esecuzione;
+                    if (isset($GLOBALS['o2_'.$view_obj->file->db->server->type.'_stms']
+                                      [$view_id])) {
+                        $GLOBALS['o2_'.$view_obj->file->db->server->type.'_stms']
+                                [$view_id]->closeCursor();
+                        unset($GLOBALS['o2_'.$view_obj->file->db->server->type.'_stms']
+                                      [$view_id]);
+                        }
+                    $this->no_fetch = true;
+                    }
                 }
             // _________________________________________________ If forward retrieving ___
             if ($forward) {
@@ -3855,7 +3872,7 @@ class o2_dbview extends o2_view {
         $select_str = ($this->select_str[$file_name] ?
                        $this->select_str[$file_name] :
                        "*");
-        $fetch_loop = $app->fetch_loop;
+        $fetch_loop = $app->fetch_loop && !$this->no_fetch;
         // ______________________________________________________ Merge SELECT strings ___
         foreach ($this->files as $linkidx => $linktab) {
             if ($linkidx != $this->file->indice && $linktab->link_by_sql) {
