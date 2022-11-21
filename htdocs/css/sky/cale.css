@@ -1,16 +1,16 @@
-/* ______________________ CALENDAR ________________________ */
+/* ______________________ JAVASCRIPT CALENDAR ________________________ */
 .caleBox {
 	border: 2px ridge #19181A;
 	background-color: #D3D3D3;
 	padding: 3px 3px 3px 3px;
 	}
-	
+
 .caleFrame {
 	padding: 5px 5px 5px 5px;
 	border-collapse: separate;
 	border-spacing: 0px;
 	}
-	
+
 .caleLabel {
 	color: #19181A;
 	font: normal 11px Arial, sans-serif;
@@ -29,7 +29,7 @@
 	margin: 0 0 0 0;
 	padding: 3px 0 3px 0;
 	}
-	
+
 .caleImBtn {
 	color: #990000;
 	font: bold 11px Arial, sans-serif;
@@ -38,7 +38,7 @@
 	cursor: pointer;
 	text-align: center;
 	}
-	
+
 .caleDmBtn {
 	color: #990000;
 	font: bold 11px Arial, sans-serif;
@@ -47,23 +47,83 @@
 	cursor: pointer;
 	text-align: center;
 	}
-	
+
 .caleTodayBtn {
 	background-image: url(tools/cale_today.gif);
 	background-position: center;
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	border: none;
 	background-color: transparent;
 	width: 40px;
 	cursor: pointer;
 	}
-	
+
 .caleCloseBtn {
 	background-image: url(tools/cale_close.gif);
 	background-position: center;
-	background-repeat: no-repeat; 
+	background-repeat: no-repeat;
 	border: none;
 	background-color: transparent;
 	width: 15px;
 	cursor: pointer;
 	}
+
+/* ______________________ FULL CALENDAR ________________________ */
+
+.jxCal {
+	width: 100%;
+	height: 100%;
+	border-collapse: collapse;
+	table-layout: fixed
+	}
+
+.jxCal th {
+    max-height: 30px;
+	border: 1px solid var(--jx-color-border);
+	border-top: none;
+	background-color: rgba(68, 140, 214, .5);
+    }
+
+.jxCal td {
+	border: 1px solid var(--jx-color-border);
+	vertical-align: top;
+	text-align: left;
+	overflow: hidden;
+    }
+
+.jxCalDayNum {
+	font-weight: bold;
+	padding: 3px;
+    }
+
+.jxCalFest .jxCalDayNum {
+	color: rgb(255, 0, 0);
+	}
+
+.jxCalToday {
+	background-color: rgba(68, 140, 214, .5);
+	}
+
+.jxCalOff {
+	opacity: 30%;
+	}
+
+.jxCalEvents {
+	padding: 0;
+	margin: 0;
+	}
+
+.jxCalEvent {
+	list-style: none;
+    white-space: nowrap;
+	width: 100%;
+	}
+
+.jxCalP {
+	background-color: rgba(201, 164, 235, 0.5);
+	}
+
+.jxCalU {
+	background-color: rgba(218, 176, 148, 0.5);
+	}
+

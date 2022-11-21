@@ -327,4 +327,20 @@ o2def::tab("jx_otp", "default", "jx_otp", "code");
 	o2def::nuindex("user", "user","A");
 	o2def::nuindex("time", "create_time","D");
 
+o2def::tab("jx_calendar_events", "default", "jx_calendar_events", "id");
+
+	o2def::field("event_id", "event_id", "jxcal_event_id");
+	o2def::field("event_user", "event_user", "jxuser");
+	o2def::field("event_type", "event_type", "jxcal_event_type");
+	o2def::field("event_date", "event_date", "o2sys_long_date");
+	o2def::field("event_time", "event_time", "o2sys_short_time");
+	o2def::field("event_title", "event_title", "o2sys_long_str");
+	o2def::field("event_note", "event_note", "_o2text");
+	o2def::field("whole_day", "whole_day", "_o2logical");
+
+	o2def::index("id", "event_id","A");
+
+	o2def::nuindex("user", "event_type","A", "event_user","A", "event_date","A", "event_time","A");
+	o2def::nuindex("date_time", "event_type","A", "event_date","A", "event_time","A");
+
 ?>

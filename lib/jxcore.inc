@@ -6742,7 +6742,8 @@ endofjxmsg;
                      'jx_translations',
                      'jx_access_log',
                      'jx_asp_areas',
-                     'jx_otp');
+                     'jx_otp',
+                     'jx_calendar_events');
 
         }
 
