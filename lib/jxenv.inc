@@ -5611,7 +5611,8 @@ class o2_dbview extends o2_view {
             if ($app->tables_log &&
                 (!isset($GLOBALS['jxlogsuspend']) ||
                  !in_array($this->file->repos_index, $GLOBALS['jxlogsuspend'])) &&
-                (strpos('DEM', strval($this->file->log_level)) !== false)) {
+                 $this->file->log_level &&
+                 (strpos('DEM', strval($this->file->log_level)) !== false)) {
                 $this->file->log_write_full("D", $prev_key);
                 }
             o2_gateway::deleterec($this->file->db->server->type,
