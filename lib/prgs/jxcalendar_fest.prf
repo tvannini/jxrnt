@@ -1,0 +1,309 @@
+<?php
+
+function jxcalendar_fest§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("edit_new", "_o2logical");
+	$task_prg§_§var->definisci("festivities", "_o2structure");
+	$task_prg§_§var->definisci("festivity", "_o2number");
+	$task_prg§_§var->definisci("lang", "_o2alpha");
+	$task_prg§_§var->definisci("new_fest_date", "o2sys_long_date");
+	$task_prg§_§var->definisci("new_fest_desc", "o2sys_long_str");
+		}
+
+function jxcalendar_fest§§festivities_def(&$task_festivities, $_o2viewalias = "") {
+	$task_festivities->righe_vis = 10;
+
+	$task_festivities->usa_file("jx_calendar_events","jx_calendar_events","date_time",null,null);
+
+	$task_festivities->usa("event_id","jx_calendar_events","event_id",null,null,null,null);
+	$task_festivities->usa("event_type","jx_calendar_events","event_type","jxcalendar_fest_exp_1()","jxcalendar_fest_exp_1()",null,null);
+	$task_festivities->usa("event_date","jx_calendar_events","event_date",null,null,null,null);
+	$task_festivities->usa("event_title","jx_calendar_events","event_title",null,null,null,null);
+	$task_festivities->usa("whole_day","jx_calendar_events","whole_day",null,null,null,null);
+}
+
+function jxcalendar_fest§§fest_id_def(&$task_fest_id, $_o2viewalias = "") {
+	$task_fest_id->righe_vis = 10;
+
+	$task_fest_id->usa_file("jx_calendar_events","jx_calendar_events","id",null,null);
+
+	$task_fest_id->usa("event_id","jx_calendar_events","event_id",null,null,null,null);
+}
+
+function jxcalendar_fest§§fest_delete_def(&$task_fest_delete, $_o2viewalias = "") {
+	$task_fest_delete->righe_vis = 10;
+
+	$task_fest_delete->usa_file("jx_calendar_events","jx_calendar_events","id",null,null);
+
+	$task_fest_delete->usa("event_id","jx_calendar_events","event_id","jxcalendar_fest_exp_17()","jxcalendar_fest_exp_17()",null,null);
+}
+function jxcalendar_fest§§jxcalendar_fest_form_def(&$form_jxcalendar_fest) {
+	$form_jxcalendar_fest->x(200);
+	$form_jxcalendar_fest->y(100);
+	$form_jxcalendar_fest->larghezza(400);
+	$form_jxcalendar_fest->altezza(400);
+	$form_jxcalendar_fest->align_o("Center");
+	$form_jxcalendar_fest->titolo(jxcalendar_fest_exp_19());
+	$ctrl_o2separator2 = &$form_jxcalendar_fest->ctrldef("o2separator2", "line", "", "", "");
+		$ctrl_o2separator2->x(10);
+		$ctrl_o2separator2->y(300);
+		$ctrl_o2separator2->larghezza(380);
+		$ctrl_o2separator2->altezza(5);
+		$ctrl_o2separator2->expand("H");
+	$ctrl_o2label2 = &$form_jxcalendar_fest->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(10);
+		$ctrl_o2label2->y(210);
+		$ctrl_o2label2->larghezza(380);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->label(jxcalendar_fest_exp_14());
+	$ctrl_o2label3 = &$form_jxcalendar_fest->ctrldef("o2label3", "label", "", "", "");
+		$ctrl_o2label3->x(10);
+		$ctrl_o2label3->y(240);
+		$ctrl_o2label3->larghezza(80);
+		$ctrl_o2label3->altezza(20);
+		$ctrl_o2label3->label(jxcalendar_fest_exp_15());
+	$ctrl_o2label4 = &$form_jxcalendar_fest->ctrldef("o2label4", "label", "", "", "");
+		$ctrl_o2label4->x(10);
+		$ctrl_o2label4->y(270);
+		$ctrl_o2label4->larghezza(80);
+		$ctrl_o2label4->altezza(20);
+		$ctrl_o2label4->label(jxcalendar_fest_exp_16());
+	$ctrl_o2label5 = &$form_jxcalendar_fest->ctrldef("o2label5", "label", "", "", "");
+		$ctrl_o2label5->x(170);
+		$ctrl_o2label5->y(240);
+		$ctrl_o2label5->larghezza(220);
+		$ctrl_o2label5->altezza(20);
+		$ctrl_o2label5->expand("H");
+		$ctrl_o2label5->label(jxcalendar_fest_exp_18());
+	$ctrl_o2button2 = &$form_jxcalendar_fest->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(300);
+		$ctrl_o2button2->y(260);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->modificabile(jxcalendar_fest_exp_7());
+		$ctrl_o2button2->azione("create_fest");
+		$ctrl_o2button2->label(jxcalendar_fest_exp_4());
+	$ctrl_o2htmlarea2 = &$form_jxcalendar_fest->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(30);
+		$ctrl_o2htmlarea2->y(330);
+		$ctrl_o2htmlarea2->larghezza(200);
+		$ctrl_o2htmlarea2->altezza(20);
+		$ctrl_o2htmlarea2->expand("H");
+	$ctrl_o2button3 = &$form_jxcalendar_fest->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(300);
+		$ctrl_o2button3->y(325);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("close");
+		$ctrl_o2button3->label(jxcalendar_fest_exp_5());
+	$ctrl_o2edit2 = &$form_jxcalendar_fest->ctrldef("o2edit2", "edit", "", "prg§_§var", "new_fest_date");
+		$ctrl_o2edit2->x(90);
+		$ctrl_o2edit2->y(240);
+		$ctrl_o2edit2->larghezza(70);
+		$ctrl_o2edit2->altezza(20);
+		$ctrl_o2edit2->azione("edit_new");
+		$ctrl_o2edit2->on_change(jxcalendar_fest_exp_9998());
+	$ctrl_o2edit3 = &$form_jxcalendar_fest->ctrldef("o2edit3", "edit", "", "prg§_§var", "new_fest_desc");
+		$ctrl_o2edit3->x(90);
+		$ctrl_o2edit3->y(270);
+		$ctrl_o2edit3->larghezza(200);
+		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->expand("H");
+		$ctrl_o2edit3->azione("edit_new");
+		$ctrl_o2edit3->on_change(jxcalendar_fest_exp_9998());
+	$ctrl_o2imglist2 = &$form_jxcalendar_fest->ctrldef("o2imglist2", "imglist", "", "prg§_§var", "festivity");
+		$ctrl_o2imglist2->x(0);
+		$ctrl_o2imglist2->y(0);
+		$ctrl_o2imglist2->larghezza(400);
+		$ctrl_o2imglist2->altezza(200);
+		$ctrl_o2imglist2->expand("B");
+		$ctrl_o2imglist2->delete("delete_fest");
+		$ctrl_o2imglist2->items(jxcalendar_fest_exp_2());
+		}
+
+function jxcalendar_fest§§add_fest_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "festivities", jxcalendar_fest_exp_9()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_fest§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_fest§§create_fest_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("festivities", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("fest_id", "4", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("festivities", "event_id", jxcalendar_fest_exp_12()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("festivities", "event_type", jxcalendar_fest_exp_1()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("festivities", "event_date", jxcalendar_fest_exp_10()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("festivities", "event_title", jxcalendar_fest_exp_11()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("festivities", "whole_day", jxcalendar_fest_exp_9998()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::view("festivities", "S", "") && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "new_fest_date", jxcalendar_fest_exp_13()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "new_fest_desc", jxcalendar_fest_exp_13()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::exe("load_fest", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_fest§§delete_fest_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("fest_delete", "C", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "festivities", jxcalendar_fest_exp_8()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("load_fest", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_fest§§edit_new_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "edit_new", jxcalendar_fest_exp_6()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_fest§§load_fest_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::exe("add_fest", False, "festivities") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_fest§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "lang", jxcalendar_fest_exp_3()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "festivities", jxcalendar_fest_exp_8()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::exe("load_fest", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_fest_exp_1() {
+	
+return ('F');
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_2() {
+	
+return (o2val('prg§_§var','festivities'));
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_3() {
+	$lang = strtolower($_SESSION['o2_app']->option_get('cli_lang'));
+if ($lang != 'it') {
+   $lang = 'en';
+   }
+return ($lang);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_4() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $add = '&Aggiungi';
+   }
+else {
+   $add = '&Add';
+   }
+return ($add);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_5() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $c = '&Chiudi';
+   }
+else {
+   $c = '&Close';
+   }
+return ($c);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_6() {
+	
+return (!o2zero('prg§_§var','new_fest_date') && !o2zero('prg§_§var','new_fest_desc'));
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_7() {
+	
+return (o2val('prg§_§var','edit_new'));
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_8() {
+	
+return (array());
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_9() {
+	$list      = o2val('prg§_§var','festivities');
+$id        = o2val('festivities','event_id');
+$date      = date_create(o2val('festivities','event_date'));
+$list[$id] = [o2rnt_alias().'img/data_error.png', 
+              '<div style="line_height: 150%; padding: 5px;"><div style="font-size: 120%; font-weight: bold;">'.
+              $date->format('j F').'</div><div>'.
+              o2val('festivities','event_title').'</div></div>'];
+return ($list);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_10() {
+	
+return ('0000'.substr(o2val('prg§_§var','new_fest_date'), 4));
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_11() {
+	
+return (o2val('prg§_§var','new_fest_desc'));
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_12() {
+	
+return (o2val('fest_id','event_id') + 1);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_13() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_14() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $l = 'Aggiungi una nuova festività al calendario';
+   }
+else {
+   $l = 'Add new festivity to calendar';
+   }
+return ($l);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_15() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $d = 'Data:';
+   }
+else {
+   $d = 'Date:';
+   }
+return ($d);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_16() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $f = 'Festività:';
+   }
+else {
+   $f = 'Festivity:';
+   }
+return ($f);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_17() {
+	
+return (o2val('prg§_§var','festivity'));
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_18() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $n = "(L'annno è irrilevante)";
+   }
+else {
+   $n = "(The year does not matter)";
+   }
+return ($n);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_19() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $t = 'Festività del calendario'; 
+   }
+else {
+   $t = 'Calendar festivities';
+   }
+return ($t);
+	} //|o2_fine_exp|
+
+function jxcalendar_fest_exp_9998() {
+	
+return (true);
+	} //|o2_fine_exp|
+?>

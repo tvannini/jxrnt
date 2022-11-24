@@ -798,3 +798,83 @@
     border-top: 1px solid #3d3d3d;
     border-bottom: 1px solid #3d3d3d;
     }
+
+.btn_menu {
+    }
+
+.btn_menu_field {
+    color: transparent;
+    text-align: center;
+    background-color: var(--jx-color-face);
+    background-image: url(tools/btn/menu.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid var(--jx-color-border);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color .2s .1s;
+    }
+
+.btn_menu_field:hover {
+    color: transparent;
+    text-align: center;
+    background-color: var(--jx-color-on);
+    background-image: url(tools/btn/menu.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid var(--jx-color-border);
+    border-radius: 3px;
+    cursor: pointer;
+    }
+
+.btn_menu_field:focus {
+    color: transparent;
+    text-indent:-9999px;
+    background-color: var(--jx-color-on);
+    background-image: url(tools/btn/menu.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid var(--jx-color-border);
+    border-radius: 3px;
+    cursor: pointer;
+    }
+
+
+.btn_menu_handler {
+    background-color: transparent;
+    background-image: url(tools/btn/menu.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    }
+
+.btn_menu_list {
+    padding: 1px 3px 1px 3px;
+    background-color: var(--jx-color-form);
+    border: 1px solid var(--jx-color-border);
+    border-top-color: var(--jx-color-form);
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: 0px 6px 10px #6B6661;
+    cursor: pointer;
+    }
+
+.btn_menu_list div {
+    padding: 1px 3px 1px 3px;
+    border-bottom: none;
+    line-height: 24px;
+    cursor: pointer;
+    }
+
+.btn_menu_list div:hover {
+    padding: 1px 3px 1px 3px;
+    background-color: #cccccc;
+    border-bottom: none;
+    line-height: 24px;
+    cursor: pointer;
+    }
+
