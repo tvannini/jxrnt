@@ -530,6 +530,19 @@
     height: 24px;
     }
 
+.jxbtn_delete, .jxbtn_delete:hover, .jxbtn_delete:focus {
+    text-align: left;
+    }
+
+.jxbtn_delete:before {
+    content: url("tools/stock/delete.png");
+    float: left;
+    margin-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    height: 24px;
+    }
+
 
 /* File system browser */
 
