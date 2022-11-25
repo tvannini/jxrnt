@@ -87,12 +87,6 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2edit2->expand("H");
 		$ctrl_o2edit2->modificabile(jxcalendar_event_exp_31());
 		$ctrl_o2edit2->on_change(jxcalendar_event_exp_9998());
-	$ctrl_o2htmlarea2 = &$form_jxcalendar_event->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
-		$ctrl_o2htmlarea2->x(50);
-		$ctrl_o2htmlarea2->y(290);
-		$ctrl_o2htmlarea2->larghezza(200);
-		$ctrl_o2htmlarea2->altezza(20);
-		$ctrl_o2htmlarea2->expand("H");
 	$ctrl_o2edit3 = &$form_jxcalendar_event->ctrldef("o2edit3", "edit", "", "event", "event_date");
 		$ctrl_o2edit3->x(120);
 		$ctrl_o2edit3->y(80);
@@ -149,6 +143,21 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2ListBox2->modificabile(jxcalendar_event_exp_26());
 		$ctrl_o2ListBox2->valori(jxcalendar_event_exp_25());
 		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2button4 = &$form_jxcalendar_event->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(20);
+		$ctrl_o2button4->y(290);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->azione("delete");
+		$ctrl_o2button4->label(jxcalendar_event_exp_32());
+		$ctrl_o2button4->confirm_message(jxcalendar_event_exp_33());
+		$ctrl_o2button4->css(jxcalendar_event_exp_35());
+	$ctrl_o2htmlarea2 = &$form_jxcalendar_event->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(150);
+		$ctrl_o2htmlarea2->y(300);
+		$ctrl_o2htmlarea2->larghezza(170);
+		$ctrl_o2htmlarea2->altezza(20);
+		$ctrl_o2htmlarea2->expand("H");
 		}
 
 function jxcalendar_event§§cancel_act(&$o2exe) {
@@ -160,6 +169,12 @@ function jxcalendar_event§§create_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::view("event_id", "4", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("event", "event_id", jxcalendar_event_exp_18()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("event", "event_type", jxcalendar_event_exp_19()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_event§§delete_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::view("event_id", "C", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::alert(jxcalendar_event_exp_34(), 2) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
 function jxcalendar_event§§prepare_new_event_act(&$o2exe) {
@@ -422,6 +437,41 @@ return ($e);
 function jxcalendar_event_exp_31() {
 	
 return (o2val('prg§_§var','edit'));
+	} //|o2_fine_exp|
+
+function jxcalendar_event_exp_32() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $del = '&Elimina';
+   }
+else {
+   $del = '&Delete';
+   }
+return ($del);
+	} //|o2_fine_exp|
+
+function jxcalendar_event_exp_33() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $msg = 'Sicuro di voler eliminare l\'evento "'.o2val('event','event_title').'"?';
+   }
+else {
+   $msg = 'Are you sure you want to delete the event "'.o2val('event','event_title').'"?';
+   }
+return ($msg);
+	} //|o2_fine_exp|
+
+function jxcalendar_event_exp_34() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $msg = 'Evento eliminato';
+   }
+else {
+   $msg = 'Event deleted';
+   }
+return ($msg);
+	} //|o2_fine_exp|
+
+function jxcalendar_event_exp_35() {
+	
+return (' jxbtn_delete');
 	} //|o2_fine_exp|
 
 function jxcalendar_event_exp_9998() {

@@ -13,6 +13,7 @@ o2def::view("event", false, "", "", 0, 0);
 o2def::view("event_id", false, "", "", 0, 0);
 o2def::act("cancel");
 o2def::act("create");
+o2def::act("delete");
 o2def::act("prepare_new_event");
 o2def::act("save");
 o2def::act("set_editable");
