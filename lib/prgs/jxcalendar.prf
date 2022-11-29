@@ -305,7 +305,6 @@ $wday       = (($date->format('w') == 0) ? 6 : $date->format('w') - 1);
 $month_days = (int) $date->format('t');
 $today      = new DateTime();
 $days       = o2val('prg§_§var','days');
-$months     = o2val('prg§_§var','months');
 $fests      = o2val('prg§_§var','festivities');
 $size       = o2val('prg§_§var','size');
 $fsize      = 'font-size:'.
@@ -373,7 +372,8 @@ return ($html);
 
 function jxcalendar_exp_12() {
 	$date  = o2val('prg§_§var','date');
-$title = ucfirst($date->format('F')).' '.$date->format('Y');
+$m     = o2val('prg§_§var','months');
+$title = $m[intval($date->format('n')) - 1][0].' '.$date->format('Y');
 return ($title);
 	} //|o2_fine_exp|
 
@@ -403,21 +403,6 @@ return ($days);
 
 function jxcalendar_exp_14() {
 	if (o2val('prg§_§var','lang') == 'it') {
-   $months = [['January',   'Jan'], 
-              ['February',  'Feb'], 
-              ['March',     'Mar'], 
-              ['April',     'Apr'], 
-              ['May',       'May'],
-              ['June',      'Jun'],
-              ['July',      'Jul'],
-              ['August',    'Aug'],
-              ['September', 'Sep'],
-              ['October',   'Oct'],
-              ['November',  'Nov'],
-              ['December',  'Dec']
-             ];
-   }
-else {
    $months = [['Gennaio',   'Gen'], 
               ['Febbraio',  'Feb'], 
               ['Marzo',     'Mar'], 
@@ -430,6 +415,21 @@ else {
               ['Ottobre',   'Ott'],
               ['Novembre',  'Nov'],
               ['Dicembre',  'Dic']
+             ];
+   }
+else {
+   $months = [['January',   'Jan'], 
+              ['February',  'Feb'], 
+              ['March',     'Mar'], 
+              ['April',     'Apr'], 
+              ['May',       'May'],
+              ['June',      'Jun'],
+              ['July',      'Jul'],
+              ['August',    'Aug'],
+              ['September', 'Sep'],
+              ['October',   'Oct'],
+              ['November',  'Nov'],
+              ['December',  'Dec']
              ];
    }
 return ($months);
