@@ -148,6 +148,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2button4->y(290);
 		$ctrl_o2button4->larghezza(90);
 		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->modificabile(jxcalendar_event_exp_36());
 		$ctrl_o2button4->azione("delete");
 		$ctrl_o2button4->label(jxcalendar_event_exp_32());
 		$ctrl_o2button4->confirm_message(jxcalendar_event_exp_33());
@@ -472,6 +473,11 @@ return ($msg);
 function jxcalendar_event_exp_35() {
 	
 return (' jxbtn_delete');
+	} //|o2_fine_exp|
+
+function jxcalendar_event_exp_36() {
+	
+return (!o2zero('event','event_id'));
 	} //|o2_fine_exp|
 
 function jxcalendar_event_exp_9998() {
