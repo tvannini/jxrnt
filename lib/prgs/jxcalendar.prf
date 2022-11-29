@@ -238,7 +238,7 @@ function jxcalendar_exp_1() {
 if ($fw == 0) {
    $fw = 400;
    }
-$size = ($fw > 1000 ? 'L' : ($fw < 300 ? 'S' : 'M'));
+$size = ($fw > 800 ? 'L' : ($fw < 300 ? 'S' : 'M'));
 return ($size);
 	} //|o2_fine_exp|
 
@@ -308,7 +308,7 @@ $days       = o2val('prg§_§var','days');
 $fests      = o2val('prg§_§var','festivities');
 $size       = o2val('prg§_§var','size');
 $fsize      = 'font-size:'.
-              ($size == 'S' ? '75%' : ($size == 'M' ? '100%' : '120%')).
+              ($size == 'S' ? '75%' : ($size == 'M' ? '90%' : '110%')).
               ';';
 $html       = '<table class="jxCal"><thead><tr class="calendar-header">';
 foreach ($days as $day) {
