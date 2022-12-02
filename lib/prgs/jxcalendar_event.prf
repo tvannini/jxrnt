@@ -452,10 +452,10 @@ return ($del);
 
 function jxcalendar_event_exp_33() {
 	if (o2val('prg§_§var','lang') == 'it') {
-   $msg = 'Sicuro di voler eliminare l\'evento "'.o2val('event','event_title').'"?';
+   $msg = 'Sicuro di voler eliminare l\'evento '.o2val('event','event_title').'?';
    }
 else {
-   $msg = 'Are you sure you want to delete the event "'.o2val('event','event_title').'"?';
+   $msg = 'Are you sure you want to delete the event '.o2val('event','event_title').'?';
    }
 return ($msg);
 	} //|o2_fine_exp|
