@@ -14,6 +14,10 @@
     overflow: hidden;
     }
 
+table.o2_form_titlebar_no + div.o2_form_body {
+    opacity: 60%;
+    }
+
 .open_body {
     border-top: none;
     }
