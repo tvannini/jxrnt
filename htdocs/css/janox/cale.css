@@ -84,7 +84,7 @@
 	background-color: var(--jx-color-face);
     }
 
-.jxCal td {
+.jxCalDay {
 	border: 1px solid var(--jx-color-border);
 	vertical-align: top;
 	text-align: left;
@@ -96,6 +96,19 @@
 	font-weight: bold;
 	padding: 3px;
     }
+
+.jxCalHour {
+	border: 1px solid var(--jx-color-border);
+	overflow: hidden;
+	cursor: pointer;
+    }
+
+.jxCalHour:first-child {
+	width: 60px;
+	padding-left: 10px;
+	vertical-align: top;
+	font-weight: bold;
+	}
 
 .jxCalFest .jxCalDayNum {
 	color: rgb(255, 0, 0);
@@ -112,6 +125,9 @@
 .jxCalEvents {
 	padding: 0;
 	margin: 0;
+	}
+
+.jxCalDay .jxCalEvents {
 	height: 20px;
 	}
 
@@ -136,4 +152,9 @@
 
 .jxCalO {
 	background-color: #fdff7c;
+	}
+
+.jxCalF {
+	background-color: #e299ff;
+	cursor: auto;
 	}

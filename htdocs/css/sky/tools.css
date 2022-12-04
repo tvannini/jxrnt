@@ -237,6 +237,22 @@
     margin-left: 3px;
     }
 
+.sys_calendar_doc {
+    background: #C5D2ED;
+    background: -moz-linear-gradient(top, #ffffff, #C5D2ED);
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#C5D2ED));
+    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ffffff', EndColorStr='#C5D2ED');
+    line-height: 1px;
+    width: 24px;
+    border-top-left-radius: 5px;
+    cursor: pointer;
+    }
+
+.sys_calendar_doc:before {
+    content: url(tools/doc_calendar.png);
+    margin-left: 3px;
+    }
+
 .sys_alert_doc {
     background: #9bb2e0;
     background: -moz-linear-gradient(top, #d7e1f2, #9bb2e0);

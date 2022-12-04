@@ -157,6 +157,17 @@
     transition: opacity .2s .1s;
     }
 
+.sys_calendar_doc {
+    background-image: url(tools/doc_calendar.png);
+    background-repeat: no-repeat;
+    background-position: center 6px;
+    background-color: transparent;
+    width: 20px;
+    cursor: pointer;
+    opacity: .7;
+    transition: opacity .2s .1s;
+    }
+
 .sys_users_doc:hover,
 .sys_rights_doc:hover,
 .sys_right_doc:hover,
@@ -170,7 +181,8 @@
 .sys_sched_doc:hover,
 .sys_inspector_doc:hover,
 .sys_jxdoc_doc:hover,
-.sys_jxdoctool_doc:hover {
+.sys_jxdoctool_doc:hover,
+.sys_calendar_doc:hover {
     opacity: 1;
     }
 

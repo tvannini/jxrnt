@@ -44,6 +44,7 @@ function jxcalendar_fest§§jxcalendar_fest_form_def(&$form_jxcalendar_fest) {
 	$form_jxcalendar_fest->altezza(400);
 	$form_jxcalendar_fest->align_o("Center");
 	$form_jxcalendar_fest->titolo(jxcalendar_fest_exp_19());
+	$form_jxcalendar_fest->css_doc("sys_calendar_doc");
 	$ctrl_o2separator2 = &$form_jxcalendar_fest->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(10);
 		$ctrl_o2separator2->y(300);

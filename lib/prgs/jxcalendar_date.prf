@@ -1,0 +1,99 @@
+<?php
+
+function jxcalendar_date§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("date", "o2sys_long_date");
+	$task_prg§_§var->definisci("lang", "_o2alpha");
+		}
+function jxcalendar_date§§jxcalendar_date_form_def(&$form_jxcalendar_date) {
+	$form_jxcalendar_date->x(300);
+	$form_jxcalendar_date->y(100);
+	$form_jxcalendar_date->larghezza(300);
+	$form_jxcalendar_date->altezza(202);
+	$form_jxcalendar_date->align_o("Center");
+	$form_jxcalendar_date->titolo(jxcalendar_date_exp_2());
+	$form_jxcalendar_date->css_doc("sys_calendar_doc");
+	$ctrl_o2label2 = &$form_jxcalendar_date->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(30);
+		$ctrl_o2label2->y(40);
+		$ctrl_o2label2->larghezza(120);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->label(jxcalendar_date_exp_3());
+	$ctrl_o2separator2 = &$form_jxcalendar_date->ctrldef("o2separator2", "line", "", "", "");
+		$ctrl_o2separator2->x(30);
+		$ctrl_o2separator2->y(80);
+		$ctrl_o2separator2->larghezza(230);
+		$ctrl_o2separator2->altezza(10);
+	$ctrl_o2edit2 = &$form_jxcalendar_date->ctrldef("o2edit2", "edit", "", "prg§_§var", "date");
+		$ctrl_o2edit2->x(160);
+		$ctrl_o2edit2->y(40);
+		$ctrl_o2edit2->larghezza(100);
+		$ctrl_o2edit2->altezza(20);
+	$ctrl_o2button2 = &$form_jxcalendar_date->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(170);
+		$ctrl_o2button2->y(110);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->azione("select");
+		$ctrl_o2button2->label(jxcalendar_date_exp_5());
+		$ctrl_o2button2->css(jxcalendar_date_exp_4());
+		}
+
+function jxcalendar_date§§select_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::ret(1, jxcalendar_date_exp_6()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_date§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "lang", jxcalendar_date_exp_1()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "date", jxcalendar_date_exp_7()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_date_exp_1() {
+	$lang = strtolower($_SESSION['o2_app']->option_get('cli_lang'));
+if ($lang != 'it') {
+   $lang = 'en';
+   }
+return ($lang);
+	} //|o2_fine_exp|
+
+function jxcalendar_date_exp_2() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $t = 'Scegli una data';
+   }
+else {
+   $t = 'Select a date';
+   }
+return ($t);
+	} //|o2_fine_exp|
+
+function jxcalendar_date_exp_3() {
+	
+return (o2exp(2).':');
+	} //|o2_fine_exp|
+
+function jxcalendar_date_exp_4() {
+	
+return (' jxbtn_save');
+	} //|o2_fine_exp|
+
+function jxcalendar_date_exp_5() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $ok = 'Seleziona';
+   }
+else {
+   $ok = 'Select';
+   }
+return ($ok);
+	} //|o2_fine_exp|
+
+function jxcalendar_date_exp_6() {
+	
+return (o2val('prg§_§var','date'));
+	} //|o2_fine_exp|
+
+function jxcalendar_date_exp_7() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+?>

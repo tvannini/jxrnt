@@ -11,7 +11,7 @@ o2def::model("jxaccess_flag", "A", "U1[In|Out|Failed|Expired]", "");
 o2def::model("jxcal_event_id", "N", "8Z", "");
 o2def::model("jxcal_event_type", "A", "U1[Event|Festivity]", "");
 o2def::model("jxcal_size", "A", "U1[Small|Medium|Large]", "");
-o2def::model("jxcal_view", "A", "U1[Week|Month|Year]", "");
+o2def::model("jxcal_view", "A", "U1[Day|Week|Month|Year]", "");
 o2def::model("jxhost", "A", "U50", "");
 o2def::model("jxjob_block_mode", "A", "U1[Block|Queue]", "");
 o2def::model("jxjob_desc", "A", "C250", "");

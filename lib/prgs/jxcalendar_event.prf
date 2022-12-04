@@ -36,6 +36,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 	$form_jxcalendar_event->altezza(370);
 	$form_jxcalendar_event->align_o("Center");
 	$form_jxcalendar_event->titolo(jxcalendar_event_exp_2());
+	$form_jxcalendar_event->css_doc("sys_calendar_doc");
 	$form_jxcalendar_event->close_action("cancel");
 	$ctrl_o2label3 = &$form_jxcalendar_event->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(20);

@@ -164,6 +164,17 @@
     cursor: pointer;
     }
 
+.sys_calendar_doc {
+    background-image: url(tools/doc_calendar.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: var(--jx-color-face);
+    width: 30px;
+    line-height: 1px;
+    border-top-left-radius: 4px;
+    cursor: pointer;
+    }
+
 .sys_alert_doc {
     background: #e0ddd9;
     width: 30px;
