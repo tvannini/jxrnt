@@ -130,18 +130,13 @@ function o2_mssql_connect($server, $user, $password, $trans) {
     // ____________________________________ Isolated transaction: start new connection ___
     if ($app->isolated_trans) {
         $key  = $server.$user."jxext";
-        $pers = false;
         }
     // _____________________________ In current transaction: use persistent connection ___
     else {
         $key  = $server.$user;
-        $pers = true;
         }
-    // _________________________________ Disable pers-conn due to crashes in sqlsrv3.0 ___
-    $pers = false;
     // _____________________________________________________ Set connection attributes ___
-    $attr = array(PDO::ATTR_PERSISTENT      => $pers,
-                  PDO::ATTR_CASE            => PDO::CASE_UPPER,
+    $attr = array(PDO::ATTR_CASE            => PDO::CASE_UPPER,
                   PDO::SQLSRV_ATTR_ENCODING => ($utf8 ?
                                                 PDO::SQLSRV_ENCODING_UTF8 :
                                                 PDO::SQLSRV_ENCODING_SYSTEM),
