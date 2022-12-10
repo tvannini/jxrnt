@@ -5487,7 +5487,7 @@ class o2_ctrl_tab extends o2_ctrl {
     /**
      * Set user personal settings for columns order
      *
-     * @param integer $order_list   List of columns moved from original order
+     * @param array $order_list   List of columns moved from original order
      */
     function user_set_order($order_list) {
 

@@ -1052,7 +1052,7 @@ function o2_as400_fkeyvalidate($server,
  * @param  string $database
  * @param  string $owner
  * @param  string $table
- * @return boolean
+ * @return array
  */
 function o2_as400_fkeystablist($server,
                                $user,

@@ -259,7 +259,7 @@ function o2zero($view_name, $field_name) {
             $ret_local = (!($val_local) === !($default_local));
             break;
         default:
-            $ret_local = (trim($val_local) === trim($default_local));
+            $ret_local = (trim(strval($val_local)) === trim($default_local));
             break;
         }
     return $ret_local;

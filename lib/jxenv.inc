@@ -4229,7 +4229,7 @@ class o2_dbview extends o2_view {
                 // ATTENZIONE: nella composizione delle stringhe di 'condizione'
                 // l'espressione '§§o2§§' è un segnaposto per il valore della variabile
                 // che viene sostituito prima di valutare la condizione
-                $f_value    = addslashes($this->campo($singola_formula->nome));
+                $f_value    = addslashes(strval($this->campo($singola_formula->nome)));
                 $condizione = false;
                 eval("\$condizione = ".str_replace("§§o2§§",
                                                    $f_value,
@@ -4636,7 +4636,7 @@ class o2_dbview extends o2_view {
      * @param  boolean $for_record_id    Return key values as a record unique ID
      * @param  boolean $engine           Get where for a different db-type
      * @param  boolean $for_stmt         Returns key as an array used in prepared stmts
-     * @return string
+     * @return string | array
      */
     function chiave_corrente($file,
                              $precedente     = false,
@@ -6114,7 +6114,7 @@ class o2_dbview extends o2_view {
                 $ret_local = (!($val_local) === !($default_local));
                 break;
             default:
-                $ret_local = (trim($val_local) === trim($default_local));
+                $ret_local = (trim(strval($val_local)) === trim($default_local));
                 break;
             }
         return $ret_local;
@@ -7098,7 +7098,7 @@ class o2_virtualview extends o2_view {
                 $ret_local = (!($val_local) === !($default_local));
                 break;
             default:
-                $ret_local = (trim($val_local) === trim($default_local));
+                $ret_local = (trim(strval($val_local)) === trim($default_local));
                 break;
             }
         return $ret_local;

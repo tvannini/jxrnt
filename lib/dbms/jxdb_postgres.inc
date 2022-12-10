@@ -1766,7 +1766,7 @@ function o2_postgres_fkeyvalidate($server,
  * @param  string $database
  * @param  string $owner
  * @param  string $table
- * @return boolean
+ * @return array
  */
 function o2_postgres_fkeystablist($server,
                                   $user,

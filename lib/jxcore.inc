@@ -315,6 +315,8 @@ class o2_exception extends Exception {
      * identify server-key.
      * All other connections are restored to be correctly committed, while session-key
      * connection is sent to rollback.
+     *
+     * @param o2_server $server
      */
     public function cancel($server = false) {
 
@@ -2839,7 +2841,7 @@ class o2_file {
 
 
     /**
-     * Se già non esiste crea il file fisico per la tabella come definita nel repository.
+     * Se giï¿½ non esiste crea il file fisico per la tabella come definita nel repository.
      * Con $execute passato a FALSE ritorna lo script di creazione senza eseguirlo.
      *
      * @param  boolean $execute
@@ -3272,7 +3274,7 @@ class o2_file {
             }
         $browser_view->struttura();
         // ________________________________________ Preset variable with COUNT on view ___
-        $browser_prg->contesto['prg§_§var']->imposta('tot_recs',
+        $browser_prg->contesto['prgï¿½_ï¿½var']->imposta('tot_recs',
                                                      'Total records: '.
                                                      o2format($browser_view->totale_rec(),
                                                               'o2sys_full_number'));
@@ -4115,7 +4117,7 @@ class o2_gateway {
      * @param  string $database
      * @param  string $owner
      * @param  string $table
-     * @return string
+     * @return array
      */
     static function tablefields($type,
                                 $server,
@@ -4144,7 +4146,7 @@ class o2_gateway {
      * @param  string $database
      * @param  string $owner
      * @param  string $table
-     * @return string
+     * @return array
      */
     static function tableindexes($type,
                                  $server,
@@ -4714,7 +4716,7 @@ class o2_gateway {
      * @param  string $select_str
      * @param  string $where
      * @param  string $order_by
-     * @return boolean
+     * @return boolean | array
      */
     static function verifyrec($type,
                               $server,
@@ -5184,7 +5186,7 @@ class o2_gateway {
      * @param  string  $database
      * @param  string  $owner
      * @param  string  $table
-     * @return boolean
+     * @return array
      */
     static function fkeystablist($type,
                                  $server,
@@ -6254,7 +6256,7 @@ class o2def {
 
     /**
      * Definisce un'applicazione per il contesto di interfaccia definito sulla runtime, di
-     * versione $release, e ne assicura la continuità nella sessione.
+     * versione $release, e ne assicura la continuitï¿½ nella sessione.
      *
      * @param string $release
      */
@@ -7511,7 +7513,7 @@ class o2_dispatcher {
     /**
      * Return alert message and reset alert status
      *
-     * @return mix
+     * @return string | boolean
      */
     function get_alert() {
 
