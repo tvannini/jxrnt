@@ -12,6 +12,7 @@ function jxcalendar_month§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("months", "_o2structure");
 	$task_prg§_§var->definisci("public_events", "_o2logical");
 	$task_prg§_§var->definisci("show_all", "_o2logical");
+	$task_prg§_§var->definisci("show_user", "_o2alpha");
 	$task_prg§_§var->definisci("size", "jxcal_size");
 	$task_prg§_§var->definisci("view", "jxcal_view");
 		}
@@ -65,14 +66,18 @@ function jxcalendar_month§§compose_html_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxcalendar_month§§load_events_act(&$o2exe) {
-//	$o2exe->s(1) && True && o2act::remark("Load all events (admin show all)") && $o2exe->e();
+//	$o2exe->s(1) && True && o2act::remark("Load all events (admin and operator show all)") && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_month_exp_42() || $o2exe->e()) && o2act::exe("add_event", False, "events") && $o2exe->e();
-//	$o2exe->s(3) && True && o2act::remark("Load public events") && $o2exe->e();
-	$o2exe->s(4) && True && o2act::set("prg§_§var", "public_events", jxcalendar_month_exp_9998()) && $o2exe->e();
-	$o2exe->s(5) && (jxcalendar_month_exp_38() || $o2exe->e()) && o2act::exe("add_event", False, "events") && $o2exe->e();
-//	$o2exe->s(6) && True && o2act::remark("Load user events") && $o2exe->e();
-	$o2exe->s(7) && True && o2act::set("prg§_§var", "public_events", jxcalendar_month_exp_9999()) && $o2exe->e();
-	$o2exe->s(8) && (jxcalendar_month_exp_38() || $o2exe->e()) && o2act::exe("add_event", False, "events") && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Show other user events (operator)") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "show_user", jxcalendar_month_exp_3()) && $o2exe->e();
+	$o2exe->s(5) && (jxcalendar_month_exp_4() || $o2exe->e()) && o2act::exe("add_event", False, "events") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "show_user", jxcalendar_month_exp_5()) && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Load public events") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "public_events", jxcalendar_month_exp_9998()) && $o2exe->e();
+	$o2exe->s(9) && (jxcalendar_month_exp_38() || $o2exe->e()) && o2act::exe("add_event", False, "events") && $o2exe->e();
+//	$o2exe->s(10) && True && o2act::remark("Load user events") && $o2exe->e();
+	$o2exe->s(11) && True && o2act::set("prg§_§var", "public_events", jxcalendar_month_exp_9999()) && $o2exe->e();
+	$o2exe->s(12) && (jxcalendar_month_exp_38() || $o2exe->e()) && o2act::exe("add_event", False, "events") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxcalendar_month§§load_festivities_act(&$o2exe) {
@@ -125,6 +130,21 @@ return ($size);
 function jxcalendar_month_exp_2() {
 	
 return ((o2par(1) && o2par(1) != '00000000' ? o2_date_obj(o2par(1)) : date_create()));
+	} //|o2_fine_exp|
+
+function jxcalendar_month_exp_3() {
+	
+return (o2par(6));
+	} //|o2_fine_exp|
+
+function jxcalendar_month_exp_4() {
+	
+return (o2par(6) != '');
+	} //|o2_fine_exp|
+
+function jxcalendar_month_exp_5() {
+	
+return ('');
 	} //|o2_fine_exp|
 
 function jxcalendar_month_exp_11() {
@@ -260,7 +280,7 @@ return ($months);
 
 function jxcalendar_month_exp_18() {
 	
-return ((o2par(5) ? null : (o2val('prg§_§var','public_events') ? '' : o2app_user())));
+return ((!o2zero('prg§_§var','show_user') ? o2val('prg§_§var','show_user') : (o2par(5) ? null : (o2val('prg§_§var','public_events') ? '' : o2app_user()))));
 	} //|o2_fine_exp|
 
 function jxcalendar_month_exp_19() {
@@ -366,7 +386,7 @@ return (o2_reqpar(1));
 
 function jxcalendar_month_exp_42() {
 	
-return (o2par(5));
+return (o2par(5) && (o2par(6) == ''));
 	} //|o2_fine_exp|
 
 function jxcalendar_month_exp_47() {

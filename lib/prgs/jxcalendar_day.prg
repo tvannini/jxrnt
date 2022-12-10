@@ -26,4 +26,5 @@ o2def::par(2, "size", "jxcal_size");
 o2def::par(3, "code_for_embedding", "_o2text");
 o2def::par(4, "exe_id", "_o2number");
 o2def::par(5, "show_all", "_o2logical");
+o2def::par(6, "show_user", "_o2alpha");
 ?>

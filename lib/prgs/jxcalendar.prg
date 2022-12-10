@@ -20,6 +20,8 @@ o2def::act("next");
 o2def::act("prev");
 o2def::act("refresh_win");
 o2def::act("set_size");
+o2def::act("settings");
+o2def::act("show_user");
 o2def::act("start");
 o2def::act("switch_show_all");
 o2def::act("today");

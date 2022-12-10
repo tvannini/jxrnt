@@ -11,6 +11,7 @@ o2def::prg("jxcalendar_event", "start", "", __FILE__);
 o2def::view('prg§_§var');
 o2def::view("event", false, "", "", 0, 0);
 o2def::view("event_id", false, "", "", 0, 0);
+o2def::view("users", false, "", "", 0, 0);
 o2def::act("cancel");
 o2def::act("create");
 o2def::act("delete");

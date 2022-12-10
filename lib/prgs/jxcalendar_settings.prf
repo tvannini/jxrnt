@@ -1,0 +1,242 @@
+<?php
+
+function jxcalendar_settings§§prg§_§var_def(&$task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("lang", "_o2alpha");
+	$task_prg§_§var->definisci("modified", "_o2logical");
+	$task_prg§_§var->definisci("operator", "_o2alpha");
+		}
+
+function jxcalendar_settings§§users_def(&$task_users, $_o2viewalias = "") {
+	$task_users->righe_vis = 10;
+
+	$task_users->usa_file("o2_users","o2_users","o2user",null,null);
+
+	$task_users->usa("o2user","o2_users","o2user",null,null,null,null);
+	$task_users->usa("area","o2_users","area","jxcalendar_settings_exp_9()","jxcalendar_settings_exp_9()",null,null);
+	$task_users->usa("admin","o2_users","admin",null,null,null,null);
+	$task_users->calcola("desc","_o2alpha","jxcalendar_settings_exp_10()",null,null,null,null);
+	$task_users->custom_where("jxcalendar_settings_exp_13()");
+}
+
+function jxcalendar_settings§§options_def(&$task_options, $_o2viewalias = "") {
+	$task_options->righe_vis = 10;
+
+	$task_options->usa_file("o2_options","o2_options","id",null,null);
+
+	$task_options->usa("o2user","o2_options","o2user",null,null,null,null);
+	$task_options->usa("code","o2_options","code","jxcalendar_settings_exp_14()","jxcalendar_settings_exp_14()",null,null);
+	$task_options->usa("value","o2_options","value",null,null,null,null);
+}
+function jxcalendar_settings§§jxcalendar_settings_form_def(&$form_jxcalendar_settings) {
+	$form_jxcalendar_settings->x(220);
+	$form_jxcalendar_settings->y(100);
+	$form_jxcalendar_settings->larghezza(440);
+	$form_jxcalendar_settings->altezza(220);
+	$form_jxcalendar_settings->align_o("Center");
+	$form_jxcalendar_settings->titolo(jxcalendar_settings_exp_2());
+	$form_jxcalendar_settings->css_doc("sys_calendar_doc");
+	$ctrl_o2label2 = &$form_jxcalendar_settings->ctrldef("o2label2", "label", "", "", "");
+		$ctrl_o2label2->x(20);
+		$ctrl_o2label2->y(70);
+		$ctrl_o2label2->larghezza(200);
+		$ctrl_o2label2->altezza(20);
+		$ctrl_o2label2->label(jxcalendar_settings_exp_4());
+	$ctrl_o2separator2 = &$form_jxcalendar_settings->ctrldef("o2separator2", "line", "", "", "");
+		$ctrl_o2separator2->x(20);
+		$ctrl_o2separator2->y(110);
+		$ctrl_o2separator2->larghezza(400);
+		$ctrl_o2separator2->altezza(10);
+	$ctrl_o2htmlarea2 = &$form_jxcalendar_settings->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+		$ctrl_o2htmlarea2->x(20);
+		$ctrl_o2htmlarea2->y(20);
+		$ctrl_o2htmlarea2->larghezza(400);
+		$ctrl_o2htmlarea2->altezza(50);
+		$ctrl_o2htmlarea2->html(jxcalendar_settings_exp_7());
+	$ctrl_o2ListBox2 = &$form_jxcalendar_settings->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "operator");
+		$ctrl_o2ListBox2->x(220);
+		$ctrl_o2ListBox2->y(70);
+		$ctrl_o2ListBox2->larghezza(200);
+		$ctrl_o2ListBox2->altezza(20);
+		$ctrl_o2ListBox2->modificabile(jxcalendar_settings_exp_11());
+		$ctrl_o2ListBox2->azione("modify");
+		$ctrl_o2ListBox2->on_change(jxcalendar_settings_exp_9998());
+		$ctrl_o2ListBox2->valori(o2_view2list("users", "o2user", "desc"));
+		$ctrl_o2ListBox2->righe(1);
+	$ctrl_o2button2 = &$form_jxcalendar_settings->ctrldef("o2button2", "button", "", "", "");
+		$ctrl_o2button2->x(330);
+		$ctrl_o2button2->y(140);
+		$ctrl_o2button2->larghezza(90);
+		$ctrl_o2button2->altezza(30);
+		$ctrl_o2button2->modificabile(jxcalendar_settings_exp_12());
+		$ctrl_o2button2->azione("save");
+		$ctrl_o2button2->label(jxcalendar_settings_exp_5());
+		$ctrl_o2button2->css(jxcalendar_settings_exp_19());
+	$ctrl_o2button3 = &$form_jxcalendar_settings->ctrldef("o2button3", "button", "", "", "");
+		$ctrl_o2button3->x(230);
+		$ctrl_o2button3->y(140);
+		$ctrl_o2button3->larghezza(90);
+		$ctrl_o2button3->altezza(30);
+		$ctrl_o2button3->azione("close");
+		$ctrl_o2button3->label(jxcalendar_settings_exp_6());
+		$ctrl_o2button3->css(jxcalendar_settings_exp_18());
+		}
+
+function jxcalendar_settings§§close_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_settings§§modify_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified", jxcalendar_settings_exp_9998()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_settings§§save_act(&$o2exe) {
+	$o2exe->s(1) && (jxcalendar_settings_exp_15() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("options", "o2user", jxcalendar_settings_exp_16()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("options", "code", jxcalendar_settings_exp_14()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("options", "value", jxcalendar_settings_exp_17()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::view("options", "S", "") && $o2exe->e();
+	$o2exe->s(6) && True && o2act::alert(jxcalendar_settings_exp_8(), 0) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_settings§§start_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "lang", jxcalendar_settings_exp_1()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "operator", jxcalendar_settings_exp_3()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxcalendar_settings_exp_1() {
+	$lang = strtolower($_SESSION['o2_app']->option_get('cli_lang'));
+if ($lang != 'it') {
+   $lang = 'en';
+   }
+return ($lang);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_2() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $t = 'Impostazioni calendario';
+   }
+else {
+   $t = 'Calendar settings';
+   }
+return ($t);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_3() {
+	
+return ($_SESSION['o2_app']->option_get('cal_operator'));
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_4() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $l = 'Imposta utente operatore:';
+   }
+else {
+   $l = 'Set operator user:';
+   } 
+return ($l);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_5() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $l = '&Salva';
+   }
+else {
+   $l = '&Save';
+   }
+return ($l);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_6() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $l = '&Chiudi';
+   }
+else {
+   $l = '&Cancel';
+   }
+return ($l);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_7() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $l = 'L\'operatore è un utente speciale che può assegnare eventi agli altri utenti.';
+   }
+else {
+   $l = 'The operator is a special user who can allocate events to other users.';
+   }
+return ($l);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_8() {
+	if (o2val('prg§_§var','lang') == 'it') {
+   $m = "Le modifiche sono state salvate.\n".
+        "Le nuove impostazioni saranno attive dai prossimi login.";
+   }
+else {
+   $m = "Changes applied.\n".
+        "New settings will be active at next login.";
+   }
+return ($m);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_9() {
+	
+return ((o2zero('_o2SESSION','_area') ? null : o2val('_o2SESSION','_area')));
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_10() {
+	$d = o2val('users','o2user').(o2val('users','admin') ? ' (administrator)' : ''); 
+return ($d);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_11() {
+	
+return (o2user_is_admin());
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_12() {
+	
+return (o2val('prg§_§var','modified'));
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_13() {
+	$w = "JXCOL(o2_users:o2user) <> 'root' AND JXCOL(o2_users:o2user) <> 'jxsys'";
+return ($w);
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_14() {
+	
+return ('cal_operator');
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_15() {
+	
+return (!o2view_rec("options"));
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_16() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_17() {
+	
+return (o2val('prg§_§var','operator'));
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_18() {
+	
+return (' jxbtn_cancel');
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_19() {
+	
+return (' jxbtn_save');
+	} //|o2_fine_exp|
+
+function jxcalendar_settings_exp_9998() {
+	
+return (true);
+	} //|o2_fine_exp|
+?>
