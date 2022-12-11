@@ -822,6 +822,12 @@ class o2_exception extends Exception {
                              $this->to_raw_text(),
                              FILE_APPEND);
             }
+        // ______________________________________________________ Custom error handler ___
+        if ($app->error_handler) {
+            if (is_callable($app->error_handler)) {
+                call_user_func($app->error_handler, $this);
+                }
+            }
         // __________________________________ WEB service mode used for XML stream out ___
         if ($app && $app->rpc_server && !$app->custom_response) {
             print "<!--\n".$this->to_raw_text()."\n-->";
@@ -846,7 +852,6 @@ class o2_exception extends Exception {
                     }
                 break;
             }
-
         }
 
 

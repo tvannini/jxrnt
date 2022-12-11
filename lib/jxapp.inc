@@ -190,6 +190,7 @@ class o2_app {
     public $error_mode      = false;   /* Errors management: FALSE | DEV | EXE          */
     public $errors_log      = false;   /* Enables errors logging on file                */
     public $errors_inc      = false;   /* File name to be included for custom error msgs*/
+    public $error_handler   = false;   /* Function name for custom error handling       */
     public $custom_response = false;   /* FALSE or buffer length for custom output      */
     public $jxsql           = false;   /* Enables internal JXSQL parser                 */
     public $prepared_stmts  = true;    /* Enables use of prepared statements in views   */
@@ -1765,6 +1766,9 @@ class o2_app {
             }
         if (isset($conf['errorinc'])) {
             $this->errors_inc = $conf['errorinc'];
+            }
+        if (isset($conf['error_handler'])) {
+            $this->error_handler = trim($conf['error_handler'], '()');
             }
         if (isset($conf['max_req_n'])) {
             $this->max_req_n = max($conf['max_req_n'], 1);
