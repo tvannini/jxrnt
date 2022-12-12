@@ -2846,7 +2846,7 @@ class o2_file {
 
 
     /**
-     * Se giï¿½ non esiste crea il file fisico per la tabella come definita nel repository.
+     * Se già non esiste crea il file fisico per la tabella come definita nel repository.
      * Con $execute passato a FALSE ritorna lo script di creazione senza eseguirlo.
      *
      * @param  boolean $execute
@@ -3279,7 +3279,7 @@ class o2_file {
             }
         $browser_view->struttura();
         // ________________________________________ Preset variable with COUNT on view ___
-        $browser_prg->contesto['prgï¿½_ï¿½var']->imposta('tot_recs',
+        $browser_prg->contesto['prg§_§var']->imposta('tot_recs',
                                                      'Total records: '.
                                                      o2format($browser_view->totale_rec(),
                                                               'o2sys_full_number'));
@@ -6261,7 +6261,7 @@ class o2def {
 
     /**
      * Definisce un'applicazione per il contesto di interfaccia definito sulla runtime, di
-     * versione $release, e ne assicura la continuitï¿½ nella sessione.
+     * versione $release, e ne assicura la continuità nella sessione.
      *
      * @param string $release
      */
