@@ -6807,13 +6807,14 @@ endofjxmsg;
         else {
             return;
             }
-        $conf['o2_alias']         && $this->alias           = $conf['o2_alias'];
-        $conf['jx_alias']         && $this->alias           = $conf['jx_alias'];
-        isset($conf['decimals'])  && $this->decimals_point  = $conf['decimals'];
-        isset($conf['thousands']) && $this->thousands_point = $conf['thousands'];
+        isset($conf['o2_alias']) && $conf['o2_alias'] && $this->alias = $conf['o2_alias'];
+        isset($conf['jx_alias']) && $conf['jx_alias'] && $this->alias = $conf['jx_alias'];
+        isset($conf['decimals'])  && $this->decimals_point            = $conf['decimals'];
+        isset($conf['thousands']) && $this->thousands_point          = $conf['thousands'];
         isset($conf['data_chunk']) && $this->def_datachunk  = intval($conf['data_chunk']);
-        $conf['php_exe']          && $this->php_engine      = $conf['php_exe'];
-        isset($conf['multisession']) && $this->multisession = $conf['multisession'];
+        isset($conf['php_exe']) && $conf['php_exe'] && $this->php_engine =
+                                                                         $conf['php_exe'];
+        isset($conf['multisession']) && $this->multisession       = $conf['multisession'];
 
         }
 

@@ -1075,7 +1075,7 @@ function o2_as400_fkeystablist($server,
  */
 function o2_as400_commit($server, $user, $password) {
 
-    if ($GLOBALS['o2_as400_conn'][$server]) {
+    if (isset($GLOBALS['o2_as400_conn'][$server])) {
 /*      if (!@odbc_exec($GLOBALS['o2_as400_conn'][$server], "COMMIT TRANSACTION;")) {
             throw new o2_exception("<b>AS400</b> server: <i>".$server.
                                    "</i><br>user: <i>".$user."</i><hr>".

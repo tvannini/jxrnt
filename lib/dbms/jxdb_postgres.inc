@@ -1866,7 +1866,7 @@ function o2_postgres_commit($server, $user, $password, $end = false) {
         $key = $server.$user;
         }
     // ________________________________________________ Check for existing transaction ___
-    if ($GLOBALS['o2_postgres_trans'][$key]) {
+    if (isset($GLOBALS['o2_postgres_trans'][$key])) {
         // ___________________________________ Check for errors on current transaction ___
         if ($GLOBALS['o2_postgres_error'][$key]) {
             $GLOBALS['o2_postgres_conn'][$key]->rollBack();

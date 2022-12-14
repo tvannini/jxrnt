@@ -1552,7 +1552,7 @@ function o2_mysql_commit($server, $user, $password, $end = false) {
         $server = "localhost";
         }
     // ________________________________________________ Check for existing transaction ___
-    if ($GLOBALS['o2_mysql_trans'][$key]) {
+    if (isset($GLOBALS['o2_mysql_trans'][$key])) {
         // ___________________________________ Check for errors on current transaction ___
         if ($GLOBALS['o2_mysql_error'][$key]) {
             $GLOBALS['o2_mysql_conn'][$key]->rollBack();

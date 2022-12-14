@@ -350,7 +350,7 @@ class o2_prg {
     function esegui_azione($action, $end_cond = true, $loop_view = "") {
 
         $app              = $_SESSION['o2_app'];
-        $task_local       = $this->contesto[$loop_view];
+        $task_local       = ($loop_view ? $this->contesto[$loop_view] : false);
         $counter_local    = 0;
         $act_end          = false;
         $condizione_local = false;
@@ -384,7 +384,7 @@ class o2_prg {
                 $act_end      = true;
                 }
             // _____________ If loop was waiting for an on-line record-suffix to close ___
-            elseif ($task_local->act_wait_next) {
+            elseif ($task_local && $task_local->act_wait_next) {
                 $task_local->act_wait_next = false;
                 $act_end                   = true;
                 }
@@ -1906,7 +1906,8 @@ class o2_dbview extends o2_view {
                 $this->righe_vis     = $this->user_rows;
                 }
             // __________________________________________________ User global settings ___
-           elseif ($prg->custom_grids[$this->nome]["R"][""]) {
+           elseif (is_array($prg->custom_grids) &&
+                   $prg->custom_grids[$this->nome]["R"][""]) {
                 $this->righe_vis_ori = $this->righe_vis;
                 $this->user_rows     = $prg->custom_grids[$this->nome]["R"][""];
                 $this->righe_vis     = $this->user_rows;
@@ -1923,6 +1924,9 @@ class o2_dbview extends o2_view {
                                                          ".O2ASPID";
                 }
             foreach ($this->campi as &$singolo_campo) {
+                if (!isset($this->select_str[$singolo_campo->file])) {
+                    $this->select_str[$singolo_campo->file] = '';
+                    }
                 if (($singolo_campo->file == $this->file->indice) &&
                     !$singolo_campo->formula) {
                     $record_size+= min(256, $singolo_campo->maschera->dimensione);

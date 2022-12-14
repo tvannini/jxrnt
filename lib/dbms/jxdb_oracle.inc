@@ -1639,7 +1639,7 @@ function o2_oracle_fkeyadd($server,
             }
         }
     foreach ($ref_fields as $field) {
-        if (field != "O2ASPID") {
+        if ($field != "O2ASPID") {
             $ref_list[] = o2_oracle_o.$field.o2_oracle_c;
             }
         else {
@@ -1797,7 +1797,7 @@ function o2_oracle_commit($server, $user, $password, $end = true) {
         $key = $server.$user;
         }
     // ________________________________________________ Check for existing transaction ___
-    if ($GLOBALS['o2_oracle_trans'][$key]) {
+    if (isset($GLOBALS['o2_oracle_trans'][$key])) {
         // ___________________________________ Check for errors on current transaction ___
         if ($GLOBALS['o2_oracle_error'][$key]) {
             oci_rollback($GLOBALS['o2_oracle_conn'][$key]);

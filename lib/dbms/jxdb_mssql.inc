@@ -2040,7 +2040,7 @@ function o2_mssql_commit($server, $user, $password, $end = false) {
         $key = $server.$user;
         }
     // ________________________________________________ Check for existing transaction ___
-    if ($GLOBALS['o2_mssql_trans'][$key]) {
+    if (isset($GLOBALS['o2_mssql_trans'][$key])) {
         // ___________________________________ Check for errors on current transaction ___
         if ($GLOBALS['o2_mssql_error'][$key]) {
             $GLOBALS['o2_mssql_conn'][$key]->rollBack();
