@@ -387,9 +387,8 @@ function o2exp($exp_n = 0) {
  *
  * @param  integer $parameter_id   Ordinal parameter index
  * @return mix
+ * @see    o2par_zero()
  * @see    o2val()
- * @see    o2pre()
- * @see    o2zero()
  * @see    o2format()
  */
 function o2par($parameter_id) {
@@ -399,6 +398,57 @@ function o2par($parameter_id) {
     return call_user_func_array(array(&$app->istanze_prg[$app->progressivo_istanze],
                                       'get_par'),
                                 $args);
+
+    }
+
+
+/**
+ * Returns boolean value TRUE/FALSE if parameter value is equal/different from its type
+ * default value.
+ * This function is the right way to check if a parameter has a value.
+ *
+ * Parameters don't change their value during program execution so values returned by
+ * o2par_zero() are consistent along program running.
+ *
+ * @param  integer $parameter_id   Ordinal parameter index
+ * @return boolean
+ * @see    o2par()
+ * @see    o2val()
+ * @see    o2zero()
+ */
+function o2par_zero($parameter_id) {
+
+    $app  = $_SESSION['o2_app'];
+    $args = func_get_args();
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    if (!isset($prg->parametri[$parameter_id])) {
+        throw new o2_exception('Unknown parameter with id '.$parameter_id.
+                               ' in program <i>'.$prg->nome.'</i>',
+                               o2error_UNKNOWNPARAMETER);
+        return true;
+        }
+    $parameter_obj = $prg->parametri[$parameter_id];
+    $call_obj      = $app->chiamate[$prg->id];
+    $ret_local     = true;
+    if (isset($call_obj['parametri'][$parameter_id - 1])) {
+        $par_value   = $call_obj['parametri'][$parameter_id - 1]['valore'];
+        $par_default = $parameter_obj->default;
+        switch ($parameter_obj->tipo) {
+            case "S":
+                $ret_local = (obj2array($par_value) === obj2array($par_default));
+                break;
+            case "N":
+                $ret_local = (floatval($par_value) === floatval($par_default));
+                break;
+            case "L":
+                $ret_local = (!($par_value) === !($par_default));
+                break;
+            default:
+                $ret_local = (trim(strval($par_value)) === trim($par_default));
+                break;
+            }
+        }
+    return $ret_local;
 
     }
 

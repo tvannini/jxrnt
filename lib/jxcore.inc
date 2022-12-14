@@ -134,6 +134,7 @@ class o2_exception extends Exception {
         define('o2error_UNKNOWNPRG',       ++$seed_objs);
         define('o2error_UNKNOWNACTION',    ++$seed_objs);
         define('o2error_UNKNOWNCTRL',      ++$seed_objs);
+        define('o2error_UNKNOWNPARAMETER', ++$seed_objs);
         }
 
 
@@ -266,6 +267,9 @@ class o2_exception extends Exception {
                 break;
             case o2error_UNKNOWNACTION:
                 $error_class = "ACTION REFERRING";
+                break;
+            case o2error_UNKNOWNPARAMETER:
+                $error_class = "PARAMETER REFERRING";
                 break;
             // ________________________________________________________________ Others ___
             case o2error_WARNING:
