@@ -939,7 +939,7 @@ return (o2val('prg§_§var','now') - $_SESSION['o2_app']->otp_time);
 
 function o2sys_start_exp_73() {
 	
-return (($_REQUEST['jxotp'] ? md5(strtoupper($_REQUEST['jxotp'])) : ''));
+return ((isset($_REQUEST['jxotp']) ? md5(strtoupper($_REQUEST['jxotp'])) : ''));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_74() {

@@ -1972,6 +1972,7 @@ class o2_file {
     public $campi        = array(); /* Array degli oggetti o2_campo della tabella       */
     public $chiavi       = array(); /* Array degli oggetti o2_chiave della tabella      */
     public $fix_nukeys   = array(); /* Array of not unique keys with mssing pk-segments */
+    public $link_by_sql  = false;   /* If table, used as a link in a view, is SQL JOIN  */
     /**
      * @var o2_chiave
      */
@@ -6556,6 +6557,7 @@ class o2_runtime {
     function __construct() {
 
         $GLOBALS['o2_runtime'] = $this;
+        $GLOBALS['jxjs']       = false;
         // ________________________________________________ Error constants definition ___
         o2_exception::def_errors();
         // ___________________________________________________ Top level error handler ___

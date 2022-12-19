@@ -2742,7 +2742,8 @@ class o2_dbview extends o2_view {
                         if (isset($this->esclusivi[$file_in_esame][$campo->nome])) {
                             $this->esclusivi[$file_in_esame][0] =
                             $this->esclusivi[$file_in_esame][$campo->nome];
-                            $main_where = $this->link_wheres[$file_in_esame];
+                            $main_where = (isset($this->link_wheres[$file_in_esame]) ?
+                                           $this->link_wheres[$file_in_esame] : '');
                             if ($sql_join &&
                                 strpos($main_where, $single_cond) === false) {
                                 $this->link_wheres[$file_in_esame].= ($main_where ?
@@ -2839,7 +2840,9 @@ class o2_dbview extends o2_view {
                                                           [$campo->nome])) {
                                     $this->esclusivi[$file_in_esame][0] =
                                     $this->esclusivi[$file_in_esame][$campo->nome];
-                                    $main_where = $this->link_wheres[$file_in_esame];
+                                    $main_where =
+                                              (isset($this->link_wheres[$file_in_esame]) ?
+                                               $this->link_wheres[$file_in_esame] : '');
                                     if ($sql_join &&
                                         strpos($main_where, $single_cond) === false) {
                                         $this->link_wheres[$file_in_esame].=($main_where ?
@@ -2946,7 +2949,9 @@ class o2_dbview extends o2_view {
                                                           [$campo->nome])) {
                                     $this->esclusivi[$file_in_esame][0] =
                                     $this->esclusivi[$file_in_esame][$campo->nome];
-                                    $main_where = $this->link_wheres[$file_in_esame];
+                                    $main_where =
+                                              (isset($this->link_wheres[$file_in_esame]) ?
+                                               $this->link_wheres[$file_in_esame] : '');
                                     if ($sql_join &&
                                         strpos($main_where, $single_cond) === false) {
                                         $this->link_wheres[$file_in_esame].=($main_where ?
@@ -3067,7 +3072,8 @@ class o2_dbview extends o2_view {
                             if (isset($this->esclusivi[$file_in_esame][$campo->nome])) {
                                 $this->esclusivi[$file_in_esame][0] =
                                 $this->esclusivi[$file_in_esame][$campo->nome];
-                                $main_where = $this->link_wheres[$file_in_esame];
+                                $main_where = (isset($this->link_wheres[$file_in_esame]) ?
+                                               $this->link_wheres[$file_in_esame] : '');
                                 if ($sql_join &&
                                     strpos($main_where, $single_cond) === false) {
                                     $this->link_wheres[$file_in_esame].= ($main_where ?
@@ -3115,7 +3121,8 @@ class o2_dbview extends o2_view {
                         if (isset($this->esclusivi[$file_in_esame][$campo->nome])) {
                             $this->esclusivi[$file_in_esame][0] =
                             $this->esclusivi[$file_in_esame][$campo->nome];
-                            $main_where = $this->link_wheres[$file_in_esame];
+                            $main_where = (isset($this->link_wheres[$file_in_esame]) ?
+                                           $this->link_wheres[$file_in_esame] : '');
                             if ($sql_join &&
                                 strpos($main_where, $single_cond) === false) {
                                 $this->link_wheres[$file_in_esame].= ($main_where ?
@@ -8764,7 +8771,8 @@ function jxlog($logobj = null) {
     $tms = date("H:i:s.". substr($m, 2, -2));
     $uid = "jxdbg".substr($tms, -10);
     // _____________________________________________________ Get programs/actions tree ___
-    $last_prg = "";
+    $last_prg = '';
+    $code     = '';
     // ______________________________________________________________ Loop on programs ___
     foreach ($app->istanze_prg as $single_id => $single_prg) {
         $code.= " [".$single_id."] ".$single_prg->nome."\n";
@@ -8787,19 +8795,22 @@ function jxlog($logobj = null) {
         }
     // ____________________________________________________________ Get functions tree ___
     foreach (debug_backtrace() as $func) {
-        // ___________________________________________________ Stop on action function ___
-        if ($func['function'] == $last_prg."§§".$last_act."_act") {
-            break;
-            }
-        // ___________________________________________ Stop on internal execution call ___
-        elseif ($func['class'] == "o2_esecuzione" && $func['function'] == "esegui") {
-            break;
-            }
-        // ___________________________________________________ Last program expression ___
-        elseif (substr($func['function'], 0, strlen($last_prg) + 5) ==
-            $last_prg."_exp_") {
-            $code.= "      '- EXP-".substr($func['function'],
-                                             strlen($last_prg) + 5)."\n";
+        if (isset($func['function'])) {
+            // _______________________________________________ Stop on action function ___
+            if ($func['function'] == $last_prg."§§".$last_act."_act") {
+                break;
+                }
+            // _______________________________________ Stop on internal execution call ___
+            elseif ((isset($func['class']) && ($func['class'] == "o2_esecuzione")) &&
+                    $func['function'] == "esegui") {
+                break;
+                }
+            // _______________________________________________ Last program expression ___
+            elseif (substr($func['function'], 0, strlen($last_prg) + 5) ==
+                $last_prg."_exp_") {
+                $code.= "      '- EXP-".substr($func['function'],
+                                                strlen($last_prg) + 5)."\n";
+                }
             }
         }
     // __________________________________________________________ Log out code to file ___
