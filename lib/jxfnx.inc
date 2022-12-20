@@ -249,14 +249,18 @@ function o2zero($view_name, $field_name) {
     $val_local     = o2val($view_name, $field_name);
     $ret_local     = false;
     switch ($field_local->maschera->tipo) {
-        case "S":
+        case 'S':
             $ret_local = (obj2array($val_local) === obj2array($default_local));
             break;
-        case "N":
+        case 'N':
             $ret_local = (floatval($val_local) === floatval($default_local));
             break;
-        case "L":
+        case 'L':
             $ret_local = (!($val_local) === !($default_local));
+            break;
+        case 'D':
+        case 'O':
+            $ret_local = (trim(strval($val_local), ' 0') === '');
             break;
         default:
             $ret_local = (trim(strval($val_local)) === trim($default_local));
@@ -434,14 +438,18 @@ function o2par_zero($parameter_id) {
         $par_value   = $call_obj['parametri'][$parameter_id - 1]['valore'];
         $par_default = $parameter_obj->default;
         switch ($parameter_obj->tipo) {
-            case "S":
+            case 'S':
                 $ret_local = (obj2array($par_value) === obj2array($par_default));
                 break;
-            case "N":
+            case 'N':
                 $ret_local = (floatval($par_value) === floatval($par_default));
                 break;
-            case "L":
+            case 'L':
                 $ret_local = (!($par_value) === !($par_default));
+                break;
+            case 'D':
+            case 'O':
+                $ret_local = (trim(strval($par_value), ' 0') === '');
                 break;
             default:
                 $ret_local = (trim(strval($par_value)) === trim($par_default));
