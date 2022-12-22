@@ -357,7 +357,7 @@ if (!o2zero('prg§_§var','prg_name')) {
       $par_id--;
       $list[] = array('par'   => $parts[2][$par_id],
                       'model' => $parts[3][$par_id]);
-      }
+      }   
    }
 return ($list);
 	} //|o2_fine_exp|
@@ -413,7 +413,7 @@ $m_name = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model
 $model  = $app->maschere[$m_name];
 $len    = $model->dimensione;
 $items  = array();
-if (count($model->valori)) {
+if (is_array($model->valori) && count($model->valori)) {
    foreach ($model->valori as $item) {
       $items[substr($item, 0, $len)] = $item;
       }

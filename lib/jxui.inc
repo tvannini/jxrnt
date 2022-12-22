@@ -1885,12 +1885,12 @@ class o2_ctrl {
                 case "N":
                     if ((trim($this->valore) != "" && $this->valore != $mask->default) ||
                         !$mask->zeroff) {
-                        $valore_local = $this->valore;
+                        $valore_local = floatval($this->valore);
                         if (!$mask->negativo) {
                             $valore_local = abs($valore_local);
                             }
                         $ctrl_valore_local = $mask->prefisso.
-                                             number_format(floatval($valore_local),
+                                             number_format($valore_local,
                                                            $mask->decimali,
                                                            $mask->separatore,
                                                            $mask->migliaia);
