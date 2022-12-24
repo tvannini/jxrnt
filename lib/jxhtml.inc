@@ -179,7 +179,7 @@ class o2html {
         $app            = $_SESSION['o2_app'];
         $app->open_wins = array();
         // _______________________________________________ Skip head in AJAX responses ___
-        if (!$GLOBALS['jxjsorigin']) {
+        if (!isset($GLOBALS['jxjsorigin'])) {
             // ___________________________________________________ HTML document start ___
             $cli_lang = $app->option_get("cli_lang");
             print "<!DOCTYPE HTML>\n".
@@ -211,7 +211,7 @@ class o2html {
         $mbw = ($app->menu_attivo && $app->menu_width ?
                 ' value="'.$app->menu_width.'"' : "");
         // __________________________________________________ Actual status bar height ___
-        $mbh = ' value="'.$app->status_height.'"';
+        $sbh = ' value="'.$app->status_height.'"';
         // ___________________________________________________________ Janox data form ___
         print '<form name="o2form" method="POST" action="'.$app->referer.
               '" enctype="multipart/form-data" autocomplete="off" '.
@@ -275,7 +275,7 @@ class o2html {
             print '<input type="hidden" name="o2_prgname" value="'.$prg_name."\">\n";
             }
         // ____________________________________ Skip BODY & HTML end in AJAX responses ___
-        if (!$GLOBALS['jxjsorigin']) {
+        if (!isset($GLOBALS['jxjsorigin'])) {
             // _____________________________________________________ Document BODY end ___
             print '</form></body></html>';
             }
@@ -376,64 +376,73 @@ class o2html {
                               'next'   => 4,
                               'nextpg' => 5,
                               'last'   => 6);
-        $script_local = "";
         // ______________________________________________ Navigation & record controls ___
         foreach ($ctrls_list as $code_local => $function_code) {
-            $splitted_local = explode(';', $app->option_get('keyb_nav_'.$code_local));
-            $key_local      = intval($splitted_local[0]);
-            $shift_local    = ($splitted_local[1] ? '!0' : '!1');
-            $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
-            $alt_local      = ($splitted_local[3] ? '!0' : '!1');
-            print '/* '.str_pad($code_local, 7).' */ o2jse.conf.addKey('.
-                  $key_local.','.
-                  $shift_local.','.
-                  $ctrl_local.','.
-                  $alt_local.','.
-                  $function_code.");\n";
+            if ($opt = $app->option_get('keyb_nav_'.$code_local)) {
+                $splitted_local = explode(';', $opt);
+                $key_local      = intval($splitted_local[0]);
+                $shift_local    = ($splitted_local[1] ? '!0' : '!1');
+                $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
+                $alt_local      = ($splitted_local[3] ? '!0' : '!1');
+                print '/* '.str_pad($code_local, 7).' */ o2jse.conf.addKey('.
+                            $key_local.','.
+                            $shift_local.','.
+                            $ctrl_local.','.
+                            $alt_local.','.
+                            $function_code.");\n";
+                }
             }
         // ___________________________________________________________________ Refresh ___
-        $splitted_local = explode(';', $app->option_get('keyb_form_refresh'));
-        $key_local      = intval($splitted_local[0]);
-        $shift_local    = ($splitted_local[1] ? '!0' : '!1');
-        $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
-        $alt_local      = ($splitted_local[3] ? '!0' : '!1');
-        print '/* Refresh */ o2jse.conf.addKey('.
-                  $key_local.','.
-                  $shift_local.','.
-                  $ctrl_local.','.
-                  $alt_local.",17);\n";
-        // ______________________________________________________________________ Exit ___
-        $splitted_local = explode(';', $app->option_get('keyb_form_exit'));
-        $key_local      = intval($splitted_local[0]);
-        $shift_local    = ($splitted_local[1] ? '!0' : '!1');
-        $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
-        $alt_local      = ($splitted_local[3] ? '!0' : '!1');
-        print '/* Exit    */ o2jse.conf.addKey('.
-                  $key_local.','.
-                  $shift_local.','.
-                  $ctrl_local.','.
-                  $alt_local.",19);\n";
-        // ______________________________________________________________________ Zoom ___
-        if ($app->zoom) {
-            $splitted_local = explode(';', $app->option_get('keyb_ctrl_zoom'));
+        if ($opt = $app->option_get('keyb_form_refresh')) {
+            $splitted_local = explode(';', $opt);
             $key_local      = intval($splitted_local[0]);
             $shift_local    = ($splitted_local[1] ? '!0' : '!1');
             $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
             $alt_local      = ($splitted_local[3] ? '!0' : '!1');
-            print '/* Zoom    */ o2jse.conf.addKey('.
+            print '/* Refresh */ o2jse.conf.addKey('.
                       $key_local.','.
                       $shift_local.','.
                       $ctrl_local.','.
-                      $alt_local.",20);\n";
+                      $alt_local.",17);\n";
             }
-        // _________________________________________________________ Documentor (help) ___
-        if ($app->doc_enabled) {
-            $splitted_local = explode(';', $app->option_get('keyb_help'));
+        // ______________________________________________________________________ Exit ___
+        if ($opt = $app->option_get('keyb_form_exit')) {
+            $splitted_local = explode(';', $opt);
             $key_local      = intval($splitted_local[0]);
             $shift_local    = ($splitted_local[1] ? '!0' : '!1');
             $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
             $alt_local      = ($splitted_local[3] ? '!0' : '!1');
-            if (!$key_local) {
+            print '/* Exit    */ o2jse.conf.addKey('.
+                      $key_local.','.
+                      $shift_local.','.
+                      $ctrl_local.','.
+                      $alt_local.",19);\n";
+            }
+        // ______________________________________________________________________ Zoom ___
+        if ($app->zoom) {
+            if ($opt = $app->option_get('keyb_ctrl_zoom')) {
+                $splitted_local = explode(';', $opt);
+                $key_local      = intval($splitted_local[0]);
+                $shift_local    = ($splitted_local[1] ? '!0' : '!1');
+                $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
+                $alt_local      = ($splitted_local[3] ? '!0' : '!1');
+                print '/* Zoom    */ o2jse.conf.addKey('.
+                          $key_local.','.
+                          $shift_local.','.
+                          $ctrl_local.','.
+                          $alt_local.",20);\n";
+                }
+            }
+        // _________________________________________________________ Documentor (help) ___
+        if ($app->doc_enabled) {
+            if ($opt = $app->option_get('keyb_help')) {
+                $splitted_local = explode(';', $opt);
+                $key_local      = intval($splitted_local[0]);
+                $shift_local    = ($splitted_local[1] ? '!0' : '!1');
+                $ctrl_local     = ($splitted_local[2] ? '!0' : '!1');
+                $alt_local      = ($splitted_local[3] ? '!0' : '!1');
+                }
+            else {
                 $key_local   = '112';
                 $shift_local = '!0';
                 $ctrl_local  = '!1';
@@ -843,7 +852,6 @@ class o2html {
                      $user_info.$dev_info.'</div>';
         // _________________________________________________ Custom HTML on status-bar ___
         if ($app->status_custom) {
-            $c_txt     = jx_encode($app->status_custom);
             $c_txt_len = strlen($app->status_custom);
             if ($app->status_custom[0] == '|') {
                 $custom_info = $info.'<div class="o2statustext">'.
@@ -862,8 +870,9 @@ class o2html {
         else {
             $custom_info = $info;
             }
+        $status = '';
         if ($app->statusbar_text) {
-            $status = $app->statusbar_text;
+            $status              = $app->statusbar_text;
             $app->statusbar_text = '';
             }
         // _________________________________________________________ Notification area ___

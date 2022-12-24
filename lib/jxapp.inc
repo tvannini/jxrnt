@@ -2753,7 +2753,12 @@ class o2_app {
             $this->istanze_prg         = array();
             $this->progressivo_istanze = 0;
             $this->prgs_cache          = array();
-            $this->translation         = array('' => $this->translation['']);
+            if (isset($this->translation[''])) {
+                $this->translation = array('' => $this->translation['']);
+                }
+            else {
+                $this->translation = array();
+                }
             $this->goto_prg($this->prg_start, false);
             // ________________________________________________ Actions list execution ___
             $this->actions_loop();
@@ -2795,9 +2800,11 @@ class o2_app {
             // _________________________________________ ESECUZIONE DEL PRG DI REQUEST ___
             $this->intcall("tools/o2sys_request");
             // ______________________________________ STARTING NEW EXECUTION HIERARCHY ___
-            if ($_REQUEST['o2c'] || $_SESSION['jxredirect'] || $this->exe_prg_start) {
+            if (isset($_REQUEST['o2c']) ||
+                isset($_SESSION['jxredirect']) ||
+                $this->exe_prg_start) {
                 // ____________________________________ Check callable programs by URL ___
-                if ($_REQUEST['o2c']) {
+                if (isset($_REQUEST['o2c']) && $_REQUEST['o2c']) {
                     if (($this->profiling == "M" || $this->profiling == "B") &&
                         !isset($this->menu_prgs[$_REQUEST['o2c']]) &&
                         $this->run_level != "DEV" &&
@@ -2809,13 +2816,23 @@ class o2_app {
                         return;
                         }
                     }
-                $this->prgs_cache       = array();
-                $this->translation      = array('' => $this->translation['']);
-                $redirect               = $_SESSION['jxredirect'];
-                $_SESSION['jxredirect'] = false;
+                $this->prgs_cache = array();
+                $redirect         = false;
+                if (isset($_SESSION['jxredirect'])) {
+                    $redirect = $_SESSION['jxredirect'];
+                    unset($_SESSION['jxredirect']);
+                    }
+                if (isset($this->translation[''])) {
+                    $this->translation = array('' => $this->translation['']);
+                    }
+                else {
+                    $this->translation = array();
+                    }
                 // _______________________________________ Reset range control filters ___
                 unset($_SESSION['jxview_lastfilter']);
-                $this->goto_prg(($redirect ? false : $_REQUEST['o2c']), $redirect);
+                $this->goto_prg(($redirect || !isset($_REQUEST['o2c']) ?
+                                 false : $_REQUEST['o2c']),
+                                $redirect);
                 }
             else {
                 // _________________________________ Including active programs scripts ___
@@ -3559,12 +3576,12 @@ class o2_app {
 
         // ______________________________________________________ Check file existance ___
         if (!file_exists($file_path)) {
-            throw new o2_exception("File <i>".$file_path."</i> NOT FOUND",
+            throw new o2_exception('File <i>'.$file_path.'</i> NOT FOUND',
                                    o2error_MISSINGFILE);
             }
         // ____________________________________________________ Check file is readable ___
         elseif (!is_readable($file_path)) {
-            throw new o2_exception("File <i>".$file_path."</i> NOT READABLE", o2error_IO);
+            throw new o2_exception('File <i>'.$file_path.'</i> NOT READABLE', o2error_IO);
             }
         // _____________________________________________________________ If file is OK ___
         else {
@@ -3585,11 +3602,12 @@ class o2_app {
                                                 $force_download,
                                                 $cachable);
             // _____________________________________ Check session ID transport method ___
-            if (!ini_get("session.use_cookies")) {
-                $sessid = "&".$this->session_name."=".$this->session_id;
+            $sessid = '';
+            if (!ini_get('session.use_cookies')) {
+                $sessid = '&'.$this->session_name.'='.$this->session_id;
                 }
-            return $this->runtime->alias."jxf.php?RID=".$r_id.
-                                         "&JXSESSNAME=".$this->session_name.$sessid;
+            return $this->runtime->alias.'jxf.php?RID='.$r_id.
+                                         '&JXSESSNAME='.$this->session_name.$sessid;
             }
         return "";
 

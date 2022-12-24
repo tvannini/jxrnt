@@ -1799,7 +1799,7 @@ function o2_oracle_commit($server, $user, $password, $end = true) {
     // ________________________________________________ Check for existing transaction ___
     if (isset($GLOBALS['o2_oracle_trans'][$key])) {
         // ___________________________________ Check for errors on current transaction ___
-        if ($GLOBALS['o2_oracle_error'][$key]) {
+        if (isset($GLOBALS['o2_oracle_error'][$key])) {
             oci_rollback($GLOBALS['o2_oracle_conn'][$key]);
             unset($GLOBALS['o2_oracle_error'][$key]);
             }

@@ -574,7 +574,7 @@ class o2_exception extends Exception {
         // ___________________________________________ Unrem to add full PHP backtrace ___
         // jxlog(debug_backtrace()); // Developers only
         // $error_text.= "<pre>".print_r(debug_backtrace(), 1)."</pre>"; // All users
-        // file_put_contents($app->dir_logs.'bt.log', print_r(debug_backtrace(), 1)); //FS
+         file_put_contents($app->dir_logs.'bt.log', print_r(debug_backtrace(), 1)); //FS
         return $error_text;
 
         }
@@ -1857,9 +1857,10 @@ class o2_campo {
 class o2_segmento_indice {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $campo       = "";    /* Field being the segment                             */
-    public $direzione   = "A";   /* Direction: [A] = ASCENDING, [D] = DESCENDING        */
-    public $custom_sort = false; /* If segment is part of a user custom sorting         */
+    public $campo         = "";    /* Field being the segment                           */
+    public $direzione     = "A";   /* Direction: [A] = ASCENDING, [D] = DESCENDING      */
+    public $custom_sort   = false; /* If segment is part of a user custom sorting       */
+    public $custom_sorted = false; /* TODO: Verify if it is the same as $custom_sort    */
 
 
     function __construct($campo, $direzione) {
@@ -1909,7 +1910,7 @@ class o2_chiave {
      * @param  boolean $invertito
      * @return string
      */
-    function order_by($view, $table = "", $invertito = false) {
+    function order_by($view, $table = '', $invertito = false) {
 
         $asp_var = $_SESSION['o2_app']->vars['_area'];
         if (!$table) {
@@ -1917,28 +1918,26 @@ class o2_chiave {
             }
         $table_obj      = $view->files[$table];
         $file_type      = $table_obj->db->server->type;
-        $c_o            = constant("o2_".$file_type."_o");
-        $c_c            = constant("o2_".$file_type."_c");
+        $c_o            = constant('o2_'.$file_type.'_o');
+        $c_c            = constant('o2_'.$file_type.'_c');
         $full_tab_alias = $c_o.$table.$c_c;
+        $nulls_first    = ($file_type == 'postgres') || ($file_type == 'oracle');
+        $asc            = ' ASC'.($nulls_first ? ' NULLS FIRST' : '');
+        $desc           = ' DESC'.($nulls_first ? ' NULLS LAST' : '');
+        $str_local      = '';
         foreach ($this->segmenti as $singolo_segmento) {
-            $str_local.= ($str_local ? "," : "");
+            $str_local.= ($str_local ? ',' : '');
             if ($singolo_segmento->custom_sort) {
-                $nulls_first = $file_type == "postgres" || $file_type == "oracle";
-                $asc         = " ASC".($nulls_first ? " NULLS FIRST" : "");
-                $desc        = " DESC".($nulls_first ? " NULLS LAST" : "");
-                $str_local  .= $c_o.$singolo_segmento->campo->file.$c_c.".".
+                $str_local  .= $c_o.$singolo_segmento->campo->file.$c_c.'.'.
                                $singolo_segmento->campo->nome_fisico.
-                               ($singolo_segmento->direzione == "D" ?
+                               ($singolo_segmento->direzione == 'D' ?
                                 ($invertito ? $asc : $desc) :
                                 ($invertito ? $desc : $asc));
                 }
             else {
-                $nulls_first = $file_type == "oracle";
-                $asc         = " ASC".($nulls_first ? " NULLS FIRST" : "");
-                $desc        = " DESC".($nulls_first ? " NULLS LAST" : "");
-                $str_local.= $full_tab_alias.".".
+                $str_local.= $full_tab_alias.'.'.
                              $singolo_segmento->campo->nome_fisico.
-                             ($singolo_segmento->direzione == "D" ?
+                             ($singolo_segmento->direzione == 'D' ?
                               ($invertito ? $asc : $desc) :
                               ($invertito ? $desc : $asc));
                 }

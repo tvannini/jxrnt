@@ -407,14 +407,16 @@ class o2_prg {
                     eval("\$condizione_local = (".$end_cond.");");
                     }
                 $prosegui_loop = !$loop_view || $task_local->record_avanti();
-                // ___________________ Verify if view record-suffix stopped on on-line ___
-                if ($task_local->suffix_running) {
-                    $task_local->act_wait_next = true;
-                    $act_end                   = false;
-                    }
-                // _____________________________________ ... or if it ended as a batch ___
-                elseif ($task_local) {
-                    $task_local->act_wait_next = false;
+                if ($loop_view) {
+                    // _______________ Verify if view record-suffix stopped on on-line ___
+                    if ($task_local->suffix_running) {
+                        $task_local->act_wait_next = true;
+                        $act_end                   = false;
+                        }
+                    // _________________________________ ... or if it ended as a batch ___
+                    else {
+                        $task_local->act_wait_next = false;
+                        }
                     }
                 }
             } while (!$condizione_local &&
@@ -3216,11 +3218,10 @@ class o2_dbview extends o2_view {
         * If WHERE clause has changed return TRUE else FALSE (link-on criteria are
         * checked too)
         */
+        $new_where.= (isset($this->link_on[$file_idx]) ? $this->link_on[$file_idx] : '');
         if (!isset($this->ultima_where[$file_in_esame][$record]) ||
-            $this->ultima_where[$file_in_esame][$record] != $new_where.
-                                                            $this->link_on[$file_idx]) {
-            $this->ultima_where[$file_in_esame][$record] = $new_where.
-                                                           $this->link_on[$file_idx];
+            $this->ultima_where[$file_in_esame][$record] != $new_where) {
+            $this->ultima_where[$file_in_esame][$record] = $new_where;
             if ($prepared) {
                 $this->prepared_pars[$file_in_esame] = $ppars;
                 }
@@ -3552,7 +3553,7 @@ class o2_dbview extends o2_view {
         $key_for_same         = "";
         $start_local          = true;
         // _______________________________________________ Main table ORDER BY clauses ___
-        if (!$this->indici[$mainfile] || !$preserve_orderby) {
+        if (!isset($this->indici[$mainfile]) || !$preserve_orderby) {
             $used_key                        = $this->chiavi_in_uso[$mainfile];
             $this->indici[$mainfile]         = $this->order_by($mainfile, $used_key);
             $this->indici_inversi[$mainfile] = $this->order_by($mainfile, $used_key,
@@ -6051,7 +6052,8 @@ class o2_dbview extends o2_view {
                 }
             // ________________ Verify if current record is in INSERT mode or modified ___
             elseif (($this->status == "I" || $this->modificato) &&
-                     $this->corrente !== $this->verified[$main_file]) {
+                     (!isset($this->verified[$main_file]) ||
+                      ($this->corrente !== $this->verified[$main_file]))) {
                 $this->verifica_record($this->selezione);
                 $this->verified[$main_file] = $this->corrente;
                 }
@@ -8043,7 +8045,7 @@ class o2act {
                     ob_clean();
                     $_SESSION['jxredirect'] = $program;
                     // _____________________________________________________ Full-AJAX ___
-                    if ($GLOBALS['jxjs'] || $GLOBALS['jxjsorigin']) {
+                    if ($GLOBALS['jxjs'] || isset($GLOBALS['jxjsorigin'])) {
                         jxjs::page();
                         }
                     // _________________________________________________ Standard HTML ___

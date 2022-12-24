@@ -1469,7 +1469,7 @@ function o2_sqlite3_commit($server, $user, $password, $end = false) {
     // ________________________________________________ Check for existing transaction ___
     if (isset($GLOBALS['o2_sqlite3_trans'][$server])) {
         // ___________________________________ Check for errors on current transaction ___
-        if ($GLOBALS['o2_sqlite3_error'][$server]) {
+        if (isset($GLOBALS['o2_sqlite3_error'][$server])) {
             $GLOBALS['o2_sqlite3_conn'][$server]->rollBack();
             unset($GLOBALS['o2_sqlite3_error'][$server]);
             }
@@ -1498,7 +1498,7 @@ function o2_sqlite3_commit($server, $user, $password, $end = false) {
         unset($GLOBALS['o2_sqlite3_trans'][$server]);
         }
     // _________________________________________________ Check for existing connection ___
-    if ($end && $GLOBALS['o2_sqlite3_conn'][$server]) {
+    if ($end && isset($GLOBALS['o2_sqlite3_conn'][$server])) {
         unset($GLOBALS['o2_sqlite3_conn'][$server]);
         }
 

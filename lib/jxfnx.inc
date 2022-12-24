@@ -98,8 +98,9 @@ function o2val($view_name, $field_name) {
         }
     // ____ Tracing link criteria for SQL-LINK: excluded ones are treated as constants ___
     $idx = (count($prg->link_check) - 1);
-    if ($view_name == $prg->link_view[$idx] &&
-        $view_local->status != "I" &&
+    if (isset($prg->link_view[$idx]) &&
+        ($view_name == $prg->link_view[$idx]) &&
+        ($view_local->status != "I") &&
         !$view_local->modificato) {
         if ($idx > -1) {
             $prg->link_field[$idx] = $field_name;
