@@ -844,6 +844,16 @@ class o2_exception extends Exception {
                     print "jxe('".addcslashes($this->to_html(), "'\\\n\r")."');\n";
                     }
                 else {
+                    /**
+                     * Needed to prevent headers sending after errors
+                     *
+                     * TODO: Level 2 is arbitrary, manage ob_start() in a better way!
+                     *       Move ob_start() from jxhtml::page() to application
+                     *       constructor?
+                     */
+                    if (ob_get_level() < 2) {
+                        ob_start();
+                        }
                     print $this->to_html();
                     }
                 break;

@@ -46,7 +46,10 @@ if ($_REQUEST['jxact'] == 'keepalive') {
     die();
     }
 // ____________________________________________________ If called by a working session ___
-session_name($_REQUEST["JXSESSNAME"]);
+if (isset($_REQUEST['JXSESSNAME'])) {
+    session_name($_REQUEST['JXSESSNAME']);
+    }
+ob_start();
 if (session_start()) {
     $app = $_SESSION['o2_app'];
     // _________________________________________________________________________ JXSQL ___
@@ -59,7 +62,6 @@ if (session_start()) {
         }
     // __________________________________________________ Get client size informations ___
     o2html::client_info();
-    ob_start();
     switch ($_REQUEST['jxact']) {
         case "refresh": // ______________________________________________ Page refresh ___
             provide_prg($app);
