@@ -104,7 +104,7 @@ class o2html {
 
         $pmark     = time();
         $app       = $_SESSION['o2_app'];
-        $req_pmark = $_REQUEST['o2pagemark'];
+        $req_pmark = (isset($_REQUEST['o2pagemark']) ? $_REQUEST['o2pagemark'] : false);
         // ____________________________________________________ Output buffering start ___
         ob_start();
         // _________________________________________________ HTTP-header character-set ___
@@ -1486,11 +1486,19 @@ class o2html {
          * menu-bar      jxmbh                        height (in px)                    *
          * status-bar    jxsbh                        height (in px)                    *
          ********************************************************************************/
-        if ($_REQUEST['jxcsw']) {
-            $app->client_width  = intval($_REQUEST['jxcsw']);
+        if (isset($_REQUEST['jxcsw'])) {
+            $app->client_width = intval($_REQUEST['jxcsw']);
+            }
+        if (isset($_REQUEST['jxcsh'])) {
             $app->client_height = intval($_REQUEST['jxcsh']);
-            $app->menu_width    = intval($_REQUEST['jxmbw']);
-            $app->menu_height   = intval($_REQUEST['jxmbh']);
+            }
+        if (isset($_REQUEST['jxmbw'])) {
+            $app->menu_width = intval($_REQUEST['jxmbw']);
+            }
+        if (isset($_REQUEST['jxmbh'])) {
+            $app->menu_height = intval($_REQUEST['jxmbh']);
+            }
+        if (isset($_REQUEST['jxsbh'])) {
             $app->status_height = intval($_REQUEST['jxsbh']);
             }
 
@@ -1510,7 +1518,7 @@ class o2html {
          * form              "win_pos"                x1,y1;x2,y2;...                   *
          * form              "win_size"               w1,h1;w2,h2;...                   *
          ********************************************************************************/
-        if ($_REQUEST['win_list']) {
+        if (isset($_REQUEST['win_list']) && $_REQUEST['win_list']) {
             $list_local = explode(";", $_REQUEST['win_list']);
             $pos        = explode(";", $_REQUEST['win_pos']);
             $size       = explode(";", $_REQUEST['win_size']);

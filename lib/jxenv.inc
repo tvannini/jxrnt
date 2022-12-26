@@ -3608,6 +3608,7 @@ class o2_dbview extends o2_view {
             $record_block_local = array();
             $mancanti_local     = $this->righe_vis - count($this->recordset);
             $forward            = $this->direzione === 0 || $this->direzione === 2;
+            $indice_local       = 0;
             // ============== GESTIONE DELLE LINK E VERIFICA DEL RECORD ==================
             foreach ($recordset_local as $indice_local => $singolo_record) {
                 // _____________________________________________ If forward retrieving ___
@@ -5337,7 +5338,8 @@ class o2_dbview extends o2_view {
             if ($singolo_campo->file == $this->file->indice) {
                 $field_name = $singolo_campo->nome;
                 $value      = $this->corrente[$field_name];
-                if ($value != $this->precedente[$field_name]) {
+                if (!isset($this->precedente[$field_name]) ||
+                    ($value != $this->precedente[$field_name])) {
                     $insert_nomi_arr[] = $singolo_campo->nome_fisico;
                     // _____________________ Bulk insert mode: collect fields defaults ___
                     if ($this->bulk_mode) {
@@ -5458,7 +5460,7 @@ class o2_dbview extends o2_view {
             ($this->variato($this->file->indice) && $this->range_mod())) {
             $this->record_primo();
             }
-        if (!$this->recordset[0]) {
+        if (!isset($this->recordset[0])) {
             $this->recordset = array();
             }
         array_splice($this->recordset,
@@ -5995,7 +5997,7 @@ class o2_dbview extends o2_view {
         $dummy_ctrl->maschera = $this->campi[$campo]->maschera;
         $dummy_ctrl->valore   = $valore;
         $valore               = $dummy_ctrl->ctrl2sql();
-        if ($this->corrente[$campo] !== $valore) {
+        if (!isset($this->corrente[$campo]) || ($this->corrente[$campo] !== $valore)) {
             $this->corrente[$campo] = $valore;
             $this->modificato       = true;
             // __________________________________ Reset cached descriptions for combos ___
@@ -6021,7 +6023,8 @@ class o2_dbview extends o2_view {
 
         $prg        = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
         $field_name = strtoupper($field_name);
-        $field_file = $this->campi[$field_name]->file;
+        $field_file = (isset($this->campi[$field_name]) ?
+                       $this->campi[$field_name]->file : false);
         $main_file  = $this->file->indice;
         // ___________________________________ If source view is not already computing ___
         if (!$this->computing) {
@@ -6071,7 +6074,8 @@ class o2_dbview extends o2_view {
                 $prg->drawing_ctrl->dependences[$this->nome][$field_name] = false;
                 }
             }
-        return (!is_null($this->corrente[$field_name]) ?
+        return (isset($this->corrente[$field_name]) &&
+                !is_null($this->corrente[$field_name]) ?
                 $this->corrente[$field_name]           :
                 (isset($this->campi[$field_name]->maschera->default) ?
                  $this->campi[$field_name]->maschera->default        :

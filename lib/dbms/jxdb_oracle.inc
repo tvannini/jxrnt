@@ -38,8 +38,8 @@ if (!extension_loaded("oci8")) {
 
 define("o2_oracle_o", '"');
 define("o2_oracle_c", '"');
-$o2_oracle_conn  = array();
-$o2_oracle_trans = array();
+$GLOBALS['o2_oracle_conn']  = array();
+$GLOBALS['o2_oracle_trans'] = array();
 
 
 /**

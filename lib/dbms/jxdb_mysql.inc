@@ -39,8 +39,8 @@ if (!extension_loaded("pdo_mysql")) {
 
 define("o2_mysql_o", "`");
 define("o2_mysql_c", "`");
-$o2_mysql_conn  = array();
-$o2_mysql_trans = array();
+$GLOBALS['o2_mysql_conn']  = array();
+$GLOBALS['o2_mysql_trans'] = array();
 
 
 /**

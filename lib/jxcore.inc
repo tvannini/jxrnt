@@ -574,7 +574,7 @@ class o2_exception extends Exception {
         // ___________________________________________ Unrem to add full PHP backtrace ___
         // jxlog(debug_backtrace()); // Developers only
         // $error_text.= "<pre>".print_r(debug_backtrace(), 1)."</pre>"; // All users
-         file_put_contents($app->dir_logs.'bt.log', print_r(debug_backtrace(), 1)); //FS
+        // file_put_contents($app->dir_logs.'bt.log', print_r(debug_backtrace(), 1)); //FS
         return $error_text;
 
         }
@@ -1732,9 +1732,7 @@ class o2_maschera {
                     $this->valori       = preg_split ('/\|/', $ris_local[1][0]);
                     }
                 else {
-                    $this->allineamento = (stripos($rep_str, "l") !== false ?
-                                           "Left" : "Right");
-                    $this->valori       = array();
+                    $this->valori = array();
                     }
                 break;
             case "A": // _______________________________________________________ Alpha ___
@@ -6175,6 +6173,9 @@ class o2def {
         // _________________________________________________________ Tracing on record ___
         if ($app->record_trace &&
             ($ak = array_search(strtoupper($con_nome), $app->record_trace))) {
+            if (!is_array($tab_local->record_trace)) {
+                $tab_local->record_trace = array();
+                }
             $tab_local->record_trace[$ak] = $c_o.$nome_fisico.$c_c;
             }
 

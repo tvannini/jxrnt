@@ -46,10 +46,10 @@ else {
 
 define("o2_mssql_o", "[");
 define("o2_mssql_c", "]");
-$o2_mssql_conn  = array();
-$o2_mssql_trans = array();
-$o2_mssql_stms  = array();
-$o2_mssql_error = array();
+$GLOBALS['o2_mssql_conn']  = array();
+$GLOBALS['o2_mssql_trans'] = array();
+$GLOBALS['o2_mssql_stms']  = array();
+$GLOBALS['o2_mssql_error'] = array();
 
 
 /**
@@ -2058,7 +2058,7 @@ function o2_mssql_commit($server, $user, $password, $end = false) {
 					$stm                           = null;
 					}
 				}
-			unset($GLOBALS['o2_mssql_stms']);
+			$GLOBALS['o2_mssql_stms'] = array();
             if (!$GLOBALS['o2_mssql_conn'][$key]->commit()) {
                 $err = $GLOBALS['o2_mssql_conn'][$key]->errorInfo();
                 throw new o2_exception("<b>MSSQL</b> server: <i>".$server."</i><hr />".

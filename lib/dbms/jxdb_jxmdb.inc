@@ -33,10 +33,10 @@
 define('o2_jxmdb_o', '`');
 define('o2_jxmdb_c', '`');
 define('o2_jxmdb_s', '|-+-|');
-$o2_jxmdb_conn  = null;
-$o2_jxmdb_trans = array();
-$o2_jxmdb_stms  = array();
-$o2_jxmdb_error = array();
+$GLOBALS['o2_jxmdb_conn']  = null;
+$GLOBALS['o2_jxmdb_trans'] = array();
+$GLOBALS['o2_jxmdb_stms']  = array();
+$GLOBALS['o2_jxmdb_error'] = array();
 
 
 /**

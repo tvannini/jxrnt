@@ -39,10 +39,10 @@ if (!extension_loaded("pdo_sqlite")) {
 
 define("o2_sqlite3_o", "`");
 define("o2_sqlite3_c", "`");
-$o2_sqlite3_conn  = array();
-$o2_sqlite3_trans = array();
-$o2_sqlite3_stms  = array();
-$o2_sqlite3_error = array();
+$GLOBALS['o2_sqlite3_conn']  = array();
+$GLOBALS['o2_sqlite3_trans'] = array();
+$GLOBALS['o2_sqlite3_stms']  = array();
+$GLOBALS['o2_sqlite3_error'] = array();
 
 /**
  * Normalize a string for db writing escaping special chars
@@ -1486,7 +1486,7 @@ function o2_sqlite3_commit($server, $user, $password, $end = false) {
                         $stm                             = null;
                         }
                     }
-                unset($GLOBALS['o2_sqlite3_stms']);
+                $GLOBALS['o2_sqlite3_stms'] = array();
                 }
             if (!$GLOBALS['o2_sqlite3_conn'][$server]->commit()) {
                 $err = $GLOBALS['o2_sqlite3_conn'][$server]->errorInfo();

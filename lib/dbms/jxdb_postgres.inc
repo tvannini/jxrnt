@@ -38,10 +38,10 @@ if (!extension_loaded("pdo_pgsql")) {
 
 define("o2_postgres_o", '"');
 define("o2_postgres_c", '"');
-$o2_postgres_conn  = array();
-$o2_postgres_trans = array();
-$o2_postgres_stms  = array();
-$o2_postgres_error = array();
+$GLOBALS['o2_postgres_conn']  = array();
+$GLOBALS['o2_postgres_trans'] = array();
+$GLOBALS['o2_postgres_stms']  = array();
+$GLOBALS['o2_postgres_error'] = array();
 
 
 /**
@@ -1885,7 +1885,7 @@ function o2_postgres_commit($server, $user, $password, $end = false) {
                         $stm                              = null;
                         }
                     }
-                unset($GLOBALS['o2_postgres_stms']);
+                $GLOBALS['o2_postgres_stms'] = array();
                 }
             if (!$GLOBALS['o2_postgres_conn'][$key]->commit()) {
                 $err = $GLOBALS['o2_postgres_conn'][$key]->errorInfo();
