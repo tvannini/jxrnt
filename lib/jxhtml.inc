@@ -759,13 +759,17 @@ class o2html {
      */
     static function menu_bar($o2ctrl_obj, $as_code = false) {
 
-        $app       = $_SESSION['o2_app'];
+        $app = $_SESSION['o2_app'];
+        // ____________________________________________________________ Accordion menu ___
+        if ($app->menu_style == 'A') {
+            return o2html::menu_accordion($o2ctrl_obj, $as_code);
+            }
         $hide      = $app->menu_style == 'H';
         $left      = $app->menu_style == 'L' || $hide;
         $html      = "<!-- menu start -->\n<div id=\"jxMenuBar\" class=\"o2menuBar".
                      ($hide ? 'H' : ($left ? 'V' : '')).
-                   "\" onMouseOut='o2jse.menu.closeByTime();' style='position:fixed;".
-                   ($hide ? 'display:none;' : '')."'>\n";
+                     "\" onMouseOut='o2jse.menu.closeByTime();' style='position:fixed;".
+                     ($hide ? 'display:none;' : '')."'>\n";
         $with_list = ($app->profiling == "M" || $app->profiling == "B");
         foreach ($o2ctrl_obj->voci as $item) {
             if ($item->tipo == "S") {
@@ -793,6 +797,52 @@ class o2html {
                           ' onMouseOut="o2jse.menu.onOutBarItem(this,\''.$item->tipo.
                           '\',\''.$item->nome.'\');">'.$icon.
                           '<span class="o2menuLabel">'.$label."</span></div>\n";
+                if ($with_list && $item->tipo == "P") {
+                    $app->menu_prgs[$item->data] = true;
+                    }
+                }
+            }
+        $html.= "</div>\n<script> o2jse.menu.appMainMenu='".$o2ctrl_obj->nome.
+                "'; </script>\n<!-- menu end -->\n";
+        if (!$as_code) {
+            print $html;
+            }
+        if ($hide) {
+            $html.= o2html::menu_bar_button($as_code);
+            }
+        return $html;
+
+        }
+
+
+    /**
+     * Display menu as an accordion menu
+     *
+     * @param o2_menubar $o2ctrl_obj   Related o2_menubar object
+     * @param boolean    $as_code
+     */
+    static function menu_accordion($o2ctrl_obj, $as_code = false) {
+
+        $app  = $_SESSION['o2_app'];
+        $html = "<!-- menu start -->\n<div id=\"jxMenuBar\" class=\"o2menuBarV\" ".
+                "style='position:fixed;'>\n";
+        $with_list = ($app->profiling == "M" || $app->profiling == "B");
+        foreach ($o2ctrl_obj->voci as $item) {
+            if ($item->tipo == "S") {
+                $html.= "<div class='o2menuSep'>&nbsp;</div>\n";
+                }
+            else {
+                $label = jx_encode($item->label);
+                $icon  = ($item->ico ?
+                          '<div class="o2menuImg"><img style="display:inline;" src="'.
+                          $app->alias.'img/'.$item->ico.'"></div>' : '');
+                $o2p   = 'o2="c:\''.$item->nome.
+                         '\',cT:\'menuitem\',itemLabel:\''.$label.'\'" ';
+                $html .= '<div class="o2menuItem"'.
+                         ($item->tipo == 'P' ?
+                          $o2p.' onClick="o2jse.menu.onClickBarItem(this,\'P\',\''.
+                          $item->nome."','".$item->data."'".');"' : '').'>'.$icon.
+                         '<span class="o2menuLabel">'.$label."</span></div>\n";
                 if ($with_list && $item->tipo == "P") {
                     $app->menu_prgs[$item->data] = true;
                     }
@@ -1761,8 +1811,9 @@ class o2html {
         $app->open_wins[$o2form_obj->id_esecuzione][$o2form_obj->nome] =
                                                           array("V" => true, "A" => true);
         $repos  = "";
-        $menu_v = $app->menu_attivo && $app->menu_style == 'L';
-        $menu_o = $app->menu_attivo && $app->menu_style == 'T';
+        $menu_v = $app->menu_attivo &&
+                  (($app->menu_style == 'L') || ($app->menu_style == 'A'));
+        $menu_o = $app->menu_attivo && ($app->menu_style == 'T');
         // ___________________________________________________________ NOT linked form ___
         if (!$o2form_obj->linkto) {
             $div_name = $o2form_obj->nome."_".$o2form_obj->id_esecuzione;
@@ -2019,7 +2070,8 @@ class o2html {
     static function ctrl_win_position($o2form_obj) {
 
         $app    = $_SESSION['o2_app'];
-        $menu_v = $app->menu_attivo && $app->menu_style == 'L';
+        $menu_v = $app->menu_attivo &&
+                  (($app->menu_style == 'L') || ($app->menu_style == 'A'));
         $menu_o = $app->menu_attivo && $app->menu_style == 'T';
         // ___________________________________________________________ NOT linked form ___
         if (!$o2form_obj->linkto) {

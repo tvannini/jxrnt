@@ -126,7 +126,7 @@ class o2_app {
     public $menu_cache      = false;   /* Menu bar cached HTML code                     */
     public $menu_link       = false;   /* Menus definition javascript file (TRN)        */
     public $menu_prgs       = array(); /* List of prgs callable by menu (o2c in URL)    */
-    public $menu_style      = 'T';     /* Menu style [T]op or [L]eft                    */
+    public $menu_style      = 'T';     /* Menu style [T]op [L]eft [H]idden [A]ccordion  */
     /*     _____ Tables options _______________________________________________________ */
     public $tables_create   = true;    /* Automatic tables creation at login            */
     public $split_tab_repos = false;   /* Each table has its own definition file        */

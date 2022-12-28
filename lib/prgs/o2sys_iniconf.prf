@@ -777,11 +777,11 @@ $list = array(
    "menu_style" => array("rntval"  => null,
                          "appval"  => null,
                          "desc"    => "   *** Application main menu style ***\n\n".
-                                      "Default application main menu position.\n".
-                                      "Menu style can be [T]op, [L]eft or [H]idden.\n".
+                                      "Application main menu position and style.\n".
+                                      "Menu style can be [T]op, [L]eft, [H]idden or [A]ccordion.\n".
                                       "Default style is [T]op.",
                          "default" => "Top",
-                         "values"  => array("Top", "Left", "Hidden")),
+                         "values"  => array("Top", "Left", "Hidden", "Accordion")),
    "encoding" => array("rntval"  => null,
                        "appval"  => null,
                        "desc"    => "   *** Application encoding ***\n\n".

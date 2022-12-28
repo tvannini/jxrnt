@@ -872,7 +872,7 @@ class o2_form {
             $this->last_y         = $this->absolute_y;
             $this->restore_x      = $this->absolute_x;
             $this->restore_y      = $this->absolute_y;
-            if ($app->menu_style == 'L') {
+            if ($app->menu_style == 'L' || $app->menu_style == 'A') {
                 $this->larghezza = $app->client_width - $app->menu_width;
                 $this->altezza   = $app->client_height - $app->status_height;
                 }
