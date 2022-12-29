@@ -5338,8 +5338,7 @@ class o2_dbview extends o2_view {
             if ($singolo_campo->file == $this->file->indice) {
                 $field_name = $singolo_campo->nome;
                 $value      = $this->corrente[$field_name];
-                if (!isset($this->precedente[$field_name]) ||
-                    ($value != $this->precedente[$field_name])) {
+                if ($value != $singolo_campo->maschera->default) {
                     $insert_nomi_arr[] = $singolo_campo->nome_fisico;
                     // _____________________ Bulk insert mode: collect fields defaults ___
                     if ($this->bulk_mode) {
