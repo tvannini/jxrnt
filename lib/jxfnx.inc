@@ -3307,21 +3307,35 @@ function o2menu_additem($menu_name  = "",
 
 
 /**
- * Return HTML code for a requested menu
+ * Return HTML code for a requested menu.
+ * Menu code can be requested for available styles ([T]op, [L]eft, [H]ide, [A]ccordion).
+ * If style parameter is left out, then actual INI style will be used.
  *
  * @package menu
  * @param   string $menu_name
- * @param   string $position
+ * @param   string $style       [T]op, [L]eft, [H]ide or [A]ccordion
  * @return  boolean
  */
-function o2menu_code($menu_name = "", $position = "t") {
+function o2menu_code($menu_name = '', $style = '') {
 
-    if (strtolower($position) != "b") {
-        $position = "t";
-        }
     $app = $_SESSION['o2_app'];
     if (isset($app->menu[$menu_name])) {
-        return o2html::menu_bar($app->menu[$menu_name], true);
+        $save = $app->menu_style;
+        switch (strtoupper($style)) {
+            case 'T':
+                $app->menu_style = 'T';
+                break;
+            case 'L':
+            case 'H';
+                $app->menu_style = 'L';
+                break;
+            case 'A':
+                $app->menu_style = 'A';
+                break;
+            }
+        $code            = o2html::menu_bar($app->menu[$menu_name], true);
+        $app->menu_style = $save;
+        return $code;
         }
     else {
         return false;
