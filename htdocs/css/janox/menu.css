@@ -145,7 +145,6 @@
     }
 
 .o2menuLabel {
-    color: #444444;
     white-space: nowrap;
     padding: 0 5px 0 3px;
     }
@@ -166,7 +165,8 @@
 
 .o2menuSep {
     border-bottom: 1px solid var(--jx-color-border);
-    height: 5px;
+    height: 4px;
+    margin-bottom: 2px;
     }
 
 .o2menuSepV {
@@ -183,3 +183,75 @@
 
 .o2devInfo i {
     }
+
+
+/* ===== ACCORDION MENU ===== */
+
+.o2accMenu {}
+
+.o2accMenu div.o2menu {
+	max-height: 0;
+	overflow: hidden;
+	border: none;
+	padding-left: 10px;
+	transition: max-height 0.5s ease-out;
+	}
+
+.o2accMenu > div.o2menu {
+	max-height: 1000px;
+    background-color: transparent;
+	}
+
+.o2accMenu .o2menuItem {
+    border: none;
+    padding: 0;
+    }
+
+.o2accMenu .o2menuItem:hover > label {
+    background-color: var(--jx-color-on);
+    }
+
+.o2accMenu .o2menu .o2menu div.o2menuItem:hover > label {
+    background-color: var(--jx-color-on);
+    }
+
+.o2accMenu .o2menuItem label {
+	display: block;
+	width: 100%;
+	cursor: pointer;
+    margin-bottom: 4px;
+	}
+
+.o2accMenu .o2menuItem label[for]:after {
+    content: "\02C5";
+    content: "\02C3";
+    font-size: 20px;
+    position: relative;
+    top: 6px;
+    float: right;
+    margin-right: 10px;
+	}
+
+.o2accMenu input[type="radio"] {
+	display: none;
+    }
+
+.o2accMenu input[type="radio"]:checked ~ div.o2menu {
+    max-height: 1000px;
+	border: 1px solid var(--jx-color-border);
+    border-right: none;
+    border-radius: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+	transition: max-height 0.5 ease-in;
+	}
+
+.o2accMenu input[type="radio"]:checked ~ label[for]:after {
+    content: "\02C5";
+    font-size: 20px;
+    position: relative;
+    top: 6px;
+    float: right;
+    margin-right: 10px;
+	}
+

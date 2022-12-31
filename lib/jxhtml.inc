@@ -823,11 +823,31 @@ class o2html {
      */
     static function menu_accordion($o2ctrl_obj, $as_code = false) {
 
-        $app  = $_SESSION['o2_app'];
-        $html = "<!-- menu start -->\n<div id=\"jxMenuBar\" class=\"o2menuBarV\" ".
+        $html = "<!-- menu start -->\n<div id=\"jxMenuBar\" class=\"o2menuBarV o2accMenu\" ".
                 "style='position:fixed;'>\n";
-        $with_list = ($app->profiling == "M" || $app->profiling == "B");
-        foreach ($o2ctrl_obj->voci as $item) {
+        $html.= o2html::menu_accordion_menu($o2ctrl_obj->nome, true);
+        $html.= "</div>\n<script> o2jse.menu.appMainMenu='".$o2ctrl_obj->nome.
+                "'; </script>\n<!-- menu end -->\n";
+        if (!$as_code) {
+            print $html;
+            }
+        return $html;
+
+        }
+
+
+    /**
+     * Display menu or sub-menu as an accordion menu
+     *
+     * @param string $menu_name   Menu or sub-menu to render
+     */
+    static function menu_accordion_menu($menu_name) {
+
+        $app       = $_SESSION['o2_app'];
+        $with_list = ($app->profiling == 'M' || $app->profiling == 'B');
+        $menu_obj  = $app->menu[$menu_name];
+        $html      = '<div class="o2menu">';
+        foreach ($menu_obj->voci as $item) {
             if ($item->tipo == "S") {
                 $html.= "<div class='o2menuSep'>&nbsp;</div>\n";
                 }
@@ -838,24 +858,21 @@ class o2html {
                           $app->alias.'img/'.$item->ico.'"></div>' : '');
                 $o2p   = 'o2="c:\''.$item->nome.
                          '\',cT:\'menuitem\',itemLabel:\''.$label.'\'" ';
-                $html .= '<div class="o2menuItem"'.
-                         ($item->tipo == 'P' ?
-                          $o2p.' onClick="o2jse.menu.onClickBarItem(this,\'P\',\''.
-                          $item->nome."','".$item->data."'".');"' : '').'>'.$icon.
-                         '<span class="o2menuLabel">'.$label."</span></div>\n";
+                $html .= '<div class="o2menuItem" '.$o2p.
+                         ($item->tipo == 'P' || $item->tipo == 'U' ?
+                          ' onClick="o2jse.menu.onClickBarItem(this,\''.$item->tipo.'\',\''.
+                          $item->nome."','".$item->data."'".');"><label>' :
+                          '><input type="radio" id="'.$item->nome.
+                          '" name="'.$item->padre.'"><label for="'.$item->nome.'">').
+                         $icon.'<span class="o2menuLabel">'.$label."</span></label>".
+                         ($item->tipo == 'M' ?
+                          o2html::menu_accordion_menu($item->nome) : '')."</div>";
                 if ($with_list && $item->tipo == "P") {
                     $app->menu_prgs[$item->data] = true;
                     }
                 }
             }
-        $html.= "</div>\n<script> o2jse.menu.appMainMenu='".$o2ctrl_obj->nome.
-                "'; </script>\n<!-- menu end -->\n";
-        if (!$as_code) {
-            print $html;
-            }
-        if ($hide) {
-            $html.= o2html::menu_bar_button($as_code);
-            }
+        $html.= "</div>\n";
         return $html;
 
         }
