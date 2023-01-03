@@ -6608,7 +6608,7 @@ class o2_dbview extends o2_view {
         // _______________________________________________ Create fields from formulas ___
         $this->calcola_formule();
         foreach ($this->formule as $field) {
-            // _________ If field is a grid selecto preserve formula on snapshot view  ___
+            // ________ If field is a grid selector preserve formula on snapshot view  ___
             if ($field->selector) {
                 $table->snp_selector = $field;
                 }
@@ -6668,7 +6668,13 @@ class o2_dbview extends o2_view {
         if ($this->chiavi_in_uso[$this->file->indice] != $key_name) {
             $key_name = $this->chiavi_in_uso[$this->file->indice];
             $segments = array();
-            foreach ($this->file->chiavi[$key_name]->segmenti as $segment) {
+            if ($this->file->chiavi[$key_name]->unique) {
+                $new_key = $this->file->chiavi[$key_name];
+                }
+            else {
+                $new_key = $this->file->fix_nukeys[$key_name];
+                }
+            foreach ($new_key->segmenti as $segment) {
                 $fld_name = strtoupper($segment->campo->name);
                 // _______________________________________________ Field not in select ___
                 if (!isset($table->campi[$fld_name])) {
