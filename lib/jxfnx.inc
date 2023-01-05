@@ -3322,18 +3322,21 @@ function o2menu_code($menu_name = '', $style = '') {
     if (isset($app->menu[$menu_name])) {
         $save = $app->menu_style;
         switch (strtoupper($style)) {
-            case 'T':
-                $app->menu_style = 'T';
-                break;
             case 'L':
             case 'H';
                 $app->menu_style = 'L';
+                $code            = o2html::menu_bar($app->menu[$menu_name]);
                 break;
             case 'A':
                 $app->menu_style = 'A';
+                $code            = o2html::menu_accordion_bar($app->menu[$menu_name]);
+                break;
+            case 'T':
+            default:
+                $app->menu_style = 'T';
+                $code            = o2html::menu_bar($app->menu[$menu_name]);
                 break;
             }
-        $code            = o2html::menu_bar($app->menu[$menu_name], true);
         $app->menu_style = $save;
         return $code;
         }
