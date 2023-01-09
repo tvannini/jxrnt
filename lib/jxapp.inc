@@ -124,7 +124,8 @@ class o2_app {
     public $menu_height     = 0;       /* Menu bar height                               */
     public $menu_width      = 0;       /* Menu vertical bar width                       */
     public $menu_cache      = false;   /* Menu bar cached HTML code                     */
-    public $menu_link       = false;   /* Menus definition javascript file (TRN)        */
+    public $menu_link       = false;   /* Menus definition javascript file              */
+    public $menu_linkh      = false;   /* Menus definition HTML file  (Accordion)       */
     public $menu_prgs       = array(); /* List of prgs callable by menu (o2c in URL)    */
     public $menu_style      = 'T';     /* Menu style [T]op [L]eft [H]idden [A]ccordion  */
     /*     _____ Tables options _______________________________________________________ */
@@ -2295,7 +2296,8 @@ class o2_app {
         if (count($_REQUEST)) {
             $js_conf = "o2jse.reqData = {";
             foreach ($_REQUEST as $single_req => $single_val) {
-                $js_conf.= "'".$single_req."':'".addcslashes($single_val, "'\\\r\n")."',";
+                $js_conf.= "'".$single_req."':'".addcslashes(strval($single_val),
+                                                                    "'\\\r\n")."',";
                 }
             return substr($js_conf, 0, strlen($js_conf) - 1)."};\n";
             }

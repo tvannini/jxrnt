@@ -3319,6 +3319,7 @@ function o2menu_additem($menu_name  = "",
 function o2menu_code($menu_name = '', $style = '') {
 
     $app = $_SESSION['o2_app'];
+    $app->includi_repository($app->file_menu);
     if (isset($app->menu[$menu_name])) {
         $save = $app->menu_style;
         switch (strtoupper($style)) {
@@ -3338,9 +3339,11 @@ function o2menu_code($menu_name = '', $style = '') {
                 break;
             }
         $app->menu_style = $save;
+        $app->menu       = array();
         return $code;
         }
     else {
+        $app->menu = array();
         return false;
         }
 

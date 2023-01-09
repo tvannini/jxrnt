@@ -4498,6 +4498,15 @@ o2jse.cmd.run = function(prgName) {
             }
         else {
             fields['jxmbw'] = menuBar.offsetWidth;
+            if (o2jse.menuStyle == 'A') {
+                radioEls = document.getElementById("jxMenuBar").
+                                                        querySelectorAll('input:checked');
+                if (radioEls.length > 0) {
+                    for (let i = 0; i < radioEls.length; i++) {
+                        fields['jxAccMenu[' + radioEls[i].name + ']'] = radioEls[i].value;
+                        }
+                    }
+                }
             }
         }
     // ____________________________________________________________________ Status Bar ___
@@ -9175,6 +9184,7 @@ o2jse.menu = {
     openMenus    : [],   /* List of actually open menus                                 */
     timeout      : null, /* Timeout for menu closing                                    */
     lastBarItem  : null, /* Last selected element in menu bar                           */
+    accList      : [],   /* List of open levels for Accordion menu style                */
     docByMenu    : false /* If is active a help request by menu                         */
 
     };
@@ -9660,6 +9670,25 @@ o2jse.menu.loadAppMenu = function() {
 
     };
 
+
+/**
+ * Reset open menus for Accordion style menu
+ *
+ */
+o2jse.menu.accSet = function() {
+
+    let menus = o2jse.menu.accList;
+    let menu  = o2jse.menu.appMainMenu;
+    if (menus) {
+        while (menu = menus[menu]) {
+            radioEl = document.getElementById(menu);
+            if (radioEl) {
+                radioEl.checked = true;
+                }
+            }
+        }
+
+    };
 
 
 /* ================================== CONTEXT MENU ==================================== */

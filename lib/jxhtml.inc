@@ -548,7 +548,11 @@ class o2html {
      */
     static function menu() {
 
-        $app       = $_SESSION['o2_app'];
+        $app = $_SESSION['o2_app'];
+        // ____________________________________________________________ Accordion menu ___
+        if ($app->menu_style == 'A') {
+            return o2html::menu_accordion($o2ctrl_obj);
+            }
         $menu_name = $app->menu_attivo;
         $with_list = ($app->profiling == "M" || $app->profiling == "B");
         // ____________________________________________________________ Prints out bar ___
@@ -571,7 +575,7 @@ class o2html {
                 if ($with_list) {
                     $app->menu_prgs = array();
                     }
-                $app->menu_cache = o2html::menu_bar($app->menu[$menu_name], true);
+                $app->menu_cache = o2html::menu_bar($app->menu[$menu_name]);
                 }
             print $app->menu_cache;
             }
@@ -608,6 +612,83 @@ class o2html {
             $app->menu_link = $app->file2http($menufile, 0, true);
             $app->menu      = array();
             }
+
+        }
+
+
+    /**
+     * Define menu in HTML/JavaScript context and call menu composition method for an
+     * Accordion style menu.
+     *
+     */
+    static function menu_accordion() {
+
+        $app       = $_SESSION['o2_app'];
+        $menu_name = $app->menu_attivo;
+        // _____________________________________________________ Menu must be produced ___
+        if (!$app->menu_linkh && $menu_name) {
+            if ($app->multilang) {
+                // __________________________________________________ /app/lang/<lang> ___
+                $lang_dir = new o2_dir($app->dir_home.'/lang/'.$app->multilang.'/');
+                // ______________________ MENU repository: translate values from label ___
+                if (!isset($app->translation['#MENU'])) {
+                    // _____________________________________________ Translation table ___
+                    if ($lang_dir->exists('#MENU.lng')) {
+                        $app->translation['#MENU'] = jx_parse_conf($lang_dir.'#MENU.lng');
+                        $app->translate_menu();
+                        }
+                    unset($app->translation['#MENU']);
+                    }
+                }
+            if ($app->profiling == 'M' || $app->profiling == 'B') {
+                $app->menu_prgs = array();
+                }
+            $menufile  = $app->dir_tmp.$menu_name.'.html';
+            $menu_code = o2html::menu_accordion_bar($app->menu[$menu_name]);
+            file_put_contents($menufile, $menu_code);
+            $app->menu_linkh = $app->file2http($menufile, 0, true);
+            print $menu_code;
+            }
+        // ________________________________________________________________ Admin menu ___
+        if (!$app->menu_link && ($app->user_is_admin || $app->run_level == 'DEV')) {
+            // ________________________________________________ Menu translation tools ___
+            if ($app->multilang) {
+                o2html::lang_menu($app->menu['o2admin']);
+                }
+            print "<script>\n";
+            // ____________________________________________________ Start caching code ___
+            $htmllen = ob_get_length();
+            print "o2jse.menu.admMenu = function() {\n";
+            o2html::menu_item_adm($app->menu['o2admin']);
+            print "};\n";
+            $menufile = $app->dir_tmp.'adm.js';
+            file_put_contents($menufile, substr(ob_get_contents(), $htmllen));
+            print "</script>\n";
+            $app->menu_link = $app->file2http($menufile, 0, true);
+            }
+        // ____________________________________________________________ Prints out bar ___
+        if ($menu_name) {
+            if (!$app->menu_cache) {
+                $app->menu_cache = '<iframe src="'.$app->menu_linkh.
+                                   '" style="display:none;" '.
+                                   'onload="this.before((this.contentDocument.body||'.
+                                   'this.contentDocument).children[0]);this.remove();window.parent.o2jse.menu.accSet()">'.
+                                   "</iframe>\n<script> o2jse.menu.appMainMenu='".
+                                   $menu_name."'</script>\n";
+                }
+            else {
+                print $app->menu_cache;
+                }
+            if (isset($_REQUEST['jxAccMenu'])) {
+                $menus = '';
+                foreach ($_REQUEST['jxAccMenu'] as $menu => $item) {
+                    $menus.= "'".$menu."':'".$item."',";
+                    }
+                $menus = substr($menus, 0, -1);
+                print '<script> o2jse.menu.accList={'.$menus.'}; </script>';
+                }
+            }
+        $app->menu = array();
 
         }
 
@@ -660,10 +741,9 @@ class o2html {
     /**
      * Descend a menu recursively and compose structure in HTML/JavaScript context
      *
-     * @param o2_menubar $o2ctrl_obj         Related o2_menubar object
-     * @param boolean    $create_prgs_list   If TRUE creates list of prgs callable by URL
+     * @param o2_menubar $o2ctrl_obj   Related o2_menubar object
      */
-    static function menu_item($o2ctrl_obj, $create_prgs_list = false) {
+    static function menu_item($o2ctrl_obj) {
 
         $app       = $_SESSION['o2_app'];
         $a         = array();
@@ -752,24 +832,19 @@ class o2html {
 
 
     /**
-     * Display menu as menu bar
+     * Return menu code as menu bar
      *
      * @param o2_menubar $o2ctrl_obj   Related o2_menubar object
-     * @param boolean    $as_code
      */
-    static function menu_bar($o2ctrl_obj, $as_code = false) {
+    static function menu_bar($o2ctrl_obj) {
 
-        $app = $_SESSION['o2_app'];
-        // ____________________________________________________________ Accordion menu ___
-        if ($app->menu_style == 'A') {
-            return o2html::menu_accordion($o2ctrl_obj, $as_code);
-            }
+        $app       = $_SESSION['o2_app'];
         $hide      = $app->menu_style == 'H';
         $left      = $app->menu_style == 'L' || $hide;
         $html      = "<!-- menu start -->\n<div id=\"jxMenuBar\" class=\"o2menuBar".
                      ($hide ? 'H' : ($left ? 'V' : '')).
-                     "\" onMouseOut='o2jse.menu.closeByTime();' style='position:fixed;".
-                     ($hide ? 'display:none;' : '')."'>\n";
+                     "\" onMouseOut='o2jse.menu.closeByTime();'".
+                     ($hide ? ' style="display:none;"' : '').">\n";
         $with_list = ($app->profiling == "M" || $app->profiling == "B");
         foreach ($o2ctrl_obj->voci as $item) {
             if ($item->tipo == "S") {
@@ -804,11 +879,8 @@ class o2html {
             }
         $html.= "</div>\n<script> o2jse.menu.appMainMenu='".$o2ctrl_obj->nome.
                 "'; </script>\n<!-- menu end -->\n";
-        if (!$as_code) {
-            print $html;
-            }
         if ($hide) {
-            $html.= o2html::menu_bar_button($as_code);
+            $html.= o2html::menu_bar_button();
             }
         return $html;
 
@@ -816,22 +888,15 @@ class o2html {
 
 
     /**
-     * Display menu as an accordion menu
+     * Return menu code as an accordion menu
      *
      * @param o2_menubar $o2ctrl_obj   Related o2_menubar object
-     * @param boolean    $as_code
      */
-    static function menu_accordion($o2ctrl_obj, $as_code = false) {
+    static function menu_accordion_bar($o2ctrl_obj) {
 
-        $html = "<!-- menu start -->\n<div id=\"jxMenuBar\" class=\"o2menuBarV o2accMenu\" ".
-                "style='position:fixed;'>\n";
-        $html.= o2html::menu_accordion_menu($o2ctrl_obj->nome, true);
-        $html.= "</div>\n<script> o2jse.menu.appMainMenu='".$o2ctrl_obj->nome.
-                "'; </script>\n<!-- menu end -->\n";
-        if (!$as_code) {
-            print $html;
-            }
-        return $html;
+        return "<!-- menu start -->\n<div id='jxMenuBar' class='o2menuBarV o2accMenu'>\n".
+               o2html::menu_accordion_menu($o2ctrl_obj->nome).
+               "</div>\n<!-- menu end -->\n";
 
         }
 
@@ -860,13 +925,13 @@ class o2html {
                          '\',cT:\'menuitem\',itemLabel:\''.$label.'\'" ';
                 $html .= '<div class="o2menuItem" '.$o2p.
                          ($item->tipo == 'P' || $item->tipo == 'U' ?
-                          ' onClick="o2jse.menu.onClickBarItem(this,\''.$item->tipo.'\',\''.
-                          $item->nome."','".$item->data."'".');"><label>' :
+                          ' onClick="o2jse.cmd.run(\''.$item->data.'\');"><label>' :
                           '><input type="radio" id="'.$item->nome.
-                          '" name="'.$item->padre.'"><label for="'.$item->nome.'">').
-                         $icon.'<span class="o2menuLabel">'.$label."</span></label>".
-                         ($item->tipo == 'M' ?
-                          o2html::menu_accordion_menu($item->nome) : '')."</div>";
+                          '" name="'.$item->padre.'" value="'.$item->nome.'">'.
+                          '<label for="'.$item->nome.'">').
+                          $icon.'<span class="o2menuLabel">'.$label."</span></label>".
+                          ($item->tipo == 'M' ?
+                           o2html::menu_accordion_menu($item->nome) : '')."</div>";
                 if ($with_list && $item->tipo == "P") {
                     $app->menu_prgs[$item->data] = true;
                     }
@@ -879,18 +944,13 @@ class o2html {
 
 
     /**
-     * Display button to show/hide menu bar
+     * Return button code to show/hide menu bar
      *
-     * @param boolean    $as_code
      */
-    static function menu_bar_button($as_code =  false) {
+    static function menu_bar_button() {
 
-        $html = '<div id="jxMenuButton" class="o2menuButton" style="position:fixed" '.
+        return '<div id="jxMenuButton" class="o2menuButton" style="position:fixed" '.
                 'onClick="o2jse.menu.menuBtn();">&nbsp;</div>';
-        if (!$as_code) {
-            print $html;
-            }
-        return $html;
 
         }
 

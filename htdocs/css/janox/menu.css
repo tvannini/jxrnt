@@ -1,6 +1,7 @@
 /* ====================================== NEW MENU ==================================== */
 
 .o2menuBar {
+    position: fixed;
     background-color: var(--jx-color-face);
     top: 0;
     left: 0;
@@ -12,6 +13,7 @@
     }
 
 .o2menuBarV {
+    position: fixed;
     background-color: var(--jx-color-face);
     border-right: 1px solid var(--jx-color-border);
     top: 0;
@@ -23,6 +25,7 @@
     }
 
 .o2menuBarH {
+    position: fixed;
     background-color: var(--jx-color-face);
     top: 0;
     left: 0;
