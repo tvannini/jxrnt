@@ -818,12 +818,16 @@ class o2_exception extends Exception {
         $app = $_SESSION['o2_app'];
         // _________________________________________________________ Log error to file ___
         if ($app && $app->errors_log) {
+            $trace = '';
+            if ($app->errors_log_full) {
+                $trace = "\n     === BACKTRACE\n\n".print_r(debug_backtrace(), 1)."\n";
+                }
             file_put_contents($app->dir_logs."errors.log",
                              ($app->run_level == "DEV" ?
                               "DEVELOPER: ".$app->developer."\n" : "").
                              "USER: ".$app->user."\n".
                              "SESSID: ".$app->session_id."\n".
-                             $this->to_raw_text(),
+                             $this->to_raw_text().$trace,
                              FILE_APPEND);
             }
         // ______________________________________________________ Custom error handler ___

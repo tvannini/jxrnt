@@ -190,6 +190,8 @@ class o2_app {
     public $js_cache        = '';      /* JS commands to be fired at response end       */
     public $error_mode      = false;   /* Errors management: FALSE | DEV | EXE          */
     public $errors_log      = false;   /* Enables errors logging on file                */
+    public $errors_log_full = false;   /* Enables full stack trace in errors log (file) */
+    public $warning_log     = false;   /* Enables warning level errors log (warning.log)*/
     public $errors_inc      = false;   /* File name to be included for custom error msgs*/
     public $error_handler   = false;   /* Function name for custom error handling       */
     public $custom_response = false;   /* FALSE or buffer length for custom output      */
@@ -1761,6 +1763,9 @@ class o2_app {
             }
         if (isset($conf['errors_log'])) {
             $this->errors_log = ($conf['errors_log'] ? true : false);
+            }
+        if (isset($conf['errors_log_full'])) {
+            $this->errors_log_full = ($conf['errors_log_full'] ? true : false);
             }
         if (isset($conf['warning_log'])) {
             $this->warning_log = ($conf['warning_log'] ? true : false);
