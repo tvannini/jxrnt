@@ -2007,9 +2007,9 @@ class o2_dbview extends o2_view {
             $this->files[$con_nome]->write_name = $this->files[$con_nome]->nome;
             $this->files[$con_nome]->indice     = $con_nome;
             // ___________________________________________________ Index by expression ___
-            if (strpos($chiave, "()")) {
+            if (strpos($chiave, '()')) {
                 $this->chiavi_in_uso[$con_nome] = $this->files[$con_nome]->chiave->nome;
-                $this->chiavi_exps[$con_nome]   = str_replace("()", "", $chiave);
+                $this->chiavi_exps[$con_nome]   = str_replace('()', '', $chiave);
                 }
             // _________________________________________________________ Index by name ___
             else {
@@ -2045,12 +2045,12 @@ class o2_dbview extends o2_view {
             $ut                = $this->files[$con_nome];
             if ($phys_tab) {
                 // ________________________________________ Table is provided by query ___
-                if (strpos($phys_tab, " ")) {
+                if (strpos($phys_tab, ' ') !== false) {
                     // ___ Write name is used for write operations instead of subquery ___
                     if (!$ut->write_name) {
                         $ut->write_name = $ut->nome;
                         }
-                    $ut->nome     = "(".$phys_tab.")";
+                    $ut->nome     = '('.$phys_tab.')';
                     $ut->subquery = true;
                     }
                 // ________________________________ Table is provided by physical name ___
