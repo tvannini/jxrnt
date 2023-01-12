@@ -205,7 +205,7 @@
 	}
 
 .o2accMenu > div.o2menu {
-	max-height: 1000px;
+	max-height: 10000px;
     background-color: transparent;
 	}
 
@@ -240,7 +240,7 @@
     }
 
 .o2accMenu input[type="radio"]:checked ~ div.o2menu {
-    max-height: 1000px;
+    max-height: 10000px;
 	border: 1px solid #a7bde4;
     border-right: none;
     border-top-left-radius: 5px;
