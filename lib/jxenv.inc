@@ -5211,7 +5211,8 @@ class o2_dbview extends o2_view {
         $tracer     = new jx_record_tracer($this->file);
         $tracer->record();
         foreach ($this->campi as $singolo_campo) {
-            if ($singolo_campo->file == $this->file->indice) {
+            if (($singolo_campo->file == $this->file->indice) &&
+                !$singolo_campo->virtual) {
                 $field_name = $singolo_campo->nome;
                 if (isset($this->corrente[$field_name]) &&
                     ($this->corrente[$field_name] !== $this->precedente[$field_name])) {
@@ -5335,7 +5336,8 @@ class o2_dbview extends o2_view {
         $tracer = new jx_record_tracer($this->file);
         $tracer->record();
         foreach ($this->campi as $singolo_campo) {
-            if ($singolo_campo->file == $this->file->indice) {
+            if (($singolo_campo->file == $this->file->indice) &&
+                !$singolo_campo->virtual) {
                 $field_name = $singolo_campo->nome;
                 $value      = $this->corrente[$field_name];
                 if (($singolo_campo->tipo == 'D' || $singolo_campo->tipo == 'O') ?
