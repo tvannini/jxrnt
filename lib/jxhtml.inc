@@ -3567,7 +3567,8 @@ class o2html {
         // ________________________________________________________________ Output row ___
         print "<tr".(!$o2ctrl_obj->rows_vis[$row_index] ? ' style="display:none;"' : "").
               ">\n".($o2ctrl_obj->row_marker ?
-                     '<th class="'.$o2ctrl_obj->marker_class."\">&nbsp;</th>\n" : "").
+                     '<th class="'.$o2ctrl_obj->marker_class.
+                     "\" onclick=\"o2jse.cMenu.setOn();\">&nbsp;</th>\n" : "").
               $code."</tr>\n</thead>\n";
         $o2ctrl_obj->lines_per_row = $row_index;
 
