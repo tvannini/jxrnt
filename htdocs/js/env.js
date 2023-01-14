@@ -3381,7 +3381,7 @@ o2jse.tab.visibleCols = function(jxInfo) {
     // __________________________ Skip last pseudo-column (used to resize last column) ___
     for (var i = 0; i < colsLen - 1; i++) {
         o2jse.ctrl.init(cols[i]);
-        if (cols[i].className != "o2_tab_marker" && cols[i].o2.v) {
+        if (cols[i].className.substr(0, 13) != "o2_tab_marker" && cols[i].o2.v) {
             var singleRow       = frameTable.insertRow(-1);
             var fieldCell       = singleRow.insertCell(-1);
             var valueCell       = singleRow.insertCell(-1);
@@ -3539,7 +3539,7 @@ o2jse.tab.orderCols = function(jxInfo) {
     // __________________________ Skip last pseudo-column (used to resize last column) ___
     for (var i = 0; i < colsLen - 1; i++) {
         o2jse.ctrl.init(cols[i]);
-        if (cols[i].className != "o2_tab_marker" && cols[i].o2.v) {
+        if (cols[i].className.substr(0, 13) != "o2_tab_marker" && cols[i].o2.v) {
             var ctrlName        = cols[i].o2.inctrl;
             singleRow           = frameTable.insertRow(-1);
             fieldCell           = singleRow.insertCell(-1);
