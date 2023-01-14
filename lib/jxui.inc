@@ -5513,12 +5513,14 @@ class o2_ctrl_tab extends o2_ctrl {
                         }
                     }
                 }
-            foreach ($prg->custom_grids[$this->nome]['O'] as $ex_ctrl => $ex_pos) {
-                if ($ex_pos >= $pos && $ex_pos < $col_index) {
-                    $prg->custom_grids[$this->nome]['O'][$ex_ctrl] = $ex_pos + 1;
-                    }
-                elseif ($ex_pos <= $pos && $ex_pos > $col_index) {
-                    $prg->custom_grids[$this->nome]['O'][$ex_ctrl] = $ex_pos - 1;
+            if (is_array($prg->custom_grids[$this->nome]['O'])) {
+                foreach ($prg->custom_grids[$this->nome]['O'] as $ex_ctrl => $ex_pos) {
+                    if ($ex_pos >= $pos && $ex_pos < $col_index) {
+                        $prg->custom_grids[$this->nome]['O'][$ex_ctrl] = $ex_pos + 1;
+                        }
+                    elseif ($ex_pos <= $pos && $ex_pos > $col_index) {
+                        $prg->custom_grids[$this->nome]['O'][$ex_ctrl] = $ex_pos - 1;
+                        }
                     }
                 }
             $prg->custom_grids[$this->nome]['O'][$ctrl] = $pos;
