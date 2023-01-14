@@ -27,6 +27,7 @@ thead .o2_tab_marker,
     cursor: default;
     overflow: hidden;
     border-top-left-radius: 0px;
+    cursor: pointer;
     }
 
 thead .o2_tab_marker {

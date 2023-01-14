@@ -26,6 +26,7 @@ thead .o2_tab_marker,
     white-space: nowrap;
     border-top-left-radius: 2px;
     transition: background-color .2s .1s;
+    cursor: pointer;
     }
 
 TH + thead .o2_tab_marker,

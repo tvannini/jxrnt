@@ -24,6 +24,7 @@ thead .o2_tab_marker,
     cursor: default;
     overflow: hidden;
     transition: background-color .2s .1s;
+    cursor: pointer;
     }
 
 thead .o2_tab_marker {
