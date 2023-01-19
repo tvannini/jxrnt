@@ -175,13 +175,15 @@ function jxcalendar§§menu_selection_act(&$o2exe) {
 function jxcalendar§§next_act(&$o2exe) {
 	$o2exe->s(1) && (jxcalendar_exp_27() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_16()) && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_exp_29() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_46()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
+	$o2exe->s(3) && (jxcalendar_exp_60() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_62()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxcalendar§§prev_act(&$o2exe) {
 	$o2exe->s(1) && (jxcalendar_exp_27() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_15()) && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_exp_29() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_47()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
+	$o2exe->s(3) && (jxcalendar_exp_60() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_61()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxcalendar§§refresh_win_act(&$o2exe) {
@@ -658,6 +660,19 @@ return ('tools/jxcalendar_week');
 function jxcalendar_exp_60() {
 	
 return (o2val('prg§_§var','view') == 'W');
+	} //|o2_fine_exp|
+
+function jxcalendar_exp_61() {
+	$date = o2val('prg§_§var','date');
+$date->modify('-1 Week');
+
+return ($date);
+	} //|o2_fine_exp|
+
+function jxcalendar_exp_62() {
+	$date = o2val('prg§_§var','date');
+$date->modify('+1 Week');
+return ($date);
 	} //|o2_fine_exp|
 
 function jxcalendar_exp_9998() {
