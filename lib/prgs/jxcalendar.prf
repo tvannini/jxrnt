@@ -143,6 +143,7 @@ function jxcalendar§§compose_html_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "cal_html", jxcalendar_exp_42()) && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_exp_27() || $o2exe->e()) && o2act::call(jxcalendar_exp_19(), False, jxcalendar_exp_7(), jxcalendar_exp_18(), "prg§_§var§§cal_html", jxcalendar_exp_11(), jxcalendar_exp_13(), jxcalendar_exp_55()) && $o2exe->e();
 	$o2exe->s(3) && (jxcalendar_exp_29() || $o2exe->e()) && o2act::call(jxcalendar_exp_28(), False, jxcalendar_exp_7(), jxcalendar_exp_18(), "prg§_§var§§cal_html", jxcalendar_exp_11(), jxcalendar_exp_13(), jxcalendar_exp_55()) && $o2exe->e();
+	$o2exe->s(4) && (jxcalendar_exp_60() || $o2exe->e()) && o2act::call(jxcalendar_exp_59(), False, jxcalendar_exp_7(), jxcalendar_exp_18(), "prg§_§var§§cal_html", jxcalendar_exp_11(), jxcalendar_exp_13(), jxcalendar_exp_55()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxcalendar§§create_event_act(&$o2exe) {
@@ -312,6 +313,17 @@ if ($v == 'D') {
    }
 elseif ($v == 'M') {
    $title = $m[intval($date->format('n')) - 1][0].' '.$date->format('Y');
+   }
+elseif ($v = 'W') {
+   $fmd = date_create('first monday of '.$date->format('F Y'));
+   $fmn = $fmd->format('j');
+   $wn  = (int)(($date->format('j') - $fmn +7) / 7) + ($fmn == 1 ? 0 : 1);
+   if (o2val('prg§_§var','lang') == 'it') {
+      $title = 'Sett. '.$wn.' di '.$m[intval($date->format('n')) - 1][1].' '.$date->format('Y');
+      }
+   else { 
+      $title = 'Week '.$wn.' of '.$m[intval($date->format('n')) - 1][1].' '.$date->format('Y');
+      }
    }
 return ($title);
 	} //|o2_fine_exp|
@@ -636,6 +648,16 @@ return (o2val('prg§_§var','btn_menu') == 'U');
 function jxcalendar_exp_58() {
 	
 return ('tools/jxuser_select');
+	} //|o2_fine_exp|
+
+function jxcalendar_exp_59() {
+	
+return ('tools/jxcalendar_week');
+	} //|o2_fine_exp|
+
+function jxcalendar_exp_60() {
+	
+return (o2val('prg§_§var','view') == 'W');
 	} //|o2_fine_exp|
 
 function jxcalendar_exp_9998() {

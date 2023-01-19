@@ -49,13 +49,12 @@
     }
 
 * {
-    -moz-box-sizing:    border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing:         border-box;
-    outline:            none;
+    box-sizing: border-box;
+    outline: none;
+    font-family: "Gudea", sans-serif;
+    color: #595959;
+    font-size: 13px;
     }
-
-* { font-family: "Gudea", sans-serif; color: #595959; font-size: 13px; }
 
 em, i { font-style: italic; }
 

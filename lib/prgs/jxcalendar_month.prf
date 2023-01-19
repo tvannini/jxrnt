@@ -160,7 +160,7 @@ $size       = o2val('prg§_§var','size');
 $fsize      = 'font-size:'.
               ($size == 'S' ? '75%' : ($size == 'M' ? '90%' : '110%')).
               ';';
-$html       = '<table class="jxCal"><thead><tr class="calendar-header">';
+$html       = '<div class="jxCal"><table><thead><tr class="calendar-header">';
 foreach ($days as $day) {
    $html .= '<th>'.
             ($size == 'S' ? $day[0] : ($size == 'M' ? $day[1] : $day[2])).
@@ -216,7 +216,7 @@ do {
    $day->modify('+1 Day');
    $day_idx++;
    } while ($day_idx <= $tot_days);   
-$html .= '</tr></tbody></table>';
+$html .= '</tr></tbody></table></div>';
 return ($html);
 	} //|o2_fine_exp|
 

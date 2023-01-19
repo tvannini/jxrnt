@@ -169,15 +169,14 @@ $fsize      = 'font-size:'.
               ($size == 'S' ? '75%' : ($size == 'M' ? '90%' : '110%')).
               ';';
 $time_idx   = 0;
-$tot_time   = 24;
 $wd_row     = false;
 $css_t      = ($date->format('Ymd') == $today->format('Ymd')) ? 
-               ' jxCalToday' : '';
-$html       = '<div style="height:100%;overflow:auto;">';
+               ' class="jxCalToday"' : '';
+$html       = '<div class="jxCal" style="display:flex;flex-direction:column;">';
 
 /* Festivity day */
 if (isset($fests[$date->format('Ymd')])) {
-   $html  .= '<ul class="jxCalEvents">'.
+   $html  .= '<ul class="jxCalEvents" style="flex-shrink:0;">'.
              '<li class="jxCalEvent jxCalF" style="'.$fsize.'">'.
              $fests[$date->format('Ymd')].'</li>';  
    $wd_row = true;
@@ -200,12 +199,12 @@ foreach (o2val('prg§_§var','events') as $ev_id => $ev) {
 if ($wd_row) {
    $html .= '</ul>';
    }
-$html .= '<table class="jxCal'.$css_t.'">';   
+$html .= '<div style="flex-grow:1;overflow:auto;"><table '.$css_t.'>';   
 do {
    $s_hour  = str_pad($time_idx, 2, '0', STR_PAD_LEFT);
    $h_row   = false;
-   $html   .= '<tr><td class="jxCalHour'.$css_off.'">'.$s_hour.':00'.
-              '</td><td class="jxCalHour'.$css_off.'" onclick="'.
+   $html   .= '<tr><td class="jxCalHour">'.$s_hour.':00'.
+              '</td><td class="jxCalHour" onclick="'.
               o2_act4js($exe_id, 'cal_event_create', $date->format('Ymd'), 'D').
               '">';
    if (count(o2val('prg§_§var','events'))) {
@@ -231,7 +230,7 @@ do {
    $html .= '</td></tr>';
    $time_idx++;
    } while ($time_idx <= 23);
-$html .= '</table></div>';
+$html .= '</table></div></div>';
 return ($html);
 	} //|o2_fine_exp|
 
@@ -369,7 +368,6 @@ $list[o2val('events','event_id')] = [o2val('events','event_user'),
                                      o2val('events','event_time'),
                                      o2val('events','event_title'),
                                      o2val('events','whole_day')];
-
 return ($list);
 	} //|o2_fine_exp|
 
