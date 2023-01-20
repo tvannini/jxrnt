@@ -343,8 +343,10 @@ class o2_app {
                                   $this->alias."img/".$this->nome.".ico"     :
                                   $this->runtime->alias."img/jxapp.ico");
                 // ________________________________________________ Client screen size ___
-                if ($_REQUEST['jxcsw']) {
+                if (isset($_REQUEST['jxcsw']) && (intval($_REQUEST['jxcsw']) > 100)) {
                     $this->client_width  = intval($_REQUEST['jxcsw']);
+                    }
+                if (isset($_REQUEST['jxcsh']) && (intval($_REQUEST['jxcsh']) > 100)) {
                     $this->client_height = intval($_REQUEST['jxcsh']);
                     }
                 break;
