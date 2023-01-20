@@ -310,8 +310,15 @@ $d     = o2val('prg§_§var','days');
 $m     = o2val('prg§_§var','months');
 $v     = o2val('prg§_§var','view');
 if ($v == 'D') {
-   $title = $d[intval($date->format('w'))][1].' '.$date->format('j').' '.
-            $m[intval($date->format('n')) - 1][1].' '.$date->format('Y');
+   $did   = intval($date->format('w'));
+   if ($did == 0) {
+      $did = 6;
+      }
+   else {
+      $did = $did - 1;
+      } 
+   $title = $d[$did][2].' '.$date->format('j').' '.
+            $m[intval($date->format('n')) - 1][0].' '.$date->format('Y');
    }
 elseif ($v == 'M') {
    $title = $m[intval($date->format('n')) - 1][0].' '.$date->format('Y');
@@ -321,10 +328,10 @@ elseif ($v = 'W') {
    $fmn = $fmd->format('j');
    $wn  = (int)(($date->format('j') - $fmn +7) / 7) + ($fmn == 1 ? 0 : 1);
    if (o2val('prg§_§var','lang') == 'it') {
-      $title = 'Sett. '.$wn.' di '.$m[intval($date->format('n')) - 1][1].' '.$date->format('Y');
+      $title = 'Sett. '.$wn.' '.$m[intval($date->format('n')) - 1][0].' '.$date->format('Y');
       }
    else { 
-      $title = 'Week '.$wn.' of '.$m[intval($date->format('n')) - 1][1].' '.$date->format('Y');
+      $title = 'Week '.$wn.' '.$m[intval($date->format('n')) - 1][0].' '.$date->format('Y');
       }
    }
 return ($title);
@@ -665,7 +672,6 @@ return (o2val('prg§_§var','view') == 'W');
 function jxcalendar_exp_61() {
 	$date = o2val('prg§_§var','date');
 $date->modify('-1 Week');
-
 return ($date);
 	} //|o2_fine_exp|
 
