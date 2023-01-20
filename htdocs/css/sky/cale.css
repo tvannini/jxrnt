@@ -83,7 +83,8 @@
 	}
 
 .jxCal th {
-    max-height: 30px;
+    height: 1px;
+	padding: 5px;
 	border: 1px solid #a7bde4;
 	border-top: none;
 	border-left: none;
