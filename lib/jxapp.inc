@@ -1987,6 +1987,11 @@ class o2_app {
                 $this->intcall("tools/jxlock");
                 }
             }
+        // ___________________________________________________________ Main menu style ___
+        $ms = strtoupper(strval($this->option_get('menu_style')));
+        if ($ms && strpos('TLHA', $ms) !== false) {
+            $this->menu_style = $ms;
+            }
         // ________________________________________________________________ Log tables ___
         $this->create_logtabs();
         // __________________________ Override runtime settings with user/app settings ___
