@@ -162,11 +162,14 @@ $fsize     = 'font-size:'.
 $html      = '<div class="jxCal" style="display:flex;flex-direction:column;">'.
              '<table style="height:auto;flex-shrink:0;"><thead>'.
              '<tr><th class="jxCalHour">&nbsp;</th>';
+$wday      = clone $date;
 foreach ($days as $day) {
-   $html .= '<th>'.
+   $css_f = (($wday->format('w') == 0) || isset($fests[$wday->format('Ymd')]) ? 
+             ' class="jxCalFest"' : ''); 
+   $html .= '<th'.$css_f.'>'.
             ($size == 'S' ? $day[0] : ($size == 'M' ? $day[1] : $day[2])).
-            '<br>'.$month_day.'</th>';
-   $month_day++;
+            '<div class="jxCalDayNum">'.$wday->format('j').'</div></th>';
+   $wday->modify('+1 Day');
    }
 $html.= '</tr></thead><tbody><tr><td class="jxCalHour">&nbsp;</td>';
 /* Whole day row - Festivities and whole day events */
