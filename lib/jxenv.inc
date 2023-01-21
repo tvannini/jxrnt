@@ -7017,6 +7017,16 @@ class o2_virtualview extends o2_view {
             $this->comunica_variazioni();
             $this->set_changes($field);
             }
+        /*
+         * Needed for object bacause they are different only if reference changes, not
+         * single properties.
+         *    Field and value have the same reference, so if a property is changed in
+         *    UPDATE expression, referenced object in ->corrente reflects changes made in
+         *    expression, so they are always the same.
+         */
+        elseif (is_object($value)) {
+            $this->set_changes($field);
+            }
 
         }
 
