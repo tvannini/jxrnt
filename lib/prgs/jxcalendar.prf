@@ -80,7 +80,6 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2button7->y(8);
 		$ctrl_o2button7->larghezza(50);
 		$ctrl_o2button7->altezza(24);
-		$ctrl_o2button7->visibile(jxcalendar_exp_21());
 		$ctrl_o2button7->azione("today");
 		$ctrl_o2button7->info_padre(array(0));
 		$ctrl_o2button7->label(jxcalendar_exp_30());
