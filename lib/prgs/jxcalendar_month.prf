@@ -160,7 +160,7 @@ $size       = o2val('prg§_§var','size');
 $fsize      = 'font-size:'.
               ($size == 'S' ? '75%' : ($size == 'M' ? '90%' : '110%')).
               ';';
-$html       = '<div class="jxCal"><table><thead><tr class="calendar-header">';
+$html       = '<div class="jxCal"><table><thead><tr>';
 foreach ($days as $day) {
    $html .= '<th>'.
             ($size == 'S' ? $day[0] : ($size == 'M' ? $day[1] : $day[2])).
