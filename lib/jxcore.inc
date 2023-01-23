@@ -60,11 +60,11 @@ class o2_exception extends Exception {
         $this->caught = true;
         $this->set_error_class($code);
         // _______________________________________________ Hide errors after first one ___
-        if ($GLOBALS["jxlasterror"]) {
+        if (isset($GLOBALS['jxlasterror']) && $GLOBALS['jxlasterror']) {
             $GLOBALS['jxerrorhide'] = true;
             }
         elseif ($code != o2error_DEPRECATED && $code != o2error_WARNING) {
-            $GLOBALS["jxlasterror"] = $this;
+            $GLOBALS['jxlasterror'] = $this;
             }
         // _____________________ Don't break transaction for Warnings and Deprecations ___
         if (isset($_SESSION['o2_app']) &&
@@ -656,7 +656,7 @@ class o2_exception extends Exception {
         $exp = "";
         $fun = "";
         $app = $_SESSION['o2_app'];
-        if (is_array($app->istanze_prg)) {
+        if (is_array($app->istanze_prg) && count($app->istanze_prg)) {
             foreach (array_reverse($app->istanze_prg) as $singola_istanza) {
                 if ($prg == "") {
                     $prg = $singola_istanza->nome." [".$singola_istanza->id."]";
@@ -671,7 +671,9 @@ class o2_exception extends Exception {
                     $fun = $single_step['function'].
                            "(".implode(", ", $single_step['args']).")";
                     }
-                list($prg_name, $exp) = explode("_exp_", $single_step['function']);
+                if (strpos($single_step['function'], '_exp_')) {
+                    list($prg_name, $exp) = explode("_exp_", $single_step['function']);
+                    }
                 if ($prg_name == $singola_istanza->nome) {
                     $exp = ($exp ? "         Expression: [".$exp."] ".$fun."\n" : "");
                     break;
@@ -680,7 +682,7 @@ class o2_exception extends Exception {
                 }
             $prg = ($prg ? "         Program: ".$prg."\n" : "");
             }
-        if ($app->esecuzioni[0]) {
+        if (isset($app->esecuzioni[0])) {
             if ($app->esecuzioni[0]->passo) {
                 $act = "         Action: ".$app->esecuzioni[0]->azione." [step ".
                                            $app->esecuzioni[0]->passo."]\n";
@@ -689,8 +691,10 @@ class o2_exception extends Exception {
         $msg_text = $this->message;
         $parts = array();
         preg_match('/\<code\>(.*)\<\/code\>/s', $this->message, $parts);
-        $query    = $parts[1];
-        $msg_text = str_replace($query, htmlspecialchars($query), $msg_text);
+        if (count($parts)) {
+            $query    = $parts[1];
+            $msg_text = str_replace($query, htmlspecialchars($query), $msg_text);
+            }
         $msg_text = htmlspecialchars_decode(strip_tags(preg_replace(
                                                             '/<br\s*\/?>|<hr\s*\/?>|\n/i',
                                                                     "\n         ",
@@ -895,8 +899,10 @@ class o2_exception extends Exception {
             if ($GLOBALS['o2_runtime']->developer) {
                 $t = $myself->getTrace();
                 // ______________________________________________ PDO Connection error ___
-                if ($t[0]['class'] == "PDO" && $t[0]['function'] == "__construct") {
-                    $m = $t[0]['args'][0]."<br><br>".$m;
+                if ($t[0]['class'] == 'PDO' &&
+                    $t[0]['function'] == '__construct' &&
+                    isset($t[0]['args'])) {
+                    $m = $t[0]['args'][0].'<br><br>'.$m;
                     }
                 }
             $e = new o2_exception($m, o2error_DBCONNECT);

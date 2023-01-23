@@ -299,7 +299,7 @@ function o2_oracle_tabexists($server, $user, $password, $database, $owner, $tabl
         $o2e->set_error_class(o2error_DBTABEXISTS);
         throw $o2e;
         }
-    return ($res[0]["IT_EXISTS"] ? true : false);
+    return (isset($res[0]["IT_EXISTS"]) && $res[0]["IT_EXISTS"] ? true : false);
 
     }
 
@@ -1813,7 +1813,7 @@ function o2_oracle_commit($server, $user, $password, $end = true) {
         unset($GLOBALS['o2_oracle_trans'][$key]);
         }
     // _________________________________________________ Check for existing connection ___
-    if ($end && $GLOBALS['o2_oracle_conn'][$key]) {
+    if ($end && isset($GLOBALS['o2_oracle_conn'][$key])) {
         unset($GLOBALS['o2_oracle_conn'][$key]);
         }
 

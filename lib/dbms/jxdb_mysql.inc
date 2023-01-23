@@ -1568,7 +1568,7 @@ function o2_mysql_commit($server, $user, $password, $end = false) {
         unset($GLOBALS['o2_mysql_trans'][$key]);
         }
     // _________________________________________________ Check for existing connection ___
-    if ($end && $GLOBALS['o2_mysql_conn'][$key]) {
+    if ($end && isset($GLOBALS['o2_mysql_conn'][$key])) {
         unset($GLOBALS['o2_mysql_conn'][$key]);
         }
 

@@ -6206,7 +6206,8 @@ function o2view_total($view_name, $from_cache = false) {
                     }
                 }
             // ______________________________________________ Check ranges on formulas ___
-            if ($view_obj->wheres["o2calc§_§exps"]) {
+            if (isset($view_obj->wheres["o2calc§_§exps"]) &&
+                $view_obj->wheres["o2calc§_§exps"]) {
                 $countable = false;
                 }
             // ________________________________________ Use database COUNT (COUNTABLE) ___

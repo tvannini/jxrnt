@@ -360,7 +360,7 @@ function o2_sqlite3_tabexists($server, $user, $password, $database, $owner, $tab
                                o2error_DBTABEXISTS);
         }
     $res_local = $query->fetch(PDO::FETCH_ASSOC);
-    return ($res_local["IT_EXISTS"] ? true : false);
+    return (isset($res_local["IT_EXISTS"]) && $res_local["IT_EXISTS"] ? true : false);
 
     }
 

@@ -441,7 +441,7 @@ function o2_mssql_tabexists($server, $user, $password, $database, $owner, $table
                                            o2_mssql_o.$owner.o2_mssql_c.
              ".sysobjects WHERE (type='U' OR type='V') AND name='".$table."'";
     $res   = o2_mssql_execute($query, $server, $user, $password, false, false);
-    return ($res[0]["IT_EXISTS"] ? true : false);
+    return (isset($res[0]["IT_EXISTS"]) && $res[0]["IT_EXISTS"] ? true : false);
 
     }
 
@@ -2069,7 +2069,7 @@ function o2_mssql_commit($server, $user, $password, $end = false) {
         unset($GLOBALS['o2_mssql_trans'][$key]);
         }
     // _________________________________________________ Check for existing connection ___
-    if ($end && $GLOBALS['o2_mssql_conn'][$key]) {
+    if ($end && isset($GLOBALS['o2_mssql_conn'][$key])) {
         unset($GLOBALS['o2_mssql_conn'][$key]);
         }
 

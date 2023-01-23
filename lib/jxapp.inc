@@ -2161,17 +2161,19 @@ class o2_app {
         else {
             $prg = $this->istanze_prg[$this->progressivo_istanze]->nome;
             }
-        $res = $this->translation[$prg][$ctrl.'#'.$prop.
-                                        ($prop == 'item' || $prop == 'page' ?
-                                         '_'.$prop_value : '')];
+        $res = '';
+        $idx = $ctrl.'#'.$prop.($prop == 'item' || $prop =='page' ? '_'.$prop_value : '');
+        if (isset($this->translation[$prg][$idx])) {
+            $res = $this->translation[$prg][$idx];
+            }
         // ____________________________________ Look for translation in prg dictionary ___
         if (trim($res)) {
             return $res;
             }
         else {
-            $res = $this->translation[''][$ctrl.'#'.$prop.
-                                          ($prop == 'item' || $prop == 'page' ?
-                                           '_'.$prop_value : '')];
+            if (isset($this->translation[''][$idx])) {
+                $res = $this->translation[''][$idx];
+                }
             // _____________________________ Look for translation in global dictionary ___
             if (trim($res)) {
                 return $res;
@@ -3007,7 +3009,8 @@ class o2_app {
             $this->chiamate = array(1 => array('id'          => 1,
                                                'prg'         => trim($_REQUEST['o2c']),
                                                'parametri_n' => count($o2pars),
-                                               'parametri'   => $o2pars));
+                                               'parametri'   => $o2pars,
+                                               'fine'        => false));
             }
         $this->get_params();
         if ($redirect) {

@@ -3808,7 +3808,7 @@ class o2_dbview extends o2_view {
             $this->ultima_where[$mainfile][0] = $this->wheres[$mainfile];
             }
         $links = (is_array($this->link_on) ? $this->link_on : null);
-        if ($app->sqltrace) {
+        if ($_SESSION['o2_app']->sqltrace) {
             jxsql_stat($this);
             }
         return o2_gateway::count($server->type,
@@ -4161,7 +4161,7 @@ class o2_dbview extends o2_view {
                         $this->struttura();
                         }
                     }
-                if (!$this->indici[$file_name]) {
+                if (!isset($this->indici[$file_name]) || !$this->indici[$file_name]) {
                     $this->indici[$file_name] = $this->order_by($file_name,
                                                         $this->chiavi_in_uso[$file_name]);
                     }
@@ -4171,8 +4171,11 @@ class o2_dbview extends o2_view {
                 $this->range2formule($record);
                 // Se le condizioni di WHERE sono variate e sono diverse da quelle
                 // dell'ultima query eseguita allora eseguo di nuovo la query
+                if (!isset($this->link_cache[$file_name.'_where'])) {
+                    $this->link_cache[$file_name.'_where'] = '';
+                    }
                 if ($cond_local &&
-                    ($this->link_cache[$file_name."_where"] !==
+                    ($this->link_cache[$file_name.'_where'] !==
                      $this->wheres[$file_name])) {
                     if ($app->sqltrace) {
                         jxsql_stat($this, 'R', $file_name);
@@ -4191,7 +4194,7 @@ class o2_dbview extends o2_view {
                                                      $this->select_str[$file_name],
                                                      $this->wheres[$file_name],
                                                      $this->indici[$file_name]);
-                    $this->link_cache[$file_name."_where"] = $this->wheres[$file_name];
+                    $this->link_cache[$file_name.'_where'] = $this->wheres[$file_name];
                     if ($ret_val === false) { // ________________________ Link fallita ___
                         if ($this->esclusivi[$file_name][0]) { // _____ Link esclusiva ___
                             $this->computing              = $transazione_local;
@@ -4204,7 +4207,7 @@ class o2_dbview extends o2_view {
                         }
                     $this->link_cache[$file_name] = $ret_val;
                     }
-                elseif ($this->link_cache[$file_name."_where"] ===
+                elseif ($this->link_cache[$file_name.'_where'] ===
                         $this->wheres[$file_name]) {
                     if (is_array($this->link_cache[$file_name])) {
                         $ret_val = $this->link_cache[$file_name];
@@ -8062,7 +8065,8 @@ class o2act {
             $app->chiamate = array(1 => array('id'          => 1,
                                               'prg'         => trim($program),
                                               'parametri_n' => $pars_n,
-                                              'parametri'   => $o2pars));
+                                              'parametri'   => $o2pars,
+                                              'fine'        => false ));
             switch ($app->runtime->interface) {
                 case "HTML":
                     ob_clean();

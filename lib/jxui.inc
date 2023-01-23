@@ -1774,7 +1774,7 @@ class o2_ctrl {
                 break;
             // ============================== NUMERIC ====================================
             case "N":
-                $sql_valore_local = (trim($this->valore) == "" ?
+                $sql_valore_local = (trim(strval($this->valore)) == "" ?
                                      $mask->default :
                                      str_replace($mask->separatore, ".",
                                       str_replace($mask->migliaia, "",
