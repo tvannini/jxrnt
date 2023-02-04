@@ -6413,16 +6413,14 @@ function o2view_export($view_name,
 function o2view_get_query($view_name, $with_orderby = false, $with_limit = false) {
 
     $app      = $_SESSION['o2_app'];
-    $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
+    $view_obj = clone $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
     if ($view_obj) {
-        if ($view_obj->range_mod()) {
-            $view_obj->record_primo();
-            }
+        unset($view_obj->corrente);
         $GLOBALS['jxviewsql'] = 'Q'.($with_orderby ? 'O' : '').($with_limit ? 'L' : '');
         $view_obj->record_primo();
         $query = $GLOBALS['jxviewsql'];
         unset($GLOBALS['jxviewsql']);
-        $view_obj->record_primo();
+        unset($view_obj);
         return $query;
         }
     else {
