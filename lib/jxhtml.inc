@@ -672,7 +672,8 @@ class o2html {
                 $app->menu_cache = '<iframe src="'.$app->menu_linkh.
                                    '" style="display:none;" '.
                                    'onload="this.before((this.contentDocument.body||'.
-                                   'this.contentDocument).children[0]);this.remove();window.parent.o2jse.menu.accSet()">'.
+                                   'this.contentDocument).children[0]);this.remove();'.
+                                   'window.parent.o2jse.menu.accSet()">'.
                                    "</iframe>\n<script> o2jse.menu.appMainMenu='".
                                    $menu_name."'</script>\n";
                 }
