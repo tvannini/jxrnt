@@ -5325,7 +5325,7 @@ o2jse.win.repos = function(win_id) {
             marginTop = (document.getElementById("jxMenuBar") ?
                          document.getElementById("jxMenuBar").offsetHeight : 0);
             }
-        else if (o2jse.menuStyle == 'L') {
+        else if (o2jse.menuStyle != 'H') {
             marginLeft = (document.getElementById("jxMenuBar") ?
                           document.getElementById("jxMenuBar").offsetWidth : 0);
             }
@@ -8118,6 +8118,9 @@ jxc = function(defObj) {
                     ctrlObj.innerHTML = defObj.title;
                     }
                 }
+/**
+ *          TODO: To be permanently removed
+
             if ((typeof defObj.x != 'undefined') || (typeof defObj.y != 'undefined')) {
                 o2jse.win.needRepos(defObj.i);
                 // _______________________________________________________ X-Y element ___
@@ -8129,6 +8132,7 @@ jxc = function(defObj) {
                 ctrlObj.o2.x      = defObj.x;
                 ctrlObj.o2.y      = defObj.y;
                 }
+*/
             // _________________________________________________________ Width element ___
             ctrlObj = document.getElementById(defObj.i).getElementsByTagName("div")[0];
             // __________________________________________________________ Change width ___
