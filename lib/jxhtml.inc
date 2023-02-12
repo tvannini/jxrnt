@@ -1902,7 +1902,7 @@ class o2html {
             $bar_h = ($menu_o ? $app->menu_height : 0);
             $stb_h = $app->status_height;
             // _______________ Repos is needed if client size informations are missing ___
-            if (!$cli_w || ($menu_o && !$bar_v) || ($menu_v && !$bar_w)) {
+            if (!$cli_w || ($menu_o && !$bar_h) || ($menu_v && !$bar_w)) {
                 $repos = "<script> o2jse.win.needRepos('".$div_name."'); </script>\n";
                 }
             // __________________________________________________ Horizontal alignment ___

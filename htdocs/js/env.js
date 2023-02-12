@@ -5305,7 +5305,7 @@ o2jse.win.needNoRepos = function(win_id) {
 
 
 /**
- * Relocate window after login or after resize
+ * Relocate window after login
  *
  * @param string win_id   Window object id
  */
@@ -5340,7 +5340,7 @@ o2jse.win.repos = function(win_id) {
             objPos.right = (objInfo.x || 0) + "px";
             break;
         default:
-            objPos.left = Math.max(0, (objInfo.x || 0)) + "px";
+            objPos.left = Math.max(0, (objInfo.x || 0) + marginLeft) + "px";
             break;
         }
     // ____________________________________________________________ Vertical alignment ___
@@ -5350,10 +5350,11 @@ o2jse.win.repos = function(win_id) {
                                               (objInfo.y || 0) + marginTop / 2)) + "px";
             break;
         case "bottom":
-            objPos.bottom = (objInfo.y || 0) + "px";
+            objPos.bottom = ((objInfo.y || 0) +
+                             document.getElementById("o2status").offsetHeight) + "px";
             break;
         default:
-            objPos.top = Math.max(0, parseInt(objInfo.y || 0)) + "px";
+            objPos.top = Math.max(0, parseInt(objInfo.y || 0) + marginTop) + "px";
             break;
         }
     // _____________________________________________________________ Repos sub-windows ___
