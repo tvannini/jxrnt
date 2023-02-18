@@ -3128,6 +3128,7 @@ class o2html {
     static function ctrl_multipage_h($o2ctrl_obj) {
 
         $app = $_SESSION['o2_app'];
+        print '<div class="'.$o2ctrl_obj->css_labels.'">';
         if ($o2ctrl_obj->pagine > 1) {
             $active = $o2ctrl_obj->is_active();
             foreach ($o2ctrl_obj->label as $page_index => $title) {
@@ -3164,6 +3165,7 @@ class o2html {
             print '<div class="'.$o2ctrl_obj->css_label_on.'">'.
                   jx_encode($title).'</div>';
             }
+        print '</div>';
 
         }
 

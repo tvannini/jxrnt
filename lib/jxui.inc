@@ -4425,10 +4425,11 @@ class o2_ctrl_multipage extends o2_ctrl {
     public $pagine          = 1;       /* Number of pages                               */
     public $sent_pages      = array(); /* List of pages sent at last once               */
     /*     _____ CSS CLASSES __________________________________________________________ */
-    public $css_spazio_out  = "o2_ctrl_multi_out"; /* Whole external space <TABLE>      */
-    public $css_spazio_in   = "o2_ctrl_multi_in";  /* Page container space <DIV>        */
-    public $css_label_on    = "o2_ctrl_multi_on";  /* Selected button <INPUT>           */
-    public $css_label_off   = "o2_ctrl_multi_off"; /* Unselected buttons <INPUT>        */
+    public $css_spazio_out  = "o2_ctrl_multi_out";  /* Whole external space <TABLE>     */
+    public $css_spazio_in   = "o2_ctrl_multi_in";   /* Page container space <DIV>       */
+    public $css_labels      = "o2_ctrl_multi_head"; /* Selctoion buttons header <DIV>   */
+    public $css_label_on    = "o2_ctrl_multi_on";   /* Selected button <INPUT>          */
+    public $css_label_off   = "o2_ctrl_multi_off";  /* Unselected buttons <INPUT>       */
 
 
     /**

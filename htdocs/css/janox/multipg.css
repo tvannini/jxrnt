@@ -9,35 +9,40 @@
     height: 100%;
     border: 1px solid var(--jx-color-border);
     margin-top: -1px;
-    border-top-right-radius: 5px;
     overflow: hidden;
     }
 
+.o2_ctrl_multi_head {
+    display: flex;
+    }
+
 .o2_ctrl_multi_on {
+    flex: 1 100%;
+    text-align: center;
     background-color: var(--jx-color-frame);
-    height: 22px;
     border: 1px solid var(--jx-color-border);
     border-bottom: 1px solid var(--jx-color-frame);
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 4px;
+    padding-right: 4px;
     padding-top: 3px;
-    padding-bottom: 5px;
-    margin-right: -1px;
-    display: inline-block;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     outline: none;
     }
 
-.o2_ctrl_multi_off {
+.o2_ctrl_multi_on:only-child {
     background-color: var(--jx-color-face);
-    height: 22px;
+    border-bottom: 1px solid var(--jx-color-border);
+    }
+
+.o2_ctrl_multi_off {
+    flex: 1 100%;
+    text-align: center;
+    background-color: var(--jx-color-face);
     border: 1px solid var(--jx-color-border);
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 4px;
+    padding-right: 4px;
     padding-top: 3px;
-    padding-bottom: 5px;
-    display: inline-block;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     cursor: pointer;
@@ -46,10 +51,5 @@
 .o2_ctrl_multi_off:hover {
     background-color: var(--jx-color-on);
     border: 1px solid var(--jx-color-border);
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 3px;
-    padding-bottom: 5px;
-    display: inline-block;
     cursor: pointer;
     }
