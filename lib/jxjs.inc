@@ -148,8 +148,9 @@ class jxjs {
         if ($app->run_level == "DEV") {
             print $app->exe_tree()."\n";
             }
-        // _________________________________________________________ Set actual exe-ID ___
-        print "o2jse.setExeId(".$exeid.");\n}\n";
+        // _________________________________________ Set actual exe-ID and program name___
+        $prg = ($exeid ? $app->istanze_prg[$exeid]->nome : '');
+        print 'o2jse.setExeId('.$exeid.",'".$prg."');\n}\n";
 
         }
 

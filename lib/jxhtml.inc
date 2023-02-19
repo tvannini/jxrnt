@@ -229,6 +229,7 @@ class o2html {
               "<input type=\"hidden\" name=\"o2lastform\">\n".
               "<input type=\"hidden\" name=\"o2lastctrl\">\n".
               "<input type=\"hidden\" name=\"o2_prgexeid\">\n".
+              "<input type=\"hidden\" name=\"o2_prgname\">\n".
               "<input type=\"hidden\" name=\"o2_action\">\n".
               "<input type=\"hidden\" name=\"o2_modfields\">\n";
         $app->html_started = true;
@@ -254,25 +255,21 @@ class o2html {
         // _________________________________________________ Manage JS cached commands ___
         if ($app->js_cache) {
             print "<script>\n".$app->js_cache."\n</script>\n";
-            $app->js_cache = "";
+            $app->js_cache = '';
             }
         // _________________________________________________________ Caret positioning ___
         print o2html::get_caret();
-        // ______________________________________________________________ Execution ID ___
-        print "<script> o2jse.setExeId(".$app->progressivo_istanze."); </script>\n";
+        // _____________________________________________ Execution ID and program name ___
+        $exeid = $app->progressivo_istanze;
+        $prg   = ($exeid ? $app->istanze_prg[$exeid]->nome : '');
+        print '<script> o2jse.setExeId('.$exeid.",'".$prg."'); </script>\n";
         // _____________________ (DEVELOPMENT) Console status flags and execution tree ___
-        if ($app->run_level == "DEV") {
-            print "<script> ".($app->log2file || $app->sqltrace ?
-                               "o2jse.lab.status(".($app->log2file ? "true," : "false,").
-                                                   ($app->sqltrace ? "true," : "false,").
-                                                   ($app->mutelog ? "true" : "false").
-                               "); " : "").$app->exe_tree()."</script>\n";
-            }
-        // ________________________________________________________________ Documentor ___
-        if ($app->doc_enabled) {
-            $prg_name = ($app->progressivo_istanze ?
-                         $app->istanze_prg[$app->progressivo_istanze]->nome : "");
-            print '<input type="hidden" name="o2_prgname" value="'.$prg_name."\">\n";
+        if ($app->run_level == 'DEV') {
+            print '<script> '.($app->log2file || $app->sqltrace ?
+                               'o2jse.lab.status('.($app->log2file ? 'true,' : 'false,').
+                                                   ($app->sqltrace ? 'true,' : 'false,').
+                                                   ($app->mutelog ? 'true' : 'false').
+                               '); ' : '').$app->exe_tree()."</script>\n";
             }
         // ____________________________________ Skip BODY & HTML end in AJAX responses ___
         if (!isset($GLOBALS['jxjsorigin'])) {

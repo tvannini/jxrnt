@@ -356,14 +356,22 @@ o2jse.textDecode = function(decodeText) {
 
 
 /**
- * Sets execution ID for the o2JS environment.
+ * Sets execution ID and last program name for the o2JS environment.
  * Execution ID is the higher program ID running (o2_app->progressivo_istanze).
+ * Program name is the name of the running program instance.
  *
- * @param {Integer} exeId   Execution ID to set for environment
+ * @param {Integer} exeId     Execution ID to set for environment
+ * @param {String}  prgName   Name of current displaying program
  */
-o2jse.setExeId = function(exeId) {
+o2jse.setExeId = function(exeId, prgName) {
 
     document.forms.o2form['o2_prgexeid'].value = exeId;
+    if (prgName) {
+        document.forms.o2form['o2_prgname'].value = prgName;
+        }
+    else {
+        document.forms.o2form['o2_prgname'].value = '';
+        }
 
     };
 
