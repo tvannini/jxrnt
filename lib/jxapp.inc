@@ -203,7 +203,7 @@ class o2_app {
     public $defining_combo  = null;    /* o2_ctrl_listcombo ctrl to set as lookup ctrl  */
     public $defining_check  = null;    /* o2_ctrl_check ctrl to use as view-selection   */
     public $statusbar_text  = '';      /* Text to print in statusbar                    */
-    public $status_custom   = false;    /* Custom HTML to display on status-bar          */
+    public $status_custom   = false;   /* Custom HTML to display on status-bar          */
     public $status_height   = 0;       /* Status bar height                             */
     public $html_started    = false;   /* If HTML document has been opened              */
     public $mouse_point     = false;   /* Customized GdkCursor for pointer (default)    */
@@ -6137,8 +6137,8 @@ class o2_run_job {
                               ($run_job->end > 0 ? date("H:i", $run_job->end) : "---").
                               $sp.'</td>';
                     $tr     = '<tr title="Module '.
-                              $job->prg.(count($job->params) ? " with parameters" : "").
-                              '">';
+                              $job->prg.(is_array($job->params) && count($job->params) ?
+                                         " with parameters" : "").'">';
                     $attach = $buttons_action &&
                               is_array($run_job->files) && (count($run_job->files) > 0);
                     $code  .= $tr.'<td><img src="'.$ico.
