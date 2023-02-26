@@ -6656,23 +6656,27 @@ function o2view_selector($view_name) {
  */
 function o2view_selector_all($view_name) {
 
-    $app   = $_SESSION['o2_app'];
-    $prg   = $app->istanze_prg[$app->progressivo_istanze];
-    $view  = $prg->contesto[$view_name];
-    $cview = clone $view;
+    $app                       = $_SESSION['o2_app'];
+    $prg                       = $app->istanze_prg[$app->progressivo_istanze];
+    $view                      = $prg->contesto[$view_name];
+    $cview                     = clone $view;
+    $prg->contesto[$view_name] = $cview;
     $cview->record_primo();
     $view->selections = array();
-    // ____________________________________________________ Action loop on cloned view ___
-    do {
-        $view->selections[] = $cview->chiave_corrente($cview->file,
-                                                      false,
-                                                      false,
-                                                      false,
-                                                      true,
-                                                      true,
-                                                      true);
-        $go_on = $cview->record_avanti();
-        } while ($go_on);
+    if (count($cview->recordset) > 0) {
+        // ________________________________________________ Action loop on cloned view ___
+        do {
+            $view->selections[] = $cview->chiave_corrente($cview->file,
+                                                          false,
+                                                          false,
+                                                          false,
+                                                          true,
+                                                          true,
+                                                          true);
+            $go_on = $cview->record_avanti();
+            } while ($go_on);
+        }
+    $prg->contesto[$view_name] = $view;
     unset($cview);
     $view->smart_refresh();
     return true;
