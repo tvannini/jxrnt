@@ -1,5 +1,5 @@
 <?php
-//2.6
+//2.8
 //o2def::module("");
 //o2def::folder("[root]");
 /*
@@ -9,12 +9,12 @@ o2def::prgnotes("");
 o2def::prg("jxconnectivity", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
-o2def::view("logged_table", False, "", "", 1);
-o2def::view("constraints", False, "", "", 1);
-o2def::view("references", False, "", "", 1);
-o2def::view("new_constraint", False, "", "", 1);
-o2def::view("extra_indexes", False, "", "", 1);
-o2def::view("new_extidx", False, "", "", 1);
+o2def::view("logged_table", false, "", "", 1, 0);
+o2def::view("constraints", false, "", "", 1, 0);
+o2def::view("references", false, "", "", 1, 0);
+o2def::view("new_constraint", false, "", "", 1, 0);
+o2def::view("extra_indexes", false, "", "", 1, 0);
+o2def::view("new_extidx", false, "", "", 1, 0);
 o2def::act("activate_db_cons");
 o2def::act("activate_single_cons");
 o2def::act("activate_tab_cons");
@@ -115,6 +115,7 @@ o2def::form("aspclone", "", False, "jxconnectivity_exp_133()", false);
 o2def::form("getdef", "", False, "jxconnectivity_exp_233()", false);
 o2def::form("constr_add", "", False, "jxconnectivity_exp_244()", false);
 o2def::form("eixdx_add", "", False, "jxconnectivity_exp_307()", false);
+o2def::par(1, "hidden_tables", "_o2structure");
 
 
 
