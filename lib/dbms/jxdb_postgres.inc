@@ -452,30 +452,36 @@ function o2_postgres_tableindexes($server, $user, $password, $database, $owner, 
         $o2e->set_error_class(o2error_DBTABLEINFO);
         throw $o2e;
         }
+    $idx_n = (is_array($res_local) ? count($res_local) : 0);
     foreach ($res_local as $single_key) {
-        if ($single_key['INDEXNAME'] != $table."_pkey") {
-            $index    = substr($single_key['INDEXNAME'], strlen($table) + 1);
-            $segments = array();
-            $unique   = stripos($single_key['INDEXDEF'], 'CREATE UNIQUE INDEX') !== false;
-            preg_match('/\(([^(]*)\)/', $single_key['INDEXDEF'], $segments);
-            $segments        = explode(",", $segments[1]);
-            $ret_val[$index] = array('unique' => $unique, 'segments' => array());
-            $seq             = 0;
-            foreach ($segments as $seg) {
-                list($seg, $dir) = explode(" ", trim($seg));
-                if (trim($dir) == "DESC") {
-                    $desc = true;
-                    }
-                else {
-                    $desc = false;
-                    }
-                $seg = rtrim(ltrim($seg, o2_postgres_o), o2_postgres_c);
-                $ret_val[$index]['segments']+= array($seq =>
-                                                     array('column' => $seg,
-                                                           'dir'    => ($desc ?
-                                                                        "D" : "A")));
-                $seq++;
+        if ($single_key['INDEXNAME'] != $table.'_pkey') {
+            $index = substr($single_key['INDEXNAME'], strlen($table) + 1);
+            }
+        elseif ($idx_n < 2) {
+            $index = $table.'_pkey';
+            }
+        else {
+            continue;
+            }
+        $segments = array();
+        $unique   = stripos($single_key['INDEXDEF'], 'CREATE UNIQUE INDEX') !== false;
+        preg_match('/\(([^(]*)\)/', $single_key['INDEXDEF'], $segments);
+        $segments        = explode(',', $segments[1]);
+        $ret_val[$index] = array('unique' => $unique, 'segments' => array());
+        $seq             = 0;
+        foreach ($segments as $seg) {
+            list($seg, $dir) = explode(" ", trim($seg));
+            if (trim($dir) == 'DESC') {
+                $desc = true;
                 }
+            else {
+                $desc = false;
+                }
+            $seg = rtrim(ltrim($seg, o2_postgres_o), o2_postgres_c);
+            $ret_val[$index]['segments']+= array($seq => array('column' => $seg,
+                                                               'dir'    => ($desc ?
+                                                                            'D' : 'A')));
+            $seq++;
             }
         }
     return $ret_val;

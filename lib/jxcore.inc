@@ -3731,19 +3731,27 @@ class o2_file {
                                               $jxdb->nome,
                                               $jxdb->proprietario,
                                               $tab_name);
-        $pkey_name = "";
+        $pkey_name = $tab_idx.'_PK';
         $seg_count = 0;
-        // ____________________________________________ Look for potential PRIMARY KEY ___
-        foreach ($indexes as $index_name => $single_index) {
-            if (!$seg_count || count($single_index) < $seg_count) {
-                $pkey_name = $index_name;
-                $seg_count = count($single_index);
+        // ________________________ Get PRIMARY KEY if table is defined in application ___
+        if (isset($app->tab[$tab_name])) {
+            $tab       = $app->get_table($tab_name);
+            $pkey_name = $tab->chiave->nome;
+            }
+        // _______________________________ Look for potential PRIMARY KEY (SQL tables) ___
+        else {
+            foreach ($indexes as $index_name => $single_index) {
+                if ($single_index['unique'] &&
+                    (!$seg_count || (count($single_index) < $seg_count))) {
+                    $pkey_name = $index_name;
+                    $seg_count = count($single_index);
+                    }
                 }
             }
         $s.= 'o2def::tab("'.$tab_idx.'", "'.
                             $jxdb->id.'", "'.
                             $tab_name.'", "'.
-                            $tab_idx."_PK\");\n";
+                            $pkey_name."\");\n";
         // _____________________________________________________________ Define fields ___
         foreach ($fields as $single_field) {
             $field_name = $single_field['field'];
@@ -3815,8 +3823,7 @@ class o2_file {
                     }
                 }
             if ($single_index['unique']) {
-                $s.= 'o2def::index("'.($index_name == $pkey_name ?
-                                       $tab_idx."_PK" : $index_name).'" '.$seg_str.");\n";
+                $s.= 'o2def::index("'.$index_name.'" '.$seg_str.");\n";
                 }
             else {
                 $s.= 'o2def::nuindex("'.$index_name.'" '.$seg_str.");\n";
