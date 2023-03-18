@@ -29,7 +29,7 @@
  *
  * @name      jxui
  * @package   janox/jxui.inc
- * @version   2.8
+ * @version   2.9
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
