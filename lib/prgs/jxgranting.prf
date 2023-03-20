@@ -36,6 +36,8 @@ function jxgranting§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("no_pwd_change","o2_users","no_pwd_change",null,null,null,null);
 	$task_users->usa("creation_date","o2_users","creation_date",null,null,null,null);
 	$task_users->usa("admin","o2_users","admin",null,null,null,null);
+	$task_users->usa("poweruser","o2_users","poweruser",null,null,null,null);
+	$task_users->usa("hidden","o2_users","hidden",null,null,"jxgranting_exp_119()",null);
 	$task_users->calcola("active","o2sys_long_str","jxgranting_exp_86()",null,null,null,null);
 	$task_users->calcola("last_login","o2sys_long_str","jxgranting_exp_92()",null,null,null,null);
 }
@@ -1177,7 +1179,7 @@ function jxgranting§§user_delete_role_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting§§user_detail_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::call(jxgranting_exp_31(), False, jxgranting_exp_7(), "users§§area", "users§§expire_date", "users§§login_type", "users§§pwds_history", "users§§force_pwd_change", "users§§no_pwd_change", "users§§admin", "prg§_§var§§action_ok") && $o2exe->e();
+	$o2exe->s(1) && True && o2act::call(jxgranting_exp_31(), False, jxgranting_exp_7(), "users§§area", "users§§expire_date", "users§§login_type", "users§§pwds_history", "users§§force_pwd_change", "users§§no_pwd_change", "users§§admin", "users§§poweruser", "users§§hidden", "prg§_§var§§action_ok") && $o2exe->e();
 	$o2exe->s(2) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("users", "A", "") && $o2exe->e();
 	$o2exe->s(3) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
 	} //|o2_fine_act|
@@ -1840,6 +1842,11 @@ return ($tab);
 function jxgranting_exp_118() {
 	
 return (o2view_rec('users') && (o2zero('users','admin') || o2user_is_admin() || o2app_runlevel() == 'DEV'));
+	} //|o2_fine_exp|
+
+function jxgranting_exp_119() {
+	
+return ((o2user_is_admin() || (o2app_runlevel() == 'DEV') ? null : '1'));
 	} //|o2_fine_exp|
 
 function jxgranting_exp_9999() {

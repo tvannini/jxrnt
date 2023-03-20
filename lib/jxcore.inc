@@ -8220,6 +8220,18 @@ function o2_upgrade($table, $rel_code, $test = false) {
                 break;
             }
         }
+    // ________________________________________________________ Upgrade to Rel. 2.9.00 ___
+    if ($rel_code < '2.9') {
+        switch ($table->indice) {
+            // _____________________________________________________ o2_users - 2.9.00 ___
+            case "o2_users":
+                $msg_txt = "Converting USERS";
+                if (!$test) {
+                    $table->ricostruisci();
+                    }
+                break;
+            }
+        }
     if ($msg_txt) {
         if (!$test) {
             if ($GLOBALS['o2_runtime']->interface == "HTML") {

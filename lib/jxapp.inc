@@ -89,6 +89,7 @@ class o2_app {
     public $terminal_id        = 0;         /* Terminal ID, common to user multisession */
     public $user               = 'default'; /* Logged user ID                           */
     public $user_is_admin      = false;     /* If logged user is Administrator          */
+    public $user_is_poweruser  = false;     /* If logged user is Poweruser              */
     public $password           = '';        /* Logged user password                     */
     public $password_strength  = 0;         /* Rules to enforce password strength       */
     public $password_change    = false;     /* Force password to be changed every N days*/
@@ -1926,7 +1927,9 @@ class o2_app {
      */
     function is_user($role_name) {
 
-        return ($this->user_is_admin || in_array($role_name, $this->user_roles));
+        return ($this->user_is_admin ||
+                $this->user_is_poweruser ||
+                in_array($role_name, $this->user_roles));
 
         }
 
@@ -1939,7 +1942,9 @@ class o2_app {
      */
     function has_right($right_code) {
 
-        return ($this->user_is_admin || in_array($right_code, $this->user_rights));
+        return ($this->user_is_admin ||
+                $this->user_is_poweruser ||
+                in_array($right_code, $this->user_rights));
 
         }
 

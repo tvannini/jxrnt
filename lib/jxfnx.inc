@@ -1983,11 +1983,25 @@ function o2user_is($role_name) {
  *
  * @package user
  * @return  boolean
- * @see     o2user_is(), o2user_roles(), o2user_has()
+ * @see     o2user_is(), o2user_roles(), o2user_has(), o2user_is_poweruser()
  */
 function o2user_is_admin() {
 
     return ($_SESSION['o2_app']->user_is_admin ? true : false);
+
+    }
+
+
+/**
+ * Returns TRUE if logged user is Administrator
+ *
+ * @package user
+ * @return  boolean
+ * @see     o2user_is_admin(), o2user_is(), o2user_roles(), o2user_has()
+ */
+function o2user_is_poweruser() {
+
+    return ($_SESSION['o2_app']->user_is_poweruser ? true : false);
 
     }
 

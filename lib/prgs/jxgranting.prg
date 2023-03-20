@@ -1,5 +1,5 @@
 <?php
-//2.7
+//2.9
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -9,23 +9,23 @@ o2def::prgnotes("");
 o2def::prg("jxgranting", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
-o2def::view("users", False, "", "", 1);
-o2def::view("rights", False, "", "", 1);
-o2def::view("roles", False, "", "", 1);
-o2def::view("roles_per_user", False, "", "", 1);
-o2def::view("rights_per_role", False, "", "", 1);
-o2def::view("rights_per_user", False, "", "", 1);
-o2def::view("users_per_role", False, "", "", 1);
-o2def::view("roles_per_right", False, "", "", 1);
-o2def::view("users_per_right", False, "", "", 1);
-o2def::view("right_vis_profiling", False, "", "", 1);
-o2def::view("right_enable_profiling", False, "", "", 1);
-o2def::view("role_desc", False, "", "", 1);
-o2def::view("right_desc", False, "", "", 1);
-o2def::view("user_role_desc", False, "", "", 1);
-o2def::view("user_right_desc", False, "", "", 1);
-o2def::view("role_right_desc", False, "", "", 1);
-o2def::view("right_role_desc", False, "", "", 1);
+o2def::view("users", false, "", "", 1, 0);
+o2def::view("rights", false, "", "", 1, 0);
+o2def::view("roles", false, "", "", 1, 0);
+o2def::view("roles_per_user", false, "", "", 1, 0);
+o2def::view("rights_per_role", false, "", "", 1, 0);
+o2def::view("rights_per_user", false, "", "", 1, 0);
+o2def::view("users_per_role", false, "", "", 1, 0);
+o2def::view("roles_per_right", false, "", "", 1, 0);
+o2def::view("users_per_right", false, "", "", 1, 0);
+o2def::view("right_vis_profiling", false, "", "", 1, 0);
+o2def::view("right_enable_profiling", false, "", "", 1, 0);
+o2def::view("role_desc", false, "", "", 1, 0);
+o2def::view("right_desc", false, "", "", 1, 0);
+o2def::view("user_role_desc", false, "", "", 1, 0);
+o2def::view("user_right_desc", false, "", "", 1, 0);
+o2def::view("role_right_desc", false, "", "", 1, 0);
+o2def::view("right_role_desc", false, "", "", 1, 0);
 o2def::act("add_single_right2role");
 o2def::act("change_login_type");
 o2def::act("close_srv_windows");

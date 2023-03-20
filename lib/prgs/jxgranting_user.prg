@@ -1,5 +1,5 @@
 <?php
-//2.7
+//2.9
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -9,10 +9,10 @@ o2def::prgnotes("");
 o2def::prg("jxgranting_user", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
-o2def::view("users", False, "", "", 1);
-o2def::view("role_per_user", False, "", "", 1);
-o2def::view("model_roles", False, "", "", 1);
-o2def::view("model_users", False, "", "", 1);
+o2def::view("users", false, "", "", 1, 0);
+o2def::view("role_per_user", false, "", "", 1, 0);
+o2def::view("model_roles", false, "", "", 1, 0);
+o2def::view("model_users", false, "", "", 1, 0);
 o2def::act("area_code_select");
 o2def::act("cancel");
 o2def::act("change_type");
@@ -38,6 +38,8 @@ o2def::par(5, "pwds_history", "o2sys_long_str");
 o2def::par(6, "force_pwd_change", "_o2logical");
 o2def::par(7, "no_pwd_change", "_o2logical");
 o2def::par(8, "admin", "_o2logical");
-o2def::par(9, "create_ok", "_o2logical");
+o2def::par(9, "poweruser", "_o2logical");
+o2def::par(10, "hidden", "_o2logical");
+o2def::par(11, "create_ok", "_o2logical");
 
 ?>
