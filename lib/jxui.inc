@@ -585,9 +585,10 @@ class o2_form {
      */
     function controlli_posizione($padre = "") {
 
-        $mpage = false;
+        $mpage      = false;
+        $first_ctrl = false;
         // __________________________________________________ Active page in multipage ___
-        if ($padre && $this->controlli[$padre]->tipo_ctrl == "multipage") {
+        if ($padre && $this->controlli[$padre]->tipo_ctrl == 'multipage') {
             $mpage = $this->controlli[$padre]->valore;
             }
         foreach ($this->controlli as $single_ctrl) {
@@ -595,7 +596,7 @@ class o2_form {
             if ($single_ctrl->padre == $padre &&
                ($mpage === false || intval($single_ctrl->info_padre[0]) == $mpage)) {
                 // __________________________________ If control is a parent container ___
-                if ($single_ctrl->tipo_ctrl == "tab") {
+                if ($single_ctrl->tipo_ctrl == 'tab') {
                     if ($single_ctrl->modificabile) {
                         $first_ctrl = $this->controlli_posizione($single_ctrl->nome);
                         }
@@ -604,15 +605,15 @@ class o2_form {
                         }
                     break;
                     }
-                elseif ($single_ctrl->tipo_ctrl == "multipage") {
+                elseif ($single_ctrl->tipo_ctrl == 'multipage') {
                     $first_ctrl = $this->controlli_posizione($single_ctrl->nome);
                     break;
                     }
                 // ___________________________ Look for first active focusable control ___
-                elseif ($single_ctrl->tipo_ctrl != "label"     &&
-                        $single_ctrl->tipo_ctrl != "img"       &&
-                        $single_ctrl->tipo_ctrl != "line"      &&
-                        $single_ctrl->tipo_ctrl != "navigator" &&
+                elseif ($single_ctrl->tipo_ctrl != 'label'     &&
+                        $single_ctrl->tipo_ctrl != 'img'       &&
+                        $single_ctrl->tipo_ctrl != 'line'      &&
+                        $single_ctrl->tipo_ctrl != 'navigator' &&
                         $single_ctrl->visibile                 &&
                         $single_ctrl->is_enabled()) {
                     $first_ctrl = $single_ctrl->nome;
@@ -727,7 +728,7 @@ class o2_form {
                     }
                 }
             // ____________ Controls custom size and position (by scripting functions) ___
-            if ($prg->custom_ctrls[$this->nome]) {
+            if (isset($prg->custom_ctrls[$this->nome])) {
                 foreach ($prg->custom_ctrls[$this->nome] as $ctrl_name => $pars) {
                     if (isset($this->controlli[$ctrl_name])) {
                         $ctrl = $this->controlli[$ctrl_name];
@@ -1047,9 +1048,9 @@ class o2_form {
             $new_ctrl->form          = $this->nome;
             $new_ctrl->prg           = $this->prg;
             $new_ctrl->padre         = $padre;
-            $new_ctrl->html_form     = $this->nome."_".$this->id_esecuzione."_html_form";
-            $new_ctrl->js_form       = "document.o2form";
-            $new_ctrl->js_name       = $new_ctrl->js_form.".".$new_ctrl->nome;
+            $new_ctrl->html_form     = $this->nome.'_'.$this->id_esecuzione.'_html_form';
+            $new_ctrl->js_form       = 'document.o2form';
+            $new_ctrl->js_name       = $new_ctrl->js_form.'.'.$new_ctrl->nome;
             if ($padre) {
                 $parent = $this->controlli[$padre];
                 if ($parent->tipo_ctrl == 'tab') {
@@ -1066,12 +1067,13 @@ class o2_form {
                 $new_ctrl->task = $task;
                 $view_obj       = $prg->contesto[$task];
                 // _______________________________ To set table used objects reference ___
-                if ($tipo == "tab") {
+                if ($tipo == 'tab') {
                     $new_ctrl->prg_obj  = $prg;
                     $new_ctrl->view_obj = $view_obj;
                     $new_ctrl->form_obj = $this;
                     $prg->drawing_grid  = $new_ctrl;
-                    if ($share_grid = $prg->view_grids[$task]) {
+                    if (isset($prg->view_grids[$task])) {
+                        $share_grid = $prg->view_grids[$task];
                         // ___________________________________ View used by other grid ___
                         if ($share_grid != $alias_ctrl) {
                             $new_ctrl->view_shared = true;
@@ -1105,7 +1107,7 @@ class o2_form {
                     $new_ctrl->maschera      = $field_obj->maschera;
                     }
                 // __________________ Check log activated for table binding to control ___
-                if ($app->tables_log) {
+                if ($app->tables_log && $campo_task && $view_obj->dbdata) {
                     $field_obj = $view_obj->campo_per_controllo($campo_task);
                     $field_tab = $view_obj->files[$field_obj->file];
                     if ($field_tab->log_level) {
@@ -1115,23 +1117,23 @@ class o2_form {
                 }
             }
         else {
-            $new_ctrl = $this->controlli[$alias_ctrl];
-            // __________________ This is needed when controls are disabled by parents ___
-            if ($tipo == "navigator") {
-                $new_ctrl->enable_del(true);
-                $new_ctrl->enable_detail(true);
-                $new_ctrl->enable_new(true);
-                $new_ctrl->enable_save(true);
-                $new_ctrl->enable_select(true);
-                $new_ctrl->enable_undo(true);
-                }
-             else {
-                $new_ctrl->modificabile = true;
+            $new_ctrl               = $this->controlli[$alias_ctrl];
+            $new_ctrl->modificabile = true;
+            if ($task) {
+                $view_obj = $prg->contesto[$task];
+                // ______________ This is needed when controls are disabled by parents ___
+                if ($tipo == 'navigator') {
+                    $new_ctrl->enable_del(true);
+                    $new_ctrl->enable_detail(true);
+                    $new_ctrl->enable_new(true);
+                    $new_ctrl->enable_save(true);
+                    $new_ctrl->enable_select(true);
+                    $new_ctrl->enable_undo(true);
+                    }
                 }
             }
         // _____________________________________ Set enabled/disabled by table in view ___
-        if ($campo_task) {
-            $view_obj = $app->istanze_prg[$this->id_esecuzione]->contesto[$task];
+        if ($campo_task && $view_obj->dbdata) {
             $field_obj              = $view_obj->campo_per_controllo($campo_task);
             $new_ctrl->modificabile = $field_obj->file == $view_obj->file->indice;
             }
@@ -1662,6 +1664,7 @@ class o2_ctrl {
                                           or in current row of active table             */
     public $rows_vis        = array(); /* Rows visibility array                         */
     public $dependences     = array(); /* List of variables/fields this ctrl depends on */
+    public $log_level       = false;   /* If ctrl has log level inherited from field/tab*/
     /*     _____ Visuals ______________________________________________________________ */
     public $valore          = "";      /* Control value                                 */
     /**
@@ -1679,6 +1682,7 @@ class o2_ctrl {
     public $custom_height   = false;   /* If control height is set programmatically     */
     public $custom_x        = false;   /* If control x position is set programmatically */
     public $custom_y        = false;   /* If control y position is set programmatically */
+    public $expand          = false;   /* If control is expandable                      */
     public $expand_width    = false;   /* If control width is set by resize             */
     public $expand_height   = false;   /* If control height is set by resize            */
     public $expand_x        = false;   /* If control x position is set by resize        */
@@ -1689,6 +1693,8 @@ class o2_ctrl {
     public $forza_submit    = false;   /* If to return to server on control change      */
     public $azione_submit   = "";      /* Action to be executed on control change       */
     public $confirm_message = "";      /* Client side confirm message text              */
+    /*     _____ CSS WHOLE CLASS ______________________________________________________ */
+    public $css             = false;   /* Whole control main class                      */
 
 
     /**
@@ -2356,11 +2362,11 @@ class o2_ctrl {
         $log        = "";
         if ($this->task) {
             // _________________________________________ Table with internal navigator ___
-            if ($this->internal_nav) {
+            if (($this->tipo_ctrl == 'tab') && $this->internal_nav) {
                 $nav_local = $this->internal_nav->nome;
                 }
             // ______________________________ Control in table with internal navigator ___
-            elseif ($parent && $parent->tipo_ctrl == 'tab' && $parent->internal_nav) {
+            elseif ($parent && ($parent->tipo_ctrl == 'tab') && $parent->internal_nav) {
                 $nav_local = $parent->internal_nav->nome;
                 }
             // ____________________________ Look for a navigator matching control view ___
