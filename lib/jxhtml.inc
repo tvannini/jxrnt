@@ -1050,13 +1050,11 @@ class o2html {
         $app          = $_SESSION['o2_app'];
         $posted_ctrls = array();
         $app->ritorno = false;
-        $prgexe_id    = intval($_REQUEST['o2_prgexeid']);
-        // ___________ Sets actual executing prg to EXEID coming from POST (Menu form) ___
-        if (!$prgexe_id) {
-            $prgexe_id = $app->progressivo_istanze;
-            }
-        // _____________________________________ Programs called down from the exe one ___
-        elseif ($prgexe_id < $app->progressivo_istanze) {
+        $prgexe_id    = (isset($_REQUEST['o2_prgexeid']) ?
+                         intval($_REQUEST['o2_prgexeid']) :
+                         $app->progressivo_istanze);
+        // _________________________ Programs called down from the exe one (Menu form) ___
+        if ($prgexe_id < $app->progressivo_istanze) {
             for ($exe_id = $app->progressivo_istanze; $exe_id > $prgexe_id; $exe_id--) {
                 // _______________________________________________________ End program ___
                 $app->termina_prg($exe_id);
@@ -1076,23 +1074,24 @@ class o2html {
         // ______________________________________________________ Sync views selection ___
         if (is_array($prg_local->contesto)) {
             foreach ($prg_local->contesto as &$single_view) {
-                $sele_name = $single_view->nome."_vs".$prgexe_id;
-                if ($_REQUEST[$sele_name]) {
-                    $sele_value = $_REQUEST[$sele_name];
-                    if ($single_view->selezione !== ($sele_value - 1)) {
+                $sele_name = $single_view->nome.'_vs'.$prgexe_id;
+                if (isset($_REQUEST[$sele_name])) {
+                    $sele_value = intval($_REQUEST[$sele_name]) - 1;
+                    if ($single_view->selezione !== $sele_value) {
                         if ($single_view->record_suffix()) {
-                            $single_view->seleziona_riga($sele_value - 1);
+                            $single_view->seleziona_riga($sele_value);
                             }
                         }
                     }
                 }
             }
         // _________________________________________________ Gets modified fields list ___
-        if (strpos($_REQUEST["o2_modfields"], ";") !== false) {
+        $selector  = false;
+        $check_soc = false;
+        if (isset($_REQUEST["o2_modfields"]) &&
+            strpos($_REQUEST["o2_modfields"], ";") !== false) {
             $posted_ctrls = explode(";", $_REQUEST["o2_modfields"]);
             array_pop($posted_ctrls);
-            $selector  = false;
-            $check_soc = false;
             // ___________________________________________ Loop on all posted controls ___
             foreach ($posted_ctrls as $single_ctrl) {
                 $ctrl_name = $single_ctrl.$app->progressivo_istanze;
@@ -1103,21 +1102,18 @@ class o2html {
                     if ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
                                   '_jxcmd'] == '1') {
                         $single_form->close();
-                        $ctrl_obj = true;
                         break;
                         }
                     // __________________________ Gets window maximize/restore actions ___
                     elseif ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
                                       '_jxcmd'] == '2') {
                         $single_form->max_restore();
-                        $ctrl_obj = true;
                         break;
                         }
                     // ____________________________________ Gets window resize actions ___
                     elseif ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
                                       '_jxcmd'] == '3') {
                         $single_form->maximized   = false;
-                        $ctrl_obj                 = true;
                         break;
                         }
                     // ________________ Force resize maximized window (browser resize) ___
@@ -1127,7 +1123,6 @@ class o2html {
                         $single_form->max_restore();
                         $single_form->restore_width  = 0;
                         $single_form->restore_height = 0;
-                        $ctrl_obj                    = true;
                         break;
                         }
                     elseif (isset($single_form->controlli[$single_ctrl])) {
@@ -1437,7 +1432,7 @@ class o2html {
                 }
             }
         // ________________ Program actions from buttons, o2_act4js() and form refresh ___
-        if ($_REQUEST["o2_action"]) {
+        if (isset($_REQUEST["o2_action"]) && $_REQUEST["o2_action"]) {
             $act = $_REQUEST["o2_action"];
             if (isset($prg_local->azioni[$act])) {
                 $prg_local->esegui_azione($act);
@@ -1448,22 +1443,18 @@ class o2html {
                 }
             }
         // ___________________________________________________ Execute zoom on control ___
-        elseif ($_REQUEST['jxzoom']) {
+        elseif (isset($_REQUEST['jxzoom'])) {
             $zoom_ctrl = $_REQUEST['jxzoom'];
-            $ctrl_obj  = false;
             foreach ($prg_local->form as &$single_form) {
                 // ________________________________________________ Get zoomed control ___
                 if (isset($single_form->controlli[$zoom_ctrl])) {
-                    $ctrl_obj = $single_form->controlli[$zoom_ctrl];
+                    return $single_form->controlli[$zoom_ctrl]->zoom();
                     break;
                     }
                 }
-            if ($ctrl_obj) {
-                return $ctrl_obj->zoom();
-                }
             }
         // ______________________________________ Treeview control (old scripting way) ___
-        elseif ($_REQUEST['jxtree']) {
+        elseif (isset($_REQUEST['jxtree'])) {
             $tree_ctrl = $_REQUEST['jxtree'];
             $ctrl_obj  = false;
             // __________________________________________________ Get treeview control ___
@@ -1512,18 +1503,18 @@ class o2html {
                 elseif ($_REQUEST['jxtreesort']) {
                     $ctrl_obj->switch_sort();
                     }
-                }
-            // ___________________________________ Get vertical scroll ___
-            if (isset($_REQUEST[$ctrl_obj->nome.$ctrl_obj->id_esecuzione.'_vscroll'])) {
-                $ctrl_obj->vscroll = intval($_REQUEST[$ctrl_obj->nome.
-                                                      $ctrl_obj->id_esecuzione.
-                                                      '_vscroll']);
+                // _______________________________________________ Get vertical scroll ___
+                if (isset($_REQUEST[$ctrl_obj->nome.$ctrl_obj->id_esecuzione.'_vscroll']))
+                    {
+                    $ctrl_obj->vscroll = intval($_REQUEST[$ctrl_obj->nome.
+                                                        $ctrl_obj->id_esecuzione.
+                                                        '_vscroll']);
+                    }
                 }
             }
         // _________________________________ Images lister control (old scripting way) ___
-        elseif ($_REQUEST['jximglist']) {
+        elseif (isset($_REQUEST['jximglist'])) {
             $imglist_ctrl = $_REQUEST['jximglist'];
-            $ctrl_obj     = false;
             // _____________________________________________ Get images lister control ___
             if (isset($prg_local->imglist_ctrls[$imglist_ctrl])) {
                 $ctrl_obj = $prg_local->imglist_ctrls[$imglist_ctrl];
@@ -1538,7 +1529,7 @@ class o2html {
                 }
             }
         // ______________________________________________________ JXDocumentor request ___
-        elseif ($_REQUEST['jxdocreq'] && $app->doc_activate()) {
+        elseif (isset($_REQUEST['jxdocreq']) && $app->doc_activate()) {
             $app->doc->show_node($app->istanze_prg[$_REQUEST['jxdocexeid']]->nome,
                                  $_REQUEST['o2_formname'],
                                  $_REQUEST['o2_ctrlname'],
@@ -1583,13 +1574,13 @@ class o2html {
                 }
             }
         // __________________________________________________________ Data log history ___
-        if ($_REQUEST['jxlogctrl']) {
+        if (isset($_REQUEST['jxlogctrl'])) {
             $app->intcall("tools/o2sys_datahistory",
                           $prg_local->log_history($_REQUEST['jxlogctrl'], true),
                           ($app->developer || $app->user_is_admin));
             }
         // ____________________________________________________ Execute system actions ___
-        if ($_REQUEST['jxact']) {
+        if (isset($_REQUEST['jxact'])) {
             return o2html::sys_action();
             }
 
@@ -1671,7 +1662,7 @@ class o2html {
                     }
                 }
             }
-        elseif ($_REQUEST['jxresizeall']) {
+        elseif (isset($_REQUEST['jxresizeall'])) {
             foreach ($app->istanze_prg as $exe_id => $prg) {
                 $app->progressivo_istanze = $exe_id;
                 unset($app->open_wins[$exe_id]);
@@ -1685,7 +1676,7 @@ class o2html {
                 }
             }
         // ___________________________________________ Verifico la posizione del caret ___
-        if ($_REQUEST['o2lastctrl']) {
+        if (isset($_REQUEST['o2lastctrl']) && $_REQUEST['o2lastctrl']) {
             $l_form           = $_REQUEST['o2lastform'];
             $l_ctrl           = $_REQUEST['o2lastctrl'];
             $app->info_submit = array("form" => $l_form, "ctrl" => $l_ctrl);
@@ -2088,7 +2079,7 @@ class o2html {
                 // =======================================================================
                 print "</div>\n";
                 // ___________________________________________________ Cursor position ___
-                if (!$app->caret_position[$o2form_obj->id_esecuzione]) {
+                if (!isset($app->caret_position[$o2form_obj->id_esecuzione])) {
                     $set_to_field = $o2form_obj->controlli_posizione();
                     if ($set_to_field) {
                         $prg->set_caret($o2form_obj->html_name, $set_to_field);
@@ -2639,12 +2630,13 @@ class o2html {
                 }
             $rows = count($o2ctrl_obj->valori);
             }
-        $js_prop  = $o2ctrl_obj->js_props("dyn:".$list_type.$static_list.
-                                          ",cssf:'".$o2ctrl_obj->css.
-                                          "_field',cssl:'".$o2ctrl_obj->css.
-                                          "_list',rows:".($rows ? $rows : "0").
-                                          ($zoom ? ",z:!0" : ",z:!1"));
-        $htmlname = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
+        $js_change = '';
+        $js_prop   = $o2ctrl_obj->js_props("dyn:".$list_type.$static_list.
+                                           ",cssf:'".$o2ctrl_obj->css.
+                                           "_field',cssl:'".$o2ctrl_obj->css.
+                                           "_list',rows:".($rows ? $rows : "0").
+                                           ($zoom ? ",z:!0" : ",z:!1"));
+        $htmlname  = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
         if ($enabled && $enabled_in_tab && $active) {
             // ___________________________ Handler icon to open or click on full field ___
             $handler = $app->option_get('lookup_handler');
