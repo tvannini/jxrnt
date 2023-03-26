@@ -211,7 +211,9 @@ function jxgranting_user§§user_form_def(&$form_user) {
 		$ctrl_o2checkbox4->y(170);
 		$ctrl_o2checkbox4->larghezza(20);
 		$ctrl_o2checkbox4->altezza(20);
-		$ctrl_o2checkbox4->modificabile(jxgranting_user_exp_69());
+		$ctrl_o2checkbox4->modificabile(jxgranting_user_exp_74());
+		$ctrl_o2checkbox4->azione("change_admin");
+		$ctrl_o2checkbox4->on_change(jxgranting_user_exp_8());
 	$ctrl_o2checkbox5 = &$form_user->ctrldef("o2checkbox5", "check", "", "prg§_§var", "user_is_poweruser");
 		$ctrl_o2checkbox5->x(180);
 		$ctrl_o2checkbox5->y(195);
@@ -223,7 +225,7 @@ function jxgranting_user§§user_form_def(&$form_user) {
 		$ctrl_o2checkbox6->y(220);
 		$ctrl_o2checkbox6->larghezza(20);
 		$ctrl_o2checkbox6->altezza(20);
-		$ctrl_o2checkbox6->modificabile(jxgranting_user_exp_69());
+		$ctrl_o2checkbox6->modificabile(jxgranting_user_exp_74());
 	$ctrl_o2edit2 = &$form_user->ctrldef("o2edit2", "edit", "", "prg§_§var", "expire_date");
 		$ctrl_o2edit2->x(180);
 		$ctrl_o2edit2->y(245);
@@ -336,6 +338,10 @@ function jxgranting_user§§area_code_select_act(&$o2exe) {
 function jxgranting_user§§cancel_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::ret(11, jxgranting_user_exp_1()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_user§§change_admin_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_is_poweruser", jxgranting_user_exp_1()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§change_type_act(&$o2exe) {
@@ -789,7 +795,7 @@ return (o2val('prg§_§var','user_is_admin'));
 
 function jxgranting_user_exp_69() {
 	
-return ((o2user_is_admin() || o2app_runlevel() == 'DEV') && o2val('prg§_§var','user_name') != 'root' && o2val('prg§_§var','user_name') != 'jxsys');
+return ((o2user_is_admin() || o2app_runlevel() == 'DEV') && !o2val('prg§_§var','user_is_admin') && o2val('prg§_§var','user_name') != 'root' && o2val('prg§_§var','user_name') != 'jxsys');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_70() {
@@ -810,5 +816,10 @@ return (o2val('prg§_§var','user_is_poweruser'));
 function jxgranting_user_exp_73() {
 	
 return (o2val('prg§_§var','user_is_hidden'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_74() {
+	
+return ((o2user_is_admin() || o2app_runlevel() == 'DEV') && o2val('prg§_§var','user_name') != 'root' && o2val('prg§_§var','user_name') != 'jxsys');
 	} //|o2_fine_exp|
 ?>
