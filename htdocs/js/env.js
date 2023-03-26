@@ -8042,7 +8042,7 @@ jxjs.cError = function(ex, reqJs){
                 "<b>AJAX REQUEST FAILURE</b></center></td>\n" +
                 "<td class='o2_error_close' onclick='jxjsErr.style.display=\"none\";'" +
                 " title='Close error message'>X</td></tr></table>\n</tr>\n" +
-                "<tr><td COLSPAN='2'class='o2_error_text'>" + ex.name +
+                "<tr><td COLSPAN='2' class='o2_error_text'>" + ex.name +
                 "</td></tr>\n<tr><td class='o2_error_info'><i>Description:</i></td>" +
                 "<td class='o2_error_info'>" + ex.message +
                 "</td></tr>\n<tr><td class='o2_error_info'><i>Line:</i></td>" +

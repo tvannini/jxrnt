@@ -557,7 +557,7 @@ class o2_exception extends Exception {
                       "<td class='o2_error_close' onclick='getElementById(\"".
                       $msg_id."\").style.display=\"none\";' ".
                       "title='Close error message'>X</td></tr></table>\n</tr>\n".
-                      "<tr>\n<td COLSPAN='2'class='o2_error_text'>".
+                      "<tr>\n<td COLSPAN='2' class='o2_error_text'>".
                       $this->getMessage()."</td>\n</tr>\n".
                       "<tr>\n <td class='o2_error_info'><i>Application:</i></td>\n".
                       " <td class='o2_error_info'>".$app->nome."</td>\n</tr>\n".
