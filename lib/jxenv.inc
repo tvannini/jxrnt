@@ -2385,7 +2385,7 @@ class o2_dbview extends o2_view {
                     }
                 }
             // ______________________________________________ Check ranges on formulas ___
-            if ($this->wheres["o2calc§_§exps"]) {
+            if (isset($this->wheres['o2calc§_§exps'])) {
                 $countable = false;
                 }
             // ____________________________________ Use database AGGREGATE (COUNTABLE) ___
@@ -2393,8 +2393,8 @@ class o2_dbview extends o2_view {
                 $arr_local = array();
                 // _________________________________ Compose array for gateway command ___
                 foreach ($this->aggregate as $i => $aggr) {
-                    $c_o       = constant("o2_".$this->file->db->server->type."_o");
-                    $c_c       = constant("o2_".$this->file->db->server->type."_c");
+                    $c_o       = constant('o2_'.$this->file->db->server->type.'_o');
+                    $c_c       = constant('o2_'.$this->file->db->server->type.'_c');
                     $field_obj = $this->campi[$aggr['field']];
                     $field     = $c_o.$field_obj->file.$c_c.'.'.$field_obj->nome_fisico;
                     if ($field_obj->formula) {
@@ -2403,7 +2403,7 @@ class o2_dbview extends o2_view {
                     else {
                         $field = $c_o.$field_obj->file.$c_c.'.'.$field_obj->nome_fisico;
                         }
-                    $arr_local["JXFUNC_".$i] = array('func'  => $aggr['func'],
+                    $arr_local['JXFUNC_'.$i] = array('func'  => $aggr['func'],
                                                      'field' => $field);
                     }
                 // ________________________ Compose WHERE clause for SQL-linked tables ___
@@ -2415,8 +2415,8 @@ class o2_dbview extends o2_view {
                 // __________________ Add SQL-linked table WHERE clauses to main table ___
                 $mainfile = $this->file->indice;
                 if ($this->link_wheres) {
-                    $this->wheres[$mainfile].= ($this->wheres[$mainfile] ? " AND " : "").
-                                                implode(" AND ", $this->link_wheres);
+                    $this->wheres[$mainfile].= ($this->wheres[$mainfile] ? ' AND ' : '').
+                                                implode(' AND ', $this->link_wheres);
                     $this->ultima_where[$mainfile][0] = $this->wheres[$mainfile];
                     }
                 $links   = (is_array($this->link_on) ? $this->link_on : null);
@@ -2437,8 +2437,8 @@ class o2_dbview extends o2_view {
                 // ________________________________ Get aggregated values from dataset ___
                 foreach ($this->aggregate as $i => $aggr) {
                     $app->istanze_prg[$app->progressivo_istanze]->
-                      contesto[$aggr["retview"]]->imposta($aggr["retfield"],
-                                                          $ret_val["JXFUNC_".$i]);
+                      contesto[$aggr['retview']]->imposta($aggr['retfield'],
+                                                          $ret_val['JXFUNC_'.$i]);
                     }
                 }
             // ___________________________ Aggregate loop for UNCOUNTABLE aggregations ___
@@ -3098,7 +3098,7 @@ class o2_dbview extends o2_view {
                 if (!is_null($campo->like)) {
                     // ____________________________________________________ Expression ___
                     if (strpos($campo->like, "_exp_") !== false) {
-                        eval("\$valore_local = rtrim(".$campo->like.");");
+                        eval("\$valore_local = ".$campo->like.";");
                         }
                     // _________________________________________________________ Value ___
                     else {

@@ -177,7 +177,7 @@ class jxjs {
         $code = ob_get_clean();
         // ______________________________________ Replace the inner HTML of <BODY> tag ___
         print "if(o2jse.jxRefresh){ clearTimeout(o2jse.jxRefresh); }\njxp(".
-              jxjs::html_embed($code.($GLOBALS['jxlasterror'] ?
+              jxjs::html_embed($code.(isset($GLOBALS['jxlasterror']) ?
                                       "\n".$GLOBALS['jxlasterror']->to_html() : '')).
               ");";
         $app->commit_all(true);

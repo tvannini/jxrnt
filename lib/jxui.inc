@@ -1329,8 +1329,10 @@ class o2_form {
                             $save_path  = $x_list[$axis_ctrl]['#path'];
                             $save_cells = $x_list[$axis_ctrl]['#cells'];
                             $save_used  = $x_list[$axis_ctrl]['#used'];
-                            $x_list[$axis_ctrl] = array_diff($x_list[$axis_ctrl],
-                                                             $x_list[$expanded_ctrl]);
+                            $x_list[$axis_ctrl] =
+                                array_udiff($x_list[$axis_ctrl],
+                                            $x_list[$expanded_ctrl],
+                                            array($this, 'a_comp'));
                             }
                         elseif ($x_list[$axis_ctrl]['#cells'] >
                             $x_list[$expanded_ctrl]['#cells']) {
@@ -1339,8 +1341,10 @@ class o2_form {
                             $save_path  = $x_list[$expanded_ctrl]['#path'];
                             $save_cells = $x_list[$expanded_ctrl]['#cells'];
                             $save_used  = $x_list[$expanded_ctrl]['#used'];
-                            $x_list[$expanded_ctrl] = array_diff($x_list[$expanded_ctrl],
-                                                                 $x_list[$axis_ctrl]);
+                            $x_list[$expanded_ctrl] =
+                                array_udiff($x_list[$expanded_ctrl],
+                                            $x_list[$axis_ctrl],
+                                            array($this, 'a_comp'));
                             }
                         else {
                             $save_ctrl  = $expanded_ctrl;
@@ -1349,8 +1353,10 @@ class o2_form {
                             $save_cells = $x_list[$expanded_ctrl]['#cells'];
                             $save_used  = $x_list[$expanded_ctrl]['#used'];
                             if (!in_array($expanded_ctrl, $x_list[$axis_ctrl], true)) {
-                                $x_list[$expanded_ctrl] = array_diff($x_list[$expanded_ctrl],
-                                                                     $x_list[$axis_ctrl]);
+                                $x_list[$expanded_ctrl] =
+                                    array_udiff($x_list[$expanded_ctrl],
+                                                        $x_list[$axis_ctrl],
+                                                        array($this, 'a_comp'));
                                 }
                             }
                         // __________________ Restore elements dropped by array_diff() ___
@@ -1448,8 +1454,10 @@ class o2_form {
                             $save_path  = $y_list[$axis_ctrl]['#path'];
                             $save_cells = $y_list[$axis_ctrl]['#cells'];
                             $save_used  = $y_list[$axis_ctrl]['#used'];
-                            $y_list[$axis_ctrl] = array_diff($y_list[$axis_ctrl],
-                                                             $y_list[$expanded_ctrl]);
+                            $y_list[$axis_ctrl] =
+                                array_udiff($y_list[$axis_ctrl],
+                                            $y_list[$expanded_ctrl],
+                                            array($this, 'a_comp'));
                             }
                         elseif ($y_list[$axis_ctrl]['#cells'] >
                             $y_list[$expanded_ctrl]['#cells']) {
@@ -1458,8 +1466,10 @@ class o2_form {
                             $save_path  = $y_list[$expanded_ctrl]['#path'];
                             $save_cells = $y_list[$expanded_ctrl]['#cells'];
                             $save_used  = $y_list[$expanded_ctrl]['#used'];
-                            $y_list[$expanded_ctrl] = array_diff($y_list[$expanded_ctrl],
-                                                                 $y_list[$axis_ctrl]);
+                            $y_list[$expanded_ctrl] =
+                                array_udiff($y_list[$expanded_ctrl],
+                                            $y_list[$axis_ctrl],
+                                            array($this, 'a_comp'));
                             }
                         // _______________ If paths are the same don't change anything ___
                         else {
@@ -1469,8 +1479,10 @@ class o2_form {
                             $save_cells = $y_list[$expanded_ctrl]['#cells'];
                             $save_used  = $y_list[$expanded_ctrl]['#used'];
                             if (!in_array($expanded_ctrl, $y_list[$axis_ctrl], true)) {
-                                $y_list[$expanded_ctrl] = array_diff($y_list[$expanded_ctrl],
-                                                                     $y_list[$axis_ctrl]);
+                                $y_list[$expanded_ctrl] =
+                                    array_udiff($y_list[$expanded_ctrl],
+                                                $y_list[$axis_ctrl],
+                                                array($this, 'a_comp'));
                                 }
                             }
                         // __________________ Restore elements dropped by array_diff() ___
@@ -1486,6 +1498,32 @@ class o2_form {
         unset($y_axis);
         // _____________________  Return controls informations for moving and resizing ___
         return array($x_list, $y_list);
+
+        }
+
+    /**
+     * This method is used as call-back function for comparing axis information in method
+     * "resize_analysis".
+     * This function replicates the behaviour of internal comparng function for array_diff
+     * without errors on comparing array elements.
+     */
+    function a_comp($a, $b) {
+
+        if (is_array($a)) {
+            $a = 'Array';
+            }
+        if (is_array($b)) {
+            $b = 'Array';
+            }
+        if ((string) $a > (string) $b) {
+            return 1;
+            }
+        elseif ((string) $a < (string) $b) {
+            return -1;
+            }
+        else {
+            return 0;
+            }
 
         }
 
