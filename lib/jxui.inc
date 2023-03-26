@@ -2439,10 +2439,11 @@ class o2_ctrl {
                 "',cT:'".$this->tipo_ctrl.
                 "',v:'".$this->task.
                 "',f:'".$this->form.
-                "',pT:'".($parent ? $parent->tipo_ctrl : 'form').
-                "',dT:'".$this->maschera->tipo.
-                "',m:'".addslashes($this->maschera->maschera).
-                "',s:".intval($this->maschera->dimensione).
+                "',pT:'".($parent ? $parent->tipo_ctrl : 'form')."'".
+                ($this->maschera ?
+                 ",dT:'".$this->maschera->tipo.
+                 "',m:'".addslashes($this->maschera->maschera).
+                 "',s:".intval($this->maschera->dimensione) : '').
                 $log.
                 ",fret:".($this->forza_submit ? '!0' : '!1').
                 ($this->tab_row ? ',tabRow:!0' : '').
@@ -5405,10 +5406,13 @@ class o2_ctrl_tab extends o2_ctrl {
         $this->views_sel   = array();
         $this->views_trans = array();
         foreach ($this->prg_obj->contesto as &$single_view) {
-            $this->views_sel[$single_view->nome]   = $single_view->selezione;
-            $this->views_trans[$single_view->nome] = $single_view->computing;
-            if ($single_view->vista) {
-                $single_view->computing = true;
+            // __________________________________________________ Exclude virtual view ___
+            if ($single_view->dbdata) {
+                $this->views_sel[$single_view->nome]   = $single_view->selezione;
+                $this->views_trans[$single_view->nome] = $single_view->computing;
+                if ($single_view->vista) {
+                    $single_view->computing = true;
+                    }
                 }
             }
 
@@ -5422,8 +5426,11 @@ class o2_ctrl_tab extends o2_ctrl {
     function status_close() {
 
         foreach ($this->prg_obj->contesto as &$single_view) {
-            $single_view->selezione = $this->views_sel[$single_view->nome];
-            $single_view->computing = $this->views_trans[$single_view->nome];
+            // __________________________________________________ Exclude virtual view ___
+            if ($single_view->dbdata) {
+                $single_view->selezione = $this->views_sel[$single_view->nome];
+                $single_view->computing = $this->views_trans[$single_view->nome];
+                }
             }
         $this->view_obj->corrente = &$this->view_obj->
                                       recordset[$this->view_obj->selezione];

@@ -2234,7 +2234,7 @@ class o2_app {
             foreach ($this->istanze_prg as $single_id => $single_prg) {
                 $pars = '';
                 foreach ($single_prg->parametri as $par_id => $par) {
-                    if ($calls[$single_id]['parametri'][$par_id - 1]) {
+                    if (isset($calls[$single_id]['parametri'][$par_id - 1])) {
                         $par_val = $calls[$single_id]['parametri'][$par_id - 1]['valore'];
                         if (is_bool($par_val) || is_numeric($par_val)) {
                             $par_val = strval($par_val);

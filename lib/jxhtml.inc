@@ -2819,16 +2819,22 @@ class o2html {
             $js_props = $o2ctrl_obj->js_props();
             $label    = str_replace("&", "", $label);
             }
-        list($css_before, $css_after) = explode(" ", $o2ctrl_obj->css, 2);
+        $css_after = false;
+        if (strpos($o2ctrl_obj->css, ' ') !== false) {
+            list($css_before, $css_after) = explode(" ", $o2ctrl_obj->css, 2);
+            }
+        else {
+            $css_before = $o2ctrl_obj->css;
+            }
         print '<div '.($o2ctrl_obj->tab_row ? '' :
                        'id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.'" ').
               'class="'.$css_before.($o2ctrl_obj->modificabile ? '' : '_dis').
-                       ($css_after ? " ".$css_after : '').'"'.
+                       ($css_after ? ' '.$css_after : '').'"'.
               $title.
               ' style="width:'.$o2ctrl_obj->larghezza.'px;height:'.$o2ctrl_obj->altezza.
-                      "px;line-height:".$o2ctrl_obj->altezza."px;".
-                      ($o2ctrl_obj->visibile ? "" : "display:none;").'" '.
-              ($enabled ? 'tabindex="0" ' : "").$js_props.$js_change.'>'.
+                      "px;line-height:".$o2ctrl_obj->altezza.'px;'.
+                      ($o2ctrl_obj->visibile ? '' : 'display:none;').'" '.
+              ($enabled ? 'tabindex="0" ' : '').$js_props.$js_change.'>'.
               jx_encode($label)."</div>\n".$shortcut;
 
         }
@@ -3358,7 +3364,7 @@ class o2html {
                 }
             print "</div>\n<script> o2jse.tab.set(\"".$html_name."\",".
                   $o2ctrl_obj->fill_rows.",".$hscroll.",".$vscroll.",".
-                  ($active_form && $o2ctrl_obj->focus ? $o2ctrl_obj->focus : '""').
+                  ($active_form && isset($o2ctrl_obj->focus) ? $o2ctrl_obj->focus : '""').
                   "); </script>\n<!-- table end -->\n";
             $o2ctrl_obj->view_obj->relocated = false;
             }
@@ -3423,7 +3429,7 @@ class o2html {
                 $ord_title = "";
                 $ord_style = "cursor:default;";
                 // _____________________________________ Action on column header click ___
-                if ($ctrl->info_padre[11]) {
+                if (isset($ctrl->info_padre[11]) && $ctrl->info_padre[11]) {
                     $ord_js    = ' onClick=\'o2jse.tab.colExe(event,'.
                                                           $o2ctrl_obj->id_esecuzione.',"'.
                                                           $ctrl->info_padre[11].'","'.
@@ -3461,7 +3467,7 @@ class o2html {
                             }
                         }
                     }
-                if (trim($ctrl->info_padre[3]) != "") {
+                if (isset($ctrl->info_padre[3]) && $ctrl->info_padre[3]) {
                     if ($app->multilang) {
                         $titolo = jx_encode($app->translate($ctrl->nome,
                                                             'grid_title',
@@ -3492,8 +3498,18 @@ class o2html {
                             ($ctrl->info_padre[1] - ($puntatore_col + 1)).
                             "\"> &nbsp; </th>\n";
                     }
-                $client_size = $prg->custom_grids[$o2ctrl_obj->nome]["S"][$ctrl->nome];
-                $client_vis  = $prg->custom_grids[$o2ctrl_obj->nome]["V"][$ctrl->nome];
+                $client_size = false;
+                $client_vis  = false;
+                if (isset($prg->custom_grids[$o2ctrl_obj->nome])) {
+                    if (isset($prg->custom_grids[$o2ctrl_obj->nome]['S'][$ctrl->nome])) {
+                        $client_size =
+                                  $prg->custom_grids[$o2ctrl_obj->nome]['S'][$ctrl->nome];
+                        }
+                    if (isset($prg->custom_grids[$o2ctrl_obj->nome]['V'][$ctrl->nome])) {
+                        $client_vis =
+                                  $prg->custom_grids[$o2ctrl_obj->nome]['V'][$ctrl->nome];
+                        }
+                    }
                 if ($client_size) {
                     $col_size = ($client_size + $ctrl->larghezza);
                     if ($col_size < 5) {
@@ -3509,16 +3525,21 @@ class o2html {
                            ' onmousedown="o2jse.tab.startColMovingTO(event);"' : '');
                 $o2ctrl_obj->colonne = max($ctrl->info_padre[2], $o2ctrl_obj->colonne);
                 $puntatore_col       = $ctrl->info_padre[2];
-                if ($app->multilang) {
-                    $tip = $app->translate($ctrl->nome,
-                                           'grid_tip',
-                                           0,
-                                           $ctrl->info_padre[10]);
+                if (isset($ctrl->info_padre[10]) && $ctrl->info_padre[10]) {
+                    if ($app->multilang) {
+                        $tip = $app->translate($ctrl->nome,
+                                               'grid_tip',
+                                               0,
+                                               $ctrl->info_padre[10]);
+                        }
+                    else {
+                        $tip = $ctrl->info_padre[10];
+                        }
                     }
                 else {
-                    $tip = $ctrl->info_padre[10];
+                    $tip = false;
                     }
-                $cssc = $ctrl->info_padre[7];
+                $cssc = (isset($ctrl->info_padre[7]) ? $ctrl->info_padre[7] : false);
                 $cssc = ($cssc ?
                          ($cssc[0] === ' ' ? $o2ctrl_obj->testa_class : '').$cssc :
                          $o2ctrl_obj->testa_class);
@@ -3582,18 +3603,18 @@ class o2html {
         $puntatore_col  = 0;
         $row_class      = ($alt ? $o2ctrl_obj->riga_class : $o2ctrl_obj->alt_class);
         $active_form    = $o2ctrl_obj->form_obj->attiva;
-        $row_vis        = ($o2ctrl_obj->rows_vis[1] ? ' style="display:none;"' : "");
         $css_cella      = ($o2ctrl_obj->riga_corrente ?
                            $o2ctrl_obj->sele_class :
                            $o2ctrl_obj->corpo_class);
-        foreach ($o2ctrl_obj->form_obj->controlli as $indice_controllo => &$ctrl) {
+        foreach ($o2ctrl_obj->form_obj->controlli as &$ctrl) {
             // ______________________________ Controls (no navigator) inside the table ___
             if ($ctrl->padre == $o2ctrl_obj->nome && $ctrl->tipo_ctrl != 'navigator') {
                 // ______________________________________________________ PARENT INFOs ___
                 $info_row       = $ctrl->info_padre[0];
                 $info_col_start = $ctrl->info_padre[1];
                 $info_col_end   = $ctrl->info_padre[2];
-                $info_css       = $ctrl->info_padre[5];
+                $info_css       = (isset($ctrl->info_padre[5]) ?
+                                   $ctrl->info_padre[5] : false);
                 // __________________________________________________ Avanzamento riga ___
                 if ($info_row > $puntatore_riga) {
                     // __________________ Visibility check in ctrl_tab_header() method ___
@@ -3675,11 +3696,21 @@ class o2html {
                     print '<td class="'.$o2ctrl_obj->corpo_class.'" colspan="'.
                           ($info_col_start - $puntatore_col - 1)."\">&nbsp;</td>\n";
                     }
-                // ____________________________________________ Get column client size ___
-                $client_size = $prg->custom_grids[$o2ctrl_obj->nome]["S"][$ctrl->nome];
-                $col_size    = ($client_size + $ctrl->larghezza);
-                // ______________________________________ Get column client visibility ___
-                $client_vis  = $prg->custom_grids[$o2ctrl_obj->nome]["V"][$ctrl->nome];
+                $client_size = 0;
+                $client_vis  = false;
+                if (isset($prg->custom_grids[$o2ctrl_obj->nome])) {
+                    // ________________________________________ Get column client size ___
+                    if (isset($prg->custom_grids[$o2ctrl_obj->nome]['S'][$ctrl->nome])) {
+                        $client_size =
+                          intval($prg->custom_grids[$o2ctrl_obj->nome]['S'][$ctrl->nome]);
+                        }
+                    // __________________________________ Get column client visibility ___
+                    if (isset($prg->custom_grids[$o2ctrl_obj->nome]['V'][$ctrl->nome])) {
+                        $client_vis =
+                                  $prg->custom_grids[$o2ctrl_obj->nome]['V'][$ctrl->nome];
+                        }
+                    }
+                $col_size = ($client_size + $ctrl->larghezza);
                 // _____________________________________________________________ CELLA ___
                 $csst = ($info_css ?
                          ($info_css[0] === ' ' ? $css_cella : '').$info_css :
@@ -3711,8 +3742,6 @@ class o2html {
                                      campo($ctrl->campo_in_ctrl);
                     }
                 // ______________________________________________ Disegno il controllo ___
-                $ultimo_val_local = (isset($last_values[$indice_controllo]) ?
-                                           $last_values[$indice_controllo] : "");
                 if ((!$o2ctrl_obj->riga_corrente || !$o2ctrl_obj->modificabile) &&
                     ($ctrl->tipo_ctrl == "edit"  ||
                      $ctrl->tipo_ctrl == "text"  ||
@@ -3807,15 +3836,19 @@ class o2html {
                           ($ctrl->info_padre[1] - $puntatore_col - 1)."\">&nbsp;</td>\n";
                     }
                 // ______________________________________ Get column client visibility ___
-                $client_vis  = $prg->custom_grids[$o2ctrl_obj->nome]["V"][$ctrl->nome];
-                $style       = ' style="'.($ctrl->maschera->allineamento == "Right" ?
-                                           ' text-align:right;' : '').
-                               ($ctrl->visibile && !$client_vis ? '' : ' display:none;').
-                               '"';
-                $cssc = $ctrl->info_padre[9];
-                $cssc = ($cssc ?
-                         ($cssc[0] === ' ' ? $o2ctrl_obj->footer_class : '').$cssc :
-                         $o2ctrl_obj->footer_class);
+                $client_vis = false;
+                if (isset($prg->custom_grids[$o2ctrl_obj->nome]) &&
+                    isset($prg->custom_grids[$o2ctrl_obj->nome]['V'][$ctrl->nome])) {
+                    $client_vis = $prg->custom_grids[$o2ctrl_obj->nome]['V'][$ctrl->nome];
+                    }
+                $style = ' style="'.
+                         ($ctrl->maschera && $ctrl->maschera->allineamento == 'Right' ?
+                          ' text-align:right;' : '').
+                         ($ctrl->visibile && !$client_vis ? '' : ' display:none;').'"';
+                $cssc  = (isset($ctrl->info_padre[9]) ? $ctrl->info_padre[9] : false);
+                $cssc  = ($cssc ?
+                          ($cssc[0] === ' ' ? $o2ctrl_obj->footer_class : '').$cssc :
+                          $o2ctrl_obj->footer_class);
                 print '<td class="'.$cssc.'"'.
                          (($ctrl->info_padre[2] - $ctrl->info_padre[1]) ?
                           ' colspan="'.($ctrl->info_padre[2] - $ctrl->info_padre[1] + 1).
