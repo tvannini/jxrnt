@@ -4725,8 +4725,9 @@ class o2_dbview extends o2_view {
         $prev_segm_cond = "";
         $cnt            = 0;
         foreach ($key_segments as &$segmento_chiave) {
-            $trovato  = false;
-            $phys_fld = $segmento_chiave->campo->nome_fisico;
+            $trovato          = false;
+            $nome_campo_local = $segmento_chiave->campo->phys_name;
+            $phys_fld         = $c_o.$nome_campo_local.$c_c;
             if ($segmento_chiave->custom_sorted) {
                 $field_name = ($hide_table ? "" :
                                $c_o.$segmento_chiave->campo->file.$c_c.".").$phys_fld;
@@ -4736,14 +4737,15 @@ class o2_dbview extends o2_view {
                 $field_name = ($hide_table ? "" : $c_o.$file->indice.$c_c.".").$phys_fld;
                 $tab_name   = false;
                 }
-            $key_field_name = strtoupper($segmento_chiave->campo->phys_name)."_JXKF";
+            $key_field_name = strtoupper($nome_campo_local)."_JXKF";
             $valore_local   = $segmento_chiave->campo->maschera->default;
             $set_di_record  = ($precedente ? $this->precedente : $this->corrente);
             $type_local     = "";
             $dec_local      = 0;
             // __________________ Look for field in main and sorted join tables fields ___
             foreach ($this->campi as $singolo_campo) {
-                if ($phys_fld == $singolo_campo->nome_fisico &&
+                if ($nome_campo_local == $singolo_campo->phys_name &&
+                    $phys_fld == $singolo_campo->nome_fisico &&
                     ($singolo_campo->file == $file->indice ||
                      ($segmento_chiave->custom_sorted &&
                       $singolo_campo->file == $tab_name)) &&
