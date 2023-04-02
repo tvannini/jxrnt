@@ -2289,7 +2289,7 @@ class o2_dbview extends o2_view {
         $this->campi[$name] = new o2_campo_task($name,
                                                 $table,
                                                 new o2_campo($table,
-                                                             $name,
+                                                             $ori_name,
                                                              $c_o.$ori_name.$c_c,
                                                              $data_model),
                                                 $range_min,
