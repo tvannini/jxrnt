@@ -46,6 +46,7 @@ class JXSQLparser {
     protected $qualifier_o           = '"';
     protected $qualifier_c           = '"';
     protected $fully_qualify_columns = false;
+    protected $tab_qprefix           = '';
     protected $aliases               = array();
 
     protected $JXTAB                 = 'JXTAB';
@@ -56,6 +57,12 @@ class JXSQLparser {
 
     public function __construct($dbname, $fq_columns = false) {
 
+        if (o2db_name($dbname) === false) {
+            throw new o2_exception('Unknown database <i>'.$dbname.'</i>'.
+                                   ' for parsing JXSQL code',
+                                   o2error_UNKNOWNDBSERVER);
+            return false;
+            }
         $this->databasename          = $dbname;
         $this->dbserver              = o2db_server($dbname);
         $this->dbengine              = o2dbs_engine($this->dbserver);
@@ -68,18 +75,13 @@ class JXSQLparser {
         }
 
 
-    private function startsWith($str, $startsWith) {
-
-        if (trim($str) === '') {
-            return false;
-            }
-        else {
-            return strpos(strtolower($str), strtolower($startsWith)) === 0;
-            }
-
-        }
-
-
+    /**
+     * Return TRUE if string $str ends with string $endsWith.
+     *
+     * @param  string $str
+     * @param  string $endsWith
+     * @return boolean
+     */
     private function endsWith($str, $endsWith) {
 
         if (trim($str) === '') {
