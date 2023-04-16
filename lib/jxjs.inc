@@ -1259,6 +1259,10 @@ class jxjs {
                                      ',y:'.$o2ctrl_obj->y.
                                      ',w:'.$o2ctrl_obj->larghezza.
                                      ',h:'.$o2ctrl_obj->altezza.','.
+                                     ($o2ctrl_obj->hscroll ?
+                                      'hs:'.$o2ctrl_obj->hscroll.',' : '').
+                                     ($o2ctrl_obj->vscroll ?
+                                      'vs:'.$o2ctrl_obj->vscroll.',' : '').
                                      $rowprop,
                                      "{}");
                     }

@@ -2294,9 +2294,19 @@ o2jse.tab.activateMarker = function(markerObj) {
 
     o2jse.ctrl.init(markerObj);
     var objInfo = markerObj.o2;
-    o2jse.infoForm['o2lastform'].value = objInfo.f;
-    o2jse.infoForm['o2lastctrl'].value = objInfo.c;
-    markerObj.focus();
+    if (myTab = document.getElementById(objInfo.c + objInfo.e + "_tab")) {
+        var myCont     = myTab.parentNode;
+        var scrollSave = 0;
+        if (myCont.scrollLeft > 0) {
+            scrollSave = myCont.scrollLeft;
+            }
+        o2jse.infoForm['o2lastform'].value = objInfo.f;
+        o2jse.infoForm['o2lastctrl'].value = objInfo.c;
+        if (markerObj.focus) {
+            markerObj.focus();
+            }
+        myCont.scrollLeft = scrollSave;
+        }
 
     };
 
@@ -2869,9 +2879,7 @@ o2jse.tab.moveSel = function(sourceRow, targetRow, noRequest) {
                             targetParent.replaceChild(sourceField, targetField);
                             sourceParent.innerHTML = "";
                             sourceParent.appendChild(targetClone);
-                            if (sourceField.focus) {
-                                sourceField.focus();
-                                }
+                            o2jse.tab.activateMarker(sourceField);
                             }
                         // ______________________ Standard fields like edit, text, ... ___
                         else if (typeof sourceField.value != "undefined") {
@@ -8325,6 +8333,16 @@ jxc = function(defObj) {
                 if (lastRow.className != defObj.rowprop.cssc) {
                     lastRow.className = defObj.rowprop.cssc;
                     }
+                }
+            if (defObj.hs) {
+                // _______________________ Get horizontal scrollable element for table ___
+                sE            = document.getElementById(defObj.i + '_tab').parentNode;
+                sE.scrollLeft = defObj.hs;
+                }
+            if (defObj.vs) {
+                // _________________________ Get vertical scrollable element for table ___
+                sE           = document.getElementById(defObj.i + '_tab').parentNode;
+                sE.scrollTop = defObj.vs;
                 }
             }
         else {
