@@ -3247,59 +3247,59 @@ class o2_dbview extends o2_view {
         $prg        = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
         $link_db    = $this->files[$file]->db;
         $file_type  = $link_db->server->type;
-        $c_o        = constant("o2_".$file_type."_o");
-        $c_c        = constant("o2_".$file_type."_c");
-        $qlfd_field = $c_o.$file.$c_c.".".$field->nome_fisico;
+        $c_o        = constant('o2_'.$file_type.'_o');
+        $c_c        = constant('o2_'.$file_type.'_c');
+        $qlfd_field = $c_o.$file.$c_c.'.'.$field->nome_fisico;
         $exp        = $field->min;
         // _____________________________________________________ Expression evaluation ___
         $idx                   = count($prg->link_check);
         $prg->link_check[$idx] = true;
         $prg->link_view[$idx]  = $this->nome;
         $valore_local          = false;
-        eval("\$valore_local = ".$exp.";");
+        eval("\$valore_local = ".$exp.';');
         // _______________ Constant JOIN criteria (no o2val() involved but "_SESSION") ___
         if ($prg->link_check[$idx]) {
             $link_by_const = true;
-            if ($field->tipo == "N") {
+            if ($field->tipo == 'N') {
                 if ($valore_local) {
-                    $value = $qlfd_field."=".number_format($valore_local,
+                    $value = $qlfd_field.'='.number_format($valore_local,
                                                            $field->maschera->decimali,
-                                                           ".", "");
+                                                           '.', '');
                     }
                 else {
-                    $value = "(".$qlfd_field."=0 OR ".$qlfd_field." IS NULL)";
+                    $value = '('.$qlfd_field.'=0 OR '.$qlfd_field.' IS NULL)';
                     }
                 }
-            elseif ($field->tipo == "L") {
+            elseif ($field->tipo == 'L') {
                 if ($valore_local) {
                     $value = $qlfd_field."='1'";
                     }
                 else {
-                    $value = "(".$qlfd_field."<'1' OR ".$qlfd_field." IS NULL)";
+                    $value = '('.$qlfd_field."<'1' OR ".$qlfd_field.' IS NULL)';
                     }
                 }
-            elseif ($field->tipo == "D") {
-                if ($valore_local && $valore_local != "00000000") {
+            elseif ($field->tipo == 'D') {
+                if ($valore_local && $valore_local != '00000000') {
                     $value = $qlfd_field."='".$valore_local."'";
                     }
                 else {
-                    $value = "(".$qlfd_field."='00000000' OR ".$qlfd_field." IS NULL)";
+                    $value = '('.$qlfd_field."='00000000' OR ".$qlfd_field.' IS NULL)';
                     }
                 }
-            elseif ($field->tipo == "O") {
-                if ($valore_local && $valore_local != "000000") {
+            elseif ($field->tipo == 'O') {
+                if ($valore_local && $valore_local != '000000') {
                     $value = $qlfd_field."='".$valore_local."'";
                     }
                 else {
-                    $value = "(".$qlfd_field."='000000' OR ".$qlfd_field." IS NULL)";
+                    $value = '('.$qlfd_field."='000000' OR ".$qlfd_field.' IS NULL)';
                     }
                 }
-            elseif ($valore_local !== "") {
+            elseif ($valore_local !== '') {
                 $value = $qlfd_field."='".
                          o2_gateway::normalize($file_type, $valore_local)."'";
                 }
             else {
-                $value = "(RTRIM(".$qlfd_field.")='' OR RTRIM(".$qlfd_field.") IS NULL)";
+                $value = '(RTRIM('.$qlfd_field.")='' OR RTRIM(".$qlfd_field.') IS NULL)';
                 }
             }
         else {
@@ -3307,7 +3307,7 @@ class o2_dbview extends o2_view {
             $linkfld       = strtoupper($prg->link_field[$idx]);
             $linkview      = $prg->link_view[$idx];
             $linkfile      = $this->campi[$linkfld]->file;
-            $value         = $qlfd_field."=".$c_o.$this->campi[$linkfld]->file.$c_c.".".
+            $value         = $qlfd_field.'='.$c_o.$this->campi[$linkfld]->file.$c_c.'.'.
                              $this->campi[$linkfld]->nome_fisico;
             }
         unset($prg->link_field[$idx]);
@@ -3326,7 +3326,7 @@ class o2_dbview extends o2_view {
         $file_idx = o2_gateway::qualify($file_type,
                                         $link_db->nome,
                                         $link_db->proprietario,
-                                        $this->files[$file]->nome)." ".$c_o.$file.$c_c;
+                                        $this->files[$file]->nome).' '.$c_o.$file.$c_c;
         if (($link_by_const ||
              ($linkfld && !isset($this->formule[$linkfld]) &&
               $linkview == $this->nome &&
@@ -3334,7 +3334,7 @@ class o2_dbview extends o2_view {
               $valore_local === o2val($linkview, $linkfld))) &&
             $file_type != 'jxsdb') {
             if (strpos($this->link_on[$file_idx], $qlfd_field) === false) {
-                $and = ($this->link_on[$file_idx] ? " AND " : "");
+                $and = ($this->link_on[$file_idx] ? ' AND ' : '');
                 $this->files[$file]->link_by_sql = true;
                 $this->link_on[$file_idx].= $and.$value;
                 }
