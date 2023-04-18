@@ -1990,6 +1990,7 @@ class o2_file {
     public $chiavi       = array(); /* Array degli oggetti o2_chiave della tabella      */
     public $fix_nukeys   = array(); /* Array of not unique keys with mssing pk-segments */
     public $link_by_sql  = false;   /* If table, used as a link in a view, is SQL JOIN  */
+    public $not_sql_join = false;   /* Transient property in query composition          */
     /**
      * @var o2_chiave
      */
