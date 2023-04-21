@@ -1097,7 +1097,7 @@ class o2html {
                 $ctrl_name = $single_ctrl.$app->progressivo_istanze;
                 // ________________________________ Recover controls from posted names ___
                 $ctrl_obj = false;
-                foreach ($prg_local->form as &$single_form) {
+                foreach ($prg_local->form as $single_form) {
                     // _____________________________________ Gets window close actions ___
                     if ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
                                   '_jxcmd'] == '1') {
