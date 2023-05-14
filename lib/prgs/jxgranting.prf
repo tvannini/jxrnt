@@ -1153,7 +1153,7 @@ function jxgranting§§user_add_role_act(&$o2exe) {
 function jxgranting§§user_create_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "filter_user", jxgranting_exp_30()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::view("users", "I", "") && $o2exe->e();
-	$o2exe->s(3) && True && o2act::call(jxgranting_exp_31(), False, "users§§o2user", "users§§area", "users§§expire_date", "users§§login_type", "users§§pwds_history", "users§§force_pwd_change", "users§§no_pwd_change", "users§§admin", "prg§_§var§§action_ok") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::call(jxgranting_exp_31(), False, "users§§o2user", "users§§area", "users§§expire_date", "users§§login_type", "users§§pwds_history", "users§§force_pwd_change", "users§§no_pwd_change", "users§§admin", "users§§poweruser", "users§§hidden", "prg§_§var§§action_ok") && $o2exe->e();
 	$o2exe->s(4) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("users", "A", "") && $o2exe->e();
 //	$o2exe->s(5) && True && o2act::remark("Set creation date") && $o2exe->e();
 	$o2exe->s(6) && (jxgranting_exp_37() || $o2exe->e()) && o2act::set("users", "creation_date", jxgranting_exp_115()) && $o2exe->e();
