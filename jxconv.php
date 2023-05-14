@@ -6,18 +6,18 @@
  *
  * @name      jxconv
  * @package   janox/bin/jxconv.php
- * @version   2.9
+ * @version   3.0
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
-$jxrel = "2.9";
+$jxrel = "3.0";
 $info  = <<<JANOX_SCRIPT_HEAD
 
                       Janox Upgrade Tool
 
 
-   This file is part of Janox.
+   This file is part of Janox (www.janox.it).
 
     - LICENSE -
 
@@ -96,7 +96,6 @@ else {
  */
 function get_rnt_rel() {
 
-    $parts = array();
     list($ver, $sub, $rel) = explode(".", $GLOBALS['jxrel'], 3);
     $ver                   = intval($ver);
     $sub                   = intval($sub);
@@ -280,6 +279,23 @@ function upgrade_main_page($app_name, $app_dir, $app_rel) {
                                  'o2def::app("'.$app_rel.'");',
                                  $file_content);
     file_put_contents($main_file, $file_content);
+
+    }
+
+
+function get_tables_repos($app_name, $app_dir) {
+
+    // __________________________ Read tab-repository file from INI or use default one ___
+    $ini_content = file_get_contents($app_dir.$app_name.".ini");
+    $parts       = array();
+    preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+    if ($parts[1]) {
+        $tables = $parts[1];
+        }
+    else {
+        $tables = 'file_repository.inc';
+        }
+    return $tables;
 
     }
 
@@ -653,78 +669,69 @@ class upgrades_collection {
      */
     static function to2_2($app_name, $app_dir) {
 
-        // ______________________ Read tab-repository file from INI or use default one ___
-        $ini_content = file_get_contents($app_dir.$app_name.".ini");
-        $parts       = array();
-        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
-        if ($parts[1]) {
-            $tables = $parts[1];
-            }
-        else {
-            $tables = 'file_repository.inc';
-            }
+        $tables = get_tables_repos($app_name, $app_dir);
         // ________________________________________________ Get tables definition code ___
-        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'expire_date',
-                              'expire_date',
-                              '_o2date');
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'last_date',
-                              'last_date',
-                              '_o2date');
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'last_time',
-                              'last_time',
-                              '_o2time');
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'login_type',
-                              'login_type',
-                              'o2sys_login_type');
-        $code = add_tab_field($code,
-                              'o2_sessions',
-                              'terminal_id',
-                              'terminal_id',
-                              'jxterminal_id');
-        $code = add_tab_index($code,
-                              'o2_sessions',
-                              'upd_desc',
-                              array('a_date' => 'D', 'a_time' => 'D', 'sid' => 'A'));
-        $code = add_tab_field($code,
-                              'jx_jobs',
-                              'job_service',
-                              'job_service',
-                              'jxservice');
-        $code = add_tab_field($code,
-                              'jx_running_jobs',
-                              'run_service',
-                              'run_service',
-                              'jxservice');
-        $code = add_tab_field($code,
-                              'jx_running_jobs',
-                              'run_host',
-                              'run_host',
-                              'jxhost');
-        $code = add_tab_field($code,
-                              'jx_running_jobs',
-                              'run_at_date',
-                              'run_at_date',
-                              '_o2date');
-        $code = add_tab_field($code,
-                              'jx_running_jobs',
-                              'run_at_time',
-                              'run_at_time',
-                              '_o2time');
-        $code = add_tab_field($code,
-                              'jx_running_jobs',
-                              'run_developer',
-                              'run_developer',
-                              '_o2alpha');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'expire_date',
+                                'expire_date',
+                                '_o2date');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'last_date',
+                                'last_date',
+                                '_o2date');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'last_time',
+                                'last_time',
+                                '_o2time');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'login_type',
+                                'login_type',
+                                'o2sys_login_type');
+        $code   = add_tab_field($code,
+                                'o2_sessions',
+                                'terminal_id',
+                                'terminal_id',
+                                'jxterminal_id');
+        $code   = add_tab_index($code,
+                                'o2_sessions',
+                                'upd_desc',
+                                array('a_date' => 'D', 'a_time' => 'D', 'sid' => 'A'));
+        $code   = add_tab_field($code,
+                                'jx_jobs',
+                                'job_service',
+                                'job_service',
+                                'jxservice');
+        $code   = add_tab_field($code,
+                                'jx_running_jobs',
+                                'run_service',
+                                'run_service',
+                                'jxservice');
+        $code   = add_tab_field($code,
+                                'jx_running_jobs',
+                                'run_host',
+                                'run_host',
+                                'jxhost');
+        $code   = add_tab_field($code,
+                                'jx_running_jobs',
+                                'run_at_date',
+                                'run_at_date',
+                                '_o2date');
+        $code   = add_tab_field($code,
+                                'jx_running_jobs',
+                                'run_at_time',
+                                'run_at_time',
+                                '_o2time');
+        $code   = add_tab_field($code,
+                                'jx_running_jobs',
+                                'run_developer',
+                                'run_developer',
+                                '_o2alpha');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -745,24 +752,15 @@ class upgrades_collection {
      */
     static function to2_3($app_name, $app_dir) {
 
-        // ______________________ Read tab-repository file from INI or use default one ___
-        $ini_content = file_get_contents($app_dir.$app_name.".ini");
-        $parts       = array();
-        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
-        if ($parts[1]) {
-            $tables = $parts[1];
-            }
-        else {
-            $tables = 'file_repository.inc';
-            }
+        $tables = get_tables_repos($app_name, $app_dir);
         // ________________________________________________ Get tables definition code ___
-        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code = add_tab_field($code,
-                              'o2_sessions',
-                              'app_name',
-                              'app_name',
-                              '_o2alpha');
+        $code   = add_tab_field($code,
+                                'o2_sessions',
+                                'app_name',
+                                'app_name',
+                                '_o2alpha');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
         // ____________________________ Remove ->wide syntax and replace with ->expand ___
@@ -813,39 +811,30 @@ class upgrades_collection {
      */
     static function to2_4($app_name, $app_dir) {
 
-        // ______________________ Read tab-repository file from INI or use default one ___
-        $ini_content = file_get_contents($app_dir.$app_name.".ini");
-        $parts       = array();
-        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
-        if ($parts[1]) {
-            $tables = $parts[1];
-            }
-        else {
-            $tables = 'file_repository.inc';
-            }
+        $tables = get_tables_repos($app_name, $app_dir);
         // ________________________________________________ Get tables definition code ___
-        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'last_pwd_date',
-                              'last_pwd_date',
-                              '_o2date');
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'force_pwd_change',
-                              'force_pwd_change',
-                              '_o2logical');
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'pwds_history',
-                              'pwds_history',
-                              'o2sys_long_str');
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'no_pwd_change',
-                              'no_pwd_change',
-                              '_o2logical');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'last_pwd_date',
+                                'last_pwd_date',
+                                '_o2date');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'force_pwd_change',
+                                'force_pwd_change',
+                                '_o2logical');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'pwds_history',
+                                'pwds_history',
+                                'o2sys_long_str');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'no_pwd_change',
+                                'no_pwd_change',
+                                '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -864,24 +853,15 @@ class upgrades_collection {
      */
     static function to2_5($app_name, $app_dir) {
 
-        // ______________________ Read tab-repository file from INI or use default one ___
-        $ini_content = file_get_contents($app_dir.$app_name.".ini");
-        $parts       = array();
-        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
-        if ($parts[1]) {
-            $tables = $parts[1];
-            }
-        else {
-            $tables = 'file_repository.inc';
-            }
+        $tables = get_tables_repos($app_name, $app_dir);
         // ________________________________________________ Get tables definition code ___
-        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'creation_date',
-                              'creation_date',
-                              '_o2date');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'creation_date',
+                                'creation_date',
+                                '_o2date');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -1018,24 +998,15 @@ class upgrades_collection {
      */
     static function to2_7($app_name, $app_dir) {
 
-        // ______________________ Read tab-repository file from INI or use default one ___
-        $ini_content = file_get_contents($app_dir.$app_name.".ini");
-        $parts       = array();
-        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
-        if ($parts[1]) {
-            $tables = $parts[1];
-            }
-        else {
-            $tables = 'file_repository.inc';
-            }
+        $tables = get_tables_repos($app_name, $app_dir);
         // ________________________________________________ Get tables definition code ___
-        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'admin',
-                              'admin',
-                              '_o2logical');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'admin',
+                                'admin',
+                                '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -1052,8 +1023,10 @@ class upgrades_collection {
      */
     static function to2_8($app_name, $app_dir) {
 
+        // _____________________________________________________________ NOTHING TO DO ___
 
         }
+
 
     /**
      * Upgrades application to release 2.9
@@ -1068,34 +1041,72 @@ class upgrades_collection {
      */
     static function to2_9($app_name, $app_dir) {
 
-        // ______________________ Read tab-repository file from INI or use default one ___
-        $ini_content = file_get_contents($app_dir.$app_name.".ini");
-        $parts       = array();
-        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
-        if ($parts[1]) {
-            $tables = $parts[1];
-            }
-        else {
-            $tables = 'file_repository.inc';
-            }
+        $tables = get_tables_repos($app_name, $app_dir);
         // ________________________________________________ Get tables definition code ___
-        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'poweruser',
-                              'poweruser',
-                              '_o2logical');
-        $code = add_tab_field($code,
-                              'o2_users',
-                              'hidden',
-                              'hidden',
-                              '_o2logical');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'poweruser',
+                                'poweruser',
+                                '_o2logical');
+        $code   = add_tab_field($code,
+                                'o2_users',
+                                'hidden',
+                                'hidden',
+                                '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
         }
 
+
+    /**
+     * Upgrades application to release 3.0
+     *
+     *
+     * @param string $app_name Application name
+     * @param jxdir  $app_dir  Application root directory
+     */
+    static function to3_0($app_name, $app_dir) {
+
+        $dir   = new dir_descriptor($app_dir.'prgs/');
+        $files = $dir->get_elements();
+        // _________________ Define old "paragraph" char marker in Windows-1252 encode ___
+        $m     = html_entity_decode('&sect;', ENT_QUOTES, 'cp1252');
+        // _________________________________________________ Loop on folder files list ___
+        while ($file = array_shift($files)) {
+            // ___________________________________________________ Make all stuff here ___
+            if ($file->ext == 'prg') {
+                $prg   = $file->full_name;
+                $prf   = $file->path.$file->name.'.prf';
+                if (file_exists($prf)) {
+                    $codg = file_get_contents($prg);
+                    $codf = file_get_contents($prf);
+                    // ______________________ Replace local variables marker [prg|prf] ___
+                    $codg = preg_replace('/prg'.$m.'_'.$m.'var/', '[var]', $codg);
+                    $codf = preg_replace('/prg'.$m.'_'.$m.'var/', '[var]', $codf);
+
+                    // ______ Replace separator in call-prg reference parameters [prf] ___
+                    $codf  = preg_replace('/(["\']\w+)'.$m.$m.'(\w+["\'])/',
+                                          '$1|$2',
+                                          $codf);
+
+                    // Replace separator in view, form, action, protocol & report [prf] __
+                    $codf  = preg_replace('/(\s*function\s+\w+)'.$m.$m.'(\w+\s*\()/',
+                                          '$1__$2',
+                                          $codf);
+                    file_put_contents($prg, $codg);
+                    file_put_contents($prf, $codf);
+                    }
+                }
+            // _________________________________________ Add sub folders files to list ___
+            elseif ($file->type == 'D') {
+                $files+= $file->get_elements();
+                }
+            }
+
+        }
 
     }
 
