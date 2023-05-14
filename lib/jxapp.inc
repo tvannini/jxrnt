@@ -10278,26 +10278,26 @@ class o2_inspector {
 
     public function find_prg_par($prg, $par_id) {
 
-        $root = "[root]";
+        $root = '[root]';
         $ret  = array();
         $prf  = $this->prgs_list[$prg];
         $code = file_get_contents($prf);
         $uses = self::get_prg_acts_retpar($code);
         // ________________________________________ Uses in actions (return parameter) ___
-        if (count($uses[$par_id])) {
+        if (isset($uses[$par_id]) && count($uses[$par_id])) {
             $ret["p"] = array($root,
                               $prg,
-                              $this->img_path."prg.png",
+                              $this->img_path.'prg.png',
                               self::$w_program);
             foreach ($uses[$par_id] as $act => $in_act) {
-                $ret["a".$act] = array("p",
+                $ret["a".$act] = array('p',
                                        $act,
-                                       $this->img_path."action.png",
+                                       $this->img_path.'action.png',
                                        self::$w_action);
                 foreach ($in_act as $step) {
-                    $ret["a".$act."s".$step] = array("a".$act,
+                    $ret['a'.$act.'s'.$step] = array('a'.$act,
                                                      $step,
-                                                     $this->img_path."step.png",
+                                                     $this->img_path.'step.png',
                                                      self::$w_step);
                     }
                 }
