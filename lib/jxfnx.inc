@@ -6430,6 +6430,7 @@ function o2view_get_query($view_name, $with_orderby = false, $with_limit = false
     $view_obj = clone $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
     if ($view_obj) {
         unset($view_obj->corrente);
+        $view_obj->record_primo();
         $GLOBALS['jxviewsql'] = 'Q'.($with_orderby ? 'O' : '').($with_limit ? 'L' : '');
         $view_obj->record_primo();
         $query = $GLOBALS['jxviewsql'];
