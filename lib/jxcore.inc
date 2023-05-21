@@ -1258,7 +1258,7 @@ class o2_dir extends o2_fsitem {
      * Ritorna l'oggetto o2_fsitem dell'elemento di filesystem richiesto
      *
      * @param  string $file
-     * @return o2_elemento_fs
+     * @return o2_fsitem
      */
     function element($file) {
 
@@ -1923,9 +1923,9 @@ class o2_chiave {
      * Ritorna la clausola di ORDER BY SQL per la tabella con alias [$tabella].
      * Con il parametro [$invertito] passato a TRUE ritorna la chiave inversa.
      *
-     * @param  o2_view $view
-     * @param  string  $table
-     * @param  boolean $invertito
+     * @param  o2_dbview $view
+     * @param  string    $table
+     * @param  boolean   $invertito
      * @return string
      */
     function order_by($view, $table = '', $invertito = false) {
