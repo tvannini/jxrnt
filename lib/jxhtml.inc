@@ -1050,7 +1050,8 @@ class o2html {
         $app          = $_SESSION['o2_app'];
         $posted_ctrls = array();
         $app->ritorno = false;
-        $prgexe_id    = (isset($_REQUEST['o2_prgexeid']) ?
+        $prgexe_id    = (isset($_REQUEST['o2_prgexeid']) &&
+                         ($_REQUEST['o2_prgexeid'] != 'undefined') ?
                          intval($_REQUEST['o2_prgexeid']) :
                          $app->progressivo_istanze);
         // _________________________ Programs called down from the exe one (Menu form) ___
