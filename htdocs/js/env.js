@@ -245,7 +245,13 @@ o2jse.init = function() {
     o2jse.reposAllWins();
     window.onresize = function() {
                          clearTimeout(o2jse.winResizing);
-                         o2jse.winResizing = setTimeout(o2jse.resizeBrowserWindow, 200);
+                         if (o2jse.cli.agent.toLowerCase().indexOf('android') > -1) {
+                             o2jse.winResizing = setTimeout(jxjs.request, 200);
+                             }
+                         else {
+                             o2jse.winResizing = setTimeout(o2jse.resizeBrowserWindow,
+                                                            200);
+                             }
                          };
     // _________________________________________________________ OnLoad portable logic ___
     o2jse.waitDocReady();
