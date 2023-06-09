@@ -208,7 +208,8 @@ class jxjs {
               "o2jse.infoForm['o2lastctrl'].value='';".
               "o2jse.infoForm['o2_action'].value='';".
               "o2jse.submitting=false;".
-              "o2jse.reposWins=[];jxjs.scriptsList=[];\no2jse.cmd.submit(0);\n";
+              "o2jse.reposWins=[];jxjs.scriptsList=[];\no2jse.cmd.submit(".$prgexe_id.
+              ");\n";
 
         }
 
