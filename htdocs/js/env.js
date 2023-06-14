@@ -8141,21 +8141,18 @@ jxc = function(defObj) {
                     ctrlObj.innerHTML = defObj.title;
                     }
                 }
-/**
- *          TODO: To be permanently removed
-
-            if ((typeof defObj.x != 'undefined') || (typeof defObj.y != 'undefined')) {
-                o2jse.win.needRepos(defObj.i);
-                // _______________________________________________________ X-Y element ___
-                ctrlObj = document.getElementById(defObj.i);
-                o2jse.ctrl.init(ctrlObj);
-                // ___________________________________ Change position by absolute X-Y ___
-                ctrlObj.o2.alignH = "";
-                ctrlObj.o2.alignV = "";
-                ctrlObj.o2.x      = defObj.x;
-                ctrlObj.o2.y      = defObj.y;
+            // ___________________________________________________________ X-Y element ___
+            ctrlObj = document.getElementById(defObj.i);
+            // ______________________________________________________________ Change X ___
+            if ((typeof(defObj.x) != 'undefined') &&
+                parseInt(ctrlObj.offsetLeft) != defObj.x) {
+                ctrlObj.style.left = defObj.x + "px";
                 }
-*/
+            // ______________________________________________________________ Change Y ___
+            if ((typeof(defObj.y) != 'undefined') &&
+                parseInt(ctrlObj.offsetTop) != defObj.y) {
+                ctrlObj.style.top = defObj.y + "px";
+                }
             // _________________________________________________________ Width element ___
             ctrlObj = document.getElementById(defObj.i).getElementsByTagName("div")[0];
             // __________________________________________________________ Change width ___
