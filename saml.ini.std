@@ -1,0 +1,58 @@
+; Janox SAML authentication module settings
+;
+; This file contains configuration directives for Janox SAML
+; authentication module: see file jxrnt/htdocs/saml.php.
+;
+; Settings are in the form:
+;  set-key = value
+; Double-quote strings to insert spaces or control chars.
+;
+; @name      jxsaml_conf
+; @package   jxrnt/saml.ini
+; @version   2.9
+; @copyright Tommaso Vannini (tvannini@janox.it) 2007
+; @author    Tommaso Vannini (tvannini@janox.it)
+
+
+; Janox runtime, usually you can leave it unset.
+; If unset script will look for Janox runtime in "../jxrnt.php" (if SAML
+; login is served from inside the runtime) or in application
+; configuration (if SAML login is provided from inside application).
+;
+; @var String   Filesystem absolute or relative (to __DIR__) path
+jxrnt = "";
+
+
+; Application main script ("<app>/htdocs/<app>.php")
+;
+; @var String   Filesystem absolute or relative (to __DIR__) path
+app_main_path = "/path_to_myapp/htdocs/myapp.php"
+
+
+; Application main URL ("https://<host>/<...>/<app>.php")
+;
+; @var String   Absolute or relative (to host) URL
+app_main_url = "https://myhost/myapp.php"
+
+
+; SimpleSAMLPHP autoload script ("<simplesamlphp>/src/_autoload.php")
+;
+; @var String   Filesystem absolute or relative (to __DIR__) path
+saml_lib_autoload = "../simplesamlphp/src/_autoload.php";
+
+
+; SAML SP-ID.
+; This ID must match one of the SP-keys defined in SimpleSAMLPHP library
+; ("SimpleSAMLPHP/config/authsources.php").
+;
+; @var String
+saml_sp_id = "google-workspace";
+
+
+; Domain to be stripped out from Name-IDs.
+; Sample: if you set "saml_domain = mydomain.com", then if you have an
+; authorized user for "myuser@mydomain.com", then login to the
+; application will be requested for user "myuser".
+;
+; @var string   Domain name to strip out from email addresses
+saml_domain = "mydomain.it"
