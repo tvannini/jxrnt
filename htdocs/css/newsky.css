@@ -265,7 +265,10 @@ div.o2_ctrl_listcombo_field {
     position: absolute;
     top: 2px;
     left: 20px;
+    width: 100%;
+    padding-right: 50px;
     overflow: hidden;
+    text-overflow: ellipsis;
     }
 
 .o2_ctrl_file_clear {

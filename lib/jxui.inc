@@ -4202,10 +4202,11 @@ class o2_ctrl_button extends o2_ctrl {
 class o2_ctrl_file extends o2_ctrl {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $salva_con_nome = ""; /* Name to assign to file in uploads folder (may
-                                    contain relative paths                              */
+    public $salva_con_nome = '';   /* Name to assign to file in uploads folder (may
+                                      contain relative paths                            */
+    public $multiple       = true; /* If control can accept multiple files upload       */
     /*     _____ CSS CLASSES __________________________________________________________ */
-    public $css            = "o2_ctrl_file"; /* Whole control <INPUT>                   */
+    public $css            = 'o2_ctrl_file'; /* Whole control <INPUT>                   */
 
 
     /**
@@ -4215,7 +4216,20 @@ class o2_ctrl_file extends o2_ctrl {
      */
     function __construct() {
 
-        $this->tipo_ctrl = "file";
+        $this->tipo_ctrl = 'file';
+
+        }
+
+
+    /**
+     * Set control for multiple files upload
+     *
+     * @return boolean
+     */
+    function multiple() {
+
+        $this->multiple = true;
+        return true;
 
         }
 
@@ -4226,7 +4240,7 @@ class o2_ctrl_file extends o2_ctrl {
      * @param  string $css
      * @return boolean
      */
-    function css($css = "") {
+    function css($css = '') {
 
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
@@ -4267,7 +4281,7 @@ class o2_ctrl_file extends o2_ctrl {
      * @param  string $nome
      * @return boolean
      */
-    function save_as($nome = "") {
+    function save_as($nome = '') {
 
         $this->salva_con_nome = $nome;
         return true;

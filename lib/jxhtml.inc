@@ -1716,96 +1716,111 @@ class o2html {
 
         $app       = $_SESSION['o2_app'];
         $prg_local = $app->istanze_prg[$app->progressivo_istanze];
-        foreach ($_FILES as $ctrl_name => $singolo_file) {
-            if (($singolo_file['tmp_name'] == "" && $singolo_file['size'] == 0) ||
-                is_uploaded_file($singolo_file['tmp_name'])) {
-                // ______________________________________________ Find related control ___
-                $ctrl_name = substr($ctrl_name,
-                                    0,
-                                    strlen($ctrl_name) -
-                                    strlen($app->progressivo_istanze));
-                $ctrl_obj  = false;
-                foreach ($prg_local->form as $single_form) {
-                    if (isset($single_form->controlli[$ctrl_name])) {
-                        $ctrl_obj = $single_form->controlli[$ctrl_name];
-                        break;
-                        }
+        foreach ($_FILES as $ctrl_name => $single_ctrl) {
+            // __________________________________________________ Find related control ___
+            $ctrl_name = substr($ctrl_name,
+                                0,
+                                strlen($ctrl_name) -
+                                strlen($app->progressivo_istanze));
+            $ctrl_obj  = false;
+            foreach ($prg_local->form as $single_form) {
+                if (isset($single_form->controlli[$ctrl_name])) {
+                    $ctrl_obj = $single_form->controlli[$ctrl_name];
+                    break;
                     }
-                if ($ctrl_obj) {
-                    // ________________________________________________ Field is blank ___
-                    if (($singolo_file['tmp_name'] == "" && $singolo_file['size'] == 0)) {
-                        if ($ctrl_obj->campo_in_ctrl) {
-                            $prg_local->contesto[$ctrl_obj->task]->
-                             imposta($ctrl_obj->campo_in_ctrl, array());
-                            }
-                        }
-                    // _____________________________________ Field is an uploaded file ___
-                    else {
-                        $nome_local = $singolo_file['name'];
-                        if ($ctrl_obj->salva_con_nome) {
-                            $nome_local = $ctrl_obj->salva_con_nome;
-                            }
-                        clearstatcache();
-                        if (file_exists($app->dir_uploads.$nome_local)) {
-                            unlink($app->dir_uploads.$nome_local);
-                            }
-                        if (move_uploaded_file($singolo_file['tmp_name'],
-                                               $app->dir_uploads.$nome_local)) {
-                            $obj_local = new o2_fsitem($app->dir_uploads.$nome_local);
-                            $obj_local->http_mime      = $singolo_file['type'];
-                            $obj_local->nome_originale = $singolo_file['name'];
+                }
+            // ___________________________________________ Loop ona all uploaded files ___
+            foreach ($single_ctrl['name'] as $idx => $file_ori) {
+                if (($single_ctrl['tmp_name'][$idx] == '' &&
+                    $single_ctrl['size'][$idx] == 0) ||
+                    is_uploaded_file($single_ctrl['tmp_name'][$idx])) {
+                    if ($ctrl_obj) {
+                        // ____________________________________________ Field is blank ___
+                        if (($single_ctrl['tmp_name'][$idx] == '' &&
+                            $single_ctrl['size'][$idx] == 0)) {
                             if ($ctrl_obj->campo_in_ctrl) {
                                 $prg_local->contesto[$ctrl_obj->task]->
-                                 imposta($ctrl_obj->campo_in_ctrl, obj2array($obj_local));
+                                 imposta($ctrl_obj->campo_in_ctrl, array());
+                                break;
+                                }
+                            }
+                        // _________________________________ Field is an uploaded file ___
+                        else {
+                            if (!$ctrl_obj->multiple && $ctrl_obj->salva_con_nome) {
+                                $file_ori = $ctrl_obj->salva_con_nome;
+                                }
+                            clearstatcache();
+                            if (file_exists($app->dir_uploads.$file_ori)) {
+                                unlink($app->dir_uploads.$file_ori);
+                                }
+                            if (move_uploaded_file($single_ctrl['tmp_name'][$idx],
+                                                   $app->dir_uploads.$file_ori)) {
+                                $obj_local = new o2_fsitem($app->dir_uploads.$file_ori);
+                                $obj_local->http_mime      = $single_ctrl['type'][$idx];
+                                $obj_local->nome_originale = $file_ori;
+                                // ___________________ Single file upload (by control) ___
+                                if (!$ctrl_obj->multiple && $ctrl_obj->campo_in_ctrl) {
+                                    $prg_local->contesto[$ctrl_obj->task]->
+                                     imposta($ctrl_obj->campo_in_ctrl,
+                                             obj2array($obj_local));
+                                    }
+                                else {
+                                    $res[] = obj2array($obj_local);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            elseif ($singolo_file['error'] != 4) {
-                $error_local = "";
-                switch($singolo_file['error']){
-                    // ______________________________ no error (don't throw exception) ___
-                    case UPLOAD_ERR_OK:
-                        $error_local = "sent file correctly received.";
-                        break;
-                    // __________ exceeds the upload_max_filesize directive in php.ini ___
-                    case UPLOAD_ERR_INI_SIZE:
-                        $error_local = "sent file is too big for php.ini directive.";
-                        break;
-                    // ________________ exceeds MAX_FILE_SIZE directive from html form ___
-                    case UPLOAD_ERR_FORM_SIZE:
-                        $error_local = "sent file is too big for HTML FORM directive.";
-                        break;
-                    // _____________________ uploaded file was only partially uploaded ___
-                    case UPLOAD_ERR_PARTIAL:
-                        $error_local = "sent file was only partially received.";
-                        break;
-                    // __________________________________________ no file was uploaded ___
-                    case UPLOAD_ERR_NO_FILE:
-                        $error_local = "no file was received.";
-                        break;
-                    // _____________________________________ Missing temporary forlder ___
-                    case UPLOAD_ERR_NO_TMP_DIR:
-                        $error_local = "missing temporary folder directive in php.ini.";
-                        break;
-                    // __________________________________ Failed to write file to disk ___
-                    case UPLOAD_ERR_CANT_WRITE:
-                        $error_local = "failed to write uploaded file to disk.";
-                        break;
-                    // _____________________________________ File stopped by extension ___
-                    case UPLOAD_ERR_EXTENSION:
-                        $error_local = "sent file type is not allowed.";
-                        break;
-                    // _________________________________________________ default error ___
-                    default:
-                        $error_local = "sent file not received.";
-                        break;
+                elseif ($single_ctrl['error'][$idx] != 4) {
+                    $error_local = '';
+                    switch($single_ctrl['error'][$idx]){
+                        // ______________________________ no error (don't throw exception) ___
+                        case UPLOAD_ERR_OK:
+                            $error_local = 'sent file correctly received.';
+                            break;
+                        // __________ exceeds the upload_max_filesize directive in php.ini ___
+                        case UPLOAD_ERR_INI_SIZE:
+                            $error_local = 'sent file is too big.';
+                            break;
+                        // ________________ exceeds MAX_FILE_SIZE directive from html form ___
+                        case UPLOAD_ERR_FORM_SIZE:
+                            $error_local = 'sent file is too big.';
+                            break;
+                        // _____________________ uploaded file was only partially uploaded ___
+                        case UPLOAD_ERR_PARTIAL:
+                            $error_local = 'sent file was only partially received.';
+                            break;
+                        // __________________________________________ no file was uploaded ___
+                        case UPLOAD_ERR_NO_FILE:
+                            $error_local = 'no file was received.';
+                            break;
+                        // _____________________________________ Missing temporary forlder ___
+                        case UPLOAD_ERR_NO_TMP_DIR:
+                            $error_local = 'missing temporary folder in configuration.';
+                            break;
+                        // __________________________________ Failed to write file to disk ___
+                        case UPLOAD_ERR_CANT_WRITE:
+                            $error_local = 'failed to save uploaded file to disk.';
+                            break;
+                        // _____________________________________ File stopped by extension ___
+                        case UPLOAD_ERR_EXTENSION:
+                            $error_local = 'sent file type is not allowed.';
+                            break;
+                        // _________________________________________________ default error ___
+                        default:
+                            $error_local = 'sent file not received.';
+                            break;
+                        }
+                    throw new o2_exception('Cannot receive file <i>'.$file_ori.'</i>:'.
+                                        $error_local,
+                                        o2error_FILEUPLOAD);
                     }
-                throw new o2_exception("Cannot receive file <i>".
-                                       $singolo_file['tmp_name']."</i>:".$error_local,
-                                       o2error_FILEUPLOAD);
                 }
+            }
+        // ______________________________ Update target field with multiple files info ___
+        if ($ctrl_obj->multiple && $ctrl_obj->campo_in_ctrl) {
+            $prg_local->contesto[$ctrl_obj->task]->imposta($ctrl_obj->campo_in_ctrl,
+                                                           $res);
             }
 
         }
@@ -4571,17 +4586,19 @@ class o2html {
                   "' style='width:".$o2ctrl_obj->larghezza.
                         "px;height:".$o2ctrl_obj->altezza."px;".
                   ($o2ctrl_obj->visibile ? "" : "display:none;").
-                  "'><div id='".$ctrl_name."_int' class='o2_ctrl_file_txt'>&nbsp;</div>";
+                  "'><div id='".$ctrl_name."_int' class='".$o2ctrl_obj->css.
+                  "_txt'>&nbsp;</div>";
             // ______________________________________________ Real file upload control ___
             print "<input type='hidden' name='MAX_FILE_SIZE' value='".$filesize_local.
                   "' />\n<div style='overflow:hidden;'><input type='file' name='".
-                  $ctrl_name."' size='".$o2ctrl_obj->larghezza.
-                             "' style='width:100%;opacity:0;'\n".
-                         ($o2ctrl_obj->modificabile  ? $js_change_local : "DISABLED\n").
-                         "></div>\n";
+                  $ctrl_name."[]' size='".$o2ctrl_obj->larghezza.
+                  "' style='width:100%;opacity:0;'\n".
+                  ($o2ctrl_obj->modificabile  ? $js_change_local : "DISABLED\n").
+                  ($o2ctrl_obj->multiple ? ' multiple' : '')."></div>\n";
             // __________________________________________________________ Reset button ___
             print "<div onclick='o2jse.fu.clear(\"".$ctrl_name.
-                  "\")' class='o2_ctrl_file_clear' title='Clear'>&nbsp;</div></div>";
+                  "\")' class='".$o2ctrl_obj->css.
+                  "_clear' title='Clear'>&nbsp;</div></div>";
             }
         else {
             print "<div class='".$css.

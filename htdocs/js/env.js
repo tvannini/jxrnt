@@ -6399,9 +6399,21 @@ o2jse.fu.clear = function(ctrlName) {
  */
 o2jse.fu.c = function(ctrlName) {
 
-    var txt = o2jse.infoForm[ctrlName].value;
-    // ____________________________________________ Strip path and show only file name ___
-    document.getElementById(ctrlName + "_int").innerHTML = txt.replace(/^.*[\\\/]/, '');
+    ctrl = o2jse.infoForm[ctrlName + '[]'];
+    txt  = '';
+    // _________________________________________________________ Multiple files upload ___
+    if (ctrl.files.length > 1) {
+        for (var n = 0; n < ctrl.files.length; n++) {
+            txt += ', ' + ctrl.files[n].name;
+            }
+        txt = txt.substr(2);
+        }
+    // ____________________________________________________________ Single file upload ___
+    else if (ctrl.files.length == 1) {
+        txt = ctrl.files[0].name;
+        }
+    // ___________________________________________________________ Update control text ___
+    document.getElementById(ctrlName + "_int").innerHTML = txt;
     o2jse.ctrl.upLoad = true;
 
     };
