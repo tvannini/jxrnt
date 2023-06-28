@@ -2303,7 +2303,7 @@ function o2client_height() {
 // ==================================== APPLICATION ======================================
 
 /**
- * Returns php session id
+ * Returns PHP session ID
  *
  * @package application
  * @return  string
