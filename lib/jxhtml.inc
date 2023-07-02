@@ -4576,7 +4576,8 @@ class o2html {
         if ($o2ctrl_obj->is_active()) {
             $ctrl_name       = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
             $js_change_local = "onChange='o2jse.fu.c(\"".$ctrl_name.
-                               "\");' onKeyDown='o2jse.fu.k(event, this);'\n";
+                               "\",".($o2ctrl_obj->forza_submit ? '!0' : '!1').
+                               ");' onKeyDown='o2jse.fu.k(event, this);'\n";
             $filesize_local  = ini_get('upload_max_filesize');
             if (!is_numeric($filesize_local)) {
                 $filesize_local = max(1, intval($filesize_local)) * 1048576;

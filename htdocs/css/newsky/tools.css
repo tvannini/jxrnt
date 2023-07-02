@@ -881,3 +881,28 @@
     line-height: 20px;
     cursor: pointer;
     }
+
+.btn_upload {
+    color: transparent;
+    text-align: center;
+    background-color: var(--jx-color-btn);
+    background-image: url(tools/btn/upload.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: 1px solid var(--jx-color-border);
+    border-radius: var(--jx-radius);
+    cursor: pointer;
+    }
+
+.btn_upload input {
+    cursor: pointer;
+    }
+
+.btn_upload_txt {
+    display: none;
+    }
+
+.btn_upload_clear {
+    display: none;
+    }

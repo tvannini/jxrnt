@@ -863,7 +863,6 @@
     cursor: pointer;
     }
 
-
 .btn_menu_handler {
     background-color: transparent;
     background-image: url(tools/btn/menu.png);
@@ -902,3 +901,27 @@
     cursor: pointer;
     }
 
+.btn_upload {
+    color: transparent;
+    text-align: center;
+    background-color: var(--jx-color-face);
+    background-image: url(tools/btn/upload.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: 1px solid var(--jx-color-border);
+    border-radius: 3px;
+    cursor: pointer;
+    }
+
+.btn_upload input {
+    cursor: pointer;
+    }
+
+.btn_upload_txt {
+    display: none;
+    }
+
+.btn_upload_clear {
+    display: none;
+    }

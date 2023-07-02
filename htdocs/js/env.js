@@ -4435,6 +4435,12 @@ o2jse.cmd.submit = function(exeId) {
         }
     o2jse.infoForm['o2_prgexeid'].value = exeId;
     o2jse.submitting                    = true;
+    /**
+     * TODO:
+     * Understand why ONLY from o2jse.fu.c() is fired a logout beacon for the window
+     * unloading
+     */
+    window.onunload                     = null;
     o2jse.infoForm.submit();
     o2jse.infoForm['o2lastctrl'].value = "";
     o2jse.infoForm['o2lastform'].value = "";
@@ -6395,9 +6401,10 @@ o2jse.fu.clear = function(ctrlName) {
 /**
  * Manage on-change events on control
  *
- * @param {String} ctrlName   Upload control name
+ * @param {String}  ctrlName   Upload control name
+ * @param {Boolean} fRet       Force return (submit-on-change)
  */
-o2jse.fu.c = function(ctrlName) {
+o2jse.fu.c = function(ctrlName, fRet) {
 
     ctrl = o2jse.infoForm[ctrlName + '[]'];
     txt  = '';
@@ -6415,6 +6422,10 @@ o2jse.fu.c = function(ctrlName) {
     // ___________________________________________________________ Update control text ___
     document.getElementById(ctrlName + "_int").innerHTML = txt;
     o2jse.ctrl.upLoad = true;
+    // _____________________________ If Force Return always executes a standard submit ___
+    if (fRet) {
+        o2jse.cmd.submit();
+        }
 
     };
 
