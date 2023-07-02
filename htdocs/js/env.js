@@ -9109,20 +9109,18 @@ jxc = function(defObj) {
                 break;
             // =========================================================== FILE UPLOAD ===
             case "file":
-                // ________________________________________________________ Get object ___
-                var ctrlObjDiv = ctrlObj.parentNode.parentNode;
                 // __________________________________________________ Check visibility ___
                 if (defObj.v) {
-                    ctrlObjDiv.style.display = "";
-                    ctrlObjDiv.style.width   = defObj.w + 'px';
-                    ctrlObjDiv.style.height  = defObj.h + 'px';
+                    ctrlObj.style.display = "";
+                    ctrlObj.style.width   = defObj.w + 'px';
+                    ctrlObj.style.height  = defObj.h + 'px';
                     if (defObj.p.pT != 'tab') {
-                        ctrlObjDiv.parentNode.style.left = defObj.x + 'px';
-                        ctrlObjDiv.parentNode.style.top  = defObj.y + 'px';
+                        ctrlObj.parentNode.style.left = defObj.x + 'px';
+                        ctrlObj.parentNode.style.top  = defObj.y + 'px';
                         }
                     }
                 else {
-                    ctrlObjDiv.style.display = "none";
+                    ctrlObj.style.display = "none";
                     }
                 break;
                 }

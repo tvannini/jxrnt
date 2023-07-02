@@ -4592,7 +4592,8 @@ class o2html {
             print "<input type='hidden' name='MAX_FILE_SIZE' value='".$filesize_local.
                   "' />\n<div style='overflow:hidden;'><input type='file' name='".
                   $ctrl_name."[]' size='".$o2ctrl_obj->larghezza.
-                  "' style='width:100%;opacity:0;'\n".
+                  "' style='width:".$o2ctrl_obj->larghezza.
+                  'px;height:'.$o2ctrl_obj->altezza."px;opacity:0;'\n".
                   ($o2ctrl_obj->modificabile  ? $js_change_local : "DISABLED\n").
                   ($o2ctrl_obj->multiple ? ' multiple' : '')."></div>\n";
             // __________________________________________________________ Reset button ___

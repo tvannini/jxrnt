@@ -4204,7 +4204,7 @@ class o2_ctrl_file extends o2_ctrl {
     /*     ===== PROPERTIES =========================================================== */
     public $salva_con_nome = '';   /* Name to assign to file in uploads folder (may
                                       contain relative paths                            */
-    public $multiple       = true; /* If control can accept multiple files upload       */
+    public $multiple       = false; /* If control can accept multiple files upload      */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css            = 'o2_ctrl_file'; /* Whole control <INPUT>                   */
 
