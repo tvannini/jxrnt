@@ -4574,13 +4574,13 @@ class o2html {
 
         $css = $o2ctrl_obj->css.($o2ctrl_obj->modificabile ? '' : '_dis');
         if ($o2ctrl_obj->is_active()) {
-            $ctrl_name       = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
-            $js_change_local = "onChange='o2jse.fu.c(\"".$ctrl_name.
-                               "\",".($o2ctrl_obj->forza_submit ? '!0' : '!1').
-                               ");' onKeyDown='o2jse.fu.k(event, this);'\n";
-            $filesize_local  = ini_get('upload_max_filesize');
-            if (!is_numeric($filesize_local)) {
-                $filesize_local = max(1, intval($filesize_local)) * 1048576;
+            $ctrl_name = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
+            $js_change = "onChange='o2jse.fu.c(this);' ".
+                         "onKeyDown='o2jse.fu.k(event, this);'\n";
+            $js_props  = $o2ctrl_obj->js_props("action:'".$o2ctrl_obj->azione_submit."'");
+            $filesize  = ini_get('upload_max_filesize');
+            if (!is_numeric($filesize)) {
+                $filesize = max(1, intval($filesize)) * 1048576;
                 }
             // _______________________________________________ Whole control container ___
             print "<div id='".$ctrl_name."' title='Select a file' class='".$css.
@@ -4590,12 +4590,12 @@ class o2html {
                   "'><div id='".$ctrl_name."_int' class='".$o2ctrl_obj->css.
                   "_txt'>&nbsp;</div>";
             // ______________________________________________ Real file upload control ___
-            print "<input type='hidden' name='MAX_FILE_SIZE' value='".$filesize_local.
+            print "<input type='hidden' name='MAX_FILE_SIZE' value='".$filesize.
                   "' />\n<div style='overflow:hidden;'><input type='file' name='".
                   $ctrl_name."[]' size='".$o2ctrl_obj->larghezza.
                   "' style='width:".$o2ctrl_obj->larghezza.
                   'px;height:'.$o2ctrl_obj->altezza."px;opacity:0;'\n".
-                  ($o2ctrl_obj->modificabile  ? $js_change_local : "DISABLED\n").
+                  ($o2ctrl_obj->modificabile ? $js_change.$js_props : "DISABLED\n").
                   ($o2ctrl_obj->multiple ? ' multiple' : '')."></div>\n";
             // __________________________________________________________ Reset button ___
             print "<div onclick='o2jse.fu.clear(\"".$ctrl_name.

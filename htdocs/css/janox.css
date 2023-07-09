@@ -8,6 +8,7 @@
 @import url(janox/tools.css);
 @import url(janox/table.css);
 @import url(janox/nav.css);
+@import url(janox/upload.css);
 @import url(janox/popup.css);
 @import url(janox/reportmsg.css);
 @import url(janox/tree.css);
@@ -247,44 +248,6 @@ option:hover {
 
 .jxlsr {
     background-color: #ff8a4d;
-    }
-
-.o2_ctrl_file {
-    background: var(--jx-color-space) url(janox/upload/file.png) no-repeat 3px;
-    border: 1px solid #BDB5AE;
-    overflow: hidden;
-    border-radius: 3px;
-    transition: border-color .2s .1s;
-    }
-
-.o2_ctrl_file:hover {
-    border-color: var(--jx-color-border-hover);
-    }
-
-.o2_ctrl_file:focus {
-    border-color: var(--jx-color-border-focus);
-    }
-
-.o2_ctrl_file_txt {
-    white-space: nowrap;
-    position: absolute;
-    top: 2px;
-    left: 20px;
-    width: 100%;
-    padding-right: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    }
-
-.o2_ctrl_file_clear {
-    background: transparent url(janox/upload/clear.png) no-repeat center;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
-    height: 100%;
-    border: none;
-    cursor: pointer;
     }
 
 .o2_ctrl_line {

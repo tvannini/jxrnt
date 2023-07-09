@@ -7,6 +7,7 @@
 @import url(newsky/tools.css);
 @import url(newsky/table.css);
 @import url(newsky/nav.css);
+@import url(newsky/upload.css);
 @import url(newsky/popup.css);
 @import url(newsky/reportmsg.css);
 @import url(newsky/tree.css);
@@ -244,49 +245,6 @@ div.o2_ctrl_listcombo_field {
 
 .jxlsr {
     background-color: var(--jx-color-btn);
-    }
-
-.o2_ctrl_file {
-    background: #ffffff url(newsky/upload/file.png) no-repeat 3px;
-    border: 1px solid var(--jx-color-border);
-    overflow: hidden;
-    border-radius: var(--jx-radius);
-    }
-
-.o2_ctrl_file:focus {
-    background: #ffffca url(newsky/upload/file.png) no-repeat 3px;
-    border: 1px solid var(--jx-color-border);
-    overflow: hidden;
-    border-radius: var(--jx-radius);
-    }
-
-.o2_ctrl_file_txt {
-    white-space: nowrap;
-    position: absolute;
-    top: 2px;
-    left: 20px;
-    width: 100%;
-    padding-right: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    }
-
-.o2_ctrl_file_clear {
-    background: transparent url(newsky/upload/clear.png) no-repeat center;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
-    height: 100%;
-    border: none;
-    cursor: pointer;
-    }
-
-.o2_ctrl_file_dis {
-    background: var(--jx-color-bgdisabled) url(newsky/upload/file.png) no-repeat 3px;
-    border: 1px solid var(--jx-color-border);
-    overflow: hidden;
-    border-radius: var(--jx-radius);
     }
 
 .o2_ctrl_line {

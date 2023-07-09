@@ -1,0 +1,78 @@
+/* =========================== FILE UPLOAD ========================== */
+
+.o2_ctrl_file {
+    color: #000000;
+    background: #ffffff url(upload/file.png) no-repeat 3px;
+    border: 1px solid #a7bde4;
+    overflow: hidden;
+    border-radius: 5px;
+    }
+
+.o2_ctrl_file:focus {
+    color: #000000;
+    background: #ffffca url(upload/file.png) no-repeat 3px;
+    border-top: 1px solid #a7bde4;
+    border-right: 1px solid #a7bde4;
+    border-bottom: 1px solid #a7bde4;
+    border-left: 1px solid #a7bde4;
+    overflow: hidden;
+    border-radius: 5px;
+    }
+
+.o2_ctrl_file_txt {
+    color: #000000;
+    white-space: nowrap;
+    position: absolute;
+    top: 2px;
+    left: 20px;
+    width: 100%;
+    padding-right: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+
+.o2_ctrl_file_clear {
+    background: transparent url(upload/clear.png) no-repeat center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    }
+
+.o2_ctrl_file_dis {
+    background: #f3f3f3 url(upload/file.png) no-repeat 3px;
+    border: 1px solid #a7bde4;
+    overflow: hidden;
+    border-radius: 5px;
+    }
+
+
+/* ==================== FILE UPLOAD AS A BUTTON ===================== */
+
+.o2_ctrl_file_btn {
+    color: transparent;
+    text-align: center;
+    background-image: url(upload/upload.png);
+    background: url(upload/upload.png), linear-gradient(#ffffff, #d5d0cc);
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: 1px solid #a7bde4;
+    border-radius: 5px;
+    cursor: pointer;
+    }
+
+.o2_ctrl_file_btn input {
+    cursor: pointer;
+    }
+
+.o2_ctrl_file_btn_txt {
+    display: none;
+    }
+
+.o2_ctrl_file_btn_clear {
+    display: none;
+    }

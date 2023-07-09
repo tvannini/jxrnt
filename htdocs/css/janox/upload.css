@@ -1,0 +1,66 @@
+/* =========================== FILE UPLOAD ========================== */
+.o2_ctrl_file {
+    background: var(--jx-color-space) url(upload/file.png) no-repeat 3px;
+    border: 1px solid #BDB5AE;
+    overflow: hidden;
+    border-radius: 3px;
+    transition: border-color .2s .1s;
+    }
+
+.o2_ctrl_file:hover {
+    border-color: var(--jx-color-border-hover);
+    }
+
+.o2_ctrl_file:focus {
+    border-color: var(--jx-color-border-focus);
+    }
+
+.o2_ctrl_file_txt {
+    white-space: nowrap;
+    position: absolute;
+    top: 2px;
+    left: 20px;
+    width: 100%;
+    padding-right: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+
+.o2_ctrl_file_clear {
+    background: transparent url(upload/clear.png) no-repeat center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    }
+
+
+/* ==================== FILE UPLOAD AS A BUTTON ===================== */
+
+.o2_ctrl_file_btn {
+    color: transparent;
+    text-align: center;
+    background-color: var(--jx-color-face);
+    background-image: url(upload/upload.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    border: 1px solid var(--jx-color-border);
+    border-radius: 3px;
+    cursor: pointer;
+    }
+
+.o2_ctrl_file_btn input {
+    cursor: pointer;
+    }
+
+.o2_ctrl_file_btn_txt {
+    display: none;
+    }
+
+.o2_ctrl_file_btn_clear {
+    display: none;
+    }

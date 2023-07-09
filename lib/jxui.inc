@@ -4206,7 +4206,8 @@ class o2_ctrl_file extends o2_ctrl {
                                       contain relative paths                            */
     public $multiple       = false; /* If control can accept multiple files upload      */
     /*     _____ CSS CLASSES __________________________________________________________ */
-    public $css            = 'o2_ctrl_file'; /* Whole control <INPUT>                   */
+    public $css            = 'o2_ctrl_file';     /* Whole control                       */
+    public $css_btn        = 'o2_ctrl_file_btn'; /* Whole control when s-o-c is enabled */
 
 
     /**
@@ -4245,24 +4246,26 @@ class o2_ctrl_file extends o2_ctrl {
         if ($css) {
             // _______________________ If starts with space then add to standard class ___
             if ($css[0] === ' ') {
-                $this->css = 'o2_ctrl_file'.$css;
-                }
-            // ________________________________________________ Replace standard class ___
-            else {
-                $this->css = $css;
+                $css = 'o2_ctrl_file'.$css;
                 }
             }
         // ____________________________________________________________ Standard class ___
         else {
-            $this->css = 'o2_ctrl_file';
+            $css = 'o2_ctrl_file';
             }
+        // _________________________________ Set button style class when s-o-c enabled ___
+        if ($this->forza_submit) {
+            $css.= '_btn';
+            }
+        $this->css = $css;
         return true;
 
         }
 
 
     /**
-     * Forza il ritorno al server all'on-change del controllo
+     * Force submit on control change.
+     * When s-o-c is enabled control style (CSS) is changed to "<class>_btn".
      *
      * @param  boolean $on_change
      * @return boolean
@@ -4270,6 +4273,9 @@ class o2_ctrl_file extends o2_ctrl {
     function on_change($on_change = false) {
 
         $this->forza_submit = ($on_change ? true : false);
+        if ($this->forza_submit && substr($this->css, -4) != '_btn') {
+            $this->css.= '_btn';
+            }
         return true;
 
         }

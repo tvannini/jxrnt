@@ -6399,32 +6399,38 @@ o2jse.fu.clear = function(ctrlName) {
 
 
 /**
- * Manage on-change events on control
+ * Manage on-change events on file upload control.
+ * If Force Return (s-o-c) is enabled, then control acts like a button.
  *
  * @param {String}  ctrlName   Upload control name
  * @param {Boolean} fRet       Force return (submit-on-change)
+ * @param {String}  action     Action to be executed on s-o-c
  */
-o2jse.fu.c = function(ctrlName, fRet) {
+o2jse.fu.c = function(uploadCtrl) {
 
-    ctrl = o2jse.infoForm[ctrlName + '[]'];
-    txt  = '';
-    // _________________________________________________________ Multiple files upload ___
-    if (ctrl.files.length > 1) {
-        for (var n = 0; n < ctrl.files.length; n++) {
-            txt += ', ' + ctrl.files[n].name;
-            }
-        txt = txt.substr(2);
-        }
-    // ____________________________________________________________ Single file upload ___
-    else if (ctrl.files.length == 1) {
-        txt = ctrl.files[0].name;
-        }
-    // ___________________________________________________________ Update control text ___
-    document.getElementById(ctrlName + "_int").innerHTML = txt;
-    o2jse.ctrl.upLoad = true;
+    o2jse.ctrl.init(uploadCtrl);
     // _____________________________ If Force Return always executes a standard submit ___
-    if (fRet) {
-        o2jse.cmd.submit();
+    if (uploadCtrl.o2.fret) {
+        o2jse.cliMode = false;
+        o2jse.ctrl.btnExe(uploadCtrl);
+        }
+    // ___________________________________________________ Else update control caption ___
+    else {
+        txt = '';
+        // _____________________________________________________ Multiple files upload ___
+        if (uploadCtrl.files.length > 1) {
+            for (var n = 0; n < uploadCtrl.files.length; n++) {
+                txt += ', ' + uploadCtrl.files[n].name;
+                }
+            txt = txt.substr(2);
+            }
+        // ________________________________________________________ Single file upload ___
+        else if (uploadCtrl.files.length == 1) {
+            txt = uploadCtrl.files[0].name;
+            }
+        // _______________________________________________________ Update control text ___
+        uploadCtrl.parentNode.parentNode.firstElementChild.innerHTML = txt;
+        o2jse.ctrl.upLoad                                            = true;
         }
 
     };

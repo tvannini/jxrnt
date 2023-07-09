@@ -7,6 +7,7 @@
 @import url(sky/tools.css);
 @import url(sky/table.css);
 @import url(sky/nav.css);
+@import url(sky/upload.css);
 @import url(sky/popup.css);
 @import url(sky/reportmsg.css);
 @import url(sky/tree.css);
@@ -267,55 +268,6 @@ option:hover {
 
 .jxlsr {
     background-color: #9ab0ef;
-    }
-
-.o2_ctrl_file {
-    color: #000000;
-    background: #ffffff url(sky/upload/file.png) no-repeat 3px;
-    border: 1px solid #a7bde4;
-    overflow: hidden;
-    border-radius: 5px;
-    }
-
-.o2_ctrl_file:focus {
-    color: #000000;
-    background: #ffffca url(sky/upload/file.png) no-repeat 3px;
-    border-top: 1px solid #a7bde4;
-    border-right: 1px solid #a7bde4;
-    border-bottom: 1px solid #a7bde4;
-    border-left: 1px solid #a7bde4;
-    overflow: hidden;
-    border-radius: 5px;
-    }
-
-.o2_ctrl_file_txt {
-    color: #000000;
-    white-space: nowrap;
-    position: absolute;
-    top: 2px;
-    left: 20px;
-    width: 100%;
-    padding-right: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    }
-
-.o2_ctrl_file_clear {
-    background: transparent url(sky/upload/clear.png) no-repeat center;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
-    height: 100%;
-    border: none;
-    cursor: pointer;
-    }
-
-.o2_ctrl_file_dis {
-    background: #f3f3f3 url(sky/upload/file.png) no-repeat 3px;
-    border: 1px solid #a7bde4;
-    overflow: hidden;
-    border-radius: 5px;
     }
 
 .o2_ctrl_line {
