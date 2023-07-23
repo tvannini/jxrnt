@@ -1397,27 +1397,6 @@ class o2_app {
 
         // _____________________________ Get the list from the system table for ASPIDs ___
         if ($this->use_asp_table) {
-            $users  = $this->get_table('o2_users');
-            $db     = $users->db;
-            $server = $db->server;
-            $co     = constant("o2_".$server->type."_o");
-            $cc     = constant("o2_".$server->type."_c");
-            $area   = $users->campi['area']->nome_fisico;
-            $list   = o2_gateway::recordset($server->type,
-                                            $server->server,
-                                            $server->user,
-                                            $server->password,
-                                            $db->nome,
-                                            $db->proprietario,
-                                            $users->nome,
-                                            $users->nome,
-                                            "DISTINCT ".$area." ".$co."AREA".$cc,
-                                            false,
-                                            false,
-                                            1000000);
-            }
-        // ____________________________ Get the list of ASP-IDs defined in users table ___
-        else {
             $asps   = $this->get_table('jx_asp_areas');
             $db     = $asps->db;
             $server = $db->server;
@@ -1433,6 +1412,27 @@ class o2_app {
                                             $asps->nome,
                                             $asps->nome,
                                             $area." ".$co."AREA".$cc,
+                                            false,
+                                            false,
+                                            1000000);
+            }
+        // ____________________________ Get the list of ASP-IDs defined in users table ___
+        else {
+            $users  = $this->get_table('o2_users');
+            $db     = $users->db;
+            $server = $db->server;
+            $co     = constant("o2_".$server->type."_o");
+            $cc     = constant("o2_".$server->type."_c");
+            $area   = $users->campi['area']->nome_fisico;
+            $list   = o2_gateway::recordset($server->type,
+                                            $server->server,
+                                            $server->user,
+                                            $server->password,
+                                            $db->nome,
+                                            $db->proprietario,
+                                            $users->nome,
+                                            $users->nome,
+                                            "DISTINCT ".$area." ".$co."AREA".$cc,
                                             false,
                                             false,
                                             1000000);
