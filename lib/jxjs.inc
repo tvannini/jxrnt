@@ -252,7 +252,6 @@ class jxjs {
      */
     static function ctrl_label($o2ctrl_obj) {
 
-
         if ($o2ctrl_obj->check_dependences()) {
             $app    = $_SESSION['o2_app'];
             $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
@@ -1101,12 +1100,15 @@ class jxjs {
             foreach ($o2ctrl_obj->form_obj->controlli as &$ctrl) {
                 // _________________________________________ Controls inside the table ___
                 if ($ctrl->padre == $tab_name) {
-                    if (!$o2ctrl_obj->modificabile && ($ctrl->tipo_ctrl == "edit" ||
-                                                       $ctrl->tipo_ctrl == "text" ||
-                                                       $ctrl->tipo_ctrl == "file")) {
-                        $valore_local = $ctrl->sql2ctrl();
-                        if (trim($valore_local) == "") {
-                            $valore_local = "&nbsp;";
+                    if (!$o2ctrl_obj->modificabile && ($ctrl->tipo_ctrl == 'edit' ||
+                                                       $ctrl->tipo_ctrl == 'text' ||
+                                                       $ctrl->tipo_ctrl == 'listcombo' ||
+                                                       $ctrl->tipo_ctrl == 'file')) {
+                        $valore_local = ($ctrl->tipo_ctrl == 'listcombo' ?
+                                         $ctrl->get_desc() :
+                                         $ctrl->sql2ctrl());
+                        if (trim($valore_local) == '') {
+                            $valore_local = '&nbsp;';
                             }
                         $l_ctrl                = new o2_ctrl_label();
                         $l_ctrl->nome          = $ctrl->nome;
@@ -1119,6 +1121,7 @@ class jxjs {
                         $l_ctrl->altezza       = $ctrl->altezza;
                         $l_ctrl->css           = false;
                         $l_ctrl->log_level     = $ctrl->log_level;
+                        $l_ctrl->dependences   = $ctrl->dependences;
                         $l_ctrl->disegna();
                         unset($l_ctrl);
                         }

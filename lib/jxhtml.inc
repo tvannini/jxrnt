@@ -3614,7 +3614,7 @@ class o2html {
 
         $app            = $_SESSION['o2_app'];
         $prg            = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
-        $coda           = "";
+        $coda           = '';
         $puntatore_riga = 0;
         $puntatore_col  = 0;
         $row_class      = ($alt ? $o2ctrl_obj->riga_class : $o2ctrl_obj->alt_class);
@@ -3686,15 +3686,15 @@ class o2html {
                         elseif (!$o2ctrl_obj->modificabile && $active_form) {
                             $tot_rec = count($o2ctrl_obj->view_obj->recordset);
                             $marker  = '<td class="'.$o2ctrl_obj->fcol_class.
-                                     '" cssc="'.$o2ctrl_obj->fcol_class.
-                                     '"><input type="button" name="'.$o2ctrl_obj->nome.
-                                     '_sele'.$o2ctrl_obj->id_esecuzione.
-                                     '" class="'.$o2ctrl_obj->marker_class.'_a" '.
-                                     $o2ctrl_obj->js_props("pointer:!0,rows:".$tot_rec).
-                                     'onFocus="this.className=\''.
-                                     $o2ctrl_obj->marker_class.
-                                     '_focus\';" onBlur="this.className=\''.
-                                     $o2ctrl_obj->marker_class."_a';\">\n";
+                                       '" cssc="'.$o2ctrl_obj->fcol_class.
+                                       '"><input type="button" name="'.$o2ctrl_obj->nome.
+                                       '_sele'.$o2ctrl_obj->id_esecuzione.
+                                       '" class="'.$o2ctrl_obj->marker_class.'_a" '.
+                                       $o2ctrl_obj->js_props("pointer:!0,rows:".$tot_rec).
+                                       'onFocus="this.className=\''.
+                                       $o2ctrl_obj->marker_class.
+                                       '_focus\';" onBlur="this.className=\''.
+                                       $o2ctrl_obj->marker_class."_a';\">\n";
                             }
                         else {
                             $marker = '<td class="'.$o2ctrl_obj->fcol_class.
@@ -3750,7 +3750,7 @@ class o2html {
                         '').' cssc="'.$cssc.'"' :
                        ' cssp="'.$cssp.'"').
                       ' style="width:'.$col_size.'px;'.
-                       ($ctrl->visibile && !$client_vis ? "" : "display:none;")."\">";
+                       ($ctrl->visibile && !$client_vis ? '' : 'display:none;').'">';
                 $o2ctrl_obj->colonne = max($info_col_end, $o2ctrl_obj->colonne);
                 // _____________________________ Impostazione del valore del controllo ___
                 if ($ctrl->campo_in_ctrl) {
@@ -3759,34 +3759,35 @@ class o2html {
                     }
                 // ______________________________________________ Disegno il controllo ___
                 if ((!$o2ctrl_obj->riga_corrente || !$o2ctrl_obj->modificabile) &&
-                    ($ctrl->tipo_ctrl == "edit"  ||
-                     $ctrl->tipo_ctrl == "text"  ||
-                     $ctrl->tipo_ctrl == "file")) {
+                    ($ctrl->tipo_ctrl == 'edit'      ||
+                     $ctrl->tipo_ctrl == 'text'      ||
+                     $ctrl->tipo_ctrl == 'listcombo' ||
+                     $ctrl->tipo_ctrl == 'file')) {
                     $valore_local = $ctrl->sql2ctrl();
-                    if (trim($valore_local) == "") {
-                        $valore_local = "&nbsp;";
+                    if (trim($valore_local) == '') {
+                        $valore_local = '&nbsp;';
                         }
                     $ctrl->active_by_tab = false;
                     $ctrl->tab_row       = !$o2ctrl_obj->riga_corrente;
                     print '<div '.
                           ($o2ctrl_obj->riga_corrente ?
                            ' id="'.$ctrl->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
-                          ' style="max-width:'.$col_size.
-                                  'px;height:'.$ctrl->altezza.'px;'.
-                                  ($ctrl->maschera->allineamento == "Right" ?
-                                  'float:right;" ' : '" ').
-                          $ctrl->js_props().'>'.$valore_local."</div>";
+                           ' style="max-width:'.$col_size.
+                                   'px;height:'.$ctrl->altezza.'px;'.
+                                   ($ctrl->maschera->allineamento == 'Right' ?
+                                   'float:right;" ' : '" ').
+                          $ctrl->js_props().'>'.$valore_local.'</div>';
                     }
                 else {
                     $ctrl->active_by_tab = ($o2ctrl_obj->modificabile &&
                                             $o2ctrl_obj->riga_corrente);
                     $ctrl->tab_row       = !$o2ctrl_obj->riga_corrente;
                     // _________________________________ Client-sizeable controls only ___
-                    if ($ctrl->tipo_ctrl == "edit"      ||
-                        $ctrl->tipo_ctrl == "listcombo" ||
-                        $ctrl->tipo_ctrl == "html"      ||
-                        $ctrl->tipo_ctrl == "text"      ||
-                        $ctrl->tipo_ctrl == "file") {
+                    if ($ctrl->tipo_ctrl == 'edit'      ||
+                        $ctrl->tipo_ctrl == 'listcombo' ||
+                        $ctrl->tipo_ctrl == 'html'      ||
+                        $ctrl->tipo_ctrl == 'text'      ||
+                        $ctrl->tipo_ctrl == 'file') {
                         $ctrl->larghezza = $col_size;
                         }
                     $ctrl->disegna();
@@ -3795,7 +3796,7 @@ class o2html {
                 $ctrl->tab_row       = false;
                 print "</td>\n";
                 $puntatore_col = $info_col_end;
-                $coda          = "</tr>";
+                $coda          = '</tr>';
                 }
             }
         print $coda;
