@@ -3763,7 +3763,15 @@ class o2html {
                      $ctrl->tipo_ctrl == 'text'      ||
                      $ctrl->tipo_ctrl == 'listcombo' ||
                      $ctrl->tipo_ctrl == 'file')) {
-                    $valore_local = $ctrl->sql2ctrl();
+                    if ($ctrl->tipo_ctrl == 'listcombo') {
+                        $valore_local = $ctrl->get_desc();
+                        $align        = '';
+                        }
+                    else {
+                        $valore_local = $ctrl->sql2ctrl();
+                        $align        = ($ctrl->maschera->allineamento == 'Right' ?
+                                         'float:right;' : '');
+                        };
                     if (trim($valore_local) == '') {
                         $valore_local = '&nbsp;';
                         }
@@ -3774,8 +3782,7 @@ class o2html {
                            ' id="'.$ctrl->nome.$o2ctrl_obj->id_esecuzione.'"' : '').
                            ' style="max-width:'.$col_size.
                                    'px;height:'.$ctrl->altezza.'px;'.
-                                   ($ctrl->maschera->allineamento == 'Right' ?
-                                   'float:right;" ' : '" ').
+                                   $align.'" '.
                           $ctrl->js_props().'>'.$valore_local.'</div>';
                     }
                 else {
