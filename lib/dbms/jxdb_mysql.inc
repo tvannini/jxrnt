@@ -721,9 +721,9 @@ function o2_mysql_index_create($key_name,
  */
 function o2_mysql_indexfields_create($fields) {
 
-    $str = "";
+    $str = '';
     foreach ($fields as $field => $direction) {
-        $str.= ($str ? "," : "").$field." ".($direction == "D" ? "DESC" : "ASC");
+        $str.= ($str ? ',' : '').$field;
         }
     return $str;
 
