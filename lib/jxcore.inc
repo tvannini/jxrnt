@@ -3855,7 +3855,7 @@ class o2_gateway {
      */
     static function normalize($type, $string, $untrim = false) {
 
-        $o2normalize = "o2_".$type."_normalize";
+        $o2normalize = 'o2_'.$type.'_normalize';
         return $o2normalize($string, $untrim);
 
         }
@@ -3870,7 +3870,7 @@ class o2_gateway {
      */
     static function concat($type, $strings) {
 
-        $o2concat = "o2_".$type."_concat";
+        $o2concat = 'o2_'.$type.'_concat';
         return $o2concat($strings);
 
         }
@@ -3890,7 +3890,7 @@ class o2_gateway {
      */
     static function qualify($type, $database, $owner, $name = "") {
 
-        $o2qualify = "o2_".$type."_qualify";
+        $o2qualify = 'o2_'.$type.'_qualify';
         return $o2qualify($database, $owner, $name);
 
         }
@@ -3907,14 +3907,9 @@ class o2_gateway {
      */
     static function connect($type, $server, $user, $password) {
 
-        try {
-            $o2connect = "o2_".$type."_connect";
-            $res = $o2connect($server, $user, $password, false);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            return false;
-            }
+        $res        = false;
+        $o2connect = 'o2_'.$type.'_connect';
+        $res       = $o2connect($server, $user, $password, false);
         return $res;
 
         }
@@ -3984,15 +3979,9 @@ class o2_gateway {
             unset($GLOBALS['jx_key_once'][$idx]);
             }
         // ________________________________________________________ Commit transaction ___
-        $o2commit = "o2_".$type."_commit";
+        $o2commit = 'o2_'.$type.'_commit';
         if (function_exists($o2commit)) {
-            try {
-                $o2commit($server, $user, $password, $end);
-                }
-            catch (o2_exception $o2e) {
-                $o2e->send();
-                return false;
-                }
+            $o2commit($server, $user, $password, $end);
             return true;
             }
         else {
@@ -4044,14 +4033,9 @@ class o2_gateway {
                             $only_exe = false,
                             $trans    = true) {
 
-        $o2execute = "o2_".$type."_execute";
-        try {
-            $res_val = $o2execute($query, $server, $user, $password, $only_exe, $trans);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $o2execute = 'o2_'.$type.'_execute';
+        $res_val   = false;
+        $res_val   = $o2execute($query, $server, $user, $password, $only_exe, $trans);
         return $res_val;
 
         }
@@ -4070,14 +4054,9 @@ class o2_gateway {
      */
     static function tables($type, $server, $user, $password, $database, $owner) {
 
-        $o2tables = "o2_".$type."_tables";
-        try {
-            $res_val = $o2tables($server, $user, $password, $database, $owner);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = array();
-            }
+        $o2tables = 'o2_'.$type.'_tables';
+        $res_val  = array();
+        $res_val  = $o2tables($server, $user, $password, $database, $owner);
         return $res_val;
 
         }
@@ -4103,36 +4082,25 @@ class o2_gateway {
                               $owner,
                               $table) {
 
-        $o2tabexists = "o2_".$type."_tabexists";
+        $o2tabexists = 'o2_'.$type.'_tabexists';
+        $res_val     = false;
         if (function_exists($o2tabexists)) {
-            try {
-                $res_val = $o2tabexists($server,
-                                        $user,
-                                        $password,
-                                        $database,
-                                        $owner,
-                                        $table);
-                }
-            catch (o2_exception $o2e) {
-                $o2e->send();
-                $res_val = false;
-                }
+            $res_val = $o2tabexists($server,
+                                    $user,
+                                    $password,
+                                    $database,
+                                    $owner,
+                                    $table);
             }
         else {
-            $o2tables = "o2_".$type."_tables";
-            try {
-                $res_val = in_array(strtolower($table),
-                                    array_map("strtolower",
-                                              $o2tables($server,
-                                                        $user,
-                                                        $password,
-                                                        $database,
-                                                        $owner)));
-                }
-            catch (o2_exception $o2e) {
-                $o2e->send();
-                $res_val = false;
-                }
+            $o2tables = 'o2_'.$type.'_tables';
+            $res_val = in_array(strtolower($table),
+                                array_map('strtolower',
+                                            $o2tables($server,
+                                                      $user,
+                                                      $password,
+                                                      $database,
+                                                      $owner)));
             }
         return $res_val;
 
@@ -4162,7 +4130,7 @@ class o2_gateway {
                                 $owner,
                                 $table) {
 
-        $o2tabfields = "o2_".$type."_tablefields";
+        $o2tabfields = 'o2_'.$type.'_tablefields';
         return $o2tabfields($server, $user, $password, $database, $owner, $table);
 
         }
@@ -4191,7 +4159,7 @@ class o2_gateway {
                                  $owner,
                                  $table) {
 
-        $o2tabindexes = "o2_".$type."_tableindexes";
+        $o2tabindexes = 'o2_'.$type.'_tableindexes';
         return $o2tabindexes($server, $user, $password, $database, $owner, $table);
 
         }
@@ -4228,26 +4196,19 @@ class o2_gateway {
                                $values,
                                $where) {
 
-        $res_val      = true;
-        $o2insertfrom = "o2_".$type."_insertfrom";
-        try {
-            $o2insertfrom($server,
-                          $user,
-                          $password,
-                          $database_from,
-                          $owner_from,
-                          $table_from,
-                          $database_to,
-                          $owner_to,
-                          $table_to,
-                          $values,
-                          $where);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
-        return $res_val;
+        $o2insertfrom = 'o2_'.$type.'_insertfrom';
+        $o2insertfrom($server,
+                      $user,
+                      $password,
+                      $database_from,
+                      $owner_from,
+                      $table_from,
+                      $database_to,
+                      $owner_to,
+                      $table_to,
+                      $values,
+                      $where);
+        return true;
 
         }
 
@@ -4272,16 +4233,9 @@ class o2_gateway {
                               $owner,
                               $table) {
 
-        $res_val     = true;
-        $o2droptable = "o2_".$type."_droptable";
-        try {
-            $o2droptable($server, $user, $password, $database, $owner, $table);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
-        return $res_val;
+        $o2droptable = 'o2_'.$type.'_droptable';
+        $o2droptable($server, $user, $password, $database, $owner, $table);
+        return true;
 
         }
 
@@ -4308,22 +4262,15 @@ class o2_gateway {
                                 $table,
                                 $new_name) {
 
-        $res_val       = true;
-        $o2renametable = "o2_".$type."_renametable";
-        try {
-            $o2renametable($server,
-                           $user,
-                           $password,
-                           $database,
-                           $owner,
-                           $table,
-                           $new_name);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
-        return $res_val;
+        $o2renametable = 'o2_'.$type.'_renametable';
+        $o2renametable($server,
+                       $user,
+                       $password,
+                       $database,
+                       $owner,
+                       $table,
+                       $new_name);
+        return true;
 
         }
 
@@ -4356,22 +4303,16 @@ class o2_gateway {
                                 $structure,
                                 $execute = true) {
 
-        $res_val       = true;
-        $o2createtable = "o2_".$type."_createtable";
-        try {
-            $res_val = $o2createtable($server,
-                                      $user,
-                                      $password,
-                                      $database,
-                                      $owner,
-                                      $table,
-                                      $structure,
-                                      $execute);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $res_val       = false;
+        $o2createtable = 'o2_'.$type.'_createtable';
+        $res_val       = $o2createtable($server,
+                                        $user,
+                                        $password,
+                                        $database,
+                                        $owner,
+                                        $table,
+                                        $structure,
+                                        $execute);
         return $res_val;
 
         }
@@ -4405,29 +4346,23 @@ class o2_gateway {
                              $field_int,
                              $field_dec = 0) {
 
-        if ($type == "sqlite3") {
-            throw new o2_exception("Cannot alter a SQLite table!", o2error_DBTABLEALTER);
+        if ($type == 'sqlite3') {
+            throw new o2_exception('Cannot alter a SQLite table!', o2error_DBTABLEALTER);
             return false;
             }
-        $res_val    = true;
-        $o2fieldadd = "o2_".$type."_field_add";
-        try {
-            $res_val = $o2fieldadd($server,
-                                   $user,
-                                   $password,
-                                   $database,
-                                   $owner,
-                                   $table,
-                                   $field_name,
-                                   $field_type,
-                                   $field_int, // _______ Passed twice for total size! ___
-                                   $field_int,
-                                   $field_dec);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $res_val    = false;
+        $o2fieldadd = 'o2_'.$type.'_field_add';
+        $res_val    = $o2fieldadd($server,
+                                  $user,
+                                  $password,
+                                  $database,
+                                  $owner,
+                                  $table,
+                                  $field_name,
+                                  $field_type,
+                                  $field_int, // ________ Passed twice for total size! ___
+                                  $field_int,
+                                  $field_dec);
         return $res_val;
 
         }
@@ -4455,25 +4390,19 @@ class o2_gateway {
                                 $table,
                                 $field_name) {
 
-        if ($type == "sqlite3") {
-            throw new o2_exception("Cannot alter a SQLite table!", o2error_DBTABLEALTER);
+        if ($type == 'sqlite3') {
+            throw new o2_exception('Cannot alter a SQLite table!', o2error_DBTABLEALTER);
             return false;
             }
-        $res_val       = true;
-        $o2fieldremove = "o2_".$type."_field_remove";
-        try {
-            $res_val = $o2fieldremove($server,
-                                      $user,
-                                      $password,
-                                      $database,
-                                      $owner,
-                                      $table,
-                                      $field_name);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $res_val       = false;
+        $o2fieldremove = 'o2_'.$type.'_field_remove';
+        $res_val = $o2fieldremove($server,
+                                  $user,
+                                  $password,
+                                  $database,
+                                  $owner,
+                                  $table,
+                                  $field_name);
         return $res_val;
 
         }
@@ -4507,29 +4436,23 @@ class o2_gateway {
                                 $field_int,
                                 $field_dec) {
 
-        if ($type == "sqlite3") {
-            throw new o2_exception("Cannot alter a SQLite table!", o2error_DBTABLEALTER);
+        if ($type == 'sqlite3') {
+            throw new o2_exception('Cannot alter a SQLite table!', o2error_DBTABLEALTER);
             return false;
             }
-        $res_val       = true;
-        $o2fieldchange = "o2_".$type."_field_change";
-        try {
-            $res_val = $o2fieldchange($server,
-                                      $user,
-                                      $password,
-                                      $database,
-                                      $owner,
-                                      $table,
-                                      $field_name,
-                                      $field_type,
-                                      $field_int,
-                                      $field_int, // ____ Passed twice for total size! ___
-                                      $field_dec);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $res_val       = false;
+        $o2fieldchange = 'o2_'.$type.'_field_change';
+        $res_val       = $o2fieldchange($server,
+                                        $user,
+                                        $password,
+                                        $database,
+                                        $owner,
+                                        $table,
+                                        $field_name,
+                                        $field_type,
+                                        $field_int,
+                                        $field_int, // __ Passed twice for total size! ___
+                                        $field_dec);
         return $res_val;
 
         }
@@ -4559,26 +4482,20 @@ class o2_gateway {
                                 $old_name,
                                 $new_name) {
 
-        if ($type == "sqlite3") {
-            throw new o2_exception("Cannot alter a SQLite table!", o2error_DBTABLEALTER);
+        if ($type == 'sqlite3') {
+            throw new o2_exception('Cannot alter a SQLite table!', o2error_DBTABLEALTER);
             return false;
             }
-        $res_val       = true;
-        $o2fieldrename = "o2_".$type."_field_rename";
-        try {
-            $res_val = $o2fieldrename($server,
-                                      $user,
-                                      $password,
-                                      $database,
-                                      $owner,
-                                      $table,
-                                      $old_name,
-                                      $new_name);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $res_val       = false;
+        $o2fieldrename = 'o2_'.$type.'_field_rename';
+        $res_val       = $o2fieldrename($server,
+                                        $user,
+                                        $password,
+                                        $database,
+                                        $owner,
+                                        $table,
+                                        $old_name,
+                                        $new_name);
         return $res_val;
 
         }
@@ -4610,27 +4527,21 @@ class o2_gateway {
                              $index_segs,
                              $unique = true) {
 
-        if ($type == "sqlite3") {
-            throw new o2_exception("Cannot alter a SQLite table!", o2error_DBTABLEALTER);
+        if ($type == 'sqlite3') {
+            throw new o2_exception('Cannot alter a SQLite table!', o2error_DBTABLEALTER);
             return false;
             }
-        $res_val    = true;
-        $o2indexadd = "o2_".$type."_index_add";
-        try {
-            $res_val = $o2indexadd($server,
-                                   $user,
-                                   $password,
-                                   $database,
-                                   $owner,
-                                   $table,
-                                   $index_name,
-                                   $index_segs,
-                                   $unique);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $res_val    = false;
+        $o2indexadd = 'o2_'.$type.'_index_add';
+        $res_val    = $o2indexadd($server,
+                                  $user,
+                                  $password,
+                                  $database,
+                                  $owner,
+                                  $table,
+                                  $index_name,
+                                  $index_segs,
+                                  $unique);
         return $res_val;
 
         }
@@ -4658,25 +4569,19 @@ class o2_gateway {
                                 $table,
                                 $index_name) {
 
-        if ($type == "sqlite3") {
-            throw new o2_exception("Cannot alter a SQLite table!", o2error_DBTABLEALTER);
+        if ($type == 'sqlite3') {
+            throw new o2_exception('Cannot alter a SQLite table!', o2error_DBTABLEALTER);
             return false;
             }
-        $res_val       = true;
-        $o2indexremove = "o2_".$type."_index_remove";
-        try {
-            $res_val = $o2indexremove($server,
-                                      $user,
-                                      $password,
-                                      $database,
-                                      $owner,
-                                      $table,
-                                      $index_name);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $res_val       = false;
+        $o2indexremove = 'o2_'.$type.'_index_remove';
+        $res_val       = $o2indexremove($server,
+                                        $user,
+                                        $password,
+                                        $database,
+                                        $owner,
+                                        $table,
+                                        $index_name);
         return $res_val;
 
         }
@@ -4714,9 +4619,9 @@ class o2_gateway {
                               $functions,
                               $links = null) {
 
-        $o2aggregate = "o2_".$type."_aggregate";
-        try {
-            $res_val = $o2aggregate($server,
+        $o2aggregate = 'o2_'.$type.'_aggregate';
+        $res_val     = array();
+        $res_val     = $o2aggregate($server,
                                     $user,
                                     $password,
                                     $database,
@@ -4726,11 +4631,6 @@ class o2_gateway {
                                     $where,
                                     $functions,
                                     $links);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = array();
-            }
         return $res_val;
 
         }
@@ -4765,9 +4665,9 @@ class o2_gateway {
                               $where,
                               $order_by) {
 
-        $o2verifyrec = "o2_".$type."_verifyrec";
-        try {
-            $res_val = $o2verifyrec($server,
+        $o2verifyrec = 'o2_'.$type.'_verifyrec';
+        $res_val     = false;
+        $res_val     = $o2verifyrec($server,
                                     $user,
                                     $password,
                                     $database,
@@ -4777,11 +4677,6 @@ class o2_gateway {
                                     $select_str,
                                     $where,
                                     $order_by);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
         return $res_val;
 
         }
@@ -4818,23 +4713,17 @@ class o2_gateway {
                               $sets,
                               $where) {
 
-        $res_val     = true;
-        $o2modifyrec = "o2_".$type."_modifyrec";
-        try {
-            $o2modifyrec($server,
-                         $user,
-                         $password,
-                         $database,
-                         $owner,
-                         $table,
-                         $table_alias,
-                         $sets,
-                         $where);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $o2modifyrec = 'o2_'.$type.'_modifyrec';
+        $res_val     = false;
+        $o2modifyrec($server,
+                     $user,
+                     $password,
+                     $database,
+                     $owner,
+                     $table,
+                     $table_alias,
+                     $sets,
+                     $where);
         return $res_val;
 
         }
@@ -4866,23 +4755,17 @@ class o2_gateway {
                               $fields,
                               $values) {
 
-        $res_val     = true;
-        $o2insertrec = "o2_".$type."_insertrec";
-        try {
-            $o2insertrec($server,
-                         $user,
-                         $password,
-                         $database,
-                         $owner,
-                         $table,
-                         $table_alias,
-                         $fields,
-                         $values);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
+        $o2insertrec = 'o2_'.$type.'_insertrec';
+        $res_val     = false;
+        $o2insertrec($server,
+                     $user,
+                     $password,
+                     $database,
+                     $owner,
+                     $table,
+                     $table_alias,
+                     $fields,
+                     $values);
         return $res_val;
 
         }
@@ -4912,23 +4795,16 @@ class o2_gateway {
                               $table_alias,
                               $where) {
 
-        $o2deleterec = "o2_".$type."_deleterec";
-        $res_val     = true;
-        try {
-            $o2deleterec($server,
-                         $user,
-                         $password,
-                         $database,
-                         $owner,
-                         $table,
-                         $table_alias,
-                         $where);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            }
-        return $res_val;
+        $o2deleterec = 'o2_'.$type.'_deleterec';
+        $o2deleterec($server,
+                     $user,
+                     $password,
+                     $database,
+                     $owner,
+                     $table,
+                     $table_alias,
+                     $where);
+        return true;
 
         }
 
@@ -4959,22 +4835,17 @@ class o2_gateway {
                           $where,
                           $links = null) {
 
-        $o2count = "o2_".$type."_count";
-        try {
-            $res_val = $o2count($server,
-                                $user,
-                                $password,
-                                $database,
-                                $owner,
-                                $table,
-                                $table_alias,
-                                $where,
-                                $links);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = 0;
-            }
+        $o2count = 'o2_'.$type.'_count';
+        $res_val = 0;
+        $res_val = $o2count($server,
+                            $user,
+                            $password,
+                            $database,
+                            $owner,
+                            $table,
+                            $table_alias,
+                            $where,
+                            $links);
         return $res_val;
 
         }
@@ -5036,9 +4907,9 @@ class o2_gateway {
                               $view_id       = false,
                               $prepared_pars = false) {
 
-        $o2recordset = "o2_".$type."_recordset";
-        try {
-            $res_val = $o2recordset($server,
+        $o2recordset = 'o2_'.$type.'_recordset';
+        $res_val     = array();
+        $res_val     = $o2recordset($server,
                                     $user,
                                     $password,
                                     $database,
@@ -5054,11 +4925,6 @@ class o2_gateway {
                                     $page_where,
                                     $view_id,
                                     $prepared_pars);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = array();
-            }
         return $res_val;
 
         }
@@ -5098,29 +4964,21 @@ class o2_gateway {
                             $ref_fields,
                             $key_name) {
 
-        $app       = $_SESSION['o2_app'];
-        $o2fkeyadd = "o2_".$type."_fkeyadd";
+        $o2fkeyadd = 'o2_'.$type.'_fkeyadd';
         $res_val   = false;
         if ($main_db == $ref_db) {
-            try {
-                $res_val = $o2fkeyadd($server,
-                                      $user,
-                                      $password,
-                                      $main_db,
-                                      $main_owner,
-                                      $main_table,
-                                      $main_fields,
-                                      $ref_db,
-                                      $ref_owner,
-                                      $ref_table,
-                                      $ref_fields,
-                                      $key_name);
-                }
-            catch (o2_exception $o2e) {
-                $o2e->send();
-                $res_val = false;
-                $res_val = array();
-                }
+            $res_val = $o2fkeyadd($server,
+                                  $user,
+                                  $password,
+                                  $main_db,
+                                  $main_owner,
+                                  $main_table,
+                                  $main_fields,
+                                  $ref_db,
+                                  $ref_owner,
+                                  $ref_table,
+                                  $ref_fields,
+                                  $key_name);
             }
         return $res_val;
 
@@ -5149,21 +5007,15 @@ class o2_gateway {
                                $table,
                                $key_name) {
 
-        $o2fkeycreate = "o2_".$type."_fkeyremove";
-        try {
-            $res_val = $o2fkeycreate($server,
-                                     $user,
-                                     $password,
-                                     $database,
-                                     $owner,
-                                     $table,
-                                     $key_name);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            $res_val = array();
-            }
+        $o2fkeycreate = 'o2_'.$type.'_fkeyremove';
+        $res_val      = false;
+        $res_val      = $o2fkeycreate($server,
+                                      $user,
+                                      $password,
+                                      $database,
+                                      $owner,
+                                      $table,
+                                      $key_name);
         return $res_val;
 
         }
@@ -5191,21 +5043,15 @@ class o2_gateway {
                                  $table,
                                  $key_name) {
 
-        $o2fkeyvalidate = "o2_".$type."_fkeyvalidate";
-        try {
-            $res_val = $o2fkeyvalidate($server,
-                                       $user,
-                                       $password,
-                                       $database,
-                                       $owner,
-                                       $table,
-                                       $key_name);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            $res_val = array();
-            }
+        $o2fkeyvalidate = 'o2_'.$type.'_fkeyvalidate';
+        $res_val        = false;
+        $res_val        = $o2fkeyvalidate($server,
+                                          $user,
+                                          $password,
+                                          $database,
+                                          $owner,
+                                          $table,
+                                          $key_name);
         return $res_val;
 
         }
@@ -5231,20 +5077,14 @@ class o2_gateway {
                                  $owner,
                                  $table) {
 
-        $o2fkeyslist = "o2_".$type."_fkeystablist";
-        try {
-            $res_val = $o2fkeyslist($server,
+        $o2fkeyslist = 'o2_'.$type.'_fkeystablist';
+        $res_val     = array();
+        $res_val     = $o2fkeyslist($server,
                                     $user,
                                     $password,
                                     $database,
                                     $owner,
                                     $table);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            $res_val = array();
-            }
         return $res_val;
 
         }
@@ -5268,19 +5108,13 @@ class o2_gateway {
                               $database,
                               $owner) {
 
-        $o2fkeysinfo = "o2_".$type."_fkeysinfo";
-        try {
-            $res_val = $o2fkeysinfo($server,
+        $o2fkeysinfo = 'o2_'.$type.'_fkeysinfo';
+        $res_val     = false;
+        $res_val     = $o2fkeysinfo($server,
                                     $user,
                                     $password,
                                     $database,
                                     $owner);
-            }
-        catch (o2_exception $o2e) {
-            $o2e->send();
-            $res_val = false;
-            $res_val = array();
-            }
         return $res_val;
 
         }
