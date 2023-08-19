@@ -144,38 +144,34 @@ function o2_mssql_connect($server, $user, $password, $trans) {
     // _________________________________________________ Check for existing connection ___
     if (!isset($GLOBALS['o2_mssql_conn'][$key])) {
         // _____________________________________________________ Create new connection ___
-        if (!($conn_local = new PDO($GLOBALS['dsn'].$server,
-                                    $user,
-                                    $password,
-                                    $attr))) {
-            $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>MSSQL</b> server: <i>".$server."</i><hr />".
-                                   $err[2],
-                                   o2error_DBCONNECT);
+        try {
+            $conn_local = new PDO($GLOBALS['dsn'].$server,
+                                  $user,
+                                  $password,
+                                  $attr);
             }
+		catch (Exception $o2e) {
+			throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
+                                   '</i><hr>'.$o2e->getMessage(),
+								   o2error_DBCONNECT);
+			}
         if ($app->db_timeout_lock) {
             $conn_local->exec('SET lock_timeout '.intval($app->db_timeout_lock));
             }
-        /**
-         * NOT EXISTING IN MSSQL
-        if ($app->db_timeout_stm) {
-            $conn_local->exec('SET statement_timeout '.intval($app->db_timeout_stm));
-            }
-         */
         // ______________________________________________ Create transaction if needed ___
         if ($trans) {
-            if (!$conn_local->beginTransaction()) {
-                $err = $conn_local->errorInfo();
-                throw new o2_exception("<b>MSSQL</b> server: <i>".$server."</i><hr />".
-                                       $err[2],
-                                       o2error_DBCONNECT);
+            try {
+                $conn_local->beginTransaction();
+                // _________________________________________ Force roll-back on errors ___
+                $conn_local->exec("SET XACT_ABORT ON");
                 }
-            else {
-                $GLOBALS['o2_mssql_trans'][$key] = true;
-                }
+		    catch (Exception $o2e) {
+			    throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
+                                       '</i><hr>'.$o2e->getMessage(),
+					    			   o2error_DBCONNECT);
+			    }
+            $GLOBALS['o2_mssql_trans'][$key] = true;
             }
-        // _________________________________________________ Force roll-back on errors ___
-        $conn_local->exec("SET XACT_ABORT ON");
         // ___________________________________________________________ Save connection ___
         $GLOBALS['o2_mssql_conn'][$key] = $conn_local;
         }
@@ -183,15 +179,15 @@ function o2_mssql_connect($server, $user, $password, $trans) {
     elseif ($trans && !isset($GLOBALS['o2_mssql_trans'][$key])) {
         $conn_local = $GLOBALS['o2_mssql_conn'][$key];
         // _________________________________ Create transaction on existing connection ___
-        if (!$conn_local->beginTransaction()) {
-            $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>MSSQL</b> server: <i>".$server."</i><hr />".
-                                   $err[2],
+        try {
+            $conn_local->beginTransaction();
+            }
+        catch (Exception $o2e) {
+            throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
+                                   '</i><hr>'.$o2e->getMessage(),
                                    o2error_DBCONNECT);
             }
-        else {
-            $GLOBALS['o2_mssql_trans'][$key] = true;
-            }
+        $GLOBALS['o2_mssql_trans'][$key] = true;
         }
     return $GLOBALS['o2_mssql_conn'][$key];
 
@@ -262,25 +258,14 @@ function o2_mssql_execute($query,
 			}
         // ____________________________________________________ On execution exception ___
 		catch (Exception $o2e) {
-			$err = $conn->errorInfo();
 			$conn->rollBack && @$conn->rollBack();
 			$res = false;
-			throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-								   "</i> (as Exception)<br>query: <code>".$query.
-								   "</code><hr>".$err[2],
+			throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
+								   '</i><br>query: <code>'.$query.
+								   '</code><hr>'.$o2e->getMessage(),
 								   o2error_DBEXECUTE);
             return false;
 			}
-        // _______________________________________ On other execution failure (NEVER!) ___
-        if ($res === false) {
-            $err = $conn->errorInfo();
-            $conn->rollBack && @$conn->rollBack();
-            throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                   "</i> (as Error)<br>query: <code>".$query.
-                                   "</code><hr>".$err[2],
-                                   o2error_DBEXECUTE);
-            return false;
-            }
         return $res;
         }
     // ________________________________________________________ Queries returning data ___
@@ -293,16 +278,7 @@ function o2_mssql_execute($query,
                 // _____________ Create prepared statement for reusing with parameters ___
                 if ($prepared_pars) {
                     // __________________ Create statement and check execution failure ___
-                    if (!($stm = $conn->prepare($query))) {
-                        $err = $conn->errorInfo();
-                        $conn->rollBack && @$conn->rollBack();
-                        throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
-                                               '</i><br>Error preparing statement.'.
-                                               '<br>query: <code>'.$query.'</code><hr>'.
-                                               $err[2],
-                                               o2error_DBDATAQUERY);
-                        return false;
-                        }
+                    $stm = $conn->prepare($query);
                     }
                 // _________________________ Create statement for reusing for fetching ___
                 else {
@@ -312,12 +288,11 @@ function o2_mssql_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-				$err = $conn->errorInfo();
 				$conn->rollBack && @$conn->rollBack();
 				throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
-									   '</i> (as Exception)<br>query: <code>'.$query.
-									   '</code><hr>'.$err[2],
-									   o2error_DBEXECUTE);
+									   '</i><br>query: <code>'.$query.
+									   '</code><hr>'.$o2e->getMessage(),
+									   o2error_DBDATAQUERY);
                 return false;
                 }
             }
@@ -347,11 +322,10 @@ function o2_mssql_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                $err = ($stm ? $stm->errorInfo() : $conn->errorInfo());
-				$q   = ($stm ? "<br>query: <code>".$stm->queryString : '');
                 $conn->rollBack && @$conn->rollBack();
-                throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                       "</i> (as Exception)".$q."</code><hr>".$err[2],
+				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
+                throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
+                                       '</i>'.$q.'<hr>'.$o2e->getMessage(),
                                        o2error_DBDATAQUERY);
                 return false;
                 }
@@ -362,17 +336,7 @@ function o2_mssql_execute($query,
                 while($stm->columnCount() === 0 && $stm->nextRowset()) {
                     // _____________ Advance rowset until we get to a rowset with data ___
                     }
-                $data  = $stm->fetchAll(PDO::FETCH_ASSOC);
-    			$err_c = $stm->errorCode();
-                // __ Error on statement (during fetch) (NEVER: catched as exception!) ___
-                if ($err_c != '00000') {
-                    $err = $stm->errorInfo();
-                    $conn->rollBack && @$conn->rollBack();
-                    throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                           "</i> (as Error)<br>query: <code>".$query.
-                                           "</code><hr>".$err[2],
-                                           o2error_DBDATAQUERY);
-                    }
+                $data = $stm->fetchAll(PDO::FETCH_ASSOC);
                 if (!$prepared_pars) {
                     $stm->closeCursor();
                     $stm = null;
@@ -381,13 +345,12 @@ function o2_mssql_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                $err = $conn->errorInfo();
                 $stm->closeCursor();
                 $stm = null;
                 $conn->rollBack && @$conn->rollBack();
-                throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                                       "</i> (as Exception)<br>query: <code>".$query.
-                                       "</code><hr>".$err[2],
+                throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
+                                       '</i><br>query: <code>'.$query.
+                                       '</code><hr>'.$o2e->getMessage(),
                                        o2error_DBDATAQUERY);
                 return false;
                 }
@@ -413,13 +376,18 @@ function o2_mssql_tables($server, $user, $password, $database, $owner) {
     o2_mssql_execute($query, $server, $user, $password, false, false);
     $query = "EXEC sp_tables @table_qualifier = '".$database."', ".
                                   "@table_owner = '".$owner."'";
-    $arr = array();
-    if ($res = o2_mssql_execute($query, $server, $user, $password, false, false)) {
-        foreach ($res as $table) {
-            $arr[] = $table['TABLE_NAME'];
-            }
+    try {
+        $res = o2_mssql_execute($query, $server, $user, $password, false, false);
         }
-    return $arr;
+    catch (o2_exception $o2e) {
+        $o2e->set_error_class(o2error_DBTABLES);
+        throw $o2e;
+        }
+    $tables = array();
+    foreach ($res as $table) {
+        $tables[] = $table['TABLE_NAME'];
+        }
+    return $tables;
 
     }
 
@@ -440,7 +408,13 @@ function o2_mssql_tabexists($server, $user, $password, $database, $owner, $table
     $query = "SELECT 1 AS IT_EXISTS FROM ".o2_mssql_o.$database.o2_mssql_c.".".
                                            o2_mssql_o.$owner.o2_mssql_c.
              ".sysobjects WHERE (type='U' OR type='V') AND name='".$table."'";
-    $res   = o2_mssql_execute($query, $server, $user, $password, false, false);
+    try {
+        $res = o2_mssql_execute($query, $server, $user, $password, false, false);
+        }
+    catch (o2_exception $o2e) {
+        $o2e->set_error_class(o2error_DBTABEXISTS);
+        throw $o2e;
+        }
     return (isset($res[0]["IT_EXISTS"]) && $res[0]["IT_EXISTS"] ? true : false);
 
     }
@@ -462,27 +436,28 @@ function o2_mssql_tabexists($server, $user, $password, $database, $owner, $table
  */
 function o2_mssql_tablefields($server, $user, $password, $database, $owner, $table) {
 
-    $arr   = array();
-    $query = "USE ".o2_mssql_o.$database.o2_mssql_c.";\n";
-    o2_mssql_execute($query, $server, $user, $password, false, false);
-    $query = "EXEC sp_columns @table_qualifier = '".$database."', ".
-                             "@table_owner = '".$owner."', ".
-                             "@table_name = '".$table."'\n";
-    if (!($res = o2_mssql_execute($query, $server, $user, $password, false, false))) {
-        throw new o2_exception("<b>MSSQL</b> server: <i>".$server."</i>",
-                               o2error_DBTABLEINFO);
+    try {
+        $query = "USE ".o2_mssql_o.$database.o2_mssql_c.";\n";
+        o2_mssql_execute($query, $server, $user, $password, true, false);
+        $query = "EXEC sp_columns @table_qualifier = '".$database."', ".
+                                 "@table_owner = '".$owner."', ".
+                                 "@table_name = '".$table."'\n";
+        $res = o2_mssql_execute($query, $server, $user, $password, false, false);
         }
-    else {
-        foreach ($res as $field) {
-            $arr[] = array('field'   => $field['COLUMN_NAME'],
-                           'type'    => $field['TYPE_NAME'].
-                                        ($field['TYPE_NAME'] != "text" ?
-                                         "(".$field['LENGTH'].")" : ""),
-                           'default' => str_replace("(", "",
-                                        str_replace(")", "",
-                                        str_replace("'", "",
-                                        $field['COLUMN_DEF']))));
-            }
+    catch (o2_exception $o2e) {
+        $o2e->set_error_class(o2error_DBTABLEINFO);
+        throw $o2e;
+        }
+    $arr = array();
+    foreach ($res as $field) {
+        $arr[] = array('field'    => $field['COLUMN_NAME'],
+                       'type'     => $field['TYPE_NAME'].
+                                     ($field['TYPE_NAME'] != 'text' ?
+                                         '('.$field['LENGTH'].')' : ''),
+                       'default'  => str_replace('(', '',
+                                     str_replace(')', '',
+                                     str_replace("'", '',
+                                     $field['COLUMN_DEF']))));
         }
     return $arr;
 
@@ -506,10 +481,10 @@ function o2_mssql_tablefields($server, $user, $password, $database, $owner, $tab
 function o2_mssql_tableindexes($server, $user, $password, $database, $owner, $table) {
 
     $ret_val = array();
-    $query   = "USE ".o2_mssql_o.$database.o2_mssql_c;
-    o2_mssql_execute($query, $server, $user, $password, true, false);
-    $query = "EXEC sp_helpindex ".o2_mssql_o.$table.o2_mssql_c;
     try {
+        $query = 'USE '.o2_mssql_o.$database.o2_mssql_c;
+        o2_mssql_execute($query, $server, $user, $password, true, false);
+        $query     = 'EXEC sp_helpindex '.o2_mssql_o.$table.o2_mssql_c;
         $res_local = o2_mssql_execute($query, $server, $user, $password, false, false);
         }
     catch (o2_exception $o2e) {
@@ -518,19 +493,19 @@ function o2_mssql_tableindexes($server, $user, $password, $database, $owner, $ta
         throw $o2e;
         }
     foreach ($res_local as $single_key) {
-        if (strtoupper($single_key['INDEX_NAME']) != "JXPK_".strtoupper($table)) {
+        if (strtoupper($single_key['INDEX_NAME']) != 'JXPK_'.strtoupper($table)) {
             $seq_no = 0;
             $unique = stripos($single_key['INDEX_DESCRIPTION'], 'unique') !== false;
             $ret_val[$single_key['INDEX_NAME']] = array('unique' => $unique,
                                                         'segments' => array());
             foreach (explode(",", $single_key['INDEX_KEYS']) as $single_segment) {
                 if (strpos($single_segment, "(-)")) {
-                    $single_segment = trim(str_replace("(-)", "", $single_segment));
-                    $dir_local      = "D";
+                    $single_segment = trim(str_replace('(-)', '', $single_segment));
+                    $dir_local      = 'D';
                     }
                 else {
                     $single_segment = trim($single_segment);
-                    $dir_local      = "A";
+                    $dir_local      = 'A';
                     }
                 $ret_val[$single_key['INDEX_NAME']]['segments']+=
                                        array($seq_no => array('column' => $single_segment,
@@ -572,30 +547,30 @@ function o2_mssql_insertfrom($server,
                              $owner_to,
                              $table_to,
                              $values,
-                             $where = "") {
+                             $where = '') {
 
-    $list_from = "";
-    $list_to   = "";
+    $list_from = '';
+    $list_to   = '';
     foreach ($values as $field_from => $field_to) {
-        $sep = ($list_from ? "," : "");
-        if ($field_from == "@o2CloneArea") {
+        $sep = ($list_from ? ',' : '');
+        if ($field_from == '@o2CloneArea') {
             $list_from.= $sep.$field_to;
-            $list_to  .= $sep."O2ASPID";
+            $list_to  .= $sep.'O2ASPID';
             }
         else {
             $list_from.= $sep.$field_from;
             $list_to  .= $sep.$field_to;
             }
         }
-    $query = "INSERT INTO ".o2_mssql_o.$database_to.o2_mssql_c.".".
-                            o2_mssql_o.$owner_to.o2_mssql_c.".".
+    $query = 'INSERT INTO '.o2_mssql_o.$database_to.o2_mssql_c.'.'.
+                            o2_mssql_o.$owner_to.o2_mssql_c.'.'.
                             o2_mssql_o.$table_to.o2_mssql_c.
-             " (".$list_to.") SELECT ".$list_from.
-             " FROM ".o2_mssql_o.$database_from.o2_mssql_c.".".
-                      o2_mssql_o.$owner_from.o2_mssql_c.".".
+             ' ('.$list_to.') SELECT '.$list_from.
+             ' FROM '.o2_mssql_o.$database_from.o2_mssql_c.'.'.
+                      o2_mssql_o.$owner_from.o2_mssql_c.'.'.
                       o2_mssql_o.$table_from.o2_mssql_c;
     if ($where) {
-       $query.= " WHERE ".$where;
+       $query.= ' WHERE '.$where;
        }
     try {
         $aff_rows = o2_mssql_execute($query, $server, $user, $password, true, true);
@@ -623,8 +598,8 @@ function o2_mssql_insertfrom($server,
  */
 function o2_mssql_droptable($server, $user, $password, $database, $owner, $table) {
 
-    $query = "DROP TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                           o2_mssql_o.$owner.o2_mssql_c.".".
+    $query = 'DROP TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                           o2_mssql_o.$owner.o2_mssql_c.'.'.
                            o2_mssql_o.$table.o2_mssql_c."\n";
     try {
         o2_mssql_execute($query, $server, $user, $password, true, true);
@@ -661,17 +636,17 @@ function o2_mssql_renametable($server,
 
     try {
         // ______________________________________________________ Get existing indexes ___
-        $query = "USE ".o2_mssql_o.$database.o2_mssql_c."\n";
+        $query = 'USE '.o2_mssql_o.$database.o2_mssql_c."\n";
         o2_mssql_execute($query, $server, $user, $password, true, false);
-        $query = "EXEC sp_helpindex ".o2_mssql_o.$table.o2_mssql_c;
+        $query = 'EXEC sp_helpindex '.o2_mssql_o.$table.o2_mssql_c;
         $res   = o2_mssql_execute($query, $server, $user, $password, false, false);
         // ______________________________________________________________ Rename table ___
-        $query = "EXEC sp_rename '".$database.".".$owner.".".$table."', "."'".
+        $query = "EXEC sp_rename '".$database.'.'.$owner.'.'.$table."', "."'".
                                     $new_name."'\n";
         o2_mssql_execute($query, $server, $user, $password, true, true);
         // ________________________________________________________ Rename primary key ___
         foreach ($res as $single_key) {
-            if (strtoupper($single_key['INDEX_NAME']) == "JXPK_".strtoupper($table)) {
+            if (strtoupper($single_key['INDEX_NAME']) == 'JXPK_'.strtoupper($table)) {
                 $query = "EXEC sp_rename '".$single_key['INDEX_NAME']."','JXPK_".
                                             $new_name."','OBJECT'";
                 o2_mssql_execute($query, $server, $user, $password, true, true);
@@ -759,12 +734,12 @@ function o2_mssql_createtable($server,
                               $structure,
                               $execute = true) {
 
-    $query = "CREATE TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                             o2_mssql_o.$owner.o2_mssql_c.".".
+    $query = 'CREATE TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                             o2_mssql_o.$owner.o2_mssql_c.'.'.
                              o2_mssql_o.$table.o2_mssql_c." (\n";
-    $type        = "";
-    $default     = "";
-    foreach ($structure["fields"] as $field_name => $field_prop) {
+    $type        = '';
+    $default     = '';
+    foreach ($structure['fields'] as $field_name => $field_prop) {
         $query.= o2_mssql_field_create($field_name,
                                        $field_prop['type'],
                                        $field_prop['size'],
@@ -772,18 +747,18 @@ function o2_mssql_createtable($server,
                                        $field_prop['dec']).",\n";
         }
     $query = substr($query, 0, -2).")\n";
-    $query.= "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                            o2_mssql_o.$owner.o2_mssql_c.".".
+    $query.= "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.'.'.
+                            o2_mssql_o.$owner.o2_mssql_c.'.'.
                             o2_mssql_o.$table.o2_mssql_c."\n";
     // ___________________________________________________________________ PRIMARY KEY ___
     $arr_local = array();
-    foreach ($structure["primary"] as $pk_name => $pk_segments) {
+    foreach ($structure['primary'] as $pk_name => $pk_segments) {
         break;
         }
-    $query.= "ADD CONSTRAINT JXPK_".$table." PRIMARY KEY CLUSTERED (".
+    $query.= 'ADD CONSTRAINT JXPK_'.$table.' PRIMARY KEY CLUSTERED ('.
              o2_mssql_indexfields_create($pk_segments).") ON [PRIMARY]\n";
     // ________________________________________________________________ UNIQUE INDEXES ___
-    foreach ($structure["keys"] as $index_name => $index_segs) {
+    foreach ($structure['keys'] as $index_name => $index_segs) {
         $query.= o2_mssql_index_create($index_name,
                                        $index_segs,
                                        $table,
@@ -792,7 +767,7 @@ function o2_mssql_createtable($server,
                                        true)."\n";
         }
     // ____________________________________________________________ NOT UNIQUE INDEXES ___
-    foreach ($structure["indexes"] as $index_name => $index_segs) {
+    foreach ($structure['indexes'] as $index_name => $index_segs) {
         $query.= o2_mssql_index_create($index_name,
                                        $index_segs,
                                        $table,
@@ -832,52 +807,52 @@ function o2_mssql_createtable($server,
 function o2_mssql_field_create($name, $type, $size, $int, $dec, $for_change = false) {
 
       switch ($type) {
-          case "A":
+          case 'A':
               if ($size <= 8000) {
-                  $ftype = "VARCHAR(".$size.")";
+                  $ftype = 'VARCHAR('.$size.')';
                   }
               else {
-                  $ftype = "VARCHAR(max)";
+                  $ftype = 'VARCHAR(max)';
                   }
               $default = "('')";
               break;
-          case "N":
+          case 'N':
               if ($dec) {
-                  $ftype = "DECIMAL(".($int + $dec).", ".$dec.")";
+                  $ftype = 'DECIMAL('.($int + $dec).', '.$dec.')';
                   }
               elseif ($int < 5) {
-                  $ftype = "SMALLINT";
+                  $ftype = 'SMALLINT';
                   }
               elseif ($int < 10) {
-                  $ftype = "INT";
+                  $ftype = 'INT';
                   }
               else {
-                  $ftype = "BIGINT";
+                  $ftype = 'BIGINT';
                   }
-              $default = "(0)";
+              $default = '(0)';
               break;
-          case "L":
-              $ftype    = "CHAR(1)";
+          case 'L':
+              $ftype    = 'CHAR(1)';
               $default = "('0')";
               break;
-          case "D":
-              $ftype    = "CHAR(8)";
+          case 'D':
+              $ftype    = 'CHAR(8)';
               $default = "('00000000')";
               break;
-          case "T":
-              $ftype    = "CHAR(6)";
+          case 'T':
+              $ftype    = 'CHAR(6)';
               $default = "('000000')";
               break;
-          case "S":
-              $ftype    = "VARCHAR(max)";
+          case 'S':
+              $ftype    = 'VARCHAR(max)';
               $default = "('')";
               break;
           }
     if ($for_change) {
-        return $name." ".$ftype." NOT NULL";
+        return $name.' '.$ftype.' NOT NULL';
         }
     else {
-        return $name." ".$ftype." NOT NULL DEFAULT ".$default;
+        return $name.' '.$ftype.' NOT NULL DEFAULT '.$default;
         }
 
     }
@@ -925,9 +900,9 @@ function o2_mssql_index_create($key_name,
  */
 function o2_mssql_indexfields_create($fields) {
 
-    $str = "";
+    $str = '';
     foreach ($fields as $field => $direction) {
-        $str.= ($str ? "," : "").$field.($direction == "D" ? " DESC" : " ASC");
+        $str.= ($str ? ',' : '').$field.($direction == 'D' ? ' DESC' : ' ASC');
         }
     return $str;
 
@@ -962,10 +937,10 @@ function o2_mssql_field_add($server,
                             $field_int,
                             $field_dec) {
 
-    $query = "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                            o2_mssql_o.$owner.o2_mssql_c.".".
+    $query = 'ALTER TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                            o2_mssql_o.$owner.o2_mssql_c.'.'.
                             o2_mssql_o.$table.o2_mssql_c.
-                    " ADD ".o2_mssql_field_create(o2_mssql_o.$field_name.o2_mssql_c,
+                    ' ADD '.o2_mssql_field_create(o2_mssql_o.$field_name.o2_mssql_c,
                                                   $field_type,
                                                   $field_size,
                                                   $field_int,
@@ -1002,10 +977,10 @@ function o2_mssql_field_remove($server,
                                $field_name) {
 
 
-    $query = "select o.[NAME] from ".
-             o2_mssql_o.$database.o2_mssql_c.".sys.sysobjects o inner join ".
+    $query = 'select o.[NAME] from '.
+             o2_mssql_o.$database.o2_mssql_c.'.sys.sysobjects o inner join '.
              o2_mssql_o.$database.o2_mssql_c.
-             ".sys.syscolumns c on o.id = c.cdefault inner join ".
+             '.sys.syscolumns c on o.id = c.cdefault inner join '.
              o2_mssql_o.$database.o2_mssql_c.
              ".sys.sysobjects t on c.id = t.id where o.xtype = 'D' and t.name = '".$table.
              "' and c.name = '".$field_name."'";
@@ -1015,26 +990,24 @@ function o2_mssql_field_remove($server,
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBTABLEALTER);
         throw $o2e;
-        return false;
         }
     if ($res[0]['NAME']) {
-        $query = "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                                o2_mssql_o.$owner.o2_mssql_c.".".
-                                o2_mssql_o.$table.o2_mssql_c.
-                 " DROP CONSTRAINT ".o2_mssql_o.$res[0]['NAME'].o2_mssql_c;
+        $query =      'ALTER TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                                     o2_mssql_o.$owner.o2_mssql_c.'.'.
+                                     o2_mssql_o.$table.o2_mssql_c.
+                 ' DROP CONSTRAINT '.o2_mssql_o.$res[0]['NAME'].o2_mssql_c;
         try {
             $res = o2_mssql_execute($query, $server, $user, $password, false, false);
             }
         catch (o2_exception $o2e) {
             $o2e->set_error_class(o2error_DBTABLEALTER);
             throw $o2e;
-            return false;
             }
         }
-    $query =  "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                             o2_mssql_o.$owner.o2_mssql_c.".".
+    $query =  'ALTER TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                             o2_mssql_o.$owner.o2_mssql_c.'.'.
                              o2_mssql_o.$table.o2_mssql_c.
-             " DROP COLUMN ".o2_mssql_o.$field_name.o2_mssql_c;
+             ' DROP COLUMN '.o2_mssql_o.$field_name.o2_mssql_c;
     try {
         $res = o2_mssql_execute($query, $server, $user, $password, true, true);
         }
@@ -1075,7 +1048,7 @@ function o2_mssql_field_change($server,
                                $field_dec) {
 
     // ______________________________________________________ Get actual default value ___
-    $query = "SELECT COLUMN_DEFAULT AS [DEFAULT] FROM ".o2_mssql_o.$database.o2_mssql_c.
+    $query = 'SELECT COLUMN_DEFAULT AS [DEFAULT] FROM '.o2_mssql_o.$database.o2_mssql_c.
              ".INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA='".$owner.
              "' AND TABLE_NAME = '".$table.
              "' AND COLUMN_NAME = '".$field_name."'";
@@ -1095,10 +1068,10 @@ function o2_mssql_field_change($server,
         $default = false;
         }
     // _______________________________________________________ Get actual default name ___
-    $query = "select o.[NAME] from ".
-             o2_mssql_o.$database.o2_mssql_c.".sys.sysobjects o inner join ".
+    $query = 'select o.[NAME] from '.
+             o2_mssql_o.$database.o2_mssql_c.'.sys.sysobjects o inner join '.
              o2_mssql_o.$database.o2_mssql_c.
-             ".sys.syscolumns c on o.id = c.cdefault inner join ".
+             '.sys.syscolumns c on o.id = c.cdefault inner join '.
              o2_mssql_o.$database.o2_mssql_c.
              ".sys.sysobjects t on c.id = t.id where o.xtype = 'D' and t.name = '".$table.
              "' and c.name = '".$field_name."'";
@@ -1113,10 +1086,10 @@ function o2_mssql_field_change($server,
     // __________________________________________ Remove default constraint from field ___
     if ($res[0]['NAME']) {
         $const = $res[0]['NAME'];
-        $query = "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                                o2_mssql_o.$owner.o2_mssql_c.".".
-                                o2_mssql_o.$table.o2_mssql_c.
-                 " DROP CONSTRAINT ".o2_mssql_o.$const.o2_mssql_c;
+        $query =      'ALTER TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                                     o2_mssql_o.$owner.o2_mssql_c.'.'.
+                                     o2_mssql_o.$table.o2_mssql_c.
+                 ' DROP CONSTRAINT '.o2_mssql_o.$const.o2_mssql_c;
         try {
             o2_mssql_execute($query, $server, $user, $password, true, true);
             }
@@ -1127,10 +1100,10 @@ function o2_mssql_field_change($server,
             }
         }
     // __________________________________________________________________ Alter column ___
-    $query =   "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                              o2_mssql_o.$owner.o2_mssql_c.".".
+    $query =   'ALTER TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                              o2_mssql_o.$owner.o2_mssql_c.'.'.
                               o2_mssql_o.$table.o2_mssql_c.
-             " ALTER COLUMN ".o2_mssql_field_create(o2_mssql_o.$field_name.o2_mssql_c,
+             ' ALTER COLUMN '.o2_mssql_field_create(o2_mssql_o.$field_name.o2_mssql_c,
                                                     $field_type,
                                                     $field_size,
                                                     $field_int,
@@ -1145,11 +1118,11 @@ function o2_mssql_field_change($server,
         }
     // ___________________________________________ Restore default constraint on field ___
     if ($default !== false) {
-        $query = "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                                o2_mssql_o.$owner.o2_mssql_c.".".
+        $query = 'ALTER TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                                o2_mssql_o.$owner.o2_mssql_c.'.'.
                                 o2_mssql_o.$table.o2_mssql_c.
-                 " ADD CONSTRAINT ".o2_mssql_o.$const.o2_mssql_c.
-                 " DEFAULT ".$default." FOR ".o2_mssql_o.$field_name.o2_mssql_c;
+                 ' ADD CONSTRAINT '.o2_mssql_o.$const.o2_mssql_c.
+                 ' DEFAULT '.$default.' FOR '.o2_mssql_o.$field_name.o2_mssql_c;
         try {
             o2_mssql_execute($query, $server, $user, $password, true, true);
             }
@@ -1185,9 +1158,9 @@ function o2_mssql_field_rename($server,
                                $old_name,
                                $new_name) {
 
-    $query = "EXEC sp_rename '".$database.".".
-                                $owner.".".
-                                $table.".".
+    $query = "EXEC sp_rename '".$database.'.'.
+                                $owner.'.'.
+                                $table.'.'.
                                 $old_name."', '".
                                 $new_name."', 'COLUMN'";
     try {
@@ -1227,7 +1200,7 @@ function o2_mssql_index_add($server,
 
     $quoted_segs = array();
     foreach ($key_segs as $field_name => $direction) {
-        if ($field_name != "O2ASPID") {
+        if ($field_name != 'O2ASPID') {
             $quoted_segs[o2_mssql_o.$field_name.o2_mssql_c] = $direction;
             }
         else {
@@ -1241,7 +1214,7 @@ function o2_mssql_index_add($server,
                                    $owner,
                                    $unique);
     try {
-        $res = o2_mssql_execute($query, $server, $user, $password, true, true);
+        o2_mssql_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBTABLEALTER);
@@ -1271,12 +1244,12 @@ function o2_mssql_index_remove($server,
                                $table,
                                $index_name) {
 
-    $query = "DROP INDEX ".o2_mssql_o.$index_name.o2_mssql_c.
-                    " ON ".o2_mssql_o.$database.o2_mssql_c.".".
-                           o2_mssql_o.$owner.o2_mssql_c.".".
+    $query = 'DROP INDEX '.o2_mssql_o.$index_name.o2_mssql_c.
+                    ' ON '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                           o2_mssql_o.$owner.o2_mssql_c.'.'.
                            o2_mssql_o.$table.o2_mssql_c;
     try {
-        $res = o2_mssql_execute($query, $server, $user, $password, true, true);
+        o2_mssql_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBTABLEALTER);
@@ -1315,27 +1288,27 @@ function o2_mssql_aggregate($server,
                             $functions,
                             $links = null) {
 
-    $functions_list = "";
+    $functions_list = '';
     foreach ($functions as $func_name => $single_func) {
-        $functions_list.= ($functions_list == "" ? "" : ",").
-                          $single_func["func"]."(".$single_func["field"].") ".
-                          "AS ".$func_name;
+        $functions_list.= ($functions_list == '' ? '' : ',').
+                          $single_func['func'].'('.$single_func['field'].') '.
+                          'AS '.$func_name;
         }
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
-        $table = o2_mssql_o.$database.o2_mssql_c.".".
-                 o2_mssql_o.$owner.o2_mssql_c.".".
+    if (substr($table, 0, 1) != '(') {
+        $table = o2_mssql_o.$database.o2_mssql_c.'.'.
+                 o2_mssql_o.$owner.o2_mssql_c.'.'.
                  o2_mssql_o.$table.o2_mssql_c;
         }
-    $query = "SELECT ".$functions_list.
-             " FROM ".$table." AS ".o2_mssql_o.$table_alias.o2_mssql_c;
+    $query = 'SELECT '.$functions_list.
+             ' FROM '.$table.' AS '.o2_mssql_o.$table_alias.o2_mssql_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     try {
         $res = o2_mssql_execute($query, $server, $user, $password, false, false);
@@ -1377,18 +1350,18 @@ function o2_mssql_verifyrec($server,
                             $order_by) {
 
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
-        $table = o2_mssql_o.$database.o2_mssql_c.".".
-                 o2_mssql_o.$owner.o2_mssql_c.".".
+    if (substr($table, 0, 1) != '(') {
+        $table = o2_mssql_o.$database.o2_mssql_c.'.'.
+                 o2_mssql_o.$owner.o2_mssql_c.'.'.
                  o2_mssql_o.$table.o2_mssql_c;
         }
-    $query = "SELECT TOP 1 ".$select_str." FROM ".$table.
-             " AS ".o2_mssql_o.$table_alias.o2_mssql_c;
+    $query = 'SELECT TOP 1 '.$select_str.' FROM '.$table.
+             ' AS '.o2_mssql_o.$table_alias.o2_mssql_c;
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     if ($order_by) {
-        $query.= " ORDER BY ".$order_by;
+        $query.= ' ORDER BY '.$order_by;
         }
     try {
         $res = o2_mssql_execute($query, $server, $user, $password, false, false);
@@ -1438,20 +1411,20 @@ function o2_mssql_modifyrec($server,
 
     $upd_str = '';
     foreach ($sets as $field => $value) {
-        $upd_str.= ($upd_str != "" ? "," : "").
-                   o2_mssql_o.$database.o2_mssql_c.".".
-                   o2_mssql_o.$owner.o2_mssql_c.".".
-                   o2_mssql_o.$table.o2_mssql_c.".".$field." = ".$value;
+        $upd_str.= ($upd_str != '' ? ',' : '').
+                   o2_mssql_o.$database.o2_mssql_c.'.'.
+                   o2_mssql_o.$owner.o2_mssql_c.'.'.
+                   o2_mssql_o.$table.o2_mssql_c.'.'.$field.' = '.$value;
         }
-    $query = "UPDATE ".o2_mssql_o.$database.o2_mssql_c.".".
-                       o2_mssql_o.$owner.o2_mssql_c.".".
+    $query = 'UPDATE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                       o2_mssql_o.$owner.o2_mssql_c.'.'.
                        o2_mssql_o.$table.o2_mssql_c.
-             " SET ".$upd_str.
-             " FROM ".o2_mssql_o.$database.o2_mssql_c.".".
-                      o2_mssql_o.$owner.o2_mssql_c.".".
+             ' SET '.$upd_str.
+             ' FROM '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                      o2_mssql_o.$owner.o2_mssql_c.'.'.
                       o2_mssql_o.$table.o2_mssql_c.
-             " AS ".o2_mssql_o.$table_alias.o2_mssql_c.
-             " WHERE ".$where;
+             ' AS '.o2_mssql_o.$table_alias.o2_mssql_c.
+             ' WHERE '.$where;
     try {
         o2_mssql_execute($query, $server, $user, $password, true, true);
         }
@@ -1488,10 +1461,10 @@ function o2_mssql_insertrec($server,
                             $fields,
                             $values) {
 
-    $query = "INSERT INTO ".o2_mssql_o.$database.o2_mssql_c.".".
-                            o2_mssql_o.$owner.o2_mssql_c.".".
+    $query = 'INSERT INTO '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                            o2_mssql_o.$owner.o2_mssql_c.'.'.
                             o2_mssql_o.$table.o2_mssql_c.
-             " (".implode(",", $fields).") VALUES (".implode(",", $values).")";
+             ' ('.implode(',', $fields).') VALUES ('.implode(',', $values).')';
     try {
         o2_mssql_execute($query, $server, $user, $password, true, true);
         }
@@ -1526,14 +1499,14 @@ function o2_mssql_deleterec($server,
                             $table_alias,
                             $where) {
 
-    $query = "DELETE ".o2_mssql_o.$database.o2_mssql_c.".".
-                       o2_mssql_o.$owner.o2_mssql_c.".".
+    $query = 'DELETE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                       o2_mssql_o.$owner.o2_mssql_c.'.'.
                        o2_mssql_o.$table.o2_mssql_c.
-             " FROM ".o2_mssql_o.$database.o2_mssql_c.".".
-                      o2_mssql_o.$owner.o2_mssql_c.".".
+             ' FROM '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                      o2_mssql_o.$owner.o2_mssql_c.'.'.
                       o2_mssql_o.$table.o2_mssql_c;
     if ($where) {
-       $query.= " AS ".o2_mssql_o.$table_alias.o2_mssql_c." WHERE ".$where;
+       $query.= ' AS '.o2_mssql_o.$table_alias.o2_mssql_c.' WHERE '.$where;
        }
     // _________________________________________ Return SQL query instead of executing ___
     if (isset($GLOBALS['jxviewsql'])) {
@@ -1577,20 +1550,20 @@ function o2_mssql_count($server,
                         $links = null) {
 
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
-        $table = o2_mssql_o.$database.o2_mssql_c.".".
-                 o2_mssql_o.$owner.o2_mssql_c.".".
+    if (substr($table, 0, 1) != '(') {
+        $table = o2_mssql_o.$database.o2_mssql_c.'.'.
+                 o2_mssql_o.$owner.o2_mssql_c.'.'.
                  o2_mssql_o.$table.o2_mssql_c;
         }
-    $query = "SELECT COUNT(*) AS COMPUTED FROM ".$table.
-             " AS ".o2_mssql_o.$table_alias.o2_mssql_c;
+    $query = 'SELECT COUNT(*) AS COMPUTED FROM '.$table.
+             ' AS '.o2_mssql_o.$table_alias.o2_mssql_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     // _____________________________________________________________________ SQL trace ___
     if ($_SESSION['o2_app']->sqltrace) {
@@ -1598,18 +1571,18 @@ function o2_mssql_count($server,
         }
     // ______________________________________________________ Get connection to server ___
     $conn = o2_mssql_connect($server, $user, $password, false);
-    // ______________________________________________________ On execution failure ___
-    if (!($res = $conn->query($query))) {
-        $err = $conn->errorInfo();
+    try {
+        $res  = $conn->query($query);
+        $dset = $res->fetchAll(PDO::FETCH_ASSOC);
+        }
+    // ________________________________________________________ On execution exception ___
+    catch (o2_exception $o2e) {
         $rb  = $conn->rollBack;
         $rb && @$rb();
-        throw new o2_exception("<b>MSSQL</b> server: <i>".$server.
-                               "</i><br />Error counting dataset.<hr><code>".
-                               $query."</code><br><br>".$err[2],
-                               o2error_DBCOUNT);
+        $o2e->set_error_class(o2error_DBCOUNT);
+        throw $o2e;
         return false;
         }
-    $dset = $res->fetchAll(PDO::FETCH_ASSOC);
     // _____________________________________ Return integer value stored in "COMPUTED" ___
     return intval($dset[0]['COMPUTED']);
 
@@ -1696,9 +1669,9 @@ function o2_mssql_recordset($server,
         unset($GLOBALS['o2_mssql_stms'][$stm_id]);
         }
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
-        $table = o2_mssql_o.$database.o2_mssql_c.".".
-                 o2_mssql_o.$owner.o2_mssql_c.".".
+    if (substr($table, 0, 1) != '(') {
+        $table = o2_mssql_o.$database.o2_mssql_c.'.'.
+                 o2_mssql_o.$owner.o2_mssql_c.'.'.
                  o2_mssql_o.$table.o2_mssql_c;
         }
     $query = 'SELECT ';
@@ -1801,12 +1774,12 @@ function o2_mssql_fkeyadd($server,
                           $ref_fields,
                           $key_name) {
 
-    $query = "USE ".o2_mssql_o.$main_db.o2_mssql_c;
+    $query = 'USE '.o2_mssql_o.$main_db.o2_mssql_c;
     o2_mssql_execute($query, $server, $user, $password, false, false);
     $main_list = array();
     $ref_list  = array();
     foreach ($main_fields as $field) {
-        if ($field != "O2ASPID") {
+        if ($field != 'O2ASPID') {
             $main_list[] = o2_mssql_o.$field.o2_mssql_c;
             }
         else {
@@ -1814,24 +1787,24 @@ function o2_mssql_fkeyadd($server,
             }
         }
     foreach ($ref_fields as $field) {
-        if ($field != "O2ASPID") {
+        if ($field != 'O2ASPID') {
             $ref_list[] = o2_mssql_o.$field.o2_mssql_c;
             }
         else {
             $ref_list[] = $field;
             }
         }
-    $main_list = implode(",", $main_list);
-    $ref_list  = implode(",", $ref_list);
-    $query     = "ALTER TABLE ".o2_mssql_o.$main_db.o2_mssql_c.".".
+    $main_list = implode(',', $main_list);
+    $ref_list  = implode(',', $ref_list);
+    $query     = 'ALTER TABLE '.o2_mssql_o.$main_db.o2_mssql_c.'.'.
                                 o2_mssql_o.$main_owner.o2_mssql_c.'.'.
                                 o2_mssql_o.$main_table.o2_mssql_c.
-                 " WITH NOCHECK ADD CONSTRAINT ".o2_mssql_o.$key_name.o2_mssql_c.
-                 " FOREIGN KEY (".$main_list.
-                 ") REFERENCES ".o2_mssql_o.$ref_db.o2_mssql_c.".".
+                 ' WITH NOCHECK ADD CONSTRAINT '.o2_mssql_o.$key_name.o2_mssql_c.
+                 ' FOREIGN KEY ('.$main_list.
+                 ') REFERENCES '.o2_mssql_o.$ref_db.o2_mssql_c.'.'.
                                  o2_mssql_o.$ref_owner.o2_mssql_c.'.'.
                                  o2_mssql_o.$ref_table.o2_mssql_c.
-                 " (".$ref_list.")";
+                 ' ('.$ref_list.')';
     try {
         o2_mssql_execute($query, $server, $user, $password, true, true);
         }
@@ -1865,13 +1838,13 @@ function o2_mssql_fkeyremove($server,
                              $table,
                              $key_name) {
 
-    $query = "USE ".o2_mssql_o.$database.o2_mssql_c;
-    o2_mssql_execute($query, $server, $user, $password, false, false);
-    $query = "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                            o2_mssql_o.$owner.o2_mssql_c.".".
-                            o2_mssql_o.$table.o2_mssql_c.
-             " DROP CONSTRAINT ".o2_mssql_o.$key_name.o2_mssql_c;
     try {
+        $query = 'USE '.o2_mssql_o.$database.o2_mssql_c;
+        o2_mssql_execute($query, $server, $user, $password, false, false);
+        $query = 'ALTER TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                                o2_mssql_o.$owner.o2_mssql_c.'.'.
+                                o2_mssql_o.$table.o2_mssql_c.
+                 ' DROP CONSTRAINT '.o2_mssql_o.$key_name.o2_mssql_c;
         o2_mssql_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
@@ -1904,13 +1877,13 @@ function o2_mssql_fkeyvalidate($server,
                                $table,
                                $key_name) {
 
-    $query = "USE ".o2_mssql_o.$database.o2_mssql_c;
-    o2_mssql_execute($query, $server, $user, $password, false, false);
-    $query = "ALTER TABLE ".o2_mssql_o.$database.o2_mssql_c.".".
-                            o2_mssql_o.$owner.o2_mssql_c.".".
-                            o2_mssql_o.$table.o2_mssql_c.
-             " WITH CHECK CHECK CONSTRAINT ".o2_mssql_o.$key_name.o2_mssql_c;
     try {
+        $query = 'USE '.o2_mssql_o.$database.o2_mssql_c;
+        o2_mssql_execute($query, $server, $user, $password, false, false);
+        $query = 'ALTER TABLE '.o2_mssql_o.$database.o2_mssql_c.'.'.
+                                o2_mssql_o.$owner.o2_mssql_c.'.'.
+                                o2_mssql_o.$table.o2_mssql_c.
+                ' WITH CHECK CHECK CONSTRAINT '.o2_mssql_o.$key_name.o2_mssql_c;
         o2_mssql_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
@@ -1941,14 +1914,14 @@ function o2_mssql_fkeystablist($server,
                                $owner,
                                $table) {
 
-    $query = "USE ".o2_mssql_o.$database.o2_mssql_c;
-    o2_mssql_execute($query, $server, $user, $password, false, false);
-    $query = "SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS ".
-             "WHERE TABLE_CATALOG='".$database.
-             "' AND TABLE_SCHEMA='".$owner.
-             "' AND TABLE_NAME='".$table.
-             "' AND CONSTRAINT_TYPE='FOREIGN KEY'";
     try {
+        $query = 'USE '.o2_mssql_o.$database.o2_mssql_c;
+        o2_mssql_execute($query, $server, $user, $password, false, false);
+        $query = 'SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS '.
+                 "WHERE TABLE_CATALOG='".$database.
+                 "' AND TABLE_SCHEMA='".$owner.
+                 "' AND TABLE_NAME='".$table.
+                 "' AND CONSTRAINT_TYPE='FOREIGN KEY'";
         $res = o2_mssql_execute($query, $server, $user, $password, false, false);
         }
     catch (o2_exception $o2e) {
@@ -1958,7 +1931,7 @@ function o2_mssql_fkeystablist($server,
         }
     $list = array();
     foreach ($res as $c_name) {
-        $list[] = $c_name["CONSTRAINT_NAME"];
+        $list[] = $c_name['CONSTRAINT_NAME'];
         }
     return $list;
 
@@ -1982,19 +1955,19 @@ function o2_mssql_fkeysinfo($server,
                             $database,
                             $owner) {
 
-    $query = "USE ".$database."; ".
-             "SELECT c.CONSTRAINT_NAME AS ".o2_mssql_o."CN".o2_mssql_c.", ".
-             "c.TABLE_NAME AS ".o2_mssql_o."ON".o2_mssql_c.", ".
-             "COL_NAME(fc.parent_object_id, fc.parent_column_id) AS ".
-                                                          o2_mssql_o."SK".o2_mssql_c.", ".
-             "OBJECT_NAME (f.referenced_object_id) AS ".o2_mssql_o."TO".o2_mssql_c.", ".
-             "COL_NAME(fc.referenced_object_id, fc.referenced_column_id) AS ".
-                                                           o2_mssql_o."TK".o2_mssql_c." ".
-             "FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS c ".
-             "INNER JOIN sys.foreign_keys AS f ".
-             "ON c.CONSTRAINT_NAME = f.name ".
-             "INNER JOIN sys.foreign_key_columns AS fc ".
-             "ON f.OBJECT_ID = fc.constraint_object_id ".
+    $query = 'USE '.$database.'; '.
+             'SELECT c.CONSTRAINT_NAME AS '.o2_mssql_o.'CN'.o2_mssql_c.', '.
+             'c.TABLE_NAME AS '.o2_mssql_o.'ON'.o2_mssql_c.', '.
+             'COL_NAME(fc.parent_object_id, fc.parent_column_id) AS '.
+                                                          o2_mssql_o.'SK'.o2_mssql_c.', '.
+             'OBJECT_NAME (f.referenced_object_id) AS '.o2_mssql_o.'TO'.o2_mssql_c.', '.
+             'COL_NAME(fc.referenced_object_id, fc.referenced_column_id) AS '.
+                                                           o2_mssql_o.'TK'.o2_mssql_c.' '.
+             'FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS c '.
+             'INNER JOIN sys.foreign_keys AS f '.
+             'ON c.CONSTRAINT_NAME = f.name '.
+             'INNER JOIN sys.foreign_key_columns AS fc '.
+             'ON f.OBJECT_ID = fc.constraint_object_id '.
              "WHERE c.CONSTRAINT_CATALOG='".$database."' AND ".
                    "c.CONSTRAINT_SCHEMA='".$owner."'";
     try {
@@ -2006,14 +1979,14 @@ function o2_mssql_fkeysinfo($server,
         }
     $list = array();
     foreach ($res as $c) {
-        if (!isset($list[$c["CN"]])) {
-            $list[$c["CN"]] = array("ON" => $c["ON"],
-                                    "TO" => $c["TO"],
-                                    "SK" => array(),
-                                    "TK" => array());
+        if (!isset($list[$c['CN']])) {
+            $list[$c['CN']] = array('ON' => $c['ON'],
+                                    'TO' => $c['TO'],
+                                    'SK' => array(),
+                                    'TK' => array());
             }
-        $list[$c["CN"]]["SK"][] = $c["SK"];
-        $list[$c["CN"]]["TK"][] = $c["TK"];
+        $list[$c['CN']]['SK'][] = $c['SK'];
+        $list[$c['CN']]['TK'][] = $c['TK'];
         }
     return $list;
 
@@ -2033,7 +2006,7 @@ function o2_mssql_commit($server, $user, $password, $end = false) {
     $app = $_SESSION['o2_app'];
     // ____________________________________ Isolated transaction: start new connection ___
     if ($app->isolated_trans) {
-        $key = $server.$user."jxext";
+        $key = $server.$user.'jxext';
         }
     // _____________________________ In current transaction: use persistent connection ___
     else {
@@ -2059,11 +2032,13 @@ function o2_mssql_commit($server, $user, $password, $end = false) {
 					}
 				}
 			$GLOBALS['o2_mssql_stms'] = array();
-            if (!$GLOBALS['o2_mssql_conn'][$key]->commit()) {
-                $err = $GLOBALS['o2_mssql_conn'][$key]->errorInfo();
-                throw new o2_exception("<b>MSSQL</b> server: <i>".$server."</i><hr />".
-                                       $err[2],
-                                       o2error_DBCOMMIT);
+            try {
+                $GLOBALS['o2_mssql_conn'][$key]->commit();
+                }
+            catch (Exception $o2e) {
+                throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
+                                        '</i><hr>'.$o2e->getMessage(),
+                                        o2error_DBCOMMIT);
                 }
             }
         unset($GLOBALS['o2_mssql_trans'][$key]);

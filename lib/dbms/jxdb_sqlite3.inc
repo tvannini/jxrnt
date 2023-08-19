@@ -30,15 +30,15 @@
  */
 
 
-if (!extension_loaded("pdo_sqlite")) {
-    throw new o2_exception("<b>SQLite3 PDO</b> driver not loaded:<br>".
-                           "check your PHP configuration for ".
-                           "<i>pdo</i> and <i>pdo_sqlite</i> extensions.",
+if (!extension_loaded('pdo_sqlite')) {
+    throw new o2_exception('<b>SQLite3 PDO</b> driver not loaded:<br>'.
+                           'check your PHP configuration for '.
+                           '<i>pdo</i> and <i>pdo_sqlite</i> extensions.',
                            o2error_DBCONNECT);
     }
 
-define("o2_sqlite3_o", "`");
-define("o2_sqlite3_c", "`");
+define('o2_sqlite3_o', '`');
+define('o2_sqlite3_c', '`');
 $GLOBALS['o2_sqlite3_conn']  = array();
 $GLOBALS['o2_sqlite3_trans'] = array();
 $GLOBALS['o2_sqlite3_stms']  = array();
@@ -81,9 +81,9 @@ function o2_sqlite3_concat($strings) {
  * @param  string $string
  * @return string
  */
-function o2_sqlite3_qualify($database, $owner, $name = "") {
+function o2_sqlite3_qualify($database, $owner, $name = '') {
 
-    return o2_sqlite3_o.$database.($name ? $name.o2_sqlite3_c : "");
+    return o2_sqlite3_o.$database.($name ? $name.o2_sqlite3_c : '');
 
     }
 
@@ -102,7 +102,7 @@ function o2_sqlite3_connect($location, $user, $password, $trans) {
     $app = $_SESSION['o2_app'];
     // ______________________________________________ Prevent blank and relative names ___
     if (!$location) {
-        $location = $app->dir_data.$app->nome.".db";
+        $location = $app->dir_data.$app->nome.'.db';
         }
     // _________________________________________________________ Session physical file ___
     elseif (strpos(':session:', strtolower($location)) === 0) {
@@ -113,49 +113,53 @@ function o2_sqlite3_connect($location, $user, $password, $trans) {
             $location = $app->dir_tmp.substr($location, 9);
             }
         }
-    elseif (strpos(":memory:", strtolower($location)) === false &&
+    elseif (strpos(':memory:', strtolower($location)) === false &&
             basename($location) == $location) {
         $location = $app->dir_data.$location;
         }
     // _________________________________________________ Check for existing connection ___
     if (!isset($GLOBALS['o2_sqlite3_conn'][$location])) {
         // _____________________________________________________ Create new connection ___
-        if (!($conn_local = new PDO("sqlite:".$location,
-                                    null,
-                                    null,
-                                    array(PDO::ATTR_PERSISTENT => false)))) {
-            $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr>".
-                                   $err[2],
+        try {
+            $conn_local = new PDO('sqlite:'.$location,
+                                  null,
+                                  null,
+                                  array(PDO::ATTR_PERSISTENT => false,
+                                        PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION));
+            }
+        catch (Exception $o2e) {
+            throw new o2_exception('<b>SQLite3</b> server: <i>'.$location.'</i><hr>'.
+                                   $o2e->getMessage(),
                                    o2error_DBCONNECT);
             }
         // ______________________________________________ Create transaction if needed ___
         if ($trans) {
-            if (!$conn_local->beginTransaction()) {
-                $err = $conn_local->errorInfo();
-                throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr>".
-                                       $err[2],
+            try {
+                $conn_local->beginTransaction();
+                }
+            catch (Exception $o2e) {
+                throw new o2_exception('<b>SQLite3</b> server: <i>'.$location.'</i><hr>'.
+                                       $o2e->getMessage(),
                                        o2error_DBCONNECT);
                 }
-            else {
-                $GLOBALS['o2_sqlite3_trans'][$location] = true;
-                }
+            $GLOBALS['o2_sqlite3_trans'][$location] = true;
             }
+        // ___________________________________________________________ Save connection ___
         $GLOBALS['o2_sqlite3_conn'][$location] = $conn_local;
         }
     // _________________________________________________________ Check for transaction ___
     elseif ($trans && !isset($GLOBALS['o2_sqlite3_trans'][$location])) {
         $conn_local = $GLOBALS['o2_sqlite3_conn'][$location];
         // _________________________________ Create transaction on existing connection ___
-        if (!$conn_local->beginTransaction()) {
-            $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>SQLite3</b> server: <i>".$location."</i><hr>".
-                                   $err[2],
+        try {
+            $conn_local->beginTransaction();
+            }
+        catch (Exception $o2e) {
+            throw new o2_exception('<b>SQLite3</b> server: <i>'.$location.'</i><hr>'.
+                                   $o2e->getMessage(),
                                    o2error_DBCONNECT);
             }
-        else {
-            $GLOBALS['o2_sqlite3_trans'][$location] = true;
-            }
+        $GLOBALS['o2_sqlite3_trans'][$location] = true;
         }
     return $GLOBALS['o2_sqlite3_conn'][$location];
 
@@ -219,14 +223,16 @@ function o2_sqlite3_execute($query,
     if ($only_exe) {
         // __________________________________________________ Get connection to server ___
         $conn = o2_sqlite3_connect($server, $user, $password, $trans);
-        $res  = $conn->exec($query);
-        // ______________________________________________________ On execution failure ___
-        if ($res === false) {
-            $err = $conn->errorInfo();
+        try {
+            $res = $conn->exec($query);
+            }
+        // ____________________________________________________ On execution exception ___
+		catch (Exception $o2e) {
             $conn->rollBack && @$conn->rollBack();
-            throw new o2_exception("<b>SQLite3</b> server: <i>".$server.
-                                   "</i><br>query: <code>".$query."</code><hr>".
-                                   $err[2],
+            $res = false;
+            throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                                   '</i><br>query: <code>'.$query.'</code><hr>'.
+                                   $o2e->getMessage(),
                                    o2error_DBEXECUTE);
             return false;
             }
@@ -234,73 +240,93 @@ function o2_sqlite3_execute($query,
         }
     // ________________________________________________________ Queries returning data ___
     else {
+        // __________________________________________________ Get connection to server ___
+        $conn = o2_sqlite3_connect($server, $user, $password, $trans);
         $loop = ($stm || ($stm === 0));
         if (!$stm) {
-            // ______________________________________________ Get connection to server ___
-            $conn = o2_sqlite3_connect($server, $user, $password, $trans);
-            // _________________ Create prepared statement for reusing with parameters ___
-            if ($prepared_pars) {
-                // ______________________ Create statement and check execution failure ___
-                if (!($stm = $conn->prepare($query))) {
-                    $err = $conn->errorInfo();
-                    $conn->rollBack && @$conn->rollBack();
-                    throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
-                                           '</i><br>Error preparing statement.'.
-                                           '<br>query: <code>'.$query.'</code><hr>'.
-                                           $err[2],
-                                           o2error_DBDATAQUERY);
-                    return false;
+            try {
+                // _____________ Create prepared statement for reusing with parameters ___
+                if ($prepared_pars) {
+                    // __________________ Create statement and check execution failure ___
+                    $stm = $conn->prepare($query);
+                    }
+                // _________________________ Create statement for reusing for fetching ___
+                else {
+                    // ______________________________________________ Create statement ___
+                    $stm = $conn->query($query);
                     }
                 }
-            // _____________________________ Create statement for reusing for fetching ___
-            else {
-                // ______________________ Create statement and check execution failure ___
-                if (!($stm = $conn->query($query))) {
-                    $err = $conn->errorInfo();
-                    $conn->rollBack && @$conn->rollBack();
-                    throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
-                                           '</i><br>query: <code>'.$query.'</code><hr>'.
-                                           $err[2],
-                                           o2error_DBDATAQUERY);
-                    return false;
-                    }
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
+                $conn->rollBack && @$conn->rollBack();
+                throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                                       '</i><br>query: <code>'.$query.'</code><hr>'.
+                                       $o2e->getMessage(),
+                                       o2error_DBDATAQUERY);
+                return false;
                 }
             }
         // _______________________ If statement is prepared execute it with parameters ___
         if ($prepared_pars) {
-            $stm->execute($prepared_pars);
+            try {
+                $stm->execute($prepared_pars);
+                }
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
+                $conn->rollBack && @$conn->rollBack();
+				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
+                throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                                       '</i>'.$q.'<hr>'.$o2e->getMessage(),
+                                       o2error_DBDATAQUERY);
+                return false;
+                }
             }
         // ____________________________________________________________ Return dataset ___
         if ($loop) {
             $set = array();
             $num = 0;
-            while ((!$limit || $num < $limit) && ($row = $stm->fetch(PDO::FETCH_ASSOC))) {
-                $num++;
-                $set[] = $row;
+            try {
+                while ((!$limit || $num < $limit) &&
+                       ($row = $stm->fetch(PDO::FETCH_ASSOC))) {
+                    $num++;
+                    $set[] = $row;
+                    }
+                if ($limit && $num < $limit && !$prepared_pars) {
+                    $stm->closeCursor();
+                    $stm = null;
+                    }
+                return $set;
                 }
-            if ($limit && $num < $limit && !$prepared_pars) {
-                $stm->closeCursor();
-                $stm = null;
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
+                $conn->rollBack && @$conn->rollBack();
+				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
+                throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                                       '</i>'.$q.'<hr>'.$o2e->getMessage(),
+                                       o2error_DBDATAQUERY);
+                return false;
                 }
-            return $set;
             }
         else {
-            $data  = $stm->fetchAll(PDO::FETCH_ASSOC);
-            $err_c = $stm->errorCode();
-            // _____________________________________ Error on statement (during fetch) ___
-            if ($err_c != '00000') {
-                $err = $stm->errorInfo();
-                $conn->rollBack && @$conn->rollBack();
-                throw new o2_exception("<b>SQLite3</b> server: <i>".$server.
-                                       "</i><br>query: <code>".$query."</code><hr>".
-                                       $err[2],
-                                       o2error_DBDATAQUERY);
+            try {
+                $data  = $stm->fetchAll(PDO::FETCH_ASSOC);
+                if (!$prepared_pars) {
+                    $stm->closeCursor();
+                    $stm = null;
+                    }
+                return $data;
                 }
-            if (!$prepared_pars) {
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
                 $stm->closeCursor();
                 $stm = null;
+                $conn->rollBack && @$conn->rollBack();
+                throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                                       '</i><br>query: <code>'.$query.
+                                       '</code><hr>'.$o2e->getMessage(),
+                                       o2error_DBDATAQUERY);
+                return false;
                 }
-            return $data;
             }
         }
 
@@ -319,20 +345,22 @@ function o2_sqlite3_execute($query,
  */
 function o2_sqlite3_tables($server, $user, $password, $database, $owner) {
 
-    $arr_local   = array();
-    $conn_local  = o2_sqlite3_connect($server, $user, $password, false);
-    $query_local = "SELECT name FROM sqlite_master ".
-                   "WHERE (type='table' OR type='view') AND name LIKE '".$database."%'";
-    $res_local   = $conn_local->query($query_local)->fetchAll(PDO::FETCH_ASSOC);
-    if ($res_local === false) {
-        $err = $conn_local->errorInfo();
-        throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr>".$err[2],
+    $query = 'SELECT name FROM sqlite_master '.
+             "WHERE (type='table' OR type='view') AND name LIKE '".$database."%'";
+    $conn  = o2_sqlite3_connect($server, $user, $password, false);
+    try {
+        $res = $conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        }
+    catch (Exception $o2e) {
+        throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                               '</i><hr>'.$o2e->getMessage(),
                                o2error_DBTABLES);
         }
-    foreach ($res_local as $single_tab) {
-        $arr_local[] = $single_tab['name'];
+    $tables = array();
+    foreach ($res as $tab) {
+        $tables[] = $tab['name'];
         }
-    return $arr_local;
+    return $tables;
 
     }
 
@@ -350,17 +378,18 @@ function o2_sqlite3_tables($server, $user, $password, $database, $owner) {
  */
 function o2_sqlite3_tabexists($server, $user, $password, $database, $owner, $table) {
 
-    $conn_local  = o2_sqlite3_connect($server, $user, $password, false);
-    $query_local = "SELECT 1 AS IT_EXISTS FROM sqlite_master WHERE ".
-                   "(type='table' OR type='view') AND name = '".$database.$table."'";
-    $query       = $conn_local->query($query_local);
-    if ($query === false) {
-        $err = $conn_local->errorInfo();
-        throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr>".$err[2],
+    $query = 'SELECT 1 AS IT_EXISTS FROM sqlite_master WHERE '.
+             "(type='table' OR type='view') AND name = '".$database.$table."'";
+    $conn  = o2_sqlite3_connect($server, $user, $password, false);
+    try {
+        $res = $conn->query($query)->fetch(PDO::FETCH_ASSOC);
+        }
+    catch (Exception $o2e) {
+        throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                               '</i><hr>'.$o2e->getMessage(),
                                o2error_DBTABEXISTS);
         }
-    $res_local = $query->fetch(PDO::FETCH_ASSOC);
-    return (isset($res_local["IT_EXISTS"]) && $res_local["IT_EXISTS"] ? true : false);
+    return (isset($res['IT_EXISTS']) && $res['IT_EXISTS'] ? true : false);
 
     }
 
@@ -381,20 +410,21 @@ function o2_sqlite3_tabexists($server, $user, $password, $database, $owner, $tab
  */
 function o2_sqlite3_tablefields($server, $user, $password, $database, $owner, $table) {
 
-    $query_local = "PRAGMA table_info(".o2_sqlite3_o.$database.$table.o2_sqlite3_c.")";
-    $res_local   = o2_sqlite3_execute($query_local,
-                                      $server,
-                                      $user,
-                                      $password,
-                                      false,
-                                      false);
-    $arr_local   = array();
-    foreach ($res_local as $field) {
-        $arr_local[] = array('field'   => $field['name'],
-                             'type'    => $field['type'],
-                             'default' => $field['dflt_value']);
+    $query = 'PRAGMA table_info('.o2_sqlite3_o.$database.$table.o2_sqlite3_c.')';
+    try {
+        $res = o2_sqlite3_execute($query, $server, $user, $password, false, false);
         }
-    return $arr_local;
+    catch (o2_exception $o2e) {
+        $o2e->set_error_class(o2error_DBTABLEINFO);
+        throw $o2e;
+        }
+    $arr = array();
+    foreach ($res as $field) {
+        $arr[] = array('field'   => $field['name'],
+                       'type'    => $field['type'],
+                       'default' => $field['dflt_value']);
+        }
+    return $arr;
 
     }
 
@@ -416,7 +446,7 @@ function o2_sqlite3_tablefields($server, $user, $password, $database, $owner, $t
 function o2_sqlite3_tableindexes($server, $user, $password, $database, $owner, $table) {
 
     $ret_val     = array();
-    $query_local = "PRAGMA index_list(".o2_sqlite3_o.$database.$table.o2_sqlite3_c.")";
+    $query_local = 'PRAGMA index_list('.o2_sqlite3_o.$database.$table.o2_sqlite3_c.')';
     try {
         $res_local = o2_sqlite3_execute($query_local,
                                         $server,
@@ -426,25 +456,24 @@ function o2_sqlite3_tableindexes($server, $user, $password, $database, $owner, $
                                         false);
         }
     catch (o2_exception $o2e) {
-        $res_local = array();
         $o2e->set_error_class(o2error_DBTABLEINFO);
         throw $o2e;
         }
     foreach ($res_local as $single_key) {
         $key_name = $single_key['name'];
-        if ($key_name != $database.$table."_PK" &&
-            !strpos(strtoupper($key_name), "AUTOINDEX")) {
+        if ($key_name != $database.$table.'_PK' &&
+            !strpos(strtoupper($key_name), 'AUTOINDEX')) {
             if (!isset($ret_val[$key_name])) {
-                $ret_val[str_replace($database.$table."_", "", $key_name)] =
+                $ret_val[str_replace($database.$table.'_', '', $key_name)] =
                           array('unique' => $single_key['unique'], 'segments' => array());
                 }
-            $query_local = "PRAGMA index_info(".o2_sqlite3_o.$key_name.o2_sqlite3_c.")";
-            $query_info  = "SELECT ".o2_sqlite3_o."sql".o2_sqlite3_c." ".
-                                     o2_sqlite3_o."SQL".o2_sqlite3_c.
-                           " FROM ".o2_sqlite3_o."sqlite_master".o2_sqlite3_c.
-                           " WHERE ".o2_sqlite3_o."type".o2_sqlite3_c."='index' and ".
-                           o2_sqlite3_o."tbl_name".o2_sqlite3_o."='".$table."' and ".
-                           o2_sqlite3_o."name".o2_sqlite3_c."='".$key_name."'";
+            $query_local = 'PRAGMA index_info('.o2_sqlite3_o.$key_name.o2_sqlite3_c.')';
+            $query_info  = 'SELECT '.o2_sqlite3_o.'sql'.o2_sqlite3_c.' '.
+                                     o2_sqlite3_o.'SQL'.o2_sqlite3_c.
+                           ' FROM '.o2_sqlite3_o.'sqlite_master'.o2_sqlite3_c.
+                           ' WHERE '.o2_sqlite3_o.'type'.o2_sqlite3_c."='index' and ".
+                           o2_sqlite3_o.'tbl_name'.o2_sqlite3_o."='".$table."' and ".
+                           o2_sqlite3_o.'name'.o2_sqlite3_c."='".$key_name."'";
             try {
                 $res_key  = o2_sqlite3_execute($query_local,
                                                $server,
@@ -460,7 +489,6 @@ function o2_sqlite3_tableindexes($server, $user, $password, $database, $owner, $
                                                false);
                 }
             catch (o2_exception $o2e) {
-                $res_key = array();
                 $o2e->set_error_class(o2error_DBTABLEINFO);
                 throw $o2e;
                 }
@@ -470,7 +498,7 @@ function o2_sqlite3_tableindexes($server, $user, $password, $database, $owner, $
                            ' (ASC|DESC)/',
                            $key_info[0]['SQL'],
                            $parts);
-                $ret_val[str_replace($database.$table."_", "", $key_name)]['segments']+=
+                $ret_val[str_replace($database.$table.'_', '', $key_name)]['segments']+=
                     array($single_segment['seqno'] =>
                           array('column' => $single_segment['name'],
                                 'dir'    => $parts[1] == 'ASC' ? 'A' : 'D'));
@@ -510,34 +538,29 @@ function o2_sqlite3_insertfrom($server,
                                $owner_to,
                                $table_to,
                                $values,
-                               $where = "") {
+                               $where = '') {
 
-    $list_from = "";
-    $list_to   = "";
+    $list_from = '';
+    $list_to   = '';
     foreach ($values as $field_from => $field_to) {
-        $sep = ($list_from ? "," : "");
-        if ($field_from == "@o2CloneArea") {
+        $sep = ($list_from ? ',' : '');
+        if ($field_from == '@o2CloneArea') {
             $list_from.= $sep.$field_to;
-            $list_to  .= $sep."O2ASPID";
+            $list_to  .= $sep.'O2ASPID';
             }
         else {
             $list_from.= $sep.$field_from;
             $list_to  .= $sep.$field_to;
             }
         }
-    $query_local = "INSERT INTO ".o2_sqlite3_o.$database_to.$table_to.o2_sqlite3_c.
-                   " (".$list_to.") SELECT ".$list_from.
-                   " FROM ".o2_sqlite3_o.$database_from.$table_from.o2_sqlite3_c;
+    $query = 'INSERT INTO '.o2_sqlite3_o.$database_to.$table_to.o2_sqlite3_c.
+             ' ('.$list_to.') SELECT '.$list_from.
+             ' FROM '.o2_sqlite3_o.$database_from.$table_from.o2_sqlite3_c;
     if ($where) {
-       $query_local.= " WHERE ".$where;
+       $query.= ' WHERE '.$where;
        }
     try {
-        $aff_rows = o2_sqlite3_execute($query_local,
-                                       $server,
-                                       $user,
-                                       $password,
-                                       true,
-                                       true);
+        $aff_rows = o2_sqlite3_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBTABLECOPY);
@@ -562,7 +585,7 @@ function o2_sqlite3_insertfrom($server,
  */
 function o2_sqlite3_droptable($server, $user, $password, $database, $owner, $table) {
 
-    $query_local = "DROP TABLE ".o2_sqlite3_o.$database.$table.o2_sqlite3_c;
+    $query_local = 'DROP TABLE '.o2_sqlite3_o.$database.$table.o2_sqlite3_c;
     try {
         o2_sqlite3_execute($query_local, $server, $user, $password, true, true);
         }
@@ -609,16 +632,16 @@ function o2_sqlite3_renametable($server,
             $arr_local = array();
             foreach ($key['segments'] as $keystructure) {
                 $arr_local[] = o2_sqlite3_o.$keystructure['column'].o2_sqlite3_c.
-                               ($keystructure['dir'] == "D" ? " DESC" : " ASC");
+                               ($keystructure['dir'] == 'D' ? ' DESC' : ' ASC');
                 }
-            $keys_query[]= "CREATE".($key['unique'] ? " UNIQUE" : "")." INDEX ".
+            $keys_query[]= 'CREATE'.($key['unique'] ? ' UNIQUE' : '').' INDEX '.
                            o2_sqlite3_o.$database.$new_name."_".$keyname.o2_sqlite3_c.
-                           " ON ".o2_sqlite3_o.$database.$new_name.o2_sqlite3_c." (".
-                           implode(",", $arr_local).")\n";
+                           ' ON '.o2_sqlite3_o.$database.$new_name.o2_sqlite3_c.' ('.
+                           implode(',', $arr_local).")\n";
             }
         // _____________________________________________________ Drop existing indexes ___
-        $query_local = "PRAGMA index_list(".o2_sqlite3_o.$database.$table.o2_sqlite3_c.
-                       ")";
+        $query_local = 'PRAGMA index_list('.o2_sqlite3_o.$database.$table.o2_sqlite3_c.
+                       ')';
         $res_local   = o2_sqlite3_execute($query_local,
                                           $server,
                                           $user,
@@ -627,8 +650,8 @@ function o2_sqlite3_renametable($server,
                                           false);
         foreach ($res_local as $single_key) {
             $key_name = $single_key['name'];
-            if (stripos($key_name, "sqlite_autoindex") === false) {
-                o2_sqlite3_execute("DROP INDEX ".o2_sqlite3_o.$key_name.o2_sqlite3_c,
+            if (stripos($key_name, 'sqlite_autoindex') === false) {
+                o2_sqlite3_execute('DROP INDEX '.o2_sqlite3_o.$key_name.o2_sqlite3_c,
                                    $server,
                                    $user,
                                    $password,
@@ -637,8 +660,8 @@ function o2_sqlite3_renametable($server,
                 }
             }
         // _____________________________________ Rename table and recreate new indexes ___
-        $query_local = "ALTER TABLE ".o2_sqlite3_o.$database.$table.o2_sqlite3_c.
-                       " RENAME TO ".o2_sqlite3_o.$database.$new_name.o2_sqlite3_c;
+        $query_local = 'ALTER TABLE '.o2_sqlite3_o.$database.$table.o2_sqlite3_c.
+                       ' RENAME TO '.o2_sqlite3_o.$database.$new_name.o2_sqlite3_c;
         o2_sqlite3_execute($query_local, $server, $user, $password, true, true);
         foreach ($keys_query as $single_query) {
             o2_sqlite3_execute($single_query, $server, $user, $password, true, true);
@@ -723,83 +746,83 @@ function o2_sqlite3_createtable($server,
                                 $structure,
                                 $execute = true) {
 
-    $query_local = "CREATE TABLE ".o2_sqlite3_o.$database.$table.o2_sqlite3_c." (\n";
-    $type        = "";
-    $default     = "";
-    foreach ($structure["fields"] as $field_name => $field_prop) {
-        switch ($field_prop["type"]) {
-            case "A":
-                if ($field_prop["size"] <= 255) {
-                    $type = "varchar(".$field_prop["size"].")";
+    $query_local = 'CREATE TABLE '.o2_sqlite3_o.$database.$table.o2_sqlite3_c." (\n";
+    $type        = '';
+    $default     = '';
+    foreach ($structure['fields'] as $field_name => $field_prop) {
+        switch ($field_prop['type']) {
+            case 'A':
+                if ($field_prop['size'] <= 255) {
+                    $type = 'varchar('.$field_prop['size'].')';
                     }
-                elseif ($field_prop["size"] <= 65530) {
-                    $type = "text";
+                elseif ($field_prop['size'] <= 65530) {
+                    $type = 'text';
                     }
                 else {
-                    $type = "longtext";
+                    $type = 'longtext';
                     }
                 $default = "''";
                 break;
-            case "N":
-                $type    = ($field_prop["dec"] ?
-                            "numeric(".($field_prop["int"] + $field_prop["dec"]).", ".
-                                        $field_prop["dec"].")" :
-                            ($field_prop["int"] > 9 ?
-                             "bigint(".$field_prop["int"].")" :
-                             "integer"));
-                $default = "0";
+            case 'N':
+                $type    = ($field_prop['dec'] ?
+                            'numeric('.($field_prop['int'] + $field_prop['dec']).', '.
+                                        $field_prop['dec'].')' :
+                            ($field_prop['int'] > 9 ?
+                             'bigint('.$field_prop['int'].')' :
+                             'integer'));
+                $default = '0';
                 break;
-            case "L":
-                $type    = "char(1)";
+            case 'L':
+                $type    = 'char(1)';
                 $default = "'0'";
                 break;
-            case "D":
-                $type    = "char(8)";
+            case 'D':
+                $type    = 'char(8)';
                 $default = "'00000000'";
                 break;
-            case "T":
-                $type    = "char(6)";
+            case 'T':
+                $type    = 'char(6)';
                 $default = "'000000'";
                 break;
-            case "S":
-                $type    = "text";
+            case 'S':
+                $type    = 'text';
                 $default = "''";
                 break;
             }
-        $query_local.= $field_name." ".$type." NOT NULL DEFAULT ".$default.",\n";
+        $query_local.= $field_name.' '.$type.' NOT NULL DEFAULT '.$default.",\n";
         }
     // ___________________________________________________________________ Primary key ___
     $arr_local = array();
-    foreach ($structure["primary"] as $pk_name => $pk_segments) {
+    foreach ($structure['primary'] as $pk_name => $pk_segments) {
         foreach ($pk_segments as $field_name => $direction) {
-            $arr_local[] = $field_name.($direction == "D" ? " DESC" : " ASC");
+            $arr_local[] = $field_name.($direction == 'D' ? ' DESC' : ' ASC');
             }
         break;
         }
-    $query_local.= "CONSTRAINT ".$database.$table."_PK PRIMARY KEY (".
-                   implode(",", $arr_local)."))\n";
+    $query_local.= 'CONSTRAINT '.$database.$table.'_PK PRIMARY KEY ('.
+                   implode(',', $arr_local)."))\n";
     $indexes_queries = array();
     // ________________________________________________________________ Unique indexes ___
-    foreach ($structure["keys"] as $index_name => $index_segs) {
+    foreach ($structure['keys'] as $index_name => $index_segs) {
         $arr_local = array();
         foreach ($index_segs as $field_name => $direction) {
-            $arr_local[] = $field_name.($direction == "D" ? " DESC" : " ASC");
+            $arr_local[] = $field_name.($direction == 'D' ? ' DESC' : ' ASC');
             }
-        $indexes_queries[]= "CREATE UNIQUE INDEX ".
-                            o2_sqlite3_o.$database.$table."_".$index_name.o2_sqlite3_c.
-                            " ON ".o2_sqlite3_o.$database.$table.o2_sqlite3_c." (".
-                            implode(",", $arr_local).")\n";
+        $indexes_queries[]= 'CREATE UNIQUE INDEX '.
+                            o2_sqlite3_o.$database.$table.'_'.$index_name.o2_sqlite3_c.
+                            ' ON '.o2_sqlite3_o.$database.$table.o2_sqlite3_c.' ('.
+                            implode(',', $arr_local).")\n";
         }
     // ____________________________________________________________ Not unique indexes ___
-    foreach ($structure["indexes"] as $index_name => $index_segs) {
+    foreach ($structure['indexes'] as $index_name => $index_segs) {
         $arr_local = array();
         foreach ($index_segs as $field_name => $direction) {
-            $arr_local[] = $field_name.($direction == "D" ? " DESC" : " ASC");
+            $arr_local[] = $field_name.($direction == 'D' ? ' DESC' : ' ASC');
             }
-        $indexes_queries[]= "CREATE INDEX ".
-                            o2_sqlite3_o.$database.$table."_".$index_name.o2_sqlite3_c.
-                            " ON ".o2_sqlite3_o.$database.$table.o2_sqlite3_c." (".
-                            implode(",", $arr_local).")\n";
+        $indexes_queries[]= 'CREATE INDEX '.
+                            o2_sqlite3_o.$database.$table.'_'.$index_name.o2_sqlite3_c.
+                            ' ON '.o2_sqlite3_o.$database.$table.o2_sqlite3_c.' ('.
+                            implode(',', $arr_local).")\n";
         }
     if ($execute) {
         try {
@@ -851,29 +874,29 @@ function o2_sqlite3_aggregate($server,
                               $functions,
                               $links = null) {
 
-    $functions_list = "";
+    $functions_list = '';
     foreach ($functions as $func_name => $single_func) {
-        $functions_list.= ($functions_list ? "," : "").$single_func["func"].
-                          "(".$single_func["field"].
-                          ") AS ".o2_sqlite3_o.$func_name.o2_sqlite3_c;
+        $functions_list.= ($functions_list ? ',' : '').
+                           $single_func['func'].'('.$single_func['field'].
+                          ') AS '.o2_sqlite3_o.$func_name.o2_sqlite3_c;
         }
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
+    if (substr($table, 0, 1) != '(') {
         $table = o2_sqlite3_o.$database.$table.o2_sqlite3_c;
         }
-    $query = "SELECT ".$functions_list.
-             " FROM ".$table." AS ".o2_sqlite3_o.$table_alias.o2_sqlite3_c;
+    $query = 'SELECT '.$functions_list.
+             ' FROM '.$table.' AS '.o2_sqlite3_o.$table_alias.o2_sqlite3_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
             // _________________________________ Insert database in table name, if any ___
             if ($database) {
                 $linktab = substr($linktab, 0, 1).$database.substr($linktab, 1);
                 }
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     try {
         $res_local = o2_sqlite3_execute($query, $server, $user, $password, false);
@@ -915,35 +938,30 @@ function o2_sqlite3_verifyrec($server,
                               $order_by) {
 
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
+    if (substr($table, 0, 1) != '(') {
         $table = o2_sqlite3_o.$database.$table.o2_sqlite3_c;
         }
-    $query_local = "SELECT ".$select_str." FROM ".$table.
-                   " AS ".o2_sqlite3_o.$table_alias.o2_sqlite3_c;
+    $query = 'SELECT '.$select_str.' FROM '.$table.
+             ' AS '.o2_sqlite3_o.$table_alias.o2_sqlite3_c;
     if ($where) {
-        $query_local.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     if ($order_by) {
-        $query_local.= " ORDER BY ".$order_by;
+        $query.= ' ORDER BY '.$order_by;
         }
-    $query_local.=" LIMIT 1";
+    $query.= ' LIMIT 1';
     try {
-        $res_local = o2_sqlite3_execute($query_local,
-                                        $server,
-                                        $user,
-                                        $password,
-                                        false,
-                                        false);
+        $res = o2_sqlite3_execute($query, $server, $user, $password, false, false);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBRECQUERY);
         throw $o2e;
         }
-    if (!$res_local || $res_local === array()) {
+    if (!$res || $res === array()) {
         return false;
         }
     else {
-        return $res_local[0];
+        return $res[0];
         }
 
     }
@@ -980,14 +998,14 @@ function o2_sqlite3_modifyrec($server,
 
     $upd_str = '';
     foreach ($sets as $field => $value) {
-        $upd_str.= ($upd_str != "" ? "," : "").$field." = ".$value;
+        $upd_str.= ($upd_str ? ',' : '').$field.' = '.$value;
         }
     // ____________________________ SQLite does not support alias for UPDATE statement ___
-    $where       = str_replace(o2_sqlite3_o.$table_alias.o2_sqlite3_c.".", "", $where);
-    $query_local = "UPDATE ".o2_sqlite3_o.$database.$table.o2_sqlite3_c.
-                   " SET ".$upd_str." WHERE ".$where;
+    $where = str_replace(o2_sqlite3_o.$table_alias.o2_sqlite3_c.'.', '', $where);
+    $query = 'UPDATE '.o2_sqlite3_o.$database.$table.o2_sqlite3_c.
+             ' SET '.$upd_str.' WHERE '.$where;
     try {
-        o2_sqlite3_execute($query_local, $server, $user, $password, true, true);
+        o2_sqlite3_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBRECUPDATE);
@@ -1022,8 +1040,8 @@ function o2_sqlite3_insertrec($server,
                               $fields,
                               $values) {
 
-    $query_local = "INSERT INTO ".o2_sqlite3_o.$database.$table.o2_sqlite3_c.
-                   " (".implode(",", $fields).") VALUES (".implode(",", $values).")";
+    $query_local = 'INSERT INTO '.o2_sqlite3_o.$database.$table.o2_sqlite3_c.
+                   ' ('.implode(',', $fields).') VALUES ('.implode(',', $values).')';
     try {
         o2_sqlite3_execute($query_local, $server, $user, $password, true, true);
         }
@@ -1058,11 +1076,11 @@ function o2_sqlite3_deleterec($server,
                               $table_alias,
                               $where) {
 
-    $query = "DELETE FROM ".o2_sqlite3_o.$database.$table.o2_sqlite3_c;
+    $query = 'DELETE FROM '.o2_sqlite3_o.$database.$table.o2_sqlite3_c;
     if ($where) {
         // ________________________ SQLite does not support alias for DELETE statement ___
-        $where = str_replace(o2_sqlite3_o.$table_alias.o2_sqlite3_c.".", "", $where);
-        $query.= " WHERE ".$where;
+        $where = str_replace(o2_sqlite3_o.$table_alias.o2_sqlite3_c.'.', '', $where);
+        $query.= ' WHERE '.$where;
         }
     // _________________________________________ Return SQL query instead of executing ___
     if (isset($GLOBALS['jxviewsql'])) {
@@ -1106,22 +1124,22 @@ function o2_sqlite3_count($server,
                           $links = null) {
 
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
+    if (substr($table, 0, 1) != '(') {
         $table = o2_sqlite3_o.$database.$table.o2_sqlite3_c;
         }
-    $query = "SELECT COUNT(*) AS COMPUTED FROM ".$table.
-             " AS ".o2_sqlite3_o.$table_alias.o2_sqlite3_c;
+    $query = 'SELECT COUNT(*) AS COMPUTED FROM '.$table.
+             ' AS '.o2_sqlite3_o.$table_alias.o2_sqlite3_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
             // _________________________________ Insert database in table name, if any ___
             if ($database) {
                 $linktab = substr($linktab, 0, 1).$database.substr($linktab, 1);
                 }
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     // _____________________________________________________________________ SQL trace ___
     if ($_SESSION['o2_app']->sqltrace) {
@@ -1129,18 +1147,19 @@ function o2_sqlite3_count($server,
         }
     // ______________________________________________________ Get connection to server ___
     $conn = o2_sqlite3_connect($server, $user, $password, false);
-    // __________________________________________________________ On execution failure ___
-    if (!($res = $conn->query($query))) {
-        $err = $conn->errorInfo();
-        $rb  = $conn->rollBack;
+    try {
+        $dset = $conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        }
+    // ________________________________________________________ On execution exception ___
+    catch (Exception $o2e) {
+        $rb = $conn->rollBack;
         $rb && @$rb();
-        throw new o2_exception("<b>SQLite3</b> server: <i>".$server.
-                               "</i><br>Error counting dataset.<hr><code>".
-                               $query."</code><br><br>".$err[2],
+        throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                               '</i><br>Error counting dataset.<hr><code>'.
+                               $query.'</code><br><br>'.$o2e->getMessage(),
                                o2error_DBCOUNT);
         return false;
         }
-    $dset = $res->fetchAll(PDO::FETCH_ASSOC);
     // _____________________________________ Return integer value stored in "COMPUTED" ___
     return intval($dset[0]['COMPUTED']);
 
@@ -1450,7 +1469,7 @@ function o2_sqlite3_commit($server, $user, $password, $end = false) {
     $app = $_SESSION['o2_app'];
     // ______________________________________________ Prevent blank and relative names ___
     if (!$server) {
-        $server = $app->dir_data.$app->nome.".db";
+        $server = $app->dir_data.$app->nome.'.db';
         }
     // _________________________________________________________ Session physical file ___
     elseif (strpos(':session:', strtolower($server)) === 0) {
@@ -1461,7 +1480,7 @@ function o2_sqlite3_commit($server, $user, $password, $end = false) {
             $server = $app->dir_tmp.substr($server, 9);
             }
         }
-    elseif (strpos(":memory:", strtolower($server)) === false &&
+    elseif (strpos(':memory:', strtolower($server)) === false &&
             basename($server) == $server) {
         $server = $app->dir_data.$server;
         }
@@ -1488,10 +1507,12 @@ function o2_sqlite3_commit($server, $user, $password, $end = false) {
                     }
                 $GLOBALS['o2_sqlite3_stms'] = array();
                 }
-            if (!$GLOBALS['o2_sqlite3_conn'][$server]->commit()) {
-                $err = $GLOBALS['o2_sqlite3_conn'][$server]->errorInfo();
-                throw new o2_exception("<b>SQLite3</b> server: <i>".$server."</i><hr>".
-                                       $err[2],
+            try {
+                $GLOBALS['o2_sqlite3_conn'][$server]->commit();
+                }
+            catch (Exception $o2e) {
+                throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
+                                       '</i><hr>'.$o2e->getMessage(),
                                        o2error_DBCOMMIT);
                 }
             }

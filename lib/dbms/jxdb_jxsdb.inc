@@ -60,7 +60,7 @@ function o2_jxsdb_normalize($string, $untrim = false) {
  */
 function o2_jxsdb_concat($strings) {
 
-    return o2_jxsdb_execute('concat', json_encode($strings));
+    return o2_jxsdb_execute('concat', json_encode($strings), '', '');
 
     }
 
@@ -167,8 +167,6 @@ function o2_jxsdb_execute($server, $user, $password, $cmd) {
         }
     // ______________________________________________________ Get connection to server ___
     if ($conn = o2_jxsdb_connect($server, $user, $password)) {
-//      $data['dev'] = 'tommaso';
-//      $data['jxtrace'] = '1';
         $res = $conn->get($data);
         // ______________________________________________________ On execution failure ___
         if ($res === false) {

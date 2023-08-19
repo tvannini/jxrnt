@@ -30,14 +30,14 @@
  */
 
 
-if (!extension_loaded("pdo_pgsql")) {
-    throw new o2_exception("<b>PostgreSQL PDO</b> driver not loaded:<br>".
-                           "check your PHP configuration for <i>pdo_pgsql</i> extension.",
+if (!extension_loaded('pdo_pgsql')) {
+    throw new o2_exception('<b>PostgreSQL PDO</b> driver not loaded:<br>'.
+                           'check your PHP configuration for <i>pdo_pgsql</i> extension.',
                            o2error_DBCONNECT);
     }
 
-define("o2_postgres_o", '"');
-define("o2_postgres_c", '"');
+define('o2_postgres_o', '"');
+define('o2_postgres_c', '"');
 $GLOBALS['o2_postgres_conn']  = array();
 $GLOBALS['o2_postgres_trans'] = array();
 $GLOBALS['o2_postgres_stms']  = array();
@@ -82,11 +82,11 @@ function o2_postgres_concat($strings) {
  * @param  string $string
  * @return string
  */
-function o2_postgres_qualify($database, $owner, $name = "") {
+function o2_postgres_qualify($database, $owner, $name = '') {
 
-    return o2_postgres_o.$database.o2_postgres_c.".".
+    return o2_postgres_o.$database.o2_postgres_c.'.'.
            o2_postgres_o.$owner.o2_postgres_c.
-           ($name ? ".".o2_postgres_o.$name.o2_postgres_c : "");
+           ($name ? '.'.o2_postgres_o.$name.o2_postgres_c : '');
 
     }
 
@@ -105,28 +105,33 @@ function o2_postgres_connect($server, $user, $password, $trans) {
     $app = $_SESSION['o2_app'];
     // ____________________________________ Isolated transaction: start new connection ___
     if ($app->isolated_trans) {
-        $key  = $server.$user."jxext";
-        $attr = array();
+        $key  = $server.$user.'jxext';
+        $attr = array(PDO::ATTR_CASE    => PDO::CASE_UPPER,
+                      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
         }
     // _____________________________ In current transaction: use persistent connection ___
     else {
         $key  = $server.$user;
-        $attr = array(PDO::ATTR_PERSISTENT => true);
+        $attr = array(PDO::ATTR_PERSISTENT => true,
+                      PDO::ATTR_CASE       => PDO::CASE_UPPER,
+                      PDO::ATTR_ERRMODE    => PDO::ERRMODE_EXCEPTION);
         }
     // _________________________________________________ Check for existing connection ___
     if (!isset($GLOBALS['o2_postgres_conn'][$key])) {
         // __________________________________________ Create new persistent connection ___
-        if (!($conn_local = new PDO("pgsql:".$server, $user, $password, $attr))) {
-            $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr>".
-                                   $err[2],
+        try {
+            $conn_local = new PDO('pgsql:'.$server, $user, $password, $attr);
+            }
+        catch (Exception $o2e) {
+            throw new o2_exception('<b>Postgres</b> server: <i>'.$server.
+                                   '</i><hr>'.$o2e->getMessage(),
                                    o2error_DBCONNECT);
             }
         // _______________________________________________________ Connection encoding ___
         if ($app->chr_encoding) {
-            switch (strtolower(str_replace(array("-", "_"), "", $app->chr_encoding))) {
-                case "windows1252":
-                case "cp1252":
+            switch (strtolower(str_replace(array('-', '_'), '', $app->chr_encoding))) {
+                case 'windows1252':
+                case 'cp1252':
                     $conn_local->exec("SET NAMES 'WIN1252'");
                     break;
                 case "utf8":
@@ -142,33 +147,32 @@ function o2_postgres_connect($server, $user, $password, $trans) {
             }
         // ______________________________________________ Create transaction if needed ___
         if ($trans) {
-            if (!$conn_local->beginTransaction()) {
-                $err = $conn_local->errorInfo();
-                throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr>".
-                                       $err[2],
+            try {
+                $conn_local->beginTransaction();
+                }
+		    catch (Exception $o2e) {
+                throw new o2_exception('<b>Postgres</b> server: <i>'.$server.
+                                       '</i><hr>'.$o2e->getMessage(),
                                        o2error_DBCONNECT);
                 }
-            else {
-                $GLOBALS['o2_postgres_trans'][$key] = true;
-                }
+            $GLOBALS['o2_postgres_trans'][$key] = true;
             }
+        // ___________________________________________________________ Save connection ___
         $GLOBALS['o2_postgres_conn'][$key] = $conn_local;
-        // _________________________________________ Try to set column names UPPERCASE ___
-        $conn_local->setAttribute(PDO::ATTR_CASE, 1);
         }
     // _________________________________________________________ Check for transaction ___
     elseif ($trans && !isset($GLOBALS['o2_postgres_trans'][$key])) {
         $conn_local = $GLOBALS['o2_postgres_conn'][$key];
         // _________________________________ Create transaction on existing connection ___
-        if (!$conn_local->beginTransaction()) {
-            $err = $conn_local->errorInfo();
-            throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr>".
-                                   $err[2],
+        try {
+            $conn_local->beginTransaction();
+            }
+        catch (Exception $o2e) {
+            throw new o2_exception('<b>Postgres</b> server: <i>'.$server.
+                                   '</i><hr>'.$o2e->getMessage(),
                                    o2error_DBCONNECT);
             }
-        else {
-            $GLOBALS['o2_postgres_trans'][$key] = true;
-            }
+        $GLOBALS['o2_postgres_trans'][$key] = true;
         }
     return $GLOBALS['o2_postgres_conn'][$key];
 
@@ -234,14 +238,16 @@ function o2_postgres_execute($query,
     if ($only_exe) {
         // __________________________________________________ Get connection to server ___
         $conn = o2_postgres_connect($server, $user, $password, $trans);
-        $res  = $conn->exec($query);
-        // ______________________________________________________ On execution failure ___
-        if ($res === false) {
-            $err = $conn->errorInfo();
+        try {
+            $res = $conn->exec($query);
+            }
+        // ____________________________________________________ On execution exception ___
+		catch (Exception $o2e) {
             $conn->rollBack && @$conn->rollBack();
-            throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                                   "</i><br>query: <code>".$query."</code><hr>".
-                                   $err[2],
+            $res = false;
+            throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
+                                   '</i><br>query: <code>'.$query.
+                                   '</code><hr>'.$o2e->getMessage(),
                                    o2error_DBEXECUTE);
             return false;
             }
@@ -249,73 +255,93 @@ function o2_postgres_execute($query,
         }
     // ________________________________________________________ Queries returning data ___
     else {
+        // __________________________________________________ Get connection to server ___
+        $conn = o2_postgres_connect($server, $user, $password, $trans);
         $loop = ($stm || ($stm === 0));
         if (!$stm) {
-            // ______________________________________________ Get connection to server ___
-            $conn = o2_postgres_connect($server, $user, $password, $trans);
-            // _________________ Create prepared statement for reusing with parameters ___
-            if ($prepared_pars) {
-                // ______________________ Create statement and check execution failure ___
-                if (!($stm = $conn->prepare($query))) {
-                    $err = $conn->errorInfo();
-                    $conn->rollBack && @$conn->rollBack();
-                    throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
-                                           '</i><br>Error preparing statement.'.
-                                           '<br>query: <code>'.$query.'</code><hr>'.
-                                           $err[2],
-                                           o2error_DBDATAQUERY);
-                    return false;
+            try {
+                // _____________ Create prepared statement for reusing with parameters ___
+                if ($prepared_pars) {
+                    // __________________ Create statement and check execution failure ___
+                    $stm = $conn->prepare($query);
+                    }
+                // _________________________ Create statement for reusing for fetching ___
+                else {
+                    // ______________________________________________ Create statement ___
+                    $stm = $conn->query($query);
                     }
                 }
-            // _____________________________ Create statement for reusing for fetching ___
-            else {
-                // ______________________ Create statement and check execution failure ___
-                if (!($stm = $conn->query($query))) {
-                    $err = $conn->errorInfo();
-                    $conn->rollBack && @$conn->rollBack();
-                    throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                                        "</i><br>query: <code>".$query."</code><hr>".
-                                        $err[2],
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
+                $conn->rollBack && @$conn->rollBack();
+                throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
+                                        '</i><br>query: <code>'.$query.
+                                        '</code><hr>'.$o2e->getMessage(),
                                         o2error_DBDATAQUERY);
-                    return false;
-                    }
+                return false;
                 }
             }
         // _______________________ If statement is prepared execute it with parameters ___
         if ($prepared_pars) {
-            $stm->execute($prepared_pars);
+            try {
+                $stm->execute($prepared_pars);
+                }
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
+                $conn->rollBack && @$conn->rollBack();
+				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
+                throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
+                                       '</i>'.$q.'<hr>'.$o2e->getMessage(),
+                                       o2error_DBDATAQUERY);
+                return false;
+                }
             }
         // ____________________________________________________________ Return dataset ___
         if ($loop) {
             $set = array();
             $num = 0;
-            while ((!$limit || $num < $limit) && ($row = $stm->fetch(PDO::FETCH_ASSOC))) {
-                $num++;
-                $set[] = $row;
+            try {
+                while ((!$limit || $num < $limit) &&
+                       ($row = $stm->fetch(PDO::FETCH_ASSOC))) {
+                    $num++;
+                    $set[] = $row;
+                    }
+                if ($limit && $num < $limit && !$prepared_pars) {
+                    $stm->closeCursor();
+                    $stm = null;
+                    }
+                return $set;
                 }
-            if ($limit && $num < $limit && !$prepared_pars) {
-                $stm->closeCursor();
-                $stm = null;
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
+                $conn->rollBack && @$conn->rollBack();
+				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
+                throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
+                                       '</i>'.$q.'<hr>'.$o2e->getMessage(),
+                                       o2error_DBDATAQUERY);
+                return false;
                 }
-            return $set;
             }
         else {
-            $data  = $stm->fetchAll(PDO::FETCH_ASSOC);
-            $err_c = $stm->errorCode();
-            // _____________________________________ Error on statement (during fetch) ___
-            if ($err_c != '00000') {
-                $err = $stm->errorInfo();
-                $conn->rollBack && @$conn->rollBack();
-                throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                                       "</i><br>query: <code>".$query."</code><hr>".
-                                       $err[2],
-                                       o2error_DBDATAQUERY);
+            try {
+                $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+                if (!$prepared_pars) {
+                    $stm->closeCursor();
+                    $stm = null;
+                    }
+                return $data;
                 }
-            if (!$prepared_pars) {
+            // ________________________________________________ On execution exception ___
+            catch (Exception $o2e) {
                 $stm->closeCursor();
                 $stm = null;
+                $conn->rollBack && @$conn->rollBack();
+                throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
+                                       '</i><br>query: <code>'.$query.
+                                       '</code><hr>'.$o2e->getMessage(),
+                                       o2error_DBDATAQUERY);
+                return false;
                 }
-            return $data;
             }
         }
 
@@ -334,7 +360,7 @@ function o2_postgres_execute($query,
  */
 function o2_postgres_tables($server, $user, $password, $database, $owner) {
 
-    $query = "SELECT table_name FROM information_schema.tables WHERE ".
+    $query = 'SELECT table_name FROM information_schema.tables WHERE '.
              "(table_type = 'BASE TABLE' OR table_type = 'VIEW') AND table_schema = '".
              $owner."'";
     try {
@@ -366,7 +392,7 @@ function o2_postgres_tables($server, $user, $password, $database, $owner) {
  */
 function o2_postgres_tabexists($server, $user, $password, $database, $owner, $table) {
 
-    $query = "SELECT 1 AS IT_EXISTS FROM information_schema.tables WHERE ".
+    $query = 'SELECT 1 AS IT_EXISTS FROM information_schema.tables WHERE '.
              "(table_type = 'BASE TABLE' OR table_type = 'VIEW') AND table_schema = '".
              $owner."' AND table_name='".$table."'";
     try {
@@ -408,13 +434,13 @@ function o2_postgres_tablefields($server, $user, $password, $database, $owner, $
         }
     $list = array();
     foreach ($res as $field) {
-        $default = explode("::", $field['COLUMN_DEFAULT'], 2);
+        $default = explode('::', $field['COLUMN_DEFAULT'], 2);
         $list[]  = array('field'   => $field['COLUMN_NAME'],
                          'type'    => $field['DATA_TYPE'].
-                                      "(".$field['CHARACTER_MAXIMUM_LENGTH'].")",
-                         'default' => str_replace("(", "",
-                                      str_replace(")", "",
-                                      str_replace("'", "", $default[0]))));
+                                      '('.$field['CHARACTER_MAXIMUM_LENGTH'].')',
+                         'default' => str_replace('(', '',
+                                      str_replace(')', '',
+                                      str_replace("'", '', $default[0]))));
         }
     return $list;
 
@@ -517,30 +543,30 @@ function o2_postgres_insertfrom($server,
                                 $owner_to,
                                 $table_to,
                                 $values,
-                                $where = "") {
+                                $where = '') {
 
-    $list_from = "";
-    $list_to   = "";
+    $list_from = '';
+    $list_to   = '';
     foreach ($values as $field_from => $field_to) {
-        $sep = ($list_from ? "," : "");
-        if ($field_from == "@o2CloneArea") {
+        $sep = ($list_from ? ',' : '');
+        if ($field_from == '@o2CloneArea') {
             $list_from.= $sep.$field_to;
-            $list_to  .= $sep."O2ASPID";
+            $list_to  .= $sep.'O2ASPID';
             }
         else {
             $list_from.= $sep.$field_from;
             $list_to  .= $sep.$field_to;
             }
         }
-    $query = "INSERT INTO ".o2_postgres_o.$database_to.o2_postgres_c.".".
-                            o2_postgres_o.$owner_to.o2_postgres_c.".".
+    $query = 'INSERT INTO '.o2_postgres_o.$database_to.o2_postgres_c.'.'.
+                            o2_postgres_o.$owner_to.o2_postgres_c.'.'.
                             o2_postgres_o.$table_to.o2_postgres_c.
-             " (".$list_to.") SELECT ".$list_from.
-             " FROM ".o2_postgres_o.$database_from.o2_postgres_c.".".
-                      o2_postgres_o.$owner_from.o2_postgres_c.".".
+             ' ('.$list_to.') SELECT '.$list_from.
+             ' FROM '.o2_postgres_o.$database_from.o2_postgres_c.'.'.
+                      o2_postgres_o.$owner_from.o2_postgres_c.'.'.
                       o2_postgres_o.$table_from.o2_postgres_c;
     if ($where) {
-       $query.= " WHERE ".$where;
+       $query.= ' WHERE '.$where;
        }
     try {
         $aff_rows = o2_postgres_execute($query, $server, $user, $password, true, true);
@@ -568,8 +594,8 @@ function o2_postgres_insertfrom($server,
  */
 function o2_postgres_droptable($server, $user, $password, $database, $owner, $table) {
 
-    $query = "DROP TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                           o2_postgres_o.$owner.o2_postgres_c.".".
+    $query = 'DROP TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                           o2_postgres_o.$owner.o2_postgres_c.'.'.
                            o2_postgres_o.$table.o2_postgres_c."\n";
     try {
         o2_postgres_execute($query, $server, $user, $password, true, true);
@@ -615,18 +641,18 @@ function o2_postgres_renametable($server,
                                         false,
                                         false);
         // ______________________________________________________________ Rename table ___
-        $query = "ALTER TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                                o2_postgres_o.$owner.o2_postgres_c.".".
+        $query = 'ALTER TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                                o2_postgres_o.$owner.o2_postgres_c.'.'.
                                 o2_postgres_o.$table.o2_postgres_c.
-                 " RENAME TO ".o2_postgres_o.$new_name.o2_postgres_c."\n";
+                 ' RENAME TO '.o2_postgres_o.$new_name.o2_postgres_c."\n";
         o2_postgres_execute($query, $server, $user, $password, true, true);
         // ____________________________________________________________ Rename indexes ___
         foreach ($idx_list as $idx) {
             $new_idx = substr($idx['INDEXNAME'], strlen($table) + 1);
-            $query   = "ALTER INDEX ".o2_postgres_o.$database.o2_postgres_c.".".
-                                      o2_postgres_o.$owner.o2_postgres_c.".".
+            $query   = 'ALTER INDEX '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                                      o2_postgres_o.$owner.o2_postgres_c.'.'.
                                       o2_postgres_o.$idx['INDEXNAME'].o2_postgres_c.
-                       " RENAME TO ".o2_postgres_o.$new_name."_".$new_idx.o2_postgres_c.
+                       ' RENAME TO '.o2_postgres_o.$new_name.'_'.$new_idx.o2_postgres_c.
                        "\n";
             o2_postgres_execute($query, $server, $user, $password, true, true);
             }
@@ -710,12 +736,10 @@ function o2_postgres_createtable($server,
                                  $structure,
                                  $execute = true) {
 
-    $query   = "CREATE TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                               o2_postgres_o.$owner.o2_postgres_c.".".
-                               o2_postgres_o.$table.o2_postgres_c." (\n";
-    $type    = "";
-    $default = "";
-    foreach ($structure["fields"] as $field_name => $field_prop) {
+    $query = 'CREATE TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                             o2_postgres_o.$owner.o2_postgres_c.'.'.
+                             o2_postgres_o.$table.o2_postgres_c." (\n";
+    foreach ($structure['fields'] as $field_name => $field_prop) {
         $query.= o2_postgres_field_create($field_name,
                                           $field_prop['type'],
                                           $field_prop['size'],
@@ -725,16 +749,16 @@ function o2_postgres_createtable($server,
     $query  = substr($query, 0, -2).")\n";
     $script = array();
     // ___________________________________________________________________ PRIMARY KEY ___
-    foreach ($structure["primary"] as $pk_name => $pk_segments) {
+    foreach ($structure['primary'] as $pk_name => $pk_segments) {
         break;
         }
-    $script["P"] = "ALTER TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                                  o2_postgres_o.$owner.o2_postgres_c.".".
+    $script['P'] = 'ALTER TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                                  o2_postgres_o.$owner.o2_postgres_c.'.'.
                                   o2_postgres_o.$table.o2_postgres_c.
-                   " ADD PRIMARY KEY (".
-                   o2_postgres_indexfields_create($pk_segments, false).")";
+                   ' ADD PRIMARY KEY ('.
+                   o2_postgres_indexfields_create($pk_segments, false).')';
     // ________________________________________________________________ UNIQUE INDEXES ___
-    foreach ($structure["keys"] as $key_name => $key_segs) {
+    foreach ($structure['keys'] as $key_name => $key_segs) {
         $script[$key_name] = o2_postgres_index_create($key_name,
                                                       $key_segs,
                                                       $table,
@@ -743,7 +767,7 @@ function o2_postgres_createtable($server,
                                                       true);
         }
     // ____________________________________________________________ NOT UNIQUE INDEXES ___
-    foreach ($structure["indexes"] as $idx_name => $idx_segs) {
+    foreach ($structure['indexes'] as $idx_name => $idx_segs) {
         $script[$idx_name] = o2_postgres_index_create($idx_name,
                                                       $idx_segs,
                                                       $table,
@@ -766,7 +790,7 @@ function o2_postgres_createtable($server,
         return true;
         }
     else {
-        return $query.";\n".implode(";", $script);
+        return $query.";\n".implode(';', $script);
         }
 
     }
@@ -785,52 +809,52 @@ function o2_postgres_createtable($server,
 function o2_postgres_field_create($name, $type, $size, $int, $dec, $for_change = false) {
 
     switch ($type) {
-        case "A":
+        case 'A':
             if ($size <= 255) {
-                $fld_type = "varchar(".$size.")";
+                $fld_type = 'varchar('.$size.')';
                 }
             else {
-                $fld_type = "text";
+                $fld_type = 'text';
                 }
             $fld_default = "''";
             break;
-        case "N":
+        case 'N':
             if ($dec) {
-                $fld_type = "numeric(".($int + $dec).", ".$dec.")";
+                $fld_type = 'numeric('.($int + $dec).', '.$dec.')';
                 }
             elseif ($int < 5) {
-                $fld_type = "SMALLINT";
+                $fld_type = 'SMALLINT';
                 }
             elseif ($int < 10) {
-                $fld_type = "INTEGER";
+                $fld_type = 'INTEGER';
                 }
             else {
-                $fld_type = "BIGINT";
+                $fld_type = 'BIGINT';
                 }
-            $fld_default = "0";
+            $fld_default = '0';
             break;
-        case "L":
-            $fld_type    = "char(1)";
+        case 'L':
+            $fld_type    = 'char(1)';
             $fld_default = "'0'";
             break;
-        case "D":
-            $fld_type    = "char(8)";
+        case 'D':
+            $fld_type    = 'char(8)';
             $fld_default = "'00000000'";
             break;
-        case "T":
-            $fld_type    = "char(6)";
+        case 'T':
+            $fld_type    = 'char(6)';
             $fld_default = "'000000'";
             break;
-        case "S":
-            $fld_type    = "text";
+        case 'S':
+            $fld_type    = 'text';
             $fld_default = "''";
             break;
         }
     if ($for_change) {
-        return $name." TYPE ".$fld_type;
+        return $name.' TYPE '.$fld_type;
         }
     else {
-        return $name." ".$fld_type." NOT NULL DEFAULT ".$fld_default;
+        return $name.' '.$fld_type.' NOT NULL DEFAULT '.$fld_default;
         }
 
     }
@@ -879,12 +903,12 @@ function o2_postgres_index_create($key_name,
  */
 function o2_postgres_indexfields_create($fields, $with_dir = true) {
 
-    $str = "";
+    $str = '';
     foreach ($fields as $field => $direction) {
-        $str.= ($str ? "," : "").$field.
-               ($with_dir ? ($direction == "D" ?
-                             " DESC NULLS LAST" :
-                             " ASC NULLS FIRST") : "");
+        $str.= ($str ? ',' : '').$field.
+               ($with_dir ? ($direction == 'D' ?
+                             ' DESC NULLS LAST' :
+                             ' ASC NULLS FIRST') : '');
         }
     return $str;
 
@@ -919,10 +943,10 @@ function o2_postgres_field_add($server,
                                $field_int,
                                $field_dec) {
 
-    $query = "ALTER TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                            o2_postgres_o.$owner.o2_postgres_c.".".
+    $query = 'ALTER TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                            o2_postgres_o.$owner.o2_postgres_c.'.'.
                             o2_postgres_o.$table.o2_postgres_c.
-             " ADD COLUMN ".o2_postgres_field_create(o2_postgres_o.$field_name.
+             ' ADD COLUMN '.o2_postgres_field_create(o2_postgres_o.$field_name.
                                                      o2_postgres_c,
                                                      $field_type,
                                                      $field_size,
@@ -959,12 +983,12 @@ function o2_postgres_field_remove($server,
                                   $table,
                                   $field_name) {
 
-    $query =  "ALTER TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                             o2_postgres_o.$owner.o2_postgres_c.".".
+    $query =  'ALTER TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                             o2_postgres_o.$owner.o2_postgres_c.'.'.
                              o2_postgres_o.$table.o2_postgres_c.
-             " DROP COLUMN ".o2_postgres_o.$field_name.o2_postgres_c;
+             ' DROP COLUMN '.o2_postgres_o.$field_name.o2_postgres_c;
     try {
-        $res = o2_postgres_execute($query, $server, $user, $password, true, true);
+        o2_postgres_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBTABLEALTER);
@@ -1045,11 +1069,11 @@ function o2_postgres_field_rename($server,
                                   $old_name,
                                   $new_name) {
 
-    $query =    "ALTER TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                               o2_postgres_o.$owner.o2_postgres_c.".".
+    $query =    'ALTER TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                               o2_postgres_o.$owner.o2_postgres_c.'.'.
                                o2_postgres_o.$table.o2_postgres_c.
-             " RENAME COLUMN ".o2_postgres_o.$old_name.o2_postgres_c.
-                        " TO ".o2_postgres_o.$new_name.o2_postgres_c;
+             ' RENAME COLUMN '.o2_postgres_o.$old_name.o2_postgres_c.
+                        ' TO '.o2_postgres_o.$new_name.o2_postgres_c;
     try {
         $res = o2_postgres_execute($query, $server, $user, $password, true, true);
         }
@@ -1087,7 +1111,7 @@ function o2_postgres_index_add($server,
 
     $quoted_segs = array();
     foreach ($key_segs as $field_name => $direction) {
-        if ($field_name != "O2ASPID") {
+        if ($field_name != 'O2ASPID') {
             $quoted_segs[o2_postgres_o.$field_name.o2_postgres_c] = $direction;
             }
         else {
@@ -1101,7 +1125,7 @@ function o2_postgres_index_add($server,
                                       $owner,
                                       $unique);
     try {
-        $res = o2_postgres_execute($query, $server, $user, $password, true, true);
+        o2_postgres_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBTABLEALTER);
@@ -1131,11 +1155,11 @@ function o2_postgres_index_remove($server,
                                   $table,
                                   $index_name) {
 
-    $query = "DROP INDEX ".o2_postgres_o.$database.o2_postgres_c.".".
-                           o2_postgres_o.$owner.o2_postgres_c.".".
+    $query = 'DROP INDEX '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                           o2_postgres_o.$owner.o2_postgres_c.'.'.
                            o2_postgres_o.$table.'_'.$index_name.o2_postgres_c;
     try {
-        $res = o2_postgres_execute($query, $server, $user, $password, true, true);
+        o2_postgres_execute($query, $server, $user, $password, true, true);
         }
     catch (o2_exception $o2e) {
         $o2e->set_error_class(o2error_DBTABLEALTER);
@@ -1174,27 +1198,27 @@ function o2_postgres_aggregate($server,
                                $functions,
                                $links = null) {
 
-    $functions_list = "";
+    $functions_list = '';
     foreach ($functions as $func_name => $single_func) {
-        $functions_list.= ($functions_list ? "," : "").
-                           $single_func["func"]."(".$single_func["field"].") ".
-                           "AS ".o2_postgres_o.$func_name.o2_postgres_c;
+        $functions_list.= ($functions_list ? ',' : '').
+                           $single_func['func'].'('.$single_func['field'].
+                           ') AS '.o2_postgres_o.$func_name.o2_postgres_c;
         }
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
-        $table = o2_postgres_o.$database.o2_postgres_c.".".
-                 o2_postgres_o.$owner.o2_postgres_c.".".
+    if (substr($table, 0, 1) != '(') {
+        $table = o2_postgres_o.$database.o2_postgres_c.'.'.
+                 o2_postgres_o.$owner.o2_postgres_c.'.'.
                  o2_postgres_o.$table.o2_postgres_c;
         }
-    $query = "SELECT ".$functions_list.
-             " FROM ".$table." AS ".o2_postgres_o.$table_alias.o2_postgres_c;
+    $query = 'SELECT '.$functions_list.
+             ' FROM '.$table.' AS '.o2_postgres_o.$table_alias.o2_postgres_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     try {
         $res = o2_postgres_execute($query, $server, $user, $password, false, false);
@@ -1236,20 +1260,20 @@ function o2_postgres_verifyrec($server,
                                $order_by) {
 
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
-        $table = o2_postgres_o.$database.o2_postgres_c.".".
-                 o2_postgres_o.$owner.o2_postgres_c.".".
+    if (substr($table, 0, 1) != '(') {
+        $table = o2_postgres_o.$database.o2_postgres_c.'.'.
+                 o2_postgres_o.$owner.o2_postgres_c.'.'.
                  o2_postgres_o.$table.o2_postgres_c;
         }
-    $query = "SELECT ".$select_str." FROM ".$table.
-             " AS ".o2_postgres_o.$table_alias.o2_postgres_c;
+    $query = 'SELECT '.$select_str.' FROM '.$table.
+             ' AS '.o2_postgres_o.$table_alias.o2_postgres_c;
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     if ($order_by) {
-        $query.= " ORDER BY ".$order_by;
+        $query.= ' ORDER BY '.$order_by;
         }
-    $query.= " LIMIT 1";
+    $query.= ' LIMIT 1';
     try {
         $res = o2_postgres_execute($query, $server, $user, $password, false, false);
         }
@@ -1296,15 +1320,15 @@ function o2_postgres_modifyrec($server,
                                $sets,
                                $where) {
 
-    $upd_str = "";
+    $upd_str = '';
     foreach ($sets as $field => $value) {
-        $upd_str.= ($upd_str ? "," : "").$field." = ".$value;
+        $upd_str.= ($upd_str ? ',' : '').$field.' = '.$value;
         }
-    $query = "UPDATE ".o2_postgres_o.$database.o2_postgres_c.".".
-                       o2_postgres_o.$owner.o2_postgres_c.".".
+    $query = 'UPDATE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                       o2_postgres_o.$owner.o2_postgres_c.'.'.
                        o2_postgres_o.$table.o2_postgres_c.
-             " AS ".o2_postgres_o.$table_alias.o2_postgres_c.
-             " SET ".$upd_str." WHERE ".$where;
+             ' AS '.o2_postgres_o.$table_alias.o2_postgres_c.
+             ' SET '.$upd_str.' WHERE '.$where;
     try {
         o2_postgres_execute($query, $server, $user, $password, true, true);
         }
@@ -1341,10 +1365,10 @@ function o2_postgres_insertrec($server,
                                $fields,
                                $values) {
 
-    $query = "INSERT INTO ".o2_postgres_o.$database.o2_postgres_c.".".
-                            o2_postgres_o.$owner.o2_postgres_c.".".
+    $query = 'INSERT INTO '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                            o2_postgres_o.$owner.o2_postgres_c.'.'.
                             o2_postgres_o.$table.o2_postgres_c.
-             " (".implode(",", $fields).") VALUES (".implode(",", $values).")";
+             ' ('.implode(',', $fields).') VALUES ('.implode(',', $values).')';
     try {
         o2_postgres_execute($query, $server, $user, $password, true, true);
         }
@@ -1379,11 +1403,11 @@ function o2_postgres_deleterec($server,
                                $table_alias,
                                $where) {
 
-    $query = "DELETE FROM ".o2_postgres_o.$database.o2_postgres_c.".".
-                            o2_postgres_o.$owner.o2_postgres_c.".".
+    $query = 'DELETE FROM '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                            o2_postgres_o.$owner.o2_postgres_c.'.'.
                             o2_postgres_o.$table.o2_postgres_c;
     if ($where) {
-       $query.= " AS ".o2_postgres_o.$table_alias.o2_postgres_c." WHERE ".$where;
+       $query.= ' AS '.o2_postgres_o.$table_alias.o2_postgres_c.' WHERE '.$where;
        }
     // _________________________________________ Return SQL query instead of executing ___
     if (isset($GLOBALS['jxviewsql'])) {
@@ -1426,20 +1450,20 @@ function o2_postgres_count($server,
                            $where,
                            $links = null) {
     // __________________ If $table starts with a "(" then table is a sub-select query ___
-    if (substr($table, 0, 1) != "(") {
-        $table = o2_postgres_o.$database.o2_postgres_c.".".
-                 o2_postgres_o.$owner.o2_postgres_c.".".
+    if (substr($table, 0, 1) != '(') {
+        $table = o2_postgres_o.$database.o2_postgres_c.'.'.
+                 o2_postgres_o.$owner.o2_postgres_c.'.'.
                  o2_postgres_o.$table.o2_postgres_c;
         }
-    $query = "SELECT COUNT(*) AS COMPUTED FROM ".$table.
-             " AS ".o2_postgres_o.$table_alias.o2_postgres_c;
+    $query = 'SELECT COUNT(*) AS COMPUTED FROM '.$table.
+             ' AS '.o2_postgres_o.$table_alias.o2_postgres_c;
     if ($links) {
         foreach ($links as $linktab => $linkon) {
-            $query.= " LEFT JOIN ".$linktab." ON ".$linkon;
+            $query.= ' LEFT JOIN '.$linktab.' ON '.$linkon;
             }
         }
     if ($where) {
-        $query.= " WHERE ".$where;
+        $query.= ' WHERE '.$where;
         }
     // _____________________________________________________________________ SQL trace ___
     if ($_SESSION['o2_app']->sqltrace) {
@@ -1447,18 +1471,19 @@ function o2_postgres_count($server,
         }
     // ______________________________________________________ Get connection to server ___
     $conn = o2_postgres_connect($server, $user, $password, false);
-    // __________________________________________________________ On execution failure ___
-    if (!($res = $conn->query($query))) {
-        $err = $conn->errorInfo();
-        $rb  = $conn->rollBack;
+    try {
+        $dset = $conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        }
+    // ________________________________________________________ On execution exception ___
+    catch (Exception $o2e) {
+        $rb = $conn->rollBack;
         $rb && @$rb();
-        throw new o2_exception("<b>PostgreSQL</b> server: <i>".$server.
-                               "</i><br>Error counting dataset.<hr><code>".
-                               $query."</code><br><br>".$err[2],
+        throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
+                               '</i><br>Error counting dataset.<hr><code>'.
+                               $query.'</code><br><br>'.$o2e->getMessage(),
                                o2error_DBCOUNT);
         return false;
         }
-    $dset = $res->fetchAll(PDO::FETCH_ASSOC);
     // _____________________________________ Return integer value stored in "COMPUTED" ___
     return intval($dset[0]['COMPUTED']);
 
@@ -1650,7 +1675,7 @@ function o2_postgres_fkeyadd($server,
     $main_list = array();
     $ref_list  = array();
     foreach ($main_fields as $field) {
-        if ($field != "O2ASPID") {
+        if ($field != 'O2ASPID') {
             $main_list[] = o2_postgres_o.$field.o2_postgres_c;
             }
         else {
@@ -1658,24 +1683,24 @@ function o2_postgres_fkeyadd($server,
             }
         }
     foreach ($ref_fields as $field) {
-        if ($field != "O2ASPID") {
+        if ($field != 'O2ASPID') {
             $ref_list[] = o2_postgres_o.$field.o2_postgres_c;
             }
         else {
             $ref_list[] = $field;
             }
         }
-    $main_list = implode(",", $main_list);
-    $ref_list  = implode(",", $ref_list);
-    $query     = "ALTER TABLE ".o2_postgres_o.$main_db.o2_postgres_c.".".
+    $main_list = implode(',', $main_list);
+    $ref_list  = implode(',', $ref_list);
+    $query     = 'ALTER TABLE '.o2_postgres_o.$main_db.o2_postgres_c.'.'.
                                 o2_postgres_o.$main_owner.o2_postgres_c.'.'.
                                 o2_postgres_o.$main_table.o2_postgres_c.
-                 " ADD CONSTRAINT ".o2_postgres_o.$key_name.o2_postgres_c.
-                 " FOREIGN KEY (".$main_list.
-                 ") REFERENCES ".o2_postgres_o.$ref_db.o2_postgres_c.".".
+                 ' ADD CONSTRAINT '.o2_postgres_o.$key_name.o2_postgres_c.
+                 ' FOREIGN KEY ('.$main_list.
+                 ') REFERENCES '.o2_postgres_o.$ref_db.o2_postgres_c.'.'.
                                  o2_postgres_o.$ref_owner.o2_postgres_c.'.'.
                                  o2_postgres_o.$ref_table.o2_postgres_c.
-                 " (".$ref_list.") MATCH FULL NOT VALID";
+                 ' ('.$ref_list.') MATCH FULL NOT VALID';
     try {
         o2_postgres_execute($query, $server, $user, $password, true, true);
         }
@@ -1709,10 +1734,10 @@ function o2_postgres_fkeyremove($server,
                                 $table,
                                 $key_name) {
 
-    $query = "ALTER TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                            o2_postgres_o.$owner.o2_postgres_c.".".
+    $query = 'ALTER TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                            o2_postgres_o.$owner.o2_postgres_c.'.'.
                             o2_postgres_o.$table.o2_postgres_c.
-             " DROP CONSTRAINT ".o2_postgres_o.$key_name.o2_postgres_c;
+             ' DROP CONSTRAINT '.o2_postgres_o.$key_name.o2_postgres_c;
     try {
         o2_postgres_execute($query, $server, $user, $password, true, true);
         }
@@ -1746,10 +1771,10 @@ function o2_postgres_fkeyvalidate($server,
                                   $table,
                                   $key_name) {
 
-    $query = "ALTER TABLE ".o2_postgres_o.$database.o2_postgres_c.".".
-                            o2_postgres_o.$owner.o2_postgres_c.".".
+    $query = 'ALTER TABLE '.o2_postgres_o.$database.o2_postgres_c.'.'.
+                            o2_postgres_o.$owner.o2_postgres_c.'.'.
                             o2_postgres_o.$table.o2_postgres_c.
-             " VALIDATE CONSTRAINT ".o2_postgres_o.$key_name.o2_postgres_c;
+             ' VALIDATE CONSTRAINT '.o2_postgres_o.$key_name.o2_postgres_c;
     try {
         o2_postgres_execute($query, $server, $user, $password, true, true);
         }
@@ -1781,7 +1806,7 @@ function o2_postgres_fkeystablist($server,
                                   $owner,
                                   $table) {
 
-    $query = "SELECT conname ".o2_postgres_o."CN".o2_postgres_c.
+    $query = 'SELECT conname '.o2_postgres_o.'CN'.o2_postgres_c.
              " FROM pg_catalog.pg_constraint WHERE conrelid='".
              o2_postgres_o.$database.o2_postgres_c.'.'.
              o2_postgres_o.$owner.o2_postgres_c.'.'.
@@ -1796,7 +1821,7 @@ function o2_postgres_fkeystablist($server,
         }
     $list = array();
     foreach ($res as $c_name) {
-        $list[] = $c_name["CN"];
+        $list[] = $c_name['CN'];
         }
     return $list;
 
@@ -1820,16 +1845,16 @@ function o2_postgres_fkeysinfo($server,
                                $database,
                                $owner) {
 
-    $query = "SELECT x.conname ".o2_postgres_o."CN".o2_postgres_c.",".
-             " x.conkey ".o2_postgres_o."SK".o2_postgres_c.",".
-             " x.confkey ".o2_postgres_o."TK".o2_postgres_c.",".
-             " pk.relname ".o2_postgres_o."ON".o2_postgres_c.",".
-             " fk.relname ".o2_postgres_o."TO".o2_postgres_c." ".
-             "FROM pg_catalog.pg_constraint x ".
-             "INNER JOIN pg_catalog.pg_class pk ON x.conrelid!=0 AND x.conrelid=pk.oid ".
-             "INNER JOIN pg_catalog.pg_class fk ON x.confrelid!=0 AND x.confrelid=fk.oid".
-             " INNER JOIN information_schema.table_constraints tc ON ".
-                         "x.conname=tc.constraint_name ".
+    $query = 'SELECT x.conname '.o2_postgres_o.'CN'.o2_postgres_c.','.
+             ' x.conkey '.o2_postgres_o.'SK'.o2_postgres_c.','.
+             ' x.confkey '.o2_postgres_o.'TK'.o2_postgres_c.','.
+             ' pk.relname '.o2_postgres_o.'ON'.o2_postgres_c.','.
+             ' fk.relname '.o2_postgres_o.'TO'.o2_postgres_c.' '.
+             'FROM pg_catalog.pg_constraint x '.
+             'INNER JOIN pg_catalog.pg_class pk ON x.conrelid!=0 AND x.conrelid=pk.oid '.
+             'INNER JOIN pg_catalog.pg_class fk ON x.confrelid!=0 AND x.confrelid=fk.oid'.
+             ' INNER JOIN information_schema.table_constraints tc ON '.
+                         'x.conname=tc.constraint_name '.
              "WHERE x.contype='f' AND ".
              "tc.constraint_catalog='".$database."' AND ".
              "tc.constraint_schema='".$owner."'";
@@ -1842,10 +1867,10 @@ function o2_postgres_fkeysinfo($server,
         }
     $list = array();
     foreach ($res as $c) {
-        $list[$c["CN"]] = array("ON" => $c["ON"],
-                                "TO" => $c["TO"],
-                                "SK" => explode(',', substr($c["SK"], 1, -1)),
-                                "TK" => explode(',', substr($c["TK"], 1, -1)));
+        $list[$c['CN']] = array('ON' => $c['ON'],
+                                'TO' => $c['TO'],
+                                'SK' => explode(',', substr($c['SK'], 1, -1)),
+                                'TK' => explode(',', substr($c['TK'], 1, -1)));
         }
     return $list;
 
@@ -1893,10 +1918,12 @@ function o2_postgres_commit($server, $user, $password, $end = false) {
                     }
                 $GLOBALS['o2_postgres_stms'] = array();
                 }
-            if (!$GLOBALS['o2_postgres_conn'][$key]->commit()) {
-                $err = $GLOBALS['o2_postgres_conn'][$key]->errorInfo();
-                throw new o2_exception("<b>Postgres</b> server: <i>".$server."</i><hr>".
-                                       $err[2],
+            try {
+                $GLOBALS['o2_postgres_conn'][$key]->commit();
+                }
+            catch (Exception $o2e) {
+                throw new o2_exception('<b>Postgres</b> server: <i>'.$server.
+                                       '</i><hr>'. $o2e->getMessage(),
                                        o2error_DBCOMMIT);
                 }
             }

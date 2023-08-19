@@ -109,7 +109,8 @@ function o2_mysql_connect($server, $user, $password, $trans) {
         }
     // _________________________________________________ Check for existing connection ___
     if (!isset($GLOBALS['o2_mysql_conn'][$key])) {
-        $opt = array(PDO::ATTR_PERSISTENT => true);
+        $opt = array(PDO::ATTR_PERSISTENT => true,
+                     PDO::ATTR_ERRMODE    => PDO::ERRMODE_SILENT);
         // _______________________________________________________ Connection encoding ___
         if ($app->chr_encoding) {
             switch (strtolower(str_replace(array("-", "_"), "", $app->chr_encoding))) {
