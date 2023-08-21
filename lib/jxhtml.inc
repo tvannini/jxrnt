@@ -151,7 +151,10 @@ class o2html {
             }
         catch (o2_exception $o2e) {
             $o2e->send();
-            return false;
+            }
+        catch (Throwable $e) {
+            $o2e = new o2_exception($e->getMessage(), o2error_EXECUTION);
+            $o2e->send();
             }
         // _______________________________________________________________ Page suffix ___
         o2html::page_suffix();

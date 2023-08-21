@@ -86,7 +86,9 @@ if (session_start()) {
                     }
                 catch (o2_exception $o2e) {
                     $o2e->send();
-                    return false;
+                    }
+                finally {
+                    jxjs::end();
                     }
                 }
             // _______________________________________________ Manage expired sessions ___
@@ -94,7 +96,6 @@ if (session_start()) {
                 header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized", true, 401);
                 print "window.location = '".$app->no_login."';\n";
                 }
-            jxjs::end();
             break;
         case "lookup": // _____________________________________________________ Lookup ___
             $GLOBALS['jxjs'] = true;

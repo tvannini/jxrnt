@@ -492,7 +492,10 @@ class o2_app {
                 }
             catch (o2_exception $o2e) {
                 $o2e->send();
-                return false;
+                }
+            catch (Throwable $e) {
+                $o2e = new o2_exception($e->getMessage(), o2error_EXECUTION);
+                $o2e->send();
                 }
             }
         // __________________________________________________ Commit open transactions ___
@@ -2817,73 +2820,68 @@ class o2_app {
             }
         // _________________________________________________________ Database gateways ___
         $this->load_gateways();
-        try {
-            // _________________________________________ ESECUZIONE DEL PRG DI REQUEST ___
-            $this->intcall("tools/o2sys_request");
-            // ______________________________________ STARTING NEW EXECUTION HIERARCHY ___
-            if (isset($_REQUEST['o2c']) ||
-                isset($_SESSION['jxredirect']) ||
-                $this->exe_prg_start) {
-                // ____________________________________ Check callable programs by URL ___
-                if (isset($_REQUEST['o2c']) && $_REQUEST['o2c']) {
-                    if (($this->profiling == "M" || $this->profiling == "B") &&
-                        !isset($this->menu_prgs[$_REQUEST['o2c']]) &&
-                        $this->run_level != "DEV" &&
-                        (!$this->user_is_admin ||
-                         substr($_REQUEST['o2c'], 0, 6) != "tools/")) {
-                        throw new o2_exception("Can't call program <i>".$_REQUEST['o2c'].
-                                               "</i>",
-                                               o2error_UNKNOWNPRG);
-                        return;
-                        }
+        // _____________________________________________ ESECUZIONE DEL PRG DI REQUEST ___
+        $this->intcall("tools/o2sys_request");
+        // __________________________________________ STARTING NEW EXECUTION HIERARCHY ___
+        if (isset($_REQUEST['o2c']) ||
+            isset($_SESSION['jxredirect']) ||
+            $this->exe_prg_start) {
+            // ________________________________________ Check callable programs by URL ___
+            if (isset($_REQUEST['o2c']) && $_REQUEST['o2c']) {
+                if (($this->profiling == "M" || $this->profiling == "B") &&
+                    !isset($this->menu_prgs[$_REQUEST['o2c']]) &&
+                    $this->run_level != "DEV" &&
+                    (!$this->user_is_admin ||
+                        substr($_REQUEST['o2c'], 0, 6) != "tools/")) {
+                    throw new o2_exception("Can't call program <i>".$_REQUEST['o2c'].
+                                            "</i>",
+                                            o2error_UNKNOWNPRG);
+                    return;
                     }
-                $this->prgs_cache = array();
-                $redirect         = false;
-                if (isset($_SESSION['jxredirect'])) {
-                    $redirect = $_SESSION['jxredirect'];
-                    unset($_SESSION['jxredirect']);
-                    }
-                if (isset($this->translation[''])) {
-                    $this->translation = array('' => $this->translation['']);
-                    }
-                else {
-                    $this->translation = array();
-                    }
-                // _______________________________________ Reset range control filters ___
-                unset($_SESSION['jxview_lastfilter']);
-                $this->goto_prg(($redirect || !isset($_REQUEST['o2c']) ?
-                                 false : $_REQUEST['o2c']),
-                                $redirect);
+                }
+            $this->prgs_cache = array();
+            $redirect         = false;
+            if (isset($_SESSION['jxredirect'])) {
+                $redirect = $_SESSION['jxredirect'];
+                unset($_SESSION['jxredirect']);
+                }
+            if (isset($this->translation[''])) {
+                $this->translation = array('' => $this->translation['']);
                 }
             else {
-                // _________________________________ Including active programs scripts ___
-                foreach ($this->istanze_prg as $singola_istanza) {
-                    $this->includi_prf($singola_istanza->nome, $singola_istanza->script);
-                    }
-                // _______________________ CONTINUING EXECUTION AFTER USER INTERACTION ___
-                if (!$only_output) {
-                    o2html::receive();
-                    }
+                $this->translation = array();
                 }
-            // ________________________________________________ Actions list execution ___
+            // ___________________________________________ Reset range control filters ___
+            unset($_SESSION['jxview_lastfilter']);
+            $this->goto_prg(($redirect || !isset($_REQUEST['o2c']) ?
+                                false : $_REQUEST['o2c']),
+                            $redirect);
+            }
+        else {
+            // _____________________________________ Including active programs scripts ___
+            foreach ($this->istanze_prg as $singola_istanza) {
+                $this->includi_prf($singola_istanza->nome, $singola_istanza->script);
+                }
+            // ___________________________ CONTINUING EXECUTION AFTER USER INTERACTION ___
             if (!$only_output) {
-                $this->actions_loop();
-                }
-            // ___________________________ Reset original user if playing as other one ___
-            if ($this->start_user) {
-                $this->set_user();
-                }
-            // _______________________________________________________ Forms rendering ___
-            $this->display_all();
-            // ______________________________________________ Commit open transactions ___
-            $this->commit_all(true);
-            // _________________________________________________________ SQL Satistics ___
-            if ($this->sqltrace) {
-                $this->sql_stat();
+                o2html::receive();
                 }
             }
-        catch (o2_exception $o2e) {
-            $o2e->send();
+        // ____________________________________________________ Actions list execution ___
+        if (!$only_output) {
+            $this->actions_loop();
+            }
+        // _______________________________ Reset original user if playing as other one ___
+        if ($this->start_user) {
+            $this->set_user();
+            }
+        // ___________________________________________________________ Forms rendering ___
+        $this->display_all();
+        // __________________________________________________ Commit open transactions ___
+        $this->commit_all(true);
+        // _____________________________________________________________ SQL Satistics ___
+        if ($this->sqltrace) {
+            $this->sql_stat();
             }
 
         }
@@ -5171,6 +5169,10 @@ class o2_run_job {
             $app->commit_all(true);
             }
         catch (o2_exception $o2e) {
+            $o2e->send();
+            }
+        catch (Throwable $e) {
+            $o2e = new o2_exception($e->getMessage(), o2error_EXECUTION);
             $o2e->send();
             }
         // ___________________________ If execution stopped (on-line) rise an exception___
