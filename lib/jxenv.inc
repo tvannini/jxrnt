@@ -6234,11 +6234,14 @@ class o2_dbview extends o2_view {
                         $trace_values       = array();
                         list($trace_fields,
                              $trace_values) = $tracer->insert();
-                        $ifields            = array_merge($ifields, $trace_fields);
-                        $rec               .= (count($trace_values) ?
-                                               ','.implode(',', $trace_values) : '');
+                        // ______________ Add tracing fields only once to columns list ___
+                        if (!$ifields_trace) {
+                            $ifields_trace = true;
+                            $ifields       = array_merge($ifields, $trace_fields);
+                            }
                         // ________________________________ Add record to insert cache ___
-                        $cache[] = $rec;
+                        $cache[] = $rec.(count($trace_values) ?
+                                         ','.implode(',', $trace_values) : '');
                         $recs++;
                         // ________________________________________ Insert cache chunk ___
                         if ($recs > $bulk_limit) {
