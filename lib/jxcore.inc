@@ -3269,7 +3269,8 @@ class o2_file {
                 $ctrl_css  = "o2_ctrl_check";
                 $wide_plus = 0;
                 }
-            elseif (count($single_field->maschera->valori)) {
+            elseif (is_array($single_field->maschera->valori) &&
+                    count($single_field->maschera->valori)) {
                 $ctrl_type = "listcombo";
                 $ctrl_css  = "o2_ctrl_listcombo";
                 $wide_plus = 50;
