@@ -642,10 +642,26 @@ function o2_mktime($time, $hours = 0, $minutes = 0, $seconds = 0) {
  * @return mix
  * @see    o2_prg4http()
  */
-function o2_callprg($prg_name) {
+function o2_callprg($prg) {
 
-    $params = func_get_args();
-    return call_user_func_array(array($_SESSION['o2_app'], "intcall"), $params);
+    $app    = $_SESSION['o2_app'];
+    $pars   = func_get_args();
+    $exe_id = $app->progressivo_istanze;
+    /* _______________________________________ Try to catch exception at this level ___ */
+    try {
+        $result = call_user_func_array(array($app, 'intcall'), $pars);
+        }
+    catch (Throwable $e) {
+        /* _______ Catched exception is generateted by called prgs so we close them ___ */
+        while ($exe_id < $app->progressivo_istanze) {
+            $app->termina_prg();
+            }
+        /* _______________________ Needed to repos this execution in first position ___ */
+        $app->esecuzioni = array_values($app->esecuzioni);
+        $app->ritorno    = true;
+        throw new o2_exception($e->getMessage(), o2error_EXECUTION);
+        }
+    return $result;
 
     }
 
