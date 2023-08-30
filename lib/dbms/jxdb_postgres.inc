@@ -1549,9 +1549,9 @@ function o2_postgres_recordset($server,
     if ($page_where) {
         if ($stm_id && isset($GLOBALS['o2_postgres_stms'][$stm_id])) {
             return o2_postgres_execute(false,
-                                       false,
-                                       false,
-                                       false,
+                                       $server,
+                                       $user,
+                                       $password,
                                        false,
                                        false,
                                        $recs,

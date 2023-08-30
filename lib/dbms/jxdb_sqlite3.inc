@@ -1225,9 +1225,9 @@ function o2_sqlite3_recordset($server,
     if ($page_where) {
         if ($stm_id && isset($GLOBALS['o2_sqlite3_stms'][$stm_id])) {
             return o2_sqlite3_execute(false,
-                                      false,
-                                      false,
-                                      false,
+                                      $server,
+                                      $user,
+                                      $password,
                                       false,
                                       false,
                                       $recs,
