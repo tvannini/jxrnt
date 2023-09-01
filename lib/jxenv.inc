@@ -1686,7 +1686,7 @@ class o2_view {
                 $prg->changes[$this->nome][$field] = true;
                 }
             }
-        elseif ($this instanceof o2_dbview) {
+        elseif ($prg->changes && ($this instanceof o2_dbview)) {
             $prg->changes[$this->nome] = true;
             }
 

@@ -2066,18 +2066,20 @@ class o2_ctrl {
             if (isset($dps['_o2SESSION'])) {
                 return true;
                 }
-            foreach($dps as $view => $fields) {
-                if ($chs[$view]) {
-                    if ($chs[$view] === true) {
-                        return true;
-                        }
-                    elseif ($dps[$view] === false) {
-                        return true;
-                        }
-                    else {
-                        foreach($fields as $field => $dummy_val) {
-                            if (isset($chs[$view][$field])) {
-                                return true;
+            if ($chs) {
+                foreach($dps as $view => $fields) {
+                    if ($chs[$view]) {
+                        if ($chs[$view] === true) {
+                            return true;
+                            }
+                        elseif ($dps[$view] === false) {
+                            return true;
+                            }
+                        else {
+                            foreach($fields as $field => $dummy_val) {
+                                if (isset($chs[$view][$field])) {
+                                    return true;
+                                    }
                                 }
                             }
                         }
