@@ -479,6 +479,19 @@ $list = array(
                                          "debugging purposes (see parameter \"warning_log\").",
                             "default" => "off",
                             "values"  => array("off", "on")),
+   "bug_error_flow" => array("rntval"  => null,
+                             "appval"  => null,
+                             "desc"    => "   *** BUG Compatibility for errors management ***\n\n".
+                                          "ATTENTION: this parameter is a bug compatibility tip and it is useful ".
+                                          "for compatibility with programs relying on an old buggy fixed behavior.\n\n".
+                                          "In old eceptions handling model SQL (PDO) exception were sent just when catched ".
+                                          "and programs executions go on.\n".
+                                          "In this model it was impossible to catch those exceptions in a try/catch block.\n\n".
+                                          "Since Janox release 2.9.02, in the new exceptions handling model all exceptions ".
+                                          "bubbles to the top handler and they are all catchable.\n\n".
+                                          "Set this parameter to ON to force Janox to handle errors in the old way.",
+                             "default" => "off",
+                             "values"  => array("off", "on")),
    "fetch_loop" => array("rntval"  => null,
                          "appval"  => null,
                          "desc"    => "   *** Statement fetching instead of paging in loops ***\n\n".
@@ -1503,6 +1516,7 @@ function o2sys_iniconf_exp_34() {
               'msg_norec',
               '',
               'bug_aggregate',
+              'bug_error_flow',
               'fetch_loop');
 return ($list);
 	} //|o2_fine_exp|

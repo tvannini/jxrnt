@@ -218,6 +218,7 @@ class o2_app {
     public $otp_time        = 3600;    /* Time (in seconds) One Time Passwords expire   */
     /*     _____ BUGS compatibility ___________________________________________________ */
     public $bug_aggregate   = false;   /* If TRUE uncountable aggregations are skipped  */
+    public $bug_error_flow  = false;   /* If TRUE executions continue after SQL errors  */
     /*     _____ HTML extras __________________________________________________________ */
     public $file_server_inc = '';      /* Server side extra script                      */
     public $file_client_inc = '';      /* Client side extra script                      */
@@ -1822,6 +1823,9 @@ class o2_app {
             }
         if (isset($conf['bug_aggregate'])) {
             $this->bug_aggregate = ($conf['bug_aggregate'] ? true : false);
+            }
+        if (isset($conf['bug_error_flow'])) {
+            $this->bug_error_flow = ($conf['bug_error_flow'] ? true : false);
             }
         if (isset($conf['host'])) {
             $this->host = strtoupper($conf['host']);
