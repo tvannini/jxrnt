@@ -1686,10 +1686,12 @@ class o2_view {
                 $prg->changes[$this->nome][$field] = true;
                 }
             }
-        elseif ($prg->changes && ($this instanceof o2_dbview)) {
+        elseif ($this instanceof o2_dbview) {
+            if (!is_array($prg->changes)) {
+                $prg->changes = array();
+                }
             $prg->changes[$this->nome] = true;
             }
-
         }
 
     }
