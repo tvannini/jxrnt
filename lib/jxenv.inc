@@ -4730,6 +4730,10 @@ class o2_dbview extends o2_view {
             $trovato          = false;
             $nome_campo_local = $segmento_chiave->campo->phys_name;
             $phys_fld         = $c_o.$nome_campo_local.$c_c;
+            // _______________________ Physical field for comparison (use view engine) ___
+            $phys_comp        = constant("o2_".$this->file->db->server->type."_o").
+                                $nome_campo_local.
+                                constant("o2_".$this->file->db->server->type."_c");
             if ($segmento_chiave->custom_sorted) {
                 $field_name = ($hide_table ? "" :
                                $c_o.$segmento_chiave->campo->file.$c_c.".").$phys_fld;
@@ -4747,7 +4751,7 @@ class o2_dbview extends o2_view {
             // __________________ Look for field in main and sorted join tables fields ___
             foreach ($this->campi as $singolo_campo) {
                 if ($nome_campo_local == $singolo_campo->phys_name &&
-                    $phys_fld == $singolo_campo->nome_fisico &&
+                    $phys_comp == $singolo_campo->nome_fisico &&
                     ($singolo_campo->file == $file->indice ||
                      ($segmento_chiave->custom_sorted &&
                       $singolo_campo->file == $tab_name)) &&
