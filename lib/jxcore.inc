@@ -51,10 +51,12 @@ class o2_exception extends Exception {
     /**
      * Constructor
      *
-     * @param string  $message
-     * @param integer $code
+     * @param  string    $message
+     * @param  integer   $code
+     * @param  Throwable $previous
+     * @return o2_exception
      */
-    public function __construct($message, $code = 0) {
+    public function __construct($message, $code = 0, $previous = null) {
 
         $this->id     = mt_rand();
         $this->caught = true;
@@ -72,7 +74,7 @@ class o2_exception extends Exception {
             $code != o2error_WARNING) {
             $this->mark_transactions();
             }
-        parent::__construct($message, $code);
+        parent::__construct($message, $code, $previous);
 
         }
 

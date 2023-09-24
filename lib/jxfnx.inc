@@ -8849,6 +8849,25 @@ function o2error_getlasthtml() {
     }
 
 
+// ================================== LAST EXCEPTION =====================================
+
+/**
+ * Return last catched error as an o2_exception object.
+ * This function is intended to be used inside catch-actions, to get the fired error.
+ * Returned object is always of class "o2_exception", regardless the catched error type.
+ *
+ * Tip: use o2exception_get()->getPrevious() to get the original catched Throwable object.
+ *
+ * @package error
+ * return   o2_exception
+ */
+function o2exception_get() {
+
+    return $GLOBALS['jxlastexception'];
+
+    }
+
+
 // ================================= FORMATTING TEXT =====================================
 
 /**

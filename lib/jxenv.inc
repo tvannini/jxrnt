@@ -8253,6 +8253,28 @@ class o2act {
 
 
     /**
+     * Manage catched error.
+     *
+     * @param  string    $catch_action
+     * @param  Throwable $error
+     */
+    static function catch($catch_action, $error) {
+
+        $app = $_SESSION['o2_app'];
+        if ($error instanceof o2_exception) {
+            $GLOBALS['jxlastexception'] = $error;
+            }
+        else {
+            $GLOBALS['jxlastexception'] = new o2_exception($error->getMessage(),
+                                                           o2error_EXECUTION,
+                                                           $error);
+            }
+        return $app->istanze_prg[$app->progressivo_istanze]->esegui_azione($catch_action);
+
+        }
+
+
+    /**
      * Imposta il menu [$nome] come menu di livello 0 per la pagina
      *
      * @param  string $nome
