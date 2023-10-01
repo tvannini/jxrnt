@@ -161,6 +161,7 @@ class o2_app {
     public $prgs_cache      = array(); /* Cache list of executed programs               */
     public $esecuzioni      = array(); /* Pending executing actions list                */
     public $ritorno         = false;   /* If getting back from action or call           */
+    public $try_catch_nest  = array(); /* List of nested active try-catch blocks        */
     public $extcall_level   = 0;       /* Prg id at which "external execution" starts   */
     public $extcall_ritorno = false;   /* If getting back from external call            */
     public $info_submit     = false;   /* Last submit form and control informations     */
@@ -3052,6 +3053,12 @@ class o2_app {
                                                            $azione));
         // ___________________________________________________ ...and then is executed ___
         $this->esecuzioni[0]->loop = $counter;
+        // __________________ If action has a catch-action, then close try-catch level ___
+        if ($this->istanze_prg[$id_istanza_prg]->azioni[$azione]) {
+            array_unshift($this->try_catch_nest, array('ID'     => $id_istanza_prg,
+                                                       'PRG'    => $prg,
+                                                       'ACTION' => $azione));
+            }
         $this->esecuzioni[0]->esegui();
         return $this->esecuzione_fine();
 
@@ -3069,12 +3076,16 @@ class o2_app {
         if (isset($this->esecuzioni[0])) {
             $running_exe = $this->esecuzioni[0];
             if (!$running_exe->passo || $running_exe->skip) {
+                $prg = $this->istanze_prg[$running_exe->istanza_prg];
                 array_shift($this->esecuzioni);
                 if ($running_exe->suffix_of) {
-                    $prg = $this->istanze_prg[$running_exe->istanza_prg];
                     $prg->contesto[$running_exe->suffix_of]->suffix_running = false;
                     $prg->contesto[$running_exe->suffix_of]->suffix_waiting = false;
                     $running_exe->suffix_of                                 = false;
+                    }
+                // __________ If action has a catch-action, then close try-catch level ___
+                if ($prg->azioni[$running_exe->azione]) {
+                    array_shift($this->try_catch_nest);
                     }
                 return true;
                 }

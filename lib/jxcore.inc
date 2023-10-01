@@ -68,12 +68,6 @@ class o2_exception extends Exception {
         elseif ($code != o2error_DEPRECATED && $code != o2error_WARNING) {
             $GLOBALS['jxlasterror'] = $this;
             }
-        // _____________________ Don't break transaction for Warnings and Deprecations ___
-        if (isset($_SESSION['o2_app']) &&
-            $code != o2error_DEPRECATED &&
-            $code != o2error_WARNING) {
-            $this->mark_transactions();
-            }
         parent::__construct($message, $code, $previous);
 
         }
@@ -101,6 +95,7 @@ class o2_exception extends Exception {
         define('o2error_WARNING',          ++$seed_sys);
         define('o2error_APP',              ++$seed_sys);
         define('o2error_SNAPSHOT',         ++$seed_sys);
+        define('o2error_TRYCATCHFLOW',     ++$seed_sys);
         // ________________________________________________ [50...99] database gateway ___
         define('o2error_DBCONNECT',        ++$seed_db);
         define('o2error_DBTABLES',         ++$seed_db);
@@ -175,7 +170,10 @@ class o2_exception extends Exception {
             case o2error_SNAPSHOT:
                 $error_class = "VIEW SNAPSHOT";
                 break;
-                        // ____________________________________________ [50...99] database gateway ___
+            case o2error_TRYCATCHFLOW:
+                $error_class = "FORM OPEN INSIDE TRY";
+                break;
+            // ____________________________________________ [50...99] database gateway ___
             case o2error_DBCONNECT:
                 $error_class = "DATABASE CONNECTION";
                 break;
@@ -822,6 +820,11 @@ class o2_exception extends Exception {
             return;
             }
         $app = $_SESSION['o2_app'];
+        // _____________________ Don't break transaction for Warnings and Deprecations ___
+        if ($this->get_code() != o2error_DEPRECATED &&
+            $this->get_code() != o2error_WARNING) {
+            $this->mark_transactions();
+            }
         // _________________________________________________________ Log error to file ___
         if ($app && $app->errors_log) {
             $trace = '';
@@ -829,12 +832,12 @@ class o2_exception extends Exception {
                 $trace = "\n     === BACKTRACE\n\n".print_r(debug_backtrace(), 1)."\n";
                 }
             file_put_contents($app->dir_logs."errors.log",
-                             ($app->run_level == "DEV" ?
-                              "DEVELOPER: ".$app->developer."\n" : "").
-                             "USER: ".$app->user."\n".
-                             "SESSID: ".$app->session_id."\n".
-                             $this->to_raw_text().$trace,
-                             FILE_APPEND);
+                              ($app->run_level == "DEV" ?
+                               "DEVELOPER: ".$app->developer."\n" : "").
+                              "USER: ".$app->user."\n".
+                              "SESSID: ".$app->session_id."\n".
+                              $this->to_raw_text().$trace,
+                              FILE_APPEND);
             }
         // ______________________________________________________ Custom error handler ___
         if ($app->error_handler) {
@@ -6579,14 +6582,15 @@ class o2def {
 
 
     /**
-     * Definisce un'azione, di nome [$con_nome], nel contesto del prg in definizione
+     * Define an action with name $action_name in the context of defining program
      *
-     * @param string $con_nome
+     * @param string $action_name
+     * @param string $catch_action   Action to call on error
      */
-    static function act($con_nome) {
+    static function act($action_name, $catch_action = false) {
 
         $app = $_SESSION['o2_app'];
-        $app->istanze_prg[$app->progressivo_istanze]->azione($con_nome);
+        $app->istanze_prg[$app->progressivo_istanze]->azione($action_name, $catch_action);
 
         }
 

@@ -704,6 +704,18 @@ class o2_form {
             $this->read_def();
             }
         if ($this->attiva) {
+            // _____________________________________ Check if inside a try-catch block ___
+            if (count($app->try_catch_nest)) {
+                $try = array_shift($app->try_catch_nest);
+                $e   = new o2_exception('Window <i>'.$this->nome.'</i> open '.
+                                        'in TRY-CATCH is breaking TRY block.<br><br>'.
+                                        'TRY started in program <i>'.$try['PRG'].
+                                        ' ['.$try['ID'].']</i>, '.
+                                        'action <i>'.$try['ACTION'].'</i>.',
+                                        o2error_TRYCATCHFLOW);
+                // ________________________________________ Force an uncatchable error ___
+                $e->send();
+                }
             // __________________________________________________ Resize form controls ___
             $this->resize();
             // __________________________________________________ Custom columns order ___
@@ -772,22 +784,13 @@ class o2_form {
                     }
                 unset($prg->custom_ctrls[$this->nome]);
                 }
-            // _______________________________________________________________ Display ___
-            if ($GLOBALS['jxjs']) {
-                jxjs::ctrl_win($this);
-                }
-            else {
-                o2html::ctrl_win($this);
-                }
             }
-        // _________________________________________________________ Not active window ___
+        // ___________________________________________________________________ Display ___
+        if ($GLOBALS['jxjs']) {
+            jxjs::ctrl_win($this);
+            }
         else {
-            if ($GLOBALS['jxjs']) {
-                jxjs::ctrl_win($this);
-                }
-            else {
-                o2html::ctrl_win($this);
-                }
+            o2html::ctrl_win($this);
             }
         return true;
 

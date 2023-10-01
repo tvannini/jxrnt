@@ -325,13 +325,15 @@ class o2_prg {
 
 
     /**
-     * Definisce un'azione e la aggiunge alle azioni abilitate per il prg. Il valore
+     * Defines an action and add it to the context of prg.
+     * If a $catch_action is passed the it is used as action to call on error.
      *
-     * @param string $azione
+     * @param string $action
+     * @param string $catch_action
      */
-    function azione($azione) {
+    function azione($action, $catch_action = false) {
 
-        $this->azioni[$azione] = $azione;
+        $this->azioni[$action] = $catch_action;
 
         }
 
@@ -8253,23 +8255,48 @@ class o2act {
 
 
     /**
-     * Manage catched error.
+     * Manage catched error
      *
-     * @param  string    $catch_action
-     * @param  Throwable $error
+     * @param Throwable     $error   Catched exception or error (Throwable)
+     * @param o2_esecuzione $o2exe   Janox execution in which error is catched
      */
-    static function catch($catch_action, $error) {
+    static function catch($error, $o2exe) {
 
-        $app = $_SESSION['o2_app'];
+        $app          = $_SESSION['o2_app'];
+        $current_id   = $o2exe->istanza_prg;
+        $prg          = $app->istanze_prg[$current_id];
+        $catch_action = $prg->azioni[$o2exe->azione];
+        // ___________ Catched exception is generateted by called prgs so I close them ___
+        while ($current_id < $app->progressivo_istanze) {
+            $app->termina_prg();
+            }
+        $app->ritorno = false;
+        // __________________________ Needed to repos this execution in first position ___
+        $app->esecuzioni = array_values($app->esecuzioni);
+        // ______________________________________________ Check if catch-action exists ___
+        if (!isset($prg->azioni[$catch_action])) {
+            unset($GLOBALS['jxlasterror']);
+            throw new o2_exception('Cannot find action <i>'.$catch_action.
+                                   '</i> requested as catch-action for action <i>'.
+                                   $o2exe->azione.'</i>',
+                                   o2error_UNKNOWNACTION,
+                                   $error);
+            return false;
+            }
         if ($error instanceof o2_exception) {
-            $GLOBALS['jxlastexception'] = $error;
+            $err_txt = '<b>Exception</b>';
             }
         else {
-            $GLOBALS['jxlastexception'] = new o2_exception($error->getMessage(),
-                                                           o2error_EXECUTION,
-                                                           $error);
+            $err_txt = '<b>Error</b>';
             }
-        return $app->istanze_prg[$app->progressivo_istanze]->esegui_azione($catch_action);
+        $err_txt                    = '<hr>'.$err_txt.
+                                      ' catched in program "'.$o2exe->prg.
+                                               '", action "'.$o2exe->azione.
+                                               '", step '.$o2exe->passo;
+        $GLOBALS['jxlastexception'] = new o2_exception($error->getMessage().$err_txt,
+                                                       o2error_EXECUTION,
+                                                       $error);
+        return $prg->esegui_azione($catch_action);
 
         }
 
