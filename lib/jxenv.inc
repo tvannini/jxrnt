@@ -867,7 +867,7 @@ class o2_prg {
                                     $field_value).$fields_separator;
                         break;
                     case "D":
-                        if (trim($field_value, '0')) {
+                        if (trim($field_value, '0 ')) {
                             $d       = DateTime::createFromFormat('Ymd', $field_value);
                             $str2add.= $d->format($date_format).$fields_separator;
                             }
@@ -886,7 +886,7 @@ class o2_prg {
                             }
                         break;
                     case "O":
-                        if (!trim($field_value, '0')) {
+                        if (!trim($field_value, '0 ')) {
                             $field_value = '000000';
                             }
                         $t = DateTime::createFromFormat('His', $field_value);
