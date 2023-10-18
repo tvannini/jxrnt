@@ -816,15 +816,15 @@ class o2_exception extends Exception {
 
     public function send() {
 
-        if ($GLOBALS['jxerrorhide']) {
-            return;
-            }
-        $app = $_SESSION['o2_app'];
         // _____________________ Don't break transaction for Warnings and Deprecations ___
         if ($this->get_code() != o2error_DEPRECATED &&
             $this->get_code() != o2error_WARNING) {
             $this->mark_transactions();
             }
+        if ($GLOBALS['jxerrorhide']) {
+            return;
+            }
+        $app = $_SESSION['o2_app'];
         // _________________________________________________________ Log error to file ___
         if ($app && $app->errors_log) {
             $trace = '';

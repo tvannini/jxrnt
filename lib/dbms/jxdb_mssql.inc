@@ -181,6 +181,8 @@ function o2_mssql_connect($server, $user, $password, $trans) {
         // _________________________________ Create transaction on existing connection ___
         try {
             $conn_local->beginTransaction();
+            // _____________________________________________ Force roll-back on errors ___
+            $conn_local->exec("SET XACT_ABORT ON");
             }
         catch (Exception $o2e) {
             throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
