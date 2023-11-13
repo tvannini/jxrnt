@@ -6442,16 +6442,32 @@ function o2view_export($view_name,
  */
 function o2view_get_query($view_name, $with_orderby = false, $with_limit = false) {
 
-    $app      = $_SESSION['o2_app'];
-    $view_obj = clone $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
-    if ($view_obj) {
-        unset($view_obj->corrente);
-        $view_obj->record_primo();
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $view = $prg->contesto[$view_name];
+    if ($view) {
+        if (!$view->vista) {
+            $view->record_primo();
+            }
+        // _____________________________________ Get a dereferenced copy of ->corrente ___
+        $rco                      = new ArrayObject($view->corrente);
+        $rca                      = $rco->getArrayCopy();
+        $srv_name                 = $view_name.'_jxsrv';
+        // __________________________________ Create a clone of view to a service-view ___
+        $srv_view                 = clone $view;
+        $srv_view->nome           = $srv_name;
+        $srv_view->internal       = true;
+        $prg->contesto[$srv_name] = $srv_view;
+        // _______________________________________________ Get query from service-view ___
         $GLOBALS['jxviewsql'] = 'Q'.($with_orderby ? 'O' : '').($with_limit ? 'L' : '');
-        $view_obj->record_primo();
+        $srv_view->record_primo();
         $query = $GLOBALS['jxviewsql'];
         unset($GLOBALS['jxviewsql']);
-        unset($view_obj);
+        // ________________________________________________________ Unset service-view ___
+        unset($srv_view);
+        unset($prg->contesto[$srv_name]);
+        // _________________________________ Reset ->corrente to the dereferenced copy ___
+        $view->corrente = $rca;
         return $query;
         }
     else {
