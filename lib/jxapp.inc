@@ -144,6 +144,7 @@ class o2_app {
     public $db_timeout_lock = false;   /* Set lock-timeout for db session               */
     public $db_timeout_stm  = false;   /* Set statement-timeout for db session          */
     public $use_asp_table   = false;   /* Use sys table for ASPIDs or DISTINCT on users */
+    public $sess_tables     = array(); /* Session tables to be created after login      */
     /*     _____ Triggers _____________________________________________________________ */
     public $exe_prg_start   = false;   /* Start program has to be executed              */
     public $prg_start       = '';      /* Start program name                            */
@@ -820,10 +821,18 @@ class o2_app {
         // ___________________________________________________________ Tables creation ___
         if ($this->tables_create) {
             $this->upgrade_systabs();
+            $this->sess_tables = array();
             // ____________________________________________________ Group tables by db ___
             foreach ($this->tab as $tab_obj) {
-                if ($tab_obj->db->create_tabs) {
-                    $app_tabs[$tab_obj->db->id][] = $tab_obj->nome;
+                $db = $tab_obj->db;
+                if ($db->create_tabs)
+                   // ______ Skip ":session:" tables before user login (TMP directory) ___
+                    if ((strpos(strtolower($db->server->server), ':session:') === false)
+                       || $this->dir_tmp) {
+                    $app_tabs[$db->id][] = $tab_obj->nome;
+                    }
+                else {
+                    $this->sess_tables[] = $tab_obj;
                     }
                 }
             // ___________________________________________ Get full tables list per db ___
@@ -2024,6 +2033,12 @@ class o2_app {
             }
         // ______________________________________________ Filesystem profiled settings ___
         $this->crea_cartelle_pers();
+        if (count($this->sess_tables)) {
+            foreach ($this->sess_tables as $sess_tab) {
+                $sess_tab->crea();
+                }
+            $this->sess_tables = array();
+            }
         // _________________________________________________ Multilanguage translation ___
         if ($this->multilang = $this->option_get("lang")) {
             // _________________________________________ Load data-models translations ___
