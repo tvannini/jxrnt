@@ -105,7 +105,7 @@ function o2_sqlite3_connect($location, $user, $password, $trans) {
         $location = $app->dir_data.$app->nome.'.db';
         }
     // _________________________________________________________ Session physical file ___
-    elseif (strpos(':session:', strtolower($location)) === 0) {
+    elseif (strpos(strtolower($location), ':session:') === 0) {
         if (strtolower($location) == ':session:') {
             $location = $app->dir_tmp.$app->nome.'.db';
             }
