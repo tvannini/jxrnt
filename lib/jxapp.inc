@@ -2033,6 +2033,7 @@ class o2_app {
             }
         // ______________________________________________ Filesystem profiled settings ___
         $this->crea_cartelle_pers();
+        // _________________________________ Create ":session:" tables for logged user ___
         if (count($this->sess_tables)) {
             foreach ($this->sess_tables as $sess_tab) {
                 $sess_tab->crea();
