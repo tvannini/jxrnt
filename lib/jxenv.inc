@@ -2152,7 +2152,7 @@ class o2_dbview extends o2_view {
         if (!$from_select &&
             (strlen($con_nome) > 30) &&
             (substr($con_nome, -6) == "_JOIN_")) {
-            $con_nome = "JLF_".substr(md5($con_nome), 0, 26);
+            $con_nome = "JLF_".strtoupper(substr(md5($con_nome), 0, 26));
             }
         $tab_local = $this->files[$tabella];
         if (isset($this->campi[$con_nome])) {
