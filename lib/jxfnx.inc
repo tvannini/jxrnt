@@ -6450,14 +6450,11 @@ function o2view_get_query($view_name, $with_orderby = false, $with_limit = false
             $view->record_primo();
             }
         // _____________________________________ Get a dereferenced copy of ->corrente ___
-        $rco                      = new ArrayObject($view->corrente);
-        $rca                      = $rco->getArrayCopy();
-        $srv_name                 = $view_name.'_jxsrv';
+        $rco                       = new ArrayObject($view->corrente);
+        $rca                       = $rco->getArrayCopy();
         // __________________________________ Create a clone of view to a service-view ___
-        $srv_view                 = clone $view;
-        $srv_view->nome           = $srv_name;
-        $srv_view->internal       = true;
-        $prg->contesto[$srv_name] = $srv_view;
+        $srv_view                  = clone $view;
+        $prg->contesto[$view_name] = $srv_view;
         // _______________________________________________ Get query from service-view ___
         $GLOBALS['jxviewsql'] = 'Q'.($with_orderby ? 'O' : '').($with_limit ? 'L' : '');
         $srv_view->record_primo();
@@ -6465,13 +6462,15 @@ function o2view_get_query($view_name, $with_orderby = false, $with_limit = false
         unset($GLOBALS['jxviewsql']);
         // ________________________________________________________ Unset service-view ___
         unset($srv_view);
-        unset($prg->contesto[$srv_name]);
         // _________________________________ Reset ->corrente to the dereferenced copy ___
-        $view->corrente = $rca;
+        $view->corrente            = $rca;
+        $prg->contesto[$view_name] = $view;
         return $query;
         }
     else {
-        return false;
+        throw new o2_exception('Unknown view <i>'.$view_name.'</i> in program <i>'.
+                               $prg->nome.'</i>, in <b>o2view_get_query()</b> function',
+                               o2error_UNKNOWNVIEW);
         }
 
     }
