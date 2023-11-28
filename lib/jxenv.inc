@@ -758,6 +758,8 @@ class o2_prg {
                             $single_ctrl->task == $view_name &&
                             (!$only_visible || $single_ctrl->is_visible()) &&
                             !in_array($single_ctrl->campo_in_ctrl, $excluded_aliases) &&
+                            substr($field_name, 0, 4) != 'JLF_' &&
+                            substr($field_name, -6) != '_JOIN_' &&
                             (!$exp_view->snapshot ||
                              ($single_ctrl->campo_in_ctrl != 'JXSNPS_STATUS' &&
                               $single_ctrl->campo_in_ctrl != 'JXSNPS_PRVKEY'))) {
@@ -813,6 +815,8 @@ class o2_prg {
                 $vis_fields = array();
                 foreach ($exp_view->campi as $field_name => $single_field) {
                     if (!in_array($field_name, $excluded_aliases) &&
+                        substr($field_name, 0, 4) != 'JLF_' &&
+                        substr($field_name, -6) != '_JOIN_' &&
                         (!$exp_view->snapshot ||
                          ($field_name != 'JXSNPS_STATUS' &&
                           $field_name != 'JXSNPS_PRVKEY'))) {
