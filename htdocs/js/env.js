@@ -1767,9 +1767,9 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
             o2jse.waitObj.style.height = cHeight + 'px';
             // _______________________________ Create wait image inside pseudo-control ___
             var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                    'DIV',
-                                                    'jx_inctrl_wait',
-                                                    '&nbsp;');
+                                                 'DIV',
+                                                 'jx_inctrl_wait',
+                                                 '&nbsp;');
             wObj.style.position = 'relative';
             wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + 'px';
             wObj.style.top      = '0';
@@ -1791,9 +1791,9 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
             o2jse.waitObj.style.height = cHeight + 'px';
             // _______________________________ Create wait image inside pseudo-control ___
             var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                    'DIV',
-                                                    'jx_inctrl_wait',
-                                                    '&nbsp;');
+                                                 'DIV',
+                                                 'jx_inctrl_wait',
+                                                 '&nbsp;');
             wObj.style.position = 'relative';
             wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + 'px';
             wObj.style.top      = '0';
@@ -1816,9 +1816,9 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
             o2jse.waitObj.style.height = cHeight + 'px';
             // _______________________________ Create wait image inside pseudo-control ___
             var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                    'DIV',
-                                                    'jx_inctrl_wait',
-                                                    '&nbsp;');
+                                                 'DIV',
+                                                 'jx_inctrl_wait',
+                                                 '&nbsp;');
             wObj.style.position = 'absolute';
             wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + 'px';
             wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + 'px';
@@ -1847,9 +1847,9 @@ o2jse.ctrl.make_waiting = function(waitCtrl) {
             o2jse.waitObj.style.height = cHeight + 'px';
             // _______________________________ Create wait image inside pseudo-control ___
             var wObj            = o2jse.createEl(o2jse.waitObj,
-                                                    'DIV',
-                                                    'jx_inctrl_wait',
-                                                    '&nbsp;');
+                                                 'DIV',
+                                                 'jx_inctrl_wait',
+                                                 '&nbsp;');
             wObj.style.position = 'relative';
             wObj.style.left     = parseInt((cWidth - wObj.offsetWidth) / 2) + 'px';
             wObj.style.top      = parseInt((cHeight - wObj.offsetHeight) / 2) + 'px';
@@ -6182,6 +6182,7 @@ o2jse.lu.getList = function(ctrlObj, listText, reqId) {
         }
     if (jxjs.waitingCtrl) {
         jxjs.waitingCtrl.style.display = "block";
+        delete jxjs.waitingCtrl;
         }
     // ________ Get only last request response and stop list updates on selection done ___
     if (ctrlObj.reqId != reqId || ctrlObj.stopForSelection) {
@@ -8005,6 +8006,7 @@ jxjs.jsEval = function(reqObj, reqJs) {
         }
     if (jxjs.waitingCtrl) {
         jxjs.waitingCtrl.style.display = "block";
+        delete jxjs.waitingCtrl;
         }
     // ________________________________________________________ Evaluate response code ___
     o2jse.started = false;
