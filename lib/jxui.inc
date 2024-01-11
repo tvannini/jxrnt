@@ -1195,7 +1195,10 @@ class o2_form {
      */
     function resize() {
 
-        $app = $_SESSION['o2_app'];
+        if ($this->refresh_action) {
+            $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione]->
+                                                     esegui_azione($this->refresh_action);
+            }
         $d_x = max(0, $this->larghezza - $this->design_width);
         $d_y = max(0, $this->altezza - $this->design_height);
         // __________________________________________ Reset all controls default values___
