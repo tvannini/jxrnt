@@ -1112,9 +1112,12 @@ class o2_form {
                 // __________________ Check log activated for table binding to control ___
                 if ($app->tables_log && $campo_task && $view_obj->dbdata) {
                     $field_obj = $view_obj->campo_per_controllo($campo_task);
-                    $field_tab = $view_obj->files[$field_obj->file];
-                    if ($field_tab->log_level) {
-                        $new_ctrl->log_level = $field_tab->log_level;
+                    // ____________________ If object belongs to a table (not virtual) ___
+                    if ($field_obj->file) {
+                        $field_tab = $view_obj->files[$field_obj->file];
+                        if ($field_tab->log_level) {
+                            $new_ctrl->log_level = $field_tab->log_level;
+                            }
                         }
                     }
                 }
@@ -1706,6 +1709,7 @@ class o2_ctrl {
     public $tab_row         = false;   /* If control is not in current row of table     */
     public $active_by_tab   = true;    /* If control is "active by table": not in table
                                           or in current row of active table             */
+    public $tab_index       = false;   /* Row-ID if control is inside a dbgrid          */
     public $rows_vis        = array(); /* Rows visibility array                         */
     public $dependences     = array(); /* List of variables/fields this ctrl depends on */
     public $log_level       = false;   /* If ctrl has log level inherited from field/tab*/
@@ -2074,7 +2078,7 @@ class o2_ctrl {
                 }
             if ($chs) {
                 foreach($dps as $view => $fields) {
-                    if ($chs[$view]) {
+                    if (isset($chs[$view]) && $chs[$view]) {
                         if ($chs[$view] === true) {
                             return true;
                             }

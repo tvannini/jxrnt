@@ -1067,7 +1067,7 @@ class o2html {
                 }
             $app->progressivo_istanze = $prgexe_id;
             }
-        elseif ($prgexe_id > $app->progressivo_istanze) {
+        elseif (($prgexe_id > $app->progressivo_istanze) || ($prgexe_id == 0)) {
             return false;
             }
         $prg_local = $app->istanze_prg[$app->progressivo_istanze];
@@ -3458,7 +3458,8 @@ class o2html {
                     $campo_obj = $o2ctrl_obj->prg_obj->contesto[$ctrl->task]->
                                   campo_per_controllo($ctrl->campo_in_ctrl);
                     // ______________________________________________ Ordinable column ___
-                    if (($campo_obj->file == $view->file->indice ||
+                    if ($campo_obj->file &&
+                        ($campo_obj->file == $view->file->indice ||
                          $view->files[$campo_obj->file]->link_by_sql) &&
                         (!isset($ctrl->info_padre[4]) || !$ctrl->info_padre[4])) {
                         $css_sort    = $o2ctrl_obj->sort_class;

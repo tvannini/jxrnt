@@ -1679,6 +1679,7 @@ class o2_view {
 
         }
 
+
     /**
      * Set view(/field) changed
      *
@@ -3341,10 +3342,14 @@ class o2_dbview extends o2_view {
               ($linkfile == $this->file || !$this->files[$linkfile]->not_sql_join) &&
               $valore_local === o2val($linkview, $linkfld))) &&
             $file_type != 'jxsdb') {
-            if (strpos($this->link_on[$file_idx], $qlfd_field) === false) {
+            if (!isset($this->link_on[$file_idx])) {
+                $this->files[$file]->link_by_sql = true;
+                $this->link_on[$file_idx]        = $value;
+                }
+            elseif (strpos($this->link_on[$file_idx], $qlfd_field) === false) {
                 $and = ($this->link_on[$file_idx] ? ' AND ' : '');
                 $this->files[$file]->link_by_sql = true;
-                $this->link_on[$file_idx].= $and.$value;
+                $this->link_on[$file_idx]       .= $and.$value;
                 }
             // _________________________________________________ Check out PK-segments ___
             if (isset($pk_segments[$field->nome_fisico])) {

@@ -134,7 +134,7 @@ class jxjs {
         // _________________________________ Set focus (preserved when forcing-reload) ___
         if ($app->caret_position[$exeid]) {
             // ____________________________________________________ Focus natural flow ___
-            if ($app->caret_position[$exeid]["int"] && $_REQUEST['jxnofocus']) {
+            if ($app->caret_position[$exeid]["int"] && isset($_REQUEST['jxnofocus'])) {
                 $caret = o2html::get_caret(true);
                 if ($caret) {
                     print "o2jse.ctrl.focusFallBack=".reset(explode(",", $caret)).";\n";
@@ -791,7 +791,8 @@ class jxjs {
                                  $o2ctrl_obj->js_props("", true));
                 }
             // ______________________________________________________ Not active pages ___
-            elseif ($o2ctrl_obj->sent_pages[$label_index]) {
+            elseif (isset($o2ctrl_obj->sent_pages[$label_index]) &&
+                    $o2ctrl_obj->sent_pages[$label_index]) {
                 foreach ($form_obj->controlli as $ctrl) {
                     // _________________________________________ Controls in multipage ___
                     if ($ctrl->padre == $o2ctrl_obj->nome &&
@@ -1061,7 +1062,7 @@ class jxjs {
                 $GLOBALS['jxjs'] = false;
                 if (isset($app->caret_position[$o2ctrl_obj->id_esecuzione]) &&
                     $app->caret_position[$o2ctrl_obj->id_esecuzione]["int"] &&
-                    !$_REQUEST['jxnofocus']) {
+                    !isset($_REQUEST['jxnofocus'])) {
                     $caret_code        = o2html::get_caret(true);
                     $o2ctrl_obj->focus = substr($caret_code,
                                                 0,
