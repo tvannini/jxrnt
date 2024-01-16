@@ -1198,8 +1198,10 @@ class o2_form {
      */
     function resize() {
 
-        if ($this->refresh_action) {
-            $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione]->
+        $app = $_SESSION['o2_app'];
+        // __________ Client-width is checked to avoid double execution on splah forms ___
+        if ($this->refresh_action && $app->client_width) {
+            $app->istanze_prg[$this->id_esecuzione]->
                                                      esegui_azione($this->refresh_action);
             }
         $d_x = max(0, $this->larghezza - $this->design_width);
