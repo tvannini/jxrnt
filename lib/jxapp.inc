@@ -1550,7 +1550,7 @@ class o2_app {
                                 "dbs          = \"db_repository.inc\"\n".
                                 "tables       = \"file_repository.inc\"\n".
                                 "menus        = \"menu_repository.inc\"\n".
-                                "vars         = \"vars_repository.inc\"\n".
+                                "vars         = \"var_repository.inc\"\n".
                                 "viewmodels   = \"viewmodels_repository.inc\"\n".
                                 "encoding     = \"windows-1252\"\n".
                                 "validate     = 0\n".
