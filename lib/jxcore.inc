@@ -6008,24 +6008,39 @@ class o2_xmltable  {
                 }
             }
         if ($this->differential) {
-            $GLOBALS['jxerrorhide'] = true;
-            }
-        o2_gateway::insertrec($type_local,
-                              $this->table->db->server->server,
-                              $this->table->db->server->user,
-                              $this->table->db->server->password,
-                              $this->table->db->nome,
-                              $this->table->db->proprietario,
-                              $this->table->nome,
-                              $this->table->indice,
-                              $names_list,
-                              $values_list);
-        if ($this->differential) {
+            try {
+                o2_gateway::insertrec($type_local,
+                                      $this->table->db->server->server,
+                                      $this->table->db->server->user,
+                                      $this->table->db->server->password,
+                                      $this->table->db->nome,
+                                      $this->table->db->proprietario,
+                                      $this->table->nome,
+                                      $this->table->indice,
+                                      $names_list,
+                                      $values_list);
+                }
+            catch (o2_exception $e) {
+                $this->record--;
+                $e->cancel($this->table->db->server);
+                return false;
+                }
             o2_gateway::commit($type_local,
                                $this->table->db->server->server,
                                $this->table->db->server->user,
                                $this->table->db->server->password);
-            unset($GLOBALS['jxerrorhide']);
+            }
+        else {
+            o2_gateway::insertrec($type_local,
+                                  $this->table->db->server->server,
+                                  $this->table->db->server->user,
+                                  $this->table->db->server->password,
+                                  $this->table->db->nome,
+                                  $this->table->db->proprietario,
+                                  $this->table->nome,
+                                  $this->table->indice,
+                                  $names_list,
+                                  $values_list);
             }
 
         }
