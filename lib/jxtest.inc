@@ -36,6 +36,19 @@
  */
 
 
+/**
+ * Define DB constants for delimiters
+ */
+define('o2__o', '');
+define('o2__c', '');
+define("o2_mssql_o", "[");
+define("o2_mssql_c", "]");
+define('o2_postgres_o', '"');
+define('o2_postgres_c', '"');
+define('o2_sqlite3_o', '`');
+define('o2_sqlite3_c', '`');
+
+
 function o2val($view_name, $field_name) {
 
     $jxctx = $GLOBALS['jxt-context'];
@@ -73,7 +86,12 @@ function o2val($view_name, $field_name) {
             $ret = 1;
             break;
         case 'S':
-            $ret = array();
+            if (func_num_args() > 2) {
+                $ret = '';
+                }
+            else {
+                $ret = array();
+                }
             break;
         }
     return $ret;
