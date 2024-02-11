@@ -404,36 +404,38 @@ class jxjs {
      */
     static function ctrl_check($o2ctrl_obj) {
 
-        if ($o2ctrl_obj->is_enabled()) {
-            if ($o2ctrl_obj->padre) {
-                $app     = $_SESSION['o2_app'];
-                $prg     = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
-                $parent  = $prg->form[$o2ctrl_obj->form]->controlli[$o2ctrl_obj->padre];
-                $enabled = $parent->modificabile;
+        if ($o2ctrl_obj->check_dependences()) {
+            if ($o2ctrl_obj->is_enabled()) {
+                if ($o2ctrl_obj->padre) {
+                    $app     = $_SESSION['o2_app'];
+                    $prg     = $app->istanze_prg[$o2ctrl_obj->id_esecuzione];
+                    $parent  = $prg->form[$o2ctrl_obj->form]->
+                                controlli[$o2ctrl_obj->padre];
+                    $enabled = $parent->modificabile;
+                    }
+                else {
+                    $enabled = true;
+                    }
                 }
             else {
-                $enabled = true;
+                $enabled = false;
                 }
+            $active = $o2ctrl_obj->is_active() &&
+                      ($enabled && (!$o2ctrl_obj->tab_row || $o2ctrl_obj->forza_submit) ||
+                       $o2ctrl_obj->selector);
+            $submit = ($o2ctrl_obj->forza_submit || $o2ctrl_obj->selector ?
+                       ($o2ctrl_obj->tab_row ? '!1' : '!0') : '!1');
+            print "jxc({i:'".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.
+                  "',t:'checkbox',v:".($o2ctrl_obj->visibile ? "!0" : "!1").
+                  ",e:".($active ? "!0" : "!1").
+                  ($o2ctrl_obj->tab_index ? ",r:".$o2ctrl_obj->tab_index : "").
+                  ",vS:".($submit).
+                  ",d:".($o2ctrl_obj->sql2ctrl() ? "!0" : "!1").
+                  ",s:'".$o2ctrl_obj->css.
+                  "'".(!$o2ctrl_obj->tab_index ?
+                      ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
+                  ",p:".$o2ctrl_obj->js_props("", true)."});\n";
             }
-        else {
-            $enabled = false;
-            }
-        $active = $o2ctrl_obj->is_active() &&
-                  ($enabled && (!$o2ctrl_obj->tab_row || $o2ctrl_obj->forza_submit) ||
-                   $o2ctrl_obj->selector);
-        $submit = ($o2ctrl_obj->forza_submit || $o2ctrl_obj->selector ?
-                   ($o2ctrl_obj->tab_row ? '!1' : '!0') :
-                   '!1');
-        print "jxc({i:'".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.
-              "',t:'checkbox',v:".($o2ctrl_obj->visibile ? "!0" : "!1").
-              ",e:".($active ? "!0" : "!1").
-              ($o2ctrl_obj->tab_index ? ",r:".$o2ctrl_obj->tab_index : "").
-              ",vS:".($submit).
-              ",d:".($o2ctrl_obj->sql2ctrl() ? "!0" : "!1").
-              ",s:'".$o2ctrl_obj->css.
-              "'".(!$o2ctrl_obj->tab_index ?
-                   ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
-              ",p:".$o2ctrl_obj->js_props("", true)."});\n";
 
         }
 
