@@ -1101,13 +1101,16 @@ class o2_form {
                         $prg->view_grids[$task] = $alias_ctrl;
                         }
                     }
-                elseif ($prg->drawing_ctrl) {
+                elseif ($prg->drawing_ctrl && $view_obj->dbdata) {
                     $new_ctrl->dependences[$task] = false;
                     }
                 if ($campo_task) {
                     $field_obj = $view_obj->campo_per_controllo($campo_task);
                     $new_ctrl->campo_in_ctrl = $campo_task;
                     $new_ctrl->maschera      = $field_obj->maschera;
+                    if ($prg->drawing_ctrl && !$view_obj->dbdata) {
+                        $new_ctrl->dependences[$task][$campo_task] = false;
+                        }
                     }
                 // __________________ Check log activated for table binding to control ___
                 if ($app->tables_log && $campo_task && $view_obj->dbdata) {
