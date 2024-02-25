@@ -3846,7 +3846,7 @@ class o2_app {
                 }
             }
         // ______________________________________________________ Log out code to file ___
-        if ($app->log2file || $app->mutelog || $app->rpc_server) {
+        if ($app->log2file || $app->mutelog || $app->rpc_server || o2session_is_job()) {
             $title = '[SQL STATISTICS] Read: '.intval($total['R']).
                                      ' Write: '.intval($total['W'])."\n";
             $code  = "\n ".str_pad('Program', $prg_len).'   '.str_pad('View', $view_len).
@@ -3888,7 +3888,7 @@ class o2_app {
             fclose($f_local);
             }
         // ____________________________________________________________ Log to console ___
-        if (!$app->mutelog && !$app->rpc_server) {
+        if (!$app->mutelog && !$app->rpc_server && !o2session_is_job()) {
             $code = '<table cellspacing="0" cellpadding="0"><tr><th>Program</th>'.
                     '<th>View</th><th>Table</th><th>DB</th><th>Read</th>'.
                     '<th>Write</th></tr>';
