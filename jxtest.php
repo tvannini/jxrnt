@@ -154,7 +154,7 @@ function error_mode($error_mode) {
                    '~E_NOTICE); ';
             break;
         }
-    $ret.= 'ini_set("display_errors", false); ini_set("log_errors", true); ';
+    $ret.= 'ini_set("display_errors", true); ini_set("log_errors", false); ';
     return $ret;
 
     }
@@ -537,7 +537,8 @@ function test_log($msg, $prg_name, $exp) {
         return 0;
         }
     // ____________________________________________________ Call to undefined function ___
-    elseif (strpos($msg, 'Call to undefined function') !== false) {
+    elseif ((strpos($msg, 'Call to undefined function') !== false) &&
+            substr($msg, strpos($msg, 'undefined function') + 19, 2) !== 'o2') {
         return 0;
         }
     // _______________________________________________________ Call to undefined class ___
@@ -564,6 +565,7 @@ function test_log($msg, $prg_name, $exp) {
  */
 function prg_check($f_prf, $app_vars, $fields, $models, $excluded, $error_mode) {
 
+    $win         = (stripos(PHP_OS, 'WIN') === 0);
     $prg_name    = pathinfo($f_prf, PATHINFO_FILENAME);
     $prf_code    = file_get_contents($f_prf);
     $prg_pars    = prg_get_parameters($f_prf, $models);
@@ -584,11 +586,12 @@ function prg_check($f_prf, $app_vars, $fields, $models, $excluded, $error_mode) 
     $inc  = dirname($f_prf).DIRECTORY_SEPARATOR.'jxtest.inc';
     file_put_contents($inc, $code);
     $error_count = 0;
+    $parse_error = false;
     foreach ($prg_exps as $exp => $body) {
         // ________________________________ Skip expressions containing excluded words ___
         if ($body === str_ireplace($excluded, 'JXTEST', $body))  {
             // ________________________________________________ test single expression ___
-            $error_count+= test_exp($prg_name, $exp, $inc);
+            $error_count+= test_exp($prg_name, $exp, $inc, $parse_error);
             }
         }
     return $error_count;
@@ -604,25 +607,107 @@ function prg_check($f_prf, $app_vars, $fields, $models, $excluded, $error_mode) 
  * @param  string $inc        File path to include to get application and program context
  * @return integer            "1" if error is logged, "0" if error is skippeed
  */
-function test_exp($prg_name, $exp, $inc) {
+function test_exp($prg_name, $exp, $inc, &$parse_error) {
 
-    exec(PHP_BINARY.' -r '.escapeshellarg('include "'.$inc.'"; '.$exp.'();').' 2>&1',
-         $output, $ret);
-    $output = implode("\n", $output);
-    // __________________________________________________________________ Fatal errors ___
-    if ($ret) {
-        // _________________________________________________________ Skip fatal errors ___
+    $descs   = array(0 => array('pipe', 'r'),  // stdin
+                     1 => array('pipe', 'w'),  // stdout
+                     2 => array('pipe', 'w')); // stderr
+    $cmd     = 'require \''.$inc.'\'; '.$exp.'();';
+    $process = proc_open(PHP_BINARY, $descs, $pipes, null, null,
+                         array('bypass_shell' => true));
+    $x_debug = is_callable('xdebug_info');
+    if (is_resource($process)) {
+        fwrite($pipes[0], '<?php '.error_mode('DEV').$cmd.' ?>');
+        fclose($pipes[0]);
+        stream_set_timeout($pipes[1], 10);
+        $output = stream_get_contents($pipes[1]);
+        $error  = stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $ret = proc_close($process);
+        if ($error) {
+            $output = $error;
+            }
+        // _____________________________________ Purge error from stack trace (XDebug) ___
+        if ($x_debug && strpos($output ,'Call Stack:')) {
+            $output = preg_replace('/Call Stack:[^|]*code:\d+\s\s/U', '', $output);
+            }
+        // __________________ Errors returned on parsing, before expression evaluation ___
+        if ($parse_error === false &&
+            ((strpos($output, 'Deprecated: The behavior of unparenthesized') !== false) ||
+             (strpos($output, 'Deprecated: Unparenthesized `a ? b : c ? d') !== false) ||
+             (strpos($output, 'Deprecated: Methods with the same name') !== false) ||
+             (strpos($output, 'Deprecated: Array and string offset access') !== false) ||
+             (strpos($output, 'Parse error: syntax error') !== false))) {
+            // ___________________________________________________________ Store error ___
+            $parse_error = $output;
+            // _________________________________________ Get expression by line number ___
+            $res = array();
+            preg_match('/ on line (\d+)/', $parse_error, $res);
+            $line = $res[1];
+            $code = file($inc);
+            $code = implode(' ', array_slice($code, 0, $line));
+            $res = array();
+            preg_match('/^.*function ('.$prg_name.'_exp_\d+)\(\) \{.*?$/s', $code, $res);
+            if (isset($res[1])) {
+                $exp = $res[1];
+                }
+            else {
+                $exp = '-[UNKNOWN]';
+                }
+            }
+        // __________________________________ Remove parsing errors from later outputs ___
+        elseif ($parse_error) {
+            $output = str_replace($parse_error, '', $output);
+            }
+        return test_exp_output($ret, $output, $prg_name, $exp, $inc);
         }
+
+    }
+
+
+/**
+ * Test expression against application and program context for Linux OS
+ *
+ * @param  integer $ret        Process return status
+ * @param  string  $output     Expression evaluation output
+ * @param  string  $prg_name   Name of the program
+ * @param  string  $exp        Expression function name
+ * @param  string  $inc        File path to include to get application and program context
+ * @return integer            "1" if error is logged, "0" if error is skippeed
+ */
+function test_exp_output($ret, $output, $prg_name, $exp, $inc) {
+
+    $msg = false;
     // __________________________________________________ Handable errors and warnings ___
-    elseif (strpos($output, 'PHP') !== false) {
-        $msg = substr($output, strpos($output, 'PHP'));
+    if (strpos($output, 'Warning:') !== false) {
+        $msg = substr($output, strpos($output, 'Warning:'));
         $msg = substr($msg, 0, strpos($msg, "\n"));
+        }
+    // __________________________________________________________________ Deprecations ___
+    elseif (strpos($output, 'Deprecated:') !== false) {
+        $msg = substr($output, strpos($output, 'Deprecated:'));
+        $msg = substr($msg, 0, strpos($msg, "\n"));
+        }
+    // __________________________________________________________________ Parse errors ___
+    elseif (strpos($output, 'Parse error:') !== false) {
+        $msg = substr($output, strpos($output, 'Parse error:'));
+        $msg = substr($msg, 0, strpos($msg, "\n"));
+        }
+    // __________________________________________________________________ Fatal errors ___
+    elseif ($ret) {
+        $msg = substr($output, strpos($output, 'rror:') + 6);
+        $msg = substr($msg, 0, strpos($msg, "\n"));
+        }
+    if ($msg) {
         if (strpos($msg, ' in '.$inc)) {
             $msg = substr($msg, 0, strpos($msg, ' in '.$inc));
             }
         return test_log($msg, $prg_name, $exp);
         }
-    return 0;
+    else {
+        return 0;
+        }
 
     }
 
