@@ -69,7 +69,12 @@ if (session_start()) {
             $GLOBALS['jxjs'] = true;
             include_once '../lib/jxjs.inc';
             o2html::receive();
-            jxjs::page($_REQUEST['o2_action']);
+            // ________________________________________________ Resize form on refresh ___
+            if (isset($_REQUEST['o2lastform'])) {
+                $app->istanze_prg[$app->progressivo_istanze]->
+                                                  form[$_REQUEST['o2lastform']]->resize();
+                }
+            jxjs::page();
             break;
         case "pagepost": // ________________________________ Standard POST (FULL-AJAX) ___
             $GLOBALS['jxjs'] = true;

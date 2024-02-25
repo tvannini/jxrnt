@@ -716,25 +716,27 @@ class o2_form {
                 // ________________________________________ Force an uncatchable error ___
                 $e->send();
                 }
-            // __________________________________________________ Resize form controls ___
-            $this->resize();
-            // __________________________________________________ Custom columns order ___
-            if ($first_def && $prg->custom_grids) {
-                foreach ($this->controlli as $ctrl_idx => $ctrl_obj) {
-                    if ($ctrl_obj->tipo_ctrl == 'tab' &&
-                        isset($prg->custom_grids[$ctrl_idx]['O'])) {
-                        /*
-                         * ATTENTION: Next logic is needed to get the right moving of a
-                         *            column in last position
-                         */
-                        $ol = $prg->custom_grids[$ctrl_idx]['O'];
-                        asort($ol);
-                        foreach ($ol as $lk => $lv) {
-                            }
-                        unset($ol[$lk]);
-                        $ctrl_obj->move_column($lk, $lv);
-                        foreach ($ol as $col => $pos) {
-                            $ctrl_obj->move_column($col, $pos);
+            if ($first_def) {
+                // ______________________________________________ Resize form controls ___
+                $this->resize();
+                // ______________________________________________ Custom columns order ___
+                if  ($prg->custom_grids) {
+                    foreach ($this->controlli as $ctrl_idx => $ctrl_obj) {
+                        if ($ctrl_obj->tipo_ctrl == 'tab' &&
+                            isset($prg->custom_grids[$ctrl_idx]['O'])) {
+                            /*
+                            * ATTENTION: Next logic is needed to get the right moving of a
+                            *            column in last position
+                            */
+                            $ol = $prg->custom_grids[$ctrl_idx]['O'];
+                            asort($ol);
+                            foreach ($ol as $lk => $lv) {
+                                }
+                            unset($ol[$lk]);
+                            $ctrl_obj->move_column($lk, $lv);
+                            foreach ($ol as $col => $pos) {
+                                $ctrl_obj->move_column($col, $pos);
+                                }
                             }
                         }
                     }
@@ -1202,12 +1204,6 @@ class o2_form {
      */
     function resize() {
 
-        $app = $_SESSION['o2_app'];
-        // __________ Client-width is checked to avoid double execution on splah forms ___
-        if ($this->refresh_action && $app->client_width) {
-            $app->istanze_prg[$this->id_esecuzione]->
-                                                     esegui_azione($this->refresh_action);
-            }
         $d_x = max(0, $this->larghezza - $this->design_width);
         $d_y = max(0, $this->altezza - $this->design_height);
         // __________________________________________ Reset all controls default values___

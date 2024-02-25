@@ -1662,6 +1662,7 @@ class o2html {
                     }
                 }
             }
+        // __________________________________________________ On browser window resize ___
         elseif (isset($_REQUEST['jxresizeall'])) {
             foreach ($app->istanze_prg as $exe_id => $prg) {
                 $app->progressivo_istanze = $exe_id;
@@ -1670,6 +1671,10 @@ class o2html {
                     if ($form->maximized) {
                         $form->maximized = false;
                         $form->max_restore();
+                        if ($form->refresh_action &&
+                            $exe_id == $app->progressivo_istanze) {
+                            $prg->esegui_azione($form->refresh_action);
+                            }
                         $form->resize();
                         }
                     }
@@ -2117,7 +2122,7 @@ class o2html {
                        '" cellspacing="0" cellpadding="0"><tr><td class="'.
                                    $o2form_obj->css_corner.$cs.
                   '">&nbsp;</td><td> &nbsp; </td><td class="'.$o2form_obj->css_resize.
-                  $cs.'"'.($o2form_obj->status_bar ?
+                  $cs.'"'.(($o2form_obj->attiva && $o2form_obj->status_bar) ?
                       ' title="Resize" onMouseDown="o2jse.win.startSizing(this,event);"' :
                       '').
                   ">&nbsp;</td></tr></table>\n";
