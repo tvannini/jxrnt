@@ -984,7 +984,7 @@ class o2_form {
                 case 'img':
                     $this->controlli[$alias_ctrl]   = new o2_ctrl_img();
                     $prg->ctrls['img'][$alias_ctrl] = $this->controlli[$alias_ctrl];
-                    $prg->drawing_ctrl              = false;
+                    $prg->drawing_ctrl              = $this->controlli[$alias_ctrl];
                     break;
                 case 'label':
                     $this->controlli[$alias_ctrl]     = new o2_ctrl_label();
@@ -1155,6 +1155,7 @@ class o2_form {
             case 'label':
             case 'text':
             case 'check':
+            case 'img':
                 $prg->drawing_ctrl = $new_ctrl;
                 break;
             case 'listcombo':

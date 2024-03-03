@@ -648,42 +648,44 @@ class jxjs {
      */
     static function ctrl_image($o2ctrl_obj) {
 
-        $app = $_SESSION['o2_app'];
-        $on  = false;
-        if ($o2ctrl_obj->is_enabled()) {
-            $o2ctrl_obj->forza_submit = !$o2ctrl_obj->tab_row;
-            $on                       = ($o2ctrl_obj->azione_submit ? true : false);
-            }
-        if (!$on) {
-            $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->
+        if ($o2ctrl_obj->check_dependences()) {
+            $app = $_SESSION['o2_app'];
+            $on  = false;
+            if ($o2ctrl_obj->is_enabled()) {
+                $o2ctrl_obj->forza_submit = !$o2ctrl_obj->tab_row;
+                $on                       = ($o2ctrl_obj->azione_submit ? true : false);
+                }
+            if (!$on) {
+                $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->
                                                                   form[$o2ctrl_obj->form];
-            $parent = "{pT:'".($o2ctrl_obj->padre ?
-                               $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
-                               'form')."'}";
+                $parent = "{pT:'".($o2ctrl_obj->padre ?
+                                   $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
+                                   'form')."'}";
+                }
+            if ($app->multilang) {
+                $label = $app->translate($o2ctrl_obj->nome,
+                                         'label',
+                                         0,
+                                         $o2ctrl_obj->label);
+                }
+            else {
+                $label = $o2ctrl_obj->label;
+                }
+            print jxjs::ctrl($o2ctrl_obj,
+                             "l:'".addcslashes(jx_encode($label), "\"'\n\r\\").
+                             "',src:'".$o2ctrl_obj->src().
+                             "',srcover:'".$o2ctrl_obj->srcover().
+                             "',s:'".$o2ctrl_obj->css.
+                             "',e:".($on ? '!0' : '!1').
+                             (!$o2ctrl_obj->tab_index ?
+                             ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
+                             ',w:'.$o2ctrl_obj->larghezza.
+                             ',h:'.$o2ctrl_obj->altezza,
+                             ($on ?
+                              $o2ctrl_obj->js_props("action:'".$o2ctrl_obj->azione_submit.
+                                                    "'", true) :
+                              $parent));
             }
-        if ($app->multilang) {
-            $label = $app->translate($o2ctrl_obj->nome,
-                                     'label',
-                                     0,
-                                     $o2ctrl_obj->label);
-            }
-        else {
-            $label = $o2ctrl_obj->label;
-            }
-        print jxjs::ctrl($o2ctrl_obj,
-                         "l:'".addcslashes(jx_encode($label), "\"'\n\r\\").
-                         "',src:'".$o2ctrl_obj->src().
-                         "',srcover:'".$o2ctrl_obj->srcover().
-                         "',s:'".$o2ctrl_obj->css.
-                         "',e:".($on ? '!0' : '!1').
-                         (!$o2ctrl_obj->tab_index ?
-                          ',x:'.$o2ctrl_obj->x.',y:'.$o2ctrl_obj->y : '').
-                          ',w:'.$o2ctrl_obj->larghezza.
-                          ',h:'.$o2ctrl_obj->altezza,
-                         ($on ?
-                          $o2ctrl_obj->js_props("action:'".$o2ctrl_obj->azione_submit."'",
-                                                true) :
-                          $parent));
 
         }
 
