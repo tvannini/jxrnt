@@ -103,6 +103,7 @@ class o2_form {
     public $custom_pos      = false; /* If form has been positioned by user             */
     public $custom_size     = false; /* If form has been sized by user                  */
     public $maximized       = false; /* If form is actually maximized                   */
+    public $force_resize    = false; /* Force resize (on controls visibility change)    */
 
 
     /**
@@ -740,6 +741,10 @@ class o2_form {
                             }
                         }
                     }
+                }
+            // ________________________ Resize all because controls changed visibility ___
+            elseif ($this->force_resize) {
+                $this->resize();
                 }
             // ____________ Controls custom size and position (by scripting functions) ___
             if (isset($prg->custom_ctrls[$this->nome])) {
@@ -2158,7 +2163,16 @@ class o2_ctrl {
 
     function visibile($visibile = true){
 
-        $this->visibile = ($visibile ? true : false);
+        $app      = $_SESSION['o2_app'];
+        $form     = $app->istanze_prg[$this->id_esecuzione]->form[$this->form];
+        $visibile = ($visibile ? true : false);
+        if ($this->visibile === $visibile) {
+            $form->force_resize = false;
+            }
+        else {
+            $form->force_resize = true;
+            }
+        $this->visibile = $visibile;
         return true;
 
         }
