@@ -127,13 +127,13 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_2() {
-	
+
 return ('');
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_3() {
 	$action = 'export';
-$par    = strtolower(o2par(1)); 
+$par    = strtolower(o2par(1));
 if ($par == 'import' || $par == 'in' || $par == 'i') {
    $action = 'import';
    }
@@ -141,32 +141,32 @@ return ($action);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_4() {
-	
+
 return (o2session_is_job());
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_5() {
-	
+
 return (o2par(9));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_6() {
-	
+
 return (o2val('prg§_§var','action') == 'export' && o2val('prg§_§var','jxdb_asp') && o2zero('_o2SESSION','_area'));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_7() {
-	
+
 return (o2val('prg§_§var','aspid_export_all') && (o2val('prg§_§var','jxdb_asp') == 'D' || o2val('prg§_§var','jxdb_asp') == 'S'));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_8() {
-	
+
 return (o2asp_codes());
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_9() {
-	
+
 return (!o2error_getlastcode());
 	} //|o2_fine_exp|
 
@@ -212,12 +212,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_15() {
-	
+
 return ($_SESSION['o2_app']->split_tab_repos);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_16() {
-	
+
 return (o2par(10));
 	} //|o2_fine_exp|
 
@@ -225,9 +225,9 @@ function jxdbcopy_exp_17() {
 	$old_enc = $_SESSION['o2_app']->chr_encoding;
 $new_enc = strtoupper(o2par(10));
 if (($new_enc != strtoupper($old_enc)) &&
-    ($new_enc == 'UTF-8' ||
-     $new_enc == 'WINDOWS-1252' ||
-     $new_enc == 'ISO8859-1')) {
+    ($new_enc == 'utf-8' ||
+     $new_enc == 'windows-1252' ||
+     $new_enc == 'iso8859-1')) {
    $_SESSION['o2_app']->chr_encoding = $new_enc;
    }
 return ($old_enc);
@@ -246,17 +246,17 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_19() {
-	
+
 return (-1);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_20() {
-	
+
 return (count(o2val('prg§_§var','tables_list')));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_21() {
-	
+
 return ((o2val('prg§_§var','tab_index') >= (o2val('prg§_§var','tab_total') - 1)) || o2error_getlastcode());
 	} //|o2_fine_exp|
 
@@ -303,7 +303,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_24() {
-	
+
 return (o2val('prg§_§var','tab_index') + 1);
 	} //|o2_fine_exp|
 
@@ -317,17 +317,17 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_26() {
-	
+
 return (o2db_asp(o2val('prg§_§var','jxdb')));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_27() {
-	
+
 return (0);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_28() {
-	
+
 return (o2val('prg§_§var','row_count') + 1);
 	} //|o2_fine_exp|
 
@@ -365,7 +365,7 @@ return ($ret);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_30() {
-	
+
 return (time());
 	} //|o2_fine_exp|
 
@@ -381,7 +381,7 @@ $txt   = "Janox DB-copy result:\n\n".
           'To target host: '.o2par(4)."\n".
           'With target user: '.o2par(5)."\n".
           'To target database: '.o2par(8)."\n".
-          'To target schema: '.o2par(7)."\n\n" : 
+          'To target schema: '.o2par(7)."\n\n" :
           'Import to application database: '.o2par(2)."\n".
           'From source type: '.o2par(3)."\n".
           'From source host: '.o2par(4)."\n".
@@ -394,7 +394,7 @@ if (o2session_is_job()) {
    $log = o2app_dir_logs().'jxdbcopy_'.date('YmdHis');
    file_put_contents($log, $txt);
    o2job_add_file($log);
-   }         
+   }
 elseif (o2rnt_interface() == 'BAT') {
    print "\n\n".$txt;
    }
@@ -407,7 +407,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_33() {
-	
+
 return (o2par(2));
 	} //|o2_fine_exp|
 
@@ -507,42 +507,42 @@ return ($result);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_40() {
-	
+
 return (o2val('prg§_§var','src_tab_exists') && o2val('prg§_§var','asp_list') === false);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_41() {
-	
+
 return (o2val('prg§_§var','src_tab_exists') && o2val('prg§_§var','asp_list') !== false);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_42() {
-	
+
 return (count(o2val('prg§_§var','asp_list')));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_43() {
-	
+
 return (o2val('prg§_§var','asp_index') >= (o2val('prg§_§var','asp_total') - 1));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_44() {
-	
+
 return (o2val('prg§_§var','asp_index') + 1);
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_45() {
-	
+
 return (o2val('prg§_§var','asp_list',o2val('prg§_§var','asp_index')));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_46() {
-	
+
 return (o2val('_o2SESSION','_area'));
 	} //|o2_fine_exp|
 
 function jxdbcopy_exp_47() {
-	
+
 return (o2val('prg§_§var','asp_save'));
 	} //|o2_fine_exp|
 ?>

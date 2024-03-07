@@ -7826,7 +7826,7 @@ function o2_time(){
 function jx_encode($string) {
 
     $encod = $_SESSION['o2_app']->chr_encoding;
-    if ($encod == "UTF-8") {
+    if ($encod == 'utf-8') {
         try {
             if (!mb_check_encoding($string, $encod)) {
                 $string = mb_convert_encoding($string, $encod);

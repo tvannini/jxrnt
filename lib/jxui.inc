@@ -1766,12 +1766,26 @@ class o2_ctrl {
         switch ($mask->tipo) {
             // =============================== ALPHA =====================================
             case "A":
-                if (strlen($this->valore) > $mask->dimensione) {
-                    $sql_valore_local = substr($this->valore, 0, $mask->dimensione);
+                if ($_SESSION['o2_app']->chr_encoding == 'utf-8') {
+                    if (mb_strlen($this->valore, 'utf-8') > $mask->dimensione) {
+                        $sql_valore_local = mb_substr($this->valore,
+                                                      0,
+                                                      $mask->dimensione,
+                                                      'utf-8');
+                        }
+                    else {
+                        $sql_valore_local = (trim($this->valore) == '' ?
+                                             $mask->default : $this->valore);
+                        }
                     }
                 else {
-                    $sql_valore_local = (trim($this->valore) == '' ?
-                                         $mask->default : $this->valore);
+                    if (strlen($this->valore) > $mask->dimensione) {
+                        $sql_valore_local = substr($this->valore, 0, $mask->dimensione);
+                        }
+                    else {
+                        $sql_valore_local = (trim($this->valore) == '' ?
+                                            $mask->default : $this->valore);
+                        }
                     }
                 break;
             // ================================ DATE =====================================
@@ -1971,6 +1985,12 @@ class o2_ctrl {
                                 break;
                                 }
                             }
+                        }
+                    elseif ($app->chr_encoding == 'utf-8') {
+                        $ctrl_valore_local = mb_substr($this->valore,
+                                                       0,
+                                                       $mask->dimensione,
+                                                       'utf-8');
                         }
                     else {
                         $ctrl_valore_local = substr($this->valore, 0, $mask->dimensione);

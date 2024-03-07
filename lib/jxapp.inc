@@ -1647,7 +1647,18 @@ class o2_app {
             $this->ldap_base_dn = $conf['ldap_base_dn'];
             }
         if (isset($conf['encoding'])) {
-            $this->chr_encoding = $conf['encoding'];
+            switch (strtolower(str_replace(array("-", "_"), "", $conf['encoding']))) {
+                case "utf8":
+                    $enc = 'utf-8';
+                    break;
+                case "iso88591":
+                    $enc = 'iso8859-1';
+                    break;
+                default:
+                    $enc = 'windows-1252';
+                    break;
+                }
+            $this->chr_encoding = $enc;
             }
         if (isset($conf['alias']) &&
             $conf['alias'] &&

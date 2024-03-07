@@ -109,7 +109,7 @@ class o2html {
         ob_start();
         // _________________________________________________ HTTP-header character-set ___
         @header("Content-type: text/html; charset=".$app->chr_encoding);
-        if ($app->chr_encoding == "UTF-8") {
+        if ($app->chr_encoding == 'utf-8') {
             mb_http_output($app->chr_encoding);
             }
         // _____________________________________________________________________ JXSQL ___
