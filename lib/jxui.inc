@@ -697,6 +697,10 @@ class o2_form {
             }
         // _________________________________________________________ Window is visible ___
         $this->visible = true;
+        // ____________________ Force resize if window changed from inactive to active ___
+        if (($this->id_esecuzione == $app->istanza_attiva) && !$this->attiva) {
+            $this->force_resize = true;
+            }
         $this->attiva  = ($this->id_esecuzione == $app->istanza_attiva ||
                           $this->menu_behavior);
         // ____________________________ Executes _def (active or undefined forms only) ___
