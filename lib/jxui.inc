@@ -2186,10 +2186,7 @@ class o2_ctrl {
         $app      = $_SESSION['o2_app'];
         $form     = $app->istanze_prg[$this->id_esecuzione]->form[$this->form];
         $visibile = ($visibile ? true : false);
-        if ($this->visibile === $visibile) {
-            $form->force_resize = false;
-            }
-        else {
+        if ($this->visibile !== $visibile) {
             $form->force_resize = true;
             }
         $this->visibile = $visibile;
