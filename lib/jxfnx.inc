@@ -3048,7 +3048,7 @@ function o2app_dir_img() {
  *
  * @package application
  * @return  string
- * @see     o2app_userimg(), o2app_dir_home(), o2app_user()
+ * @see     o2app_dir_home(), o2app_user()
  */
 function o2app_dir_user() {
 
