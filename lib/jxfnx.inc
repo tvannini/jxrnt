@@ -1886,8 +1886,8 @@ function o2cron_register($on = true) {
  * @package debug
  * @param   mix     $logobj     Object to dump out, can by any type (Str, Obj, Array, ...)
  * @param   boolean $log2file   If TRUE log is put to file too (app/logs/<developer>.log)
- * @see     o2_timestart()
- * @see     o2_timeend()
+ * @see     o2app_developer()
+ * @see     o2app_runlevel()
  */
 function o2log($logobj = null, $log2file = false) {
 
@@ -1912,8 +1912,6 @@ function o2log($logobj = null, $log2file = false) {
  * @param   boolean $start   If TRUE (default) tracing is started else stopped (if active)
  * @return  boolean          Old tracing status
  * @see     o2log()
- * @see     o2_timestart()
- * @see     o2_timeend()
  */
 function o2sqltrace($start = true) {
 
