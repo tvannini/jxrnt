@@ -4156,7 +4156,7 @@ class o2_job {
 
         $app                 = $_SESSION['o2_app'];
         $this->id            = intval($id);
-        $this->name          = $name;
+        $this->name          = preg_replace('/\W/', '_', $name);
         $this->prg           = $prg;
         $this->params        = $params;
         $this->desc          = $desc;

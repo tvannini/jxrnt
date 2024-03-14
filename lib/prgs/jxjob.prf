@@ -115,6 +115,8 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2edit3->y(60);
 		$ctrl_o2edit3->larghezza(300);
 		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->azione("name_changed");
+		$ctrl_o2edit3->on_change(jxjob_exp_13());
 	$ctrl_o2textarea2 = &$form_jxjob_1->ctrldef("o2textarea2", "text", "", "prg§_§var", "job_desc");
 		$ctrl_o2textarea2->x(120);
 		$ctrl_o2textarea2->y(90);
@@ -242,6 +244,10 @@ function jxjob§§close_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function jxjob§§create_job_act(&$o2exe) {
+	} //|o2_fine_act|
+
+function jxjob§§name_changed_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "job_name", jxjob_exp_42()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxjob§§read_job_act(&$o2exe) {
@@ -657,5 +663,10 @@ if (o2val('prg§_§var','param_ctrl_type') == "s") {
    $val = '';
    }
 return ($val);
+	} //|o2_fine_exp|
+
+function jxjob_exp_42() {
+	
+return (preg_replace('/\W/', '_', o2val('prg§_§var','job_name')));
 	} //|o2_fine_exp|
 ?>

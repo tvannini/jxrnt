@@ -1,5 +1,5 @@
 <?php
-//2.6
+//2.9
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -11,6 +11,7 @@ o2def::prg("jxjob", "start", "", __FILE__);
 o2def::view('prg§_§var');
 o2def::act("close");
 o2def::act("create_job");
+o2def::act("name_changed");
 o2def::act("read_job");
 o2def::act("read_params");
 o2def::act("save_job");
