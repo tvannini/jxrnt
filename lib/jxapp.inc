@@ -8788,6 +8788,7 @@ class o2_inspector {
      * Find all uses of an expression in a program script
      *
      * @param  string  $prf_code
+     * @param  string  $prg_name
      * @param  integer $exp
      * @return array
      */
@@ -9076,6 +9077,15 @@ class o2_inspector {
                             }
                         }
                     }
+                }
+            }
+        // ____________________________________ Look for uses in expresions (o2exp())) ___
+        foreach (self::get_prg_exps($prf_code, $prg_name) as $exp_id => $exp_body) {
+            if (strpos($exp_body, 'o2exp('.$exp.')')) {
+                if (!isset($ret['E'])) {
+                    $ret['E'] = array();
+                    }
+                $ret['E'][] = $exp_id;
                 }
             }
         return $ret;
@@ -11096,6 +11106,15 @@ class o2_inspector {
                                                          $io,
                                                          $this->img_path."io.png",
                                                          self::$w_io);
+                    }
+                }
+            // _________________________________________ Uses in expressions (o2exp()) ___
+            if (isset($uses['E'])) {
+                foreach ($uses['E'] as $exp_id) {
+                    $ret["p".$id_prg."e".$exp_id] = array('p'.$id_prg,
+                                                          $exp_id,
+                                                          $this->img_path."exp.png",
+                                                          self::$w_expression);
                     }
                 }
             }
