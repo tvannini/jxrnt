@@ -5732,6 +5732,7 @@ class o2_dbview extends o2_view {
         $insert_valori_arr[] = "'".$app->user."'";
         foreach ($this->campi as $singolo_campo) {
             if ($singolo_campo->file == $this->file->indice &&
+                !$singolo_campo->virtual                    &&
                 !strpos($singolo_campo->nome, "_JXKF")      &&
                 ($action != 'I' ||
                  $this->corrente[$singolo_campo->nome] !=
