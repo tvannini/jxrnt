@@ -3774,6 +3774,10 @@ class o2html {
                         $valore_local = $ctrl->get_desc();
                         $align        = '';
                         }
+                    elseif ($ctrl->tipo_ctrl == 'text') {
+                        $valore_local = nl2br($ctrl->sql2ctrl());
+                        $align        = '';
+                        }
                     else {
                         $valore_local = $ctrl->sql2ctrl();
                         $align        = ($ctrl->maschera->allineamento == 'Right' ?

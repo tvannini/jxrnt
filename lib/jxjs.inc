@@ -1115,6 +1115,10 @@ class jxjs {
                         if (trim($valore_local) == '') {
                             $valore_local = '&nbsp;';
                             }
+                        elseif (($ctrl->tipo_ctrl == 'text') &&
+                                (strpos($valore_local, '\n') !== false)) {
+                            $valore_local = str_replace('\n', '<br>', $valore_local);
+                            }
                         $l_ctrl                = new o2_ctrl_label();
                         $l_ctrl->nome          = $ctrl->nome;
                         $l_ctrl->padre         = $tab_name;
