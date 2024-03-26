@@ -1687,6 +1687,9 @@ class o2_view {
     function set_changes($field = '') {
 
         $prg = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
+        if (!is_array($prg->changes)) {
+            $prg->changes = array();
+            }
         if ($field) {
             if (!isset($prg->changes[$this->nome]) ||
                 $prg->changes[$this->nome] !== true) {
@@ -1694,9 +1697,6 @@ class o2_view {
                 }
             }
         elseif ($this instanceof o2_dbview) {
-            if (!is_array($prg->changes)) {
-                $prg->changes = array();
-                }
             $prg->changes[$this->nome] = true;
             }
         }

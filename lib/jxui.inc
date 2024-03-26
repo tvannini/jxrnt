@@ -672,7 +672,8 @@ class o2_form {
                 $this->chiusa  = false;
                 $this->visible = false;
                 // __________________________________ Remove focus from closed windows ___
-                if ($app->caret_position[$this->id_esecuzione]['form'] == $this->nome) {
+                if (isset($app->caret_position[$this->id_esecuzione]) &&
+                    $app->caret_position[$this->id_esecuzione]['form'] == $this->nome) {
                     unset($app->caret_position[$this->id_esecuzione]);
                     }
                 if (isset($app->open_wins[$this->id_esecuzione][$this->nome])) {
@@ -1661,19 +1662,21 @@ class o2_form {
             }
         // ______________________________ Loop on containers to expand controls inside ___
         foreach ($containers as $ctrl => $values) {
+            $x = (isset($values['X']) ? $values['X'] : 0);
+            $y = (isset($values['Y']) ? $values['Y'] : 0);
             if ($this->controlli[$ctrl]->tipo_ctrl == 'multipage') {
                 foreach ($this->controlli[$ctrl]->label as $label => $label_desc) {
                     // ________________________ Compose lists of controls sharing axes ___
                     list($cx_list, $cy_list) = $this->resize_analysis($ctrl, $label);
                     // _____________________________________ Resize and repos controls ___
-                    $this->resize_expand($cx_list, $cy_list, $values['X'], $values['Y']);
+                    $this->resize_expand($cx_list, $cy_list, $x, $y);
                     }
                 }
             else {
                 // ____________________________ Compose lists of controls sharing axes ___
                 list($cx_list, $cy_list) = $this->resize_analysis($ctrl);
                 // _________________________________________ Resize and repos controls ___
-                $this->resize_expand($cx_list, $cy_list, $values['X'], $values['Y']);
+                $this->resize_expand($cx_list, $cy_list, $x, $y);
                 }
             }
 
@@ -1898,123 +1901,127 @@ class o2_ctrl {
         $app  = $_SESSION['o2_app'];
         $mask = $this->maschera;
         if (isset($this->password) && $this->password) {
-            if (trim($this->valore) != "") {
-                $ctrl_valore_local = str_repeat("*", $mask->dimensione);
+            if (trim($this->valore) != '') {
+                $ctrl_valore_local = str_repeat('*', $mask->dimensione);
                 }
             else {
                 $ctrl_valore_local = "";
                 }
             }
         else {
-            $ctrl_valore_local = "";
-            switch ($mask->tipo) {
-                // ============================== DATE ===================================
-                case "D":
-                    if (trim($this->valore) != "" &&
-                        $this->valore != $mask->default) {
-                            $ctrl_valore_local = str_replace(array("d", "m", "y"),
-                                                             array($this->valore[6].
-                                                                   $this->valore[7],
-                                                                   $this->valore[4].
-                                                                   $this->valore[5],
-                                                                  ($mask->shortyear ? "" :
-                                                                    $this->valore[0].
-                                                                    $this->valore[1]).
-                                                                   $this->valore[2].
-                                                                   $this->valore[3]),
+            $ctrl_valore_local = '';
+            if ($this->campo_in_ctrl) {
+                switch ($mask->tipo) {
+                    // ============================ DATE =================================
+                    case 'D':
+                        if (trim($this->valore) != '' &&
+                            $this->valore != $mask->default) {
+                                $ctrl_valore_local = str_replace(array('d', 'm', 'y'),
+                                                            array($this->valore[6].
+                                                                  $this->valore[7],
+                                                                  $this->valore[4].
+                                                                  $this->valore[5],
+                                                                  ($mask->shortyear ? '' :
+                                                                   $this->valore[0].
+                                                                   $this->valore[1]).
+                                                                  $this->valore[2].
+                                                                  $this->valore[3]),
                                                            strtolower($mask->expression));
-                        }
-                    elseif (!$mask->zeroff) {
-                        $ctrl_valore_local = str_replace(array("d", "m", "y"),
-                                                         array("00",
-                                                               "00",
-                                                               ($mask->shortyear ?
-                                                                "00" :
-                                                                "0000")),
-                                                               $mask->expression);
-                        }
-                    else {
-                        $ctrl_valore_local = "";
-                        }
-                    break;
-
-                // ============================== TIME ===================================
-                case "O":
-                    if (trim($this->valore) != "" &&
-                        $this->valore != $mask->default) {
-                        $ctrl_valore_local = str_replace(array("h", "m", "s"),
-                                                         array($this->valore[0].
-                                                               $this->valore[1],
-                                                               $this->valore[2].
-                                                               $this->valore[3],
-                                                               $this->valore[4].
-                                                               $this->valore[5]),
-                                                           strtolower($mask->expression));
-                        }
-                    elseif (!$mask->zeroff) {
-                        $ctrl_valore_local = str_replace(array("h", "m", "s"),
-                                                         array("00", "00", "00"),
-                                                         $mask->expression);
-                        }
-                    else {
-                        $ctrl_valore_local = "";
-                        }
-                    break;
-
-                // ============================ NUMERIC ==================================
-                case "N":
-                    if ((trim($this->valore) != "" && $this->valore != $mask->default) ||
-                        !$mask->zeroff) {
-                        $valore_local = floatval($this->valore);
-                        if (!$mask->negativo) {
-                            $valore_local = abs($valore_local);
                             }
-                        $ctrl_valore_local = $mask->prefisso.
-                                             number_format($valore_local,
-                                                           $mask->decimali,
-                                                           $mask->separatore,
-                                                           $mask->migliaia);
-                        }
-                    else {
-                        $ctrl_valore_local = "";
-                        }
-                    break;
+                        elseif (!$mask->zeroff) {
+                            $ctrl_valore_local = str_replace(array('d', 'm', 'y'),
+                                                             array('00',
+                                                                   '00',
+                                                                   ($mask->shortyear ?
+                                                                    '00' :
+                                                                    '0000')),
+                                                             $mask->expression);
+                            }
+                        else {
+                            $ctrl_valore_local = '';
+                            }
+                        break;
 
-                // ============================== ALFA ===================================
-                case "A":
-                    if (count($mask->valori) > 0) {
-                        foreach ($mask->valori as $idx => $singolo_valore) {
-                            if ($idx == substr($this->valore, 0, $mask->dimensione)) {
-                                $ctrl_valore_local = $singolo_valore;
-                                break;
+                    // ============================ TIME =================================
+                    case 'O':
+                        if (trim($this->valore) != '' &&
+                            $this->valore != $mask->default) {
+                            $ctrl_valore_local = str_replace(array('h', 'm', 's'),
+                                                            array($this->valore[0].
+                                                                  $this->valore[1],
+                                                                  $this->valore[2].
+                                                                  $this->valore[3],
+                                                                  $this->valore[4].
+                                                                  $this->valore[5]),
+                                                           strtolower($mask->expression));
+                            }
+                        elseif (!$mask->zeroff) {
+                            $ctrl_valore_local = str_replace(array('h', 'm', 's'),
+                                                             array('00', '00', '00'),
+                                                            $mask->expression);
+                            }
+                        else {
+                            $ctrl_valore_local = "";
+                            }
+                        break;
+
+                    // ========================== NUMERIC ================================
+                    case 'N':
+                        if ((trim($this->valore) != '' &&
+                             $this->valore != $mask->default) || !$mask->zeroff) {
+                            $valore_local = floatval($this->valore);
+                            if (!$mask->negativo) {
+                                $valore_local = abs($valore_local);
+                                }
+                            $ctrl_valore_local = $mask->prefisso.
+                                                number_format($valore_local,
+                                                              $mask->decimali,
+                                                              $mask->separatore,
+                                                              $mask->migliaia);
+                            }
+                        else {
+                            $ctrl_valore_local = '';
+                            }
+                        break;
+
+                    // ============================ ALFA =================================
+                    case 'A':
+                        if (count($mask->valori) > 0) {
+                            foreach ($mask->valori as $idx => $singolo_valore) {
+                                if ($idx == substr($this->valore, 0, $mask->dimensione)) {
+                                    $ctrl_valore_local = $singolo_valore;
+                                    break;
+                                    }
                                 }
                             }
-                        }
-                    elseif ($app->chr_encoding == 'utf-8') {
-                        $ctrl_valore_local = mb_substr($this->valore,
-                                                       0,
-                                                       $mask->dimensione,
-                                                       'utf-8');
-                        }
-                    else {
-                        $ctrl_valore_local = substr($this->valore, 0, $mask->dimensione);
-                        }
-                    break;
+                        elseif ($app->chr_encoding == 'utf-8') {
+                            $ctrl_valore_local = mb_substr($this->valore,
+                                                        0,
+                                                        $mask->dimensione,
+                                                        'utf-8');
+                            }
+                        else {
+                            $ctrl_valore_local = substr($this->valore,
+                                                        0,
+                                                        $mask->dimensione);
+                            }
+                        break;
 
-                // =========================== STRUCTURE =================================
-                case "S":
-                    $ctrl_valore_local = var_export($this->valore, true);
-                    break;
+                    // ========================= STRUCTURE ===============================
+                    case 'S':
+                        $ctrl_valore_local = var_export($this->valore, true);
+                        break;
 
-                // ============================ LOGICAL ==================================
-                case "L":
-                    $ctrl_valore_local = ($this->valore ? true : false);
-                    break;
+                    // ========================== LOGICAL ================================
+                    case 'L':
+                        $ctrl_valore_local = ($this->valore ? true : false);
+                        break;
 
-                // ============================= OTHER ===================================
-                default:
-                    $ctrl_valore_local = $this->valore;
-                    break;
+                    // =========================== OTHER =================================
+                    default:
+                        $ctrl_valore_local = $this->valore;
+                        break;
+                    }
                 }
             }
         if ($GLOBALS['jxjs']) {
@@ -2220,12 +2227,9 @@ class o2_ctrl {
      *  [11] : Action
      *
      */
-    function info_padre($info_padre = null){
+    function info_padre($info_padre = array()){
 
-        $app = $_SESSION['o2_app'];
-        if ($info_padre === null) {
-            $info_padre = array();
-            }
+        $app    = $_SESSION['o2_app'];
         $parent = $app->istanze_prg[$this->id_esecuzione]->form[$this->form]->
                    controlli[$this->padre];
         if ($parent->tipo_ctrl == 'tab') {
@@ -4050,7 +4054,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 if ($filter_txt && strpos($item_desc, $filter_txt) === false) {
                     continue;
                     }
-                if (!$unique_code[$item_code]) {
+                if (!isset($unique_code[$item_code])) {
                     $unique_code[$item_code] = true;
                     if ($as_array) {
                         $xlist[$item_code] = $item_desc;
@@ -4065,7 +4069,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
         // _______________________________________________________ Add items from view ___
         foreach ($items_view->recordset as $single_record) {
             $item_code = $single_record[$this->items_code];
-            if (!$unique_code[$item_code]) {
+            if (!isset($unique_code[$item_code])) {
                 $unique_code[$item_code] = true;
                 if ($as_array) {
                     $xlist[$item_code] = $single_record[$this->items_desc];
@@ -4078,10 +4082,10 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 }
             }
         unset($unique_code);
-        if ($items_view->campi[$filter_desc_name]) {
+        if (isset($items_view->campi[$filter_desc_name])) {
             unset($items_view->campi[$filter_desc_name]);
             }
-        elseif ($items_view->formule[$filter_desc_name]) {
+        elseif (isset($items_view->formule[$filter_desc_name])) {
             unset($items_view->formule[$filter_desc_name]);
             }
         if ($items_view->offset_fine >= ($items_view->totale_record - 1)) {

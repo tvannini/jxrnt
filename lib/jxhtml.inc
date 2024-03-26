@@ -1979,6 +1979,9 @@ class o2html {
         if ($o2form_obj->attiva) {
             $keyboard_script_local = ' onKeyDown="o2jse.ctrl.k(event);"';
             }
+        else {
+            $keyboard_script_local = '';
+            }
         // ========================= [   INIZIO FINESTRA o2_form   ] =====================
         $nowin = false;
         if ($o2form_obj->css_finestra == "nowindow") {
@@ -2740,22 +2743,24 @@ class o2html {
                                   $_REQUEST['o2_prgexeid'] :
                                   $app->progressivo_istanze)];
         ob_end_clean();
-        header("Content-type: text/javascript; charset=".$app->chr_encoding);
+        header('Content-type: text/javascript; charset='.$app->chr_encoding);
         if ($prg) {
             $form = $prg->form[$_REQUEST['o2lastform']];
             if ($form) {
                 $ctrl = $form->controlli[$_REQUEST['o2lastctrl']];
                 if ($ctrl) {
-                    $filter = $_REQUEST[$ctrl->nome.$ctrl->id_esecuzione."_desc"];
+                    $filter = (isset($_REQUEST[$ctrl->nome.$ctrl->id_esecuzione.'_desc'])
+                               ? $_REQUEST[$ctrl->nome.$ctrl->id_esecuzione.'_desc'] :
+                               '');
                     switch ($_REQUEST['jxluact']) {
-                        case "lulist": // __________________________ Lookup items list ___
+                        case 'lulist': // __________________________ Lookup items list ___
                             print $ctrl->xlist(false, $filter);
                             break;
-                        case "luprevpg": // ________ Lookup items list - previous page ___
-                            print $ctrl->xlist("P", $filter);
+                        case 'luprevpg': // ________ Lookup items list - previous page ___
+                            print $ctrl->xlist('P', $filter);
                             break;
-                        case "lunextpg": // ____________ Lookup items list - next page ___
-                            print $ctrl->xlist("N", $filter);
+                        case 'lunextpg': // ____________ Lookup items list - next page ___
+                            print $ctrl->xlist('N', $filter);
                             break;
                         }
                     }

@@ -132,7 +132,7 @@ class jxjs {
             $app->js_cache = "";
             }
         // _________________________________ Set focus (preserved when forcing-reload) ___
-        if ($app->caret_position[$exeid]) {
+        if (isset($app->caret_position[$exeid])) {
             // ____________________________________________________ Focus natural flow ___
             if ($app->caret_position[$exeid]["int"] && isset($_REQUEST['jxnofocus'])) {
                 $caret = o2html::get_caret(true);
@@ -455,7 +455,8 @@ class jxjs {
             $enabled        = $o2ctrl_obj->is_enabled();
             $active         = $o2ctrl_obj->is_active();
             $zoom           = $o2ctrl_obj->is_zoomable();
-            $dyn_list       = "!1";
+            $dyn_list       = '!1';
+            $static_list    = '';
             // __________________________________________________________ Lookup combo ___
             if ($o2ctrl_obj->righe == 1) {
                 $code_value = $o2ctrl_obj->ctrl2sql();
@@ -1193,14 +1194,17 @@ class jxjs {
                         // __________________ Controls (no navigator) inside the table ___
                         if ($ctrl->padre == $tab_name &&
                             $ctrl->tipo_ctrl != 'navigator') {
-                            $ctrl_val  = "";
                             $ctrl_code = "v:''";
-                            $info_css  = $ctrl->info_padre[5];
-                            $cssc      = ($info_css ?
-                                          ($info_css[0] === ' ' ?
-                                           $css_cella :
-                                           '').$info_css :
-                                          $css_cella);
+                            $cssc      = '';
+                            // __________________________________ CSS from parent-info ___
+                            if (isset($ctrl->info_padre[5]) && $ctrl->info_padre[5]) {
+                                $info_css = $ctrl->info_padre[5];
+                                $cssc     = ($info_css[0] === ' ' ? $css_cella : '').
+                                             $info_css;
+                                }
+                            else {
+                                $cssc = $css_cella;
+                                }
                             // ___________ Controls binding to field (edit, text, ...) ___
                             if ($ctrl->campo_in_ctrl) {
                                 $ctrl->valore = $o2ctrl_obj->prg_obj->
@@ -1234,7 +1238,6 @@ class jxjs {
                                 }
                             // ________________________________________________ Button ___
                             elseif ($ctrl->tipo_ctrl == "button") {
-                                $label = str_replace("&", "", $label);
                                 $ctrl_code = "v:'".
                                              addcslashes(str_replace("&",
                                                                      "",
@@ -1242,7 +1245,7 @@ class jxjs {
                                                          "'")."'";
                                 }
                             // _________________________________________________ Label ___
-                            elseif ($ctrl->label) {
+                            elseif (isset($ctrl->label) && $ctrl->label) {
                                 $ctrl_code = "v:'".
                                              str_replace(array("\n", "\r"), " ",
                                                                htmlentities($ctrl->label,
@@ -1301,7 +1304,8 @@ class jxjs {
     static function ctrl_win($o2form_obj) {
 
         $app  = $_SESSION['o2_app'];
-        $wins = $app->open_wins[$o2form_obj->id_esecuzione];
+        $wins = (isset($app->open_wins[$o2form_obj->id_esecuzione]) ?
+                 $app->open_wins[$o2form_obj->id_esecuzione] : false);
         // ______________________________ Get form-ID or parent form-ID (if linked to) ___
         if ($o2form_obj->linkto) {
             $prg        = $app->istanze_prg[$app->progressivo_istanze];

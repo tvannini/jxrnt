@@ -1168,7 +1168,7 @@ class o2_dir extends o2_fsitem {
             $opt   = GLOB_BRACE;
             }
         else {
-            $opt = null;
+            $opt = 0;
             }
         $elements       = array();
         $elements_names = glob($this->nome_completo.$match, $opt);
