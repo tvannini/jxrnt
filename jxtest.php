@@ -580,8 +580,9 @@ function prg_check($f_prf, $app_vars, $fields, $models, $excluded, $error_mode) 
                                             '"V" => '.var_export($prg_vars, 1).','.
                                             '"S" => '.var_export($prg_selects, 1).");\n".
             error_mode($error_mode)."\n".
-            'include "'.__DIR__.DIRECTORY_SEPARATOR.'lib'.
-                                DIRECTORY_SEPARATOR.'jxtest.inc";'."\n".
+            str_replace('\\', '/',
+                        'include "'.__DIR__.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.
+                        'jxtest.inc";')."\n".
             substr($prf_code, strpos($prf_code, 'function '.$prg_name.'_exp_'));
     $inc  = dirname($f_prf).DIRECTORY_SEPARATOR.'jxtest.inc';
     file_put_contents($inc, $code);
