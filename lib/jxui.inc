@@ -1910,7 +1910,8 @@ class o2_ctrl {
             }
         else {
             $ctrl_valore_local = '';
-            switch ($mask->tipo) {
+            $type              = (is_a($mask, 'o2_maschera') ? $mask->tipo : '');
+            switch ($type) {
                 // ============================== DATE ===================================
                 case 'D':
                     if (trim($this->valore) != '' &&
