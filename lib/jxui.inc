@@ -1899,7 +1899,7 @@ class o2_ctrl {
     function sql2ctrl() {
 
         $app  = $_SESSION['o2_app'];
-        $mask = $this->maschera;
+        $mask = ($this->maschera ? $this->maschera : new o2_maschera('dummy', ''));
         if (isset($this->password) && $this->password) {
             if (trim($this->valore) != '') {
                 $ctrl_valore_local = str_repeat('*', $mask->dimensione);
@@ -1910,8 +1910,7 @@ class o2_ctrl {
             }
         else {
             $ctrl_valore_local = '';
-            $type              = (is_a($mask, 'o2_maschera') ? $mask->tipo : '');
-            switch ($type) {
+            switch ($mask->tipo) {
                 // ============================== DATE ===================================
                 case 'D':
                     if (trim($this->valore) != '' &&
