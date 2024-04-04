@@ -1898,69 +1898,47 @@ class o2_ctrl {
      */
     function sql2ctrl() {
 
-        $app  = $_SESSION['o2_app'];
-        $mask = ($this->maschera ? $this->maschera : new o2_maschera('dummy', ''));
-        if (isset($this->password) && $this->password) {
-            if (trim($this->valore) != '') {
-                $ctrl_valore_local = str_repeat('*', $mask->dimensione);
-                }
-            else {
-                $ctrl_valore_local = '';
-                }
+        $app   = $_SESSION['o2_app'];
+        $mask  = ($this->maschera ? $this->maschera : new o2_maschera('dummy', ''));
+        $value = '';
+        if (isset($this->password) && $this->password && (trim($this->valore) != '')) {
+            $value = str_repeat('*', $mask->dimensione);
             }
         else {
-            $ctrl_valore_local = '';
             switch ($mask->tipo) {
                 // ============================== DATE ===================================
                 case 'D':
-                    if (trim($this->valore) != '' &&
-                        $this->valore != $mask->default) {
-                            $ctrl_valore_local = str_replace(array('d', 'm', 'y'),
-                                                             array($this->valore[6].
-                                                                   $this->valore[7],
-                                                                   $this->valore[4].
-                                                                   $this->valore[5],
-                                                                  ($mask->shortyear ? "" :
-                                                                    $this->valore[0].
-                                                                    $this->valore[1]).
-                                                                   $this->valore[2].
-                                                                   $this->valore[3]),
-                                                           strtolower($mask->expression));
+                    if (trim($this->valore) != '' && $this->valore != $mask->default) {
+                        $value = str_replace(array('d', 'm', 'y'),
+                                             array($this->valore[6].$this->valore[7],
+                                                   $this->valore[4].$this->valore[5],
+                                                   ($mask->shortyear ? '' :
+                                                    $this->valore[0].$this->valore[1]).
+                                                   $this->valore[2].$this->valore[3]),
+                                             strtolower($mask->expression));
                         }
                     elseif (!$mask->zeroff) {
-                        $ctrl_valore_local = str_replace(array('d', 'm', 'y'),
-                                                         array('00',
-                                                               '00',
-                                                               ($mask->shortyear ?
-                                                                '00' :
-                                                                '0000')),
-                                                               $mask->expression);
-                        }
-                    else {
-                        $ctrl_valore_local = '';
+                        $value = str_replace(array('d', 'm', 'y'),
+                                             array('00',
+                                                   '00',
+                                                   ($mask->shortyear ? '00' : '0000')),
+                                             $mask->expression);
                         }
                     break;
 
                 // ============================== TIME ===================================
                 case 'O':
-                    if (trim($this->valore) != '' &&
-                        $this->valore != $mask->default) {
-                        $ctrl_valore_local = str_replace(array('h', 'm', 's'),
-                                                         array($this->valore[0].
-                                                               $this->valore[1],
-                                                               $this->valore[2].
-                                                               $this->valore[3],
-                                                               $this->valore[4].
-                                                               $this->valore[5]),
-                                                           strtolower($mask->expression));
+                    if (trim($this->valore) != '' && $this->valore != $mask->default) {
+                        $value = str_replace(array('h', 'm', 's'),
+                                             array($this->valore[0].$this->valore[1],
+                                                   $this->valore[2].$this->valore[3],
+                                                   $this->valore[4].$this->valore[5]),
+                                             strtolower($mask->expression));
                         }
                     elseif (!$mask->zeroff) {
-                        $ctrl_valore_local = str_replace(array('h', 'm', 's'),
-                                                         array('00', '00', '00'),
-                                                         $mask->expression);
-                        }
-                    else {
-                        $ctrl_valore_local = "";
+                        $value = str_replace(array('h', 'm', 's'),
+                                             array('00', '00', '00'),
+                                             $mask->expression);
                         }
                     break;
 
@@ -1972,14 +1950,10 @@ class o2_ctrl {
                         if (!$mask->negativo) {
                             $valore_local = abs($valore_local);
                             }
-                        $ctrl_valore_local = $mask->prefisso.
-                                             number_format($valore_local,
-                                                           $mask->decimali,
-                                                           $mask->separatore,
-                                                           $mask->migliaia);
-                        }
-                    else {
-                        $ctrl_valore_local = '';
+                        $value = $mask->prefisso.number_format($valore_local,
+                                                               $mask->decimali,
+                                                               $mask->separatore,
+                                                               $mask->migliaia);
                         }
                     break;
 
@@ -1988,43 +1962,43 @@ class o2_ctrl {
                     if (count($mask->valori) > 0) {
                         foreach ($mask->valori as $idx => $singolo_valore) {
                             if ($idx == substr($this->valore, 0, $mask->dimensione)) {
-                                $ctrl_valore_local = $singolo_valore;
+                                $value = $singolo_valore;
                                 break;
                                 }
                             }
                         }
                     elseif ($app->chr_encoding == 'utf-8') {
-                        $ctrl_valore_local = mb_substr($this->valore,
-                                                       0,
-                                                       $mask->dimensione,
-                                                       'utf-8');
+                        $value = mb_substr($this->valore,
+                                           0,
+                                           $mask->dimensione,
+                                           'utf-8');
                         }
                     else {
-                        $ctrl_valore_local = substr($this->valore, 0, $mask->dimensione);
+                        $value = substr($this->valore, 0, $mask->dimensione);
                         }
                     break;
 
                 // =========================== STRUCTURE =================================
                 case 'S':
-                    $ctrl_valore_local = var_export($this->valore, true);
+                    $value = var_export($this->valore, true);
                     break;
 
                 // ============================ LOGICAL ==================================
                 case 'L':
-                    $ctrl_valore_local = ($this->valore ? true : false);
+                    $value = ($this->valore ? true : false);
                     break;
 
                 // ============================= OTHER ===================================
                 default:
-                    $ctrl_valore_local = $this->valore;
+                    $value = $this->valore;
                     break;
                 }
             }
         if ($GLOBALS['jxjs']) {
-            return addcslashes($ctrl_valore_local, "'\\\n\r");
+            return addcslashes($value, "'\\\n\r");
             }
         else {
-            return htmlspecialchars($ctrl_valore_local, ENT_QUOTES, $app->chr_encoding);
+            return htmlspecialchars($value, ENT_QUOTES, $app->chr_encoding);
             }
 
         }
