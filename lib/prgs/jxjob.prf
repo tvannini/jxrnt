@@ -341,8 +341,9 @@ return ($params);
 	} //|o2_fine_exp|
 
 function jxjob_exp_9() {
-	$list = array(''               => 'Select a module',
-              'tools/jxdbcopy' => '(internal) jxdbcopy') + 
+	$list = array(''                         => 'Select a module',
+              'tools/jxdbcopy'           => '(internal) JX DB Copy',
+              'tools/o2dev_app_analysis' => '(internal) JX Application Analysis') + 
         o2app_prgs_list();
 return ($list);
 	} //|o2_fine_exp|

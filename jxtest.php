@@ -47,7 +47,7 @@ Errors are reported according with "error-mode" setting.
 You can run jxtest.php using a working PHP installation,
 typing at the command line:
 
-<php_dir>/php <jxroot>/jxtest.php <main_file> [<mode>]
+php <jxroot>/jxtest.php <main_file> [<mode>] [CSV]
 
 Where <main_file> is the main file  full  path  for  the
 application you want to test.
@@ -57,6 +57,9 @@ error-mode check (DEV|EXE).
 
 If <mode> is not passed then application error-mode will
 be used (from application .INI settings).
+
+Optional parameter 'CSV' can be passed to produce  a CSV
+log, in the form "<prg_name>,<exp_number>,<error_text>".
 
 Script will output errors to console, so redirect output
 to file to get a persistent log.
@@ -74,10 +77,12 @@ $app    = $params[1];
 if (!file_exists($app)) {
     die ("\nERROR:\nCan't find application main script in ".$app."\n\n");
     }
+$app_name = pathinfo($app, PATHINFO_FILENAME);
+// __________________________________________________________________ Other parameters ___
 $err_mode = (isset($params[2]) ? (strtoupper(substr($params[2], 0, 1)) == 'D' ?
              'DEV' : 'EXE') : false);
-print '# '.$err_mode."\n";
-$app_name = pathinfo($app, PATHINFO_FILENAME);
+$log_csv  = (isset($params[3]) && (strtoupper(substr($params[3], 0, 3)) == 'CSV') ?
+             true : false);
 // ___________________________________________________________ Application directories ___
 $dir_root = dirname(dirname($app)).DIRECTORY_SEPARATOR;
 $dir_prgs = $dir_root.'prgs'.DIRECTORY_SEPARATOR;
@@ -101,15 +106,23 @@ if (file_exists($exc_file)) {
     $excluded = file($exc_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     }
 // _____________________________________________________________________ Start logging ___
-print '*** Janox Test application "'.$app_name.'" from '.$dir_root."\n".
-      '    Test with error-mode='.$err_mode.' on '.count($prgs)." programs:\n\n";
+if (!$log_csv) {
+    print '*** Janox Test application "'.$app_name.'" from '.$dir_root."\n".
+          '    Test with error-mode='.$err_mode.' on '.count($prgs)." programs:\n\n";
+    }
 $start_time = time();
 $err_count  = 0;
 $err_prgs   = 0;
 // ============================================= LOOP ON PROGRAMS TO CHECK EXPRESSIONS ===
 foreach ($prgs as $prg_name => $f_prf) {
     if ($prg_name != '_o2viewmodels') {
-        $errs = prg_check($f_prf, $vars, $fields, $models, $excluded, $err_mode);
+        $errs = prg_check($f_prf,
+                          $vars,
+                          $fields,
+                          $models,
+                          $excluded,
+                          $err_mode,
+                          $log_csv);
         if ($errs > 0) {
             $err_prgs++;
             $err_count+= $errs;
@@ -130,8 +143,10 @@ elseif ($exe_time < 10800) {
 else {
     $time = intval($exe_time / 3600).' hours';
     }
-print '*** Janox Test - Execution correctly ended in '.$time.
-      "\n    Found ".$err_count.' problems in '.$err_prgs." programs.\n\n";
+if (!$log_csv) {
+    print '*** Janox Test - Execution correctly ended in '.$time.
+        "\n    Found ".$err_count.' problems in '.$err_prgs." programs.\n\n";
+    }
 
 
 /**
@@ -527,9 +542,10 @@ function prg_get_exps($prg_name, $prf_code) {
  *
  * @param  string    $log_text   File path to log to
  * @param  Throwable $error      Data to log to file
+ * @param  boolean   $log_csv    If log must be produced as CSV, instead of plain text
  * @return integer               "1" if error is logged, "0" if error is skippeed
  */
-function test_log($msg, $prg_name, $exp) {
+function test_log($msg, $prg_name, $exp, $log_csv) {
 
     // ______________________________________________ Exclude some errors from logging ___
     // _____________________________________________________ Call to a member function ___
@@ -545,9 +561,16 @@ function test_log($msg, $prg_name, $exp) {
     elseif (strpos($msg, 'Class') !== false && strpos($msg, 'not found') !== false) {
         return 0;
         }
-    print '[ERROR] Program "'.$prg_name.
-          '" expression '.substr($exp, strrpos($exp, '_') + 1).":\n".
-          $msg."\n\n";
+    // ____________________________ Get expression number from expresion function name ___
+    $exp_num = substr($exp, strrpos($exp, '_') + 1);
+    // ______________________________________________________________ Log error as CSV ___
+    if ($log_csv) {
+        print '"'.$prg_name.'",'.$exp_num.',"'.$msg."\"\n";
+        }
+    // _______________________________________________________ Log error as plain text ___
+    else {
+        print '[ERROR] Program "'.$prg_name.'" expression '.$exp_num.":\n".$msg."\n\n";
+        }
     return 1;
 
     }
@@ -562,8 +585,9 @@ function test_log($msg, $prg_name, $exp) {
  * @param array   $models        List of application models with types
  * @param array   $excluded      List of excluded words to skip expressions
  * @param string  $err_mode      Error mode to performe the test (DEV|EXE)
+ * @param boolean $log_csv       If log must be produced as CSV, instead of plain text
  */
-function prg_check($f_prf, $app_vars, $fields, $models, $excluded, $error_mode) {
+function prg_check($f_prf, $app_vars, $fields, $models, $excluded, $error_mode, $log_csv) {
 
     $win         = (stripos(PHP_OS, 'WIN') === 0);
     $prg_name    = pathinfo($f_prf, PATHINFO_FILENAME);
@@ -592,7 +616,7 @@ function prg_check($f_prf, $app_vars, $fields, $models, $excluded, $error_mode) 
         // ________________________________ Skip expressions containing excluded words ___
         if ($body === str_ireplace($excluded, 'JXTEST', $body))  {
             // ________________________________________________ test single expression ___
-            $error_count+= test_exp($prg_name, $exp, $inc, $parse_error);
+            $error_count+= test_exp($prg_name, $exp, $inc, $parse_error, $log_csv);
             }
         }
     return $error_count;
@@ -603,12 +627,13 @@ function prg_check($f_prf, $app_vars, $fields, $models, $excluded, $error_mode) 
 /**
  * Test expression against application and program context
  *
- * @param  string $prg_name   Name of the program
- * @param  string $exp        Expression function name
- * @param  string $inc        File path to include to get application and program context
+ * @param  string  $prg_name  Name of the program
+ * @param  string  $exp       Expression function name
+ * @param  string  $inc       File path to include to get application and program context
+ * @param  boolean $log_csv   If log must be produced as CSV, instead of plain text
  * @return integer            "1" if error is logged, "0" if error is skippeed
  */
-function test_exp($prg_name, $exp, $inc, &$parse_error) {
+function test_exp($prg_name, $exp, $inc, &$parse_error, $log_csv) {
 
     $descs   = array(0 => array('pipe', 'r'),  // stdin
                      1 => array('pipe', 'w'),  // stdout
@@ -661,23 +686,24 @@ function test_exp($prg_name, $exp, $inc, &$parse_error) {
         elseif ($parse_error) {
             $output = str_replace($parse_error, '', $output);
             }
-        return test_exp_output($ret, $output, $prg_name, $exp, $inc);
+        return test_exp_output($ret, $output, $prg_name, $exp, $inc, $log_csv);
         }
 
     }
 
 
 /**
- * Test expression against application and program context for Linux OS
+ * Filter expression test output
  *
  * @param  integer $ret        Process return status
  * @param  string  $output     Expression evaluation output
  * @param  string  $prg_name   Name of the program
  * @param  string  $exp        Expression function name
  * @param  string  $inc        File path to include to get application and program context
+ * @param  boolean $log_csv    If log must be produced as CSV, instead of plain text
  * @return integer            "1" if error is logged, "0" if error is skippeed
  */
-function test_exp_output($ret, $output, $prg_name, $exp, $inc) {
+function test_exp_output($ret, $output, $prg_name, $exp, $inc, $log_csv) {
 
     $msg = false;
     // __________________________________________________ Handable errors and warnings ___
@@ -704,7 +730,7 @@ function test_exp_output($ret, $output, $prg_name, $exp, $inc) {
         if (strpos($msg, ' in '.$inc)) {
             $msg = substr($msg, 0, strpos($msg, ' in '.$inc));
             }
-        return test_log($msg, $prg_name, $exp);
+        return test_log($msg, $prg_name, $exp, $log_csv);
         }
     else {
         return 0;

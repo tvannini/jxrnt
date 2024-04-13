@@ -86,6 +86,10 @@ function o2dev_app_analysis§§a_check_tabs_relations_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_24()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2dev_app_analysis§§a_count_calls_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_45()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2dev_app_analysis§§a_duplicated_fileds_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_34()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -130,6 +134,13 @@ function o2dev_app_analysis§§a_views_in_loop_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_26()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2dev_app_analysis§§batch_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "analysis_model", o2dev_app_analysis_exp_48()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("do_analysis", True, "") && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Export CSV") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::script(o2dev_app_analysis_exp_49()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(1) && (o2dev_app_analysis_exp_8() || $o2exe->e()) && o2act::exe("a_unused_tables", True, "") && $o2exe->e();
 	$o2exe->s(2) && (o2dev_app_analysis_exp_10() || $o2exe->e()) && o2act::exe("a_unused_fields", True, "") && $o2exe->e();
@@ -147,7 +158,8 @@ function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(14) && (o2dev_app_analysis_exp_35() || $o2exe->e()) && o2act::exe("a_nuidxs_to_rep", True, "") && $o2exe->e();
 	$o2exe->s(15) && (o2dev_app_analysis_exp_37() || $o2exe->e()) && o2act::exe("a_report_alias", True, "") && $o2exe->e();
 	$o2exe->s(16) && (o2dev_app_analysis_exp_39() || $o2exe->e()) && o2act::exe("a_check_locks", True, "") && $o2exe->e();
-	$o2exe->s(17) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
+	$o2exe->s(17) && (o2dev_app_analysis_exp_44() || $o2exe->e()) && o2act::exe("a_count_calls", True, "") && $o2exe->e();
+	$o2exe->s(18) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§export_act(&$o2exe) {
@@ -163,20 +175,21 @@ function o2dev_app_analysis§§start_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "models_list", o2dev_app_analysis_exp_4()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("Init treeview") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::script(o2dev_app_analysis_exp_7()) && $o2exe->e();
+	$o2exe->s(4) && (o2dev_app_analysis_exp_46() || $o2exe->e()) && o2act::exe("batch", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis_exp_1() {
-
+	
 return (o2val('prg§_§var','models_list'));
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_2() {
-
+	
 return (o2val('prg§_§var','analysis_model'));
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_3() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
@@ -187,11 +200,12 @@ function o2dev_app_analysis_exp_4() {
               "UUKEYS"      => "Unused indexes in tables repository",
               "UUMODELS"    => "Unused data types in repository",
               "UUPROGS"     => "Unused programs",
+              "CNTPRGCALLS" => "Count calls for each program",
               "TABSREL"     => "Build tables relations structure",
               "CHECKSREL"   => "Check tables relations criteria",
               "CHECKLINKS"  => "Check links criteria",
               "CHECKLOOP"   => "Check view rebuilds while looping",
-              "CHECKEXPS"   => "Check for columns (;) in return expressions",
+              "CHECKEXPS"   => "Check for columns (;) in r"."eturn expressions",
               "SESSION"     => "Analyze session weights",
               "SQLFORMULA"  => "Convert formulas to SQL CONCAT in views",
               "DUPFILEDS"   => "Check for duplicated aliases in views",
@@ -202,12 +216,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_5() {
-
+	
 return ("jxtree");
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_6() {
-
+	
 return (o2tree_get_code("jxresult"));
 	} //|o2_fine_exp|
 
@@ -217,7 +231,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_8() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUTABLES");
 	} //|o2_fine_exp|
 
@@ -261,7 +275,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_10() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUFIELDS");
 	} //|o2_fine_exp|
 
@@ -335,7 +349,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_13() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUMODELS");
 	} //|o2_fine_exp|
 
@@ -422,7 +436,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_15() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUPROGS");
 	} //|o2_fine_exp|
 
@@ -470,7 +484,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_17() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "UUKEYS");
 	} //|o2_fine_exp|
 
@@ -551,7 +565,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_19() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "CHECKLINKS");
 	} //|o2_fine_exp|
 
@@ -762,7 +776,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_21() {
-
+	
 return (o2val('prg§_§var','done'));
 	} //|o2_fine_exp|
 
@@ -772,7 +786,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_23() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "CHECKSREL");
 	} //|o2_fine_exp|
 
@@ -931,7 +945,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_25() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "CHECKLOOP");
 	} //|o2_fine_exp|
 
@@ -1053,7 +1067,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_27() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "CHECKEXPS");
 	} //|o2_fine_exp|
 
@@ -1105,7 +1119,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_29() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "SESSION");
 	} //|o2_fine_exp|
 
@@ -1122,7 +1136,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_31() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "SQLFORMULA");
 	} //|o2_fine_exp|
 
@@ -1474,7 +1488,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_33() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "DUPFILEDS");
 	} //|o2_fine_exp|
 
@@ -1524,7 +1538,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_35() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "NUIDXTOREP");
 	} //|o2_fine_exp|
 
@@ -1622,7 +1636,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_37() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "REPALIASLEN");
 	} //|o2_fine_exp|
 
@@ -1678,7 +1692,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_39() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "CHECKLOCKS");
 	} //|o2_fine_exp|
 
@@ -1730,7 +1744,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_41() {
-
+	
 return (o2val('prg§_§var','analysis_model') == "TABSREL");
 	} //|o2_fine_exp|
 
@@ -1768,7 +1782,86 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_app_analysis_exp_43() {
-
+	
 return ('tools/o2sys_tables_relations');
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_44() {
+	
+return (o2val('prg§_§var','analysis_model') == "CNTPRGCALLS");
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_45() {
+	$app      = $_SESSION['o2_app'];
+$prgs     = array();
+$result   = array();
+/*   PREPARE PROGRAMS LIST   */
+$prg_list = $app->dir_progs->all_elements('*.prf');
+$insp     = new o2_inspector();
+$prg_tot  = count($prg_list);
+$prg_n    = 0;
+foreach ($prg_list as $prg) {
+   $prg_n++;
+   if (o2session_is_job()) {
+      o2job_set_progress($prg_n * 99 / $prg_tot);
+      }
+   $name = $prg->nome;
+   if ($name != '_o2viewmodels') {
+      $count = 0;
+      $menu  = false;                 
+      foreach ($insp->find_prg($name) as $use) {
+         if ($use[3] === 'menu') {
+            $count+= 1;
+            $menu  = true;             
+            }
+         elseif ($use[3] === 'step') {
+            $count+= 1;
+            }
+         }
+      if ($count) {
+         $result[$name] = array($count, $menu);
+         }
+      }
+   } 
+if (count($result)) {
+   $res =  array();
+   foreach ($result as $prg => $calls) {
+      $res[$prg]     = array(0, $prg, '<jx>/img/tabadmin/tree/tab.png');
+      $res[$prg.'C'] = array($prg, $calls[0].($calls[1] ? 'M' : ''), '<jx>/img/tools/tree/step.png');
+      }
+   o2tree_def('jxresult', $res);
+   }
+else {
+   o2tree_def('jxresult', 
+              array(0, 'No called programs: strange kind of application...'));
+   }
+o2job_set_progress(100);
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_46() {
+	
+return (!o2par_zero(1));
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_47() {
+	
+return (o2par_zero(1));
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_48() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_49() {
+	$zip = o2tree_export('jxresult', o2app_dir_logs().'analysis_'.date('Ymd_His'));
+if (o2session_is_job()) {
+   o2job_add_file($zip);
+   }
+else {
+   o2log($zip);
+   }
+return (true);
 	} //|o2_fine_exp|
 ?>
