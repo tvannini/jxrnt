@@ -6305,6 +6305,20 @@ class o2_dbview extends o2_view {
                                                                    true)."'";
                                 }
                             }
+                        // _______________________________________ Manage log by level ___
+                        if ($app->tables_log &&
+                            ($table->log_level == 'C' || $table->log_level == 'M') &&
+                            (!isset($GLOBALS['jxlogsuspend']) ||
+                            !in_array($table->repos_index, $GLOBALS['jxlogsuspend']))) {
+                            // __________ Skip multiple record changes for transaction ___
+                            if (o2_gateway::use_key_once($srv_type,
+                                                         $srv_server,
+                                                         $srv_user,
+                                                         $table->write_name,
+                                                         $prev_key)) {
+                                $table->log_write_full('C', $prev_key);
+                                }
+                            }
                         $update_arr = array_combine($fields, $rec) + $tracer->update();
                         if ($app->sqltrace) {
                             jxsql_stat($view, 'W');
@@ -6319,6 +6333,13 @@ class o2_dbview extends o2_view {
                                               $table->indice,
                                               $update_arr,
                                               $prev_key);
+                        // _______________________________________ Manage log by level ___
+                        if ($app->tables_log &&
+                            $table->log_level == 'R' &&
+                            (!isset($GLOBALS['jxlogsuspend']) ||
+                            !in_array($table->repos_index, $GLOBALS['jxlogsuspend']))) {
+                            $view->log_write('R');
+                            }
                         break;
                     case 'D':
                         $prev_key = $this->chiave_corrente($this->file,
@@ -6367,11 +6388,24 @@ class o2_dbview extends o2_view {
                             // _____________________________ Bind placeholder to value ___
                             $del_pars[$par_id] = $par[1];
                             }
+                        // _______________________________________ Manage log by level ___
+                        if ($app->tables_log && $table->log_level &&
+                            (strpos('DEM', strval($table->log_level)) !== false) &&
+                            (!isset($GLOBALS['jxlogsuspend']) ||
+                             !in_array($table->repos_index, $GLOBALS['jxlogsuspend']))) {
+                            $table->log_write_full('D', $prev_key);
+                            }
                         if ($del_stmt->execute($del_pars) === false) {
                             $info = $del_stmt->errorInfo();
                             // _ In some cases statement is not unset by script ending ___
                             unset($this->statement);
                             throw new o2_exception($info[2], o2error_DBRECDELETE);
+                            }
+                        // _______________________________________ Manage log by level ___
+                        if ($app->tables_log && $table->log_level == 'R' &&
+                            (!isset($GLOBALS['jxlogsuspend']) ||
+                             !in_array($table->repos_index, $GLOBALS['jxlogsuspend']))) {
+                            $view->log_write('D');
                             }
                         break;
                     }
