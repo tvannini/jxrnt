@@ -6393,7 +6393,7 @@ class o2_dbview extends o2_view {
                             (strpos('DEM', strval($table->log_level)) !== false) &&
                             (!isset($GLOBALS['jxlogsuspend']) ||
                              !in_array($table->repos_index, $GLOBALS['jxlogsuspend']))) {
-                            $table->log_write_full('D', $prev_key);
+                            $table->log_write_full('D', strtr($del_key, $del_pars));
                             }
                         if ($del_stmt->execute($del_pars) === false) {
                             $info = $del_stmt->errorInfo();
