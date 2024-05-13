@@ -83,11 +83,22 @@ if (session_start()) {
             jxjs::start($_REQUEST['jxjsid']);
             if (is_a($app, "o2_app")) {
                 try {
-                    $form = $app->istanze_prg[$_REQUEST['o2_prgexeid']]->
-                                                            form[$_REQUEST['o2lastform']];
-                    $app->esecutivo(($_REQUEST['o2_prgexeid'] < $app->progressivo_istanze)
-                                    && (!isset($_REQUEST['o2lastform']) ||
-                                        !$form->menu_behavior));
+                    $exe_id = $_REQUEST['o2_prgexeid'];
+                    // _____________ Anchestors exe-id are allowed only for menu-forms ___
+                    if ($exe_id < $app->progressivo_istanze) {
+                        if (isset($_REQUEST['o2lastform'])) {
+                            // ___________________________________ Menu-form behaviour ___
+                            $execute = $app->istanze_prg[$exe_id]->
+                                        form[$_REQUEST['o2lastform']]->menu_behavior;
+                            }
+                        else {
+                            $execute = false;
+                            }
+                        }
+                    else {
+                        $execute = true;
+                        }
+                    $app->esecutivo(!$execute);
                     }
                 catch (o2_exception $o2e) {
                     $o2e->send();

@@ -1725,6 +1725,7 @@ class o2_ctrl {
     public $active_by_tab   = true;    /* If control is "active by table": not in table
                                           or in current row of active table             */
     public $tab_index       = false;   /* Row-ID if control is inside a dbgrid          */
+    public $dis_by_parent   = false;   /* If control is disabled by container (frame)   */
     public $rows_vis        = array(); /* Rows visibility array                         */
     public $dependences     = array(); /* List of variables/fields this ctrl depends on */
     public $log_level       = false;   /* If ctrl has log level inherited from field/tab*/
@@ -1768,11 +1769,12 @@ class o2_ctrl {
      */
     function ctrl2sql() {
 
-        $sql_valore_local = "";
+        $sql_valore_local = '';
         $mask = $this->maschera;
         switch ($mask->tipo) {
             // =============================== ALPHA =====================================
-            case "A":
+            case 'A':
+                $this->valore = strval($this->valore);
                 if ($_SESSION['o2_app']->chr_encoding == 'utf-8') {
                     if (mb_strlen($this->valore, 'utf-8') > $mask->dimensione) {
                         $sql_valore_local = mb_substr($this->valore,
@@ -1796,14 +1798,14 @@ class o2_ctrl {
                     }
                 break;
             // ================================ DATE =====================================
-            case "D":
-                if (trim($this->valore == '')) {
+            case 'D':
+                if (trim(strval($this->valore)) == '') {
                     $sql_valore_local = $mask->default;
                     }
                 else {
-                    $d   = "01";
-                    $m   = "01";
-                    $y   = "2000";
+                    $d   = '01';
+                    $m   = '01';
+                    $y   = '2000';
                     $sep = $mask->separatore;
                     if (strpos($this->valore, $sep) !== false ||
                         strlen($this->valore) != 8) {
@@ -1812,14 +1814,14 @@ class o2_ctrl {
                         for ($i = 0; $i < $vars_n; $i++) {
                             $vars[$i] = "\$".$vars[$i];
                             }
-                        eval("list(".implode(",",$vars).
+                        eval('list('.implode(',',$vars).
                              ", \$dv1, \$dv2, \$dv3) = explode(\$sep, \$this->valore);");
                         if (strlen($y) == 2) {
-                            if ($d != "00" && $m != "00") {
-                                $y = "20".$y;
+                            if ($d != '00' && $m != '00') {
+                                $y = '20'.$y;
                                 }
                             else {
-                                $y = "0000";
+                                $y = '0000';
                                 }
                             }
                         $sql_valore_local = $y.$m.$d;
@@ -1830,14 +1832,14 @@ class o2_ctrl {
                     }
                 break;
             // ================================ TIME =====================================
-            case "O":
-                if (trim($this->valore == '')) {
+            case 'O':
+                if (trim(strval($this->valore)) == '') {
                     $sql_valore_local = $mask->default;
                     }
                 else {
-                    $h   = "00";
-                    $m   = "00";
-                    $s   = "00";
+                    $h   = '00';
+                    $m   = '00';
+                    $s   = '00';
                     $sep = $mask->separatore;
                     if (strpos($this->valore, $sep) !== false ||
                         strlen($this->valore) != 6) {
@@ -1846,7 +1848,7 @@ class o2_ctrl {
                         for ($i = 0; $i < $vars_n; $i++) {
                             $vars[$i] = "\$".$vars[$i];
                             }
-                        eval("list(".implode(",",$vars).") = ".
+                        eval('list('.implode(',',$vars).') = '.
                              "explode(\$this->maschera->separatore, \$this->valore);");
                              $sql_valore_local = $h.$m.$s;
                         }
@@ -1856,32 +1858,32 @@ class o2_ctrl {
                     }
                 break;
             // ============================== NUMERIC ====================================
-            case "N":
-                $sql_valore_local = (trim(strval($this->valore)) == "" ?
+            case 'N':
+                $sql_valore_local = (trim(strval($this->valore)) == '' ?
                                      $mask->default :
-                                     str_replace($mask->separatore, ".",
-                                      str_replace($mask->migliaia, "",
-                                       str_replace($mask->prefisso, "",
-                                     $this->valore))));
+                                     str_replace($mask->separatore, '.',
+                                      str_replace($mask->migliaia, '',
+                                       str_replace($mask->prefisso, '',
+                                        $this->valore))));
                 if (!$mask->negativo) {
                     $sql_valore_local = abs($sql_valore_local);
                     }
                 $sql_valore_local = number_format($sql_valore_local,
                                                   $mask->decimali,
-                                                  ".",
-                                                  "");
+                                                  '.',
+                                                  '');
                 break;
             // ============================= STRUCTURE ===================================
-            case "S":
+            case 'S':
                 $sql_valore_local = $this->valore;
                 break;
             // ============================== LOGICAL ====================================
-            case "L":
+            case 'L':
                 $sql_valore_local = ($this->valore ? 1 : 0);
                 break;
             // =========================== OTHER =====================================
             default:
-                $sql_valore_local = (trim($this->valore) == "" ?
+                $sql_valore_local = (trim(strval($this->valore)) == '' ?
                                      $mask->default :
                                      $this->valore);
                 break;

@@ -722,7 +722,7 @@ class jxjs {
             // ___________________________________________________________ Active page ___
             if (intval($o2ctrl_obj->valore) == $label_index) {
                 // _______________________________________ If HTML code has to be sent ___
-                $send_all = !$o2ctrl_obj->sent_pages[$label_index];
+                $send_all = !isset($o2ctrl_obj->sent_pages[$label_index]);
                 if ($send_all) {
                     ob_start();
                     $GLOBALS['jxjs'] = false;
@@ -1163,12 +1163,12 @@ class jxjs {
             // _____________________________________________ Close table controls list ___
             print "}\n";
             // ________________________________ Moved from selection (resend last row) ___
-            if ($GLOBALS['jxtablastrow'] &&
+            if (isset($GLOBALS['jxtablastrow']) &&
                 in_array($o2ctrl_obj->nome, $mod_ctrls) &&
                 ($o2ctrl_obj->id_esecuzione == $app->istanza_attiva)) {
                 $o2ctrl_obj->status_open();
                 $view      = $o2ctrl_obj->view_obj;
-                $selection = ($GLOBALS['jxtablastrow'] - 1);
+                $selection = (intval($GLOBALS['jxtablastrow']) - 1);
                 unset($GLOBALS['jxtablastrow']);
                 if ($selection != $view->selezione) {
                     $row_code        = "";

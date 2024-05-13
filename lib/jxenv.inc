@@ -5360,7 +5360,9 @@ class o2_dbview extends o2_view {
             if (($singolo_campo->file == $this->file->indice) &&
                 !$singolo_campo->virtual) {
                 $field_name = $singolo_campo->nome;
-                $value      = $this->corrente[$field_name];
+                $value      = (isset($this->corrente[$field_name]) ?
+                               $this->corrente[$field_name] :
+                               false);
                 if (($singolo_campo->tipo == 'D' || $singolo_campo->tipo == 'O') ?
                     (trim($value, ' 0') != '') :
                     ($value != $singolo_campo->maschera->default)) {
