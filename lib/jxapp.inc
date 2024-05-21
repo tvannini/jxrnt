@@ -3080,7 +3080,7 @@ class o2_app {
                                                            $azione));
         // ___________________________________________________ ...and then is executed ___
         $this->esecuzioni[0]->loop = $counter;
-        // __________________ If action has a catch-action, then close try-catch level ___
+        // ___________________ If action has a catch-action, then open try-catch level ___
         if ($this->istanze_prg[$id_istanza_prg]->azioni[$azione]) {
             array_unshift($this->try_catch_nest, array('ID'     => $id_istanza_prg,
                                                        'PRG'    => $prg,
