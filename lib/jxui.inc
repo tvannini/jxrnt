@@ -710,18 +710,6 @@ class o2_form {
             $this->read_def();
             }
         if ($this->attiva) {
-            // _____________________________________ Check if inside a try-catch block ___
-            if (count($app->try_catch_nest)) {
-                $try = array_shift($app->try_catch_nest);
-                $e   = new o2_exception('Window <i>'.$this->nome.'</i> open '.
-                                        'in TRY-CATCH is breaking TRY block.<br><br>'.
-                                        'TRY started in program <i>'.$try['PRG'].
-                                        ' ['.$try['ID'].']</i>, '.
-                                        'action <i>'.$try['ACTION'].'</i>.',
-                                        o2error_TRYCATCHFLOW);
-                // ________________________________________ Force an uncatchable error ___
-                $e->send();
-                }
             if ($first_def) {
                 // ______________________________________________ Resize form controls ___
                 $this->resize();

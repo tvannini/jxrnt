@@ -8319,6 +8319,7 @@ class o2act {
         $app->ritorno = false;
         // __________________________ Needed to repos this execution in first position ___
         $app->esecuzioni = array_values($app->esecuzioni);
+        $exe_save        = $app->esecuzioni;
         // ______________________________________________ Check if catch-action exists ___
         if (!isset($prg->azioni[$catch_action])) {
             unset($GLOBALS['jxlasterror']);
@@ -8342,7 +8343,31 @@ class o2act {
         $GLOBALS['jxlastexception'] = new o2_exception($error->getMessage().$err_txt,
                                                        o2error_EXECUTION,
                                                        $error);
-        return $prg->esegui_azione($catch_action);
+        $ret                        = $prg->esegui_azione($catch_action);
+        //_____________________________________________ Check if catch-action is ended ___
+        if ($app->progressivo_istanze > $current_id) {
+            // _____________________________________ Check if inside a try-catch block ___
+            if (count($app->try_catch_nest)) {
+                if (isset($app->esecuzioni[0])) {
+                    $app->esecuzioni[0]->passo = 0;
+                    }
+                $try = array_shift($app->try_catch_nest);
+                $e   = new o2_exception('Call-program waiting is breaking TRY-CATCH '.
+                                        'block.<br><br>'.
+                                        'TRY started in program <i>'.$try['PRG'].
+                                        ' ['.$try['ID'].']</i>, '.
+                                        'action <i>'.$try['ACTION'].'</i>.',
+                                        o2error_TRYCATCHFLOW);
+                // ________________________________________ Force an uncatchable error ___
+                unset($GLOBALS['jxerrorhide']);
+                $e->send();
+                }
+            }
+        else {
+            // ________________________________________ Force catch-action to be ended ___
+            $app->esecuzioni = $exe_save;
+            }
+        return $ret;
 
         }
 
