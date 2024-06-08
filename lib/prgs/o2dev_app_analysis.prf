@@ -94,6 +94,10 @@ function o2dev_app_analysis§§a_duplicated_fileds_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_34()) && $o2exe->e();
 	} //|o2_fine_act|
 
+function o2dev_app_analysis§§a_missing_catch_act(&$o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_51()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2dev_app_analysis§§a_nuidxs_to_rep_act(&$o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_36()) && $o2exe->e();
 	} //|o2_fine_act|
@@ -159,7 +163,8 @@ function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(15) && (o2dev_app_analysis_exp_37() || $o2exe->e()) && o2act::exe("a_report_alias", True, "") && $o2exe->e();
 	$o2exe->s(16) && (o2dev_app_analysis_exp_39() || $o2exe->e()) && o2act::exe("a_check_locks", True, "") && $o2exe->e();
 	$o2exe->s(17) && (o2dev_app_analysis_exp_44() || $o2exe->e()) && o2act::exe("a_count_calls", True, "") && $o2exe->e();
-	$o2exe->s(18) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
+	$o2exe->s(18) && (o2dev_app_analysis_exp_50() || $o2exe->e()) && o2act::exe("a_missing_catch", True, "") && $o2exe->e();
+	$o2exe->s(19) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§export_act(&$o2exe) {
@@ -211,7 +216,8 @@ function o2dev_app_analysis_exp_4() {
               "DUPFILEDS"   => "Check for duplicated aliases in views",
               "NUIDXTOREP"  => "Move not unique indexes to repository",
               "REPALIASLEN" => "Aliases longer then 35 chars in reports",
-              "CHECKLOCKS"  => "Uses of SELECT FOR UPDATE (LOCK)");
+              "CHECKLOCKS"  => "Uses of SELECT FOR UPDATE (LOCK)",
+              "REMNOCATCH"  => "Remove missing catch-actions definitions");
 return ($list);
 	} //|o2_fine_exp|
 
@@ -1861,6 +1867,49 @@ if (o2session_is_job()) {
    }
 else {
    o2log($zip);
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_50() {
+	
+return (o2val('prg§_§var','analysis_model') == 'REMNOCATCH');
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_51() {
+	$app  = $_SESSION['o2_app'];
+$insp = new o2_inspector();
+$res  = array();
+$n    = 0;
+/*   LOOP ON ALL PROGRAMS   */
+foreach ($insp->get_app_prgs() as $prg_name => $prf) {
+   $acts = $insp->get_prg_acts($prf);
+   if (count($acts)) {
+      foreach ($acts as $act => $catch_act) {
+         if ($catch_act && !isset($acts[$catch_act])) {
+            if (!isset($res[$prg_name])) {
+               $res[$prg_name] = array();
+               }
+            $res[$prg_name][$act] = $catch_act;
+            $n++;          
+            }    
+         }
+      }
+   }
+if (count($res)) {
+   $tree = array('jxresult' => array(0, $n.' missing catch-actions in '.count($res).' prgs', '<jx>/img/tabadmin/tree/folder.png'));
+   foreach ($res as $prg_name => $prg_list) {
+      $tree+= array('P#'.$prg_name => array('jxresult', $prg_name, '<jx>/img/tabadmin/tree/tab.png'));
+      foreach ($prg_list as $act => $catch_act) {
+         $tree+= array('P#'.$prg_name.'A#'.$act => array('P#'.$prg_name, $act.' - '.$catch_act, "<jx>/img/tabadmin/tree/tab_error.png"));
+         }
+      }
+   o2tree_def('jxresult', $tree);
+   o2tree_node_show('jxresult', 'P#'.$prg_name);
+   }
+else {
+   $tree = array('jxresult' => array(0, 'No missing catch-actions found'));
+   o2tree_def('jxresult', $tree);
    }
 return (true);
 	} //|o2_fine_exp|

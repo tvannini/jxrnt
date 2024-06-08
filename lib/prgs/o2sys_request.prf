@@ -76,7 +76,6 @@ else {
    }
 $verified = trim(o2val('sessions','o2user')) == o2app_user() && 
             $expire >= o2val('prg§_§var','now');
-
 return ($verified);
 	} //|o2_fine_exp|
 
@@ -107,7 +106,7 @@ function o2sys_request_exp_6() {
    $expire = 4070905200;
    }
 else {
-   $now = o2val('prg§_§var','now');
+   $now = intval(o2val('prg§_§var','now'));
    $expire = mktime(date("H", $now),
                     date("i", $now) + o2app_timeout(),
                     date("s", $now),
@@ -120,22 +119,22 @@ return ($expire);
 
 function o2sys_request_exp_7() {
 	
-return (date("Ymd", o2val('prg§_§var','now')));
+return (date("Ymd", intval(o2val('prg§_§var','now'))));
 	} //|o2_fine_exp|
 
 function o2sys_request_exp_8() {
 	
-return (date("Ymd", o2val('prg§_§var','expire')));
+return (date("Ymd", intval(o2val('prg§_§var','expire'))));
 	} //|o2_fine_exp|
 
 function o2sys_request_exp_9() {
 	
-return (date("His", o2val('prg§_§var','now')));
+return (date("His", intval(o2val('prg§_§var','now'))));
 	} //|o2_fine_exp|
 
 function o2sys_request_exp_10() {
 	
-return (date("His", o2val('prg§_§var','expire')));
+return (date("His", intval(o2val('prg§_§var','expire'))));
 	} //|o2_fine_exp|
 
 function o2sys_request_exp_11() {

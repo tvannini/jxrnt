@@ -9,7 +9,7 @@ o2def::prgnotes("");
 o2def::prg("o2sys_dbexport", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
-o2def::act("export", "_internal");
+o2def::act("export", "");
 o2def::act("quit", "");
 o2def::act("select_target", "");
 o2def::act("start", "");

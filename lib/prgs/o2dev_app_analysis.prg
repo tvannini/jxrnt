@@ -16,6 +16,7 @@ o2def::act("a_check_locks");
 o2def::act("a_check_tabs_relations");
 o2def::act("a_count_calls");
 o2def::act("a_duplicated_fileds");
+o2def::act("a_missing_catch");
 o2def::act("a_nuidxs_to_rep");
 o2def::act("a_report_alias");
 o2def::act("a_session");

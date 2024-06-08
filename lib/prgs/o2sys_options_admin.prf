@@ -24,7 +24,7 @@ function o2sys_options_admin§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("opt_skin", "o2sys_long_str");
 	$task_prg§_§var->definisci("option_key", "_o2alpha");
 	$task_prg§_§var->definisci("page", "_o2number");
-	$task_prg§_§var->definisci("set_skins_list", "o2sys_long_str");
+	$task_prg§_§var->definisci("set_skins_list", "_o2structure");
 	$task_prg§_§var->definisci("user_code", "_o2alpha");
 		}
 

@@ -349,22 +349,22 @@ return (array());
 
 function o2sys_start_exp_6() {
 	
-return (date("Ymd", o2val('prg§_§var','now')));
+return (date("Ymd", intval(o2val('prg§_§var','now'))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_7() {
 	
-return (date("His", o2val('prg§_§var','now')));
+return (date("His", intval(o2val('prg§_§var','now'))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_8() {
 	
-return (date("Ymd", o2val('prg§_§var','expire')));
+return (date("Ymd", intval(o2val('prg§_§var','expire'))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_9() {
 	
-return (date("His", o2val('prg§_§var','expire')));
+return (date("His", intval(o2val('prg§_§var','expire'))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_10() {
@@ -435,12 +435,13 @@ function o2sys_start_exp_17() {
    $expire = 4070905200;
    }
 else {
-   $expire = mktime(date("H", o2val('prg§_§var','now')),
-                    date("i", o2val('prg§_§var','now')) + o2app_timeout(),
-                    date("s", o2val('prg§_§var','now')),
-                    date("m", o2val('prg§_§var','now')),
-                    date("d", o2val('prg§_§var','now')),
-                    date("Y", o2val('prg§_§var','now')));
+   $now    = intval(o2val('prg§_§var','now'));
+   $expire = mktime(date("H", $now),
+                    date("i", $now) + o2app_timeout(),
+                    date("s", $now),
+                    date("m", $now),
+                    date("d", $now),
+                    date("Y", $now));
    }
 return ($expire);
 	} //|o2_fine_exp|
@@ -623,7 +624,7 @@ return (mt_rand(0, 999999));
 
 function o2sys_start_exp_46() {
 	
-return (o2zero('users','expire_date') || (o2val('users','expire_date') > date('Ymd', o2val('prg§_§var','now'))));
+return (o2zero('users','expire_date') || (o2val('users','expire_date') > date('Ymd', intval(o2val('prg§_§var','now')))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_47() {
@@ -941,7 +942,7 @@ return (o2val('prg§_§var','otp_code'));
 
 function o2sys_start_exp_72() {
 	
-return (o2val('prg§_§var','now') - $_SESSION['o2_app']->otp_time);
+return (intval(o2val('prg§_§var','now')) - $_SESSION['o2_app']->otp_time);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_73() {

@@ -438,12 +438,12 @@ return ('nowindow');
 
 function jxaccesslog_browser_exp_4() {
 	
-return (date('Ymd', o2val('access_log','timestamp')));
+return (date('Ymd', intval(o2val('access_log','timestamp'))));
 	} //|o2_fine_exp|
 
 function jxaccesslog_browser_exp_5() {
 	
-return (date('His', o2val('access_log','timestamp')));
+return (date('His', intval(o2val('access_log','timestamp'))));
 	} //|o2_fine_exp|
 
 function jxaccesslog_browser_exp_6() {
