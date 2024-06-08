@@ -48,6 +48,224 @@ define('o2_postgres_c', '"');
 define('o2_sqlite3_o', '`');
 define('o2_sqlite3_c', '`');
 
+/**
+ * Define runtime as standard object
+ */
+$rnt = new stdClass();
+$rnt->id              = 0;
+$rnt->release         = "9.2";
+$rnt->built           = "20240531";
+$rnt->alias           = "/janox";
+$rnt->interface       = "BAT";
+$rnt->mswin           = false;
+$rnt->last_microtime  = 0;
+$rnt->microtime_incr  = 1;
+$rnt->conf_list       = array();
+$rnt->read_sys_tabs   = false;
+$rnt->multisession    = true;
+$rnt->decimals_point  = ".";
+$rnt->thousands_point = ",";
+$rnt->def_datachunk   = 65536;
+$rnt->developers      = array();
+$rnt->developer       = false;
+$rnt->dev_key         = "";
+$rnt->php_engine      = "php";
+$rnt->rnt_script      = "";
+$rnt->root            = "";
+$rnt->dir_dbms        = "";
+$rnt->dir_threads     = "";
+$rnt->dir_css         = "";
+
+/**
+ * Define application as standard object
+ */
+$app = new stdClass();
+$app->runtime             = $rnt;
+$app->nome                = '';
+$app->alias               = '';
+$app->referer             = '';
+$app->versione            = '';
+$app->titolo              = '';
+$app->instance_id         = '';
+$app->chr_encoding        = '';
+$app->default             = '';
+$app->no_login            = '';
+$app->lock_page           = '';
+$app->sess_error          = '';
+$app->pagina_prima        = '';
+$app->pagina_dopo         = '';
+$app->css                 = '';
+$app->client_width        = 0;
+$app->client_height       = 0;
+$app->vars                = array();
+$app->page_mark           = 0;
+$app->relocate_now        = false;
+$app->caret_position      = array();
+$app->js_file             = '';
+$app->favicon             = '';
+$app->rpc_server          = false;
+$app->db_as_service       = false;
+$app->dbas_readonly       = false;
+$app->services            = array();
+$app->service_redirect    = false;
+$app->jobs_local_host     = false;
+$app->validazione         = 0;
+$app->session_name        = '';
+$app->session_id          = '';
+$app->terminal_id         = 0;
+$app->user                = 'default';
+$app->user_is_admin       = false;
+$app->user_is_poweruser   = false;
+$app->password            = '';
+$app->password_strength   = 0;
+$app->password_change     = false;
+$app->force_pwd_change    = false;
+$app->block_md5_pwd       = false;
+$app->ldap_server         = false;
+$app->ldap_search_domain  = false;
+$app->ldap_base_dn        = false;
+$app->timeout             = 10;
+$app->keep_alive          = true;
+$app->user_roles          = array();
+$app->user_rights         = array();
+$app->logout_url          = false;
+$app->access_log          = 0;
+$app->lock                = false;
+$app->job_worker          = false;
+$app->file_db             = 'db_repository.inc';
+$app->file_tabelle        = 'file_repository.inc';
+$app->file_modelli        = 'mod_repository.inc';
+$app->file_menu           = 'menu_repository.inc';
+$app->file_vars           = 'var_repository.inc';
+$app->file_viewmodels     = 'view_repository.inc';
+$app->engines             = array();
+$app->server              = array();
+$app->db                  = array();
+$app->tab                 = array();
+$app->maschere            = array();
+$app->menu                = array();
+$app->menu_attivo         = '';
+$app->menu_height         = 0;
+$app->menu_width          = 0;
+$app->menu_cache          = false;
+$app->menu_link           = false;
+$app->menu_linkh          = false;
+$app->menu_prgs           = array();
+$app->menu_style          = 'T';
+$app->tables_create       = true;
+$app->split_tab_repos     = false;
+$app->tables_log          = false;
+$app->logged_tabs         = array();
+$app->log_backup          = true;
+$app->log_rebuild         = true;
+$app->log_db              = false;
+$app->record_trace        = false;
+$app->fetch_loop          = false;
+$app->snapshot_db         = null;
+$app->bulk_limit          = 499;
+$app->db_timeout_lock     = false;
+$app->db_timeout_stm      = false;
+$app->use_asp_table       = false;
+$app->sess_tables         = array();
+$app->exe_prg_start       = false;
+$app->prg_start           = '';
+$app->prg_request         = '';
+$app->prg_unlock          = '';
+$app->maint_time          = 100;
+$app->prg_user_prof       = false;
+$app->prg_user_area       = false;
+$app->chiamate            = array();
+$app->istanze_prg         = array();
+$app->progressivo_istanze = 0;
+$app->istanza_attiva      = 0;
+$app->prgs_cache          = array();
+$app->esecuzioni          = array();
+$app->ritorno             = false;
+$app->try_catch_nest      = array();
+$app->extcall_level       = 0;
+$app->extcall_ritorno     = false;
+$app->info_submit         = false;
+$app->block_exe           = false;
+$app->isolated_trans      = false;
+$app->produzioni          = array();
+$app->reporter            = '';
+$app->ext_resources       = array();
+$app->xmlstream_head      = false;
+$app->xmlstream_foot      = false;
+$app->app_options         = array();
+$app->user_options        = array();
+$app->msg_del             = '';
+$app->msg_undo            = '';
+$app->msg_norec           = '';
+$app->profiling           = false;
+$app->fastmsg_time        = 5;
+$app->prgs_path_inc       = false;
+$app->templ_path_inc      = false;
+$app->host                = '';
+$app->zoom                = true;
+$app->start_user          = false;
+$app->max_req_n           = 5;
+$app->open_wins           = array();
+$app->js_cache            = '';
+$app->error_mode          = false;
+$app->errors_log          = false;
+$app->errors_log_full     = false;
+$app->warning_log         = false;
+$app->errors_inc          = false;
+$app->error_handler       = false;
+$app->custom_response     = false;
+$app->jxsql               = false;
+$app->prepared_stmts      = true;
+$app->defining_combo      = null;
+$app->defining_check      = null;
+$app->statusbar_text      = '';
+$app->status_custom       = false;
+$app->status_height       = 0;
+$app->html_started        = false;
+$app->mouse_point         = false;
+$app->mouse_wait          = false;
+$app->grid_plus           = false;
+$app->grid_multidel       = true;
+$app->refresh_prg         = false;
+$app->refresh_time        = 0;
+$app->refresh_last        = 0;
+$app->jxhttp_extra        = false;
+$app->otp_time            = 3600;
+$app->bug_aggregate       = false;
+$app->bug_error_flow      = false;
+$app->file_server_inc     = '';
+$app->file_client_inc     = '';
+$app->extra_html_head     = false;
+$app->dispatcher          = null;
+$app->doc                 = false;
+$app->doc_enabled         = false;
+$app->multilang           = false;
+$app->translation         = array();
+$app->run_level           = 'EXE';
+$app->developer           = '';
+$app->dev_key             = '';
+$app->log2file            = false;
+$app->sqltrace            = false;
+$app->mutelog             = false;
+$app->dir_home            = '';
+$app->dir_htdocs          = '';
+$app->dir_progs           = '';
+$app->dir_cvs_progs       = '';
+$app->dir_data            = '';
+$app->dir_tmp             = '';
+$app->dir_css             = '';
+$app->dir_user            = '';
+$app->dir_logs            = '';
+$app->dir_models          = '';
+$app->dir_img             = '';
+$app->dir_uploads         = '';
+
+/**
+ * Define globals variables for runtime and application objjects
+ */
+$GLOBALS['o2_runtime'] = $rnt;
+$_SESSION['o2_app']    = $app;
+
 
 function o2val($view_name, $field_name) {
 
@@ -2651,5 +2869,20 @@ function jxsql($dbname, $sql, $fq_columns = false) {
     return '';
 
     }
+
+
+function o2_str_nice($str) {
+
+    return '';
+
+    }
+
+
+function o2_view2list($view_name, $code_field, $desc_field, $preset = array()) {
+
+    return array('' => 'Empty');
+
+    }
+
 
 ?>
