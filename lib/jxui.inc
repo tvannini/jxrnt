@@ -2360,6 +2360,8 @@ class o2_ctrl {
                            "\$o2exe->s(3) && o2act::view(\"".$this->items_view.
                            "\", \"1\") && \$o2exe->e(); " : "")."}";
                 eval($act_def);
+                // _ Action must be added to prg for check in app->esecuzione_inizio() ___
+                $prg->azione($act_name, false);
                 }
             // _____________________________________________ If action stops (on-line) ___
             if (!$prg->esegui_azione($act_name, true)) {
