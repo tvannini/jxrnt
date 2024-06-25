@@ -168,35 +168,40 @@ class o2_prg {
         $call_local = $_SESSION['o2_app']->chiamate[$this->id];
         if (isset($call_local['parametri'][$parameter_id - 1])) {
             $par_value_local = $call_local['parametri'][$parameter_id - 1]['valore'];
-            switch ($parameter_local->tipo) {
-                case "S":
-                    if (func_num_args() > 1) {
-                        $array_keys = func_get_args();
-                        array_shift($array_keys);
-                        $keys = "[".implode("][", $array_keys)."]";
-                        eval("\$par_value_local = \$par_value_local".$keys.";");
-                        }
-                    else {
+            if ($parameter_local) {
+                switch ($parameter_local->tipo) {
+                    case 'S':
+                        if (func_num_args() > 1) {
+                            $array_keys = func_get_args();
+                            array_shift($array_keys);
+                            $keys = '['.implode('][', $array_keys).']';
+                            eval('$par_value_local = $par_value_local'.$keys.';');
+                            }
+                        else {
+                            $par_value_local = ($par_value_local ?
+                                                $par_value_local :
+                                                $parameter_local->default);
+                            }
+                        break;
+                    case 'A':
+                        $par_value_local = (trim($par_value_local) !== "" ?
+                                            $par_value_local :
+                                            $parameter_local->default);
+                                            break;
+                    default:
                         $par_value_local = ($par_value_local ?
                                             $par_value_local :
                                             $parameter_local->default);
-                        }
-                    break;
-                case "A":
-                    $par_value_local = (trim($par_value_local) !== "" ?
-                                        $par_value_local :
-                                        $parameter_local->default);
-                                        break;
-                default:
-                    $par_value_local = ($par_value_local ?
-                                        $par_value_local :
-                                        $parameter_local->default);
-                    break;
+                        break;
+                    }
                 }
             return $par_value_local;
             }
-        else {
+        elseif ($parameter_local) {
             return $parameter_local->default;
+            }
+        else {
+            return '';
             }
 
         }

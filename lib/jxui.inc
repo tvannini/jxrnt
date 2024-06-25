@@ -2005,10 +2005,10 @@ class o2_ctrl {
             $enabled = true;
             $prg     = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
             // _____________________________________ If control field is from a dbview ___
-            if ($this->task && $this->task != "prg§_§var") {
+            if ($this->task && $this->task != 'prg§_§var') {
                 $view = $prg->contesto[$this->task];
                 // ________________ If dbview has current record or is in INSERT state ___
-                if (!$view->recordset[0] && $view->status != "I") {
+                if (!isset($view->recordset[0]) && $view->status != 'I') {
                     $enabled = false;
                     }
                 }
@@ -4424,23 +4424,22 @@ class o2_ctrl_img extends o2_ctrl {
 
     function src() {
 
-        $img_local = ($this->imgexp != "" ? $this->imgexp : $this->immagine);
-        $rnt_alias = $GLOBALS['o2_runtime']->alias;
-        list($special_folder, $img_name) = explode("/", $img_local, 2);
-        switch (strtolower($special_folder)) {
-            case "<o2>":
-            case "<jx>":
+        $img_local = ($this->imgexp != '' ? $this->imgexp : $this->immagine);
+        // ___________________________________ Check for special folders <jx> and <o2> ___
+        if (strpos($img_local, '/') !== false) {
+            list($special_folder, $img_name) = explode('/', strtolower($img_local), 2);
+            // ___________________________________ Get image from runtime <img> folder ___
+            if (($special_folder === '<jx>') || ($special_folder === '<o2>')) {
                 return $GLOBALS['o2_runtime']->alias.$img_name;
-                break;
-            default:
-                if (substr($img_local, 0, 1) != "/" &&
-                    strtolower(substr($img_local, 0, 5)) != "http:") {
-                return "img/".$img_local;
-                    }
-                else {
-                    return $img_local;
-                    }
-                break;
+                }
+            }
+        // ____________ If not an absolute URL get image from application <img> folder ___
+        if (substr($img_local, 0, 1) != '/' &&
+            strtolower(substr($img_local, 0, 5)) != 'http:') {
+            return 'img/'.$img_local;
+            }
+        else {
+            return $img_local;
             }
 
         }
@@ -4450,25 +4449,27 @@ class o2_ctrl_img extends o2_ctrl {
 
         if ($this->imgoverexp) {
             $img_local = $this->imgoverexp;
-            list($special_folder, $img_name) = explode("/", $img_local, 2);
-            switch (strtolower($special_folder)) {
-                case "<o2>":
-                case "<jx>":
+            // _______________________________ Check for special folders <jx> and <o2> ___
+            if (strpos($img_local, '/') !== false) {
+                list($special_folder, $img_name) = explode('/',
+                                                           strtolower($img_local),
+                                                           2);
+                // _______________________________ Get image from runtime <img> folder ___
+                if (($special_folder === '<jx>') || ($special_folder === '<o2>')) {
                     return $GLOBALS['o2_runtime']->alias.$img_name;
-                    break;
-                default:
-                    if (substr($img_local, 0, 1) != "/" &&
-                        strtolower(substr($img_local, 0, 5)) != "http:") {
-                        return "img/".$img_local;
-                        }
-                    else {
-                        return $img_local;
-                        }
-                    break;
+                    }
+                }
+            // ________ If not an absolute URL get image from application <img> folder ___
+            if (substr($img_local, 0, 1) != '/' &&
+                strtolower(substr($img_local, 0, 5)) != 'http:') {
+                return 'img/'.$img_local;
+                }
+            else {
+                return $img_local;
                 }
             }
         else {
-            return "";
+            return '';
             }
 
         }

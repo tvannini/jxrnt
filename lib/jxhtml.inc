@@ -3319,9 +3319,9 @@ class o2html {
                 o2html::ctrl_tab_footer($o2ctrl_obj);
                 }
             // -------------------------------=[ BODY ]=----------------------------------
-            print "<tbody>";
+            print '<tbody>';
             // _________ Se almeno un record nel recordset oppure siamo in inserimento ___
-            if($view->recordset[0] || $view->status == "I") {
+            if(isset($view->recordset[0]) || $view->status == 'I') {
                 $alt = false;
                 $o2ctrl_obj->status_open();
                 // ____________ Save ->modificabile to preserve it throw redefinitions ___
@@ -4183,7 +4183,8 @@ class o2html {
      */
     static function ctrl_nav_new($o2ctrl_obj, $view) {
 
-        $app = $_SESSION['o2_app'];
+        $app  = $_SESSION['o2_app'];
+        $html = '';
         if ($app->multilang) {
             $msg = $app->translate($o2ctrl_obj->nome,
                                    'msg_new',
@@ -4196,7 +4197,7 @@ class o2html {
         $html = "<div id='".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione."_newbtn' ".
                 $o2ctrl_obj->js_props("msg:'".$msg."',action:11,rt:false").
                           " class='".$o2ctrl_obj->css_new.
-                                     ($o2ctrl_obj->enable_new ? "" : "_dis").
+                                     ($o2ctrl_obj->enable_new ? '' : '_dis').
                          "' title='Insert new record'";
         if ($o2ctrl_obj->is_active() && $o2ctrl_obj->enable_new) {
             if ($o2ctrl_obj->effect_on_over) {
@@ -4222,7 +4223,8 @@ class o2html {
      */
     static function ctrl_nav_del($o2ctrl_obj, $view, $inline = false) {
 
-        $app = $_SESSION['o2_app'];
+        $app  = $_SESSION['o2_app'];
+        $html = '';
         if ($app->multilang) {
             $msg = $app->translate($o2ctrl_obj->nome,
                                    'msg_new',
@@ -4234,13 +4236,13 @@ class o2html {
             }
         $recs = (count($view->recordset) > 0);
         if ($o2ctrl_obj->is_active() && $recs && $o2ctrl_obj->enable_del) {
-            $html = "<div ".($inline ? "" : "id='".$o2ctrl_obj->nome.
+            $html = '<div '.($inline ? '' : "id='".$o2ctrl_obj->nome.
                                                    $o2ctrl_obj->id_esecuzione.
                                                    "_delbtn' ").
                      $o2ctrl_obj->js_props("msg:'".$msg.
-                                         "',action:12,rt:".($inline ? "true" : "false")).
+                                         "',action:12,rt:".($inline ? 'true' : 'false')).
                       "class='".$o2ctrl_obj->css_del.
-                    "' title='Delete ".($inline ? "" : "current ")."record'";
+                    "' title='Delete ".($inline ? '' : 'current ')."record'";
             if ($o2ctrl_obj->effect_on_over) {
                 $html.= " onmouseover='o2jse.nav.onBtn(this);'";
                 }
@@ -4264,7 +4266,8 @@ class o2html {
      */
     static function ctrl_nav_save($o2ctrl_obj, $view) {
 
-        $app = $_SESSION['o2_app'];
+        $app  = $_SESSION['o2_app'];
+        $html = '';
         if ($app->multilang) {
             $msg = $app->translate($o2ctrl_obj->nome,
                                    'msg_new',
@@ -4303,7 +4306,8 @@ class o2html {
      */
     static function ctrl_nav_undo($o2ctrl_obj, $view) {
 
-        $app = $_SESSION['o2_app'];
+        $app  = $_SESSION['o2_app'];
+        $html = '';
         if ($app->multilang) {
             $msg = $app->translate($o2ctrl_obj->nome,
                                    'msg_new',
@@ -4343,7 +4347,8 @@ class o2html {
      */
     static function ctrl_nav_select($o2ctrl_obj, $view, $inline = false) {
 
-        $app = $_SESSION['o2_app'];
+        $app  = $_SESSION['o2_app'];
+        $html = '';
         if ($app->multilang) {
             $msg = $app->translate($o2ctrl_obj->nome,
                                    'msg_new',
@@ -4355,13 +4360,13 @@ class o2html {
             }
         $recs = (count($view->recordset) > 0);
         if ($o2ctrl_obj->is_active() && $recs && $o2ctrl_obj->enable_select) {
-            $html = "<div ".($inline ? "" : "id='".$o2ctrl_obj->nome.
+            $html = '<div '.($inline ? '' : "id='".$o2ctrl_obj->nome.
                                                    $o2ctrl_obj->id_esecuzione.
                                                    "_selebtn' ").
                     $o2ctrl_obj->js_props("msg:'".$msg.
-                                          "',action:15,rt:".($inline ? "true" : "false")).
+                                          "',action:15,rt:".($inline ? 'true' : 'false')).
                     "class='".$o2ctrl_obj->css_select.
-                    "' title='Select ".($inline ? "" : "current ")."record'";
+                    "' title='Select ".($inline ? '' : 'current ')."record'";
             if ($o2ctrl_obj->effect_on_over) {
                 $html.= " onmouseover='o2jse.nav.onBtn(this);'";
                 }
@@ -4386,7 +4391,8 @@ class o2html {
      */
     static function ctrl_nav_detail($o2ctrl_obj, $view, $inline = false) {
 
-        $app = $_SESSION['o2_app'];
+        $app  = $_SESSION['o2_app'];
+        $html = '';
         if ($app->multilang) {
             $msg = $app->translate($o2ctrl_obj->nome,
                                    'msg_new',
@@ -4398,13 +4404,13 @@ class o2html {
             }
        $recs = (count($view->recordset) > 0);
         if ($o2ctrl_obj->is_active() && $recs && $o2ctrl_obj->enable_detail) {
-            $html = "<div ".($inline ? "" : "id='".$o2ctrl_obj->nome.
+            $html = '<div '.($inline ? '' : "id='".$o2ctrl_obj->nome.
                                                    $o2ctrl_obj->id_esecuzione.
                                                    "_detbtn' ").
                     $o2ctrl_obj->js_props("msg:'".$msg.
-                                          "',action:16,rt:".($inline ? "true" : "false")).
+                                          "',action:16,rt:".($inline ? 'true' : 'false')).
                       "class='".$o2ctrl_obj->css_detail.
-                    "' title='Show ".($inline ? "" : "current ")."record details'";
+                    "' title='Show ".($inline ? '' : 'current ')."record details'";
             if ($o2ctrl_obj->effect_on_over) {
                 $html.= " onmouseover='o2jse.nav.onBtn(this);'";
                 }
@@ -4430,7 +4436,7 @@ class o2html {
 
         if ($o2ctrl_obj->is_active() && ($view->offset_ini || $view->selezione)) {
             $html = "<div id='".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione."_fbtn' ".
-                    $o2ctrl_obj->js_props("action:1,rt:false").
+                    $o2ctrl_obj->js_props('action:1,rt:false').
                     " class='".$o2ctrl_obj->css_primo."' title='Go to first record'";
             if ($o2ctrl_obj->effect_on_over) {
                 $html.= " onmouseover='o2jse.nav.onBtn(this);'";
@@ -4458,7 +4464,7 @@ class o2html {
             if ($o2ctrl_obj->is_active() && $view->offset_ini) {
                 $html = "<div id='".$o2ctrl_obj->nome.
                                     $o2ctrl_obj->id_esecuzione."_ppbtn' ".
-                        $o2ctrl_obj->js_props("action:2,rt:false").
+                        $o2ctrl_obj->js_props('action:2,rt:false').
                          " class='".$o2ctrl_obj->css_precedente_pag.
                         "' title='Show previous ".$view->righe_vis." records'";
                 if ($o2ctrl_obj->effect_on_over) {
@@ -4486,7 +4492,7 @@ class o2html {
 
         if ($o2ctrl_obj->is_active() && ($view->offset_ini || $view->selezione)) {
             $html = "<div id='".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione."_pbtn' ".
-                    $o2ctrl_obj->js_props("action:3,rt:false").
+                    $o2ctrl_obj->js_props('action:3,rt:false').
                     " class='".$o2ctrl_obj->css_precedente.
                     "' title='Go to previous record'";
             if ($o2ctrl_obj->effect_on_over) {
@@ -4515,7 +4521,7 @@ class o2html {
            ($view->offset_fine < ($view->totale_record - 1) ||
             $view->selezione < (count($view->recordset) - 1))) {
             $html = "<div id='".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione."_nbtn' ".
-                    $o2ctrl_obj->js_props("action:4,rt:false").
+                    $o2ctrl_obj->js_props('action:4,rt:false').
                     " class='".$o2ctrl_obj->css_successivo."' title='Go to next record'";
             if ($o2ctrl_obj->effect_on_over) {
                 $html.= " onmouseover='o2jse.nav.onBtn(this);'";
@@ -4544,7 +4550,7 @@ class o2html {
                 $view->offset_fine < $view->totale_record - 1) {
                 $html = "<div id='".$o2ctrl_obj->nome.
                                     $o2ctrl_obj->id_esecuzione."_npbtn' ".
-                        $o2ctrl_obj->js_props("action:5,rt:false").
+                        $o2ctrl_obj->js_props('action:5,rt:false').
                         " class='".$o2ctrl_obj->css_successiva_pag.
                         "' title='Show next ".$view->righe_vis." records'";
                 if ($o2ctrl_obj->effect_on_over) {
@@ -4574,7 +4580,7 @@ class o2html {
             ($view->offset_fine < $view->totale_record - 1 ||
              $view->selezione < (count($view->recordset) - 1))) {
             $html = "<div id='".$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione."_lbtn' ".
-                    $o2ctrl_obj->js_props("action:6,rt:false").
+                    $o2ctrl_obj->js_props('action:6,rt:false').
                     " class='".$o2ctrl_obj->css_ultimo."' title='Go to last record'";
             if ($o2ctrl_obj->effect_on_over) {
                 $html.= " onmouseover='o2jse.nav.onBtn(this);'";

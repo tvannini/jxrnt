@@ -1326,6 +1326,7 @@ class jxjs {
         if (is_array($wins) &&
             array_key_exists($o2form_obj->nome, $wins) &&
             $wins[$o2form_obj->nome]['A'] == $o2form_obj->attiva) {
+            $pos_buffer = '';
             // ______________________________________ Active forms and menu forms only ___
             if ($o2form_obj->attiva || $o2form_obj->menu_behavior) {
                 $o2form_obj->leggi_valori_vista();
@@ -1338,11 +1339,8 @@ class jxjs {
                 if (!$o2form_obj->linkto &&
                     ($o2form_obj->x != $o2form_obj->last_x ||
                      $o2form_obj->y != $o2form_obj->last_y)) {
-                    $pos_buffer = ",x:".$o2form_obj->absolute_x.
-                                  ",y:".$o2form_obj->absolute_y;
-                    }
-                else {
-                    $pos_buffer = '';
+                    $pos_buffer = ',x:'.$o2form_obj->absolute_x.
+                                  ',y:'.$o2form_obj->absolute_y;
                     }
                 }
             if ($app->multilang) {
