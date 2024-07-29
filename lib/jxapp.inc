@@ -2789,6 +2789,8 @@ class o2_app {
             }
         // __________________________________________________________ Standard RPC exe ___
         else {
+            // ________________________________________________ Output buffering start ___
+            ob_start();
             // _________________________________________________________________ JXSQL ___
             if ($this->jxsql) {
                 include_once $this->runtime->dir_dbms.'jxsql.inc';
