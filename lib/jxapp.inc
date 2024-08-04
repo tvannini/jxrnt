@@ -5213,11 +5213,23 @@ class o2_run_job {
             $app->commit_all(true);
             }
         catch (o2_exception $o2e) {
-            $o2e->send();
+            if ($app->bug_error_flow) {
+                $o2e->send();
+                return false;
+                }
+            else {
+                throw $o2e;
+                }
             }
         catch (Throwable $e) {
             $o2e = new o2_exception($e->getMessage(), o2error_EXECUTION);
-            $o2e->send();
+            if ($app->bug_error_flow) {
+                $o2e->send();
+                return false;
+                }
+            else {
+                throw $o2e;
+                }
             }
         // ___________________________ If execution stopped (on-line) rise an exception___
         if ($app->progressivo_istanze) {
@@ -5526,11 +5538,14 @@ class o2_run_job {
     /**
      * Returns HTML code to show a progress bar related to run-job progress
      *
-     * @param  string $complete_action
-     * @param  string $start_action
+     * @param  string $complete_action   Action to be executed on run-job completed
+     * @param  string $start_action      Action to be executed on run-job start
+     * @param  string $error_action      Action to be executed on run-job error
      * @return string
      */
-    public function get_bar($complete_action = false, $start_action = false) {
+    public function get_bar($complete_action = false,
+                            $start_action    = false,
+                            $error_action    = false) {
 
         $app    = $_SESSION['o2_app'];
         $prg    = $app->istanze_prg[$app->progressivo_istanze];
@@ -5555,6 +5570,7 @@ class o2_run_job {
                 }
             $bar->complete_action = $complete_action;
             $bar->start_action    = $start_action;
+            $bar->error_action    = $error_action;
             }
         $bar->modificabile($this->progress == 100 || $run || $queued || $wait);
         $bar->set_value($this->progress, '');

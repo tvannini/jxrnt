@@ -1524,16 +1524,20 @@ function o2job_is_enabled($job_name) {
  * @param   integer $run_job_id        Running instance ID
  * @param   string  $complete_action   Program action to be executed on bar completion
  * @param   string  $start_action      Program action to be executed on bar start
+ * @param   string  $error_action      Program action to be executed on job error
  * @return  string
  * @see     o2job_is_running()
  * @see     o2job_run()
  * @see     o2job_set_progress()
  * @see     o2progress_bar()
  */
-function o2job_get_bar($run_job_id, $complete_action = false, $start_action = false) {
+function o2job_get_bar($run_job_id,
+                       $complete_action = false,
+                       $start_action    = false,
+                       $error_action    = false) {
 
     if ($run_job = o2_run_job::get_by_id($run_job_id)) {
-        return $run_job->get_bar($complete_action, $start_action);
+        return $run_job->get_bar($complete_action, $start_action, $error_action);
         }
     else {
         return false;

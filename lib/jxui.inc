@@ -6904,18 +6904,19 @@ class o2_ctrl_imglist extends o2_ctrl {
 */
 class o2_ctrl_progress extends o2_ctrl {
 
-    public $id_field        = "JXPBI"; /* Field containing bar-ctrl ID when view-based  */
-    public $progress_field  = "JXPBV"; /* Field containing bar-ctrl val when view-based */
-    public $caller          = "";      /* Caller-function for refreshing by expression  */
+    public $id_field        = 'JXPBI'; /* Field containing bar-ctrl ID when view-based  */
+    public $progress_field  = 'JXPBV'; /* Field containing bar-ctrl val when view-based */
+    public $caller          = '';      /* Caller-function for refreshing by expression  */
     public $completed       = array(); /* Completion flag                               */
     public $started         = array(); /* Start flag                                    */
-    public $complete_action = "";      /* Action to be executed on complete             */
-    public $start_action    = "";      /* Action to be executed on start (from 0 to >0) */
+    public $complete_action = '';      /* Action to be executed on complete             */
+    public $start_action    = '';      /* Action to be executed on start (from 0 to >0) */
+    public $error_action    = '';      /* Action to be executed on (run-job) error      */
     public $scripting       = false;   /* If control is defined in old scripting style  */
     /*     _____ CSS CLASSES __________________________________________________________ */
-    public $css_out         = "o2_ctrl_progress";     /* Whole control <DIV>            */
-    public $css_bar         = "o2_ctrl_progress_bar"; /* Progress indicator bar <DIV>   */
-    public $css_txt         = "o2_ctrl_progress_txt"; /* Percent value text <DIV>       */
+    public $css_out         = 'o2_ctrl_progress';     /* Whole control <DIV>            */
+    public $css_bar         = 'o2_ctrl_progress_bar'; /* Progress indicator bar <DIV>   */
+    public $css_txt         = 'o2_ctrl_progress_txt'; /* Percent value text <DIV>       */
 
 
     /**
@@ -7114,8 +7115,8 @@ class o2_ctrl_progress extends o2_ctrl {
                         $ctrl_obj->set_value($local_caller(), '');
                         }
                     $code.= "o2jse.progress.set('".
-                            $ctrl_name.$app->progressivo_istanze."',".
-                            $ctrl_obj->valore.");\n";
+                            $ctrl_name.$app->progressivo_istanze."',".$ctrl_obj->valore.
+                            ");\n";
                     // ______________________________________________ Run start action ___
                     if ($ctrl_obj->valore > 0 && !$ctrl_obj->started['']) {
                         $ctrl_obj->started[''] = true;
@@ -7124,8 +7125,26 @@ class o2_ctrl_progress extends o2_ctrl {
                             $act_id = $ctrl_name;
                             }
                         }
-                    // _______________________ Stop refreshing when all bars completed ___
-                    if ($ctrl_obj->valore < 100) {
+                    // ___________ Stop refreshing when all bars completed or in error ___
+                    elseif ($ctrl_obj->valore < 100) {
+                        if ($ctrl_obj->error_action &&
+                         ($run_job = o2_run_job::get_by_id(substr($ctrl_obj->nome, 2)))) {
+                            $run    = $run_job->is_running();
+                            $queued = ($run_job->status == 'Q' && $run_job->progress < 1);
+                            $error  = ($run_job->error ||
+                                       (!$queued &&
+                                        ($run_job->progress < 100 ||
+                                         $run_job->status == 'R') &&
+                                        !$run) ? true : false);
+                            if ($error) {
+                                $act    = $ctrl_obj->error_action;
+                                $act_id = substr($ctrl_obj->nome, 2);
+                                $stop = true;
+                                }
+                            else {
+                                $stop = false;
+                                }
+                            }
                         $stop = false;
                         }
                     // ___________________________________________ Run complete action ___
