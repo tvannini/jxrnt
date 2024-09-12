@@ -79,7 +79,7 @@ function o2val($view_name, $field_name) {
     // _________________________________________________________ Application variables ___
     if ($view_name == '_o2SESSION') {
         if (!array_key_exists($field_name, $app->vars)) {
-            throw new o2_exception("Unknown application variable <i>".$field_name."</i>",
+            throw new o2_exception('Unknown application variable <i>'.$field_name.'</i>',
                                    o2error_UNKNOWNAPPVAR);
             }
         else {
@@ -92,8 +92,8 @@ function o2val($view_name, $field_name) {
     // ________________________________________________________________ View variables ___
     $view_local = $prg->contesto[$view_name];
     if (!($view_local instanceof o2_view )) {
-        throw new o2_exception("Unknown view <i>".$view_name."</i> in program <i>".
-                               $app->istanze_prg[$app->progressivo_istanze]->nome."</i>",
+        throw new o2_exception('Unknown view <i>'.$view_name.'</i> in program <i>'.
+                               $app->istanze_prg[$app->progressivo_istanze]->nome.'</i>',
                                o2error_UNKNOWNVIEW);
         }
     // ____ Tracing link criteria for SQL-LINK: excluded ones are treated as constants ___
@@ -108,44 +108,44 @@ function o2val($view_name, $field_name) {
             }
         }
     // ______________________________________________________________ Value retrieving ___
-    $value_local = $view_local->campo($field_name);
+    $value = $view_local->campo($field_name);
     // ______________________________________________________ Extra arguments managing ___
     if (func_num_args() > 2) {
         // ____________________________________________________________ Date variables ___
-        if ($view_local->campo_per_controllo($field_name)->maschera->tipo == "D") {
+        if ($view_local->campo_per_controllo($field_name)->maschera->tipo == 'D') {
             switch (func_get_arg(2)) {
-                case "d":
-                case "D":
-                    $value_local = substr($value_local, 6, 2);
+                case 'd':
+                case 'D':
+                    $value = substr($value, 6, 2);
                     break;
-                case "m":
-                case "M":
-                    $value_local = substr($value_local, 4, 2);
+                case 'm':
+                case 'M':
+                    $value = substr($value, 4, 2);
                     break;
                 // _____________________________________________________ 2 digits year ___
-                case "y":
-                    $value_local = substr($value_local, 2, 2);
+                case 'y':
+                    $value = substr($value, 2, 2);
                     break;
                 // _____________________________________________________ 4 digits year ___
-                case "Y":
-                    $value_local = substr($value_local, 0, 4);
+                case 'Y':
+                    $value = substr($value, 0, 4);
                     break;
                }
            }
         // ____________________________________________________________ Time variables ___
-        elseif ($view_local->campo_per_controllo($field_name)->maschera->tipo == "O") {
+        elseif ($view_local->campo_per_controllo($field_name)->maschera->tipo == 'O') {
             switch (func_get_arg(2)) {
-                case "h":
-                case "H":
-                    $value_local = substr($value_local, 0, 2);
+                case 'h':
+                case 'H':
+                    $value = substr($value, 0, 2);
                     break;
-                case "i":
-                case "I":
-                    $value_local = substr($value_local, 2, 2);
+                case 'i':
+                case 'I':
+                    $value = substr($value, 2, 2);
                     break;
-                case "s":
-                case "S":
-                    $value_local = substr($value_local, 4, 2);
+                case 's':
+                case 'S':
+                    $value = substr($value, 4, 2);
                     break;
                 }
             }
@@ -154,10 +154,10 @@ function o2val($view_name, $field_name) {
             array_shift($array_keys);
             array_shift($array_keys);
             $keys = "['".implode("']['", $array_keys)."']";
-            eval("\$value_local = \$value_local$keys;");
+            eval("\$value = (isset(\$value$keys) ? \$value$keys : null);");
             }
         }
-    return $value_local;
+    return $value;
 
     }
 

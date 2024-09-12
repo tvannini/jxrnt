@@ -200,12 +200,12 @@ function o2sys_table_filter§§tmp_where_undo_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_table_filter_exp_1() {
-
+	
 return (o2app_sid());
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_2() {
-
+	
 return (o2val('tmp_where','field_title'));
 	} //|o2_fine_exp|
 
@@ -245,14 +245,19 @@ foreach ($form->controlli as $ctrl_index => $single_ctrl) {
    if ($single_ctrl->task == $table->task &&
        $single_ctrl->visibile             &&
        $single_ctrl->campo_in_ctrl) {
-      if ($app->multilang) {
-         $caption = $app->translate($single_ctrl->nome,
-                                    'grid_title',
-                                    0,
-                                    $single_ctrl->info_padre[3]);
+      if (isset($single_ctrl->info_padre[3])) { 
+         if ($app->multilang) {
+            $caption = $app->translate($single_ctrl->nome,
+                                       'grid_title',
+                                       0,
+                                       $single_ctrl->info_padre[3]);
+            }
+         else {
+            $caption = $single_ctrl->info_padre[3];
+            }
          }
       else {
-         $caption = $single_ctrl->info_padre[3];
+         $caption = '';
          }
       $field_name = $single_ctrl->campo_in_ctrl;
       $mask       = ($single_ctrl->maschera ?
@@ -264,32 +269,32 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_4() {
-
+	
 return (0);
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_5() {
-
+	
 return (count(o2val('prg§_§var','columns_list')));
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_6() {
-
+	
 return (o2val('prg§_§var','column_id') >= o2val('prg§_§var','columns_tot'));
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_7() {
-
+	
 return (o2val('prg§_§var','column_id') + 1);
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_8() {
-
+	
 return (o2val('prg§_§var','columns_list', o2val('prg§_§var','column_id'), 1));
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_9() {
-
+	
 return (o2val('prg§_§var','columns_list', o2val('prg§_§var','column_id'), 3));
 	} //|o2_fine_exp|
 
@@ -299,7 +304,7 @@ return (o2val('tmp_where','field_mask'));
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_11() {
-
+	
 return (o2val('prg§_§var','columns_list', o2val('prg§_§var','column_id'), 2));
 	} //|o2_fine_exp|
 
@@ -376,7 +381,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_14() {
-
+	
 return (o2val('tmp_where','pos_id'));
 	} //|o2_fine_exp|
 
@@ -404,13 +409,16 @@ return (true);
 
 function o2sys_table_filter_exp_16() {
 	$fp  = o2par(1)."-".o2par(2)."-".o2par(3);
-$ret = $_SESSION['jxview_lastfilter'] == $fp;
+$ret = false;
+if (isset($_SESSION['jxview_lastfilter'])) {
+   $ret = $_SESSION['jxview_lastfilter'] == $fp;
+   }
 $_SESSION['jxview_lastfilter'] = $fp;
 return ($ret);
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_17() {
-
+	
 return (!o2val('prg§_§var','continue'));
 	} //|o2_fine_exp|
 
@@ -433,47 +441,47 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_19() {
-
+	
 return ('nav_big');
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_20() {
-
+	
 return ('<jx>/img/tools/blank.png');
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_21() {
-
+	
 return ('tool_btn_apply');
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_22() {
-
+	
 return ('tool_btn_clear');
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_23() {
-
+	
 return ('tool_btn_exit');
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_25() {
-
+	
 return ('o2_ctrl_nav_prev');
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_26() {
-
+	
 return ('hidden');
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_27() {
-
+	
 return ('o2_ctrl_nav_next');
 	} //|o2_fine_exp|
 
 function o2sys_table_filter_exp_9999() {
-
+	
 return (false);
 	} //|o2_fine_exp|
 ?>

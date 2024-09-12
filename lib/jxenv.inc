@@ -2762,9 +2762,10 @@ class o2_dbview extends o2_view {
                                            $this->link_wheres[$file_in_esame] : '');
                             if ($sql_join &&
                                 strpos($main_where, $single_cond) === false) {
-                                $this->link_wheres[$file_in_esame].= ($main_where ?
-                                                                      ' AND ' : '').
-                                                                      $single_cond;
+                                $this->link_wheres[$file_in_esame] =
+                                    (isset($this->link_wheres[$file_in_esame]) ?
+                                     $this->link_wheres[$file_in_esame] : '').
+                                     ($main_where ? ' AND ' : '').$single_cond;
                                 }
                             }
                         $where_local[] = $single_cond;

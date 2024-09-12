@@ -641,7 +641,8 @@ class o2_form {
             $this->chiusa  = false;
             $this->visible = false;
             // ________________________________________ Remove focus to closed windows ___
-            if ($app->caret_position[$this->id_esecuzione]['form'] == $this->nome) {
+            if (isset($app->caret_position[$this->id_esecuzione]) &&
+                ($app->caret_position[$this->id_esecuzione]['form'] == $this->nome)) {
                 unset($app->caret_position[$this->id_esecuzione]);
                 }
             if (isset($app->open_wins[$this->id_esecuzione][$this->nome])) {
@@ -811,7 +812,8 @@ class o2_form {
             $prg->form[$linked_form]->close();
             }
         // ______________________________________________________ Unset focus for form ___
-        if ($app->caret_position[$this->id_esecuzione]['form'] == $this->nome) {
+        if (isset($app->caret_position[$this->id_esecuzione]) &&
+            ($app->caret_position[$this->id_esecuzione]['form'] == $this->nome)) {
             unset($app->caret_position[$this->id_esecuzione]);
             }
         // ______________________________________________________ Execute close action ___
@@ -3785,13 +3787,14 @@ class o2_ctrl_listcombo extends o2_ctrl {
         $app          = $_SESSION['o2_app'];
         $prg          = $app->istanze_prg[$this->id_esecuzione];
         $view         = $prg->contesto[$this->task];
-        $this->valore = $view->corrente[$this->campo_in_ctrl];
+        $this->valore = (isset($view->corrente[$this->campo_in_ctrl]) ?
+                         $view->corrente[$this->campo_in_ctrl] : '');
         $value        = trim($this->ctrl2sql());
-        $ret          = "";
+        $ret          = '';
         $this->error  = false;
         // ______________________________________ If combo description has been cached ___
-        if (isset($view->corrente[$this->campo_in_ctrl."_jxcbdesc"])) {
-            $ret = $view->corrente[$this->campo_in_ctrl."_jxcbdesc"];
+        if (isset($view->corrente[$this->campo_in_ctrl.'_jxcbdesc'])) {
+            $ret = $view->corrente[$this->campo_in_ctrl.'_jxcbdesc'];
             }
         // ________________________________________________________ Decode description ___
         else {
@@ -3805,12 +3808,12 @@ class o2_ctrl_listcombo extends o2_ctrl {
                 else {
                     $items_view_name = $this->items_view;
                     if (!$prg->contesto[$items_view_name]) {
-                        $items_view_name.= "_o2list";
-                        $items_view_name = "v".substr(md5($items_view_name), -5);
-                        define($this->items_view."_o2self", $items_view_name);
+                        $items_view_name.= '_o2list';
+                        $items_view_name = 'v'.substr(md5($items_view_name), -5);
+                        define($this->items_view.'_o2self', $items_view_name);
                         }
                     $items_view       = $prg->contesto[$items_view_name];
-                    $filter_code_name = $this->items_desc."_O2LUDESC";
+                    $filter_code_name = $this->items_desc.'_O2LUDESC';
                     if ($items_view->campi[$this->items_code]) {
                         $items_code = $items_view->campi[$this->items_code];
                         $items_view->campi[$filter_code_name]       = clone $items_code;
@@ -3848,7 +3851,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
                         }
                     }
                 // ______________________________________ Cache description in dataset ___
-                $view->corrente[$this->campo_in_ctrl."_jxcbdesc"] = $ret;
+                $view->corrente[$this->campo_in_ctrl.'_jxcbdesc'] = $ret;
                 }
             else {
                 $mask = $this->maschera;
@@ -6189,9 +6192,10 @@ class o2_ctrl_tree extends o2_ctrl {
      */
     function get_node_code($node_id = 0, $level = 0) {
 
-        $this_node     = $this->list[$node_id];
+        $this_node     = (isset($this->list[$node_id]) ? $this->list[$node_id] : false);
         // _____________________________________________________ Node 0 is always open ___
-        $open          = !$node_id || $this->open_nodes[$node_id];
+        $open          = !$node_id || (isset($this->open_nodes[$node_id]) ?
+                                       $this->open_nodes[$node_id] : false);
         $code          = "";
         $children_code = "";
         $has_child     = false;
@@ -6225,7 +6229,7 @@ class o2_ctrl_tree extends o2_ctrl {
                  " onclick='o2jse.tv.c(this,\"".$this->nome.'","'.$node_id."\");'"
                  : "")."></div>";
         // ______________________________________________________________________ Icon ___
-        if ($this_node[2]) {
+        if ($this_node && $this_node[2]) {
             list($special_folder, $img_name) = explode("/", $this_node[2], 2);
             switch (strtolower($special_folder)) {
                 case "<o2>":

@@ -671,6 +671,7 @@ class o2_exception extends Exception {
                     $fun = $single_step['function'].
                            "(".implode(", ", $single_step['args']).")";
                     }
+                $prg_name = '';
                 if (strpos($single_step['function'], '_exp_')) {
                     list($prg_name, $exp) = explode("_exp_", $single_step['function']);
                     }

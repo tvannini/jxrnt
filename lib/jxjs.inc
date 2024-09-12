@@ -107,8 +107,9 @@ class jxjs {
             $prg_wins = $app->istanze_prg[$last_id]->form;
             foreach ($app->open_wins[$last_id] as $win_name => $win_state) {
                 if (!$win_state['V']) {
-                    $win_obj = $prg_wins[$win_name];
-                    if ($win_obj->linkto) {
+                    $win_obj = (isset($prg_wins[$win_name]) ?
+                                $prg_wins[$win_name] : false);
+                    if ($win_obj && $win_obj->linkto) {
                         $parent_win = $prg_wins[$win_obj->linkto];
                         $link_id    = 0;
                         foreach ($parent_win->linked as $linked_form_name => $dummy) {
@@ -589,20 +590,26 @@ class jxjs {
             // _____________________________ Keyboard short-cuts are defined only once ___
             if ($o2ctrl_obj->tab_row) {
                 $o2ctrl_obj->forza_submit = false;
-                $label                    = str_replace("&", "", $label);
+                $label                    = str_replace('&', '', $label);
                 }
             else {
                 $o2ctrl_obj->forza_submit = true;
                 // ___________________________________ Modify label with short-cuts set___
-                if (($key_pos = strpos($label, "&")) !== false) {
+                if (($key_pos = strpos($label, '&')) !== false) {
                     $key_letter = trim(substr($label, $key_pos + 1, 1));
                     if ($key_letter) {
-                        $label = substr($label, 0, $key_pos)."<u>".$key_letter."</u>".
-                                substr($label, $key_pos + 2);
+                        $label = substr($label, 0, $key_pos).'<u>'.$key_letter.'</u>'.
+                                 substr($label, $key_pos + 2);
                         }
                     }
                 }
-            list($hover_before, $hover_after) = explode(" ", $o2ctrl_obj->css, 2);
+            if (strpos($o2ctrl_obj->css, ' ') !== false) {
+                list($hover_before, $hover_after) = explode(' ', $o2ctrl_obj->css, 2);
+                }
+            else {
+                $hover_before = $o2ctrl_obj->css;
+                $hover_after  = '';
+                }
             print jxjs::ctrl($o2ctrl_obj,
                              "l:'".addslashes(jx_encode($label)).
                              "',s:'".$hover_before.($o2ctrl_obj->modificabile ?
@@ -1031,7 +1038,7 @@ class jxjs {
         $app       = $_SESSION['o2_app'];
         $send_all  = $o2ctrl_obj->view_shared || $o2ctrl_obj->check_dependences();
         $tab_name  = $o2ctrl_obj->nome;
-        $mod_ctrls = explode(";", $_REQUEST["o2_modfields"]);
+        $mod_ctrls = explode(";", $_REQUEST['o2_modfields']);
         array_pop($mod_ctrls);
         foreach ($mod_ctrls as $ctrl) {
             // _________________________ Navigation on DB-Grid (preserve client focus) ___
@@ -1039,10 +1046,11 @@ class jxjs {
                 $send_all = false;
                 break;
                 }
-            if ($field_obj = $o2ctrl_obj->form_obj->controlli[$ctrl]) {
+            if (isset($o2ctrl_obj->form_obj->controlli[$ctrl])) {
+                $field_obj = $o2ctrl_obj->form_obj->controlli[$ctrl];
                 // _________ Action from a control within grid (preserve client focus) ___
                 if ($field_obj->padre == $tab_name &&
-                    $field_obj->tipo_ctrl != "navigator") {
+                    $field_obj->tipo_ctrl != 'navigator') {
                     $send_all = false;
                     break;
                     }
@@ -1080,13 +1088,13 @@ class jxjs {
                 $code            = jxjs::html_embed(ob_get_clean());
                 $GLOBALS['jxjs'] = true;
                 }
-            print jxjs::ctrl($o2ctrl_obj, "code:".$code.
+            print jxjs::ctrl($o2ctrl_obj, 'code:'.$code.
                                           ",s:'".$o2ctrl_obj->spazio_class.
                                          "',x:".$o2ctrl_obj->x.
                                           ',y:'.$o2ctrl_obj->y.
                                           ',w:'.$o2ctrl_obj->larghezza.
                                           ',h:'.$o2ctrl_obj->altezza,
-                                          "{}");
+                                          '{}');
             }
         // ___________________________ DB-grid got user action (preserve client focus) ___
         else {
@@ -1098,7 +1106,7 @@ class jxjs {
             $o2ctrl_obj->modificabile = $o2ctrl_obj->save_modify;
             $tab_index                = $o2ctrl_obj->view_obj->selezione + 1;
             // ________ Open table controls list (row to match against view selection) ___
-            print "if(o2jse.infoForm['".$o2ctrl_obj->view_obj->nome."_vs".
+            print "if(o2jse.infoForm['".$o2ctrl_obj->view_obj->nome.'_vs'.
                                         $o2ctrl_obj->id_esecuzione."'].value==".
                       $tab_index."){\n";
             $rm_col = ($o2ctrl_obj->row_marker ? 0 : 1);
@@ -1154,8 +1162,8 @@ class jxjs {
                         else {
                             $f = jx_encode($ctrl->info_padre[8]);
                             }
-                        $footer[] = "{c:".(intval($ctrl->info_padre[1]) - $rm_col).
-                                    ",r:".(intval($ctrl->info_padre[0]) - 1).
+                        $footer[] = '{c:'.(intval($ctrl->info_padre[1]) - $rm_col).
+                                    ',r:'.(intval($ctrl->info_padre[0]) - 1).
                                     ",l:'".$f."'}";
                         }
                     }
@@ -1181,7 +1189,7 @@ class jxjs {
                                   $o2ctrl_obj->riga_class :
                                   $o2ctrl_obj->alt_class);
                     $css_cella = $o2ctrl_obj->corpo_class;
-                    $rowprop   = "rowprop:{e:".$o2ctrl_obj->id_esecuzione.
+                    $rowprop   = 'rowprop:{e:'.$o2ctrl_obj->id_esecuzione.
                                          ",c:'".$o2ctrl_obj->nome.
                                         "',v:'".$o2ctrl_obj->task.
                                         "',f:'".$o2ctrl_obj->form.
@@ -1217,13 +1225,13 @@ class jxjs {
                                                                   $app->chr_encoding)."'";
                                     }
                                 // __________________________________________ Checkbox ___
-                                elseif ($ctrl->tipo_ctrl == "checkbox") {
-                                    $ctrl_code = "v:".($ctrl->sql2ctrl() ? "!0" : "!1");
+                                elseif ($ctrl->tipo_ctrl == 'checkbox') {
+                                    $ctrl_code = 'v:'.($ctrl->sql2ctrl() ? '!0' : '!1');
                                     }
                                 // _________________________________________ HTML area ___
-                                elseif ($ctrl->tipo_ctrl == "html") {
+                                elseif ($ctrl->tipo_ctrl == 'html') {
                                     // _____________ NOT EXPOSED! Used only internally ___
-                                    $ctrl_code = "v:".jxjs::html_embed($ctrl->valore);
+                                    $ctrl_code = 'v:'.jxjs::html_embed($ctrl->valore);
                                     }
                                 else {
                                     $ctrl_code = "v:'".
@@ -1233,35 +1241,35 @@ class jxjs {
                                     }
                                 }
                             // _________________________________________________ Image ___
-                            elseif ($ctrl->tipo_ctrl == "img") {
+                            elseif ($ctrl->tipo_ctrl == 'img') {
                                 $ctrl_code = "v:'".$ctrl->src()."'";
                                 }
                             // ________________________________________________ Button ___
-                            elseif ($ctrl->tipo_ctrl == "button") {
+                            elseif ($ctrl->tipo_ctrl == 'button') {
                                 $ctrl_code = "v:'".
-                                             addcslashes(str_replace("&",
-                                                                     "",
+                                             addcslashes(str_replace('&',
+                                                                     '',
                                                                      $ctrl->label),
                                                          "'")."'";
                                 }
                             // _________________________________________________ Label ___
                             elseif (isset($ctrl->label) && $ctrl->label) {
                                 $ctrl_code = "v:'".
-                                             str_replace(array("\n", "\r"), " ",
+                                             str_replace(array("\n", "\r"), ' ',
                                                                htmlentities($ctrl->label,
                                                                             ENT_QUOTES,
                                                                      $app->chr_encoding)).
                                              "'";
                                 }
                             // _____________________________________________ HTML area ___
-                            elseif ($ctrl->tipo_ctrl == "html") {
-                                $ctrl_code = "v:".jxjs::html_embed($ctrl->html);
+                            elseif ($ctrl->tipo_ctrl == 'html') {
+                                $ctrl_code = 'v:'.jxjs::html_embed($ctrl->html);
                                 }
-                            $row_code.= "{c:".(intval($ctrl->info_padre[1]) - $rm_col).
-                                        ",r:".(intval($ctrl->info_padre[0]) - 1).
+                            $row_code.= '{c:'.(intval($ctrl->info_padre[1]) - $rm_col).
+                                        ',r:'.(intval($ctrl->info_padre[0]) - 1).
                                         ",s:'".$cssc.
                                         "',t:'".$ctrl->css.
-                                                ($ctrl->modificabile ? "" : "_dis").
+                                                ($ctrl->modificabile ? '' : '_dis').
                                         "',".$ctrl_code."},";
                             }
                         }
@@ -1280,7 +1288,7 @@ class jxjs {
                                      ($o2ctrl_obj->vscroll ?
                                       'vs:'.$o2ctrl_obj->vscroll.',' : '').
                                      $rowprop,
-                                     "{}");
+                                     '{}');
                     }
                 }
             elseif ($footer) {
@@ -1288,7 +1296,7 @@ class jxjs {
                                 'lastRow:'.$o2ctrl_obj->view_obj->selezione.
                                 ',rowList:{},rowprop:{},'.
                                 'foot:['.implode(',', $footer).']',
-                                "{}");
+                                '{}');
                 }
             }
 

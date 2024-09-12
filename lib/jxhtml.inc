@@ -487,37 +487,42 @@ class o2html {
         $prg_id   = $app->progressivo_istanze;
         $js_local = "";
         if (isset($app->caret_position[$prg_id])) {
-            $ctrl_name = $app->caret_position[$prg_id]['ctrl'];
             $html_form = $app->caret_position[$prg_id]['form'];
-            $sele_mode = $app->caret_position[$prg_id]['sele'];
-            $internal  = $app->caret_position[$prg_id]['int'];
-            $o2_form   = str_replace("_".$prg_id."_html_form", "", $html_form);
-            $form_obj  = $app->istanze_prg[$prg_id]->form[$o2_form];
-            if (!$internal && !$form_obj) {
-                throw new o2_exception("<b>FOCUS SETTING ERROR:</b> cannot find form <i>".
-                                       substr($o2_form, 0, -5)."</i>.",
-                                       o2error_UNKNOWNFORM);
-                return false;
+            $o2_form   = str_replace('_'.$prg_id.'_html_form', '', $html_form);
+            if (isset($app->istanze_prg[$prg_id]->form[$o2_form])) {
+                $ctrl_name = $app->caret_position[$prg_id]['ctrl'];
+                $sele_mode = $app->caret_position[$prg_id]['sele'];
+                $internal  = $app->caret_position[$prg_id]['int'];
+                $form_obj  = $app->istanze_prg[$prg_id]->form[$o2_form];
+                if (!$internal && !$form_obj) {
+                    throw new o2_exception('<b>FOCUS SETTING ERROR:</b> cannot find form'.
+                                           '<i>'.substr($o2_form, 0, -5).'</i>.',
+                                           o2error_UNKNOWNFORM);
+                    return false;
+                    }
+                elseif (!$internal &&
+                        !isset($form_obj->controlli[$ctrl_name]) &&
+                        $form_obj->defined) {
+                    throw new o2_exception('<b>FOCUS SETTING ERROR:</b> '.'cannot find '.
+                                           'control <i>'.$ctrl_name.'</i> in form <i>'.
+                                           substr($o2_form, 0, -5).'</i>.',
+                                           o2error_UNKNOWNCTRL);
+                    return false;
+                    }
+                elseif (!$form_obj->chiusa &&
+                        isset($form_obj->controlli[$ctrl_name]) &&
+                        $form_obj->controlli[$ctrl_name]->is_visible() &&
+                        ($form_obj->controlli[$ctrl_name]->modificabile ||
+                        $form_obj->controlli[$ctrl_name]->tipo_ctrl == 'tab')) {
+                    $sele_mode = ($sele_mode === null ? 'null' :
+                                  ($sele_mode === 0 ? '0' : '1'));
+                    $js_local  = ($scriptless ? '' : '<script> o2jse.cmd.focus(').
+                                 "'".$ctrl_name.$prg_id."',".$sele_mode.
+                                 ($scriptless ? '' : "); </script>\n");
+                    }
                 }
-            elseif (!$internal &&
-                    !isset($form_obj->controlli[$ctrl_name]) &&
-                    $form_obj->defined) {
-                throw new o2_exception("<b>FOCUS SETTING ERROR:</b> ".
-                                       "cannot find control <i>".$ctrl_name.
-                                       "</i> in form <i>".substr($o2_form, 0, -5)."</i>.",
-                                       o2error_UNKNOWNCTRL);
-                return false;
-                }
-            elseif (!$form_obj->chiusa &&
-                    isset($form_obj->controlli[$ctrl_name]) &&
-                    $form_obj->controlli[$ctrl_name]->is_visible() &&
-                    ($form_obj->controlli[$ctrl_name]->modificabile ||
-                     $form_obj->controlli[$ctrl_name]->tipo_ctrl == 'tab')) {
-                $sele_mode = ($sele_mode === null ? "null" :
-                              ($sele_mode === 0 ? "0" : "1"));
-                $js_local  = ($scriptless ? "" : "<script> o2jse.cmd.focus(").
-                              "'".$ctrl_name.$prg_id."',".$sele_mode.
-                              ($scriptless ? "" : "); </script>\n");
+            else {
+                $js_local = false;
                 }
             unset($app->caret_position[$prg_id]);
             }
@@ -1102,32 +1107,35 @@ class o2html {
                 // ________________________________ Recover controls from posted names ___
                 $ctrl_obj = false;
                 foreach ($prg_local->form as $single_form) {
-                    // _____________________________________ Gets window close actions ___
-                    if ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
-                                  '_jxcmd'] == '1') {
-                        $single_form->close();
-                        break;
-                        }
-                    // __________________________ Gets window maximize/restore actions ___
-                    elseif ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
-                                      '_jxcmd'] == '2') {
-                        $single_form->max_restore();
-                        break;
-                        }
-                    // ____________________________________ Gets window resize actions ___
-                    elseif ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
-                                      '_jxcmd'] == '3') {
-                        $single_form->maximized   = false;
-                        break;
-                        }
-                    // ________________ Force resize maximized window (browser resize) ___
-                    elseif ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
-                                      '_jxcmd'] == '4') {
-                        $single_form->maximized   = false;
-                        $single_form->max_restore();
-                        $single_form->restore_width  = 0;
-                        $single_form->restore_height = 0;
-                        break;
+                    if (isset($_REQUEST[$single_form->nome.$app->progressivo_istanze.
+                              '_jxcmd'])) {
+                        switch ($_REQUEST[$single_form->nome.$app->progressivo_istanze.
+                                '_jxcmd']) {
+                            // _____________________________ Gets window close actions ___
+                            case '1':
+                                $single_form->close();
+                                break;
+                            // __________________ Gets window maximize/restore actions ___
+                            case '2':
+                                $single_form->max_restore();
+                                break;
+                            // ____________________________ Gets window resize actions ___
+                            case '3':
+                                $single_form->maximized = false;
+                                break;
+                            // ________ Force resize maximized window (browser resize) ___
+                            case '4':
+                                $single_form->maximized = false;
+                                $single_form->max_restore();
+                                $single_form->restore_width  = 0;
+                                $single_form->restore_height = 0;
+                                break;
+                            default:
+                                if (isset($single_form->controlli[$single_ctrl])) {
+                                    $ctrl_obj = $single_form->controlli[$single_ctrl];
+                                    }
+                                break;
+                            }
                         }
                     elseif (isset($single_form->controlli[$single_ctrl])) {
                         $ctrl_obj = $single_form->controlli[$single_ctrl];
@@ -1135,7 +1143,8 @@ class o2html {
                         }
                     }
                 if ($ctrl_obj) {
-                    $view_obj = $prg_local->contesto[$ctrl_obj->task];
+                    $view_obj = ($ctrl_obj->task ?
+                                 $prg_local->contesto[$ctrl_obj->task] : false);
                     // ______________________________ Receive controls to valued field ___
                     /**
                      * NOTE: Submit-on-change on edit fields are relative to source row,
@@ -1227,8 +1236,10 @@ class o2html {
                             }
                         // _____________________________________ Other valued controls ___
                         else {
-                            $view_obj->imposta($ctrl_obj->campo_in_ctrl,
-                                               $ctrl_obj->valore);
+                            if ($view_obj) {
+                                $view_obj->imposta($ctrl_obj->campo_in_ctrl,
+                                                   $ctrl_obj->valore);
+                                }
                             // _________________ Execution of action on control change ___
                             if ($ctrl_obj->azione_submit) {
                                 $prg_local->esegui_azione($ctrl_obj->azione_submit);
@@ -1471,7 +1482,7 @@ class o2html {
                 }
             if ($ctrl_obj) {
                 // _______________________________________________ Fold/unfold request ___
-                if ($_REQUEST['jxtreefold']) {
+                if (isset($_REQUEST['jxtreefold']) && $_REQUEST['jxtreefold']) {
                     $node_id = $_REQUEST['jxtreefold'];
                     if (isset($ctrl_obj->open_nodes[$node_id])) {
                         unset ($ctrl_obj->open_nodes[$node_id]);
@@ -1479,7 +1490,7 @@ class o2html {
                     else {
                         $ctrl_obj->open_nodes[$node_id] = true;
                         }
-                    if ($_REQUEST['jxtvlastctrl']) {
+                    if (isset($_REQUEST['jxtvlastctrl'])) {
                         $ctrl_obj->focus_node = $node_id;
                         }
                     }
@@ -3154,10 +3165,11 @@ class o2html {
         if ($o2ctrl_obj->pagine > 1) {
             $active = $o2ctrl_obj->is_active();
             foreach ($o2ctrl_obj->label as $page_index => $title) {
-                $actual = $o2ctrl_obj->valore == $page_index;
+                $actual          = $o2ctrl_obj->valore == $page_index;
+                $js_script_local = '';
                 if ($active) {
                     $js_script_local = $o2ctrl_obj->js_props("page:".$page_index).
-                                       ($actual ? "" :
+                                       ($actual ? '' :
                                      'onClick="o2jse.ctrl.multiPage(this)" tabindex="0"');
                     }
                 if ($app->multilang) {
@@ -4823,7 +4835,8 @@ JANOX_PAGE_SCRIPT;
                          "',std:!1,sorted:".($o2ctrl_obj->sorted ? "!0" : "!1").
                          ",aL:".($o2ctrl_obj->act_level).",cT:'tree',pT:'html'\"\n";
             // _____________________________________ Focus has been set by last action ___
-            if ($_REQUEST['jxtvlastctrl'] == $o2ctrl_obj->nome) {
+            if (isset($_REQUEST['jxtvlastctrl']) &&
+                ($_REQUEST['jxtvlastctrl'] == $o2ctrl_obj->nome)) {
                 // ________________________________ Override standard focus management ___
                 unset($app->caret_position[$app->progressivo_istanze]);
                 $focus = "<script>(fC = document.getElementById('".$o2ctrl_obj->nome.

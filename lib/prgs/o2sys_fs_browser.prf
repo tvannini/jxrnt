@@ -185,11 +185,11 @@ function o2sys_fs_browser§§add_file_form_def(&$form_add_file) {
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("Files to upload:");
 	$ctrl_o2file2 = &$form_add_file->ctrldef("o2file2", "file", "", "prg§_§var", "uploaded_file");
-	    $ctrl_o2file2->multiple();
 		$ctrl_o2file2->x(140);
 		$ctrl_o2file2->y(20);
 		$ctrl_o2file2->larghezza(320);
 		$ctrl_o2file2->altezza(20);
+		$ctrl_o2file2->multiple();
 	$ctrl_o2button4 = &$form_add_file->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(200);
 		$ctrl_o2button4->y(70);
@@ -409,17 +409,17 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_2() {
-
+	
 return (urldecode($_REQUEST['extp_1']));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_3() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_4() {
-
+	
 return ((!o2par(2) ? "*" : o2par(2)));
 	} //|o2_fine_exp|
 
@@ -500,8 +500,8 @@ if (is_array($list)) {
                                     'return true;">';
          }
       $bytes  = $file['dim'];
-      $factor = floor((strlen($bytes) - 1) / 3);
-      $sz     = '';
+      $factor = (int) floor((strlen($bytes) - 1) / 3);
+      $sz     = ' ';
       if ($factor > 0) {
          $sz = ' KMGT';
          }
@@ -536,12 +536,12 @@ return ($text);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_7() {
-
+	
 return (o2file_dir(o2val('prg§_§var','folder_path')));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_8() {
-
+	
 return ((!o2par(3) ? o2val('prg§_§var','folder_path') : str_replace('\\', '/', o2par(3))));
 	} //|o2_fine_exp|
 
@@ -565,22 +565,22 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_11() {
-
+	
 return (o2par(7));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_12() {
-
+	
 return (o2par(6));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_13() {
-
+	
 return (o2par(8));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_14() {
-
+	
 return (o2val('prg§_§var','form_newdir'));
 	} //|o2_fine_exp|
 
@@ -602,12 +602,12 @@ return ($error);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_16() {
-
+	
 return ("Cannot create directory!\\nPlease insert a valid folder name.");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_17() {
-
+	
 return (o2val('prg§_§var','name_error') === 1);
 	} //|o2_fine_exp|
 
@@ -617,42 +617,42 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_19() {
-
+	
 return (!o2val('prg§_§var','name_error'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_20() {
-
+	
 return ("Cannot create directory!\\nA file named [".o2val('prg§_§var','newdir_name')."] already exists in the path.");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_21() {
-
+	
 return (o2val('prg§_§var','name_error') === 2);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_22() {
-
+	
 return (o2dir_delete(o2val('prg§_§var','action_path')));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_23() {
-
+	
 return (o2val('prg§_§var','form_fileupload'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_24() {
-
+	
 return (o2val('prg§_§var','uploaded_file') != array());
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_25() {
-
+	
 return ("*");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_26() {
-
+	
 return (o2zero('prg§_§var','files_filter'));
 	} //|o2_fine_exp|
 
@@ -664,13 +664,11 @@ function o2sys_fs_browser_exp_27() {
              $single_file['nome_originale']);
       }
    }
-
-
 return (true);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_28() {
-
+	
 return (o2val('prg§_§var','form_fileget'));
 	} //|o2_fine_exp|
 
@@ -680,22 +678,22 @@ return ($text);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_30() {
-
+	
 return (o2_path(urldecode($_REQUEST['extp_1'])));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_31() {
-
+	
 return ("fsb_addfile");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_32() {
-
+	
 return ("fsb_addfolder");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_33() {
-
+	
 return ("tools/o2sys_confirm");
 	} //|o2_fine_exp|
 
@@ -708,17 +706,17 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_35() {
-
+	
 return (!o2val('prg§_§var','del_result'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_36() {
-
+	
 return (o2val('prg§_§var','dialog_confirm'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_37() {
-
+	
 return (o2ctrl_focus("add_folder", "new_folder"));
 	} //|o2_fine_exp|
 
@@ -731,22 +729,22 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_39() {
-
+	
 return (urldecode($_REQUEST['extp_1']));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_40() {
-
+	
 return ((o2par(9) ? o2par(9) : "Resources browser"));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_41() {
-
+	
 return ('nav_big');
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_42() {
-
+	
 return (o2tree_get_code("jxfsbrowser"));
 	} //|o2_fine_exp|
 
@@ -797,12 +795,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_45() {
-
+	
 return ("fsb_tree jxtree_bottom");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_46() {
-
+	
 return (isset($_REQUEST['extp_1']));
 	} //|o2_fine_exp|
 
@@ -824,17 +822,17 @@ return ($dir);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_49() {
-
+	
 return (o2val('prg§_§var','status_str'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_50() {
-
+	
 return ("<jx>/img/fs/folder_up_btn".(o2exp(52) ? "" : "_dis").".png");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_51() {
-
+	
 return ((o2exp(52) ? "jximgbtn" : "o2_ctrl_img"));
 	} //|o2_fine_exp|
 
@@ -859,42 +857,42 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_54() {
-
+	
 return ("<jx>/img/fs/file_add_btn.png");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_55() {
-
+	
 return ("<jx>/img/fs/folder_add_btn.png");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_56() {
-
+	
 return ("jximgbtn");
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_57() {
-
+	
 return (o2val('prg§_§var','folder_limit') != o2val('prg§_§var','folder_path'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_58() {
-
+	
 return (o2val('prg§_§var','folder_limit'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_59() {
-
+	
 return (strpos(o2val('prg§_§var','folder_limit'), o2val('prg§_§var','folder_path')) !== false);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_60() {
-
+	
 return (o2val('prg§_§var','folder_path'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_61() {
-
+	
 return (o2val('prg§_§var','folder_limit') == o2val('prg§_§var','folder_path'));
 	} //|o2_fine_exp|
 
@@ -906,17 +904,17 @@ return ($dir);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_63() {
-
+	
 return ('disp_area');
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_64() {
-
+	
 return (0);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_65() {
-
+	
 return (o2val('prg§_§var','folder_start'));
 	} //|o2_fine_exp|
 
@@ -926,7 +924,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_69() {
-
+	
 return (!(o2val('prg§_§var','form_fileupload') || o2val('prg§_§var','form_newdir')));
 	} //|o2_fine_exp|
 
@@ -937,27 +935,27 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_71() {
-
+	
 return (urldecode($_REQUEST['extp_1']));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_72() {
-
+	
 return ('');
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_73() {
-
+	
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_74() {
-
+	
 return ('hidden');
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_9999() {
-
+	
 return (false);
 	} //|o2_fine_exp|
 ?>
