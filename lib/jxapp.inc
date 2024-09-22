@@ -5215,20 +5215,20 @@ class o2_run_job {
         catch (o2_exception $o2e) {
             if ($app->bug_error_flow) {
                 $o2e->send();
-                return false;
                 }
             else {
                 throw $o2e;
+                return false;
                 }
             }
         catch (Throwable $e) {
             $o2e = new o2_exception($e->getMessage(), o2error_EXECUTION);
             if ($app->bug_error_flow) {
                 $o2e->send();
-                return false;
                 }
             else {
                 throw $o2e;
+                return false;
                 }
             }
         // ___________________________ If execution stopped (on-line) rise an exception___
