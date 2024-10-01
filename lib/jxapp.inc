@@ -5213,23 +5213,11 @@ class o2_run_job {
             $app->commit_all(true);
             }
         catch (o2_exception $o2e) {
-            if ($app->bug_error_flow) {
-                $o2e->send();
-                }
-            else {
-                throw $o2e;
-                return false;
-                }
+            $o2e->send();
             }
         catch (Throwable $e) {
             $o2e = new o2_exception($e->getMessage(), o2error_EXECUTION);
-            if ($app->bug_error_flow) {
-                $o2e->send();
-                }
-            else {
-                throw $o2e;
-                return false;
-                }
+            $o2e->send();
             }
         // ___________________________ If execution stopped (on-line) rise an exception___
         if ($app->progressivo_istanze) {
