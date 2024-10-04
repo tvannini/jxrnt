@@ -343,7 +343,8 @@ return ($params);
 function jxjob_exp_9() {
 	$list = array(''                         => 'Select a module',
               'tools/jxdbcopy'           => '(internal) JX DB Copy',
-              'tools/o2dev_app_analysis' => '(internal) JX Application Analysis') + 
+              'tools/jxmaintenance'      => '(internal) JX Maintenance',
+              'tools/o2dev_app_analysis' => '(internal) JX Application Analysis') +
         o2app_prgs_list();
 return ($list);
 	} //|o2_fine_exp|
@@ -365,7 +366,7 @@ $params = o2val('prg§_§var','params_list');
 foreach ($params as $par_id => $param) {
    $list[] = $param['par'].": ".o2format($param['value'], $param['model']);
    }
-*/   
+*/
 $list = array();
 foreach (o2val('prg§_§var','params_list') as $par_id => $param) {
    if (o2model_type($param['model']) == "S") {
@@ -399,18 +400,18 @@ if (!o2zero('prg§_§var','job_prg')) {
       $prg                  = $app->runtime->root.DIRECTORY_SEPARATOR.
                                              'lib'.DIRECTORY_SEPARATOR.
                                              'prgs'.DIRECTORY_SEPARATOR.
-                                             $prgname.'.prg';   
+                                             $prgname.'.prg';
       }
    elseif (file_exists($app->dir_cvs_progs.$prgname.'.prg')) {
       $prg = $app->dir_cvs_progs.$prgname.'.prg';
       }
    elseif (file_exists($app->dir_progs.$prgname.'.prg')) {
-      $prg = $app->dir_progs.$prgname.'.prg';   
+      $prg = $app->dir_progs.$prgname.'.prg';
       }
    elseif ($app->prgs_path_inc) {
       foreach ($app->prgs_path_inc as $path) {
          if (file_exists(rtrim($path, "\\/").DIRECTORY_SEPARATOR.$prgname.'.prg')) {
-            $prg = rtrim($path, "\\/").DIRECTORY_SEPARATOR.$prgname.'.prg';   
+            $prg = rtrim($path, "\\/").DIRECTORY_SEPARATOR.$prgname.'.prg';
             }
          }
       }
@@ -425,11 +426,11 @@ if (!o2zero('prg§_§var','job_prg')) {
                       'value' => $app->maschere[$model]->default);
       }
   }
-/*   Match program parameters with passed parameters   */ 
+/*   Match program parameters with passed parameters   */
 if (o2val('prg§_§var','job_obj')) {
    $job    = o2val('prg§_§var','job_obj');
    $params = $job->params;
-   if (is_array($params) && count($params)) {   
+   if (is_array($params) && count($params)) {
       foreach ($list as $par_id => $param) {
          if (isset($params[$param['par']])) {
             $list[$par_id]['value'] = $params[$param['par']];
@@ -442,19 +443,22 @@ return ($list);
 
 function jxjob_exp_15() {
 	$app    = $_SESSION['o2_app'];
-$m_name = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model');
-$model  = $app->maschere[$m_name];
-if ($model->tipo == "L") {
-   $ctrl_type = "c";
-   }
-elseif (is_array($model->valori) && count($model->valori)) {
-   $ctrl_type = "l";
-   }
-elseif ($model->tipo == "S") {
-   $ctrl_type = "s";
-   }
-else {
-   $ctrl_type = "e";
+$ctrl_type = 'e';
+$m_name    = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model');
+if (isset($app->maschere[$m_name])) {
+   $model  = $app->maschere[$m_name];
+   if ($model->tipo == "L") {
+      $ctrl_type = "c";
+      }
+   elseif (is_array($model->valori) && count($model->valori)) {
+      $ctrl_type = "l";
+      }
+   elseif ($model->tipo == "S") {
+      $ctrl_type = "s";
+      }
+   else {
+      $ctrl_type = "e";
+      }
    }
 return ($ctrl_type);
 	} //|o2_fine_exp|
@@ -494,13 +498,15 @@ return (o2val('prg§_§var','param_ctrl_type') == "l");
 
 function jxjob_exp_21() {
 	$app    = $_SESSION['o2_app'];
+$items = array();
 $m_name = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model');
-$model  = $app->maschere[$m_name];
-$len    = $model->dimensione;
-$items  = array();
-if (is_array($model->valori) && count($model->valori)) {
-   foreach ($model->valori as $item) {
-      $items[substr($item, 0, $len)] = $item;
+if (isset($app->maschere[$m_name])) {
+   $model  = $app->maschere[$m_name];
+   $len    = $model->dimensione;
+   if (is_array($model->valori) && count($model->valori)) {
+      foreach ($model->valori as $item) {
+         $items[substr($item, 0, $len)] = $item;
+         }
       }
    }
 return ($items);
@@ -517,10 +523,10 @@ $parid = o2val('prg§_§var','param_id');
 switch (o2val('prg§_§var','param_ctrl_type')) {
    case "c":
       $list[$parid]['value'] = o2val('prg§_§var','param_value_logic');
-      break;   
+      break;
    case "l":
       $list[$parid]['value'] = o2val('prg§_§var','param_value_combo');
-      break;   
+      break;
    case "s":
       $value = o2val('prg§_§var','param_value');
       if (!$value) {
@@ -531,10 +537,10 @@ switch (o2val('prg§_§var','param_ctrl_type')) {
       else {
          if (@eval('$val='.$value.";") === false) {
             $val = "[Error] ".$value;
-            }  
+            }
          $list[$parid]['value'] = $val;
          }
-      break;   
+      break;
    default:
       $list[$parid]['value'] = o2val('prg§_§var','param_value');
       break;
@@ -543,15 +549,15 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxjob_exp_24() {
-	$id   = o2val('prg§_§var','job_id'); 
+	$id   = o2val('prg§_§var','job_id');
 $pars = array();
 foreach (o2val('prg§_§var','params_list') as $par) {
    $pars[$par['par']] = $par['value'];
    }
-$job = new o2_job($id, 
-                  o2val('prg§_§var','job_name'), 
-                  o2val('prg§_§var','job_prg'), 
-                  $pars, 
+$job = new o2_job($id,
+                  o2val('prg§_§var','job_name'),
+                  o2val('prg§_§var','job_prg'),
+                  $pars,
                   o2val('prg§_§var','job_desc'),
                   o2val('prg§_§var','job_keep_days'),
                   o2val('prg§_§var','job_max_instances'),
