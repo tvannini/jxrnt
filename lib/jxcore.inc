@@ -7122,27 +7122,31 @@ endofjxmsg;
 
         $list = array();
         if ($this->mswin) {
-            $ps = explode("\n", shell_exec("TASKLIST /FO CSV /NH"));
+            $ps = explode("\n", shell_exec('TASKLIST /FO CSV /NH'));
             if (count($ps) > 1) {
                 foreach ($ps as $line) {
-                    $info = explode(",", $line, 3);
-                    $pid  = intval(trim($info[1], '"'));
-                    $exe  = trim($info[0], '"');
-                    if (!$php_only || strtolower(substr($exe, 0, 3)) == 'php') {
-                        $list[$pid] = $exe;
+                    if ($line) {
+                        $info = explode(',', $line, 3);
+                        $pid  = intval(trim($info[1], '"'));
+                        $exe  = trim($info[0], '"');
+                        if (!$php_only || strtolower(substr($exe, 0, 3)) == 'php') {
+                            $list[$pid] = $exe;
+                            }
                         }
                     }
                 }
             }
         else {
-            $ps = explode("\n", shell_exec("ps h -e -o pid,comm"));
+            $ps = explode("\n", shell_exec('ps h -e -o pid,comm'));
             if (count($ps) > 1) {
                 foreach ($ps as $line) {
-                    $info = explode(" ", ltrim($line), 3);
-                    $pid  = intval(trim($info[0], '"'));
-                    $exe  = trim($info[1], '"');
-                    if (!$php_only || strtolower(substr($exe, 0, 3)) == 'php') {
-                        $list[$pid] = $exe;
+                    if ($line) {
+                        $info = explode(' ', ltrim($line), 3);
+                        $pid  = intval(trim($info[0], '"'));
+                        $exe  = trim($info[1], '"');
+                        if (!$php_only || strtolower(substr($exe, 0, 3)) == 'php') {
+                            $list[$pid] = $exe;
+                            }
                         }
                     }
                 }

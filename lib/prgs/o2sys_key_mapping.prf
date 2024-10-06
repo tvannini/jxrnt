@@ -1204,7 +1204,7 @@ function o2sys_key_mapping§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_key_mapping_exp_1() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
@@ -1360,67 +1360,67 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_14() {
-	
+
 return (o2val('prg§_§var','user_code'));
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_15() {
-	
+
 return (o2val('prg§_§var','option_code'));
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_16() {
-	
+
 return ("keyb_nav_first");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_17() {
-	
+
 return ("keyb_nav_prevpg");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_18() {
-	
+
 return ("keyb_nav_prev");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_19() {
-	
+
 return ("keyb_nav_next");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_20() {
-	
+
 return ("keyb_nav_nextpg");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_21() {
-	
+
 return ("keyb_nav_last");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_22() {
-	
+
 return ("keyb_nav_sele");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_23() {
-	
+
 return ("keyb_nav_new");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_24() {
-	
+
 return ("keyb_nav_del");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_25() {
-	
+
 return ("keyb_nav_save");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_26() {
-	
+
 return ("keyb_nav_undo");
 	} //|o2_fine_exp|
 
@@ -1432,29 +1432,29 @@ return ($key);
 
 function o2sys_key_mapping_exp_28() {
 	$arr_local = explode(";", o2val('options','value'));
-$key = $arr_local[1];
+$key = (isset($arr_local[1]) ? $arr_local[1] : '');
 return ($key);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_29() {
 	$arr_local = explode(";", o2val('options','value'));
-$key = $arr_local[2];
+$key = (isset($arr_local[2]) ? $arr_local[2] : '');
 return ($key);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_30() {
 	$arr_local = explode(";", o2val('options','value'));
-$key = $arr_local[3];
+$key = (isset($arr_local[3]) ? $arr_local[3] : '');
 return ($key);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_31() {
-	
+
 return (o2val('prg§_§var','user_code'));
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_32() {
-	
+
 return (!o2view_rec("options"));
 	} //|o2_fine_exp|
 
@@ -1547,77 +1547,77 @@ return ($value);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_44() {
-	
+
 return (36);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_45() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_46() {
-	
+
 return (33);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_47() {
-	
+
 return (38);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_48() {
-	
+
 return (40);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_49() {
-	
+
 return (34);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_50() {
-	
+
 return (35);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_51() {
-	
+
 return (13);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_52() {
-	
+
 return (115);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_53() {
-	
+
 return (119);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_54() {
-	
+
 return (123);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_55() {
-	
+
 return (113);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_56() {
-	
+
 return ("X");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_57() {
-	
+
 return ((o2app_user() != "" ? (!o2user_is_admin() ? o2app_user() : "") : "default"));
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_58() {
-	
+
 return ("keyb_nav_detail");
 	} //|o2_fine_exp|
 
@@ -1630,7 +1630,7 @@ return ($value);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_60() {
-	
+
 return (32);
 	} //|o2_fine_exp|
 
@@ -1647,14 +1647,14 @@ function o2sys_key_mapping_exp_62() {
 	$html = '<div id="exit"
               title="Close window"
               class="o2_form_exit"
-              style="width:18px;height:18px"              
+              style="width:18px;height:18px"
               tabindex="0"
               onkeyup="o2_keyb_map(event);">&nbsp;</div>';
 return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_63() {
-	
+
 return ("keyb_form_exit");
 	} //|o2_fine_exp|
 
@@ -1667,12 +1667,12 @@ return ($value);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_65() {
-	
+
 return (27);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_66() {
-	
+
 return ("keyb_form_refresh");
 	} //|o2_fine_exp|
 
@@ -1685,7 +1685,7 @@ return ($value);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_68() {
-	
+
 return (116);
 	} //|o2_fine_exp|
 
@@ -1700,7 +1700,7 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_70() {
-	
+
 return (' readonly');
 	} //|o2_fine_exp|
 
@@ -1715,12 +1715,12 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_103() {
-	
+
 return ("keyb_ctrl_zoom");
 	} //|o2_fine_exp|
 
 function o2sys_key_mapping_exp_104() {
-	
+
 return (90);
 	} //|o2_fine_exp|
 

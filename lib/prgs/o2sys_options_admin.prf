@@ -690,52 +690,52 @@ function o2sys_options_admin§§start_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_options_admin_exp_1() {
-	
+
 return (o2val('prg§_§var','user_code'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_2() {
-	
+
 return (o2val('prg§_§var','option_key'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_3() {
-	
+
 return ("menu_help");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_4() {
-	
+
 return ((o2val('options','value') ? true : false));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_5() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_6() {
-	
+
 return (!o2view_rec("options"));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_7() {
-	
+
 return (o2val('prg§_§var','opt_menu_help'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_8() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_9() {
-	
+
 return ("css_str");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_10() {
-	
+
 return (o2val('options','value'));
 	} //|o2_fine_exp|
 
@@ -763,26 +763,29 @@ return ($list);
 
 function o2sys_options_admin_exp_12() {
 	$list = array();
-foreach (explode(",", o2val('prg§_§var','opt_skin')) as $s_element) {
-   if (strpos($s_element, ".css")) {
-      $tmp_name = substr($s_element, 0, strpos($s_element, ".css"));
+$tmp_name = false;
+foreach (explode(',', o2val('prg§_§var','opt_skin')) as $s_element) {
+   if (strpos($s_element, '.css')) {
+      $tmp_name = substr($s_element, 0, strpos($s_element, '.css'));
       }
-   elseif (strpos($s_element, ".rcs")) {
-      $tmp_name = substr($s_element, 0, strpos($s_element, ".rcs"));
+   elseif (strpos($s_element, '.rcs')) {
+      $tmp_name = substr($s_element, 0, strpos($s_element, '.rcs'));
       }
-   $tmp_long_name = array_search($tmp_name, o2val('prg§_§var','all_skins_list'));
-   $list[$tmp_long_name] = $tmp_name;
+   if ($tmp_name) {
+      $tmp_long_name = array_search($tmp_name, o2val('prg§_§var','all_skins_list'));
+      $list[$tmp_long_name] = $tmp_name;
+      }
    }
 return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_13() {
-	
+
 return (o2val('prg§_§var','avail_skins_list'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_14() {
-	
+
 return (o2val('prg§_§var','set_skins_list'));
 	} //|o2_fine_exp|
 
@@ -824,57 +827,57 @@ return ($user);
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_19() {
-	
+
 return (o2val('prg§_§var','opt_skin'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_20() {
-	
+
 return ("menu_newsess");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_21() {
-	
+
 return (o2val('prg§_§var','modified_options'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_22() {
-	
+
 return ("lang");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_23() {
-	
+
 return ($_SESSION['o2_app']->doc_enabled);
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_24() {
-	
+
 return (' jxbtn_cancel');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_25() {
-	
+
 return (' jxbtn_save');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_26() {
-	
+
 return (o2val('prg§_§var','opt_language'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_27() {
-	
+
 return ("menu_app");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_28() {
-	
+
 return (o2user_is_admin() || o2app_runlevel() == "DEV");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_29() {
-	
+
 return (!o2user_is_admin() && o2app_runlevel() != "DEV");
 	} //|o2_fine_exp|
 
@@ -888,172 +891,172 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_31() {
-	
+
 return (o2view_rec("options"));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_32() {
-	
+
 return (o2val('prg§_§var','opt_menu_newsess'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_33() {
-	
+
 return (o2val('prg§_§var','opt_menu_app'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_34() {
-	
+
 return ('lookup_time');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_35() {
-	
+
 return ((o2val('prg§_§var','opt_lookup_time') >= 300 ? o2val('prg§_§var','opt_lookup_time') : 300));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_36() {
-	
+
 return ("menu_open_on");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_37() {
-	
+
 return (o2val('prg§_§var','opt_menu_open_on'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_38() {
-	
+
 return ((o2zero('options','value') ? "C" : o2val('options','value')));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_39() {
-	
+
 return ("tab_settings_save");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_40() {
-	
+
 return ((o2zero('options','value') ? 300 : o2val('options','value')));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_41() {
-	
+
 return (o2val('prg§_§var','opt_grid_settings'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_42() {
-	
+
 return ("tab_dblclick");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_43() {
-	
+
 return (o2val('prg§_§var','opt_grid_dblclick'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_44() {
-	
+
 return (array("" => "Nothing", "D" => "Detail", "S" => "Select", "B" => "Both"));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_45() {
-	
+
 return ("Changes applied.\nNew settings will be active at next login.");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_46() {
-	
+
 return ("tab_wheel");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_47() {
-	
+
 return ((o2val('prg§_§var','opt_grid_scroll') ? true : false));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_48() {
-	
+
 return ("cli_lang");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_49() {
-	
+
 return (o2val('prg§_§var','opt_client_lang'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_50() {
-	
+
 return ("nav_effects");
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_51() {
-	
+
 return ((o2val('prg§_§var','opt_nav_effects') ? true : false));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_52() {
-	
+
 return ('lookup_handler');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_53() {
-	
+
 return ('lookup_effect');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_54() {
-	
+
 return ((o2val('prg§_§var','opt_lookup_handler') && o2val('options','value') ? true : false));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_55() {
-	
+
 return ((o2val('prg§_§var','opt_lookup_handler') ? true : false));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_56() {
-	
+
 return ((o2val('prg§_§var','opt_lookup_handler') && o2val('prg§_§var','opt_lookup_effect') ? true : false));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_57() {
-	
+
 return (!o2val('prg§_§var','opt_lookup_handler'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_58() {
-	
+
 return (o2val('prg§_§var','opt_lookup_handler'));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_59() {
-	
+
 return (array("T" => "Top bar", "L" => "Left side bar", "H" => "Hidden left side bar", "A" => "Accordion"));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_60() {
-	
+
 return (o2val('prg§_§var','opt_menu_style') != 'A');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_61() {
-	
+
 return ('C');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_62() {
-	
+
 return ('menu_style');
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_63() {
-	
+
 return ((o2zero('options','value') ? 'T' : o2val('options','value')));
 	} //|o2_fine_exp|
 
 function o2sys_options_admin_exp_64() {
-	
+
 return (o2val('prg§_§var','opt_menu_style'));
 	} //|o2_fine_exp|
 ?>

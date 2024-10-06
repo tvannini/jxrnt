@@ -1075,11 +1075,17 @@ class o2html {
         elseif (($prgexe_id > $app->progressivo_istanze) || ($prgexe_id == 0)) {
             return false;
             }
-        $prg_local = $app->istanze_prg[$app->progressivo_istanze];
         // _______________________________________________________________ Get uploads ___
         o2html::get_uploads();
         // ___________________________________________________ Get client informations ___
         o2html::windows_info();
+        // _______________________________________________________________ Set program ___
+        if (isset($app->istanze_prg[$app->progressivo_istanze])) {
+            $prg_local = $app->istanze_prg[$app->progressivo_istanze];
+            }
+        else {
+            return false;
+            }
         // ______________________________________________________ Sync views selection ___
         if (is_array($prg_local->contesto)) {
             foreach ($prg_local->contesto as &$single_view) {
@@ -1729,7 +1735,10 @@ class o2html {
      */
     static function get_uploads() {
 
-        $app       = $_SESSION['o2_app'];
+        $app = $_SESSION['o2_app'];
+        if (!isset($app->istanze_prg[$app->progressivo_istanze])) {
+            return false;
+            }
         $prg_local = $app->istanze_prg[$app->progressivo_istanze];
         $ctrl_obj  = false;
         foreach ($_FILES as $ctrl_name => $single_ctrl) {

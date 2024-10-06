@@ -1056,7 +1056,7 @@ class o2_form {
             $new_ctrl->html_form     = $this->nome.'_'.$this->id_esecuzione.'_html_form';
             $new_ctrl->js_form       = 'document.o2form';
             $new_ctrl->js_name       = $new_ctrl->js_form.'.'.$new_ctrl->nome;
-            if ($padre) {
+            if ($padre && isset($this->controlli[$padre])) {
                 $parent = $this->controlli[$padre];
                 if ($parent->tipo_ctrl == 'tab') {
                     $prg->drawing_grid = $parent;
@@ -2189,25 +2189,26 @@ class o2_ctrl {
      *  [11] : Action
      *
      */
-    function info_padre($info_padre = array()){
+    function info_padre($info = array()){
 
-        $app    = $_SESSION['o2_app'];
-        $parent = $app->istanze_prg[$this->id_esecuzione]->form[$this->form]->
-                   controlli[$this->padre];
-        if ($parent->tipo_ctrl == 'tab') {
-            // ____________________________ Custom columns order: not replace position ___
-            if ($parent->custom_colsord) {
-                $info_padre[0] = $this->info_padre[0];
-                $info_padre[1] = $this->info_padre[1];
-                $info_padre[2] = $this->info_padre[2];
-                }
-            else {
-                $info_padre[0] = intval($info_padre[0]);
-                $info_padre[1] = intval($info_padre[1]);
-                $info_padre[2] = intval($info_padre[2]);
+        $form = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione]->form[$this->form];
+        if (isset($form->controlli[$this->padre])) {
+            $parent = $form->controlli[$this->padre];
+            if ($parent->tipo_ctrl == 'tab') {
+                // ________________________ Custom columns order: not replace position ___
+                if ($parent->custom_colsord) {
+                    $info[0] = $this->info_padre[0];
+                    $info[1] = $this->info_padre[1];
+                    $info[2] = $this->info_padre[2];
+                    }
+                else {
+                    $info[0] = intval($info[0]);
+                    $info[1] = intval($info[1]);
+                    $info[2] = intval($info[2]);
+                    }
                 }
             }
-        $this->info_padre = $info_padre;
+        $this->info_padre = $info;
         return true;
 
         }
@@ -6229,11 +6230,11 @@ class o2_ctrl_tree extends o2_ctrl {
                  " onclick='o2jse.tv.c(this,\"".$this->nome.'","'.$node_id."\");'"
                  : "")."></div>";
         // ______________________________________________________________________ Icon ___
-        if ($this_node && $this_node[2]) {
-            list($special_folder, $img_name) = explode("/", $this_node[2], 2);
+        if ($this_node && isset($this_node[2])) {
+            list($special_folder, $img_name) = explode('/', $this_node[2], 2);
             switch (strtolower($special_folder)) {
-                case "<o2>":
-                case "<jx>":
+                case '<o2>':
+                case '<jx>':
                     $icon = "<img class='jx_treenode_icon' src='".
                             $GLOBALS['o2_runtime']->alias.$img_name."'>";
                     break;
@@ -6243,11 +6244,12 @@ class o2_ctrl_tree extends o2_ctrl {
                 }
             }
         else {
-            $icon = "<span></span>";
+            $icon = '<span></span>';
             }
         // _________________________________________ Nodes JS activation and selection ___
-        $css_txt = "";
-        $act     = "";
+        $css_txt = '';
+        $act     = '';
+        $tab_idx = '';
         if ($this->act_level == 1 ||
             ($this->act_level == 2 && !$has_child) ||
             ($this->act_level == 3 && $has_child)) {
@@ -6277,16 +6279,16 @@ class o2_ctrl_tree extends o2_ctrl {
                 }
             // _____________________________ Standard node (no selection and no focus) ___
             else {
-                $tab_idx = "";
+                $tab_idx = '';
                 $act     = " onclick='o2jse.tv.a(this,\"".$node_id."\");'";
                 }
             }
         $code.= ($node_id ?
-                 "<div ".$css_txt."style='display:block;white-space:nowrap;'>".
+                 '<div '.$css_txt."style='display:block;white-space:nowrap;'>".
                  str_repeat($this->indent, $level).$fold.$icon.
-                 "<div class='jx_treenode_text'".$tab_idx.$act.">".$this_node[1].
-                 "</div></div>" :
-                 "").$children_code;
+                 "<div class='jx_treenode_text'".$tab_idx.$act.'>'.$this_node[1].
+                 '</div></div>' :
+                 '').$children_code;
         return $code;
 
         }
@@ -7090,7 +7092,8 @@ class o2_ctrl_progress extends o2_ctrl {
                     $list[$ctrl_obj->task]['JXPBV']   = $ctrl_obj->progress_field;
                     }
                 // ____________________________ Bar from view (standard Janox control) ___
-                elseif ($form->controlli[$ctrl_obj->padre]->tipo_ctrl == 'tab') {
+                elseif ($ctrl_obj->padre &&
+                        ($form->controlli[$ctrl_obj->padre]->tipo_ctrl == 'tab')) {
                     $view_name = $form->controlli[$ctrl_obj->padre]->task;
                     $view_obj  = $prg->contesto[$view_name];
                     if (!isset($list[$view_name])) {
@@ -7122,7 +7125,8 @@ class o2_ctrl_progress extends o2_ctrl {
                             $ctrl_name.$app->progressivo_istanze."',".$ctrl_obj->valore.
                             ");\n";
                     // ______________________________________________ Run start action ___
-                    if ($ctrl_obj->valore > 0 && !$ctrl_obj->started['']) {
+                    if ($ctrl_obj->valore > 0 && (!isset($ctrl_obj->started['']) ||
+                                                  !$ctrl_obj->started[''])) {
                         $ctrl_obj->started[''] = true;
                         if ($ctrl_obj->start_action) {
                             $act    = $ctrl_obj->start_action;
@@ -7152,7 +7156,8 @@ class o2_ctrl_progress extends o2_ctrl {
                         $stop = false;
                         }
                     // ___________________________________________ Run complete action ___
-                    elseif (!$ctrl_obj->completed['']) {
+                    elseif (!isset($ctrl_obj->completed['']) ||
+                            !$ctrl_obj->completed['']) {
                         $ctrl_obj->completed[''] = true;
                         if ($ctrl_obj->complete_action) {
                             $act    = $ctrl_obj->complete_action;

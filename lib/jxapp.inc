@@ -417,7 +417,8 @@ class o2_app {
             $this->get_params();
             $this->create_tables();
             // ______________________________ Login program execution and user options ___
-            $this->set_user($_REQUEST['user'], $_REQUEST['password']);
+            $this->set_user($_REQUEST['user'],
+                            (isset($_REQUEST['password']) ? $_REQUEST['password'] : ''));
             $this->exe_prg_start = ($this->prg_start ? true : false);
             // ___________________________________________________ Maintenance Service ___
             if ($this->maint_time) {
@@ -1984,7 +1985,7 @@ class o2_app {
      * @param  string $password   Password (or MD5) for the user
      * @return boolean
      */
-    function set_user($user = false, $password = false) {
+    function set_user($user = false, $password = '') {
 
         // _____________________________ If no user is passed reset session start user ___
         if (!$user) {
@@ -2284,6 +2285,9 @@ class o2_app {
                                        "'\\\r\n\"");
                             }
                         }
+                    elseif (!is_string($par->default)) {
+                        $par_val = '[object]';
+                        }
                     else {
                         $par_val = $par->default;
                         }
@@ -2349,9 +2353,17 @@ class o2_app {
 
         if (count($_REQUEST)) {
             $js_conf = "o2jse.reqData = {";
-            foreach ($_REQUEST as $single_req => $single_val) {
-                $js_conf.= "'".$single_req."':'".addcslashes(strval($single_val),
-                                                                    "'\\\r\n")."',";
+            foreach ($_REQUEST as $name => $value) {
+                if (is_array($value)) {
+                    $value = implode(',', $value);
+                    }
+                elseif (!is_string($value)) {
+                    $value = print_r($value, 1);
+                    }
+                else {
+                    $value = strval($value);
+                    }
+                $js_conf.= "'".$name."':'".addcslashes($value, "'\\\r\n")."',";
                 }
             return substr($js_conf, 0, strlen($js_conf) - 1)."};\n";
             }
@@ -5550,8 +5562,8 @@ class o2_run_job {
             foreach ($trace as $idx => $stack) {
                 $func = $stack['function'];
                 if ($func != __function__ &&
-                    ($stack['class'] != __class__ || $func != 'get_monitor') &&
-                    $func != 'o2job_get_bar') {
+                    ((isset($stack['class']) && $stack['class'] != __class__) ||
+                     $func != 'get_monitor') && $func != 'o2job_get_bar') {
                     $bar->caller = $func;
                     break;
                     }

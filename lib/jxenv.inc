@@ -71,6 +71,7 @@ class o2_prg {
     public $imglist_ctrls   = array(); /* List of defined images-lister controls        */
     public $view_grids      = array(); /* List of grids using each view                 */
     public $report_msg      = array(); /* List of messages to display at execution end  */
+    public $progress_ctrls  = array(); /* List of progress-bar controls active on prg   */
     /*     _____ VIEWS REFRESH ________________________________________________________ */
     public $variazioni      = array(); /* Modified views list                           */
     public $evaluating_view = "";      /* View evaluating dependence for                */
@@ -8937,14 +8938,15 @@ function jxlog($logobj = null) {
     $uid = "jxdbg".substr($tms, -10);
     // _____________________________________________________ Get programs/actions tree ___
     $last_prg = '';
+    $last_act = '';
     $code     = '';
     // ______________________________________________________________ Loop on programs ___
     foreach ($app->istanze_prg as $single_id => $single_prg) {
-        $code.= " [".$single_id."] ".$single_prg->nome."\n";
+        $code.= ' ['.$single_id.'] '.$single_prg->nome."\n";
         $last_prg = $single_prg->nome;
         // ____________________________________________ Loop on single program actions ___
-        $last_act = "";
-        $exe_code = "";
+        $last_act = '';
+        $exe_code = '';
         foreach ($app->esecuzioni as $single_exe) {
             if ($single_exe->istanza_prg == $single_id) {
                 $exe_code = ($last_act ? "  |- " : "  '- ").$single_exe->azione." : ".

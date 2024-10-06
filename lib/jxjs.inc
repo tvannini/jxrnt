@@ -458,6 +458,7 @@ class jxjs {
             $zoom           = $o2ctrl_obj->is_zoomable();
             $dyn_list       = '!1';
             $static_list    = '';
+            $code_value     = '';
             // __________________________________________________________ Lookup combo ___
             if ($o2ctrl_obj->righe == 1) {
                 $code_value = $o2ctrl_obj->ctrl2sql();
