@@ -890,6 +890,7 @@ class o2_app {
      */
     function remap_tables_on_db() {
 
+        $custom_map = false;
         // __________________________________________ Custom tables remapping from CVS ___
         if ($this->run_level == "DEV" && $this->dir_cvs_progs->exists('tables_map.ini')) {
             $custom_map = $this->dir_cvs_progs.'tables_map.ini';
@@ -3039,7 +3040,13 @@ class o2_app {
         if ($prg_togo) {
             $contatore_local = -1;
             $parametri       = $_REQUEST;
-            unset($parametri['o2c']);
+            if (isset($parametri['o2c'])) {
+                $prg = trim($parametri['o2c']);
+                unset($parametri['o2c']);
+                }
+            else {
+                $prg = '';
+                }
             unset($parametri['JXSESSNAME']);
             if (isset($parametri[$this->session_name])) {
                 unset($parametri[$this->session_name]);
@@ -3056,7 +3063,7 @@ class o2_app {
                 }
             // _________________ I drop calls list and create 1st call with parameters ___
             $this->chiamate = array(1 => array('id'          => 1,
-                                               'prg'         => trim($_REQUEST['o2c']),
+                                               'prg'         => $prg,
                                                'parametri_n' => count($o2pars),
                                                'parametri'   => $o2pars,
                                                'fine'        => false));
@@ -5335,21 +5342,21 @@ class o2_run_job {
         $tab                 = $app->get_table(self::$run_table);
         $db                  = $tab->db;
         $server              = $db->server;
-        $error               = ($GLOBALS["jxlasterror"] ?
-                                ltrim($GLOBALS["jxlasterror"]->to_raw_text()) : "");
+        $error               = (isset($GLOBALS["jxlasterror"]) ?
+                                ltrim($GLOBALS["jxlasterror"]->to_raw_text()) : '');
         $error               = o2_gateway::normalize($server->type, $error);
         $this->end           = time();
-        $end_d               = date("Ymd", $this->end);
-        $end_t               = date("His", $this->end);
+        $end_d               = date('Ymd', $this->end);
+        $end_t               = date('His', $this->end);
         $pars                = serialize($this->files);
         $f                   = $tab->campi;
-        $sets                = array($f["run_error"]->nome_fisico    => "'".$error."'",
-                                     $f["run_end_date"]->nome_fisico => "'".$end_d."'",
-                                     $f["run_end_time"]->nome_fisico => "'".$end_t."'",
-                                     $f["run_progress"]->nome_fisico => "100",
-                                     $f["run_files"]->nome_fisico    => "'".$pars."'",
-                                     $f["run_status"]->nome_fisico   => "'C'");
-        $where               = $f["run_id"]."='".$this->id."'";
+        $sets                = array($f['run_error']->nome_fisico    => "'".$error."'",
+                                     $f['run_end_date']->nome_fisico => "'".$end_d."'",
+                                     $f['run_end_time']->nome_fisico => "'".$end_t."'",
+                                     $f['run_progress']->nome_fisico => '100',
+                                     $f['run_files']->nome_fisico    => "'".$pars."'",
+                                     $f['run_status']->nome_fisico   => "'C'");
+        $where               = $f['run_id']."='".$this->id."'";
         // ______________________________ Execute update query in isolated transaction ___
         $trans               = $app->isolated_trans;
         $app->isolated_trans = true;
@@ -5360,7 +5367,7 @@ class o2_run_job {
                                                      $db->nome,
                                                      $db->proprietario,
                                                      $tab->nome,
-                                                     "jx_running_jobs",
+                                                     'jx_running_jobs',
                                                      $sets,
                                                      $where);
         o2dbs_commit($server->nome);
