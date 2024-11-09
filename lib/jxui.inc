@@ -1764,7 +1764,7 @@ class o2_ctrl {
         switch ($mask->tipo) {
             // =============================== ALPHA =====================================
             case 'A':
-                $this->valore = strval($this->valore);
+                $this->valore = jx_encode(strval($this->valore));
                 if ($_SESSION['o2_app']->chr_encoding == 'utf-8') {
                     if (mb_strlen($this->valore, 'utf-8') > $mask->dimensione) {
                         $sql_valore_local = mb_substr($this->valore,
@@ -1875,7 +1875,7 @@ class o2_ctrl {
             default:
                 $sql_valore_local = (trim(strval($this->valore)) == '' ?
                                      $mask->default :
-                                     $this->valore);
+                                     jx_encode($this->valore));
                 break;
             }
         return $sql_valore_local;

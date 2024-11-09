@@ -6497,7 +6497,6 @@ class o2def {
                               $ico      = "") {
 
         $app   = $_SESSION['o2_app'];
-        $label = htmlentities($label, ENT_COMPAT | ENT_HTML5, $app->chr_encoding);
         if (strtoupper($tipo[0]) == "M" && !isset($app->menu[$nome])) {
             $app->menu[$nome] = new o2_menubar($nome, $ico);
             }
@@ -7831,18 +7830,52 @@ function o2_time(){
 function jx_encode($string) {
 
     $encod = $_SESSION['o2_app']->chr_encoding;
-    if ($encod == 'utf-8') {
-        try {
-            if (!mb_check_encoding($string, $encod)) {
+    try {
+        switch ($encod) {
+            case 'utf-8':
+                if (!mb_check_encoding($string, 'UTF-8')) {
+
+
+                    $string = preg_replace_callback(
+                        '~
+                            [\x09\x0A\x0D\x20-\x7E]++          # ASCII
+                          | [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+                          |  \xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+                          | [\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}  # straight 3-byte
+                          |  \xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+                          |  \xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+                          | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+                          |  \xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+                          | (.)
+                        ~xs',
+                        function($match) {
+                            if (isset($match[1]) && strlen($match[1])) {
+                                return mb_convert_encoding($match[1], 'UTF-8', 'CP1252');
+                            } else {
+                                return $match[0];
+                            }
+                        },
+                        $string
+                    );
+
+//                    $string = mb_convert_encoding($string, 'UTF-8', 'CP1252');
+                    }
+                break;
+            case 'windows-1252':
+                if (!mb_check_encoding($string, 'CP1252')) {
+                    $string = mb_convert_encoding($string, 'CP1252', 'UTF-8');
+                    }
+                break;
+            default:
                 $string = mb_convert_encoding($string, $encod);
-                }
+                break;
             }
-        catch (Exception $e) {
-            throw new o2_exception("Error converting string <code>\"".$string.
-                                   '"</code> to chr-encoding <i>'.$encod.'</i>.',
-                                   o2error_IO);
-            return false;
-            }
+        }
+    catch (Exception $e) {
+        throw new o2_exception('Error converting string <code>"'.$string.
+                               '"</code> to chr-encoding <i>'.$encod.'</i>.',
+                               o2error_IO);
+        return false;
         }
     return $string;
 

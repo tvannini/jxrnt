@@ -7075,6 +7075,9 @@ class o2_virtualview extends o2_view {
     function imposta($field, $value) {
 
         $field = strtoupper($field);
+        if (isset($this->variabili[$field]) && $this->variabili[$field]->tipo == 'A') {
+            $value = jx_encode($value);
+            }
         if ($this->corrente[$field] !== $value) {
             $this->corrente[$field] = $value;
             $this->modificato       = true;
@@ -8424,7 +8427,7 @@ class o2act {
                 }
             // _______________________________________ CMD-line (no jobs or scheduler) ___
             else {
-                print "\n".$text."\n";
+                print "\n".jx_encode($text)."\n";
                 }
             return true;
             }
@@ -8434,7 +8437,7 @@ class o2act {
                 jxjs::status_msg($text);
                 }
             else {
-                $app->statusbar_text = $text;
+                $app->statusbar_text = jx_encode($text);
                 }
             return true;
             }
@@ -8458,7 +8461,7 @@ class o2act {
             }
         // _______________________________________________________________ Message box ___
         else {
-            return o2act::call("tools/o2sys_alert", false, $text);
+            return o2act::call('tools/o2sys_alert', false, jx_encode($text));
             }
 
         }
@@ -8475,8 +8478,10 @@ class o2act {
      */
     static function confirm($view, $field, $testo) {
 
-        $app = $_SESSION['o2_app'];
-        return o2act::call("tools/o2sys_confirm", false, $testo, $view."§§".$field);
+        return o2act::call('tools/o2sys_confirm',
+                           false,
+                           jx_encode($testo),
+                           $view.'§§'.$field);
 
         }
 
