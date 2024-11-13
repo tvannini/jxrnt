@@ -109,9 +109,11 @@ class o2html {
         ob_start();
         // _________________________________________________ HTTP-header character-set ___
         @header("Content-type: text/html; charset=".$app->chr_encoding);
+        /*
         if ($app->chr_encoding == 'utf-8') {
             mb_http_output($app->chr_encoding);
             }
+        */
         // _____________________________________________________________________ JXSQL ___
         if ($app->jxsql) {
             include_once $app->runtime->dir_dbms.'jxsql.inc';
@@ -185,13 +187,14 @@ class o2html {
         if (!isset($GLOBALS['jxjsorigin'])) {
             // ___________________________________________________ HTML document start ___
             $cli_lang = $app->option_get("cli_lang");
+            $title    = jx_encode($app->titolo);
             print "<!DOCTYPE HTML>\n".
                   "<html".($cli_lang ? ' lang="'.$cli_lang.'"' : "").
                   ">\n<head>\n<meta charset=\"".$app->chr_encoding."\">\n".
                   "<meta name=\"application-name\" content=\"".$app->nome.
-                  "\">\n<meta name=\"description\" content=\"".$app->titolo.
+                  "\">\n<meta name=\"description\" content=\"".$title.
                   "\">\n<meta name=\"GENERATOR\" content=\"Janox - www.janox.it\">\n".
-                  "<title>".$app->titolo."</title>\n";
+                  "<title>".$title."</title>\n";
             // _________________________________________________________ Favorite icon ___
             print '<link rel="icon" href="'.$app->favicon."\" type=\"image/ico\">\n";
             // _____________________________________________________________ CSS links ___
@@ -785,7 +788,7 @@ class o2html {
                 if ($add) {
                     $t.= 'addItem("'.$item->tipo.'","'.
                                      $item->nome.'","'.
-                                     jx_encode($item->label).'","'.
+                                     addcslashes(jx_encode($item->label), '"').'","'.
                                      $item->data.'","'.
                                      ($item->ico ? 'img/'.$item->ico : '')."\");\n";
                     if ($with_list && $item->tipo == 'P') {
@@ -819,7 +822,7 @@ class o2html {
         foreach ($o2ctrl_obj->voci as $item) {
             $t.= 'addItem("'.$item->tipo.'","'.
                              $item->nome.'","'.
-                             jx_encode($item->label).'","'.
+                             addcslashes(jx_encode($item->label), '"').'","'.
                              $item->data.'","'.
                              $rnt_alias."img/".$item->ico."\");\n";
             if ($item->tipo == "M") {

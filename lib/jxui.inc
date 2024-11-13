@@ -2709,7 +2709,7 @@ class o2_ctrl_navigator extends o2_ctrl {
 
     function msg2alert($msg) {
 
-        return addcslashes($msg, "\n\r'");
+        return addcslashes(jx_encode($msg), "\n\r'");
 
         }
 
@@ -3594,7 +3594,7 @@ class o2_ctrl_check extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $this->confirm_message = $message;
+        $this->confirm_message = addcslashes(jx_encode($message), "\n\r'");
         return true;
 
         }
@@ -3755,7 +3755,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $this->confirm_message = $message;
+        $this->confirm_message = addcslashes(jx_encode($message), "\n\r'");
         return true;
 
         }
@@ -4157,7 +4157,7 @@ class o2_ctrl_button extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $this->confirm_message = $message;
+        $this->confirm_message = addcslashes(jx_encode($message), "\n\r'");
         return true;
 
         }
@@ -4396,7 +4396,7 @@ class o2_ctrl_img extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $this->confirm_message = $message;
+        $this->confirm_message = addcslashes(jx_encode($message), "\n\r'");
         return true;
 
         }
@@ -4687,7 +4687,7 @@ class o2_ctrl_multipage extends o2_ctrl {
      */
     function confirm_message($message = "") {
 
-        $this->confirm_message = $message;
+        $this->confirm_message = addcslashes(jx_encode($message), "\n\r'");
         return true;
 
         }
