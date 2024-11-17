@@ -8992,7 +8992,8 @@ function jxlog($logobj = null) {
             throw new o2_exception("Cannot access log file <i>".$log_file."</i>",
                                    o2error_IO);
             }
-        if (fwrite($f_local, $tms.": ".print_r($logobj, true)."\n".$code) === FALSE) {
+        if (fwrite($f_local, $tms.": ".jx_encode(print_r($logobj, true))."\n".
+                   $code) === FALSE) {
             throw new o2_exception("Cannot write to log file <i>".$log_file."</i>",
                                    o2error_IO);
             }
@@ -9006,7 +9007,7 @@ function jxlog($logobj = null) {
             // _______________________________________________ Log out code on console ___
             $code = "<span class='jxlogactive' style='cursor:pointer;' ".
                     "onclick='o2jse.lab.ocd(this,\"".$uid."\");'>[+]</span> ".$tms.": ".
-                    print_r($logobj, true).$code;
+                    jx_encode(print_r($logobj, true)).$code;
             $code = "o2jse.lab.getResult(null,'".addcslashes($code, "'\\\r\n")."');\n";
             if ($GLOBALS['jxjs']) {
                 $_SESSION['o2_app']->js_cache.= $code."\n";
@@ -9016,7 +9017,7 @@ function jxlog($logobj = null) {
                 }
             }
         else {
-            print $tms.": ".print_r($logobj, true)."\n";
+            print $tms.": ".jx_encode(print_r($logobj, true))."\n";
             }
         }
 

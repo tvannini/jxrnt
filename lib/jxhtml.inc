@@ -3587,6 +3587,7 @@ class o2html {
                     else {
                         $tip = $ctrl->info_padre[10];
                         }
+                    $tip = jx_encode($tip);
                     }
                 else {
                     $tip = false;

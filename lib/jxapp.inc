@@ -10248,6 +10248,8 @@ class o2_inspector {
         $cnt    = 0;
         foreach ($this->prgs_list as $prg => $prf) {
             $code = file_get_contents($prf);
+            // ________________________ Needed because PRFs are always Win1252-encoded ___
+            $code = jx_encode($code);
             $exps = self::get_prg_exps($code, $prg);
             $res  = preg_grep('/'.preg_quote($search, '/').'/', $exps);
             if (count($res)) {

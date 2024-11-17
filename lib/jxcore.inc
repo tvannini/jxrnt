@@ -68,7 +68,7 @@ class o2_exception extends Exception {
         elseif ($code != o2error_DEPRECATED && $code != o2error_WARNING) {
             $GLOBALS['jxlasterror'] = $this;
             }
-        parent::__construct($message, $code, $previous);
+        parent::__construct(jx_encode($message), $code, $previous);
 
         }
 
@@ -7834,8 +7834,6 @@ function jx_encode($string) {
         switch ($encod) {
             case 'utf-8':
                 if (!mb_check_encoding($string, 'UTF-8')) {
-
-
                     $string = preg_replace_callback(
                         '~
                             [\x09\x0A\x0D\x20-\x7E]++          # ASCII
@@ -7851,15 +7849,13 @@ function jx_encode($string) {
                         function($match) {
                             if (isset($match[1]) && strlen($match[1])) {
                                 return mb_convert_encoding($match[1], 'UTF-8', 'CP1252');
-                            } else {
+                                }
+                            else {
                                 return $match[0];
-                            }
-                        },
-                        $string
-                    );
-
-//                    $string = mb_convert_encoding($string, 'UTF-8', 'CP1252');
-                    }
+                                }
+                            },
+                        $string);
+                        }
                 break;
             case 'windows-1252':
                 if (!mb_check_encoding($string, 'CP1252')) {

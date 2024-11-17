@@ -2452,11 +2452,12 @@ class o2_ctrl {
         else {
             $msg = $this->confirm_message;
             }
+        $view = ($this->task == 'prg§_§var' ? jx_encode('prg§_§var') : $this->task);
         return  ($as_obj ? "{" : "o2=\"").
                 "e:".$this->id_esecuzione.
                 ",c:'".$this->nome.
                 "',cT:'".$this->tipo_ctrl.
-                "',v:'".$this->task.
+                "',v:'".$view.
                 "',f:'".$this->form.
                 "',pT:'".($parent ? $parent->tipo_ctrl : 'form')."'".
                 ($this->maschera ?
@@ -6197,8 +6198,8 @@ class o2_ctrl_tree extends o2_ctrl {
         // _____________________________________________________ Node 0 is always open ___
         $open          = !$node_id || (isset($this->open_nodes[$node_id]) ?
                                        $this->open_nodes[$node_id] : false);
-        $code          = "";
-        $children_code = "";
+        $code          = '';
+        $children_code = '';
         $has_child     = false;
         // ____________________________________________________________________ Filter ___
         if ($this->filter_txt) {
@@ -6210,7 +6211,7 @@ class o2_ctrl_tree extends o2_ctrl {
             }
         // __________________________________________________________ Loop on children ___
         foreach ($this->list as $child_id => $child) {
-            if ("".$node_id == "".$child[0]) {
+            if (''.$node_id == ''.$child[0]) {
                 // _____________________________ If node is open include children code ___
                 if ($open) {
                     $children_code.= $this->get_node_code($child_id, ($level + 1));
@@ -6228,7 +6229,7 @@ class o2_ctrl_tree extends o2_ctrl {
                 ($has_child ? ($open ? "open'" : "close'") : "leaf'").
                 ($has_child ?
                  " onclick='o2jse.tv.c(this,\"".$this->nome.'","'.$node_id."\");'"
-                 : "")."></div>";
+                 : '').'></div>';
         // ______________________________________________________________________ Icon ___
         if ($this_node && isset($this_node[2])) {
             list($special_folder, $img_name) = explode('/', $this_node[2], 2);
@@ -6286,9 +6287,9 @@ class o2_ctrl_tree extends o2_ctrl {
         $code.= ($node_id ?
                  '<div '.$css_txt."style='display:block;white-space:nowrap;'>".
                  str_repeat($this->indent, $level).$fold.$icon.
-                 "<div class='jx_treenode_text'".$tab_idx.$act.'>'.$this_node[1].
-                 '</div></div>' :
-                 '').$children_code;
+                 "<div class='jx_treenode_text'".$tab_idx.$act.'>'.
+                 jx_encode($this_node[1]).'</div></div>' : '').
+                 $children_code;
         return $code;
 
         }
@@ -6328,7 +6329,7 @@ class o2_ctrl_tree extends o2_ctrl {
                             }
                         }
                     }
-                $in_text = stripos($node[1], $needle) !== false;
+                $in_text = stripos(jx_encode($node[1]), $needle) !== false;
                 if ($in_text || $in_ancestor) {
                     $new_list[$node_id] = $node;
                     $child = $node;

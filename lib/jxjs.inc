@@ -942,19 +942,17 @@ class jxjs {
      */
     static function ctrl_tree($o2ctrl_obj) {
 
-        $app    = $_SESSION['o2_app'];
-        $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
-        $jsp    = $o2ctrl_obj->js_props('std:'.($o2ctrl_obj->scripting ? '!1' : '!0').
-                                        ',sorted:'.($o2ctrl_obj->sorted ? "!0" : "!1").
-                                        ',aL:'.($o2ctrl_obj->act_level),
-                                        true);
+        $jsp = $o2ctrl_obj->js_props('std:'.($o2ctrl_obj->scripting ? '!1' : '!0').
+                                     ',sorted:'.($o2ctrl_obj->sorted ? "!0" : "!1").
+                                     ',aL:'.($o2ctrl_obj->act_level),
+                                     true);
         $value = $o2ctrl_obj->sql2ctrl();
         if ($o2ctrl_obj->sele_node != $value) {
             $o2ctrl_obj->node_select($value, true);
             }
         $html   = $o2ctrl_obj->get_node_code(0, -1);
         print jxjs::ctrl($o2ctrl_obj,
-                         "code:".jxjs::html_embed($html).
+                         'code:'.jxjs::html_embed($html).
                          ",s:'".$o2ctrl_obj->css.
                         "',x:".$o2ctrl_obj->x.
                          ',y:'.$o2ctrl_obj->y.
