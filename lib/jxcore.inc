@@ -5556,7 +5556,7 @@ class o2_gateway {
                     $exec = 'o2_'.$db_engine.'_verifyrec';
                     // ___________________$p1 is table-from and may be a sub-select... ___
                     if (substr($p1, 0, 1) == '(') {
-                        // _________________________ ... and so can contain JXSQL code ___
+                        // ______________________ ... and so it can contain JXSQL code ___
                         $p1 = jxsql($db->id, $p1);
                         }
                     return json_encode($exec($db_host,
@@ -5611,7 +5611,7 @@ class o2_gateway {
                 case 'count':
                     // ___________________$p1 is table-from and may be a sub-select... ___
                     if (substr($p1, 0, 1) == '(') {
-                        // _________________________ ... and so can contain JXSQL code ___
+                        // ______________________ ... and so it can contain JXSQL code ___
                         $p1 = jxsql($db->id, $p1);
                         }
                     $exec = 'o2_'.$db_engine.'_count';
@@ -5628,7 +5628,7 @@ class o2_gateway {
                 case 'recordset':
                     // ___________________$p1 is table-from and may be a sub-select... ___
                     if (substr($p1, 0, 1) == '(') {
-                        // _________________________ ... and so can contain JXSQL code ___
+                        // ______________________ ... and so it can contain JXSQL code ___
                         $p1 = jxsql($db->id, $p1);
                         }
                     $exec = 'o2_'.$db_engine.'_recordset';
@@ -6745,6 +6745,8 @@ class o2_runtime {
         $this->dir_threads = new o2_dir($this->root."threads".DIRECTORY_SEPARATOR);
         $this->dir_css     = new o2_dir($this->root."htdocs".DIRECTORY_SEPARATOR.
                                                     "css".DIRECTORY_SEPARATOR);
+        // _____________________________________________________________ Provide JXSQL ___
+        include_once $this->dir_dbms.'jxsql.inc';
         /********************************************************************************
          *                              Interface setting                               *
          ********************************************************************************/

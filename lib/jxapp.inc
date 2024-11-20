@@ -198,7 +198,6 @@ class o2_app {
     public $errors_inc      = false;   /* File name to be included for custom error msgs*/
     public $error_handler   = false;   /* Function name for custom error handling       */
     public $custom_response = false;   /* FALSE or buffer length for custom output      */
-    public $jxsql           = false;   /* Enables internal JXSQL parser                 */
     public $prepared_stmts  = true;    /* Enables use of prepared statements in views   */
     /**
      * @var o2_ctrl_listcombo
@@ -443,10 +442,6 @@ class o2_app {
         // _______________________________________________________________ NEW SESSION ___
         $_SESSION['o2_app'] = new o2_app($release);
         $app                = $_SESSION['o2_app'];
-        // _____________________________________________________________________ JXSQL ___
-        if ($app->jxsql) {
-            include_once $app->runtime->dir_dbms.'jxsql.inc';
-            }
         // ____________________________ Server side extra script inclusion (extra.inc) ___
         if ($app->file_server_inc) {
             $app->include_extra();
@@ -1700,9 +1695,6 @@ class o2_app {
         if (isset($conf['footer'])) {
             $this->pagina_dopo = $conf['footer'];
             }
-        if (isset($conf['jxsql'])) {
-            $this->jxsql = ($conf['jxsql'] ? true : false);
-            }
         if (isset($conf['prepared_statements'])) {
             $this->prepared_stmts = ($conf['prepared_statements'] ? true : false);
             }
@@ -2758,10 +2750,6 @@ class o2_app {
                 if ($this->file_server_inc) {
                     $this->include_extra();
                     }
-                // _____________________________________________________________ JXSQL ___
-                if ($this->jxsql) {
-                    include_once $this->runtime->dir_dbms.'jxsql.inc';
-                    }
                 $verb = $_REQUEST['c'];
                 if ($verb) {
                     if ($this->dbas_readonly &&
@@ -2804,10 +2792,6 @@ class o2_app {
         else {
             // ________________________________________________ Output buffering start ___
             ob_start();
-            // _________________________________________________________________ JXSQL ___
-            if ($this->jxsql) {
-                include_once $this->runtime->dir_dbms.'jxsql.inc';
-                }
             // ________________________ Server side extra script inclusion (extra.inc) ___
             if ($this->file_server_inc) {
                 $this->include_extra();

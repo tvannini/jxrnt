@@ -52,10 +52,6 @@ if (isset($_REQUEST['JXSESSNAME'])) {
 ob_start();
 if (session_start()) {
     $app = $_SESSION['o2_app'];
-    // _________________________________________________________________________ JXSQL ___
-    if ($app->jxsql) {
-        include_once $app->runtime->dir_dbms.'jxsql.inc';
-        }
     // _____________________________________________________ Server side extra scripts ___
     if ($app->file_server_inc) {
         $app->include_extra();

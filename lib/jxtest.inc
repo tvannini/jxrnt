@@ -214,7 +214,6 @@ $app->warning_log         = false;
 $app->errors_inc          = false;
 $app->error_handler       = false;
 $app->custom_response     = false;
-$app->jxsql               = false;
 $app->prepared_stmts      = true;
 $app->defining_combo      = null;
 $app->defining_check      = null;

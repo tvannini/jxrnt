@@ -582,12 +582,6 @@ $list = array(
                                         " \",,,m_user\"\n".
                                         "to trace the last-update-user only.",
                            "default" => ""),
-   "jxsql" => array("rntval"  => null,
-                    "appval"  => null,
-                    "desc"    => "   *** Enable internal JXSQL ***\n\n".
-                                 "Enables using Janox internal JXSQL parser.\n",
-                    "default" => "off",
-                    "values"  => array("off", "on")),
    "prepared_statements" => array("rntval"  => null,
                                   "appval"  => null,
                                   "desc"    => "   *** Prepared statements ***\n\n".
@@ -747,7 +741,7 @@ $list = array(
                                     "Janox runtime alias is usually set in janox.ini (runtime ".
                                     "configuration file), so you don't need to set this parameter ".
                                     "here.\n\n".
-                                    "However, in some configuration systems, janx.ini file may be not ".
+                                    "However, in some configuration systems, janox.ini file may be not ".
                                     "accessible.\n".
                                     "In these cases you can use this application parameter to set the ".
                                     "alias for the Janox runtime.\n\n".
@@ -1495,7 +1489,6 @@ function o2sys_iniconf_exp_34() {
               'db_as_service',
               'dbas_readonly',
               'data_chunk',
-              'jxsql',
               '',
               'footer',
               'header',

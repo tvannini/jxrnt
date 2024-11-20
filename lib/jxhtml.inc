@@ -109,15 +109,6 @@ class o2html {
         ob_start();
         // _________________________________________________ HTTP-header character-set ___
         @header("Content-type: text/html; charset=".$app->chr_encoding);
-        /*
-        if ($app->chr_encoding == 'utf-8') {
-            mb_http_output($app->chr_encoding);
-            }
-        */
-        // _____________________________________________________________________ JXSQL ___
-        if ($app->jxsql) {
-            include_once $app->runtime->dir_dbms.'jxsql.inc';
-            }
         // ____________________________ Server side extra script inclusion (extra.inc) ___
         if ($app->file_server_inc) {
             $app->include_extra();
