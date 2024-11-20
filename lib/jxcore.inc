@@ -6710,10 +6710,6 @@ class o2_runtime {
     /**
      * @var o2_dir
      */
-    public $dir_threads     = "";         /* Temporary files for running threads folder */
-    /**
-     * @var o2_dir
-     */
     public $dir_css         = "";         /* Path to runtime CSS folder                 */
 
 
@@ -6742,7 +6738,6 @@ class o2_runtime {
         // _______________________________________________________ Runtime directories ___
         $this->dir_dbms    = new o2_dir($this->root."lib".DIRECTORY_SEPARATOR.
                                                     "dbms".DIRECTORY_SEPARATOR);
-        $this->dir_threads = new o2_dir($this->root."threads".DIRECTORY_SEPARATOR);
         $this->dir_css     = new o2_dir($this->root."htdocs".DIRECTORY_SEPARATOR.
                                                     "css".DIRECTORY_SEPARATOR);
         // _____________________________________________________________ Provide JXSQL ___

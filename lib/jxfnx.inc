@@ -1285,20 +1285,6 @@ function o2rnt_root() {
 
 
 /**
- * Returns current o2runtime running threads folder path
- *
- * @package runtime
- * @return  string
- * @see     o2rnt_dircss()
- */
-function o2rnt_dirthreads() {
-
-    return $GLOBALS['o2_runtime']->dir_threads->nome_completo;
-
-    }
-
-
-/**
  * Returns current o2runtime css folder path
  *
  * @package runtime

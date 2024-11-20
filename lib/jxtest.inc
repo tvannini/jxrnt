@@ -73,7 +73,6 @@ $rnt->php_engine      = "php";
 $rnt->rnt_script      = "";
 $rnt->root            = "";
 $rnt->dir_dbms        = "";
-$rnt->dir_threads     = "";
 $rnt->dir_css         = "";
 
 /**
