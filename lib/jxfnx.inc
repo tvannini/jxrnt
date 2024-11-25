@@ -770,18 +770,25 @@ function o2_path($local_file, $force_download = false) {
 
 
 /**
- *  Returns passed string translated to the current application character encoding.
- *  Translation is applied only when needed, according with string and application
- *  encoding.
- *  This function is mostly useful in HTML context, when you need to out a text and you
- *  don't know its actual encoding (Windows-1252 from program or UTF-8 from DB).
+ * Returns passed string translated to the current application character encoding or to a
+ * passed one.
+ * Translation is applied only when needed, according with string and target encoding.
+ * Encoding to UTF-8, passed string can be mixed-encoded (UTF-8 and Win1252) and only
+ * needing parts (Win1252) will be converted.
+ * So it's safe to do o2_encode(o2_encode($string)).
+ * In most cases, especially running UTF-8 applications, you'll never need to pass the
+ * second parameter $encoding.
+ * This second parameter can come in handy when you are runnning Win1252 applications and
+ * you want to produce UTF-8 output from mixed contents.
+ * This function is an alias for jx_encode(), internally defined.
  *
- * @param  string $string   String to be encoded
- * @return string           Encoded string
+ * @param  string $string     String to be encoded
+ * @param  string $encoding   Force encoding to a specific one
+ * @return string             Encoded string
  */
-function o2_encode($string) {
+function o2_encode($string, $encoding = false) {
 
-    return jx_encode($string);
+    return jx_encode($string, $encoding);
 
     }
 

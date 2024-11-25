@@ -7819,16 +7819,25 @@ function o2_time(){
 
 
 /**
- * Returns passed $string converted to current application encoding (HTML output)
+ * Returns passed $string converted to current application encoding or to a specific
+ * passed encoding
  *
  * @param  string $string   String to bge converted
+ * @param  string $encode   Force encoding to a specific encoding
  * @return string
  */
-function jx_encode($string) {
+function jx_encode($string, $encode = false) {
 
-    $encod = $_SESSION['o2_app']->chr_encoding;
+    if (!$encode) {
+        $encode = $_SESSION['o2_app']->chr_encoding;
+        $forced = false;
+        }
+    else {
+        $encode = strtolower($encode);
+        $forced = true;
+        }
     try {
-        switch ($encod) {
+        switch ($encode) {
             case 'utf-8':
                 if (!mb_check_encoding($string, 'UTF-8')) {
                     $string = preg_replace_callback(
@@ -7855,18 +7864,20 @@ function jx_encode($string) {
                         }
                 break;
             case 'windows-1252':
-                if (!mb_check_encoding($string, 'CP1252')) {
+            case 'win1252':
+            case 'cp1252':
+                if ($forced || !mb_check_encoding($string, 'CP1252')) {
                     $string = mb_convert_encoding($string, 'CP1252', 'UTF-8');
                     }
                 break;
             default:
-                $string = mb_convert_encoding($string, $encod);
+                $string = mb_convert_encoding($string, $encode);
                 break;
             }
         }
     catch (Exception $e) {
         throw new o2_exception('Error converting string <code>"'.$string.
-                               '"</code> to chr-encoding <i>'.$encod.'</i>.',
+                               '"</code> to chr-encoding <i>'.$encode.'</i>.',
                                o2error_IO);
         return false;
         }

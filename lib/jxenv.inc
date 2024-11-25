@@ -7705,14 +7705,14 @@ class o2_protocollo {
 class o2_risorsa {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $nome          = "";    /* Unique object id                                  */
-    public $prg           = "";    /* Name of program containing resource               */
+    public $nome          = '';    /* Unique object id                                  */
+    public $prg           = '';    /* Name of program containing resource               */
     public $id_esecuzione = 0;     /* Program execution id (PRG_EXE_ID)                 */
-    public $tipo          = "F";   /* Type: [F]ilesystem [S]pool_for_print              */
-    public $direzione     = "O";   /* Direction: [I]n (import) or [O]ut (export)        */
-    public $risorsa       = "";    /* Path to resource file                             */
+    public $tipo          = 'F';   /* Type: [F]ilesystem [S]pool_for_print              */
+    public $direzione     = 'O';   /* Direction: [I]n (import) or [O]ut (export)        */
+    public $risorsa       = '';    /* Path to resource file                             */
     public $id            = 0;     /* Handle to resource when opened                    */
-    public $terminatore   = "";    /* Ending string (set by protocol)                   */
+    public $terminatore   = '';    /* Ending string (set by protocol)                   */
     public $inerited      = false; /* If resource is inerited from a previous prg       */
     /*     _____ Buffering ____________________________________________________________ */
     public $buffer_len    = 65535; /* Max buffer len, after which to write on disk      */
@@ -7731,10 +7731,10 @@ class o2_risorsa {
      */
     function __construct($prg,
                          $id_esecuzione,
-                         $nome      = "",
-                         $tipo      = "F",
-                         $risorsa   = "",
-                         $direzione = "O") {
+                         $nome      = '',
+                         $tipo      = 'F',
+                         $risorsa   = '',
+                         $direzione = 'O') {
 
 
         $this->nome          = $nome;
@@ -7756,7 +7756,7 @@ class o2_risorsa {
             }
         if (!$this->inerited) {
             $this->tipo      = $tipo;
-            $this->risorsa   = ($direzione == "O" ? $app->dir_tmp : "").$risorsa;
+            $this->risorsa   = ($direzione == 'O' ? $app->dir_tmp : '').$risorsa;
             $this->direzione = $direzione;
             }
 
@@ -7777,13 +7777,13 @@ class o2_risorsa {
                 }
             $this->id              = $resource->id;
             $resource->terminatore = $this->terminatore;
-            if ($this->direzione == "O") {
+            if ($this->direzione == 'O') {
                 $app->produzioni[$this->prg][$this->nome][] = $this->risorsa;
                 }
             }
         // ________________________________________________ Stream XML for WEB service ___
         elseif ($app->rpc_server) {
-            if ($this->direzione == "O") {
+            if ($this->direzione == 'O') {
                 $app->produzioni[$this->prg][$this->nome][] = $this->risorsa;
                 }
             $this->id = $app->runtime->microtime();
@@ -7791,20 +7791,20 @@ class o2_risorsa {
         else {
             $folder_local = new o2_dir(dirname($this->risorsa));
             if (!is_dir(dirname($this->risorsa))                 ||
-                ($this->direzione == "O"                         &&
+                ($this->direzione == 'O'                         &&
                  $folder_local->exists(basename($this->risorsa)) &&
                  !unlink($this->risorsa))                        ||
-                ($this->direzione == "I"                         &&
+                ($this->direzione == 'I'                         &&
                  !$folder_local->exists(basename($this->risorsa)))) {
-                throw new o2_exception("Cannot open file <i>".$this->risorsa."</i>",
+                throw new o2_exception('Cannot open file <i>'.$this->risorsa.'</i>',
                                        o2error_IO);
                 }
             if ($this->direzione == "O") {
-                $dir_local = "w";
+                $dir_local = 'w';
                 $app->produzioni[$this->prg][$this->nome][] = $this->risorsa;
                 }
             else {
-                $dir_local = "r";
+                $dir_local = 'r';
                 }
             $this->id = fopen($this->risorsa, $dir_local);
             stream_set_write_buffer($this->id, 0);
@@ -7824,9 +7824,9 @@ class o2_risorsa {
             $this->id = 0;
             }
         elseif ($this->id && !$this->inerited) {
-            if ($this->direzione == "O") {
+            if ($this->direzione == 'O') {
                 $this->scrivi($this->buffer_txt.$this->terminatore);
-                $this->buffer_txt = "";
+                $this->buffer_txt = '';
                 }
             fclose($this->id);
             $this->id = 0;
@@ -7843,10 +7843,14 @@ class o2_risorsa {
      * Scrive $data sul canale della risorsa
      *
      */
-    function scrivi($data = "") {
+    function scrivi($data = '') {
 
+        // ______________________ XML for prints are always forced to Win1252 encoding ___
+        if ($_SESSION['o2_app']->chr_encoding != 'windows-1252') {
+            $data = jx_encode($data, 'windows-1252');
+            }
         if (fwrite($this->id, $data) === false) {
-            throw new o2_exception("Error writing to file <i>".$this->risorsa."</i>",
+            throw new o2_exception('Error writing to file <i>'.$this->risorsa.'</i>',
                                    o2error_IO);
             }
 
@@ -7858,11 +7862,15 @@ class o2_risorsa {
      * Buffer will be downloaded to disk when reaching ->buffer_len limit.
      *
      */
-    function buffered_write($data = "") {
+    function buffered_write($data = '') {
 
         $app = $_SESSION['o2_app'];
         // ________________________________________________ Stream XML per WEB service ___
         if ($app->rpc_server) {
+            // __________________ XML for prints are always forced to Win1252 encoding ___
+            if ($app->chr_encoding != 'windows-1252') {
+                $data = jx_encode($data, 'windows-1252');
+                }
             print $data;
             }
         else {
