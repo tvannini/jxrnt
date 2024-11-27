@@ -1176,7 +1176,7 @@ class o2_form {
     function read_def() {
 
         $app               = $_SESSION['o2_app'];
-        $def_function      = $this->prg."§§".$this->nome."_def";
+        $def_function      = $this->prg.JX_DEF_DELIMITER.$this->nome.'_def';
         if (is_callable($def_function)) {
             $prg = $app->istanze_prg[$this->id_esecuzione];
             $def_function($this);
@@ -1184,15 +1184,15 @@ class o2_form {
             $prg->drawing_grid = false;
             $prg->drawing_ctrl = false;
             // ____________________________________________________ Controls profiling ___
-            if (($app->profiling == "C" || $app->profiling == "B") &&
+            if (($app->profiling == 'C' || $app->profiling == 'B') &&
                 ($this->id_esecuzione == count($app->istanze_prg)) &&
                 !$app->user_is_admin && !$prg->internal_tool) {
-                $app->intcall("tools/o2sys_filter_ctrl", $this->nome);
+                $app->intcall('tools/o2sys_filter_ctrl', $this->nome);
                 }
             }
         elseif (!$this->internal) {
             throw new o2_exception("<b>CAN'T FIND DEFINITION</b> for form <i>".
-                                   $this->nome."</i>",
+                                   $this->nome.'</i>',
                                    o2error_IO);
             }
 
@@ -2007,7 +2007,7 @@ class o2_ctrl {
             $enabled = true;
             $prg     = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
             // _____________________________________ If control field is from a dbview ___
-            if ($this->task && $this->task != 'prg§_§var') {
+            if ($this->task && $this->task != JX_VIRT_VIEW) {
                 $view = $prg->contesto[$this->task];
                 // ________________ If dbview has current record or is in INSERT state ___
                 if (!isset($view->recordset[0]) && $view->status != 'I') {
@@ -2332,36 +2332,37 @@ class o2_ctrl {
         // ______________________________________________ Zoom program from data model ___
         elseif ($this->maschera->zoom_prg) {
             // _______________________________________ Action name includes prg exe-id ___
-            $act_name     = $this->nome.$this->id_esecuzione."_zoom";
+            $act_name     = $this->nome.$this->id_esecuzione.'_zoom';
             $exe_count    = count($app->esecuzioni);
             $is_enabled   = $this->is_enabled();
             $this->valore = $prg->contesto[$this->task]->campo($this->campo_in_ctrl);
             $fld_value    = $this->sql2ctrl();
             $ctrl_field   = ($is_enabled ?
-                             $this->task."§§".$this->campo_in_ctrl :
+                             $this->task.JX_DEF_DELIMITER.$this->campo_in_ctrl :
                              $fld_value);
             // _________________________________________________________ Define action ___
-            if (!is_callable($prg->nome."§§".$act_name."_act")) {
+            if (!is_callable($prg->nome.JX_DEF_DELIMITER.$act_name.'_act')) {
                 $prg_exe = $_SESSION['o2_app']->progressivo_istanze;
                 /*
-                 * <prg>§§<action>_cond() is a function that returns TRUE if field value
-                 * is changed: it is used as condition to run submit-on-change action.
+                 * <prg>JX_DEF_DELIMITER<action>_cond() is a function that returns TRUE if
+                 * field value is changed: it is used as condition to run submit-on-change
+                 * action.
                  */
-                $act_def = "function ".$prg->nome."§§".$act_name."_cond() { ".
+                $act_def = 'function '.$prg->nome.JX_DEF_DELIMITER.$act_name.'_cond() { '.
                            "return (\$_SESSION['o2_app']->istanze_prg[".$prg_exe.
                            "]->contesto['".$this->task."']->campo('".$this->campo_in_ctrl.
                            "') != '".$fld_value."'); } ".
-                           "function ".$prg->nome."§§".$act_name.
+                           "function ".$prg->nome.JX_DEF_DELIMITER.$act_name.
                            "_act(\$o2exe) { \$o2exe->s(1) && o2act::call(\"".
                            $this->maschera->zoom_prg."\", false, \"".$ctrl_field.
                            "\") && \$o2exe->e(); ".
                            ($this->azione_submit && $is_enabled ?
-                           "\$o2exe->s(2) && (".$prg->nome."§§".$act_name.
+                           "\$o2exe->s(2) && (".$prg->nome.JX_DEF_DELIMITER.$act_name.
                            "_cond() || \$o2exe->e()) && o2act::exe(\"".
-                           $this->azione_submit."\") && \$o2exe->e(); " : "").
-                           ($this->tipo_ctrl == "listcombo" && $this->items_view ?
-                           "\$o2exe->s(3) && o2act::view(\"".$this->items_view.
-                           "\", \"1\") && \$o2exe->e(); " : "")."}";
+                           $this->azione_submit."\") && \$o2exe->e(); " : '').
+                           ($this->tipo_ctrl == 'listcombo' && $this->items_view ?
+                           '$o2exe->s(3) && o2act::view("'.$this->items_view.
+                           '", "1") && $o2exe->e(); ' : '').'}';
                 eval($act_def);
                 // _ Action must be added to prg for check in app->esecuzione_inizio() ___
                 $prg->azione($act_name, false);
@@ -2376,9 +2377,9 @@ class o2_ctrl {
             }
         // ____________________________________________ No ZOOM program/action defined ___
         else {
-            throw new o2_exception("Cannot find activation action or program ".
-                                   "for control <i>".$this->nome.
-                                   "</i> requested for zoom.",
+            throw new o2_exception('Cannot find activation action or program '.
+                                   'for control <i>'.$this->nome.
+                                   '</i> requested for zoom.',
                                    o2error_UNKNOWNACTION);
             }
 
@@ -2452,7 +2453,7 @@ class o2_ctrl {
         else {
             $msg = $this->confirm_message;
             }
-        $view = ($this->task == 'prg§_§var' ? jx_encode('prg§_§var') : $this->task);
+        $view = ($this->task == JX_VIRT_VIEW ? jx_encode(JX_VIRT_VIEW) : $this->task);
         return  ($as_obj ? "{" : "o2=\"").
                 "e:".$this->id_esecuzione.
                 ",c:'".$this->nome.

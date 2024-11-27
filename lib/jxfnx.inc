@@ -41,7 +41,7 @@
  * When the view is a db-view it must be defined in the program where o2val() is used and
  * the field must be a field defined in that view.
  *
- * To get a program-variable value pass "prg§_§var" as view name.
+ * To get a program-variable value pass JX_VIRT_VIEW as view name.
  * To get an application (session) variable pass "_o2SESSION" as view name.
  *
  * If returned value is an array, indexed subvalues can be retrieved passing indexes as
@@ -64,7 +64,7 @@
  * you can get the hours value directly by calling:
  *  o2val("view", "field", "h")
  *
- * @param  string $view_name    Name of the db-view or "prg§_§var" or "_o2SESSION"
+ * @param  string $view_name    Name of the db-view or JX_VIRT_VIEW or "_o2SESSION"
  * @param  string $field_name   Name of the field or variable
  * @return mix
  * @see    o2pre()
@@ -214,10 +214,10 @@ function o2pre($view_name, $field_name) {
  * When the view is a db-view it must be defined in the program where o2zero() is used and
  * the field must be a field defined in that view.
  *
- * To check a program-variable value pass "prg§_§var" as view name.
+ * To check a program-variable value pass JX_VIRT_VIEW as view name.
  * To check an application (session) variable pass "_o2SESSION" as view name.
  *
- * @param  string $view_name    Name of the db-view or "prg§_§var" or "_o2SESSION"
+ * @param  string $view_name    Name of the db-view or JX_VIRT_VIEW or "_o2SESSION"
  * @param  string $field_name   Name of the field or variable
  * @return boolean
  * @see    o2val()
@@ -6231,8 +6231,8 @@ function o2view_total($view_name, $from_cache = false) {
                     }
                 }
             // ______________________________________________ Check ranges on formulas ___
-            if (isset($view_obj->wheres["o2calc§_§exps"]) &&
-                $view_obj->wheres["o2calc§_§exps"]) {
+            if (isset($view_obj->wheres['jx_formulas']) &&
+                $view_obj->wheres['jx_formulas']) {
                 $countable = false;
                 }
             // ________________________________________ Use database COUNT (COUNTABLE) ___

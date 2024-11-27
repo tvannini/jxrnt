@@ -223,7 +223,7 @@ class o2_prg {
                          $prepared_stmts = false) {
 
         if (!isset($this->contesto[$nome])) {
-            if ($nome != 'prg§_§var') {
+            if ($nome != JX_VIRT_VIEW) {
                 $this->contesto[$nome] = new o2_dbview($this->nome, $this->id, $nome);
                 $this->contesto[$nome]->prefisso  = $prefisso;
                 $this->contesto[$nome]->suffisso  = $suffisso;
@@ -346,8 +346,8 @@ class o2_prg {
 
     /**
      * Passa l'esecuzione all'azione [$action] fino al verificarsi di [$end_cond].
-     * Se [$loop_view] è il nome di una vista del prg allora l'azione viene eseguita
-     * dall'inizio del main file fino alla fine o fino a che la valutazione
+     * Se [$loop_view] corrisponde al nome di una vista del prg allora l'azione viene
+     * eseguitadall'inizio del main file fino alla fine o fino a che la valutazione
      * dell'espressione [$end_cond] non risulta vera
      *
      * @param  string $action
@@ -453,7 +453,7 @@ class o2_prg {
     function relocate_views() {
 
         foreach (array_keys($this->contesto) as $view_index) {
-            if ($view_index && $view_index != "prg§_§var") {
+            if ($view_index && $view_index != JX_VIRT_VIEW) {
                 $this->contesto[$view_index]->relocate();
                 }
             }
@@ -462,9 +462,8 @@ class o2_prg {
 
 
     /**
-     * Visualizza le form del prg che hanno la condizione di visibilità vera.
-     * Introduce i campi che contengono i valori di selezione per le diverse viste del
-     * program.
+     * Show programs forms that have a Visibility-condition TRUE.
+     * Se in HTML fields for views selection value.
      *
      */
     function visualizza() {
@@ -477,13 +476,13 @@ class o2_prg {
                 $single_form->vis();
                 }
             // ____________________________________________ Set views selection values ___
-            if ($app->runtime->interface == "HTML") {
+            if ($app->runtime->interface == 'HTML') {
                 if ($GLOBALS['jxjs']) {
                     foreach ($this->contesto as $view) {
-                        if ($view->nome != "prg§_§var" &&
+                        if ($view->nome != JX_VIRT_VIEW &&
                             !$view->sele_by_table &&
                             !$view->snapshot_src) {
-                            $name  = $view->nome."_vs".$this->id;
+                            $name  = $view->nome.'_vs'.$this->id;
                             $value = $view->selezione + 1;
                             print "jxv('".$name."',".$value.");\n";
                             }
@@ -492,8 +491,8 @@ class o2_prg {
                     }
                 else {
                     foreach ($this->contesto as $view) {
-                        if ($view->nome != "prg§_§var" && !$view->snapshot_src) {
-                            print "<input type='hidden' name='".$view->nome."_vs".
+                        if ($view->nome != JX_VIRT_VIEW && !$view->snapshot_src) {
+                            print "<input type='hidden' name='".$view->nome.'_vs'.
                                   $this->id."' value='".($view->selezione + 1)."'>\n";
                             }
                         }
@@ -635,13 +634,13 @@ class o2_prg {
                                                           true);
             }
         // ___________________________________________________________ Unset variables ___
-        if (isset($this->contesto["prg§_§var"]) &&
-            count($this->contesto["prg§_§var"]->variabili)) {
-            foreach ($this->contesto["prg§_§var"]->variabili as $single_var) {
+        if (isset($this->contesto[JX_VIRT_VIEW]) &&
+            count($this->contesto[JX_VIRT_VIEW]->variabili)) {
+            foreach ($this->contesto[JX_VIRT_VIEW]->variabili as $single_var) {
                 $var_name = $single_var->nome_fisico;
                 $var_val  = $single_var->maschera->default;
                 if (!isset($aggr_vars[$var_name])) {
-                    $this->contesto["prg§_§var"]->imposta($var_name, $var_val);
+                    $this->contesto[JX_VIRT_VIEW]->imposta($var_name, $var_val);
                     }
                 }
             }
@@ -1472,7 +1471,7 @@ class o2_esecuzione {
         $this->azione      = $azione;
         $this->prg         = $prg;
         $this->istanza_prg = $id_istanza_prg;
-        $this->definition  = $prg."§§".$azione.'_act';
+        $this->definition  = $prg.JX_DEF_DELIMITER.$azione.'_act';
 
         }
 
@@ -1505,7 +1504,7 @@ class o2_esecuzione {
 
 
     /**
-     * Se un passo è da eseguire ritorna TRUE e se non è in esecuzione ce lo mette
+     * If step is in execution returns TRUE, else sets it to be executed.
      *
      * @param  integer $exe_id
      * @return boolean
@@ -1601,7 +1600,7 @@ class o2_campo_task extends o2_campo {
     public $formula    = false;   /* Formulas value expression                          */
     public $virtual    = false;   /* SQL, SQL-formula and Formula fields are virtual    */
     public $order_by   = array(); /* Formulas ORDER_BY equivalent                       */
-    public $valore     = "";      /* Variables (prg§_§var) value                        */
+    public $valore     = '';      /* Value                                              */
     public $selector   = false;   /* If formula is a check selector for view            */
 
 
@@ -1800,10 +1799,10 @@ class o2_dbview extends o2_view {
      * @param  string $nome
      * @return o2_dbview
      */
-    function __construct($prg, $id_esecuzione_prg, $nome = "") {
+    function __construct($prg, $id_esecuzione_prg, $nome = '') {
 
-        if ($nome == "") {
-            throw new o2_exception("Missing view name in definition",
+        if ($nome == '') {
+            throw new o2_exception('Missing view name in definition',
                                    o2error_UNKNOWNVIEW);
             }
         else {
@@ -1811,7 +1810,7 @@ class o2_dbview extends o2_view {
             $this->nome          = $nome;
             $this->prg           = $prg;
             $this->id_esecuzione = $id_esecuzione_prg;
-            $this->def_function  = $this->prg."§§".$this->nome."_def";
+            $this->def_function  = $this->prg.JX_DEF_DELIMITER.$this->nome.'_def';
             $this->snapshot_name = $nome.'_jxsnps';
             }
 
@@ -2400,7 +2399,7 @@ class o2_dbview extends o2_view {
                     }
                 }
             // ______________________________________________ Check ranges on formulas ___
-            if (isset($this->wheres['o2calc§_§exps'])) {
+            if (isset($this->wheres['jx_formulas'])) {
                 $countable = false;
                 }
             // ____________________________________ Use database AGGREGATE (COUNTABLE) ___
@@ -2474,9 +2473,11 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Calcola le aggregazioni per viste con filtri su LINK non risolte e/o formule.
-     * Questo metodo esegue un loop di conteggio sull'intero recordset della vista e il
-     * risultato è corretto per qualunque tipo di vista.
+     * Calculates aggregations for views not SQL-solvable.
+     * Views can't be SQL-solved for aggregations if they contain:
+     *  - filters on furmulas
+     *  - filters on fields from not SQL solved links.
+     * This method loops on all view records and it's always safe for every kind of view.
      *
      */
     function aggregate_loop() {
@@ -2579,8 +2580,8 @@ class o2_dbview extends o2_view {
      * record della vista. Ritorna true se le clausole sono variate dall'ultima produzione
      * della vista
      *
-     * NOTA: Il parametro $for_cache è usato per storicizzare le WHERE delle link risolte
-     *       in JOIN.
+     * NOTA: Il parametro $for_cache viene usato per storicizzare le WHERE delle link
+     *       risolte in JOIN.
      *       Vedi la parte finale del metodo ->crea_recordset().
      *
      * @param  string  $file_in_esame
@@ -3390,65 +3391,65 @@ class o2_dbview extends o2_view {
             $valore_local = null;
             // ______________________________________________ Exact value (MIN == MAX) ___
             if (!is_null($formula->min) && ($formula->min == $formula->max)) {
-                eval("\$valore_local = ".$formula->min.";");
+                eval('$valore_local = '.$formula->min.';');
                 if (!is_null($valore_local)) {
-                    $where_local[] = "('§§o2§§' == '".addcslashes($valore_local, "\'").
+                    $where_local[] = "('[JXVAR]' == '".addcslashes($valore_local, "\'").
                                      "')";
                     }
                 }
             else {
                 // _______________________________________________ MINIMUM range value ___
                 if (!is_null($formula->min)) {
-                    eval("\$valore_local = ".$formula->min.";");
+                    eval('$valore_local = '.$formula->min.';');
                     if (!is_null($valore_local)) {
-                        $where_local[] = "('§§o2§§' >= '".
+                        $where_local[] = "('[JXVAR]' >= '".
                                         addcslashes($valore_local, "\'")."')";
                         }
                     }
                 // _______________________________________________ MAXIMUM range value ___
                 if (!is_null($formula->max)) {
-                    eval("\$valore_local = ".$formula->max.";");
+                    eval('$valore_local = '.$formula->max.';');
                     if (!is_null($valore_local)) {
-                        $where_local[] = "('§§o2§§' <= '".
+                        $where_local[] = "('[JXVAR]' <= '".
                                          addcslashes($valore_local, "\'")."')";
                         }
                     }
                 }
             // _______________________________________________________ NOT range value ___
             if (!is_null($formula->not)) {
-                eval("\$valore_local = ".$formula->not.";");
+                eval('$valore_local = '.$formula->not.';');
                 if (!is_null($valore_local)) {
-                    $where_local[] = "('§§o2§§' != '".addcslashes($valore_local, "\'").
+                    $where_local[] = "('[JXVAR]' != '".addcslashes($valore_local, "\'").
                                      "')";
                     }
                 }
             // ______________________________________________________ LIKE range value ___
             if (!is_null($formula->like)) {
-                eval("\$valore_local = ".$formula->like.";");
+                eval('$valore_local = '.$formula->like.';');
                 if (!is_null($valore_local)) {
-                    $where_local[] = "(stripos('§§o2§§', '".
+                    $where_local[] = "(stripos('[JXVAR]', '".
                                      addcslashes($valore_local, "\'")."') !== false)";
                     }
                 }
             // _______________________________________________________ Whole condition ___
             if (count($where_local)) {
-                $this->formule[$formula->nome]->condizione = implode(" && ",
+                $this->formule[$formula->nome]->condizione = implode(' && ',
                                                                      $where_local);
                 $cond_totale.= $this->formule[$formula->nome]->condizione;
                 }
             else {
-                $this->formule[$formula->nome]->condizione = "";
+                $this->formule[$formula->nome]->condizione = '';
                 }
             }
         $app->istanze_prg[$this->id_esecuzione]->evaluating_view = $evaluating_local;
         // ______________________________________________ Check for changed conditions ___
-        if ($cond_totale || isset($this->wheres["o2calc§_§exps"])) {
-            $this->wheres["o2calc§_§exps"] = $cond_totale;
-            if (!isset($this->ultima_where["o2calc§_§exps"][$record]) ||
-                $this->wheres["o2calc§_§exps"] !=
-                $this->ultima_where["o2calc§_§exps"][$record]) {
-                $this->ultima_where["o2calc§_§exps"][$record] =
-                $this->wheres["o2calc§_§exps"];
+        if ($cond_totale || isset($this->wheres['jx_formulas'])) {
+            $this->wheres['jx_formulas'] = $cond_totale;
+            if (!isset($this->ultima_where['jx_formulas'][$record]) ||
+                $this->wheres['jx_formulas'] !=
+                $this->ultima_where['jx_formulas'][$record]) {
+                $this->ultima_where['jx_formulas'][$record] =
+                $this->wheres['jx_formulas'];
                 return true;
                 }
             else {
@@ -3542,10 +3543,10 @@ class o2_dbview extends o2_view {
             $app->istanze_prg[$this->id_esecuzione]->expand_dependences($this->nome);
             }
         // ____________________________ Reset links cache (save mainfile and formulas) ___
-        if (isset($this->ultima_where['o2calc§_§exps'])) {
-            $this->ultima_where = array($mainfile       => $this->ultima_where[$mainfile],
-                                        'o2calc§_§exps' =>
-                                         $this->ultima_where['o2calc§_§exps']);
+        if (isset($this->ultima_where['jx_formulas'])) {
+            $this->ultima_where = array($mainfile     => $this->ultima_where[$mainfile],
+                                        'jx_formulas' =>
+                                         $this->ultima_where['jx_formulas']);
             }
         else {
             $this->ultima_where = array($mainfile => $this->ultima_where[$mainfile]);
@@ -3800,10 +3801,11 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Ritorna il numero totale di record per il main file della vista.
-     * Questo metodo equivale alla COUNT di database per il main file della vista: il suo
-     * risultato è corretto per la vista solo se non sono presenti filtri su LINK NON
-     * RISOLTE IN JOIN o su formule.
+     * Returns number of total records in view, for a SQL-solvable view.
+     * View is SQL-solvable when it not contains:
+     *  - filters on furmulas
+     *  - filters on fields from not SQL solved links.
+     * For SQL-solvable views returns the SQL COUNT value for the view main file.
      *
      * @return integer
      */
@@ -3848,9 +3850,11 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Ritorna il numero totale di record per viste con filtri su LINK e/o formule.
-     * Questo metodo esegue un loop di conteggio sull'intero recordset della vista e il
-     * risultato è corretto per qualunque tipo di vista.
+     * Returns total records number for views not SQL-solvable.
+     * Views can't be SQL-solved for total records count if they contain:
+     *  - filters on furmulas
+     *  - filters on fields from not SQL solved links.
+     * This method loops on all view records and it's always safe for every kind of view.
      *
      * @return integer
      */
@@ -3883,7 +3887,7 @@ class o2_dbview extends o2_view {
         foreach (get_object_vars($this) as $prop_id => $single_prop) {
             $this->$prop_id = $view_copy[$prop_id];
             }
-        if (isset($this->ultima_where["o2calc§_§exps"])) {
+        if (isset($this->ultima_where['jx_formulas'])) {
             $this->vista     = false;
             $this->direzione = 0;
             }
@@ -4168,7 +4172,7 @@ class o2_dbview extends o2_view {
             // ______________________________ Skip main table and tables linked by SQL ___
             if ($file_name != $this->file->indice &&
                 (!$singolo_file->link_by_sql ||
-                 $this->status == "I" ||
+                 $this->status == 'I' ||
                  $this->modificato)) {
                 // _____________________________ Custom FROM (table name or SQL query) ___
                 if ($this->custom_from) {
@@ -4263,13 +4267,13 @@ class o2_dbview extends o2_view {
         foreach ($this->formule as &$singola_formula) {
             if (trim($singola_formula->condizione) != '') {
                 // ATTENZIONE: nella composizione delle stringhe di 'condizione'
-                // l'espressione '§§o2§§' è un segnaposto per il valore della variabile
-                // che viene sostituito prima di valutare la condizione
+                // l'espressione '[JXVAR]' rappresenta un segnaposto per il valore della
+                // variabile che viene sostituito prima di valutare la condizione
                 $f_value    = addslashes(strval($this->campo($singola_formula->nome)));
                 $condizione = false;
-                eval("\$condizione = ".str_replace("§§o2§§",
+                eval('$condizione = '.str_replace('[JXVAR]',
                                                    $f_value,
-                                                   $singola_formula->condizione).";");
+                                                   $singola_formula->condizione).';');
                 if (!$condizione) {
                     $this->computing = $transazione_local;
                     return false;
@@ -4308,7 +4312,7 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Ritorna vero se è variata una delle viste da cui questa dipende
+     * Returns TRUE if one of the views this one depends on varied.
      *
      * @return boolean
      */
@@ -4460,9 +4464,10 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Imposta il puntatore di selezione alla riga successiva del recordset oppure, se
-     * siamo sull'ultimo record del recordset, alla prima riga del set di record
-     * successivo. Ritorna FALSE se il record corrente è l'ultimo del recordset
+     * Set view-selection to next row of current recordset.
+     * If current record is last row of recordset, then it loads next recordset and set
+     * view-selection to first row.
+     * If current record is very last row of dataset then it returns FALSE.
      *
      * @return boolean
      */
@@ -4495,9 +4500,10 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Imposta il puntatore di selezione alla riga precedente del recordset oppure, se
-     * siamo sul primo record del recordset, all'ultima riga del set di record precedente.
-     * Ritorna FALSE se il record corrente è il primo del recordset
+     * Set view-selection to previous row of current recordset.
+     * If current record is first row of recordset, then it loads previous recordset and
+     * set view-selection to last row.
+     * If current record is very first row of dataset then it returns FALSE.
      *
      * @return boolean
      */
@@ -4651,10 +4657,10 @@ class o2_dbview extends o2_view {
 
     /**
      * Compone la where per rintracciare il record con la chiave univoca corrente.
-     * La forma normale per richiedere la chiave del main file è:
+     * La forma normale per richiedere la chiave del main file:
      *  $view->chiave_corrente($view->file)
      * L'oggetto $file deve essere la tabella presa dalla vista stessa, non dal repository
-     * e quindi la forma standard per un file diverso dal main è:
+     * e quindi la forma standard per un file diverso dal main:
      *  $view->chiave_corrente($view->files[$file_name])
      * Il parametro $for_stmt permette di ritornare un'array utile per l'utilizzo di
      * prepared statement in chiave primaria, nella forma:
@@ -4921,11 +4927,11 @@ class o2_dbview extends o2_view {
 
 
     /**
-     * Calcola una espressione di aggregazione su un campo e ne restituisce il valore in
-     * $target_field di $target_view.
-     * Se la proprietà della vista $auto_aggr è TRUE la runtime si prenderà cura del loro
-     * aggiornamento al variare del dataset, altrimenti il ricalcolo delle aggregazioni
-     * deve essere eseguito tramite l'istruzione di recordset "aggregate".
+     * Evaluates an aggregation on a view field and returns value in $target_field of
+     * $target_view.
+     * If view property $auto_aggr is TRUE, then aggregation value will be automatically
+     * re-evalueted on view changes, else aggregations will be evaluated only on executing
+     * "aggregate" instruction on view.
      *
      * @param  string $function
      * @param  string $aggr_field
@@ -5948,7 +5954,8 @@ class o2_dbview extends o2_view {
 
 
    /**
-    * Esegue la scrittura del file in accordo con la modalità del task
+    * Executes main file writing on database, according with view and current record
+    * status.
     *
     */
     function scrittore() {
@@ -6127,8 +6134,7 @@ class o2_dbview extends o2_view {
     function precedente($campo_corrente) {
 
         $campo_corrente = strtoupper($campo_corrente);
-        /* Se la vista sorgente non ha ancora prodotto una vista e non è già in
-           produzione della vista la produco                                            */
+        // ____________________________________________ Produce view dataset if needed ___
         if (!$this->vista     &&
             !$this->computing &&
             $this->files[$this->campi[$campo_corrente]->file]) {
@@ -7003,10 +7009,10 @@ class o2_virtualview extends o2_view {
     function __construct($prg, $id_esecuzione_prg) {
 
         $this->dbdata        = false;
-        $this->nome          = "prg§_§var";
+        $this->nome          = JX_VIRT_VIEW;
         $this->prg           = $prg;
         $this->id_esecuzione = $id_esecuzione_prg;
-        $this->def_function  = $this->prg."§§".$this->nome."_def";
+        $this->def_function  = $this->prg.JX_DEF_DELIMITER.$this->nome.'_def';
         $def_function        = $this->def_function;
         if (is_callable($def_function)) {
             $def_function($this);
@@ -7233,8 +7239,8 @@ class o2_voce_menu {
                                    [S]eparatore: separatore o titolo ($label <> "")     */
     public $data     = "";   /* Stringa del parametro previsto dalla tipologia          */
     public $padre    = "";   /* Nome univoco della voce-menu che contiene l'elemento    */
-    public $visibile = true; /* Booleano che indica la visibilità della voce di menu    */
-    public $attivo   = true; /* Booleano che indica se la voce di menu è attiva         */
+    public $visibile = true; /* Boolean for menu item visibility                        */
+    public $attivo   = true; /* Boolean for menu item active                            */
 
 
     /**
@@ -7446,7 +7452,7 @@ class o2_protocollo {
         $this->prg           = $prg;
         $this->id_esecuzione = $id_esecuzione;
         $this->tipo          = $tipo;
-        $def_local           = $prg."§§".$this->nome.'_def';
+        $def_local           = $prg.JX_DEF_DELIMITER.$this->nome.'_def';
         // ________________________________ Execute report DEF to refresh all controls ___
         if (is_callable($def_local)) {
             $this->campi = array();
@@ -7491,7 +7497,7 @@ class o2_protocollo {
     function leggi_valori_vista() {
 
         // ________________________________ Execute report DEF to refresh all controls ___
-        $def_local = $this->prg."§§".$this->nome.'_def';
+        $def_local = $this->prg.JX_DEF_DELIMITER.$this->nome.'_def';
         if (is_callable($def_local)) {
             $def_local($this);
             }
@@ -8215,15 +8221,17 @@ class o2act {
                 array_shift($parametri);
                 $format_pars = array();
                 foreach ($parametri as $i => $single_par) {
-                    if (!is_string($single_par) || strpos($single_par, "§§") === false) {
-                        $format_pars[$i]['tipo']   = "E";
-                        $format_pars[$i]['task']   = "";
-                        $format_pars[$i]['campo']  = "";
+                    if (!is_string($single_par) ||
+                        strpos($single_par, JX_DEF_DELIMITER) === false) {
+                        $format_pars[$i]['tipo']   = 'E';
+                        $format_pars[$i]['task']   = '';
+                        $format_pars[$i]['campo']  = '';
                         $format_pars[$i]['valore'] = $single_par;
                         }
                     else {
-                        list($view_name, $campo_local) = explode("§§", $single_par);
-                        $format_pars[$i]['tipo']   = "V";
+                        list($view_name, $campo_local) = explode(JX_DEF_DELIMITER,
+                                                                 $single_par);
+                        $format_pars[$i]['tipo']   = 'V';
                         $format_pars[$i]['task']   = $view_name;
                         $format_pars[$i]['campo']  = strtoupper($campo_local);
                         $value_local = $app->istanze_prg[$app->progressivo_istanze]->
@@ -8260,7 +8268,7 @@ class o2act {
             if ($prg && $prg->concluso()) {
                 $app->termina_prg();
                 foreach ($chiamata_local['parametri'] as $single_par) {
-                    if ($single_par['tipo'] == "V") {
+                    if ($single_par['tipo'] == 'V') {
                         $view = $app->istanze_prg[$app->progressivo_istanze]->
                                  contesto[$single_par['task']];
                         if ($view->campo($single_par['campo']) != $single_par['valore']) {
@@ -8297,10 +8305,10 @@ class o2act {
 
     /**
      * Passa l'esecuzione all'azione [$action] fino al verificarsi di [$end_cond].
-     * Se [$loop_view] è il nome di una vista del prg allora l'azione viene eseguita
-     * dall'inizio del main file fino alla fine (se [$direction] = "A") o viceversa (se
-     * [$direction] != "A") o fino a che la valutazione dell'espressione [$end_cond] non
-     * risulta vera
+     * Se [$loop_view] corrisponde al nome di una vista del prg allora l'azione viene
+     * eseguita dall'inizio del main file fino alla fine (se [$direction] = "A") o
+     * viceversa (se [$direction] != "A") o fino a che la valutazione dell'espressione
+     * [$end_cond] non risulta vera
      *
      * @param  string $action
      * @param  string $end_cond
@@ -8489,7 +8497,7 @@ class o2act {
         return o2act::call('tools/o2sys_confirm',
                            false,
                            jx_encode($testo),
-                           $view.'§§'.$field);
+                           $view.JX_DEF_DELIMITER.$field);
 
         }
 
@@ -8549,20 +8557,20 @@ class o2act {
 
 
     /**
-     * Esegue il [comando] passato sul recordset di [task]
-     *  ""  refresh (ricreo tutto il recordset)
-     *  "1" primo record
-     *  "2" record precedente
-     *  "3" prossimo record
-     *  "4" ultimo record
-     *  "S" scrittura di corrente
-     *  "M" attiva la modalità edit per i controlli del task
-     *  "R" disattiva la modalità edit per i controlli del task
-     *  "L" Posizionamento (locate) nel recordset per criteri di campo
-     *  "A" annulla modifiche (ricarica corrente da precedente)
-     *  "I" prepara inserimento (presenta record vuoto fuori vista. Necessita azione di
-     *      scrittura)
-     *  "C" cancellazione (esegue scrittura)
+     * Executes command ($comando) on view ($task):
+     *  ""  refresh (recreate recordset, preserving selection-row)
+     *  "1" first record
+     *  "2" previous record
+     *  "3" next record
+     *  "4" last record
+     *  "S" write current record
+     *  "M" set record in modify mode
+     *  "R" set record in read-only mode (not used)
+     *  "L" Locate first record matching criterias
+     *  "A" Unset changes (reload "corrente" from "precedente")
+     *  "I" Prepare a new empty record buffer for insert (needs a post-row action to
+     *      become effective on database)
+     *  "C" Delete row (effective)
      *  "B" Bulk insert
      *  "E" Bulk end
      *
@@ -8771,15 +8779,15 @@ function o2_view2list($view_name, $code_field, $desc_field, $preset = array()) {
     $desc_field   = strtoupper($desc_field);
     $array_return = array();
     if (isset($prg_local->contesto[$view_name]) ||
-        function_exists("_o2viewmodels§§".$view_name."_def")) {
-        $new_view_name = $view_name."_o2list";
-        $new_view_name = "v".substr(md5($new_view_name), -5);
+        function_exists('_o2viewmodels'.JX_DEF_DELIMITER.$view_name.'_def')) {
+        $new_view_name = $view_name.'_o2list';
+        $new_view_name = 'v'.substr(md5($new_view_name), -5);
         // __________________________________ If view has been created from view model ___
         if (isset($prg_local->contesto[$new_view_name])) {
-            define($view_name."_o2self", $new_view_name);
+            define($view_name.'_o2self', $new_view_name);
             $view_local = $prg_local->contesto[$new_view_name];
-            $code_field = strtoupper($new_view_name)."_".$code_field;
-            $desc_field = strtoupper($new_view_name)."_".$desc_field;
+            $code_field = strtoupper($new_view_name).'_'.$code_field;
+            $desc_field = strtoupper($new_view_name).'_'.$desc_field;
             }
         // ________________________________ If view is actually defined in current prg ___
         elseif (isset($prg_local->contesto[$view_name])) {
@@ -8787,15 +8795,16 @@ function o2_view2list($view_name, $code_field, $desc_field, $preset = array()) {
             }
         // _______________________________________________ Else create view from model ___
         else {
-            define($view_name."_o2self", $new_view_name);
+            define($view_name.'_o2self', $new_view_name);
             $view_local               = new o2_dbview($prg_local->nome,
                                                       $prg_local->id,
                                                       $new_view_name);
-            $view_local->def_function = "_o2viewmodels§§".$view_name."_def";
+            $view_local->def_function = '_o2viewmodels'.JX_DEF_DELIMITER.
+                                        $view_name.'_def';
             $prg_local->contesto[$new_view_name] = $view_local;
             $view_local->struttura();
-            $code_field = strtoupper($new_view_name)."_".$code_field;
-            $desc_field = strtoupper($new_view_name)."_".$desc_field;
+            $code_field = strtoupper($new_view_name).'_'.$code_field;
+            $desc_field = strtoupper($new_view_name).'_'.$desc_field;
             }
         $righe_vis_save = $view_local->righe_vis;
         if (!$app->defining_combo || $app->defining_combo->righe > 1) {
@@ -8830,16 +8839,16 @@ function o2_view2list($view_name, $code_field, $desc_field, $preset = array()) {
             $view_local->record_primo();
             $view_local->righe_vis = $righe_vis_save;
             }
-        $array_return = array($view_local->campi[$code_field]->maschera->default => "") +
+        $array_return = array($view_local->campi[$code_field]->maschera->default => '') +
                         (is_array($preset) ? $preset : array());
         foreach ($view_local->recordset as $single_record) {
             $array_return[$single_record[$code_field]] = $single_record[$desc_field];
             }
         }
     else {
-        throw new o2_exception("Unknown view <i>".$view_name.
-                               "</i> for list loading in program <i>".$prg_local->nome.
-                               "</i>",
+        throw new o2_exception('Unknown view <i>'.$view_name.
+                               '</i> for list loading in program <i>'.$prg_local->nome.
+                               '</i>',
                                o2error_UNKNOWNVIEW);
         }
     return $array_return;
@@ -8941,14 +8950,14 @@ function jx_post($url, $postdata, $cookies = false, &$headers = null) {
 function jxlog($logobj = null) {
 
     $app = $_SESSION['o2_app'];
-    if ($app->run_level != "DEV") {
+    if ($app->run_level != 'DEV') {
         return;
         }
     // ________________________________________________________ Create micro-timestamp ___
     list($m, $s) = explode(' ', microtime());
     $tms = $s.str_pad($m * 1000000, 6, STR_PAD_LEFT);
-    $tms = date("H:i:s.". substr($m, 2, -2));
-    $uid = "jxdbg".substr($tms, -10);
+    $tms = date('H:i:s.'. substr($m, 2, -2));
+    $uid = 'jxdbg'.substr($tms, -10);
     // _____________________________________________________ Get programs/actions tree ___
     $last_prg = '';
     $last_act = '';
@@ -8962,7 +8971,7 @@ function jxlog($logobj = null) {
         $exe_code = '';
         foreach ($app->esecuzioni as $single_exe) {
             if ($single_exe->istanza_prg == $single_id) {
-                $exe_code = ($last_act ? "  |- " : "  '- ").$single_exe->azione." : ".
+                $exe_code = ($last_act ? '  |- ' : "  '- ").$single_exe->azione.' : '.
                             $single_exe->passo."\n".$exe_code;
                 $last_act = ($last_act ? $last_act : $single_exe->azione);
                 }
@@ -8971,23 +8980,23 @@ function jxlog($logobj = null) {
         }
     // __________________________________________________ Dump out parameter structure ___
     if ($logobj === null) {
-        $logobj = '[EMPTY] from '.$last_prg." -> ".$last_act;
+        $logobj = '[EMPTY] from '.$last_prg.' -> '.$last_act;
         }
     // ____________________________________________________________ Get functions tree ___
     foreach (debug_backtrace() as $func) {
         if (isset($func['function'])) {
             // _______________________________________________ Stop on action function ___
-            if ($func['function'] == $last_prg."§§".$last_act."_act") {
+            if ($func['function'] == $last_prg.JX_DEF_DELIMITER.$last_act.'_act') {
                 break;
                 }
             // _______________________________________ Stop on internal execution call ___
-            elseif ((isset($func['class']) && ($func['class'] == "o2_esecuzione")) &&
-                    $func['function'] == "esegui") {
+            elseif ((isset($func['class']) && ($func['class'] == 'o2_esecuzione')) &&
+                    $func['function'] == 'esegui') {
                 break;
                 }
             // _______________________________________________ Last program expression ___
             elseif (substr($func['function'], 0, strlen($last_prg) + 5) ==
-                $last_prg."_exp_") {
+                $last_prg.'_exp_') {
                 $code.= "      '- EXP-".substr($func['function'],
                                                 strlen($last_prg) + 5)."\n";
                 }
@@ -8995,20 +9004,20 @@ function jxlog($logobj = null) {
         }
     // __________________________________________________________ Log out code to file ___
     if ($app->log2file || $app->mutelog || $app->rpc_server) {
-        $log_file = $app->dir_logs.$app->developer.".log";
+        $log_file = $app->dir_logs.$app->developer.'.log';
         if (!$f_local = fopen($log_file, 'a')) {
-            throw new o2_exception("Cannot access log file <i>".$log_file."</i>",
+            throw new o2_exception('Cannot access log file <i>'.$log_file.'</i>',
                                    o2error_IO);
             }
-        if (fwrite($f_local, $tms.": ".jx_encode(print_r($logobj, true))."\n".
+        if (fwrite($f_local, $tms.': '.jx_encode(print_r($logobj, true))."\n".
                    $code) === FALSE) {
-            throw new o2_exception("Cannot write to log file <i>".$log_file."</i>",
+            throw new o2_exception('Cannot write to log file <i>'.$log_file.'</i>',
                                    o2error_IO);
             }
         fclose($f_local);
         }
     if (!$app->mutelog && !$app->rpc_server) {
-        if ($app->runtime->interface == "HTML") {
+        if ($app->runtime->interface == 'HTML') {
             // _____________________________________________________ Create detail DIV ___
             $code = "<div class='jxlogtrace' style='display:none;' id='".$uid."'>".$code.
                     "</div>";
@@ -9021,11 +9030,11 @@ function jxlog($logobj = null) {
                 $_SESSION['o2_app']->js_cache.= $code."\n";
                 }
             else {
-                print "<script> ".$code."</script>\n";
+                print '<script> '.$code."</script>\n";
                 }
             }
         else {
-            print $tms.": ".jx_encode(print_r($logobj, true))."\n";
+            print $tms.': '.jx_encode(print_r($logobj, true))."\n";
             }
         }
 

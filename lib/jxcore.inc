@@ -2875,8 +2875,9 @@ class o2_file {
 
 
     /**
-     * Se già non esiste crea il file fisico per la tabella come definita nel repository.
-     * Con $execute passato a FALSE ritorna lo script di creazione senza eseguirlo.
+     * Creates physical table on database.
+     * If $execute parameter is passed as FALSE then creation script will be returned,
+     * without executing it on database.
      *
      * @param  boolean $execute
      * @return boolean
@@ -3309,8 +3310,8 @@ class o2_file {
             }
         $browser_view->struttura();
         // ________________________________________ Preset variable with COUNT on view ___
-        $browser_prg->contesto['prg§_§var']->imposta('tot_recs',
-                                                     'Total records: '.
+        $browser_prg->contesto[JX_VIRT_VIEW]->imposta('tot_recs',
+                                                      'Total records: '.
                                                      o2format($browser_view->totale_rec(),
                                                               'o2sys_full_number'));
         return true;
@@ -6433,18 +6434,21 @@ class o2def {
     // ======================== DEFINIZIONE DELL'APPLICAZIONE ============================
 
     /**
-     * Definisce un'applicazione per il contesto di interfaccia definito sulla runtime, di
-     * versione $release, e ne assicura la continuità nella sessione.
+     * Defines Application as a Session object, according with the actual execution
+     * context (HTML-UI or batch).
+     * Application object is defined by the application main file (app/htdocs/app.php)
+     * with its release code.
+     * Application release code must match the execution Runtime release code.
      *
-     * @param string $release
+     * @param string $release   Application release code
      */
-    static function app($release = "") {
+    static function app($release = '') {
 
         switch ($GLOBALS['o2_runtime']->interface) {
-            case "HTML":
+            case 'HTML':
                 o2html::app($release);
                 break;
-            case "BAT":
+            case 'BAT':
             default:
                 o2_app::bat_app($release);
                 break;
