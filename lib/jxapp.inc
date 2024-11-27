@@ -32,7 +32,10 @@
  */
 
 // ____________________________________ Constants for internal Win1252 encoded strings ___
-include_once 'jxconts.inc';
+define('JX_DEF_DELIMITER', mb_convert_encoding('§§', 'CP1252'));
+define('JX_VIRT_VIEW',     mb_convert_encoding('prg§_§var', 'CP1252'));
+
+//include_once 'jxconts.inc';
 // ________________________________________________________________ Janox runtime core ___
 include_once 'jxcore.inc';
 // _________________________________________________________________ Environment stuff ___
