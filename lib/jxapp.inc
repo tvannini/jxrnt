@@ -32,8 +32,8 @@
  */
 
 // ____________________________________ Constants for internal Win1252 encoded strings ___
-define('JX_DEF_DELIMITER', mb_convert_encoding('§§', 'CP1252'));
-define('JX_VIRT_VIEW',     mb_convert_encoding('prg§_§var', 'CP1252'));
+define('JX_DEF_DELIMITER', mb_convert_encoding('§§', 'CP1252', 'UTF-8'));
+define('JX_VIRT_VIEW',     mb_convert_encoding('prg§_§var', 'CP1252', 'UTF-8'));
 
 //include_once 'jxconts.inc';
 // ________________________________________________________________ Janox runtime core ___
@@ -8198,6 +8198,11 @@ class o2_inspector {
         $insp = new self;
         $prgs = $insp->get_app_prgs();
         $list = array();
+        // _____________________________________ Needed to macth JX_VIRT_VIEW from PRF ___
+        if (isset($_SESSION['o2_app']) &&
+            ($_SESSION['o2_app']->chr_encoding == 'utf-8')) {
+            $view_name = mb_convert_encoding($view_name, 'CP1252');
+            }
         if ($view_name == JX_VIRT_VIEW) {
             $fields = self::get_prg_variables(file_get_contents($prgs[$prg_name]));
             foreach ($fields as $field_name => $field_model) {
@@ -10587,6 +10592,11 @@ class o2_inspector {
         $ret  = array();
         $prf  = $this->prgs_list[$prg];
         $code = file_get_contents($prf);
+        // _____________________________________ Needed to macth JX_VIRT_VIEW from PRF ___
+        if (isset($_SESSION['o2_app']) &&
+            ($_SESSION['o2_app']->chr_encoding == 'utf-8')) {
+            $view = mb_convert_encoding($view, 'CP1252');
+            }
         // ============================================================= Uses in views ===
         // _____________________________ Used as aggregation (field or target) in view ___
         $uses = self::get_prg_aggregates($code);

@@ -7833,7 +7833,9 @@ function o2_time(){
 function jx_encode($string, $encode = false) {
 
     if (!$encode) {
-        $encode = $_SESSION['o2_app']->chr_encoding;
+        $encode = (isset($_SESSION['o2_app']) ?
+                   $_SESSION['o2_app']->chr_encoding :
+                   'windows-1252'); // _______________________ Probably from JXOB F10 ____
         $forced = false;
         }
     else {
