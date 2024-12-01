@@ -3681,14 +3681,15 @@ class o2_ctrl_listcombo extends o2_ctrl {
 
 
     /**
-     * Imposta il numero di righe del listbox. Se $righe=1 il controllo sarà un combobox
+     * Sets number of rows for the listcombo control.
+     * If $rows=1 then control will be a combobox, else a listbox.
      *
-     * @param  integer $righe
+     * @param  integer $rows
      * @return boolean
      */
-    function righe($righe = 1) {
+    function righe($rows = 1) {
 
-        $this->righe = intval($righe);
+        $this->righe = intval($rows);
         return true;
 
         }
@@ -5411,7 +5412,7 @@ class o2_ctrl_tab extends o2_ctrl {
 
 
     /**
-     * Imposta il messaggio da visualizzare quando nessun record è presente
+     * Imposta il messaggio da visualizzare quando nessun record presente
      *
      * @param  string $message
      * @return boolean
