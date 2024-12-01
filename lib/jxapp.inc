@@ -2005,6 +2005,10 @@ class o2_app {
                     }
                 else {
                     ob_end_clean();
+                    header($_SERVER['SERVER_PROTOCOL'].
+                           ' 503 Application is under maintenance',
+                           true,
+                           503);
                     die('<!DOCTYPE HTML><html><body><center><h1>Access denied</h1><br>'.
                         '<h4>Application is currently under maintenance.<br>'.
                         'Please try again later.</h4></center></body></html>');
