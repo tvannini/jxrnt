@@ -9198,13 +9198,13 @@ class o2_inspector {
                     }
                 // ________________________________________________ Search action name ___
                 $action = self::get_action_before($prf_code, $offset);
-                if (!$ret[$view_name]) {
+                if (!isset($ret[$view_name])) {
                     $ret[$view_name] = array();
                     }
-                if (!$ret[$view_name][$event]) {
+                if (!isset($ret[$view_name][$event])) {
                     $ret[$view_name][$event] = array();
                     }
-                if (!$ret[$view_name][$event][$action]) {
+                if (!isset($ret[$view_name][$event][$action])) {
                     $ret[$view_name][$event][$action] = array();
                     }
                 // ____________________________________________ LOCATE with parameters ___
@@ -9249,13 +9249,13 @@ class o2_inspector {
                 $field_alias = $parts[3][$i][0];
                 // ________________________________________________ Search action name ___
                 $action      = self::get_action_before($prf_code, $offset);
-                if (!$ret[$view_name]) {
+                if (!isset($ret[$view_name])) {
                     $ret[$view_name] = array();
                     }
-                if (!$ret[$view_name][$field_alias]) {
+                if (!isset($ret[$view_name][$field_alias])) {
                     $ret[$view_name][$field_alias] = array();
                     }
-                if (!$ret[$view_name][$field_alias][$action]) {
+                if (!isset($ret[$view_name][$field_alias][$action])) {
                     $ret[$view_name][$field_alias][$action] = array();
                     }
                 $ret[$view_name][$field_alias][$action][$step] = 'UPDATE';

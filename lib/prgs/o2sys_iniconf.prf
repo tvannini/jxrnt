@@ -1157,22 +1157,22 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_4() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_5() {
-
+	
 return (o2val('prg§_§var','set_value') && o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "values"));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_6() {
-
+	
 return (o2val('prg§_§var','selected_word') && !o2exp(5) && !o2val('prg§_§var','wide'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_7() {
-
+	
 return (o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "desc"));
 	} //|o2_fine_exp|
 
@@ -1195,21 +1195,26 @@ return ($word);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_10() {
-	$struct  = o2val('prg§_§var','ini_struct');
-$key     = o2val('prg§_§var','selected_word');
-$rntval  = $struct[$key]["rntval"];
-$default = $struct[$key]["default"];
-if (o2val('prg§_§var','set_value')) {
-   if (isset($struct[$key]["setval"])) {
-      $val = $struct[$key]["setval"];
+	$struct = o2val('prg§_§var','ini_struct');
+$key    = o2val('prg§_§var','selected_word');
+if (isset($struct[$key])) {
+   $rntval  = $struct[$key]["rntval"];
+   $default = $struct[$key]["default"];
+   if (o2val('prg§_§var','set_value')) {
+      if (isset($struct[$key]["setval"])) {
+         $val = $struct[$key]["setval"];
+         }
+      else {
+         $appval = $struct[$key]["appval"];
+         $val    = ($appval !== null ? $appval : ($rntval !== null ? $rntval : $default));
+         }
       }
    else {
-      $appval = $struct[$key]["appval"];
-      $val    = ($appval !== null ? $appval : ($rntval !== null ? $rntval : $default));
+      $val = ($rntval !== null ? $rntval : $default);
       }
    }
 else {
-   $val = ($rntval !== null ? $rntval : $default);
+   $val = false;
    }
 return ($val);
 	} //|o2_fine_exp|
@@ -1222,72 +1227,77 @@ return ($set);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_12() {
-
+	
 return (o2val('prg§_§var','value'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_13() {
-
+	
 return (o2zero('prg§_§var','set_value'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_14() {
-
+	
 return (o2val('prg§_§var','set_value'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_15() {
-
+	
 return (o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default"));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_16() {
-
-return (strpos(o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default"), "\n") !== false);
+	$struct = o2val('prg§_§var','ini_struct');
+$key    = o2val('prg§_§var','selected_word');
+$cond   = false;
+if (isset($struct[$key])) {
+   $cond = strpos($struct[$key]['default'], "\n") !== false;
+   }
+return ($cond);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_17() {
-
+	
 return (o2val('prg§_§var','selected_word') && !o2val('prg§_§var','wide'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_18() {
-
+	
 return (o2val('prg§_§var','selected_word') && o2val('prg§_§var','wide'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_19() {
-
+	
 return (o2val('prg§_§var','selected_word') && !o2exp(5) && o2val('prg§_§var','wide'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_20() {
-
+	
 return (is_numeric(o2val('prg§_§var','ini_struct', o2val('prg§_§var','selected_word'), "default")));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_21() {
-
+	
 return (o2val('prg§_§var','is_number') && !is_numeric(o2val('prg§_§var','value')));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_22() {
-
+	
 return ("Insert a valid number!");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_23() {
-
+	
 return ("");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_24() {
-
+	
 return (o2val('prg§_§var','is_number'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_25() {
-
+	
 return ("alert_msg");
 	} //|o2_fine_exp|
 
@@ -1358,12 +1368,12 @@ return ($struct);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_28() {
-
+	
 return (' jxbtn_save');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_29() {
-
+	
 return (' jxbtn_cancel');
 	} //|o2_fine_exp|
 
@@ -1411,12 +1421,12 @@ return ($struct);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_32() {
-
+	
 return ("ATTENTION!\nActual application configuration file will be overwritten.\nProceed?");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_33() {
-
+	
 return ("Configuration applied.\nRelogin to the application to make changes effective.");
 	} //|o2_fine_exp|
 
@@ -1518,27 +1528,27 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_35() {
-
+	
 return (o2app_dir_home().o2app_name().".ini");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_36() {
-
+	
 return (o2val('prg§_§var','save_as'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_37() {
-
+	
 return (o2app_dir_home().o2val('prg§_§var','file_name').".ini");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_38() {
-
+	
 return (!o2val('prg§_§var','save_as'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_39() {
-
+	
 return (o2val('prg§_§var','create_start'));
 	} //|o2_fine_exp|
 
@@ -1564,50 +1574,57 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_43() {
-
+	
 return (o2app_dir_home());
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_44() {
-
+	
 return ("*");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_45() {
-
+	
 return ("Verify file(s) creation");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_46() {
-	list($title, $body) = explode("\n", o2val('prg§_§var','description'), 2);
-$code = '<center><h4>'.
-        trim($title, " *").'</h4></center><div style="text-align:justify">'.
-        nl2br(trim($body))."</div>";
+	/* $parts[0] = Title 
+   $parts[1] = Body */
+$parts = explode("\n", o2val('prg§_§var','description'), 2);
+if (isset($parts[1])) {   
+   $code = '<center><h4>'.
+        trim($parts[0], ' *').'</h4></center><div style="text-align:justify">'.
+        nl2br(trim($parts[1]))."</div>";
+   }
+else {
+   $code = '';
+   }
 return ( $code);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_47() {
-
+	
 return (o2val('prg§_§var','selected_word'));
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_48() {
-
+	
 return ("disp_area");
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_49() {
-
+	
 return ('hidden');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_50() {
-
+	
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_51() {
-
+	
 return ('nav_big');
 	} //|o2_fine_exp|
 
@@ -1618,7 +1635,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_iniconf_exp_9999() {
-
+	
 return (false);
 	} //|o2_fine_exp|
 ?>

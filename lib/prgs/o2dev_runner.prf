@@ -365,18 +365,23 @@ return ($list);
 function o2dev_runner_exp_16() {
 	$app    = $_SESSION['o2_app'];
 $m_name = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model');
-$model  = $app->maschere[$m_name];
-if ($model->tipo == "L") {
-   $ctrl_type = "c";
-   }
-elseif (is_array($model->valori) && count($model->valori)) {
-   $ctrl_type = "l";
-   }
-elseif ($model->tipo == "S") {
-   $ctrl_type = "s";
+if (isset($app->maschere[$m_name])) {
+   $model = $app->maschere[$m_name];
+   if ($model->tipo == 'L') {
+      $ctrl_type = 'c';
+      }
+   elseif (is_array($model->valori) && count($model->valori)) {
+      $ctrl_type = 'l';
+      }
+   elseif ($model->tipo == 'S') {
+      $ctrl_type = 's';
+      }
+   else {
+      $ctrl_type = 'e';
+      }
    }
 else {
-   $ctrl_type = "e";
+   $ctrl_type = 's';
    }
 return ($ctrl_type);
 	} //|o2_fine_exp|
@@ -410,14 +415,17 @@ return ($model);
 function o2dev_runner_exp_21() {
 	$app    = $_SESSION['o2_app'];
 $m_name = o2val('prg§_§var','params_list', o2val('prg§_§var','param_id'), 'model');
-$model  = $app->maschere[$m_name];
-$len    = $model->dimensione;
 $items  = array();
-if (is_array($model->valori) && count($model->valori)) {
-   foreach ($model->valori as $item) {
-      $items[substr($item, 0, $len)] = $item;
+if (isset($app->maschere[$m_name])) {
+   $model = $app->maschere[$m_name];
+   $len   = $model->dimensione;
+   if (is_array($model->valori) && count($model->valori)) {
+      foreach ($model->valori as $item) {
+         $items[substr($item, 0, $len)] = $item;
+         }
       }
    }
+
 return ($items);
 	} //|o2_fine_exp|
 
