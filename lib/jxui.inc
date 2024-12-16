@@ -3627,15 +3627,15 @@ class o2_ctrl_check extends o2_ctrl {
 class o2_ctrl_listcombo extends o2_ctrl {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $righe       = 1;     /* Rows number: [1]=combobox [>1]=listbox              */
-    public $valori      = 0;     /* Values list in the form ->valori[cod]=[label]       */
-    public $items_view  = null;  /* View name for items retrieving                      */
-    public $items_code  = null;  /* Name of field to use as code in items list          */
-    public $items_desc  = null;  /* Name of field to use as description in items list   */
-    public $zoom_act    = false; /* Activation (zoom) action on control                 */
-    public $untraslate  = false; /* Mark control values to be NOT translated            */
-    public $preset_list = false; /* Preset items to prepend to list from view           */
-    public $error       = false; /* If value in field is not in control values list     */
+    public $righe       = 1;       /* Rows number: [1]=combobox [>1]=listbox            */
+    public $valori      = array(); /* Values list in the form ->valori[cod]=[label]     */
+    public $items_view  = null;    /* View name for items retrieving                    */
+    public $items_code  = null;    /* Name of field to use as code in items list        */
+    public $items_desc  = null;    /* Name of field to use as description in items list */
+    public $zoom_act    = false;   /* Activation (zoom) action on control               */
+    public $untraslate  = false;   /* Mark control values to be NOT translated          */
+    public $preset_list = false;   /* Preset items to prepend to list from view         */
+    public $error       = false;   /* If value in field is not in control values list   */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css         = "o2_ctrl_listcombo"; /* Whole control <SELECT>                */
 
@@ -4723,8 +4723,9 @@ class o2_ctrl_multipage extends o2_ctrl {
 class o2_ctrl_flowbox extends o2_ctrl {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $label = array(); /* Pages labels list in the form:
-                                 ->label[page_index] = [label_text]                     */
+    public $label = array();     /* Pages labels list in the form:
+                                     ->label[page_index] = [label_text]                 */
+    public $pagine          = 1; /* Number of pages                                     */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css   = "o2_ctrl_box_out"; /*                                               */
 
@@ -5022,7 +5023,7 @@ class o2_ctrl_tab extends o2_ctrl {
     /*     ===== PROPERTIES =========================================================== */
     public $colonne        = 0;       /* Actual number of colums                        */
     public $lines_per_row  = 1;       /* Number on HTML lines in each row               */
-    public $norec_msg      = "";      /* Message to display on no record                */
+    public $norec_msg      = '';      /* Message to display on no record                */
     public $row_marker     = true;    /* If is row marker (1st left column) active      */
     public $footer         = false;   /* If tab has footer (at last one column has it)  */
     public $gp_vis_cols    = true;    /* grid-plus change visible columns               */
@@ -5039,6 +5040,8 @@ class o2_ctrl_tab extends o2_ctrl {
     public $form_obj       = null;    /* Reference to obj o2_form containing the table  */
     public $riga_corrente  = false;   /* If rendering current record row                */
     public $view_shared    = false;   /* If used view is shared with other grids ctrls  */
+    public $save_modify    = false;   /* Used to save "modificabile" while rendering    */
+    public $focus          = '';      /* Code to preserve focus in table controls       */
     /**
      * @var o2_ctrl_navigator
      */
@@ -5050,20 +5053,20 @@ class o2_ctrl_tab extends o2_ctrl {
     public $custom_colsord = false;   /* Custom columns order set                       */
     public $pinned_cols    = false;   /* Number of pinned columns                       */
     /*     _____ CSS CLASSES __________________________________________________________ */
-    public $spazio_class   = "o2_tab_space";  /* Whole external assigned space <DIV>    */
-    public $tab_class      = "o2_tab_tab";    /* Whole actually used space <TABLE>      */
-    public $testa_class    = "o2_tab_testa";  /* Column title cell <TH>                 */
-    public $corpo_class    = "o2_tab_corpo";  /* Body cell <TD>                         */
-    public $riga_class     = "o2_tab_riga";   /* Standard body row <TR>                 */
-    public $alt_class      = "o2_tab_alt";    /* Alternate body row <TR>                */
-    public $footer_class   = "o2_tab_foot";   /* Column footer cell <TD>                */
-    public $point_class    = "o2_tab_point";  /* On mouse over body row <TR>            */
-    public $sele_class     = "o2_tab_sele";   /* Current record row <TR>                */
-    public $sort_class     = "o2_tab_sort";   /* Sortable column button <SPAN>          */
-    public $sorta_class    = "o2_tab_sorta";  /* Ascending sorted column button <SPAN>  */
-    public $sortd_class    = "o2_tab_sortd";  /* Descending sorted column button <SPAN> */
-    public $marker_class   = "o2_tab_marker"; /* Row marker object <BUTTON>             */
-    public $fcol_class     = "o2_tab_fcol";   /* Row marker cell <TD>                   */
+    public $spazio_class   = 'o2_tab_space';  /* Whole external assigned space <DIV>    */
+    public $tab_class      = 'o2_tab_tab';    /* Whole actually used space <TABLE>      */
+    public $testa_class    = 'o2_tab_testa';  /* Column title cell <TH>                 */
+    public $corpo_class    = 'o2_tab_corpo';  /* Body cell <TD>                         */
+    public $riga_class     = 'o2_tab_riga';   /* Standard body row <TR>                 */
+    public $alt_class      = 'o2_tab_alt';    /* Alternate body row <TR>                */
+    public $footer_class   = 'o2_tab_foot';   /* Column footer cell <TD>                */
+    public $point_class    = 'o2_tab_point';  /* On mouse over body row <TR>            */
+    public $sele_class     = 'o2_tab_sele';   /* Current record row <TR>                */
+    public $sort_class     = 'o2_tab_sort';   /* Sortable column button <SPAN>          */
+    public $sorta_class    = 'o2_tab_sorta';  /* Ascending sorted column button <SPAN>  */
+    public $sortd_class    = 'o2_tab_sortd';  /* Descending sorted column button <SPAN> */
+    public $marker_class   = 'o2_tab_marker'; /* Row marker object <BUTTON>             */
+    public $fcol_class     = 'o2_tab_fcol';   /* Row marker cell <TD>                   */
 
 
     /**

@@ -44,7 +44,7 @@ $jxrel = "2.9.02";
  *
  * @global string $jxbuilt
  */
-$jxbuilt = "20241202";
+$jxbuilt = "20241216";
 
 /**
  * Start execution time
@@ -58,14 +58,16 @@ $jxtime = microtime(true);
  *
  * @global string $jxsrcname
  */
-$jxsrcname = basename($_SERVER['argv'][0]);
+$jxsrcname = (isset($_SERVER['argv']) ? basename($_SERVER['argv'][0]) : '');
 
 /**
  * If runtime script is called directly from command-line.
  *
  * @global boolean $jxdirect
  */
-$jxdirect = ($_SERVER['argc'] > 0 && $jxsrcname == basename(__FILE__));
+$jxdirect = (isset($_SERVER['argc']) &&
+             ($_SERVER['argc'] > 0) &&
+             ($jxsrcname == basename(__FILE__)));
 
 // _____________________________________________________ Janox runtime for application ___
 include_once 'lib/jxapp.inc';

@@ -822,7 +822,7 @@ class o2_exception extends Exception {
             $this->get_code() != o2error_WARNING) {
             $this->mark_transactions();
             }
-        if ($GLOBALS['jxerrorhide']) {
+        if (isset($GLOBALS['jxerrorhide'])) {
             return;
             }
         $app = $_SESSION['o2_app'];
@@ -1820,10 +1820,12 @@ class o2_maschera {
 class o2_campo {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $file        = ""; /* Table name where field is defined                      */
-    public $nome_fisico = ""; /* Field physical name with delimiters                    */
-    public $phys_name   = ""; /* Field physical name without delimiters                 */
-    public $tipo        = ""; /* Data type: [N|A|L|D|O|S] from mask                     */
+    public $file        = ''; /* Table name where field is defined                      */
+    public $nome_fisico = ''; /* Field physical name with delimiters                    */
+    public $phys_name   = ''; /* Field physical name without delimiters                 */
+    public $tipo        = ''; /* Data type: [N|A|L|D|O|S] from mask                     */
+    public $name        = ''; /* Logical name (used when field is a key segment)        */
+
     /**
      * @var o2_maschera
      */
@@ -8464,18 +8466,20 @@ function read_func_def($text) {
         // _________________________________________________ Get "@package" tag values ___
         $matches = array();
         preg_match_all('/\s*\*\s*\@package\s*(\w+)/s', $desc[$index], $matches);
-        $package = $matches[1][0];
+        $package = (isset($matches[1][0]) ? $matches[1][0] : '');
         // __________________________________________________ Get "@return" tag values ___
         $matches = array();
         preg_match_all('/\s*\*\s*\@return\s*(\w+)/s', $desc[$index], $matches);
-        $return  = $matches[1][0];
+        $return  = (isset($matches[1][0]) ? $matches[1][0] : '');
         // ______________________________________________________ Get description text ___
         $matches = array();
         preg_match_all('/^[^@]*/s', $desc[$index], $matches);
-        $desc_txt = trim(str_replace("*", "", $matches[0][0]), "\n");
-        $manual   = "";
+        $desc_txt = trim(str_replace('*',
+                                     '',
+                                     (isset($matches[0][0]) ? $matches[0][0] : '')),
+                                     "\n");
+        $manual   = '';
         $feed     = false;
-        $indent   = 0;
         $lastfree = 0;
         // ________________________________ Loop on description lines to get linefeeds ___
         foreach (explode("\n", $desc_txt) as $desc_line) {
@@ -8487,8 +8491,8 @@ function read_func_def($text) {
                 $feed   = true;
                 }
             // __________________________________________________ Get line indentation ___
-            if ($feed && strspn($desc_line, " ")) {
-                $manual.= " ";
+            if ($feed && strspn($desc_line, ' ')) {
+                $manual.= ' ';
                 }
             // _______________________________________________ Get trailing free space ___
             $lastfree = 86 - strlen(rtrim($desc_line));
@@ -8499,11 +8503,11 @@ function read_func_def($text) {
                 }
             // _____________________________________ Add feed to lines ending with "." ___
             elseif (strspn(substr($desc_line, -1), ".!?")) {
-                $desc_line = trim(preg_replace("/\s+/", " ", $desc_line))."\n";
+                $desc_line = trim(preg_replace('/\s+/', ' ', $desc_line))."\n";
                 $feed      = true;
                 }
             else {
-                $desc_line = trim(preg_replace("/\s+/", " ", $desc_line))." ";
+                $desc_line = trim(preg_replace('/\s+/', ' ', $desc_line)).' ';
                 $feed      = false;
                 }
             $manual.= $desc_line;
@@ -8517,23 +8521,23 @@ function read_func_def($text) {
         $par_descs = array();
         $counter   = 0;
         if (count($matches[1])) {
-            $par_name = "";
-            $par_type = "";
+            $par_name = '';
+            $par_type = '';
             foreach ($matches[1] as $single_par) {
                 // ___________ Sometimes type comes before param name, sometimes after ___
-                if (strpos($matches[2][$counter], "$") !== false) {
+                if (strpos($matches[2][$counter], '$') !== false) {
                     $par_name = $matches[2][$counter];
                     $par_type = $single_par;
                     }
                 else {
-                    $par_name = (strpos($single_par, "$") !== false ? "" : "$").
+                    $par_name = (strpos($single_par, '$') !== false ? '' : '$').
                                 $single_par;
                     $par_type = $matches[2][$counter];
                     }
                 if ($par_name) {
                     $params[$par_name]    = $par_type;
                     $par_descs[$par_name] = trim(preg_replace('/\s\s+/', ' ',
-                                            str_replace("*", "", $matches[3][$counter])));
+                                            str_replace('*', '', $matches[3][$counter])));
                     }
                 $counter++;
                 }
@@ -8548,17 +8552,17 @@ function read_func_def($text) {
             foreach ($matches[1] as $single_tag) {
                 // ________________ Each @see tag can have more comma separated values ___
                 foreach (explode(",", $single_tag) as $single_see) {
-                    $related[] = trim(str_replace("*", "", $single_see));
+                    $related[] = trim(str_replace('*', '', $single_see));
                     }
                 $counter++;
                 }
             }
-        $ret[$single_func] = array("group"  => $package,
-                                   "return" => $return,
-                                   "params" => $params,
-                                   "pdesc"  => $par_descs,
-                                   "desc"   => $manual,
-                                   "see"    => $related);
+        $ret[$single_func] = array('group'  => $package,
+                                   'return' => $return,
+                                   'params' => $params,
+                                   'pdesc'  => $par_descs,
+                                   'desc'   => $manual,
+                                   'see'    => $related);
         }
     return $ret;
 

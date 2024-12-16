@@ -550,7 +550,7 @@ class o2html {
         $app = $_SESSION['o2_app'];
         // ____________________________________________________________ Accordion menu ___
         if ($app->menu_style == 'A') {
-            return o2html::menu_accordion($o2ctrl_obj);
+            return o2html::menu_accordion();
             }
         $menu_name = $app->menu_attivo;
         $with_list = ($app->profiling == "M" || $app->profiling == "B");
@@ -3391,7 +3391,7 @@ class o2html {
                 $o2ctrl_obj->internal_nav->disegna();
                 print "</div>";
                 }
-            $o2ctrl_obj->fill_rows = ($view->righe_vis - $view_recs);
+            $fill_rows = ($view->righe_vis - $view_recs);
             // ______________________________ In case of "refresh" scroll is not reset ___
             if ($o2ctrl_obj->view_obj->relocated &&
                 $o2ctrl_obj->view_obj->relocated !== "refresh") {
@@ -3405,7 +3405,7 @@ class o2html {
                 $vscroll = $o2ctrl_obj->vscroll;
                 }
             print "</div>\n<script> o2jse.tab.set(\"".$html_name."\",".
-                  $o2ctrl_obj->fill_rows.",".$hscroll.",".$vscroll.",".
+                  $fill_rows.",".$hscroll.",".$vscroll.",".
                   ($active_form && isset($o2ctrl_obj->focus) ? $o2ctrl_obj->focus : '""').
                   "); </script>\n<!-- table end -->\n";
             $o2ctrl_obj->view_obj->relocated = false;

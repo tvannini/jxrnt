@@ -479,14 +479,14 @@ class o2_prg {
             if ($app->runtime->interface == 'HTML') {
                 if ($GLOBALS['jxjs']) {
                     foreach ($this->contesto as $view) {
-                        if ($view->nome != JX_VIRT_VIEW &&
-                            !$view->sele_by_table &&
-                            !$view->snapshot_src) {
-                            $name  = $view->nome.'_vs'.$this->id;
-                            $value = $view->selezione + 1;
-                            print "jxv('".$name."',".$value.");\n";
+                        if ($view->nome != JX_VIRT_VIEW) {
+                            if (!$view->sele_by_table && !$view->snapshot_src) {
+                                $name  = $view->nome.'_vs'.$this->id;
+                                $value = $view->selezione + 1;
+                                print "jxv('".$name."',".$value.");\n";
+                                }
+                            $view->sele_by_table = false;
                             }
-                        $view->sele_by_table = false;
                         }
                     }
                 else {
@@ -1923,21 +1923,21 @@ class o2_dbview extends o2_view {
                 }
             // __________________________________________________ User global settings ___
            elseif (is_array($prg->custom_grids) &&
-                   $prg->custom_grids[$this->nome]["R"][""]) {
+                   isset($prg->custom_grids[$this->nome]['R'][''])) {
                 $this->righe_vis_ori = $this->righe_vis;
-                $this->user_rows     = $prg->custom_grids[$this->nome]["R"][""];
+                $this->user_rows     = $prg->custom_grids[$this->nome]['R'][''];
                 $this->righe_vis     = $this->user_rows;
                 }
             // ___________________ Composizione delle SELECT e calcolo del batch chunk ___
             $this->select_str = array();
             $record_size      = 0;
             $file_type        = $this->file->db->server->type;
-            $c_o              = constant("o2_".$file_type."_o");
-            $c_c              = constant("o2_".$file_type."_c");
+            $c_o              = constant('o2_'.$file_type.'_o');
+            $c_c              = constant('o2_'.$file_type.'_c');
             // ___________________________ Add O2ASPID field for main table, if needed ___
             if ($this->files[$this->file->indice]->asp == 'C') {
                 $this->select_str[$this->file->indice] = $c_o.$this->file->indice.$c_c.
-                                                         ".O2ASPID";
+                                                         '.O2ASPID';
                 }
             foreach ($this->campi as &$singolo_campo) {
                 if (!isset($this->select_str[$singolo_campo->file])) {
@@ -1948,13 +1948,13 @@ class o2_dbview extends o2_view {
                     $record_size+= min(256, $singolo_campo->maschera->dimensione);
                     }
                 $file_type = $this->files[$singolo_campo->file]->db->server->type;
-                $c_o       = constant("o2_".$file_type."_o");
-                $c_c       = constant("o2_".$file_type."_c");
-                $comma     = ($this->select_str[$singolo_campo->file] ? "," : "");
+                $c_o       = constant('o2_'.$file_type.'_o');
+                $c_c       = constant('o2_'.$file_type.'_c');
+                $comma     = ($this->select_str[$singolo_campo->file] ? ',' : '');
                 // ______________________________________________ SQL formula (CONCAT) ___
                 if ($singolo_campo->formula) {
                     $this->select_str[$singolo_campo->file].= $comma.
-                                                              $singolo_campo->formula." ".
+                                                              $singolo_campo->formula.' '.
                                                               $c_o.$singolo_campo->nome.
                                                               $c_c;
                     }
@@ -1962,9 +1962,9 @@ class o2_dbview extends o2_view {
                 else {
                     $this->select_str[$singolo_campo->file].= $comma.
                                                               $c_o.$singolo_campo->file.
-                                                              $c_c.".".
+                                                              $c_c.'.'.
                                                               $singolo_campo->nome_fisico.
-                                                              " ".$c_o.
+                                                              ' '.$c_o.
                                                               $singolo_campo->nome.$c_c;
                     }
                 }
@@ -1977,8 +1977,8 @@ class o2_dbview extends o2_view {
             $this->structured = true;
             }
         else {
-            throw new o2_exception("Cannot find definition for view <i>".
-                                   $this->nome."</i>",
+            throw new o2_exception('Cannot find definition for view <i>'.
+                                   $this->nome.'</i>',
                                    o2error_MISSINGDEF);
             }
 

@@ -755,7 +755,7 @@ class o2_app {
                          $values);
             }
         // __________________________________ Hide duplicated key errors on access-log ___
-        catch (Exception $e) {
+        catch (o2_exception $e) {
             o2_exception::warning('Access-log duplicated entry:<br>Log type: '.$type.
                                   '<br>Timestamp: '.$timestamp.
                                   '<br>Session ID: '.$sess_id.
@@ -2097,9 +2097,9 @@ class o2_app {
         $users  = $this->get_table('o2_users');
         $db     = $users->db;
         $server = $db->server;
-        $co     = constant("o2_".$server->type."_o");
-        $cc     = constant("o2_".$server->type."_c");
-        $select = $users->campi['o2password']->nome_fisico.' '.$co."PASSWORD".$cc;
+        $co     = constant('o2_'.$server->type.'_o');
+        $cc     = constant('o2_'.$server->type.'_c');
+        $select = $users->campi['o2password']->nome_fisico.' '.$co.'PASSWORD'.$cc;
         $where  = $users->campi['o2user']->nome_fisico."='".$user."'";
         $list   = o2_gateway::recordset($server->type,
                                         $server->server,
@@ -2113,7 +2113,7 @@ class o2_app {
                                         $where,
                                         false,
                                         1);
-        return $list[0]["PASSWORD"];
+        return (isset($list[0]) ? $list[0]['PASSWORD'] : '');
 
         }
 
@@ -8616,21 +8616,21 @@ class o2_inspector {
                 $tab_alias    = $parts[3][$i];
                 $field_name   = $parts[4][$i];
                 $field_alias  = $parts[2][$i];
-                $field_min    = (strpos($parts[5][$i], "_exp_") !== false);
-                $field_max    = (strpos($parts[6][$i], "_exp_") !== false);
-                $field_not    = (strpos($parts[7][$i], "_exp_") !== false);
-                $field_like   = (strpos($parts[8][$i], "_exp_") !== false);
-                if (!$ret[$tab_view]) {
+                $field_min    = (strpos($parts[5][$i], '_exp_') !== false);
+                $field_max    = (strpos($parts[6][$i], '_exp_') !== false);
+                $field_not    = (strpos($parts[7][$i], '_exp_') !== false);
+                $field_like   = (strpos($parts[8][$i], '_exp_') !== false);
+                if (!isset($ret[$tab_view])) {
                     $ret[$tab_view] = array();
                     }
-                if (!$ret[$tab_view][$tab_alias]) {
+                if (!isset($ret[$tab_view][$tab_alias])) {
                     $ret[$tab_view][$tab_alias] = array();
                     }
-                $field = array("alias" => $field_alias,
-                               "min"   => $field_min,
-                               "max"   => $field_max,
-                               "not"   => $field_not,
-                               "like"  => $field_like);
+                $field = array('alias' => $field_alias,
+                               'min'   => $field_min,
+                               'max'   => $field_max,
+                               'not'   => $field_not,
+                               'like'  => $field_like);
                 $ret[$tab_view][$tab_alias][$field_name] = $field;
                 }
             }

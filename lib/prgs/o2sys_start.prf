@@ -277,23 +277,28 @@ function o2sys_start§§session_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_start§§start_act(&$o2exe) {
-	$o2exe->s(1) && True && o2act::set("prg§_§var", "now", o2sys_start_exp_16()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_1()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::set("prg§_§var", "otp_code", o2sys_start_exp_73()) && $o2exe->e();
-//	$o2exe->s(4) && True && o2act::remark("---------------------------------------- Verify login") && $o2exe->e();
-	$o2exe->s(5) && (o2sys_start_exp_19() || $o2exe->e()) && o2act::exe("login", True, "") && $o2exe->e();
-//	$o2exe->s(6) && True && o2act::remark("---------------------------------------- Register session") && $o2exe->e();
-	$o2exe->s(7) && True && o2act::exe("session", True, "") && $o2exe->e();
-//	$o2exe->s(8) && True && o2act::remark("---------------------------------------- Commit all") && $o2exe->e();
-	$o2exe->s(9) && True && o2act::script(o2sys_start_exp_47()) && $o2exe->e();
-//	$o2exe->s(10) && True && o2act::remark("---------------------------------------- Load options") && $o2exe->e();
-	$o2exe->s(11) && True && o2act::exe("load_options", True, "") && $o2exe->e();
-	$o2exe->s(12) && True && o2act::ret(1, o2sys_start_exp_5()) && $o2exe->e();
-	$o2exe->s(13) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
-	$o2exe->s(14) && (o2sys_start_exp_58() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
-	$o2exe->s(15) && True && o2act::exe("load_logged", True, "") && $o2exe->e();
-//	$o2exe->s(16) && True && o2act::remark("Log login access event") && $o2exe->e();
-	$o2exe->s(17) && (o2sys_start_exp_64() || $o2exe->e()) && o2act::script(o2sys_start_exp_65()) && $o2exe->e();
+//	$o2exe->s(1) && True && o2act::remark("Preset return values") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::ret(1, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::ret(3, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::ret(4, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::ret(5, o2sys_start_exp_5()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::ret(6, o2sys_start_exp_35()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "now", o2sys_start_exp_16()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_1()) && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "otp_code", o2sys_start_exp_73()) && $o2exe->e();
+//	$o2exe->s(11) && True && o2act::remark("---------------------------------------- Verify login") && $o2exe->e();
+	$o2exe->s(12) && (o2sys_start_exp_19() || $o2exe->e()) && o2act::exe("login", True, "") && $o2exe->e();
+//	$o2exe->s(13) && True && o2act::remark("---------------------------------------- Register session") && $o2exe->e();
+	$o2exe->s(14) && True && o2act::exe("session", True, "") && $o2exe->e();
+//	$o2exe->s(15) && True && o2act::remark("---------------------------------------- Commit all") && $o2exe->e();
+	$o2exe->s(16) && True && o2act::script(o2sys_start_exp_47()) && $o2exe->e();
+//	$o2exe->s(17) && True && o2act::remark("---------------------------------------- Load options") && $o2exe->e();
+	$o2exe->s(18) && True && o2act::exe("load_options", True, "") && $o2exe->e();
+	$o2exe->s(19) && (o2sys_start_exp_58() || $o2exe->e()) && o2act::exe("load_rights", True, "") && $o2exe->e();
+	$o2exe->s(20) && True && o2act::exe("load_logged", True, "") && $o2exe->e();
+//	$o2exe->s(21) && True && o2act::remark("Log login access event") && $o2exe->e();
+	$o2exe->s(22) && (o2sys_start_exp_64() || $o2exe->e()) && o2act::script(o2sys_start_exp_65()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§terminal_id_act(&$o2exe) {
@@ -305,12 +310,12 @@ function o2sys_start§§terminal_id_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_start_exp_1() {
-
+	
 return (o2app_user());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_2() {
-
+	
 return ('root');
 	} //|o2_fine_exp|
 
@@ -338,37 +343,37 @@ return ($correct);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_4() {
-
+	
 return (o2app_sid());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_5() {
-
+	
 return (array());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_6() {
-
+	
 return (date("Ymd", intval(o2val('prg§_§var','now'))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_7() {
-
+	
 return (date("His", intval(o2val('prg§_§var','now'))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_8() {
-
+	
 return (date("Ymd", intval(o2val('prg§_§var','expire'))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_9() {
-
+	
 return (date("His", intval(o2val('prg§_§var','expire'))));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_10() {
-
+	
 return (o2app_user() == 'root' && !o2view_rec("root_lookup"));
 	} //|o2_fine_exp|
 
@@ -402,12 +407,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_12() {
-
+	
 return (o2val('prg§_§var','login_correct'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_13() {
-
+	
 return (o2val('prg§_§var','login_type') == 'STD');
 	} //|o2_fine_exp|
 
@@ -420,12 +425,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_15() {
-
+	
 return (!o2val('prg§_§var','login_correct'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_16() {
-
+	
 return (time());
 	} //|o2_fine_exp|
 
@@ -447,32 +452,32 @@ return ($expire);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_18() {
-
+	
 return (false);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_19() {
-
+	
 return (o2app_validate());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_20() {
-
+	
 return (o2val('prg§_§var','lookup_user'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_21() {
-
+	
 return (o2val('users','area'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_22() {
-
+	
 return ("");
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_23() {
-
+	
 return (o2app_user() == 'jxsys' && !o2view_rec("jxsys_lookup"));
 	} //|o2_fine_exp|
 
@@ -487,7 +492,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_26() {
-
+	
 return ('jxsys');
 	} //|o2_fine_exp|
 
@@ -537,12 +542,12 @@ return ($cond);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_29() {
-
+	
 return (o2app_name());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_30() {
-
+	
 return (o2val('roles','role_name'));
 	} //|o2_fine_exp|
 
@@ -552,7 +557,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_32() {
-
+	
 return ('10000000');
 	} //|o2_fine_exp|
 
@@ -563,12 +568,12 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_34() {
-
+	
 return (o2val('prg§_§var','roles'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_35() {
-
+	
 return (0);
 	} //|o2_fine_exp|
 
@@ -578,52 +583,52 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_37() {
-
+	
 return (o2val('prg§_§var','terminal_id'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_38() {
-
+	
 return ('100000');
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_39() {
-
+	
 return ('01000000');
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_40() {
-
+	
 return (!o2view_rec("sessions"));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_41() {
-
+	
 return (isset($_COOKIE) && count($_COOKIE));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_42() {
-
+	
 return (o2val('terminals','terminal_id'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_43() {
-
+	
 return (in_array(o2val('terminals','sid'), $_COOKIE));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_44() {
-
+	
 return (o2zero('prg§_§var','terminal_id'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_45() {
-
+	
 return (mt_rand(0, 999999));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_46() {
-
+	
 return (o2zero('users','expire_date') || (o2val('users','expire_date') > date('Ymd', intval(o2val('prg§_§var','now')))));
 	} //|o2_fine_exp|
 
@@ -640,7 +645,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_48() {
-
+	
 return (o2val('prg§_§var','login_type') == 'LDAP');
 	} //|o2_fine_exp|
 
@@ -747,7 +752,7 @@ return ($correct);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_50() {
-
+	
 return (md5($_REQUEST['password']));
 	} //|o2_fine_exp|
 
@@ -788,7 +793,7 @@ return ($type);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_52() {
-
+	
 return ((o2rnt_interface() == 'BAT') && o2app_user() && o2val('users','o2user'));
 	} //|o2_fine_exp|
 
@@ -805,17 +810,17 @@ return ($user);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_54() {
-
+	
 return (o2val('prg§_§var','user_name'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_55() {
-
+	
 return (!o2val('prg§_§var','login_correct') && (strpos(o2val('prg§_§var','user_name'), '@') !== false));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_56() {
-
+	
 return (substr(o2val('prg§_§var','user_name'), 0, strpos(o2val('prg§_§var','user_name'), '@')));
 	} //|o2_fine_exp|
 
@@ -852,22 +857,22 @@ return ($f);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_58() {
-
+	
 return (o2app_user() != "root" && o2app_user() != "jxsys");
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_59() {
-
+	
 return (o2app_runmode());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_60() {
-
+	
 return (o2app_host());
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_61() {
-
+	
 return ('010000');
 	} //|o2_fine_exp|
 
@@ -885,12 +890,12 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_63() {
-
+	
 return ((o2val('sessions','run_mode') == 'WEB') && $_SESSION['o2_app']->keep_alive);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_64() {
-
+	
 return ($_SESSION['o2_app']->access_log);
 	} //|o2_fine_exp|
 
@@ -905,7 +910,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_67() {
-
+	
 return ((o2app_validate() == 1) && ($_SESSION['o2_app']->access_log == 2));
 	} //|o2_fine_exp|
 
@@ -926,32 +931,32 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_69() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_70() {
-
+	
 return (o2app_user() == 'root' || o2app_user() == 'jxsys');
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_71() {
-
+	
 return (o2val('prg§_§var','otp_code'));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_72() {
-
+	
 return (intval(o2val('prg§_§var','now')) - $_SESSION['o2_app']->otp_time);
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_73() {
-
+	
 return ((isset($_REQUEST['jxotp']) ? md5(strtoupper($_REQUEST['jxotp'])) : ''));
 	} //|o2_fine_exp|
 
 function o2sys_start_exp_74() {
-
+	
 return (!o2zero('prg§_§var','otp_code') && o2view_rec('otp'));
 	} //|o2_fine_exp|
 
