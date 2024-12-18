@@ -410,7 +410,7 @@ return ($list);
 
 function o2sys_fs_browser_exp_2() {
 	
-return (urldecode($_REQUEST['extp_1']));
+return (urldecode(o2_reqpar(1)));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_3() {
@@ -657,11 +657,11 @@ return (o2zero('prg§_§var','files_filter'));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_27() {
-	foreach (o2val('prg§_§var','uploaded_file') as $single_file) {
-   if (file_exists($single_file['nome_completo'])) {
-      rename($single_file['nome_completo'],
-             o2val('prg§_§var','folder_path').DIRECTORY_SEPARATOR.
-             $single_file['nome_originale']);
+	foreach (o2val('prg§_§var','uploaded_file') as $file) {
+   $file_name = $file['nome'].($file['ext'] ? '.'.$file['ext'] : '');
+   if (file_exists($file['nome_completo'])) {
+      rename($file['nome_completo'],
+             o2val('prg§_§var','folder_path').DIRECTORY_SEPARATOR.$file_name);
       }
    }
 return (true);
@@ -679,7 +679,7 @@ return ($text);
 
 function o2sys_fs_browser_exp_30() {
 	
-return (o2_path(urldecode($_REQUEST['extp_1'])));
+return (o2_path(o2val('prg§_§var','file_name')));
 	} //|o2_fine_exp|
 
 function o2sys_fs_browser_exp_31() {

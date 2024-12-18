@@ -2,7 +2,7 @@
 
 /**
  * Janox SQL
- * PHP5
+ * PHP7/8
  *
  *
  * This file is part of Janox.

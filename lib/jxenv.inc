@@ -2,7 +2,7 @@
 
 /**
  * Janox Environment Module
- * PHP5
+ * PHP7/8
  *
  *
  * This file is part of Janox.
@@ -1659,6 +1659,43 @@ class o2_view {
     /*     _____ INTERNAL FLAGS _______________________________________________________ */
     public $status        = "M";     /* Behaviour status: [I]nsert [D]elete [M]odify    */
     public $modificato    = false;   /* If current record has been modified             */
+
+
+    /**
+     * Returns value of $field_name field in the current record
+     *
+     * NOTE: This method must be overridden in extended classes
+     *
+     * @param  string $field_name
+     * @return string
+     */
+
+     function campo($field_name) {
+
+        throw new o2_exception('Method "campo" called on base class "o2_view" object',
+                               o2error_EXECUTION);
+        return '';
+
+        }
+
+
+    /**
+     * Returns reference to "o2_campo_object" in the view.
+     * Mostly used to bind field to a form-control.
+     *
+     * NOTE: This method must be overridden in extended classes
+     *
+     * @param  string $nome_campo
+     * @return o2_campo_task
+     */
+    function campo_per_controllo($nome_campo) {
+
+        throw new o2_exception('Method "campo_per_controllo" called on base class '.
+                               '"o2_view" object',
+                               o2error_EXECUTION);
+        return null;
+
+        }
 
 
     /**
@@ -3691,12 +3728,10 @@ class o2_dbview extends o2_view {
                  */
                 elseif (!$this->no_fetch) {
                     $view_id = $this->nome.$this->id_esecuzione;
-                    if (isset($GLOBALS['o2_'.$view_obj->file->db->server->type.'_stms']
-                                      [$view_id])) {
-                        $GLOBALS['o2_'.$view_obj->file->db->server->type.'_stms']
-                                [$view_id]->closeCursor();
-                        unset($GLOBALS['o2_'.$view_obj->file->db->server->type.'_stms']
-                                      [$view_id]);
+                    $stms    = 'o2_'.$this->file->db->server->type.'_stms';
+                    if (isset($GLOBALS[$stms][$view_id])) {
+                        $GLOBALS[$stms][$view_id]->closeCursor();
+                        unset($GLOBALS[$stms][$view_id]);
                         }
                     $this->no_fetch = true;
                     }
@@ -6089,7 +6124,8 @@ class o2_dbview extends o2_view {
                     }
                 // ____________ Verify if current record is in INSERT mode or modified ___
                 elseif (($this->status == "I" || $this->modificato) &&
-                         $this->corrente !== $this->verified[$main_file]) {
+                        (isset($this->verified[$main_file]) &&
+                         ($this->corrente !== $this->verified[$main_file]))) {
                     $this->verifica_record($this->selezione);
                     $this->verified[$main_file] = $this->corrente;
                     }
@@ -6636,7 +6672,7 @@ class o2_dbview extends o2_view {
         else {
             $snps_view->chiavi_in_uso = array($table->indice => $table->chiave->nome);
             }
-        // ____ If original view had a grid elector replicate formula in snapshot view ___
+        // ___ If original view had a grid selector replicate formula in snapshot view ___
         if ($table->snp_selector) {
             $snps_view->formule[$table->snp_selector->nome] = $table->snp_selector;
             }
@@ -7062,7 +7098,7 @@ class o2_virtualview extends o2_view {
      * @param  string $nome_campo
      * @return o2_campo
      */
-    function &campo_per_controllo($nome_campo) {
+    function campo_per_controllo($nome_campo) {
 
         $nome_campo = strtoupper($nome_campo);
         if (key_exists($nome_campo, $this->variabili)) {
@@ -7182,7 +7218,7 @@ class o2_virtualview extends o2_view {
         $field = strtoupper($field);
         return (!is_null($this->precedente[$field]) ?
                 $this->precedente[$field] :
-                $this->campi[$field]->maschera->default);
+                $this->campo_per_controllo($field)->maschera->default);
 
         }
 

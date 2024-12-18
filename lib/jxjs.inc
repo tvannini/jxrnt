@@ -2,7 +2,7 @@
 
 /**
  * Janox JavaScript Based Controls Module
- * PHP5 - HTML4.01 - JavaScript1.2
+ * PHP7/8 - HTML4.01 - JavaScript1.2
  *
  *
  * This file is part of Janox.

@@ -2,7 +2,7 @@
 
 /**
  * Janox Application Main Script
- * PHP5
+ * PHP7/8
  *
  * This PHP script  file  is  part  of  an  application  realized  under
  * Janox architecture, the full cross-tech development suite.

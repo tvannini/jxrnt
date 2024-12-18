@@ -2,7 +2,7 @@
 
 /**
  * Janox SQLITE 3 Database Gateway
- * PHP5
+ * PHP7/8
  *
  *
  * This file is part of Janox architecture.

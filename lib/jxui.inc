@@ -2,7 +2,7 @@
 
 /**
  * Janox User Interface Module
- * PHP5
+ * PHP7/8
  *
  *
  * This file is part of Janox.
@@ -1747,6 +1747,7 @@ class o2_ctrl {
     public $forza_submit    = false;   /* If to return to server on control change      */
     public $azione_submit   = "";      /* Action to be executed on control change       */
     public $confirm_message = "";      /* Client side confirm message text              */
+    public $zoom_act        = false;   /* Activation (zoom) action on control           */
     /*     _____ CSS WHOLE CLASS ______________________________________________________ */
     public $css             = false;   /* Whole control main class                      */
 
@@ -1802,10 +1803,10 @@ class o2_ctrl {
                         $vars   = explode($sep, $mask->expression);
                         $vars_n = count($vars);
                         for ($i = 0; $i < $vars_n; $i++) {
-                            $vars[$i] = "\$".$vars[$i];
+                            $vars[$i] = '$'.$vars[$i];
                             }
-                        eval('list('.implode(',',$vars).
-                             ", \$dv1, \$dv2, \$dv3) = explode(\$sep, \$this->valore);");
+                        eval('list('.implode(',',$vars).', $dv1, $dv2, $dv3) = '.
+                             'array_pad(explode($sep, $this->valore), 6, "");');
                         if (strlen($y) == 2) {
                             if ($d != '00' && $m != '00') {
                                 $y = '20'.$y;
@@ -1836,10 +1837,11 @@ class o2_ctrl {
                         $vars   = explode($sep, $mask->expression);
                         $vars_n = count($vars);
                         for ($i = 0; $i < $vars_n; $i++) {
-                            $vars[$i] = "\$".$vars[$i];
+                            $vars[$i] = '$'.$vars[$i];
                             }
+                        $sep = $this->maschera->separatore;
                         eval('list('.implode(',',$vars).') = '.
-                             "explode(\$this->maschera->separatore, \$this->valore);");
+                             'array_pad(explode($sep, $this->valore), 3, "");');
                              $sql_valore_local = $h.$m.$s;
                         }
                      else {
@@ -3312,7 +3314,6 @@ class o2_ctrl_edit extends o2_ctrl {
 
     /*     ===== PROPERTIES =========================================================== */
     public $password = false; /* If password protected value ("******")                 */
-    public $zoom_act = false; /* Activation (zoom) action on control                    */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css      = "o2_ctrl_edit"; /* Whole control <INPUT>                         */
 
@@ -3423,7 +3424,6 @@ class o2_ctrl_text extends o2_ctrl {
 
     /*     ===== PROPERTIES =========================================================== */
     public $html     = false; /* If text area is to be displayed as WYSIWYG editor      */
-    public $zoom_act = false; /* Activation (zoom) action on control                    */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css = "o2_ctrl_text"; /* Whole control class <TEXTAREA>                     */
 
@@ -3632,9 +3632,8 @@ class o2_ctrl_listcombo extends o2_ctrl {
     public $items_view  = null;    /* View name for items retrieving                    */
     public $items_code  = null;    /* Name of field to use as code in items list        */
     public $items_desc  = null;    /* Name of field to use as description in items list */
-    public $zoom_act    = false;   /* Activation (zoom) action on control               */
     public $untraslate  = false;   /* Mark control values to be NOT translated          */
-    public $preset_list = false;   /* Preset items to prepend to list from view         */
+    public $preset_list = array(); /* Preset items to prepend to list from view         */
     public $error       = false;   /* If value in field is not in control values list   */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css         = "o2_ctrl_listcombo"; /* Whole control <SELECT>                */
@@ -3956,7 +3955,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
         $items_view       = $prg->contesto[$items_view_name];
         $filter_desc_name = $this->items_desc."_O2LUDESC";
         if ($filter_txt) {
-            if ($items_view->campi[$this->items_desc]) {
+            if (isset($items_view->campi[$this->items_desc])) {
                 $items_desc = $items_view->campi[$this->items_desc];
                 $items_view->campi[$filter_desc_name]       = clone $items_desc;
                 $items_view->campi[$filter_desc_name]->nome = $filter_desc_name;

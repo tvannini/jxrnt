@@ -2,22 +2,22 @@
 
 /**
  * Janox Upgrade Tool
- * PHP5
+ * PHP7/8
  *
  * @name      jxconv
  * @package   janox/bin/jxconv.php
- * @version   3.0
+ * @version   2.9
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
-$jxrel = "3.0";
+$jxrel = '3.0';
 $info  = <<<JANOX_SCRIPT_HEAD
 
                       Janox Upgrade Tool
 
 
-   This file is part of Janox (www.janox.it).
+   This file is part of Janox.
 
     - LICENSE -
 
@@ -54,40 +54,6 @@ $info  = <<<JANOX_SCRIPT_HEAD
 
 JANOX_SCRIPT_HEAD;
 
-// _________________________________________ If aplication file is passed as parameter ___
-if ($_SERVER['argc'] > 1) {
-    // _____________________________________________________ Get application main file ___
-    $app_main = realpath($_SERVER['argv'][1]);
-    // _____________________________________________ If file exists and it is readable ___
-    if (is_file($app_main) && file_exists($app_main) &&
-        $main_text = @file_get_contents($app_main)) {
-        // _______________________________________________________ Get current release ___
-        $rnt_rel  = get_rnt_rel();
-        // _______________________________________ Get application name from main file ___
-        $app_name = preg_replace("/\..*$/i", "", basename($app_main));
-        // _________________________________________________ Get application directory ___
-        $app_dir  = new dir_descriptor(realpath(dirname($app_main).DIRECTORY_SEPARATOR.
-                                                "..".DIRECTORY_SEPARATOR));
-        print "   Processing application ".$app_name." (".$app_dir.")\n";
-        // _______________________________ Get application release from main file text ___
-        $app_rel = get_app_rel($main_text);
-        check_upgrade($rnt_rel, $app_rel);
-        backup_app($app_name, $app_dir, $app_rel);
-        clear_app($app_dir);
-        upgrade_app($app_name, $app_dir, $app_rel);
-        }
-    // _________________________________ If file does not exists or it is not readable ___
-    else {
-        die("\n\nJanox Converter Utility\n=======================\n\nError opening file ".
-            $_SERVER['argv'][1]."\n\n");
-        }
-    }
-// _________________________________________________________ If no parameter is passed ___
-else {
-    // __________________________________________ Output formatted JXConv informations ___
-    die("\n\n".$info."\n\n");
-    }
-
 
 /**
  * Reads runtime release code from jxruntime global object
@@ -96,7 +62,7 @@ else {
  */
 function get_rnt_rel() {
 
-    list($ver, $sub, $rel) = explode(".", $GLOBALS['jxrel'], 3);
+    list($ver, $sub, $rel) = array_pad(explode('.', $GLOBALS['jxrel'], 3), 3, '');
     $ver                   = intval($ver);
     $sub                   = intval($sub);
     $rel                   = intval($rel);;
@@ -115,8 +81,8 @@ function get_rnt_rel() {
 function get_app_rel($text) {
 
     $parts = array();
-    preg_match('/o2def\:\:app\(\"(.*)\"\)\;/', $text, $parts);
-    list($ver, $sub, $rel) = explode(".", $parts[1], 3);
+    preg_match('/o2def\:\:app\([\"\'](.*)[\"\']\)\;/', $text, $parts);
+    list($ver, $sub, $rel) = array_pad(explode('.', $parts[1], 3), 3, '');
     $ver                   = intval($ver);
     $sub                   = intval($sub);
     $rel                   = intval($rel);;
@@ -135,21 +101,21 @@ function get_app_rel($text) {
  */
 function check_upgrade($rel_rnt, $rel_app) {
 
-    $rnt_str = $rel_rnt['ver'].".".$rel_rnt['sub'];
-    $app_str = $rel_app['ver'].".".$rel_app['sub'];
+    $rnt_str = $rel_rnt['ver'].'.'.$rel_rnt['sub'];
+    $app_str = $rel_app['ver'].'.'.$rel_app['sub'];
     // _____________________________________________ Application is newer than runtime ___
     if ($rel_rnt['ver'] < $rel_app['ver'] ||
         ($rel_rnt['ver'] == $rel_app['ver'] && $rel_rnt['sub'] < $rel_app['sub'])) {
-        die("\n   Runtime release ".$rnt_str." - Application release ".$app_str.
+        die("\n   Runtime release ".$rnt_str.' - Application release '.$app_str.
             "\n   NOTHING TO DO: runtime release is older than application release!\n\n");
         }
     elseif ($rel_rnt['ver'] == $rel_app['ver'] && $rel_rnt['sub'] == $rel_app['sub']) {
-        die("\n   Runtime release ".$rnt_str." - Application release ".$app_str.
+        die("\n   Runtime release ".$rnt_str.' - Application release '.$app_str.
             "\n   NOTHING TO DO: application is up to grade with current runtime.\n\n");
         }
     else {
-        print "   Upgrading application from release ".$app_str.
-              " to release ".$rnt_str."\n";
+        print '   Upgrading application from release '.$app_str.
+              ' to release '.$rnt_str."\n";
         }
 
     }
@@ -166,9 +132,9 @@ function check_upgrade($rel_rnt, $rel_app) {
 function backup_app($app_name, $app_dir, $app_rel) {
 
     $app_backup = new dir_descriptor($app_dir->path.DIRECTORY_SEPARATOR.
-                                     $app_name."_".$app_rel['ver']."_".$app_rel['sub']);
+                                     $app_name.'_'.$app_rel['ver'].'_'.$app_rel['sub']);
     $app_dir->copy_to($app_backup);
-    print "   Original application folder has beeen copied to ".$app_backup."\n";
+    print '   Original application folder has beeen copied to '.$app_backup."\n";
 
     }
 
@@ -181,15 +147,14 @@ function backup_app($app_name, $app_dir, $app_rel) {
  */
 function clear_app($app_dir) {
 
-    $dir   = new dir_descriptor($app_dir."prgs/");
+    $dir   = new dir_descriptor($app_dir.'prgs/');
     $files = $dir->get_elements();
-    $prgs  = array();
     // _____________________________________________________ Loop on folder files list ___
     while ($file = array_shift($files)) {
         // ________________________________________________________ Manage sub folders ___
-        if ($file->type == "D") {
+        if ($file->type == 'D') {
             // ________________________________________ Strip "__source__" directories ___
-            if ($file->short_name == "__source__") {
+            if ($file->short_name == '__source__') {
                 $file->remove();
                 }
             // ________________________________________________ Add all others to list ___
@@ -198,7 +163,7 @@ function clear_app($app_dir) {
                 }
             }
         // ______________________________________________________________ Manage files ___
-        elseif ($file->ext == "cds" || $file->ext == "o2bak" || $file->ext == "cache") {
+        elseif ($file->ext == 'cds' || $file->ext == 'o2bak' || $file->ext == 'cache') {
             @unlink($file->full_name);
             }
         }
@@ -217,19 +182,19 @@ function clear_app($app_dir) {
  */
 function upgrade_app($app_name, $app_dir, $app_rel) {
 
-    $new_rel_code = $app_rel['ver'].".".$app_rel['sub'];
-    $app_str      = "to".$app_rel['ver']."_".$app_rel['sub'];
+    $new_rel_code = $app_rel['ver'].'.'.$app_rel['sub'];
+    $app_str      = 'to'.$app_rel['ver'].'_'.$app_rel['sub'];
     print "\n";
     // _____________________________________________ Retrieves available upgrades list ___
-    foreach (get_class_methods("upgrades_collection") as $upgrade_func) {
+    foreach (get_class_methods('upgrades_collection') as $upgrade_func) {
         // __________________________ If application is older than single upgrade step ___
         if ($upgrade_func > $app_str) {
             // ______________________________________________________ New release code ___
             $app_rel_code = $new_rel_code;
             $new_rel_code = preg_replace('/to(\d+)\_(\d+)/', "$1.$2", $upgrade_func);
-            print "   ".$app_rel_code." --> ".$new_rel_code;
+            print '   '.$app_rel_code.' --> '.$new_rel_code;
             // __________________________________ Executes upgrade step on application ___
-            call_user_func(array("upgrades_collection", $upgrade_func),
+            call_user_func(array('upgrades_collection', $upgrade_func),
                            $app_name,
                            $app_dir);
             // ______________________ Writes new release code to application main file ___
@@ -238,7 +203,7 @@ function upgrade_app($app_name, $app_dir, $app_rel) {
             }
         }
     print "\n *** Convertion completed\n     Application ".$app_name.
-          " has been upgraded to release ".$new_rel_code."\n\n\n";
+          ' has been upgraded to release '.$new_rel_code."\n\n\n";
 
     }
 
@@ -252,21 +217,21 @@ function upgrade_app($app_name, $app_dir, $app_rel) {
  */
 function upgrade_main_page($app_name, $app_dir, $app_rel) {
 
-    $main_file = $app_dir.DIRECTORY_SEPARATOR."htdocs".DIRECTORY_SEPARATOR.
-                 $app_name.".php";
-    $new_file  = dirname(__FILE__)."/jxapp.php";
+    $main_file = $app_dir.DIRECTORY_SEPARATOR.'htdocs'.DIRECTORY_SEPARATOR.
+                 $app_name.'.php';
+    $new_file  = dirname(__FILE__).'/jxapp.php';
     // ____________________________________________ Replace old main file with new one ___
     if (file_exists($new_file)) {
         $file_content = file_get_contents($new_file);
         $old_content  = file_get_contents($main_file);
         $parts        = array();
         // _____________________________________________ Check for custom runtime path ___
-        preg_match('/^\s*\$jxrnt\s*=\s*\"([^"]*)\";\s*$/m', $old_content, $parts);
+        preg_match('/^\s*\$jxrnt\s*=\s*[\"\'](.*)[\"\'];\s*$/m', $old_content, $parts);
         $custom_rnt = $parts[1];
         if ($custom_rnt) {
             // ________________________________________ Set custom runtime in new file ___
-            $file_content = preg_replace('/^\s*\$jxrnt\s*=\s*\"([^"]*)\";\s*$/m',
-                                         '$jxrnt = "'.addslashes($custom_rnt).'";'."\n\n",
+            $file_content = preg_replace('/^\s*\$jxrnt\s*=\s*[\"\'](.*)[\"\'];\s*$/m',
+                                         '$jxrnt = \''.addslashes($custom_rnt)."';\n\n",
                                          $file_content);
             }
         }
@@ -275,27 +240,10 @@ function upgrade_main_page($app_name, $app_dir, $app_rel) {
         $file_content = file_get_contents($main_file);
         }
     // __________________________________________________ Replace release in main file ___
-    $file_content = preg_replace('/o2def\:\:app\(\".*\"\)\;/',
-                                 'o2def::app("'.$app_rel.'");',
+    $file_content = preg_replace('/o2def\:\:app\([\"\'].*[\"\']\)\;/',
+                                 "o2def::app('".$app_rel."');",
                                  $file_content);
     file_put_contents($main_file, $file_content);
-
-    }
-
-
-function get_tables_repos($app_name, $app_dir) {
-
-    // __________________________ Read tab-repository file from INI or use default one ___
-    $ini_content = file_get_contents($app_dir.$app_name.".ini");
-    $parts       = array();
-    preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
-    if ($parts[1]) {
-        $tables = $parts[1];
-        }
-    else {
-        $tables = 'file_repository.inc';
-        }
-    return $tables;
 
     }
 
@@ -669,69 +617,78 @@ class upgrades_collection {
      */
     static function to2_2($app_name, $app_dir) {
 
-        $tables = get_tables_repos($app_name, $app_dir);
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
         // ________________________________________________ Get tables definition code ___
-        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'expire_date',
-                                'expire_date',
-                                '_o2date');
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'last_date',
-                                'last_date',
-                                '_o2date');
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'last_time',
-                                'last_time',
-                                '_o2time');
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'login_type',
-                                'login_type',
-                                'o2sys_login_type');
-        $code   = add_tab_field($code,
-                                'o2_sessions',
-                                'terminal_id',
-                                'terminal_id',
-                                'jxterminal_id');
-        $code   = add_tab_index($code,
-                                'o2_sessions',
-                                'upd_desc',
-                                array('a_date' => 'D', 'a_time' => 'D', 'sid' => 'A'));
-        $code   = add_tab_field($code,
-                                'jx_jobs',
-                                'job_service',
-                                'job_service',
-                                'jxservice');
-        $code   = add_tab_field($code,
-                                'jx_running_jobs',
-                                'run_service',
-                                'run_service',
-                                'jxservice');
-        $code   = add_tab_field($code,
-                                'jx_running_jobs',
-                                'run_host',
-                                'run_host',
-                                'jxhost');
-        $code   = add_tab_field($code,
-                                'jx_running_jobs',
-                                'run_at_date',
-                                'run_at_date',
-                                '_o2date');
-        $code   = add_tab_field($code,
-                                'jx_running_jobs',
-                                'run_at_time',
-                                'run_at_time',
-                                '_o2time');
-        $code   = add_tab_field($code,
-                                'jx_running_jobs',
-                                'run_developer',
-                                'run_developer',
-                                '_o2alpha');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'expire_date',
+                              'expire_date',
+                              '_o2date');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'last_date',
+                              'last_date',
+                              '_o2date');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'last_time',
+                              'last_time',
+                              '_o2time');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'login_type',
+                              'login_type',
+                              'o2sys_login_type');
+        $code = add_tab_field($code,
+                              'o2_sessions',
+                              'terminal_id',
+                              'terminal_id',
+                              'jxterminal_id');
+        $code = add_tab_index($code,
+                              'o2_sessions',
+                              'upd_desc',
+                              array('a_date' => 'D', 'a_time' => 'D', 'sid' => 'A'));
+        $code = add_tab_field($code,
+                              'jx_jobs',
+                              'job_service',
+                              'job_service',
+                              'jxservice');
+        $code = add_tab_field($code,
+                              'jx_running_jobs',
+                              'run_service',
+                              'run_service',
+                              'jxservice');
+        $code = add_tab_field($code,
+                              'jx_running_jobs',
+                              'run_host',
+                              'run_host',
+                              'jxhost');
+        $code = add_tab_field($code,
+                              'jx_running_jobs',
+                              'run_at_date',
+                              'run_at_date',
+                              '_o2date');
+        $code = add_tab_field($code,
+                              'jx_running_jobs',
+                              'run_at_time',
+                              'run_at_time',
+                              '_o2time');
+        $code = add_tab_field($code,
+                              'jx_running_jobs',
+                              'run_developer',
+                              'run_developer',
+                              '_o2alpha');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -752,15 +709,24 @@ class upgrades_collection {
      */
     static function to2_3($app_name, $app_dir) {
 
-        $tables = get_tables_repos($app_name, $app_dir);
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
         // ________________________________________________ Get tables definition code ___
-        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code   = add_tab_field($code,
-                                'o2_sessions',
-                                'app_name',
-                                'app_name',
-                                '_o2alpha');
+        $code = add_tab_field($code,
+                              'o2_sessions',
+                              'app_name',
+                              'app_name',
+                              '_o2alpha');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
         // ____________________________ Remove ->wide syntax and replace with ->expand ___
@@ -811,30 +777,39 @@ class upgrades_collection {
      */
     static function to2_4($app_name, $app_dir) {
 
-        $tables = get_tables_repos($app_name, $app_dir);
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
         // ________________________________________________ Get tables definition code ___
-        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'last_pwd_date',
-                                'last_pwd_date',
-                                '_o2date');
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'force_pwd_change',
-                                'force_pwd_change',
-                                '_o2logical');
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'pwds_history',
-                                'pwds_history',
-                                'o2sys_long_str');
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'no_pwd_change',
-                                'no_pwd_change',
-                                '_o2logical');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'last_pwd_date',
+                              'last_pwd_date',
+                              '_o2date');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'force_pwd_change',
+                              'force_pwd_change',
+                              '_o2logical');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'pwds_history',
+                              'pwds_history',
+                              'o2sys_long_str');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'no_pwd_change',
+                              'no_pwd_change',
+                              '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -853,15 +828,24 @@ class upgrades_collection {
      */
     static function to2_5($app_name, $app_dir) {
 
-        $tables = get_tables_repos($app_name, $app_dir);
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
         // ________________________________________________ Get tables definition code ___
-        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'creation_date',
-                                'creation_date',
-                                '_o2date');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'creation_date',
+                              'creation_date',
+                              '_o2date');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -998,15 +982,24 @@ class upgrades_collection {
      */
     static function to2_7($app_name, $app_dir) {
 
-        $tables = get_tables_repos($app_name, $app_dir);
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
         // ________________________________________________ Get tables definition code ___
-        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'admin',
-                                'admin',
-                                '_o2logical');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'admin',
+                              'admin',
+                              '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -1041,20 +1034,29 @@ class upgrades_collection {
      */
     static function to2_9($app_name, $app_dir) {
 
-        $tables = get_tables_repos($app_name, $app_dir);
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if ($parts[1]) {
+            $tables = $parts[1];
+            }
+        else {
+            $tables = 'file_repository.inc';
+            }
         // ________________________________________________ Get tables definition code ___
-        $code   = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
         // ____________________________________________________________ Add new fields ___
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'poweruser',
-                                'poweruser',
-                                '_o2logical');
-        $code   = add_tab_field($code,
-                                'o2_users',
-                                'hidden',
-                                'hidden',
-                                '_o2logical');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'poweruser',
+                              'poweruser',
+                              '_o2logical');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'hidden',
+                              'hidden',
+                              '_o2logical');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 
@@ -1118,15 +1120,15 @@ class upgrades_collection {
 class file_descriptor {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $full_name  = ""; /* Complete element name (path/name.extension)             */
-    public $short_name = ""; /* Element name without path (name.extension)              */
-    public $name       = ""; /* Element base name without path and extension            */
-    public $path       = ""; /* Path (for folder is equal to $full_name)                */
-    public $ext        = ""; /* Extension                                               */
-    public $type       = ""; /* Type [F] = file, [D] = directory                        */
-    public $http_mime  = ""; /* Upload files mime type                                  */
-    public $mod_date   = ""; /* Last modification date                                  */
-    public $mod_time   = ""; /* Last modification time                                  */
+    public $full_name  = ''; /* Complete element name (path/name.extension)             */
+    public $short_name = ''; /* Element name without path (name.extension)              */
+    public $name       = ''; /* Element base name without path and extension            */
+    public $path       = ''; /* Path (for folder is equal to $full_name)                */
+    public $ext        = ''; /* Extension                                               */
+    public $type       = ''; /* Type [F] = file, [D] = directory                        */
+    public $http_mime  = ''; /* Upload files mime type                                  */
+    public $mod_date   = ''; /* Last modification date                                  */
+    public $mod_time   = ''; /* Last modification time                                  */
     public $size       = 0;  /* File size                                               */
 
 
@@ -1139,22 +1141,22 @@ class file_descriptor {
 
         $this->full_name  = (realpath($file) ? realpath($file) : $file);
         $parts            = pathinfo($this->full_name);
-        $this->ext        = (isset($parts['extension']) ? $parts['extension'] : "");
+        $this->ext        = (isset($parts['extension']) ? $parts['extension'] : '');
         $this->short_name = $parts['basename'];
         $this->name       = ($this->ext ?
                              substr($this->short_name, 0, - strlen($this->ext) - 1) :
                              $this->short_name);
         $this->path       = $parts['dirname'].DIRECTORY_SEPARATOR;
         if (is_dir($this->full_name)) {
-            $this->type = "D";
+            $this->type = 'D';
             }
         else {
-            $this->type = "F";
+            $this->type = 'F';
             $this->size = @filesize($this->full_name);
             }
         $timestamp_local = @filemtime($this->full_name);
-        $this->mod_date  = date("Ymd", $timestamp_local);
-        $this->mod_time  = date("His", $timestamp_local);
+        $this->mod_date  = date('Ymd', $timestamp_local);
+        $this->mod_time  = date('His', $timestamp_local);
 
         }
 
@@ -1206,7 +1208,7 @@ class file_descriptor {
 class dir_descriptor extends file_descriptor {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $match  = "*";   /* Filesystem match criteria                                */
+    public $match  = '*';   /* Filesystem match criteria                                */
 
 
     /**
@@ -1216,14 +1218,14 @@ class dir_descriptor extends file_descriptor {
      * @param  string $match
      * @return o2_dir
      */
-    function __construct($dir, $match = "*") {
+    function __construct($dir, $match = '*') {
 
-        $this->type       = "D";
-        $this->match      = ($match != "" ? $match : "*");
-        $dir              = preg_replace("/\\\/", "/", rtrim($dir, " \\/"));
-        $dir              = preg_replace("/\/+/", DIRECTORY_SEPARATOR, $dir);
+        $this->type       = 'D';
+        $this->match      = ($match != '' ? $match : '*');
+        $dir              = preg_replace('/\\\/', '/', rtrim($dir, ' \\/'));
+        $dir              = preg_replace('/\/+/', DIRECTORY_SEPARATOR, $dir);
         $parts            = pathinfo($dir);
-        $this->ext        = (isset($parts['extension']) ? $parts['extension'] : "");
+        $this->ext        = (isset($parts['extension']) ? $parts['extension'] : '');
         $this->short_name = $parts['basename'];
         $this->name       = ($this->ext ?
                              substr($parts['basename'], 0, - strlen($this->ext) - 1) :
@@ -1231,8 +1233,8 @@ class dir_descriptor extends file_descriptor {
         $this->path       = $parts['dirname'].DIRECTORY_SEPARATOR;
         $this->full_name  = $dir.DIRECTORY_SEPARATOR;
         $timestamp        = @filemtime($this->full_name);
-        $this->mod_date   = date("Ymd", $timestamp);
-        $this->mod_time   = date("His", $timestamp);
+        $this->mod_date   = date('Ymd', $timestamp);
+        $this->mod_time   = date('His', $timestamp);
 
         }
 
@@ -1256,7 +1258,7 @@ class dir_descriptor extends file_descriptor {
      * @param  string $match
      * @return array
      */
-    function get_elements($match = "") {
+    function get_elements($match = '') {
 
         if (!$match) {
             $match = $this->match;
@@ -1289,7 +1291,7 @@ class dir_descriptor extends file_descriptor {
         if ($this->exists()) {
             $res_val = $this->make_empty();
             if ($res_val) {
-                $res_val      = @rmdir($this->full_name);
+                $res_val = @rmdir($this->full_name);
                 }
             }
         return $res_val;
@@ -1306,11 +1308,11 @@ class dir_descriptor extends file_descriptor {
 
         clearstatcache();
         $res_val              = true;
-        $elements_names_local = glob($this->full_name."*");
+        $elements_names_local = glob($this->full_name.'*');
         if ($elements_names_local) {
             foreach ($elements_names_local as $single_element) {
                 $element_local = new file_descriptor($single_element);
-                if ($element_local->type == "D") {
+                if ($element_local->type == 'D') {
                     $folder_local = new dir_descriptor($element_local->full_name.
                                                        DIRECTORY_SEPARATOR);
                     $res_val      = $res_val && $folder_local->remove();
@@ -1379,6 +1381,41 @@ class dir_descriptor extends file_descriptor {
 
         }
 
+    }
+
+
+// _________________________________________ If aplication file is passed as parameter ___
+if ($_SERVER['argc'] > 1) {
+    // _____________________________________________________ Get application main file ___
+    $app_main = realpath($_SERVER['argv'][1]);
+    // _____________________________________________ If file exists and it is readable ___
+    if (is_file($app_main) && file_exists($app_main) &&
+        $main_text = @file_get_contents($app_main)) {
+        // _______________________________________________________ Get current release ___
+        $rnt_rel  = get_rnt_rel();
+        // _______________________________________ Get application name from main file ___
+        $app_name = preg_replace("/\..*$/i", '', basename($app_main));
+        // _________________________________________________ Get application directory ___
+        $app_dir  = new dir_descriptor(realpath(dirname($app_main).DIRECTORY_SEPARATOR.
+                                                '..'.DIRECTORY_SEPARATOR));
+        print '   Processing application '.$app_name.' ('.$app_dir.")\n";
+        // _______________________________ Get application release from main file text ___
+        $app_rel = get_app_rel($main_text);
+        check_upgrade($rnt_rel, $app_rel);
+        backup_app($app_name, $app_dir, $app_rel);
+        clear_app($app_dir);
+        upgrade_app($app_name, $app_dir, $app_rel);
+        }
+    // _________________________________ If file does not exists or it is not readable ___
+    else {
+        die("\n\nJanox Converter Utility\n=======================\n\nError opening file ".
+            $_SERVER['argv'][1]."\n\n");
+        }
+    }
+// _________________________________________________________ If no parameter is passed ___
+else {
+    // __________________________________________ Output formatted JXConv informations ___
+    die("\n\n".$info."\n\n");
     }
 
 ?>

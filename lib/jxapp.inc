@@ -2,7 +2,7 @@
 
 /**
  * Janox Application Module
- * PHP5
+ * PHP7/8
  *
  *
  * This file is part of Janox.
@@ -186,8 +186,8 @@ class o2_app {
     public $msg_norec       = '';      /* Message to be displayed in empty tables       */
     public $profiling       = false;   /* Enables runtime profiling capabilities        */
     public $fastmsg_time    = 5;       /* Fast messages time-out to fade away           */
-    public $prgs_path_inc   = false;   /* Extra paths to look for prgs in               */
-    public $templ_path_inc  = false;   /* Extra paths to look for report templates in   */
+    public $prgs_path_inc   = array(); /* Extra paths to look for prgs in               */
+    public $templ_path_inc  = array(); /* Extra paths to look for report templates in   */
     /*     _____ Miscellaneous ________________________________________________________ */
     public $host            = '';      /* Machine registered name in a Janox network    */
     public $zoom            = true;    /* Enables activation for zoomable fields        */
@@ -234,7 +234,7 @@ class o2_app {
      */
     public $dispatcher      = null;    /* o2_dispatcher object                          */
     /*     _____ Documentor o2::doc ___________________________________________________ */
-    public $doc             = false;   /* Application o2_doc object                     */
+    public $doc             = null;    /* Application o2_doc object                     */
     public $doc_enabled     = false;   /* Application documentor module is active       */
     /*     _____ Internationalization - Multilang _____________________________________ */
     public $multilang       = false;   /* If labels internationalization is enabled:
@@ -1888,8 +1888,10 @@ class o2_app {
                  $this->record_trace['uu'],
                  $this->record_trace['ud'],
                  $this->record_trace['ut']) =
-                                      explode(",", strtoupper($conf['record_trace']));
-            if (trim(implode("", $this->record_trace)) == "") {
+                                      explode(',', strtoupper($conf['record_trace']));
+            if (!$this->record_trace ||
+                (is_array($this->record_trace) &&
+                 trim(implode('', $this->record_trace)) == '')) {
                 $this->record_trace = false;
                 }
             }

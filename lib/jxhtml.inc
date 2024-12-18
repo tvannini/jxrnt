@@ -2,7 +2,7 @@
 
 /**
  * Janox HTML Module
- * PHP5 - HTML4.01 - JavaScript1.2
+ * PHP7/8 - HTML4.01 - JavaScript1.2
  *
  *
  * This file is part of Janox.
@@ -1773,10 +1773,9 @@ class o2html {
                                 }
                             if (move_uploaded_file($single_ctrl['tmp_name'][$idx],
                                                    $app->dir_uploads.$file_ori)) {
-                                $obj_local = new o2_fsitem($app->dir_uploads.
-                                                           $file_ori);
-                                $obj_local->http_mime      = $single_ctrl['type'][$idx];
-                                $obj_local->nome_originale = $file_ori;
+                                $obj_local            = new o2_fsitem($app->dir_uploads.
+                                                                      $file_ori);
+                                $obj_local->http_mime = $single_ctrl['type'][$idx];
                                 // ___________________ Single file upload (by control) ___
                                 if (!$ctrl_obj->multiple && $ctrl_obj->campo_in_ctrl) {
                                     $prg_local->contesto[$ctrl_obj->task]->
