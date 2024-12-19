@@ -7835,7 +7835,7 @@ function o2_time(){
  */
 function jx_encode($string, $encode = false) {
 
-    if (!$string) {
+    if (trim($string) === '') {
         return '';
         }
     elseif (!$encode) {
