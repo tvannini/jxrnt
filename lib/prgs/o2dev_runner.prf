@@ -242,7 +242,7 @@ function o2dev_runner§§with_stored_params_act(&$o2exe) {
 	} //|o2_fine_act|
 
 function o2dev_runner_exp_1() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
@@ -252,28 +252,28 @@ return (o2val('prg§_§var','prg_name'));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_3() {
-	
+
 return (16);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_4() {
-	
+
 return ('F');
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_5() {
-	
+
 return (array_shift(o2val('prg§_§var','prgs_list')));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_6() {
-	
+
 return ('A');
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_7() {
 	$prgs = array();
-$flt  = trim(o2val('prg§_§var','filter_string')); 
+$flt  = trim(o2val('prg§_§var','filter_string'));
 foreach (array_keys(o2_inspector::get_app_prgs()) as $prg ) {
    if (!$flt || substr_count($prg, $flt)) {
       $prgs[$prg] = $prg;
@@ -284,12 +284,12 @@ return ($prgs);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_8() {
-	
+
 return (o2val('prg§_§var','prgs_list'));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_9() {
-	
+
 return (o2val('prg§_§var','param_field') != "c");
 	} //|o2_fine_exp|
 
@@ -304,7 +304,7 @@ return ($val);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_11() {
-	
+
 return (!o2val('prg§_§var','extended_options'));
 	} //|o2_fine_exp|
 
@@ -335,7 +335,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_14() {
-	
+
 return (o2val('prg§_§var','extended_options'));
 	} //|o2_fine_exp|
 
@@ -357,7 +357,7 @@ if (!o2zero('prg§_§var','prg_name')) {
       $par_id--;
       $list[] = array('par'   => $parts[2][$par_id],
                       'model' => $parts[3][$par_id]);
-      }   
+      }
    }
 return ($list);
 	} //|o2_fine_exp|
@@ -387,17 +387,17 @@ return ($ctrl_type);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_17() {
-	
+
 return (o2val('prg§_§var','param_field') == "c");
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_18() {
-	
+
 return (o2val('prg§_§var','param_field') != "c" && o2val('prg§_§var','param_field') != "l" && count(o2val('prg§_§var','params_list')));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_19() {
-	
+
 return (o2val('prg§_§var','param_field') == "l");
 	} //|o2_fine_exp|
 
@@ -443,10 +443,10 @@ $parid = o2val('prg§_§var','param_id');
 switch (o2val('prg§_§var','param_field')) {
    case "c":
       $list[$parid]['value'] = o2val('prg§_§var','value_logic');
-      break;   
+      break;
    case "l":
       $list[$parid]['value'] = o2val('prg§_§var','value_combo');
-      break;   
+      break;
    case "s":
       $value = o2val('prg§_§var','value');
       if (!$value) {
@@ -457,10 +457,10 @@ switch (o2val('prg§_§var','param_field')) {
       else {
          if (@eval('$val='.$value.";") === false) {
             $val = "[Error] ".$value;
-            }  
+            }
          $list[$parid]['value'] = $val;
          }
-      break;   
+      break;
    default:
       $list[$parid]['value'] = o2val('prg§_§var','value');
       break;
@@ -469,7 +469,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_24() {
-	
+
 return (' jxbtn_save');
 	} //|o2_fine_exp|
 
@@ -480,18 +480,18 @@ $sets = o2val('prg§_§var','cookies');
 foreach ($list as $id => $param) {
    if (isset($sets[$id + 1])) {
       $list[$id]['value'] = $sets[$id + 1];
-      }    
+      }
    }
 return ($list);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_26() {
-	
+
 return (isset($_COOKIE['JXEMP']));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_27() {
-	
+
 return (o2val('prg§_§var','cookies', 0));
 	} //|o2_fine_exp|
 
@@ -506,14 +506,14 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_29() {
-	
+
 return (o2val('prg§_§var','from_exe_tree'));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_30() {
 	$par  = null;
 $list = o2val('prg§_§var','params_list');
-$id   = intval($GLOBALS['jxdr_parid']); 
+$id   = (isset($GLOBALS['jxdr_parid']) ? intval($GLOBALS['jxdr_parid']) : 0);
 if (o2val('prg§_§var','extended_options') && isset($list[$id])) {
    $par = $list[$id]['value'];
    }
@@ -522,7 +522,7 @@ return ($par);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_31() {
-	
+
 return (isset($_COOKIE['JXEMP']) && !o2val('prg§_§var','from_exe_tree'));
 	} //|o2_fine_exp|
 
@@ -533,17 +533,17 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_33() {
-	
+
 return (json_decode($_COOKIE['JXEMP']));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_55() {
-	
+
 return (count(o2val('prg§_§var','params_list')));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_9998() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 ?>
