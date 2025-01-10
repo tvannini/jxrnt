@@ -1378,6 +1378,8 @@ o2jse.ctrl.k = function(eventObj) {
     // _________________________ Standard behaviours (all controls) - Mapped by options___
     for (var o2keyIndex = o2jse.keyList.length - 1; o2keyIndex >= 0 ; o2keyIndex--) {
         singleKey = o2jse.keyList[o2keyIndex];
+        /* Do not break on success because key-comb can be binded to multiple functions,
+           for example F5 can make Zoom and Record Detail                               */
         if (singleKey.code > 0                   &&
             singleKey.code  == keyCode           &&
             singleKey.shift == stdEvent.shiftKey &&
@@ -1396,9 +1398,9 @@ o2jse.ctrl.k = function(eventObj) {
                         if (navLocal.o2.navNav) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName + "_fbtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 2: // ______________________ Go to previous page navigator button ___
                     if (navName) {
@@ -1408,9 +1410,9 @@ o2jse.ctrl.k = function(eventObj) {
                         if (navLocal.o2.navNav) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName + "_ppbtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 3: // ____________________ Go to previous record navigator button ___
                     if (o2jse.cliMode &&
@@ -1434,9 +1436,9 @@ o2jse.ctrl.k = function(eventObj) {
                                 o2jse.nav.btnExe(document.getElementById(navName +
                                                                          "_pbtn"));
                                 }
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 4: // ________________________ Go to next record navigator button ___
                     if (o2jse.cliMode &&
@@ -1460,9 +1462,9 @@ o2jse.ctrl.k = function(eventObj) {
                                 o2jse.nav.btnExe(document.getElementById(navName +
                                                                           "_nbtn"));
                                 }
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 5: // __________________________ Go to next page navigator button ___
                     if (navName) {
@@ -1472,9 +1474,9 @@ o2jse.ctrl.k = function(eventObj) {
                         if (navLocal.o2.navNav) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName + "_npbtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 6: // ________________________ Go to last record navigator button ___
                     if (navName) {
@@ -1484,9 +1486,9 @@ o2jse.ctrl.k = function(eventObj) {
                         if (navLocal.o2.navNav) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName + "_lbtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 11: // ______________________________ New record navigator button ___
                     if (navName) {
@@ -1496,9 +1498,9 @@ o2jse.ctrl.k = function(eventObj) {
                         if (navLocal.o2.navNew) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName +"_newbtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 12: // ___________________________ Delete record navigator button ___
                     if (navName) {
@@ -1508,9 +1510,9 @@ o2jse.ctrl.k = function(eventObj) {
                         if (navLocal.o2.navDel) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName +"_delbtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 13: // _____________________________ Save record navigator button ___
                     if (navName) {
@@ -1521,15 +1523,15 @@ o2jse.ctrl.k = function(eventObj) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName +
                                                                      "_savebtn"));
+                            if (stdEvent.target.focus) {
+                                stdEvent.target.focus();
+                                if (stdEvent.target.select) {
+                                    stdEvent.target.select();
+                                    }
+                                }
+                            return false;
                             }
                         }
-                    if (stdEvent.target.focus) {
-                        stdEvent.target.focus();
-                        if (stdEvent.target.select) {
-                            stdEvent.target.select();
-                            }
-                        }
-                    return false;
                     break;
                 case 14: // _____________________________ Undo record navigator button ___
                     if (navName) {
@@ -1540,9 +1542,9 @@ o2jse.ctrl.k = function(eventObj) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName +
                                                                      "_undobtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 15: // ___________________________ Select record navigator button ___
                     if (navName) {
@@ -1554,9 +1556,9 @@ o2jse.ctrl.k = function(eventObj) {
                             o2jse.submitting = false;
                             o2jse.nav.btnExe(document.getElementById(navName +
                                                                      "_selebtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 16: // _______________________ Details of record navigator button ___
                     if (navName) {
@@ -1566,9 +1568,9 @@ o2jse.ctrl.k = function(eventObj) {
                         if (navLocal.o2.navDet) {
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName +"_detbtn"));
+                            return false;
                             }
                         }
-                    return false;
                     break;
                 case 17: // _____________________________________________ Form refresh ___
                     stdEvent.stop();
@@ -1588,10 +1590,14 @@ o2jse.ctrl.k = function(eventObj) {
                     return false;
                     break;
                 case 20: // _____________________________________________ Control zoom ___
-                    return o2jse.ctrl.zoom(eventObj);
+                    if (stdEvent.target.o2.z) {
+                        stdEvent.stop();
+                        return o2jse.ctrl.zoom(eventObj);
+                        }
                     break;
                 default: // _____________________________________ User defined actions ___
                     if (parseInt(singleKey.exe) != singleKey.exe) {
+                        stdEvent.stop();
                         stdEvent.target.blur();
                         if (typeof stdEvent.target == "object" &&
                             stdEvent.target.value != stdEvent.target.defaultValue) {
@@ -1600,10 +1606,9 @@ o2jse.ctrl.k = function(eventObj) {
                         var relatedBtn = document.getElementById(singleKey.exe +
                                                                  stdEvent.target.o2.e);
                         o2jse.ctrl.btnExe(relatedBtn);
+                        return false;
                         }
-                    return false;
                 }
-            break;
             }
         }
     return false;
