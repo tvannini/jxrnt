@@ -9749,7 +9749,7 @@ class o2_inspector {
                 $res   = preg_match('/o2(\w+)\s*\(\s*["\']_o2SESSION["\']\s*,\s*["\']'.
                                     $var_name.'["\']\s*\)/',
                                     $body, $parts);
-                if (count($parts[0])) {
+                if (isset($parts[0])) {
                     if (strpos($parts[1], "_") === false) {
                         if (!isset($ret['p'.$id_prg])) {
                             $ret['p'.$id_prg] = array($root,
