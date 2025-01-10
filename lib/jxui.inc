@@ -5083,9 +5083,9 @@ class o2_ctrl_tab extends o2_ctrl {
         }
 
 
-    function hide_indicator() {
+    function hide_indicator($hide = true) {
 
-        $this->row_marker = false;
+        $this->row_marker = ($hide ? false : true);
 
         }
 
