@@ -2289,12 +2289,13 @@ class o2html {
             else {
                 $js_change = $o2ctrl_obj->js_props();
                 }
-            print '<div id="'.$name.
-                     '" class="'.trim($o2ctrl_obj->css).
-                                 ($enabled ? "" : "_dis").($zoom ? ' jxzoom' : '').
+            print '<div id="'.$name.'" '.
+                        ($zoom ? 'tabindex="0" ' : '').
+                      ' class="'.trim($o2ctrl_obj->css).
+                                 ($enabled ? '' : '_dis').($zoom ? ' jxzoom' : '').
                      '" style="width:'.$o2ctrl_obj->larghezza.
                            'px;height:'.$o2ctrl_obj->altezza.'px;'.$aligned.
-                        ($o2ctrl_obj->visibile ? "" : "display:none;").
+                        ($o2ctrl_obj->visibile ? '' : 'display:none;').
                         ($active && $o2ctrl_obj->popup_exp ?
                         '" onMouseOver="o2jse.pu.i(event);" onMouseOut="o2jse.pu.o();" ' :
                         '" ').$js_change.'>'.$o2ctrl_obj->sql2ctrl()."</div>\n";
@@ -2718,11 +2719,13 @@ class o2html {
                 $js_change = ' onDblClick="o2jse.ctrl.zoom(event);"';
                 }
             if ($active && $enabled_in_tab) {
-                print '<div style="position:relative;width:'.$o2ctrl_obj->larghezza.'px;" '.
-                      $js_prop.'><div class="'.$o2ctrl_obj->css.($enabled ? "_field" :"_field_dis").
-                         '" id="'.$htmlname.'_desc" style="width:'.$o2ctrl_obj->larghezza.
+                print '<div style="position:relative;width:'.$o2ctrl_obj->larghezza.
+                      'px;" '.$js_prop.'><div class="'.$o2ctrl_obj->css.
+                                                     ($enabled ? '_field' : '_field_dis').
+                         '" '.($zoom ? 'tabindex="0" ' : '').
+                         'id="'.$htmlname.'_desc" style="width:'.$o2ctrl_obj->larghezza.
                                                   'px;height:'.$o2ctrl_obj->altezza.'px;'.
-                                           ($o2ctrl_obj->visibile ? "" : "display:none;").
+                                           ($o2ctrl_obj->visibile ? '' : 'display:none;').
                       '" '.$js_prop.$js_change.
                       ($o2ctrl_obj->popup_exp ?
                        ' onMouseOver="o2jse.pu.i(event)" onMouseOut="o2jse.pu.o()"' : '').
@@ -2733,7 +2736,7 @@ class o2html {
             else {
                 print '<div '.
                       ($enabled_in_tab ?
-                       'class="'.$o2ctrl_obj->css.($enabled ? "_field" :"_field_dis").'"'
+                       'class="'.$o2ctrl_obj->css.($enabled ? '_field' : '_field_dis').'"'
                        : '').
                       ' style="width:'.$o2ctrl_obj->larghezza.
                            'px;height:'.$o2ctrl_obj->altezza.'px;'.
