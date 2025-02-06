@@ -8721,7 +8721,6 @@ function o2refvar_set($name, $value = false) {
  *
  * @package prg
  * @param   string $name    Variable unique name
- * @param   mix    $value   Variable definition value
  * @see     o2refvar_set()
  */
 function &o2refvar_get($name) {
