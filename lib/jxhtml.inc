@@ -2259,7 +2259,7 @@ class o2html {
         $enabled = $o2ctrl_obj->is_enabled();
         $zoom    = $o2ctrl_obj->is_zoomable();
         $aligned = ($o2ctrl_obj->maschera->allineamento == 'Right' ?
-                    'text-align:right;' : '');
+                    'text-align:right;float:right;' : '');
         $name    = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
         if ($active && $enabled) {
             $js_change = $o2ctrl_obj->js_props($zoom ? 'z:!0' : 'z:!1').
