@@ -5287,12 +5287,12 @@ o2jse.win.menu = function(targetObj) {
 o2jse.win.exit = function(targetObj) {
 
     o2jse.ctrl.init(targetObj);
-    o2jse.ctrl.make_waiting(targetObj);
     var objInfo  = targetObj.o2;
     var winDiv   = document.getElementById(objInfo.f + "_" + objInfo.e);
     var cmdField = o2jse.infoForm[objInfo.f + objInfo.e + "_jxcmd"];
     o2jse.ctrl.init(winDiv);
     if (winDiv.o2.exit) {
+        o2jse.ctrl.make_waiting(targetObj);
         cmdField.value = "1";
         o2jse.infoForm['o2_modfields'].value+= cmdField.name + ";";
         o2jse.infoForm['o2lastform'].value   = objInfo.f;
@@ -5303,6 +5303,9 @@ o2jse.win.exit = function(targetObj) {
         else {
             o2jse.cmd.submit(objInfo.e);
             }
+        }
+    else if (targetObj.focus) {
+        targetObj.focus();
         }
 
     };
@@ -5345,7 +5348,7 @@ o2jse.win.needNoRepos = function(win_id) {
 o2jse.win.repos = function(win_id) {
 
     var winDiv = null;
-    if (!(winDiv = document.getElementById(win_id))) {
+    if ((win_id == 'undefined') || !(winDiv = document.getElementById(win_id))) {
         return;
         }
     o2jse.ctrl.init(winDiv);
