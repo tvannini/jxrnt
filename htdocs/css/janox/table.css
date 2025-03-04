@@ -90,7 +90,7 @@ TD + tfoot .o2_tab_marker,
     }
 
 .o2_tab_sele {
-    background: #ff8a4d;
+    background: var(--jx-color-sele);
     line-height: 20px;
     vertical-align: middle;
     padding: 0 3px 0 2px;

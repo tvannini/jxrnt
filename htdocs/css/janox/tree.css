@@ -57,10 +57,18 @@
     cursor: pointer;
     }
 
-
 .jx_treenode_sele .jx_treenode_text {
     color: #403C3A;
-    background-color: #ff8a4d;
+    background-color: #ffddcd;
+    display: inline-block;
+    padding-left: 2px;
+    padding-right: 2px;
+    cursor: default;
+    }
+
+.jx_treenode_sele .jx_treenode_text:focus {
+    color: #403C3A;
+    background-color: var(--jx-color-sele);
     display: inline-block;
     padding-left: 2px;
     padding-right: 2px;

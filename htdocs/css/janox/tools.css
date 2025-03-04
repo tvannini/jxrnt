@@ -237,7 +237,7 @@
     }
 
 .disp_area h4 {
-    background-color: #ff8a4d;
+    background-color: var(--jx-color-sele);
     font-size: 13px;
     font-weight: bold;
     padding-top: 2px;
@@ -525,7 +525,6 @@
     margin-top: 2px;
     margin-left: 4px;
     margin-right: 4px;
-    height: 24px;
     }
 
 .jxbtn_cancel, .jxbtn_cancel:hover, .jxbtn_cancel:focus {
@@ -538,7 +537,6 @@
     margin-top: 2px;
     margin-left: 4px;
     margin-right: 4px;
-    height: 24px;
     }
 
 .jxbtn_delete, .jxbtn_delete:hover, .jxbtn_delete:focus {
@@ -551,7 +549,30 @@
     margin-top: 2px;
     margin-left: 4px;
     margin-right: 4px;
-    height: 24px;
+    }
+
+.jxbtn_add, .jxbtn_add:hover, .jxbtn_add:focus {
+    text-align: left;
+    }
+
+.jxbtn_add:before {
+    content: url("tools/stock/add.png");
+    float: left;
+    margin-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    }
+
+.jxbtn_create, .jxbtn_create:hover, .jxbtn_create:focus {
+    text-align: left;
+    }
+
+.jxbtn_create:before {
+    content: url("tools/stock/create.png");
+    float: left;
+    margin-top: 2px;
+    margin-left: 4px;
+    margin-right: 4px;
     }
 
 

@@ -34,7 +34,7 @@
     }
 
 .o2_ctrl_ref:hover, .o2_ctrl_ref:focus {
-    color: #ff8a4d;
+    color: var(--jx-color-sele);
     background-color: transparent;
     text-decoration: underline;
     text-align: left;

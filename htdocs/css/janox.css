@@ -18,6 +18,7 @@
 @import url(janox/cale.css);
 
 :root {
+    --jx-color-font: #363030;
     --jx-color-space: #fcfbfa;
     --jx-color-form: #f5f4f2;
     --jx-color-frame: #f0efed;
@@ -28,6 +29,7 @@
     --jx-color-border-focus: rgb(160, 160, 160);
     --jx-color-disabled: rgba(0, 0, 0, .5);
     --jx-color-bgdisabled: #f0efed;
+    --jx-color-sele: #ff8a4d;
     }
 
 @font-face {
@@ -53,7 +55,7 @@
     box-sizing: border-box;
     outline: none;
     font-family: "Gudea", sans-serif;
-    color: #595959;
+    color: var(--jx-color-font);
     font-size: 13px;
     }
 
@@ -247,7 +249,7 @@ option:hover {
     }
 
 .jxlsr {
-    background-color: #ff8a4d;
+    background-color: var(--jx-color-sele);
     }
 
 .o2_ctrl_line {
@@ -357,15 +359,15 @@ option:hover {
 
 /* ============================= EXTRA =========================== */
 .jxzoom {
-    border-left: 2px solid #ff8a4d;
+    border-left: 2px solid var(--jx-color-sele);
     }
 
 .jxzoom:hover {
-    border-left: 2px solid #ff8a4d;
+    border-left: 2px solid var(--jx-color-sele);
     }
 
 .jxzoom:focus {
-    border-left: 2px solid #ff8a4d;
+    border-left: 2px solid var(--jx-color-sele);
     }
 
 .jxsoc {}
