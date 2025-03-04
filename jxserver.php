@@ -49,7 +49,7 @@
  *
  * @var string $jxrnt_path   path to Janox runtime folder
  */
-$jxrnt_path = __DIR__.'/jxrnt/';
+$jxrnt_path = __DIR__.DIRECTORY_SEPARATOR.'jxrnt'.DIRECTORY_SEPARATOR;
 
 
 /**
@@ -72,7 +72,8 @@ $jxrnt_path = __DIR__.'/jxrnt/';
  *
  * @var array $apps   Provides a list of served applications with name and folder
  */
-$apps = ['jxdemo' => __DIR__.'/demo/htdocs/'];
+$apps = ['jxdemo'   => __DIR__.DIRECTORY_SEPARATOR.'demo'.DIRECTORY_SEPARATOR.'htdocs'.DIRECTORY_SEPARATOR,
+         'jxstudio' => __DIR__.DIRECTORY_SEPARATOR.'studio'.DIRECTORY_SEPARATOR.'htdocs'.DIRECTORY_SEPARATOR];
 
 
 /**
@@ -92,8 +93,138 @@ ini_set('log_errors', true);
 
 
 // _____________________________________________________________ Include Janox runtime ___
-$jxrnt = $jxrnt_path.'jxrnt.php';
-include_once $jxrnt;
+include_once $jxrnt_path.'jxrnt.php';
+
+
+/**
+ * Returns PID-file Name
+ *
+ */
+function pid_file() {
+
+    return __DIR__.DIRECTORY_SEPARATOR.'.'.o2file_basename(__FILE__);
+
+    }
+
+
+/**
+ * Start Janox Mini Web Server.
+ *
+ */
+function srvstart() {
+
+    if (!srvcheck()) {
+        $rnt_obj = $GLOBALS['o2_runtime'];
+        if ($rnt_obj && (!$rnt_obj->php_engine || !file_exists($rnt_obj->php_engine))) {
+            $rnt_obj->find_php_exe();
+            }
+        if ($rnt_obj && $rnt_obj->php_engine) {
+            $php_exe_path = $rnt_obj->php_engine;
+            }
+        else {
+            print "Sorry, can't find Janox runtime to run Janox Mini WEB Server.\n".
+                  "Please set \$jxrnt_path variable in this file (".__file__.").\n";
+            die();
+            }
+        $list_old = $rnt_obj->proc_list(true);
+        $rnt_obj->batch_exec($php_exe_path.' -S localhost:'.$GLOBALS['port'].' '.
+                             __FILE__);
+        // __________________________________________________________ Check if started ___
+        $list    = $rnt_obj->proc_list(true);
+        $running = false;
+        foreach (array_diff_key($list, $list_old) as $pid => $exe_name) {
+            if (!strpos($exe_name, 'fpm')) {
+                $running = $pid;
+                break;
+                }
+            }
+        //____________________________________________________________________ Started ___
+        if ($running) {
+            // _______________________________________ Write PID-file with running PID ___
+            file_put_contents(pid_file(), $running);
+            print "Janox Mini WEB Server started.\nWith PID ".$running.
+                  "\nListening on http://localhost:".$GLOBALS['port'].
+                  "\nServing applications:\n";
+            foreach ($GLOBALS['apps'] as $app_name => $app_dir) {
+                print ' '.str_pad($app_name, 20, '.').' from '.$app_dir."\n";
+                }
+            }
+        // _______________________________________________________________ Not started ___
+        else {
+            print "Sorry, unable to start Janox Mini WEB Server.\n";
+            }
+        }
+
+    }
+
+
+/**
+ * Stop Janox Mini Web Server.
+ *
+ */
+function srvstop() {
+
+    // _________________________________________________________ Check for running PID ___
+    if ($r_pid = srvcheck()) {
+        $rnt_obj = $GLOBALS['o2_runtime'];
+        $list    = $rnt_obj->proc_list(true);
+        // _____________________ Check if running PID in the list of running processes ___
+        foreach ($list as $pid => $exe_name) {
+            if ($pid == $r_pid) {
+                $rnt_obj->kill($pid);
+                o2file_delete(pid_file());
+                print "Janox Mini WEB Server stopped.\n";
+                break;
+                }
+            }
+        }
+
+    }
+
+
+/**
+ * Check if Janox Mini Web Server is running.
+ *
+ */
+function srvcheck() {
+
+    $rnt_obj  = $GLOBALS['o2_runtime'];
+    $pid_file = pid_file();
+    $running  = false;
+    // ______________________________________________________ Check if PID-file exists ___
+    if (o2file_exists($pid_file)) {
+        // ___________________________________________________________ Get running PID ___
+        $r_pid = file_get_contents($pid_file);
+        $list  = $rnt_obj->proc_list(true);
+        // _____________________ Check if running PID in the list of running processes ___
+        foreach ($list as $pid => $exe_name) {
+            if ($pid == $r_pid) {
+                $running = $pid;
+                break;
+                }
+            }
+        // __________________________________________ Janox Mini Web Server is running ___
+        if ($running) {
+            print "Janox Mini WEB Server is running.\nWith PID ".$running.
+                  "\nListening on http://localhost:".$GLOBALS['port'].
+                  "\nServing applications:\n";
+            foreach ($GLOBALS['apps'] as $app_name => $app_dir) {
+                print ' '.str_pad($app_name, 20, '.').' from '.$app_dir."\n";
+                }
+            return $running;
+            }
+        else {
+            print "Janox Mini WEB Server is not running.\n";
+            o2file_delete($pid_file);
+            return false;
+            }
+        }
+    else {
+        print "Janox Mini WEB Server is not running.\n";
+        return false;
+        }
+
+    }
 
 
 /**
@@ -131,15 +262,16 @@ if (php_sapi_name() == 'cli-server') {
     // ______________________________________________________ Janox resource requested ___
     if (!$routed) {
         if (!$file_path || $file_path == '/') {
-            $file_path = $jxrnt_path.'htdocs/index.html';
+            $file_path = $jxrnt_path.'htdocs'.DIRECTORY_SEPARATOR.'index.html';
             }
         elseif ($alias != 'janox') {
-            $file_path = $jxrnt_path.'htdocs/'.$alias.'/'.$file_path;
+            $file_path = $jxrnt_path.'htdocs'.DIRECTORY_SEPARATOR.$alias.
+                                              DIRECTORY_SEPARATOR.$file_path;
             }
         else {
-            $file_path = $jxrnt_path.'htdocs/'.$file_path;
+            $file_path = $jxrnt_path.'htdocs'.DIRECTORY_SEPARATOR.$file_path;
             }
-        chdir($jxrnt_path.'htdocs/');
+        chdir($jxrnt_path.'htdocs'.DIRECTORY_SEPARATOR);
         }
     // ______________________________________________________ Serve requested resource ___
     header('Content-Type: '.o2_mime_content($file_path));
@@ -162,78 +294,19 @@ if (php_sapi_name() == 'cli-server') {
  *
  */
 else {
-    $rnt_obj = $GLOBALS['o2_runtime'];
-    if ($rnt_obj && (!$rnt_obj->php_engine || !file_exists($rnt_obj->php_engine))) {
-        $rnt_obj->find_php_exe();
-        }
-    if ($rnt_obj && $rnt_obj->php_engine) {
-        $php_exe_path = $rnt_obj->php_engine;
-        }
-    else {
-        print "Sorry, can't find Janox runtime to run Janox Mini WEB Server.\n".
-              "Please set \$jxrnt_path variable in this file (".__file__.").\n";
-        die();
-        }
-    $word = strtolower(trim($_SERVER['argv'][1]));
-    // ___________________________________________________________________ Stop server ___
-    if ($word == 'stop') {
-        $list = $rnt_obj->proc_list(true);
-        foreach ($list as $pid => $exe_name) {
-            if (!strpos($exe_name, 'fpm') && $pid != getmypid()) {
-                $rnt_obj->kill($pid);
-                print "Janox Mini WEB Server stopped.\n";
-                break;
-                }
-            }
-        }
-    // ___________________________________________________________ Check server status ___
-    elseif ($word == 'check') {
-        $list    = $rnt_obj->proc_list(true);
-        $running = false;
-        foreach ($list as $pid => $exe_name) {
-            if (!strpos($exe_name, 'fpm') && $pid != getmypid()) {
-                $running = $pid;
-                break;
-                }
-            }
-        if ($running) {
-            print "Janox Mini WEB Server is running.\nWith PID ".$running.
-                  "\nListening on http://localhost:".$port."\nServing applications:\n";
-            foreach ($apps as $app_name => $app_dir) {
-                print ' '.$app_name.' '.(str_repeat('.', 20 - strlen($app_name))).
-                      ' from '.$app_dir."\n";
-                }
-            }
-        else {
-            print "Janox Mini WEB Server is not running.\n";
-            }
-        }
-    // __________________________________________________________________ Start server ___
-    else {
-        $cmd = $php_exe_path.' -S localhost:'.$port.' '.__FILE__;
-        $rnt_obj->batch_exec($cmd);
-        // __________________________________________________________ Check if started ___
-        $list    = $rnt_obj->proc_list(true);
-        $running = false;
-        foreach ($list as $pid => $exe_name) {
-            if (!strpos($exe_name, 'fpm') && $pid != getmypid()) {
-                $running = $pid;
-                break;
-                }
-            }
-        //____________________________________________________________________ Started ___
-        if ($running) {
-            print "Janox Mini WEB Server started.\nWith PID ".$running.
-                  "\nListening on http://localhost:".$port."\nServing applications:\n";
-            foreach ($apps as $app_name => $app_dir) {
-                print ' '.$app_name.' '.(str_repeat('.', 20 - strlen($app_name))).
-                      ' from '.$app_dir."\n";
-                }
-            }
-        // _______________________________________________________________ Not started ___
-        else {
-            print "Sorry, unable to start Janox Mini WEB Server.\n";
-            }
+    switch (strtolower(trim($_SERVER['argv'][1]))) {
+        // _______________________________________________________________ Stop server ___
+        case 'stop':
+            srvstop();
+            break;
+        // _______________________________________________________ Check server status ___
+        case 'check':
+            srvcheck();
+            break;
+        // ______________________________________________________________ Start server ___
+        default:
+            srvstart();
+            break;
         }
     }
 
