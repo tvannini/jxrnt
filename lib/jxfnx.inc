@@ -33,6 +33,7 @@
  * @version   2.9
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
+ * @include   jxcore.inc
  */
 
 
