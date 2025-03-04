@@ -8599,16 +8599,24 @@ class o2act {
      *  "2" previous record
      *  "3" next record
      *  "4" last record
+     *  "5" Goto previous page
+     *  "6" Goto next page
      *  "S" write current record
      *  "M" set record in modify mode
-     *  "R" set record in read-only mode (not used)
      *  "L" Locate first record matching criterias
      *  "A" Unset changes (reload "corrente" from "precedente")
      *  "I" Prepare a new empty record buffer for insert (needs a post-row action to
      *      become effective on database)
      *  "C" Delete row (effective)
+     *  "D" Delete all rows
+     *  "K" Lock recordset
      *  "B" Bulk insert
      *  "E" Bulk end
+     *  "G" Evaluate aggregations
+     *  "SS" Snapshot start
+     *  "SA" Snapshot attach
+     *  "SM" Snapshot sync
+     *  "SC" Snapshot clear
      *
      * @param  string $task
      * @param  string $comando
