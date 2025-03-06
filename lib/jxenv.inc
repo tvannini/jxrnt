@@ -7548,6 +7548,7 @@ class o2_protocollo {
             }
         $this->campi[$id]->larghezza = $this->campi[$id]->maschera->dimensione;
         $this->campi[$id]->valore    = $this->campi[$id]->maschera->default;
+        return $this;
 
         }
 
