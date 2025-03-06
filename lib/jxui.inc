@@ -2113,7 +2113,7 @@ class o2_ctrl {
         if (!$this->expand_x && !$this->custom_x) {
             $this->x = intval($x);
             }
-        return true;
+        return $this;
 
         }
 
@@ -2123,7 +2123,7 @@ class o2_ctrl {
         if (!$this->expand_y && !$this->custom_y) {
             $this->y = intval($y);
             }
-        return true;
+        return $this;
 
         }
 
@@ -2133,7 +2133,7 @@ class o2_ctrl {
         if (!$this->expand_width && !$this->custom_width) {
             $this->larghezza = intval($larghezza);
             }
-        return true;
+        return $this;
 
         }
 
@@ -2143,7 +2143,7 @@ class o2_ctrl {
         if (!$this->expand_height && !$this->custom_height) {
             $this->altezza = intval($altezza);
             }
-        return true;
+        return $this;
 
         }
 
@@ -2151,7 +2151,7 @@ class o2_ctrl {
     function modificabile($modificabile = true){
 
         $this->modificabile = ($modificabile ? true : false);
-        return true;
+        return $this;
 
         }
 
@@ -2165,7 +2165,7 @@ class o2_ctrl {
             $form->force_resize = true;
             }
         $this->visibile = $visibile;
-        return true;
+        return $this;
 
         }
 
@@ -2211,7 +2211,7 @@ class o2_ctrl {
                 }
             }
         $this->info_padre = $info;
-        return true;
+        return $this;
 
         }
 
@@ -2221,7 +2221,7 @@ class o2_ctrl {
         if ($maschera && $_SESSION['o2_app']->maschere[$maschera]) {
             $this->maschera = $_SESSION['o2_app']->maschere[$maschera];
             }
-        return true;
+        return $this;
 
         }
 
@@ -2235,7 +2235,7 @@ class o2_ctrl {
     function azione($azione = "") {
 
         $this->azione_submit = $azione;
-        return true;
+        return $this;
 
         }
 
@@ -2264,6 +2264,7 @@ class o2_ctrl {
                 $this->wide = "";
                 break;
             }
+        return $this;
 
         }
 
@@ -2276,6 +2277,7 @@ class o2_ctrl {
     function expand($expand = "") {
 
         $this->expand = $expand;
+        return $this;
 
         }
 
@@ -2400,6 +2402,7 @@ class o2_ctrl {
 
         $this->popup_exp = $exp;
         $this->popup_act = $act;
+        return $this;
 
         }
 
@@ -2527,7 +2530,7 @@ class o2_ctrl_label extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_label';
             }
-        return true;
+        return $this;
 
         }
 
@@ -2540,7 +2543,7 @@ class o2_ctrl_label extends o2_ctrl {
     function label($label = "") {
 
         $this->label = $label;
-        return true;
+        return $this;
 
         }
 
@@ -2600,7 +2603,7 @@ class o2_ctrl_line extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_separatore';
             }
-        return true;
+        return $this;
 
         }
 
@@ -2707,6 +2710,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                 $this->$var_index = "o2_ctrl_navv_".substr($var_value, 12);
                 }
             }
+        return $this;
 
         }
 
@@ -2721,7 +2725,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function act_new($action) {
 
         $this->act_new = $action;
-        return true;
+        return $this;
 
         }
 
@@ -2729,7 +2733,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function act_del($action) {
 
         $this->act_del = $action;
-        return true;
+        return $this;
 
         }
 
@@ -2737,7 +2741,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function act_save($action) {
 
         $this->act_save = $action;
-        return true;
+        return $this;
 
         }
 
@@ -2745,7 +2749,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function act_undo($action) {
 
         $this->act_undo = $action;
-        return true;
+        return $this;
 
         }
 
@@ -2753,7 +2757,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function act_select($action) {
 
         $this->act_select = $action;
-        return true;
+        return $this;
 
         }
 
@@ -2761,7 +2765,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function act_detail($action) {
 
         $this->act_detail = $action;
-        return true;
+        return $this;
 
         }
 
@@ -2769,7 +2773,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function confirm_new($msg = "") {
 
         $this->msg_new = $this->msg2alert($msg);
-        return true;
+        return $this;
 
         }
 
@@ -2777,7 +2781,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function confirm_del($msg = "") {
 
         $this->msg_del = $this->msg2alert($msg);
-        return true;
+        return $this;
 
         }
 
@@ -2785,7 +2789,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function confirm_save($msg = "") {
 
         $this->msg_save = $this->msg2alert($msg);
-        return true;
+        return $this;
 
         }
 
@@ -2793,7 +2797,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function confirm_undo($msg = "") {
 
         $this->msg_undo = $this->msg2alert($msg);
-        return true;
+        return $this;
 
         }
 
@@ -2801,7 +2805,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function confirm_select($msg = "") {
 
         $this->msg_select = $this->msg2alert($msg);
-        return true;
+        return $this;
 
         }
 
@@ -2809,7 +2813,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function confirm_detail($msg = "") {
 
         $this->msg_detail = $this->msg2alert($msg);
-        return true;
+        return $this;
 
         }
 
@@ -2817,7 +2821,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function visible_nav($visible = true) {
 
         $this->vis_nav = $visible;
-        return true;
+        return $this;
 
         }
 
@@ -2825,7 +2829,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function visible_new($visible = true) {
 
         $this->vis_new = $visible;
-        return true;
+        return $this;
 
         }
 
@@ -2833,7 +2837,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function visible_del($visible = true) {
 
         $this->vis_del = $visible;
-        return true;
+        return $this;
 
         }
 
@@ -2841,7 +2845,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function visible_save($visible = true) {
 
         $this->vis_save = $visible;
-        return true;
+        return $this;
 
         }
 
@@ -2849,7 +2853,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function visible_undo($visible = true) {
 
         $this->vis_undo = $visible;
-        return true;
+        return $this;
 
         }
 
@@ -2857,7 +2861,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function visible_select($visible = true) {
 
         $this->vis_select = $visible;
-        return true;
+        return $this;
 
         }
 
@@ -2865,7 +2869,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function visible_detail($visible = true) {
 
         $this->vis_detail = $visible;
-        return true;
+        return $this;
 
         }
 
@@ -2873,7 +2877,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function enable_new($enabled = true) {
 
         $this->enable_new = $enabled;
-        return true;
+        return $this;
 
         }
 
@@ -2881,7 +2885,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function enable_del($enabled = true) {
 
         $this->enable_del = $enabled;
-        return true;
+        return $this;
 
         }
 
@@ -2889,7 +2893,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function enable_save($enabled = true) {
 
         $this->enable_save = $enabled;
-        return true;
+        return $this;
 
         }
 
@@ -2897,7 +2901,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function enable_undo($enabled = true) {
 
         $this->enable_undo = $enabled;
-        return true;
+        return $this;
 
         }
 
@@ -2905,7 +2909,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function enable_select($enabled = true) {
 
         $this->enable_select = $enabled;
-        return true;
+        return $this;
 
         }
 
@@ -2913,7 +2917,7 @@ class o2_ctrl_navigator extends o2_ctrl {
     function enable_detail($enabled = true) {
 
         $this->enable_detail = $enabled;
-        return true;
+        return $this;
 
         }
 
@@ -2938,7 +2942,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                 'o2_ctrl_nav_space' :
                                 'o2_ctrl_navv_space');
             }
-        return true;
+        return $this;
 
         }
 
@@ -2961,7 +2965,7 @@ class o2_ctrl_navigator extends o2_ctrl {
         else {
             $this->css_i = ($this->direction != 'V' ? 'o2_ctrl_nav_i' : 'o2_ctrl_navv_i');
             }
-        return true;
+        return $this;
 
         }
 
@@ -2984,7 +2988,7 @@ class o2_ctrl_navigator extends o2_ctrl {
         else {
             $this->css_e = ($this->direction != 'V' ? 'o2_ctrl_nav_e' : 'o2_ctrl_navv_e');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3009,7 +3013,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                               'o2_ctrl_nav_new' :
                               'o2_ctrl_navv_new');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3034,7 +3038,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                               'o2_ctrl_nav_del' :
                               'o2_ctrl_navv_del');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3059,7 +3063,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                               'o2_ctrl_nav_save' :
                               'o2_ctrl_navv_save');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3084,7 +3088,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                'o2_ctrl_nav_undo' :
                                'o2_ctrl_navv_undo');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3109,7 +3113,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                  'o2_ctrl_nav_sele' :
                                  'o2_ctrl_navv_sele');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3134,7 +3138,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                  'o2_ctrl_nav_det' :
                                  'o2_ctrl_navv_det');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3159,7 +3163,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                 'o2_ctrl_nav_first' :
                                 'o2_ctrl_navv_first');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3184,7 +3188,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                          'o2_ctrl_nav_prevpg' :
                                          'o2_ctrl_navv_prevpg');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3209,7 +3213,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                      'o2_ctrl_nav_prev' :
                                      'o2_ctrl_navv_prev');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3234,7 +3238,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                      'o2_ctrl_nav_next' :
                                      'o2_ctrl_navv_next');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3259,7 +3263,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                          'o2_ctrl_nav_nextpg' :
                                          'o2_ctrl_navv_nextpg');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3284,7 +3288,7 @@ class o2_ctrl_navigator extends o2_ctrl {
                                  'o2_ctrl_nav_last' :
                                  'o2_ctrl_navv_last');
             }
-        return true;
+        return $this;
 
         }
 
@@ -3351,7 +3355,7 @@ class o2_ctrl_edit extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_edit';
             }
-        return true;
+        return $this;
 
         }
 
@@ -3365,7 +3369,7 @@ class o2_ctrl_edit extends o2_ctrl {
     function pswd($abilitato) {
 
         $this->password = ($abilitato ? true : false);
-        return true;
+        return $this;
 
         }
 
@@ -3379,7 +3383,7 @@ class o2_ctrl_edit extends o2_ctrl {
     function act_zoom($action_name) {
 
         $this->zoom_act = $action_name;
-        return true;
+        return $this;
 
         }
 
@@ -3393,7 +3397,7 @@ class o2_ctrl_edit extends o2_ctrl {
     function on_change($on_change = false) {
 
         $this->forza_submit = ($on_change ? true : false);
-        return true;
+        return $this;
 
         }
 
@@ -3462,7 +3466,7 @@ class o2_ctrl_text extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_text';
             }
-        return true;
+        return $this;
 
         }
 
@@ -3475,6 +3479,7 @@ class o2_ctrl_text extends o2_ctrl {
     function htmlarea($vero = true) {
 
         $this->html = $vero;
+        return $this;
 
         }
 
@@ -3488,7 +3493,7 @@ class o2_ctrl_text extends o2_ctrl {
     function act_zoom($action_name) {
 
         $this->zoom_act = $action_name;
-        return true;
+        return $this;
 
         }
 
@@ -3502,7 +3507,7 @@ class o2_ctrl_text extends o2_ctrl {
     function on_change($on_change = false) {
 
         $this->forza_submit = ($on_change ? true : false);
-        return true;
+        return $this;
 
         }
 
@@ -3570,7 +3575,7 @@ class o2_ctrl_check extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_check';
             }
-        return true;
+        return $this;
 
         }
 
@@ -3584,7 +3589,7 @@ class o2_ctrl_check extends o2_ctrl {
     function on_change($on_change = false) {
 
         $this->forza_submit = ($on_change ? true : false);
-        return true;
+        return $this;
 
         }
 
@@ -3597,7 +3602,7 @@ class o2_ctrl_check extends o2_ctrl {
     function confirm_message($message = "") {
 
         $this->confirm_message = jx_encode($message);
-        return true;
+        return $this;
 
         }
 
@@ -3674,7 +3679,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_listcombo';
             }
-        return true;
+        return $this;
 
         }
 
@@ -3689,7 +3694,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
     function righe($rows = 1) {
 
         $this->righe = intval($rows);
-        return true;
+        return $this;
 
         }
 
@@ -3717,7 +3722,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
         if ($valori !== null) {
             $this->valori = $valori;
             }
-        return true;
+        return $this;
 
         }
 
@@ -3731,7 +3736,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
     function act_zoom($action_name) {
 
         $this->zoom_act = $action_name;
-        return true;
+        return $this;
 
         }
 
@@ -3745,7 +3750,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
     function on_change($on_change = false) {
 
         $this->forza_submit = ($on_change ? true : false);
-        return true;
+        return $this;
 
         }
 
@@ -3758,7 +3763,7 @@ class o2_ctrl_listcombo extends o2_ctrl {
     function confirm_message($message = "") {
 
         $this->confirm_message = jx_encode($message);
-        return true;
+        return $this;
 
         }
 
@@ -4119,6 +4124,7 @@ class o2_ctrl_button extends o2_ctrl {
                 $this->css   = "o2_ctrl_button";
                 break;
             }
+        return $this;
 
         }
 
@@ -4139,7 +4145,7 @@ class o2_ctrl_button extends o2_ctrl {
         else {
             $this->css = ($this->style ? "o2_ctrl_ref" : "o2_ctrl_button");
             }
-        return true;
+        return $this;
 
         }
 
@@ -4147,7 +4153,7 @@ class o2_ctrl_button extends o2_ctrl {
     function label($label = "") {
 
         $this->label = $label;
-        return true;
+        return $this;
 
         }
 
@@ -4160,7 +4166,7 @@ class o2_ctrl_button extends o2_ctrl {
     function confirm_message($message = "") {
 
         $this->confirm_message = jx_encode($message);
-        return true;
+        return $this;
 
         }
 
@@ -4173,6 +4179,7 @@ class o2_ctrl_button extends o2_ctrl {
     function shortcut($key) {
 
         $this->key_event = $key;
+        return $this;
 
         }
 
@@ -4252,7 +4259,7 @@ class o2_ctrl_file extends o2_ctrl {
     function multiple() {
 
         $this->multiple = true;
-        return true;
+        return $this;
 
         }
 
@@ -4280,7 +4287,7 @@ class o2_ctrl_file extends o2_ctrl {
             $css.= '_btn';
             }
         $this->css = $css;
-        return true;
+        return $this;
 
         }
 
@@ -4298,7 +4305,7 @@ class o2_ctrl_file extends o2_ctrl {
         if ($this->forza_submit && substr($this->css, -4) != '_btn') {
             $this->css.= '_btn';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4312,7 +4319,7 @@ class o2_ctrl_file extends o2_ctrl {
     function save_as($nome = '') {
 
         $this->salva_con_nome = $nome;
-        return true;
+        return $this;
 
         }
 
@@ -4378,7 +4385,7 @@ class o2_ctrl_img extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_img';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4386,7 +4393,7 @@ class o2_ctrl_img extends o2_ctrl {
     function label($label = "") {
 
         $this->label = $label;
-        return true;
+        return $this;
 
         }
 
@@ -4399,7 +4406,7 @@ class o2_ctrl_img extends o2_ctrl {
     function confirm_message($message = "") {
 
         $this->confirm_message = jx_encode($message);
-        return true;
+        return $this;
 
         }
 
@@ -4407,7 +4414,7 @@ class o2_ctrl_img extends o2_ctrl {
     function immagine($immagine = "") {
 
         $this->immagine = $immagine;
-        return true;
+        return $this;
 
         }
 
@@ -4415,7 +4422,7 @@ class o2_ctrl_img extends o2_ctrl {
     function imgexp($imgexp = "") {
 
         $this->imgexp = $imgexp;
-        return true;
+        return $this;
 
         }
 
@@ -4423,7 +4430,7 @@ class o2_ctrl_img extends o2_ctrl {
     function imgoverexp($imgoverexp = "") {
 
         $this->imgoverexp = $imgoverexp;
-        return true;
+        return $this;
 
         }
 
@@ -4555,7 +4562,7 @@ class o2_ctrl_multipage extends o2_ctrl {
         else {
             $this->css_spazio_out = 'o2_ctrl_multi_out';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4582,7 +4589,7 @@ class o2_ctrl_multipage extends o2_ctrl {
         else {
             $this->css_spazio_in = 'o2_ctrl_multi_in';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4608,7 +4615,7 @@ class o2_ctrl_multipage extends o2_ctrl {
         else {
             $this->css_label_on = 'o2_ctrl_multi_on';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4635,7 +4642,7 @@ class o2_ctrl_multipage extends o2_ctrl {
         else {
             $this->css_label_off = 'o2_ctrl_multi_off';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4652,7 +4659,7 @@ class o2_ctrl_multipage extends o2_ctrl {
             $label = array("Page1");
             }
         $this->label = $label;
-        return true;
+        return $this;
 
         }
 
@@ -4666,20 +4673,9 @@ class o2_ctrl_multipage extends o2_ctrl {
     function buttons($tipo = "T") {
 
         $this->posizione_ctrls = $tipo;
-        return true;
+        return $this;
 
         }
-
-
-    /**
-     * Forza il ritorno al server all'on-change del controllo
-     *
-     * TODO: method to be removed
-     *
-     * @param  boolean $on_change
-     * @return boolean
-     */
-    function on_change($on_change = false) { }
 
 
     /**
@@ -4690,7 +4686,7 @@ class o2_ctrl_multipage extends o2_ctrl {
     function confirm_message($message = "") {
 
         $this->confirm_message = jx_encode($message);
-        return true;
+        return $this;
 
         }
 
@@ -4763,7 +4759,7 @@ class o2_ctrl_flowbox extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_box_out';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4780,7 +4776,7 @@ class o2_ctrl_flowbox extends o2_ctrl {
             $label = array("Page1");
             }
         $this->label = $label;
-        return true;
+        return $this;
 
         }
 
@@ -4847,7 +4843,7 @@ class o2_ctrl_frame extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_box_in';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4910,7 +4906,7 @@ class o2_ctrl_html extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_html';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4918,7 +4914,7 @@ class o2_ctrl_html extends o2_ctrl {
     function html($codice = "") {
 
         $this->html = $codice;
-        return true;
+        return $this;
 
         }
 
@@ -4981,7 +4977,7 @@ class o2_ctrl_doc extends o2_ctrl {
         else {
             $this->css = 'o2_ctrl_doc';
             }
-        return true;
+        return $this;
 
         }
 
@@ -4989,7 +4985,7 @@ class o2_ctrl_doc extends o2_ctrl {
     function path($indirizzo = "") {
 
         $this->path = $indirizzo;
-        return true;
+        return $this;
 
         }
 
@@ -5086,6 +5082,7 @@ class o2_ctrl_tab extends o2_ctrl {
     function hide_indicator($hide = true) {
 
         $this->row_marker = ($hide ? false : true);
+        return $this;
 
         }
 
@@ -5106,7 +5103,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->spazio_class = 'o2_tab_space';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5127,7 +5124,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->tab_class = 'o2_tab_tab';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5148,7 +5145,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->testa_class = 'o2_tab_testa';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5169,7 +5166,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->footer_class = 'o2_tab_foot';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5190,7 +5187,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->corpo_class = 'o2_tab_corpo';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5211,7 +5208,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->riga_class = 'o2_tab_riga';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5232,7 +5229,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->alt_class = 'o2_tab_alt';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5253,7 +5250,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->point_class = 'o2_tab_point';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5274,7 +5271,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->sele_class = 'o2_tab_sele';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5295,7 +5292,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->sort_class = 'o2_tab_sort';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5316,7 +5313,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->sorta_class = 'o2_tab_sorta';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5337,7 +5334,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->sortd_class = 'o2_tab_sortd';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5358,7 +5355,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->marker_class = 'o2_tab_marker';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5379,7 +5376,7 @@ class o2_ctrl_tab extends o2_ctrl {
         else {
             $this->fcol_class = 'o2_tab_fcol';
             }
-        return true;
+        return $this;
 
         }
 
@@ -5387,7 +5384,7 @@ class o2_ctrl_tab extends o2_ctrl {
     function pinned_cols($num = 0) {
 
         $this->pinned_cols = ($num ? $num : false);
-        return true;
+        return $this;
 
         }
 
@@ -5409,6 +5406,7 @@ class o2_ctrl_tab extends o2_ctrl {
             $this->gp_export      = ($list[6] ? true : false);
             $this->gp_delete      = ($list[7] ? true : false);
             }
+        return $this;
 
         }
 
@@ -5422,7 +5420,7 @@ class o2_ctrl_tab extends o2_ctrl {
     function norec_msg($message = "") {
 
         $this->norec_msg = $message;
-        return true;
+        return $this;
 
         }
 
@@ -6456,6 +6454,7 @@ class o2_ctrl_tree extends o2_ctrl {
     function nodes($nodes_list) {
 
         $this->list = $nodes_list;
+        return $this;
 
         }
 
@@ -6473,6 +6472,7 @@ class o2_ctrl_tree extends o2_ctrl {
     function activation($act_level) {
 
         $this->act_level = $act_level;
+        return $this;
 
         }
 
@@ -6493,7 +6493,7 @@ class o2_ctrl_tree extends o2_ctrl {
         else {
             $this->css = 'jxtree';
             }
-        return true;
+        return $this;
 
         }
 
@@ -6694,6 +6694,7 @@ class o2_ctrl_imglist extends o2_ctrl {
         if ($height !== false) {
             $this->items_h = intval($height);
             }
+        return $this;
 
         }
 
@@ -6829,6 +6830,7 @@ class o2_ctrl_imglist extends o2_ctrl {
     function items($items_list) {
 
         $this->list = $items_list;
+        return $this;
 
         }
 
@@ -6841,6 +6843,7 @@ class o2_ctrl_imglist extends o2_ctrl {
     function delete($action) {
 
         $this->action_del = $action;
+        return $this;
 
         }
 
@@ -6853,6 +6856,7 @@ class o2_ctrl_imglist extends o2_ctrl {
     function items_w($width = 0) {
 
         $this->items_w = $width;
+        return $this;
 
         }
 
@@ -6865,6 +6869,7 @@ class o2_ctrl_imglist extends o2_ctrl {
     function items_h($height = 0) {
 
         $this->items_h = $height;
+        return $this;
 
         }
 
@@ -6885,7 +6890,7 @@ class o2_ctrl_imglist extends o2_ctrl {
         else {
             $this->css = 'jximglist';
             }
-        return true;
+        return $this;
 
         }
 
@@ -7342,6 +7347,7 @@ class o2_ctrl_progress extends o2_ctrl {
     function value($exp) {
 
         $this->caller = trim($exp, '()');
+        return $this;
 
         }
 
@@ -7354,6 +7360,7 @@ class o2_ctrl_progress extends o2_ctrl {
     function start_action($action) {
 
         $this->start_action = $action;
+        return $this;
 
         }
 
@@ -7366,6 +7373,7 @@ class o2_ctrl_progress extends o2_ctrl {
     function end_action($action) {
 
         $this->complete_action = $action;
+        return $this;
 
         }
 
