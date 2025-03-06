@@ -1645,10 +1645,10 @@ class o2_view {
 
     /*     ===== PROPERTIES =========================================================== */
     public $dbdata        = false;   /* If view content is from DB, FALSE=virtual_view  */
-    public $nome          = "";      /* View name                                       */
-    public $prg           = "";      /* Name of program containing view                 */
+    public $nome          = '';      /* View name                                       */
+    public $prg           = '';      /* Name of program containing view                 */
     public $id_esecuzione = 0;       /* Prg execution id (PRG_EXE_ID)                   */
-    public $def_function  = "";      /* Definition function in program script           */
+    public $def_function  = '';      /* Definition function in program script           */
     public $righe_vis     = 10;      /* Number of rows displayed for interaction        */
     /*     _____ INTERNAL LISTS _______________________________________________________ */
     public $recordset     = array(); /* Array of records of current recordset           */
@@ -1657,8 +1657,25 @@ class o2_view {
     public $verified      = array(); /* Last verified (links and formulas) record       */
     public $dipendenze    = array(); /* Dependent views list                            */
     /*     _____ INTERNAL FLAGS _______________________________________________________ */
-    public $status        = "M";     /* Behaviour status: [I]nsert [D]elete [M]odify    */
+    public $status        = 'M';     /* Behaviour status: [I]nsert [D]elete [M]odify    */
     public $modificato    = false;   /* If current record has been modified             */
+
+
+    /**
+     * Set rows number for the view.
+     *
+     * This method is actually used, but it is provided for future chaining definition of
+     * views
+     *
+     * @param  integer $rows   Number of rows to set for the view
+     * @return o2_view
+     */
+    public function set_rows($rows) {
+
+        $this->righe_vis = ($rows > 0 ? $rows : 1);
+        return $this;
+
+        }
 
 
     /**
@@ -2035,6 +2052,7 @@ class o2_dbview extends o2_view {
 
         $this->usa_file_link($tabella, $con_nome, $chiave, $db, $phys_tab);
         $this->file = $this->files[$con_nome];
+        return $this;
 
         }
 
@@ -2118,6 +2136,7 @@ class o2_dbview extends o2_view {
                 $ut->subquery   = false;
                 }
             }
+        return $this;
 
         }
 
@@ -2133,6 +2152,7 @@ class o2_dbview extends o2_view {
         throw new o2_exception("Sorry, use of view-model <i>".$view_model.
                                "</i> in view <i>".$this->nome."</i> is not supported",
                                o2error_UNKNOWNVIEWMODEL);
+        return $this;
 
         }
 
@@ -2171,6 +2191,7 @@ class o2_dbview extends o2_view {
                       $not,
                       $like,
                       true);
+        return $this;
 
         }
 
@@ -2212,6 +2233,7 @@ class o2_dbview extends o2_view {
                                                     $range_max,
                                                     $not,
                                                     $like);
+        return $this;
 
         }
 
@@ -2255,6 +2277,7 @@ class o2_dbview extends o2_view {
             $this->formule[$name]->formula = $formula;
             }
         $this->formule[$name]->virtual = true;
+        return $this;
 
         }
 
@@ -2350,6 +2373,7 @@ class o2_dbview extends o2_view {
         $this->campi[$name]->formula  = $sql;
         $this->campi[$name]->order_by = $order_by;
         $this->campi[$name]->virtual  = true;
+        return $this;
 
         }
 
@@ -2364,6 +2388,7 @@ class o2_dbview extends o2_view {
     function custom_where($where_exp) {
 
         $this->custom_where = $where_exp;
+        return $this;
 
         }
 
@@ -7087,6 +7112,7 @@ class o2_virtualview extends o2_view {
             $this->variabili[$variabile]->valore = $maschera_local->default;
             $this->corrente[$variabile]          = $maschera_local->default;
             }
+        return $this;
 
         }
 
