@@ -6,12 +6,12 @@
  *
  * @name      jxconv
  * @package   janox/bin/jxconv.php
- * @version   2.9
+ * @version   3.0
  * @copyright Tommaso Vannini (tvannini@janox.it) 2007
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
-$jxrel = '2.9';
+$jxrel = '3.0';
 $info  = <<<JANOX_SCRIPT_HEAD
 
                       Janox Upgrade Tool
@@ -1068,6 +1068,85 @@ class upgrades_collection {
 
         }
 
+
+    /**
+     * Upgrades application to release 3.0
+     *
+     *
+     * @param string $app_name Application name
+     * @param jxdir  $app_dir  Application root directory
+     */
+    static function to3_0($app_name, $app_dir) {
+
+        // ____________________________ Remove ->wide syntax and replace with ->expand ___
+        $dir   = new dir_descriptor($app_dir.'prgs/');
+        $files = $dir->get_elements();
+        // _________________________________________________ Loop on folder files list ___
+        while ($file = array_shift($files)) {
+            // ___________________________________________________ Make all stuff here ___
+            if ($file->ext == 'prf') {
+                $prf = $file->full_name;
+                if (file_exists($prf)) {
+                    $prf_txt = file_get_contents($prf);
+                    $prf_txt = str_replace('&$', '$', $prf_txt);
+                    file_put_contents($prf, $prf_txt);
+                    }
+                }
+            // _________________________________________ Add sub folders files to list ___
+            elseif ($file->type == 'D') {
+                $files+= $file->get_elements();
+                }
+            }
+
+        }
+
+
+    /**
+     * Upgrades application to a future release, to remove no UTF-8 chars
+     *
+     *
+     * @param string $app_name Application name
+     * @param jxdir  $app_dir  Application root directory
+     */
+    static function _tox_x($app_name, $app_dir) {
+
+        $dir   = new dir_descriptor($app_dir.'prgs/');
+        $files = $dir->get_elements();
+        // _________________ Define old "paragraph" char marker in Windows-1252 encode ___
+        $m     = html_entity_decode('&sect;', ENT_QUOTES, 'cp1252');
+        // _________________________________________________ Loop on folder files list ___
+        while ($file = array_shift($files)) {
+            // ___________________________________________________ Make all stuff here ___
+            if ($file->ext == 'prg') {
+                $prg   = $file->full_name;
+                $prf   = $file->path.$file->name.'.prf';
+                if (file_exists($prf)) {
+                    $codg = file_get_contents($prg);
+                    $codf = file_get_contents($prf);
+                    // ______________________ Replace local variables marker [prg|prf] ___
+                    $codg = preg_replace('/prg'.$m.'_'.$m.'var/', '[var]', $codg);
+                    $codf = preg_replace('/prg'.$m.'_'.$m.'var/', '[var]', $codf);
+
+                    // ______ Replace separator in call-prg reference parameters [prf] ___
+                    $codf  = preg_replace('/(["\']\w+)'.$m.$m.'(\w+["\'])/',
+                                          '$1|$2',
+                                          $codf);
+
+                    // Replace separator in view, form, action, protocol & report [prf] __
+                    $codf  = preg_replace('/(\s*function\s+\w+)'.$m.$m.'(\w+\s*\()/',
+                                          '$1__$2',
+                                          $codf);
+                    file_put_contents($prg, $codg);
+                    file_put_contents($prf, $codf);
+                    }
+                }
+            // _________________________________________ Add sub folders files to list ___
+            elseif ($file->type == 'D') {
+                $files+= $file->get_elements();
+                }
+            }
+
+        }
 
     }
 
