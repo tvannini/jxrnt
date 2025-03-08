@@ -1,6 +1,6 @@
 <?php
 
-function o2dev_login_page§§prg§_§var_def(&$task_prg§_§var) {
+function o2dev_login_page§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("app_name", "_o2alpha");
 	$task_prg§_§var->definisci("file_name", "o2sys_long_str");
@@ -10,20 +10,20 @@ function o2dev_login_page§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("mailto", "_o2logical");
 	$task_prg§_§var->definisci("mailto_add", "_o2alpha");
 		}
-function o2dev_login_page§§o2dev_login_page_form_def(&$form_o2dev_login_page) {
+function o2dev_login_page§§o2dev_login_page_form_def($form_o2dev_login_page) {
 	$form_o2dev_login_page->x(310);
 	$form_o2dev_login_page->y(41);
 	$form_o2dev_login_page->larghezza(670);
 	$form_o2dev_login_page->altezza(352);
 	$form_o2dev_login_page->titolo("Generate login page");
 	$form_o2dev_login_page->align_o("Center");
-	$ctrl_o2label3 = &$form_o2dev_login_page->ctrldef("o2label3", "label", "", "", "");
+	$ctrl_o2label3 = $form_o2dev_login_page->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(40);
 		$ctrl_o2label3->y(50);
 		$ctrl_o2label3->larghezza(120);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->label("Application name:");
-	$ctrl_o2ListBox2 = &$form_o2dev_login_page->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "image");
+	$ctrl_o2ListBox2 = $form_o2dev_login_page->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "image");
 		$ctrl_o2ListBox2->x(160);
 		$ctrl_o2ListBox2->y(110);
 		$ctrl_o2ListBox2->larghezza(240);
@@ -31,65 +31,65 @@ function o2dev_login_page§§o2dev_login_page_form_def(&$form_o2dev_login_page) {
 		$ctrl_o2ListBox2->on_change(o2dev_login_page_exp_4());
 		$ctrl_o2ListBox2->valori(o2dev_login_page_exp_2());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2image2 = &$form_o2dev_login_page->ctrldef("o2image2", "img", "", "", "");
+	$ctrl_o2image2 = $form_o2dev_login_page->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(160);
 		$ctrl_o2image2->y(170);
 		$ctrl_o2image2->larghezza(90);
 		$ctrl_o2image2->altezza(15);
 		$ctrl_o2image2->imgexp(o2dev_login_page_exp_9());
-	$ctrl_o2htmlarea2 = &$form_o2dev_login_page->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_o2dev_login_page->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(420);
 		$ctrl_o2htmlarea2->y(50);
 		$ctrl_o2htmlarea2->larghezza(200);
 		$ctrl_o2htmlarea2->altezza(200);
 		$ctrl_o2htmlarea2->html(o2dev_login_page_exp_6());
-	$ctrl_o2label4 = &$form_o2dev_login_page->ctrldef("o2label4", "label", "", "", "");
+	$ctrl_o2label4 = $form_o2dev_login_page->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(80);
 		$ctrl_o2label4->y(80);
 		$ctrl_o2label4->larghezza(70);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->label("Mailto:");
-	$ctrl_o2label5 = &$form_o2dev_login_page->ctrldef("o2label5", "label", "", "", "");
+	$ctrl_o2label5 = $form_o2dev_login_page->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(40);
 		$ctrl_o2label5->y(140);
 		$ctrl_o2label5->larghezza(120);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->label("File to generate:");
-	$ctrl_o2label2 = &$form_o2dev_login_page->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_o2dev_login_page->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(40);
 		$ctrl_o2label2->y(110);
 		$ctrl_o2label2->larghezza(50);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("Image:");
-	$ctrl_o2edit2 = &$form_o2dev_login_page->ctrldef("o2edit2", "edit", "", "prg§_§var", "app_name");
+	$ctrl_o2edit2 = $form_o2dev_login_page->ctrldef("o2edit2", "edit", "", "prg§_§var", "app_name");
 		$ctrl_o2edit2->x(160);
 		$ctrl_o2edit2->y(50);
 		$ctrl_o2edit2->larghezza(240);
 		$ctrl_o2edit2->altezza(20);
-	$ctrl_o2checkbox2 = &$form_o2dev_login_page->ctrldef("o2checkbox2", "check", "", "prg§_§var", "mailto");
+	$ctrl_o2checkbox2 = $form_o2dev_login_page->ctrldef("o2checkbox2", "check", "", "prg§_§var", "mailto");
 		$ctrl_o2checkbox2->x(50);
 		$ctrl_o2checkbox2->y(80);
 		$ctrl_o2checkbox2->larghezza(20);
 		$ctrl_o2checkbox2->altezza(20);
 		$ctrl_o2checkbox2->on_change(o2dev_login_page_exp_4());
-	$ctrl_o2edit3 = &$form_o2dev_login_page->ctrldef("o2edit3", "edit", "", "prg§_§var", "mailto_add");
+	$ctrl_o2edit3 = $form_o2dev_login_page->ctrldef("o2edit3", "edit", "", "prg§_§var", "mailto_add");
 		$ctrl_o2edit3->x(160);
 		$ctrl_o2edit3->y(80);
 		$ctrl_o2edit3->larghezza(240);
 		$ctrl_o2edit3->altezza(20);
 		$ctrl_o2edit3->modificabile(o2dev_login_page_exp_5());
-	$ctrl_o2edit4 = &$form_o2dev_login_page->ctrldef("o2edit4", "edit", "", "prg§_§var", "file_name");
+	$ctrl_o2edit4 = $form_o2dev_login_page->ctrldef("o2edit4", "edit", "", "prg§_§var", "file_name");
 		$ctrl_o2edit4->x(160);
 		$ctrl_o2edit4->y(140);
 		$ctrl_o2edit4->larghezza(240);
 		$ctrl_o2edit4->altezza(20);
-	$ctrl_o2checkbox3 = &$form_o2dev_login_page->ctrldef("o2checkbox3", "check", "", "prg§_§var", "jxpowered");
+	$ctrl_o2checkbox3 = $form_o2dev_login_page->ctrldef("o2checkbox3", "check", "", "prg§_§var", "jxpowered");
 		$ctrl_o2checkbox3->x(50);
 		$ctrl_o2checkbox3->y(170);
 		$ctrl_o2checkbox3->larghezza(20);
 		$ctrl_o2checkbox3->altezza(20);
 		$ctrl_o2checkbox3->on_change(o2dev_login_page_exp_4());
-	$ctrl_o2button2 = &$form_o2dev_login_page->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_o2dev_login_page->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(310);
 		$ctrl_o2button2->y(270);
 		$ctrl_o2button2->larghezza(90);
@@ -98,12 +98,12 @@ function o2dev_login_page§§o2dev_login_page_form_def(&$form_o2dev_login_page) {
 		$ctrl_o2button2->label("Generate");
 		}
 
-function o2dev_login_page§§generate_act(&$o2exe) {
+function o2dev_login_page§§generate_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_login_page_exp_10()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::gotourl(o2dev_login_page_exp_11()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_login_page§§start_act(&$o2exe) {
+function o2dev_login_page§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "app_name", o2dev_login_page_exp_7()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "image_list", o2dev_login_page_exp_1()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "file_name", o2dev_login_page_exp_8()) && $o2exe->e();

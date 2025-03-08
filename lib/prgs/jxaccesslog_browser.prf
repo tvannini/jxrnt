@@ -1,6 +1,6 @@
 <?php
 
-function jxaccesslog_browser§§prg§_§var_def(&$task_prg§_§var) {
+function jxaccesslog_browser§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("access_flag", "jxaccess_flag");
 	$task_prg§_§var->definisci("application", "_o2alpha");
@@ -19,7 +19,7 @@ function jxaccesslog_browser§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("user", "jxuser");
 		}
 
-function jxaccesslog_browser§§access_log_def(&$task_access_log, $_o2viewalias = "") {
+function jxaccesslog_browser§§access_log_def($task_access_log, $_o2viewalias = "") {
 	$task_access_log->righe_vis = 50;
 
 	$task_access_log->usa_file("jx_access_log","jx_access_log","pk",null,null);
@@ -61,7 +61,7 @@ function jxaccesslog_browser§§access_log_def(&$task_access_log, $_o2viewalias = 
 	$task_access_log->usa("timestamp_logout","rel_logout","timestamp",null,null,null,null);
 	$task_access_log->usa("timestamp_expired","rel_expired","timestamp",null,null,null,null);
 }
-function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_browser_1) {
+function jxaccesslog_browser§§jxaccesslog_browser_1_form_def($form_jxaccesslog_browser_1) {
 	$form_jxaccesslog_browser_1->x(450);
 	$form_jxaccesslog_browser_1->y(60);
 	$form_jxaccesslog_browser_1->larghezza(900);
@@ -69,7 +69,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 	$form_jxaccesslog_browser_1->align_o("Center");
 	$form_jxaccesslog_browser_1->titolo("Access log");
 	$form_jxaccesslog_browser_1->css_body("o2_form_body open_body");
-	$ctrl_o2multipage2 = &$form_jxaccesslog_browser_1->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_jxaccesslog_browser_1->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(0);
 		$ctrl_o2multipage2->y(0);
 		$ctrl_o2multipage2->larghezza(900);
@@ -81,7 +81,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2multipage2->css_label_on(jxaccesslog_browser_exp_2());
 		$ctrl_o2multipage2->css_label_off(jxaccesslog_browser_exp_2());
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2dbnavigator2 = &$form_jxaccesslog_browser_1->ctrldef("o2dbnavigator2", "navigator", "", "access_log", "");
+	$ctrl_o2dbnavigator2 = $form_jxaccesslog_browser_1->ctrldef("o2dbnavigator2", "navigator", "", "access_log", "");
 		$ctrl_o2dbnavigator2->x(0);
 		$ctrl_o2dbnavigator2->y(60);
 		$ctrl_o2dbnavigator2->larghezza(900);
@@ -94,14 +94,14 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2dbnavigator2->visible_undo(jxaccesslog_browser_exp_9999());
 		$ctrl_o2dbnavigator2->visible_detail(jxaccesslog_browser_exp_9999());
 		$ctrl_o2dbnavigator2->visible_select(jxaccesslog_browser_exp_9999());
-	$ctrl_o2table2 = &$form_jxaccesslog_browser_1->ctrldef("o2table2", "tab", "", "access_log", "");
+	$ctrl_o2table2 = $form_jxaccesslog_browser_1->ctrldef("o2table2", "tab", "", "access_log", "");
 		$ctrl_o2table2->x(0);
 		$ctrl_o2table2->y(92);
 		$ctrl_o2table2->larghezza(900);
 		$ctrl_o2table2->altezza(368);
 		$ctrl_o2table2->expand("B");
 		$ctrl_o2table2->modificabile(jxaccesslog_browser_exp_9999());
-	$ctrl_o2multipage3 = &$form_jxaccesslog_browser_1->ctrldef("o2multipage3", "multipage", "", "", "");
+	$ctrl_o2multipage3 = $form_jxaccesslog_browser_1->ctrldef("o2multipage3", "multipage", "", "", "");
 		$ctrl_o2multipage3->x(0);
 		$ctrl_o2multipage3->y(460);
 		$ctrl_o2multipage3->larghezza(900);
@@ -113,7 +113,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2multipage3->css_label_on(jxaccesslog_browser_exp_2());
 		$ctrl_o2multipage3->css_label_off(jxaccesslog_browser_exp_2());
 		$ctrl_o2multipage3->buttons("T");
-	$ctrl_btn_refresh = &$form_jxaccesslog_browser_1->ctrldef("btn_refresh", "img", "", "", "");
+	$ctrl_btn_refresh = $form_jxaccesslog_browser_1->ctrldef("btn_refresh", "img", "", "", "");
 		$ctrl_btn_refresh->x(10);
 		$ctrl_btn_refresh->y(63);
 		$ctrl_btn_refresh->larghezza(32);
@@ -122,84 +122,84 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_btn_refresh->label("Refresh");
 		$ctrl_btn_refresh->css(jxaccesslog_browser_exp_32());
 		$ctrl_btn_refresh->imgexp(jxaccesslog_browser_exp_33());
-	$ctrl_o2label2 = &$form_jxaccesslog_browser_1->ctrldef("o2label2", "label", "o2multipage2", "", "");
+	$ctrl_o2label2 = $form_jxaccesslog_browser_1->ctrldef("o2label2", "label", "o2multipage2", "", "");
 		$ctrl_o2label2->x(20);
 		$ctrl_o2label2->y(10);
 		$ctrl_o2label2->larghezza(70);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->info_padre(array(0));
 		$ctrl_o2label2->label("From date:");
-	$ctrl_o2label3 = &$form_jxaccesslog_browser_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
+	$ctrl_o2label3 = $form_jxaccesslog_browser_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
 		$ctrl_o2label3->x(20);
 		$ctrl_o2label3->y(30);
 		$ctrl_o2label3->larghezza(70);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->info_padre(array(0));
 		$ctrl_o2label3->label("To date:");
-	$ctrl_o2label4 = &$form_jxaccesslog_browser_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
+	$ctrl_o2label4 = $form_jxaccesslog_browser_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
 		$ctrl_o2label4->x(710);
 		$ctrl_o2label4->y(10);
 		$ctrl_o2label4->larghezza(70);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(0));
 		$ctrl_o2label4->label("User:");
-	$ctrl_o2label5 = &$form_jxaccesslog_browser_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
+	$ctrl_o2label5 = $form_jxaccesslog_browser_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
 		$ctrl_o2label5->x(710);
 		$ctrl_o2label5->y(30);
 		$ctrl_o2label5->larghezza(70);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->info_padre(array(0));
 		$ctrl_o2label5->label("Developer:");
-	$ctrl_o2label6 = &$form_jxaccesslog_browser_1->ctrldef("o2label6", "label", "o2multipage2", "", "");
+	$ctrl_o2label6 = $form_jxaccesslog_browser_1->ctrldef("o2label6", "label", "o2multipage2", "", "");
 		$ctrl_o2label6->x(170);
 		$ctrl_o2label6->y(10);
 		$ctrl_o2label6->larghezza(30);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->info_padre(array(0));
 		$ctrl_o2label6->label("time:");
-	$ctrl_o2label7 = &$form_jxaccesslog_browser_1->ctrldef("o2label7", "label", "o2multipage2", "", "");
+	$ctrl_o2label7 = $form_jxaccesslog_browser_1->ctrldef("o2label7", "label", "o2multipage2", "", "");
 		$ctrl_o2label7->x(170);
 		$ctrl_o2label7->y(30);
 		$ctrl_o2label7->larghezza(30);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->info_padre(array(0));
 		$ctrl_o2label7->label("time:");
-	$ctrl_o2label8 = &$form_jxaccesslog_browser_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
+	$ctrl_o2label8 = $form_jxaccesslog_browser_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
 		$ctrl_o2label8->x(290);
 		$ctrl_o2label8->y(10);
 		$ctrl_o2label8->larghezza(70);
 		$ctrl_o2label8->altezza(20);
 		$ctrl_o2label8->info_padre(array(0));
 		$ctrl_o2label8->label("Application:");
-	$ctrl_o2label9 = &$form_jxaccesslog_browser_1->ctrldef("o2label9", "label", "o2multipage2", "", "");
+	$ctrl_o2label9 = $form_jxaccesslog_browser_1->ctrldef("o2label9", "label", "o2multipage2", "", "");
 		$ctrl_o2label9->x(290);
 		$ctrl_o2label9->y(30);
 		$ctrl_o2label9->larghezza(70);
 		$ctrl_o2label9->altezza(20);
 		$ctrl_o2label9->info_padre(array(0));
 		$ctrl_o2label9->label("Host:");
-	$ctrl_o2label10 = &$form_jxaccesslog_browser_1->ctrldef("o2label10", "label", "o2multipage2", "", "");
+	$ctrl_o2label10 = $form_jxaccesslog_browser_1->ctrldef("o2label10", "label", "o2multipage2", "", "");
 		$ctrl_o2label10->x(500);
 		$ctrl_o2label10->y(10);
 		$ctrl_o2label10->larghezza(70);
 		$ctrl_o2label10->altezza(20);
 		$ctrl_o2label10->info_padre(array(0));
 		$ctrl_o2label10->label("Run mode:");
-	$ctrl_o2label11 = &$form_jxaccesslog_browser_1->ctrldef("o2label11", "label", "o2multipage2", "", "");
+	$ctrl_o2label11 = $form_jxaccesslog_browser_1->ctrldef("o2label11", "label", "o2multipage2", "", "");
 		$ctrl_o2label11->x(500);
 		$ctrl_o2label11->y(30);
 		$ctrl_o2label11->larghezza(70);
 		$ctrl_o2label11->altezza(20);
 		$ctrl_o2label11->info_padre(array(0));
 		$ctrl_o2label11->label("Terminal:");
-	$ctrl_o2edit8 = &$form_jxaccesslog_browser_1->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "date_from");
+	$ctrl_o2edit8 = $form_jxaccesslog_browser_1->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "date_from");
 		$ctrl_o2edit8->x(90);
 		$ctrl_o2edit8->y(10);
 		$ctrl_o2edit8->larghezza(60);
 		$ctrl_o2edit8->altezza(20);
 		$ctrl_o2edit8->on_change(jxaccesslog_browser_exp_9());
 		$ctrl_o2edit8->info_padre(array(0));
-	$ctrl_o2edit9 = &$form_jxaccesslog_browser_1->ctrldef("o2edit9", "edit", "o2multipage2", "prg§_§var", "time_from");
+	$ctrl_o2edit9 = $form_jxaccesslog_browser_1->ctrldef("o2edit9", "edit", "o2multipage2", "prg§_§var", "time_from");
 		$ctrl_o2edit9->x(200);
 		$ctrl_o2edit9->y(10);
 		$ctrl_o2edit9->larghezza(50);
@@ -207,14 +207,14 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2edit9->modificabile(jxaccesslog_browser_exp_10());
 		$ctrl_o2edit9->on_change(jxaccesslog_browser_exp_9());
 		$ctrl_o2edit9->info_padre(array(0));
-	$ctrl_o2edit10 = &$form_jxaccesslog_browser_1->ctrldef("o2edit10", "edit", "o2multipage2", "prg§_§var", "date_to");
+	$ctrl_o2edit10 = $form_jxaccesslog_browser_1->ctrldef("o2edit10", "edit", "o2multipage2", "prg§_§var", "date_to");
 		$ctrl_o2edit10->x(90);
 		$ctrl_o2edit10->y(30);
 		$ctrl_o2edit10->larghezza(60);
 		$ctrl_o2edit10->altezza(20);
 		$ctrl_o2edit10->on_change(jxaccesslog_browser_exp_9());
 		$ctrl_o2edit10->info_padre(array(0));
-	$ctrl_o2edit11 = &$form_jxaccesslog_browser_1->ctrldef("o2edit11", "edit", "o2multipage2", "prg§_§var", "time_to");
+	$ctrl_o2edit11 = $form_jxaccesslog_browser_1->ctrldef("o2edit11", "edit", "o2multipage2", "prg§_§var", "time_to");
 		$ctrl_o2edit11->x(200);
 		$ctrl_o2edit11->y(30);
 		$ctrl_o2edit11->larghezza(50);
@@ -222,7 +222,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2edit11->modificabile(jxaccesslog_browser_exp_11());
 		$ctrl_o2edit11->on_change(jxaccesslog_browser_exp_9());
 		$ctrl_o2edit11->info_padre(array(0));
-	$ctrl_o2ListBox4 = &$form_jxaccesslog_browser_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "application");
+	$ctrl_o2ListBox4 = $form_jxaccesslog_browser_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "application");
 		$ctrl_o2ListBox4->x(360);
 		$ctrl_o2ListBox4->y(10);
 		$ctrl_o2ListBox4->larghezza(100);
@@ -232,7 +232,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(jxaccesslog_browser_exp_21());
 		$ctrl_o2ListBox4->righe(1);
-	$ctrl_o2ListBox5 = &$form_jxaccesslog_browser_1->ctrldef("o2ListBox5", "listcombo", "o2multipage2", "prg§_§var", "host");
+	$ctrl_o2ListBox5 = $form_jxaccesslog_browser_1->ctrldef("o2ListBox5", "listcombo", "o2multipage2", "prg§_§var", "host");
 		$ctrl_o2ListBox5->x(360);
 		$ctrl_o2ListBox5->y(30);
 		$ctrl_o2ListBox5->larghezza(100);
@@ -242,7 +242,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2ListBox5->info_padre(array(0));
 		$ctrl_o2ListBox5->valori(jxaccesslog_browser_exp_22());
 		$ctrl_o2ListBox5->righe(1);
-	$ctrl_o2ListBox6 = &$form_jxaccesslog_browser_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "run_mode");
+	$ctrl_o2ListBox6 = $form_jxaccesslog_browser_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "run_mode");
 		$ctrl_o2ListBox6->x(570);
 		$ctrl_o2ListBox6->y(10);
 		$ctrl_o2ListBox6->larghezza(100);
@@ -251,7 +251,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2ListBox6->info_padre(array(0));
 		$ctrl_o2ListBox6->valori(jxaccesslog_browser_exp_24());
 		$ctrl_o2ListBox6->righe(1);
-	$ctrl_o2ListBox7 = &$form_jxaccesslog_browser_1->ctrldef("o2ListBox7", "listcombo", "o2multipage2", "prg§_§var", "terminal");
+	$ctrl_o2ListBox7 = $form_jxaccesslog_browser_1->ctrldef("o2ListBox7", "listcombo", "o2multipage2", "prg§_§var", "terminal");
 		$ctrl_o2ListBox7->x(570);
 		$ctrl_o2ListBox7->y(30);
 		$ctrl_o2ListBox7->larghezza(100);
@@ -260,7 +260,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2ListBox7->info_padre(array(0));
 		$ctrl_o2ListBox7->valori(jxaccesslog_browser_exp_23());
 		$ctrl_o2ListBox7->righe(1);
-	$ctrl_o2edit14 = &$form_jxaccesslog_browser_1->ctrldef("o2edit14", "edit", "o2multipage2", "prg§_§var", "user");
+	$ctrl_o2edit14 = $form_jxaccesslog_browser_1->ctrldef("o2edit14", "edit", "o2multipage2", "prg§_§var", "user");
 		$ctrl_o2edit14->x(780);
 		$ctrl_o2edit14->y(10);
 		$ctrl_o2edit14->larghezza(100);
@@ -268,7 +268,7 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2edit14->expand("H");
 		$ctrl_o2edit14->on_change(jxaccesslog_browser_exp_9());
 		$ctrl_o2edit14->info_padre(array(0));
-	$ctrl_o2edit15 = &$form_jxaccesslog_browser_1->ctrldef("o2edit15", "edit", "o2multipage2", "prg§_§var", "developer");
+	$ctrl_o2edit15 = $form_jxaccesslog_browser_1->ctrldef("o2edit15", "edit", "o2multipage2", "prg§_§var", "developer");
 		$ctrl_o2edit15->x(805);
 		$ctrl_o2edit15->y(30);
 		$ctrl_o2edit15->larghezza(75);
@@ -277,68 +277,68 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2edit15->modificabile(jxaccesslog_browser_exp_34());
 		$ctrl_o2edit15->on_change(jxaccesslog_browser_exp_9());
 		$ctrl_o2edit15->info_padre(array(0));
-	$ctrl_o2checkbox2 = &$form_jxaccesslog_browser_1->ctrldef("o2checkbox2", "check", "o2multipage2", "prg§_§var", "dev_show");
+	$ctrl_o2checkbox2 = $form_jxaccesslog_browser_1->ctrldef("o2checkbox2", "check", "o2multipage2", "prg§_§var", "dev_show");
 		$ctrl_o2checkbox2->x(780);
 		$ctrl_o2checkbox2->y(30);
 		$ctrl_o2checkbox2->larghezza(20);
 		$ctrl_o2checkbox2->altezza(20);
 		$ctrl_o2checkbox2->on_change(jxaccesslog_browser_exp_9());
 		$ctrl_o2checkbox2->info_padre(array(0));
-	$ctrl_o2htmlarea2 = &$form_jxaccesslog_browser_1->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea2 = $form_jxaccesslog_browser_1->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea2->x(10);
 		$ctrl_o2htmlarea2->y(10);
 		$ctrl_o2htmlarea2->larghezza(10);
 		$ctrl_o2htmlarea2->altezza(40);
 		$ctrl_o2htmlarea2->expand("H");
 		$ctrl_o2htmlarea2->info_padre(array(0));
-	$ctrl_o2htmlarea6 = &$form_jxaccesslog_browser_1->ctrldef("o2htmlarea6", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea6 = $form_jxaccesslog_browser_1->ctrldef("o2htmlarea6", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea6->x(470);
 		$ctrl_o2htmlarea6->y(10);
 		$ctrl_o2htmlarea6->larghezza(10);
 		$ctrl_o2htmlarea6->altezza(40);
 		$ctrl_o2htmlarea6->expand("H");
 		$ctrl_o2htmlarea6->info_padre(array(0));
-	$ctrl_o2htmlarea4 = &$form_jxaccesslog_browser_1->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea4 = $form_jxaccesslog_browser_1->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea4->x(270);
 		$ctrl_o2htmlarea4->y(10);
 		$ctrl_o2htmlarea4->larghezza(10);
 		$ctrl_o2htmlarea4->altezza(40);
 		$ctrl_o2htmlarea4->expand("H");
 		$ctrl_o2htmlarea4->info_padre(array(0));
-	$ctrl_o2htmlarea5 = &$form_jxaccesslog_browser_1->ctrldef("o2htmlarea5", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea5 = $form_jxaccesslog_browser_1->ctrldef("o2htmlarea5", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea5->x(690);
 		$ctrl_o2htmlarea5->y(10);
 		$ctrl_o2htmlarea5->larghezza(10);
 		$ctrl_o2htmlarea5->altezza(40);
 		$ctrl_o2htmlarea5->expand("H");
 		$ctrl_o2htmlarea5->info_padre(array(0));
-	$ctrl_o2htmlarea3 = &$form_jxaccesslog_browser_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea3 = $form_jxaccesslog_browser_1->ctrldef("o2htmlarea3", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea3->x(880);
 		$ctrl_o2htmlarea3->y(10);
 		$ctrl_o2htmlarea3->larghezza(10);
 		$ctrl_o2htmlarea3->altezza(40);
 		$ctrl_o2htmlarea3->expand("H");
 		$ctrl_o2htmlarea3->info_padre(array(0));
-	$ctrl_o2label12 = &$form_jxaccesslog_browser_1->ctrldef("o2label12", "label", "o2multipage3", "", "");
+	$ctrl_o2label12 = $form_jxaccesslog_browser_1->ctrldef("o2label12", "label", "o2multipage3", "", "");
 		$ctrl_o2label12->x(10);
 		$ctrl_o2label12->y(5);
 		$ctrl_o2label12->larghezza(850);
 		$ctrl_o2label12->altezza(20);
 		$ctrl_o2label12->info_padre(array(0));
 		$ctrl_o2label12->label(jxaccesslog_browser_exp_31());
-	$ctrl_o2edit12 = &$form_jxaccesslog_browser_1->ctrldef("o2edit12", "edit", "o2table2", "access_log", "date");
+	$ctrl_o2edit12 = $form_jxaccesslog_browser_1->ctrldef("o2edit12", "edit", "o2table2", "access_log", "date");
 		$ctrl_o2edit12->x(0);
 		$ctrl_o2edit12->y(10);
 		$ctrl_o2edit12->larghezza(70);
 		$ctrl_o2edit12->altezza(20);
 		$ctrl_o2edit12->info_padre(array("01", "01", "01", "Date", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit13 = &$form_jxaccesslog_browser_1->ctrldef("o2edit13", "edit", "o2table2", "access_log", "time");
+	$ctrl_o2edit13 = $form_jxaccesslog_browser_1->ctrldef("o2edit13", "edit", "o2table2", "access_log", "time");
 		$ctrl_o2edit13->x(70);
 		$ctrl_o2edit13->y(10);
 		$ctrl_o2edit13->larghezza(50);
 		$ctrl_o2edit13->altezza(20);
 		$ctrl_o2edit13->info_padre(array("01", "02", "02", "Time", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2ListBox2 = &$form_jxaccesslog_browser_1->ctrldef("o2ListBox2", "listcombo", "o2table2", "access_log", "access_flag");
+	$ctrl_o2ListBox2 = $form_jxaccesslog_browser_1->ctrldef("o2ListBox2", "listcombo", "o2table2", "access_log", "access_flag");
 		$ctrl_o2ListBox2->x(120);
 		$ctrl_o2ListBox2->y(10);
 		$ctrl_o2ListBox2->larghezza(50);
@@ -346,28 +346,28 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2ListBox2->info_padre(array("01", "03", "03", "Event", False, "", 0, "", "", "", "", ""));
 		$ctrl_o2ListBox2->valori(array());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2edit2 = &$form_jxaccesslog_browser_1->ctrldef("o2edit2", "edit", "o2table2", "access_log", "user");
+	$ctrl_o2edit2 = $form_jxaccesslog_browser_1->ctrldef("o2edit2", "edit", "o2table2", "access_log", "user");
 		$ctrl_o2edit2->x(170);
 		$ctrl_o2edit2->y(10);
 		$ctrl_o2edit2->larghezza(150);
 		$ctrl_o2edit2->altezza(20);
 		$ctrl_o2edit2->expand("H");
 		$ctrl_o2edit2->info_padre(array("01", "04", "04", "User", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit3 = &$form_jxaccesslog_browser_1->ctrldef("o2edit3", "edit", "o2table2", "access_log", "app_name");
+	$ctrl_o2edit3 = $form_jxaccesslog_browser_1->ctrldef("o2edit3", "edit", "o2table2", "access_log", "app_name");
 		$ctrl_o2edit3->x(320);
 		$ctrl_o2edit3->y(10);
 		$ctrl_o2edit3->larghezza(80);
 		$ctrl_o2edit3->altezza(20);
 		$ctrl_o2edit3->expand("H");
 		$ctrl_o2edit3->info_padre(array("01", "05", "05", "Application", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit4 = &$form_jxaccesslog_browser_1->ctrldef("o2edit4", "edit", "o2table2", "access_log", "host");
+	$ctrl_o2edit4 = $form_jxaccesslog_browser_1->ctrldef("o2edit4", "edit", "o2table2", "access_log", "host");
 		$ctrl_o2edit4->x(400);
 		$ctrl_o2edit4->y(10);
 		$ctrl_o2edit4->larghezza(80);
 		$ctrl_o2edit4->altezza(20);
 		$ctrl_o2edit4->expand("H");
 		$ctrl_o2edit4->info_padre(array("01", "06", "06", "Host", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2ListBox3 = &$form_jxaccesslog_browser_1->ctrldef("o2ListBox3", "listcombo", "o2table2", "access_log", "run_mode");
+	$ctrl_o2ListBox3 = $form_jxaccesslog_browser_1->ctrldef("o2ListBox3", "listcombo", "o2table2", "access_log", "run_mode");
 		$ctrl_o2ListBox3->x(480);
 		$ctrl_o2ListBox3->y(10);
 		$ctrl_o2ListBox3->larghezza(50);
@@ -376,27 +376,27 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2ListBox3->info_padre(array("01", "07", "07", "Mode", False, "", 0, "", "", "", "", ""));
 		$ctrl_o2ListBox3->valori(array());
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2edit5 = &$form_jxaccesslog_browser_1->ctrldef("o2edit5", "edit", "o2table2", "access_log", "session_id");
+	$ctrl_o2edit5 = $form_jxaccesslog_browser_1->ctrldef("o2edit5", "edit", "o2table2", "access_log", "session_id");
 		$ctrl_o2edit5->x(530);
 		$ctrl_o2edit5->y(10);
 		$ctrl_o2edit5->larghezza(180);
 		$ctrl_o2edit5->altezza(20);
 		$ctrl_o2edit5->expand("H");
 		$ctrl_o2edit5->info_padre(array("01", "08", "08", "Session-ID", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit16 = &$form_jxaccesslog_browser_1->ctrldef("o2edit16", "edit", "o2table2", "access_log", "client_ip");
+	$ctrl_o2edit16 = $form_jxaccesslog_browser_1->ctrldef("o2edit16", "edit", "o2table2", "access_log", "client_ip");
 		$ctrl_o2edit16->x(710);
 		$ctrl_o2edit16->y(10);
 		$ctrl_o2edit16->larghezza(60);
 		$ctrl_o2edit16->altezza(20);
 		$ctrl_o2edit16->expand("H");
 		$ctrl_o2edit16->info_padre(array("01", "09", "09", "Client IP", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit6 = &$form_jxaccesslog_browser_1->ctrldef("o2edit6", "edit", "o2table2", "access_log", "terminal");
+	$ctrl_o2edit6 = $form_jxaccesslog_browser_1->ctrldef("o2edit6", "edit", "o2table2", "access_log", "terminal");
 		$ctrl_o2edit6->x(770);
 		$ctrl_o2edit6->y(10);
 		$ctrl_o2edit6->larghezza(50);
 		$ctrl_o2edit6->altezza(20);
 		$ctrl_o2edit6->info_padre(array("01", "10", "10", "Terminal", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit7 = &$form_jxaccesslog_browser_1->ctrldef("o2edit7", "edit", "o2table2", "access_log", "developer");
+	$ctrl_o2edit7 = $form_jxaccesslog_browser_1->ctrldef("o2edit7", "edit", "o2table2", "access_log", "developer");
 		$ctrl_o2edit7->x(820);
 		$ctrl_o2edit7->y(10);
 		$ctrl_o2edit7->larghezza(150);
@@ -405,17 +405,17 @@ function jxaccesslog_browser§§jxaccesslog_browser_1_form_def(&$form_jxaccesslog_
 		$ctrl_o2edit7->info_padre(array("01", "11", "11", "Developer", False, "", 0, "", "", "", "", ""));
 		}
 
-function jxaccesslog_browser§§load_lists_act(&$o2exe) {
+function jxaccesslog_browser§§load_lists_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "apps_list", jxaccesslog_browser_exp_13()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "hosts_list", jxaccesslog_browser_exp_14()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "terminals_list", jxaccesslog_browser_exp_15()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxaccesslog_browser§§refresh_act(&$o2exe) {
+function jxaccesslog_browser§§refresh_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("access_log", "1", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxaccesslog_browser§§start_act(&$o2exe) {
+function jxaccesslog_browser§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("load_lists", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "dev_show", jxaccesslog_browser_exp_9()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::script(jxaccesslog_browser_exp_6()) && $o2exe->e();

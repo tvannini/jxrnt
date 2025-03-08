@@ -1,6 +1,6 @@
 <?php
 
-function jxservices§§prg§_§var_def(&$task_prg§_§var) {
+function jxservices§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("dummy_srv_sele", "_o2alpha");
 	$task_prg§_§var->definisci("host_services", "_o2structure");
@@ -9,7 +9,7 @@ function jxservices§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("sele_service", "jxservice");
 	$task_prg§_§var->definisci("sele_type", "_o2alpha");
 		}
-function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
+function jxservices§§jxservices_1_form_def($form_jxservices_1) {
 	$form_jxservices_1->x(269);
 	$form_jxservices_1->y(100);
 	$form_jxservices_1->larghezza(550);
@@ -18,7 +18,7 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 	$form_jxservices_1->titolo("Services");
 	$form_jxservices_1->frm_status(jxservices_exp_14());
 	$form_jxservices_1->css_body("o2_form_body open_body");
-	$ctrl_o2multipage2 = &$form_jxservices_1->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_jxservices_1->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(200);
 		$ctrl_o2multipage2->y(40);
 		$ctrl_o2multipage2->larghezza(350);
@@ -28,14 +28,14 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2multipage2->css_label_on(jxservices_exp_40());
 		$ctrl_o2multipage2->css_label_off(jxservices_exp_40());
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2htmlarea2 = &$form_jxservices_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_jxservices_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(0);
 		$ctrl_o2htmlarea2->y(40);
 		$ctrl_o2htmlarea2->larghezza(200);
 		$ctrl_o2htmlarea2->altezza(298);
 		$ctrl_o2htmlarea2->html(jxservices_exp_2());
 		$ctrl_o2htmlarea2->css(jxservices_exp_9());
-	$ctrl_o2multipage3 = &$form_jxservices_1->ctrldef("o2multipage3", "multipage", "", "", "");
+	$ctrl_o2multipage3 = $form_jxservices_1->ctrldef("o2multipage3", "multipage", "", "", "");
 		$ctrl_o2multipage3->x(200);
 		$ctrl_o2multipage3->y(40);
 		$ctrl_o2multipage3->larghezza(350);
@@ -45,7 +45,7 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2multipage3->css_label_on(jxservices_exp_40());
 		$ctrl_o2multipage3->css_label_off(jxservices_exp_40());
 		$ctrl_o2multipage3->buttons("T");
-	$ctrl_o2multipage4 = &$form_jxservices_1->ctrldef("o2multipage4", "multipage", "", "", "");
+	$ctrl_o2multipage4 = $form_jxservices_1->ctrldef("o2multipage4", "multipage", "", "", "");
 		$ctrl_o2multipage4->x(0);
 		$ctrl_o2multipage4->y(0);
 		$ctrl_o2multipage4->larghezza(550);
@@ -56,28 +56,28 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2multipage4->css_label_on(jxservices_exp_40());
 		$ctrl_o2multipage4->css_label_off(jxservices_exp_40());
 		$ctrl_o2multipage4->buttons("T");
-	$ctrl_o2label5 = &$form_jxservices_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
+	$ctrl_o2label5 = $form_jxservices_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
 		$ctrl_o2label5->x(20);
 		$ctrl_o2label5->y(70);
 		$ctrl_o2label5->larghezza(80);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->info_padre(array(0));
 		$ctrl_o2label5->label("Services:");
-	$ctrl_o2label4 = &$form_jxservices_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
+	$ctrl_o2label4 = $form_jxservices_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
 		$ctrl_o2label4->x(100);
 		$ctrl_o2label4->y(40);
 		$ctrl_o2label4->larghezza(220);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(0));
 		$ctrl_o2label4->label(jxservices_exp_22());
-	$ctrl_o2label3 = &$form_jxservices_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
+	$ctrl_o2label3 = $form_jxservices_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
 		$ctrl_o2label3->x(20);
 		$ctrl_o2label3->y(40);
 		$ctrl_o2label3->larghezza(80);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->info_padre(array(0));
 		$ctrl_o2label3->label("Host name:");
-	$ctrl_o2ListBox2 = &$form_jxservices_1->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "dummy_srv_sele");
+	$ctrl_o2ListBox2 = $form_jxservices_1->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "dummy_srv_sele");
 		$ctrl_o2ListBox2->x(100);
 		$ctrl_o2ListBox2->y(70);
 		$ctrl_o2ListBox2->larghezza(220);
@@ -86,14 +86,14 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2ListBox2->info_padre(array(0));
 		$ctrl_o2ListBox2->valori(jxservices_exp_24());
 		$ctrl_o2ListBox2->righe(10);
-	$ctrl_o2image35 = &$form_jxservices_1->ctrldef("o2image35", "img", "o2multipage3", "", "");
+	$ctrl_o2image35 = $form_jxservices_1->ctrldef("o2image35", "img", "o2multipage3", "", "");
 		$ctrl_o2image35->x(200);
 		$ctrl_o2image35->y(225);
 		$ctrl_o2image35->larghezza(90);
 		$ctrl_o2image35->altezza(15);
 		$ctrl_o2image35->info_padre(array(0));
 		$ctrl_o2image35->imgexp(jxservices_exp_13());
-	$ctrl_o2htmlarea6 = &$form_jxservices_1->ctrldef("o2htmlarea6", "htmlarea", "o2multipage3", "", "");
+	$ctrl_o2htmlarea6 = $form_jxservices_1->ctrldef("o2htmlarea6", "htmlarea", "o2multipage3", "", "");
 		$ctrl_o2htmlarea6->x(50);
 		$ctrl_o2htmlarea6->y(60);
 		$ctrl_o2htmlarea6->larghezza(240);
@@ -101,21 +101,21 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2htmlarea6->info_padre(array(0));
 		$ctrl_o2htmlarea6->html(jxservices_exp_12());
 		$ctrl_o2htmlarea6->css(jxservices_exp_11());
-	$ctrl_o2label6 = &$form_jxservices_1->ctrldef("o2label6", "label", "o2multipage4", "", "");
+	$ctrl_o2label6 = $form_jxservices_1->ctrldef("o2label6", "label", "o2multipage4", "", "");
 		$ctrl_o2label6->x(140);
 		$ctrl_o2label6->y(10);
 		$ctrl_o2label6->larghezza(240);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->info_padre(array(0));
 		$ctrl_o2label6->label(jxservices_exp_35());
-	$ctrl_o2image7 = &$form_jxservices_1->ctrldef("o2image7", "img", "o2multipage4", "", "");
+	$ctrl_o2image7 = $form_jxservices_1->ctrldef("o2image7", "img", "o2multipage4", "", "");
 		$ctrl_o2image7->x(455);
 		$ctrl_o2image7->y(11);
 		$ctrl_o2image7->larghezza(3);
 		$ctrl_o2image7->altezza(17);
 		$ctrl_o2image7->info_padre(array(0));
 		$ctrl_o2image7->imgexp(jxservices_exp_6());
-	$ctrl_o2image3 = &$form_jxservices_1->ctrldef("o2image3", "img", "o2multipage4", "", "");
+	$ctrl_o2image3 = $form_jxservices_1->ctrldef("o2image3", "img", "o2multipage4", "", "");
 		$ctrl_o2image3->x(61);
 		$ctrl_o2image3->y(8);
 		$ctrl_o2image3->larghezza(24);
@@ -127,7 +127,7 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2image3->css(jxservices_exp_4());
 		$ctrl_o2image3->imgexp(jxservices_exp_27());
 		$ctrl_o2image3->confirm_message(jxservices_exp_29());
-	$ctrl_o2image5 = &$form_jxservices_1->ctrldef("o2image5", "img", "o2multipage4", "", "");
+	$ctrl_o2image5 = $form_jxservices_1->ctrldef("o2image5", "img", "o2multipage4", "", "");
 		$ctrl_o2image5->x(431);
 		$ctrl_o2image5->y(8);
 		$ctrl_o2image5->larghezza(24);
@@ -137,7 +137,7 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2image5->label("Host activation");
 		$ctrl_o2image5->css(jxservices_exp_4());
 		$ctrl_o2image5->imgexp(jxservices_exp_33());
-	$ctrl_o2image8 = &$form_jxservices_1->ctrldef("o2image8", "img", "o2multipage4", "", "");
+	$ctrl_o2image8 = $form_jxservices_1->ctrldef("o2image8", "img", "o2multipage4", "", "");
 		$ctrl_o2image8->x(458);
 		$ctrl_o2image8->y(8);
 		$ctrl_o2image8->larghezza(24);
@@ -147,14 +147,14 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2image8->label("Go to jobs");
 		$ctrl_o2image8->css(jxservices_exp_4());
 		$ctrl_o2image8->imgexp(jxservices_exp_8());
-	$ctrl_o2image27 = &$form_jxservices_1->ctrldef("o2image27", "img", "o2multipage4", "", "");
+	$ctrl_o2image27 = $form_jxservices_1->ctrldef("o2image27", "img", "o2multipage4", "", "");
 		$ctrl_o2image27->x(34);
 		$ctrl_o2image27->y(11);
 		$ctrl_o2image27->larghezza(3);
 		$ctrl_o2image27->altezza(17);
 		$ctrl_o2image27->info_padre(array(0));
 		$ctrl_o2image27->imgexp(jxservices_exp_6());
-	$ctrl_o2image10 = &$form_jxservices_1->ctrldef("o2image10", "img", "o2multipage4", "", "");
+	$ctrl_o2image10 = $form_jxservices_1->ctrldef("o2image10", "img", "o2multipage4", "", "");
 		$ctrl_o2image10->x(506);
 		$ctrl_o2image10->y(8);
 		$ctrl_o2image10->larghezza(24);
@@ -164,7 +164,7 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2image10->label("Go to scheduler");
 		$ctrl_o2image10->css(jxservices_exp_4());
 		$ctrl_o2image10->imgexp(jxservices_exp_37());
-	$ctrl_o2image4 = &$form_jxservices_1->ctrldef("o2image4", "img", "o2multipage4", "", "");
+	$ctrl_o2image4 = $form_jxservices_1->ctrldef("o2image4", "img", "o2multipage4", "", "");
 		$ctrl_o2image4->x(10);
 		$ctrl_o2image4->y(8);
 		$ctrl_o2image4->larghezza(24);
@@ -174,7 +174,7 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2image4->label("Refresh");
 		$ctrl_o2image4->css(jxservices_exp_4());
 		$ctrl_o2image4->imgexp(jxservices_exp_5());
-	$ctrl_o2image2 = &$form_jxservices_1->ctrldef("o2image2", "img", "o2multipage4", "", "");
+	$ctrl_o2image2 = $form_jxservices_1->ctrldef("o2image2", "img", "o2multipage4", "", "");
 		$ctrl_o2image2->x(37);
 		$ctrl_o2image2->y(8);
 		$ctrl_o2image2->larghezza(24);
@@ -184,7 +184,7 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2image2->label("Assign host to service");
 		$ctrl_o2image2->css(jxservices_exp_4());
 		$ctrl_o2image2->imgexp(jxservices_exp_26());
-	$ctrl_o2image6 = &$form_jxservices_1->ctrldef("o2image6", "img", "o2multipage4", "", "");
+	$ctrl_o2image6 = $form_jxservices_1->ctrldef("o2image6", "img", "o2multipage4", "", "");
 		$ctrl_o2image6->x(482);
 		$ctrl_o2image6->y(8);
 		$ctrl_o2image6->larghezza(24);
@@ -196,12 +196,12 @@ function jxservices§§jxservices_1_form_def(&$form_jxservices_1) {
 		$ctrl_o2image6->imgexp(jxservices_exp_36());
 		}
 
-function jxservices§§add_host_service_act(&$o2exe) {
+function jxservices§§add_host_service_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxservices_exp_32(), False) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("create_tree", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§create_tree_act(&$o2exe) {
+function jxservices§§create_tree_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxservices_exp_1()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "sele_type", jxservices_exp_30()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "sele_host", jxservices_exp_30()) && $o2exe->e();
@@ -210,46 +210,46 @@ function jxservices§§create_tree_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::set("prg§_§var", "host_services", jxservices_exp_31()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§cron_act(&$o2exe) {
+function jxservices§§cron_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxservices_exp_34(), False) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§dele_host_act(&$o2exe) {
+function jxservices§§dele_host_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxservices_exp_28()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("create_tree", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§goto_jobs_act(&$o2exe) {
+function jxservices§§goto_jobs_act($o2exe) {
 	$o2exe->s(1) && True && o2act::gotoprg(jxservices_exp_10(), false) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§goto_processes_act(&$o2exe) {
+function jxservices§§goto_processes_act($o2exe) {
 	$o2exe->s(1) && True && o2act::gotoprg(jxservices_exp_38(), false) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§goto_sched_act(&$o2exe) {
+function jxservices§§goto_sched_act($o2exe) {
 	$o2exe->s(1) && True && o2act::gotoprg(jxservices_exp_39(), false) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§node_detail_act(&$o2exe) {
+function jxservices§§node_detail_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "sele_type", jxservices_exp_15()) && $o2exe->e();
 	$o2exe->s(2) && (jxservices_exp_16() || $o2exe->e()) && o2act::exe("sele_host", True, "") && $o2exe->e();
 	$o2exe->s(3) && (jxservices_exp_18() || $o2exe->e()) && o2act::exe("sele_service", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§sele_host_act(&$o2exe) {
+function jxservices§§sele_host_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "sele_host", jxservices_exp_17()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "nice_host", jxservices_exp_3()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "host_services", jxservices_exp_23()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "sele_service", jxservices_exp_19()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§sele_service_act(&$o2exe) {
+function jxservices§§sele_service_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "sele_service", jxservices_exp_19()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(jxservices_exp_25()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxservices§§start_act(&$o2exe) {
+function jxservices§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("create_tree", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 

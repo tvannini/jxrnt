@@ -1,6 +1,6 @@
 <?php
 
-function jxdbcopy§§prg§_§var_def(&$task_prg§_§var) {
+function jxdbcopy§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("action", "_o2alpha");
 	$task_prg§_§var->definisci("asp_index", "_o2number");
@@ -22,21 +22,21 @@ function jxdbcopy§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("tables_trace_save", "_o2logical");
 		}
 
-function jxdbcopy§§source_def(&$task_source, $_o2viewalias = "") {
+function jxdbcopy§§source_def($task_source, $_o2viewalias = "") {
 	$task_source->righe_vis = 1000;
 
 	$task_source->usa_file("o2_users","s_tab","o2user",null,null);
 
 }
 
-function jxdbcopy§§target_def(&$task_target, $_o2viewalias = "") {
+function jxdbcopy§§target_def($task_target, $_o2viewalias = "") {
 	$task_target->righe_vis = 1000;
 
 	$task_target->usa_file("o2_users","t_tab","o2user",null,null);
 
 }
 
-function jxdbcopy§§execute_act(&$o2exe) {
+function jxdbcopy§§execute_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Override log and tracing options") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "tables_log_save", jxdbcopy_exp_11()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "tables_trace_save", jxdbcopy_exp_12()) && $o2exe->e();
@@ -68,27 +68,27 @@ function jxdbcopy§§execute_act(&$o2exe) {
 	$o2exe->s(29) && True && o2act::script(jxdbcopy_exp_31()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxdbcopy§§export_all_aspids_act(&$o2exe) {
+function jxdbcopy§§export_all_aspids_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "asp_index", jxdbcopy_exp_19()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "asp_total", jxdbcopy_exp_42()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("loop_on_aspid", "jxdbcopy_exp_43()", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxdbcopy§§loop_on_aspid_act(&$o2exe) {
+function jxdbcopy§§loop_on_aspid_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "asp_index", jxdbcopy_exp_44()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("_o2SESSION", "_area", jxdbcopy_exp_45()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("loop_on_rows", False, "source") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("_o2SESSION", "_area", jxdbcopy_exp_47()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxdbcopy§§loop_on_rows_act(&$o2exe) {
+function jxdbcopy§§loop_on_rows_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("target", "B", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(jxdbcopy_exp_25()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("target", "S", "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "row_count", jxdbcopy_exp_28()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxdbcopy§§loop_on_tabs_act(&$o2exe) {
+function jxdbcopy§§loop_on_tabs_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "tab_index", jxdbcopy_exp_24()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("Increment progress bar") && $o2exe->e();
 	$o2exe->s(3) && (jxdbcopy_exp_4() || $o2exe->e()) && o2act::script(jxdbcopy_exp_1()) && $o2exe->e();
@@ -106,7 +106,7 @@ function jxdbcopy§§loop_on_tabs_act(&$o2exe) {
 	$o2exe->s(15) && True && o2act::set("prg§_§var", "result", jxdbcopy_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxdbcopy§§start_act(&$o2exe) {
+function jxdbcopy§§start_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Force encodin") && $o2exe->e();
 	$o2exe->s(2) && (jxdbcopy_exp_16() || $o2exe->e()) && o2act::set("prg§_§var", "save_encoding", jxdbcopy_exp_17()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Reset tables repository in case of split") && $o2exe->e();

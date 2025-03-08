@@ -1,10 +1,10 @@
 <?php
 
-function jxcron§§prg§_§var_def(&$task_prg§_§var) {
+function jxcron§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("on", "_o2logical");
 		}
-function jxcron§§jxcron_1_form_def(&$form_jxcron_1) {
+function jxcron§§jxcron_1_form_def($form_jxcron_1) {
 	$form_jxcron_1->x(301);
 	$form_jxcron_1->y(150);
 	$form_jxcron_1->larghezza(620);
@@ -12,26 +12,26 @@ function jxcron§§jxcron_1_form_def(&$form_jxcron_1) {
 	$form_jxcron_1->titolo("System automation");
 	$form_jxcron_1->align_o("Center");
 	$form_jxcron_1->frm_status(jxcron_exp_6());
-	$ctrl_o2htmlarea2 = &$form_jxcron_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_jxcron_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(90);
 		$ctrl_o2htmlarea2->y(30);
 		$ctrl_o2htmlarea2->larghezza(500);
 		$ctrl_o2htmlarea2->altezza(82);
 		$ctrl_o2htmlarea2->html(jxcron_exp_2());
-	$ctrl_o2image2 = &$form_jxcron_1->ctrldef("o2image2", "img", "", "", "");
+	$ctrl_o2image2 = $form_jxcron_1->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(30);
 		$ctrl_o2image2->y(30);
 		$ctrl_o2image2->larghezza(32);
 		$ctrl_o2image2->altezza(32);
 		$ctrl_o2image2->imgexp(jxcron_exp_1());
-	$ctrl_o2button2 = &$form_jxcron_1->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_jxcron_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(500);
 		$ctrl_o2button2->y(150);
 		$ctrl_o2button2->larghezza(90);
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("close");
 		$ctrl_o2button2->label("&Close");
-	$ctrl_o2button3 = &$form_jxcron_1->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_jxcron_1->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(90);
 		$ctrl_o2button3->y(150);
 		$ctrl_o2button3->larghezza(90);
@@ -40,16 +40,16 @@ function jxcron§§jxcron_1_form_def(&$form_jxcron_1) {
 		$ctrl_o2button3->label(jxcron_exp_4());
 		}
 
-function jxcron§§close_act(&$o2exe) {
+function jxcron§§close_act($o2exe) {
 	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcron§§register_act(&$o2exe) {
+function jxcron§§register_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxcron_exp_5()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "on", jxcron_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcron§§start_act(&$o2exe) {
+function jxcron§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "on", jxcron_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 

@@ -1,12 +1,12 @@
 <?php
 
-function jxuser_select§§prg§_§var_def(&$task_prg§_§var) {
+function jxuser_select§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("lang", "_o2alpha");
 	$task_prg§_§var->definisci("user", "_o2alpha");
 		}
 
-function jxuser_select§§users_def(&$task_users, $_o2viewalias = "") {
+function jxuser_select§§users_def($task_users, $_o2viewalias = "") {
 	$task_users->righe_vis = 10;
 
 	$task_users->usa_file("o2_users","o2_users","o2user",null,null);
@@ -16,32 +16,32 @@ function jxuser_select§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("admin","o2_users","admin","jxuser_select_exp_2()","jxuser_select_exp_2()",null,null);
 	$task_users->calcola("desc","_o2alpha","jxuser_select_exp_7()",null,null,null,null);
 }
-function jxuser_select§§jxuser_select_1_form_def(&$form_jxuser_select_1) {
+function jxuser_select§§jxuser_select_1_form_def($form_jxuser_select_1) {
 	$form_jxuser_select_1->x(300);
 	$form_jxuser_select_1->y(100);
 	$form_jxuser_select_1->larghezza(378);
 	$form_jxuser_select_1->altezza(204);
 	$form_jxuser_select_1->align_o("Center");
 	$form_jxuser_select_1->titolo(jxuser_select_exp_4());
-	$ctrl_o2label2 = &$form_jxuser_select_1->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_jxuser_select_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(30);
 		$ctrl_o2label2->y(40);
 		$ctrl_o2label2->larghezza(100);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label(jxuser_select_exp_6());
-	$ctrl_o2separator2 = &$form_jxuser_select_1->ctrldef("o2separator2", "line", "", "", "");
+	$ctrl_o2separator2 = $form_jxuser_select_1->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(30);
 		$ctrl_o2separator2->y(80);
 		$ctrl_o2separator2->larghezza(300);
 		$ctrl_o2separator2->altezza(10);
-	$ctrl_o2ListBox2 = &$form_jxuser_select_1->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "user");
+	$ctrl_o2ListBox2 = $form_jxuser_select_1->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "user");
 		$ctrl_o2ListBox2->x(130);
 		$ctrl_o2ListBox2->y(40);
 		$ctrl_o2ListBox2->larghezza(200);
 		$ctrl_o2ListBox2->altezza(20);
 		$ctrl_o2ListBox2->valori(o2_view2list("users", "o2user", "desc"));
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2button2 = &$form_jxuser_select_1->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_jxuser_select_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(240);
 		$ctrl_o2button2->y(110);
 		$ctrl_o2button2->larghezza(90);
@@ -49,7 +49,7 @@ function jxuser_select§§jxuser_select_1_form_def(&$form_jxuser_select_1) {
 		$ctrl_o2button2->azione("select");
 		$ctrl_o2button2->label(jxuser_select_exp_10());
 		$ctrl_o2button2->css(jxuser_select_exp_8());
-	$ctrl_o2button3 = &$form_jxuser_select_1->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_jxuser_select_1->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(140);
 		$ctrl_o2button3->y(110);
 		$ctrl_o2button3->larghezza(90);
@@ -59,16 +59,16 @@ function jxuser_select§§jxuser_select_1_form_def(&$form_jxuser_select_1) {
 		$ctrl_o2button3->css(jxuser_select_exp_9());
 		}
 
-function jxuser_select§§close_act(&$o2exe) {
+function jxuser_select§§close_act($o2exe) {
 	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxuser_select§§select_act(&$o2exe) {
+function jxuser_select§§select_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(1, jxuser_select_exp_12()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxuser_select§§start_act(&$o2exe) {
+function jxuser_select§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "lang", jxuser_select_exp_3()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "user", jxuser_select_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|

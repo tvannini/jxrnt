@@ -1,6 +1,6 @@
 <?php
 
-function jxconnectivity§§prg§_§var_def(&$task_prg§_§var) {
+function jxconnectivity§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("affected_rows", "o2sys_full_number");
 	$task_prg§_§var->definisci("area_local", "_o2alpha");
@@ -80,7 +80,7 @@ function jxconnectivity§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("unlock_asp_codes", "_o2logical");
 		}
 
-function jxconnectivity§§logged_table_def(&$task_logged_table, $_o2viewalias = "") {
+function jxconnectivity§§logged_table_def($task_logged_table, $_o2viewalias = "") {
 	$task_logged_table->righe_vis = 10;
 
 	$task_logged_table->usa_file("o2_tabslog","o2_tabslog","log_tabname",null,null);
@@ -90,7 +90,7 @@ function jxconnectivity§§logged_table_def(&$task_logged_table, $_o2viewalias = "
 	$task_logged_table->usa("log_operations","o2_tabslog","log_operations",null,null,null,null);
 }
 
-function jxconnectivity§§constraints_def(&$task_constraints, $_o2viewalias = "") {
+function jxconnectivity§§constraints_def($task_constraints, $_o2viewalias = "") {
 	$task_constraints->righe_vis = 10;
 
 	$task_constraints->usa_file("o2_constraints","o2_constraints","main_constr",null,null);
@@ -102,7 +102,7 @@ function jxconnectivity§§constraints_def(&$task_constraints, $_o2viewalias = "")
 	$task_constraints->usa("constraint_name","o2_constraints","constraint_name",null,null,null,null);
 }
 
-function jxconnectivity§§references_def(&$task_references, $_o2viewalias = "") {
+function jxconnectivity§§references_def($task_references, $_o2viewalias = "") {
 	$task_references->righe_vis = 10;
 
 	$task_references->usa_file("o2_constraints","o2_constraints","main_constr",null,null);
@@ -114,7 +114,7 @@ function jxconnectivity§§references_def(&$task_references, $_o2viewalias = "") {
 	$task_references->usa("constraint_name","o2_constraints","constraint_name",null,null,null,null);
 }
 
-function jxconnectivity§§new_constraint_def(&$task_new_constraint, $_o2viewalias = "") {
+function jxconnectivity§§new_constraint_def($task_new_constraint, $_o2viewalias = "") {
 	$task_new_constraint->righe_vis = 10;
 
 	$task_new_constraint->usa_file("o2_constraints","o2_constraints","main_constr",null,null);
@@ -126,7 +126,7 @@ function jxconnectivity§§new_constraint_def(&$task_new_constraint, $_o2viewalias
 	$task_new_constraint->usa("constraint_name","o2_constraints","constraint_name",null,null,null,null);
 }
 
-function jxconnectivity§§extra_indexes_def(&$task_extra_indexes, $_o2viewalias = "") {
+function jxconnectivity§§extra_indexes_def($task_extra_indexes, $_o2viewalias = "") {
 	$task_extra_indexes->righe_vis = 10;
 
 	$task_extra_indexes->usa_file("o2_extraindexes","o2_extraindexes","index_def",null,null);
@@ -137,7 +137,7 @@ function jxconnectivity§§extra_indexes_def(&$task_extra_indexes, $_o2viewalias =
 	$task_extra_indexes->usa("index_unique","o2_extraindexes","index_unique",null,null,null,null);
 }
 
-function jxconnectivity§§new_extidx_def(&$task_new_extidx, $_o2viewalias = "") {
+function jxconnectivity§§new_extidx_def($task_new_extidx, $_o2viewalias = "") {
 	$task_new_extidx->righe_vis = 10;
 
 	$task_new_extidx->usa_file("o2_extraindexes","o2_extraindexes","index_def",null,null);
@@ -147,7 +147,7 @@ function jxconnectivity§§new_extidx_def(&$task_new_extidx, $_o2viewalias = "") {
 	$task_new_extidx->usa("index_name","o2_extraindexes","index_name",null,null,null,null);
 	$task_new_extidx->usa("index_unique","o2_extraindexes","index_unique",null,null,null,null);
 }
-function jxconnectivity§§gestione_form_def(&$form_gestione) {
+function jxconnectivity§§gestione_form_def($form_gestione) {
 	$form_gestione->x(410);
 	$form_gestione->y(35);
 	$form_gestione->larghezza(820);
@@ -156,7 +156,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 	$form_gestione->titolo("Connectivity Manager");
 	$form_gestione->css_body("o2_form_body open_body");
 	$form_gestione->css_doc("sys_tables_doc");
-	$ctrl_o2multipage2 = &$form_gestione->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_gestione->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(350);
 		$ctrl_o2multipage2->y(40);
 		$ctrl_o2multipage2->larghezza(470);
@@ -167,7 +167,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage2->css_label_on(jxconnectivity_exp_218());
 		$ctrl_o2multipage2->css_label_off(jxconnectivity_exp_218());
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2htmlarea3 = &$form_gestione->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea3 = $form_gestione->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea3->x(0);
 		$ctrl_o2htmlarea3->y(40);
 		$ctrl_o2htmlarea3->larghezza(350);
@@ -175,7 +175,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2htmlarea3->expand("B");
 		$ctrl_o2htmlarea3->html(jxconnectivity_exp_17());
 		$ctrl_o2htmlarea3->css(jxconnectivity_exp_26());
-	$ctrl_o2multipage3 = &$form_gestione->ctrldef("o2multipage3", "multipage", "", "", "");
+	$ctrl_o2multipage3 = $form_gestione->ctrldef("o2multipage3", "multipage", "", "", "");
 		$ctrl_o2multipage3->x(350);
 		$ctrl_o2multipage3->y(40);
 		$ctrl_o2multipage3->larghezza(470);
@@ -186,7 +186,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage3->css_label_on(jxconnectivity_exp_218());
 		$ctrl_o2multipage3->css_label_off(jxconnectivity_exp_218());
 		$ctrl_o2multipage3->buttons("T");
-	$ctrl_o2multipage4 = &$form_gestione->ctrldef("o2multipage4", "multipage", "", "", "");
+	$ctrl_o2multipage4 = $form_gestione->ctrldef("o2multipage4", "multipage", "", "", "");
 		$ctrl_o2multipage4->x(350);
 		$ctrl_o2multipage4->y(40);
 		$ctrl_o2multipage4->larghezza(470);
@@ -197,7 +197,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage4->css_label_on(jxconnectivity_exp_218());
 		$ctrl_o2multipage4->css_label_off(jxconnectivity_exp_218());
 		$ctrl_o2multipage4->buttons("T");
-	$ctrl_o2multipage7 = &$form_gestione->ctrldef("o2multipage7", "multipage", "", "", "");
+	$ctrl_o2multipage7 = $form_gestione->ctrldef("o2multipage7", "multipage", "", "", "");
 		$ctrl_o2multipage7->x(350);
 		$ctrl_o2multipage7->y(40);
 		$ctrl_o2multipage7->larghezza(470);
@@ -208,7 +208,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage7->css_label_on(jxconnectivity_exp_218());
 		$ctrl_o2multipage7->css_label_off(jxconnectivity_exp_218());
 		$ctrl_o2multipage7->buttons("T");
-	$ctrl_o2multipage17 = &$form_gestione->ctrldef("o2multipage17", "multipage", "", "", "");
+	$ctrl_o2multipage17 = $form_gestione->ctrldef("o2multipage17", "multipage", "", "", "");
 		$ctrl_o2multipage17->x(0);
 		$ctrl_o2multipage17->y(0);
 		$ctrl_o2multipage17->larghezza(820);
@@ -220,7 +220,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage17->css_label_on(jxconnectivity_exp_218());
 		$ctrl_o2multipage17->css_label_off(jxconnectivity_exp_218());
 		$ctrl_o2multipage17->buttons("T");
-	$ctrl_o2label85 = &$form_gestione->ctrldef("o2label85", "label", "o2multipage16", "", "");
+	$ctrl_o2label85 = $form_gestione->ctrldef("o2label85", "label", "o2multipage16", "", "");
 		$ctrl_o2label85->x(10);
 		$ctrl_o2label85->y(30);
 		$ctrl_o2label85->larghezza(410);
@@ -229,14 +229,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label85->info_padre(array(0));
 		$ctrl_o2label85->label("");
 		$ctrl_o2label85->css(jxconnectivity_exp_32());
-	$ctrl_o2label61 = &$form_gestione->ctrldef("o2label61", "label", "o2multipage16", "", "");
+	$ctrl_o2label61 = $form_gestione->ctrldef("o2label61", "label", "o2multipage16", "", "");
 		$ctrl_o2label61->x(350);
 		$ctrl_o2label61->y(70);
 		$ctrl_o2label61->larghezza(70);
 		$ctrl_o2label61->altezza(20);
 		$ctrl_o2label61->info_padre(array(0));
 		$ctrl_o2label61->label(jxconnectivity_exp_370());
-	$ctrl_o2label88 = &$form_gestione->ctrldef("o2label88", "label", "o2multipage16", "", "");
+	$ctrl_o2label88 = $form_gestione->ctrldef("o2label88", "label", "o2multipage16", "", "");
 		$ctrl_o2label88->x(310);
 		$ctrl_o2label88->y(36);
 		$ctrl_o2label88->larghezza(100);
@@ -244,14 +244,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label88->info_padre(array(0));
 		$ctrl_o2label88->label(jxconnectivity_exp_60());
 		$ctrl_o2label88->css(jxconnectivity_exp_62());
-	$ctrl_o2label89 = &$form_gestione->ctrldef("o2label89", "label", "o2multipage16", "", "");
+	$ctrl_o2label89 = $form_gestione->ctrldef("o2label89", "label", "o2multipage16", "", "");
 		$ctrl_o2label89->x(10);
 		$ctrl_o2label89->y(70);
 		$ctrl_o2label89->larghezza(100);
 		$ctrl_o2label89->altezza(20);
 		$ctrl_o2label89->info_padre(array(0));
 		$ctrl_o2label89->label(jxconnectivity_exp_199());
-	$ctrl_o2label90 = &$form_gestione->ctrldef("o2label90", "label", "o2multipage16", "", "");
+	$ctrl_o2label90 = $form_gestione->ctrldef("o2label90", "label", "o2multipage16", "", "");
 		$ctrl_o2label90->x(110);
 		$ctrl_o2label90->y(70);
 		$ctrl_o2label90->larghezza(220);
@@ -259,14 +259,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label90->expand("H");
 		$ctrl_o2label90->info_padre(array(0));
 		$ctrl_o2label90->label(jxconnectivity_exp_344());
-	$ctrl_o2label86 = &$form_gestione->ctrldef("o2label86", "label", "o2multipage16", "", "");
+	$ctrl_o2label86 = $form_gestione->ctrldef("o2label86", "label", "o2multipage16", "", "");
 		$ctrl_o2label86->x(10);
 		$ctrl_o2label86->y(90);
 		$ctrl_o2label86->larghezza(100);
 		$ctrl_o2label86->altezza(20);
 		$ctrl_o2label86->info_padre(array(0));
 		$ctrl_o2label86->label("Segments:");
-	$ctrl_o2image55 = &$form_gestione->ctrldef("o2image55", "img", "o2multipage16", "", "");
+	$ctrl_o2image55 = $form_gestione->ctrldef("o2image55", "img", "o2multipage16", "", "");
 		$ctrl_o2image55->x(20);
 		$ctrl_o2image55->y(33);
 		$ctrl_o2image55->larghezza(24);
@@ -278,14 +278,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image55->css(jxconnectivity_exp_363());
 		$ctrl_o2image55->imgexp(jxconnectivity_exp_364());
 		$ctrl_o2image55->confirm_message(jxconnectivity_exp_356());
-	$ctrl_o2image53 = &$form_gestione->ctrldef("o2image53", "img", "o2multipage16", "", "");
+	$ctrl_o2image53 = $form_gestione->ctrldef("o2image53", "img", "o2multipage16", "", "");
 		$ctrl_o2image53->x(45);
 		$ctrl_o2image53->y(36);
 		$ctrl_o2image53->larghezza(3);
 		$ctrl_o2image53->altezza(17);
 		$ctrl_o2image53->info_padre(array(0));
 		$ctrl_o2image53->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image54 = &$form_gestione->ctrldef("o2image54", "img", "o2multipage16", "", "");
+	$ctrl_o2image54 = $form_gestione->ctrldef("o2image54", "img", "o2multipage16", "", "");
 		$ctrl_o2image54->x(49);
 		$ctrl_o2image54->y(33);
 		$ctrl_o2image54->larghezza(24);
@@ -296,7 +296,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image54->label(jxconnectivity_exp_349());
 		$ctrl_o2image54->css(jxconnectivity_exp_65());
 		$ctrl_o2image54->imgexp(jxconnectivity_exp_346());
-	$ctrl_o2htmlarea10 = &$form_gestione->ctrldef("o2htmlarea10", "htmlarea", "o2multipage16", "", "");
+	$ctrl_o2htmlarea10 = $form_gestione->ctrldef("o2htmlarea10", "htmlarea", "o2multipage16", "", "");
 		$ctrl_o2htmlarea10->x(110);
 		$ctrl_o2htmlarea10->y(90);
 		$ctrl_o2htmlarea10->larghezza(310);
@@ -305,21 +305,21 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2htmlarea10->info_padre(array(0));
 		$ctrl_o2htmlarea10->html(jxconnectivity_exp_345());
 		$ctrl_o2htmlarea10->css(jxconnectivity_exp_188());
-	$ctrl_o2label9 = &$form_gestione->ctrldef("o2label9", "label", "o2multipage17", "", "");
+	$ctrl_o2label9 = $form_gestione->ctrldef("o2label9", "label", "o2multipage17", "", "");
 		$ctrl_o2label9->x(30);
 		$ctrl_o2label9->y(10);
 		$ctrl_o2label9->larghezza(60);
 		$ctrl_o2label9->altezza(20);
 		$ctrl_o2label9->info_padre(array(0));
 		$ctrl_o2label9->label("Search:");
-	$ctrl_o2label6 = &$form_gestione->ctrldef("o2label6", "label", "o2multipage17", "", "");
+	$ctrl_o2label6 = $form_gestione->ctrldef("o2label6", "label", "o2multipage17", "", "");
 		$ctrl_o2label6->x(560);
 		$ctrl_o2label6->y(10);
 		$ctrl_o2label6->larghezza(80);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->info_padre(array(0));
 		$ctrl_o2label6->label("ASP code:");
-	$ctrl_o2image21 = &$form_gestione->ctrldef("o2image21", "img", "o2multipage17", "", "");
+	$ctrl_o2image21 = $form_gestione->ctrldef("o2image21", "img", "o2multipage17", "", "");
 		$ctrl_o2image21->x(316);
 		$ctrl_o2image21->y(8);
 		$ctrl_o2image21->larghezza(24);
@@ -329,7 +329,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image21->label("Collapse all");
 		$ctrl_o2image21->css(jxconnectivity_exp_65());
 		$ctrl_o2image21->imgexp(jxconnectivity_exp_58());
-	$ctrl_o2image20 = &$form_gestione->ctrldef("o2image20", "img", "o2multipage17", "", "");
+	$ctrl_o2image20 = $form_gestione->ctrldef("o2image20", "img", "o2multipage17", "", "");
 		$ctrl_o2image20->x(290);
 		$ctrl_o2image20->y(8);
 		$ctrl_o2image20->larghezza(24);
@@ -339,7 +339,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image20->label("Expand all");
 		$ctrl_o2image20->css(jxconnectivity_exp_65());
 		$ctrl_o2image20->imgexp(jxconnectivity_exp_54());
-	$ctrl_o2image34 = &$form_gestione->ctrldef("o2image34", "img", "o2multipage17", "", "");
+	$ctrl_o2image34 = $form_gestione->ctrldef("o2image34", "img", "o2multipage17", "", "");
 		$ctrl_o2image34->x(645);
 		$ctrl_o2image34->y(8);
 		$ctrl_o2image34->larghezza(24);
@@ -350,7 +350,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image34->label("Unlock ASP codes selection");
 		$ctrl_o2image34->css(jxconnectivity_exp_65());
 		$ctrl_o2image34->imgexp(jxconnectivity_exp_113());
-	$ctrl_o2image36 = &$form_gestione->ctrldef("o2image36", "img", "o2multipage17", "", "");
+	$ctrl_o2image36 = $form_gestione->ctrldef("o2image36", "img", "o2multipage17", "", "");
 		$ctrl_o2image36->x(264);
 		$ctrl_o2image36->y(8);
 		$ctrl_o2image36->larghezza(24);
@@ -360,7 +360,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image36->label(jxconnectivity_exp_122());
 		$ctrl_o2image36->css(jxconnectivity_exp_65());
 		$ctrl_o2image36->imgexp(jxconnectivity_exp_120());
-	$ctrl_o2image33 = &$form_gestione->ctrldef("o2image33", "img", "o2multipage17", "", "");
+	$ctrl_o2image33 = $form_gestione->ctrldef("o2image33", "img", "o2multipage17", "", "");
 		$ctrl_o2image33->x(645);
 		$ctrl_o2image33->y(8);
 		$ctrl_o2image33->larghezza(24);
@@ -371,7 +371,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image33->label("Lock ASP codes selection");
 		$ctrl_o2image33->css(jxconnectivity_exp_65());
 		$ctrl_o2image33->imgexp(jxconnectivity_exp_82());
-	$ctrl_o2edit4 = &$form_gestione->ctrldef("o2edit4", "edit", "o2multipage17", "prg§_§var", "tab_name_filter");
+	$ctrl_o2edit4 = $form_gestione->ctrldef("o2edit4", "edit", "o2multipage17", "prg§_§var", "tab_name_filter");
 		$ctrl_o2edit4->x(90);
 		$ctrl_o2edit4->y(10);
 		$ctrl_o2edit4->larghezza(120);
@@ -379,7 +379,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2edit4->azione("define_treeview");
 		$ctrl_o2edit4->on_change(jxconnectivity_exp_40());
 		$ctrl_o2edit4->info_padre(array(0));
-	$ctrl_o2edit3 = &$form_gestione->ctrldef("o2edit3", "edit", "o2multipage17", "prg§_§var", "area_local");
+	$ctrl_o2edit3 = $form_gestione->ctrldef("o2edit3", "edit", "o2multipage17", "prg§_§var", "area_local");
 		$ctrl_o2edit3->x(670);
 		$ctrl_o2edit3->y(10);
 		$ctrl_o2edit3->larghezza(120);
@@ -389,7 +389,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2edit3->on_change(jxconnectivity_exp_40());
 		$ctrl_o2edit3->info_padre(array(0));
 		$ctrl_o2edit3->maschera(jxconnectivity_exp_61());
-	$ctrl_o2ListBox4 = &$form_gestione->ctrldef("o2ListBox4", "listcombo", "o2multipage17", "prg§_§var", "area_local");
+	$ctrl_o2ListBox4 = $form_gestione->ctrldef("o2ListBox4", "listcombo", "o2multipage17", "prg§_§var", "area_local");
 		$ctrl_o2ListBox4->x(670);
 		$ctrl_o2ListBox4->y(10);
 		$ctrl_o2ListBox4->larghezza(120);
@@ -400,21 +400,21 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(jxconnectivity_exp_28());
 		$ctrl_o2ListBox4->righe(1);
-	$ctrl_o2htmlarea11 = &$form_gestione->ctrldef("o2htmlarea11", "htmlarea", "o2multipage17", "", "");
+	$ctrl_o2htmlarea11 = $form_gestione->ctrldef("o2htmlarea11", "htmlarea", "o2multipage17", "", "");
 		$ctrl_o2htmlarea11->x(220);
 		$ctrl_o2htmlarea11->y(10);
 		$ctrl_o2htmlarea11->larghezza(30);
 		$ctrl_o2htmlarea11->altezza(20);
 		$ctrl_o2htmlarea11->expand("H");
 		$ctrl_o2htmlarea11->info_padre(array(0));
-	$ctrl_o2htmlarea12 = &$form_gestione->ctrldef("o2htmlarea12", "htmlarea", "o2multipage17", "", "");
+	$ctrl_o2htmlarea12 = $form_gestione->ctrldef("o2htmlarea12", "htmlarea", "o2multipage17", "", "");
 		$ctrl_o2htmlarea12->x(350);
 		$ctrl_o2htmlarea12->y(10);
 		$ctrl_o2htmlarea12->larghezza(190);
 		$ctrl_o2htmlarea12->altezza(20);
 		$ctrl_o2htmlarea12->expand("H");
 		$ctrl_o2htmlarea12->info_padre(array(0));
-	$ctrl_o2label11 = &$form_gestione->ctrldef("o2label11", "label", "o2multipage2", "", "");
+	$ctrl_o2label11 = $form_gestione->ctrldef("o2label11", "label", "o2multipage2", "", "");
 		$ctrl_o2label11->x(10);
 		$ctrl_o2label11->y(10);
 		$ctrl_o2label11->larghezza(450);
@@ -423,14 +423,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label11->info_padre(array(0));
 		$ctrl_o2label11->label("");
 		$ctrl_o2label11->css(jxconnectivity_exp_32());
-	$ctrl_o2label7 = &$form_gestione->ctrldef("o2label7", "label", "o2multipage2", "", "");
+	$ctrl_o2label7 = $form_gestione->ctrldef("o2label7", "label", "o2multipage2", "", "");
 		$ctrl_o2label7->x(20);
 		$ctrl_o2label7->y(220);
 		$ctrl_o2label7->larghezza(100);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->info_padre(array(0));
 		$ctrl_o2label7->label("Record tracing:");
-	$ctrl_o2label49 = &$form_gestione->ctrldef("o2label49", "label", "o2multipage2", "", "");
+	$ctrl_o2label49 = $form_gestione->ctrldef("o2label49", "label", "o2multipage2", "", "");
 		$ctrl_o2label49->x(120);
 		$ctrl_o2label49->y(200);
 		$ctrl_o2label49->larghezza(200);
@@ -438,21 +438,21 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label49->expand("H");
 		$ctrl_o2label49->info_padre(array(0));
 		$ctrl_o2label49->label(jxconnectivity_exp_183());
-	$ctrl_o2label38 = &$form_gestione->ctrldef("o2label38", "label", "o2multipage2", "", "");
+	$ctrl_o2label38 = $form_gestione->ctrldef("o2label38", "label", "o2multipage2", "", "");
 		$ctrl_o2label38->x(20);
 		$ctrl_o2label38->y(80);
 		$ctrl_o2label38->larghezza(100);
 		$ctrl_o2label38->altezza(20);
 		$ctrl_o2label38->info_padre(array(0));
 		$ctrl_o2label38->label("Engine:");
-	$ctrl_o2label48 = &$form_gestione->ctrldef("o2label48", "label", "o2multipage2", "", "");
+	$ctrl_o2label48 = $form_gestione->ctrldef("o2label48", "label", "o2multipage2", "", "");
 		$ctrl_o2label48->x(20);
 		$ctrl_o2label48->y(200);
 		$ctrl_o2label48->larghezza(100);
 		$ctrl_o2label48->altezza(20);
 		$ctrl_o2label48->info_padre(array(0));
 		$ctrl_o2label48->label("Log level:");
-	$ctrl_o2label35 = &$form_gestione->ctrldef("o2label35", "label", "o2multipage2", "", "");
+	$ctrl_o2label35 = $form_gestione->ctrldef("o2label35", "label", "o2multipage2", "", "");
 		$ctrl_o2label35->x(120);
 		$ctrl_o2label35->y(100);
 		$ctrl_o2label35->larghezza(260);
@@ -460,7 +460,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label35->expand("H");
 		$ctrl_o2label35->info_padre(array(0));
 		$ctrl_o2label35->label(jxconnectivity_exp_176());
-	$ctrl_o2label47 = &$form_gestione->ctrldef("o2label47", "label", "o2multipage2", "", "");
+	$ctrl_o2label47 = $form_gestione->ctrldef("o2label47", "label", "o2multipage2", "", "");
 		$ctrl_o2label47->x(120);
 		$ctrl_o2label47->y(180);
 		$ctrl_o2label47->larghezza(30);
@@ -468,7 +468,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label47->expand("H");
 		$ctrl_o2label47->info_padre(array(0));
 		$ctrl_o2label47->label(jxconnectivity_exp_182());
-	$ctrl_o2label37 = &$form_gestione->ctrldef("o2label37", "label", "o2multipage2", "", "");
+	$ctrl_o2label37 = $form_gestione->ctrldef("o2label37", "label", "o2multipage2", "", "");
 		$ctrl_o2label37->x(120);
 		$ctrl_o2label37->y(120);
 		$ctrl_o2label37->larghezza(260);
@@ -476,7 +476,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label37->expand("H");
 		$ctrl_o2label37->info_padre(array(0));
 		$ctrl_o2label37->label(jxconnectivity_exp_177());
-	$ctrl_o2label33 = &$form_gestione->ctrldef("o2label33", "label", "o2multipage2", "", "");
+	$ctrl_o2label33 = $form_gestione->ctrldef("o2label33", "label", "o2multipage2", "", "");
 		$ctrl_o2label33->x(120);
 		$ctrl_o2label33->y(60);
 		$ctrl_o2label33->larghezza(260);
@@ -484,14 +484,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label33->expand("H");
 		$ctrl_o2label33->info_padre(array(0));
 		$ctrl_o2label33->label(jxconnectivity_exp_14());
-	$ctrl_o2label42 = &$form_gestione->ctrldef("o2label42", "label", "o2multipage2", "", "");
+	$ctrl_o2label42 = $form_gestione->ctrldef("o2label42", "label", "o2multipage2", "", "");
 		$ctrl_o2label42->x(20);
 		$ctrl_o2label42->y(140);
 		$ctrl_o2label42->larghezza(100);
 		$ctrl_o2label42->altezza(20);
 		$ctrl_o2label42->info_padre(array(0));
 		$ctrl_o2label42->label("Physical name:");
-	$ctrl_o2label39 = &$form_gestione->ctrldef("o2label39", "label", "o2multipage2", "", "");
+	$ctrl_o2label39 = $form_gestione->ctrldef("o2label39", "label", "o2multipage2", "", "");
 		$ctrl_o2label39->x(120);
 		$ctrl_o2label39->y(80);
 		$ctrl_o2label39->larghezza(260);
@@ -499,7 +499,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label39->expand("H");
 		$ctrl_o2label39->info_padre(array(0));
 		$ctrl_o2label39->label(jxconnectivity_exp_178());
-	$ctrl_o2label43 = &$form_gestione->ctrldef("o2label43", "label", "o2multipage2", "", "");
+	$ctrl_o2label43 = $form_gestione->ctrldef("o2label43", "label", "o2multipage2", "", "");
 		$ctrl_o2label43->x(120);
 		$ctrl_o2label43->y(140);
 		$ctrl_o2label43->larghezza(260);
@@ -507,28 +507,28 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label43->expand("H");
 		$ctrl_o2label43->info_padre(array(0));
 		$ctrl_o2label43->label(jxconnectivity_exp_180());
-	$ctrl_o2label46 = &$form_gestione->ctrldef("o2label46", "label", "o2multipage2", "", "");
+	$ctrl_o2label46 = $form_gestione->ctrldef("o2label46", "label", "o2multipage2", "", "");
 		$ctrl_o2label46->x(20);
 		$ctrl_o2label46->y(180);
 		$ctrl_o2label46->larghezza(100);
 		$ctrl_o2label46->altezza(20);
 		$ctrl_o2label46->info_padre(array(0));
 		$ctrl_o2label46->label("Contains data:");
-	$ctrl_o2label32 = &$form_gestione->ctrldef("o2label32", "label", "o2multipage2", "", "");
+	$ctrl_o2label32 = $form_gestione->ctrldef("o2label32", "label", "o2multipage2", "", "");
 		$ctrl_o2label32->x(20);
 		$ctrl_o2label32->y(60);
 		$ctrl_o2label32->larghezza(100);
 		$ctrl_o2label32->altezza(20);
 		$ctrl_o2label32->info_padre(array(0));
 		$ctrl_o2label32->label("Table name:");
-	$ctrl_o2label44 = &$form_gestione->ctrldef("o2label44", "label", "o2multipage2", "", "");
+	$ctrl_o2label44 = $form_gestione->ctrldef("o2label44", "label", "o2multipage2", "", "");
 		$ctrl_o2label44->x(20);
 		$ctrl_o2label44->y(160);
 		$ctrl_o2label44->larghezza(50);
 		$ctrl_o2label44->altezza(20);
 		$ctrl_o2label44->info_padre(array(0));
 		$ctrl_o2label44->label("Exists:");
-	$ctrl_o2label72 = &$form_gestione->ctrldef("o2label72", "label", "o2multipage2", "", "");
+	$ctrl_o2label72 = $form_gestione->ctrldef("o2label72", "label", "o2multipage2", "", "");
 		$ctrl_o2label72->x(120);
 		$ctrl_o2label72->y(220);
 		$ctrl_o2label72->larghezza(200);
@@ -536,7 +536,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label72->expand("H");
 		$ctrl_o2label72->info_padre(array(0));
 		$ctrl_o2label72->label(jxconnectivity_exp_235());
-	$ctrl_o2label45 = &$form_gestione->ctrldef("o2label45", "label", "o2multipage2", "", "");
+	$ctrl_o2label45 = $form_gestione->ctrldef("o2label45", "label", "o2multipage2", "", "");
 		$ctrl_o2label45->x(120);
 		$ctrl_o2label45->y(160);
 		$ctrl_o2label45->larghezza(30);
@@ -544,21 +544,21 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label45->expand("H");
 		$ctrl_o2label45->info_padre(array(0));
 		$ctrl_o2label45->label(jxconnectivity_exp_181());
-	$ctrl_o2label36 = &$form_gestione->ctrldef("o2label36", "label", "o2multipage2", "", "");
+	$ctrl_o2label36 = $form_gestione->ctrldef("o2label36", "label", "o2multipage2", "", "");
 		$ctrl_o2label36->x(20);
 		$ctrl_o2label36->y(120);
 		$ctrl_o2label36->larghezza(100);
 		$ctrl_o2label36->altezza(20);
 		$ctrl_o2label36->info_padre(array(0));
 		$ctrl_o2label36->label("Database:");
-	$ctrl_o2label34 = &$form_gestione->ctrldef("o2label34", "label", "o2multipage2", "", "");
+	$ctrl_o2label34 = $form_gestione->ctrldef("o2label34", "label", "o2multipage2", "", "");
 		$ctrl_o2label34->x(20);
 		$ctrl_o2label34->y(100);
 		$ctrl_o2label34->larghezza(100);
 		$ctrl_o2label34->altezza(20);
 		$ctrl_o2label34->info_padre(array(0));
 		$ctrl_o2label34->label("Server:");
-	$ctrl_o2multipage16 = &$form_gestione->ctrldef("o2multipage16", "multipage", "o2multipage2", "", "");
+	$ctrl_o2multipage16 = $form_gestione->ctrldef("o2multipage16", "multipage", "o2multipage2", "", "");
 		$ctrl_o2multipage16->x(20);
 		$ctrl_o2multipage16->y(270);
 		$ctrl_o2multipage16->larghezza(430);
@@ -568,7 +568,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage16->info_padre(array(0));
 		$ctrl_o2multipage16->label(array("Index"));
 		$ctrl_o2multipage16->buttons("T");
-	$ctrl_o2image52 = &$form_gestione->ctrldef("o2image52", "img", "o2multipage2", "", "");
+	$ctrl_o2image52 = $form_gestione->ctrldef("o2image52", "img", "o2multipage2", "", "");
 		$ctrl_o2image52->x(97);
 		$ctrl_o2image52->y(13);
 		$ctrl_o2image52->larghezza(24);
@@ -579,7 +579,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image52->label("Create new index");
 		$ctrl_o2image52->css(jxconnectivity_exp_84());
 		$ctrl_o2image52->imgexp(jxconnectivity_exp_371());
-	$ctrl_o2image30 = &$form_gestione->ctrldef("o2image30", "img", "o2multipage2", "", "");
+	$ctrl_o2image30 = $form_gestione->ctrldef("o2image30", "img", "o2multipage2", "", "");
 		$ctrl_o2image30->x(331);
 		$ctrl_o2image30->y(205);
 		$ctrl_o2image30->larghezza(48);
@@ -587,7 +587,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image30->visibile(jxconnectivity_exp_192());
 		$ctrl_o2image30->info_padre(array(0));
 		$ctrl_o2image30->imgexp(jxconnectivity_exp_185());
-	$ctrl_o2image8 = &$form_gestione->ctrldef("o2image8", "img", "o2multipage2", "", "");
+	$ctrl_o2image8 = $form_gestione->ctrldef("o2image8", "img", "o2multipage2", "", "");
 		$ctrl_o2image8->x(121);
 		$ctrl_o2image8->y(13);
 		$ctrl_o2image8->larghezza(24);
@@ -598,7 +598,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image8->label("Rebuild table structure");
 		$ctrl_o2image8->css(jxconnectivity_exp_84());
 		$ctrl_o2image8->imgexp(jxconnectivity_exp_99());
-	$ctrl_o2image16 = &$form_gestione->ctrldef("o2image16", "img", "o2multipage2", "", "");
+	$ctrl_o2image16 = $form_gestione->ctrldef("o2image16", "img", "o2multipage2", "", "");
 		$ctrl_o2image16->x(227);
 		$ctrl_o2image16->y(13);
 		$ctrl_o2image16->larghezza(24);
@@ -609,7 +609,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image16->label("ASP data clone");
 		$ctrl_o2image16->css(jxconnectivity_exp_87());
 		$ctrl_o2image16->imgexp(jxconnectivity_exp_126());
-	$ctrl_o2image9 = &$form_gestione->ctrldef("o2image9", "img", "o2multipage2", "", "");
+	$ctrl_o2image9 = $form_gestione->ctrldef("o2image9", "img", "o2multipage2", "", "");
 		$ctrl_o2image9->x(256);
 		$ctrl_o2image9->y(13);
 		$ctrl_o2image9->larghezza(24);
@@ -621,7 +621,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image9->label(jxconnectivity_exp_100());
 		$ctrl_o2image9->css(jxconnectivity_exp_89());
 		$ctrl_o2image9->imgexp(jxconnectivity_exp_101());
-	$ctrl_o2image32 = &$form_gestione->ctrldef("o2image32", "img", "o2multipage2", "", "");
+	$ctrl_o2image32 = $form_gestione->ctrldef("o2image32", "img", "o2multipage2", "", "");
 		$ctrl_o2image32->x(304);
 		$ctrl_o2image32->y(13);
 		$ctrl_o2image32->larghezza(24);
@@ -631,7 +631,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image32->label("Get table definition");
 		$ctrl_o2image32->css(jxconnectivity_exp_65());
 		$ctrl_o2image32->imgexp(jxconnectivity_exp_229());
-	$ctrl_o2image43 = &$form_gestione->ctrldef("o2image43", "img", "o2multipage2", "", "");
+	$ctrl_o2image43 = $form_gestione->ctrldef("o2image43", "img", "o2multipage2", "", "");
 		$ctrl_o2image43->x(405);
 		$ctrl_o2image43->y(13);
 		$ctrl_o2image43->larghezza(24);
@@ -642,14 +642,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image43->label("Validate all table constraints against records");
 		$ctrl_o2image43->css(jxconnectivity_exp_65());
 		$ctrl_o2image43->imgexp(jxconnectivity_exp_320());
-	$ctrl_o2image24 = &$form_gestione->ctrldef("o2image24", "img", "o2multipage2", "", "");
+	$ctrl_o2image24 = $form_gestione->ctrldef("o2image24", "img", "o2multipage2", "", "");
 		$ctrl_o2image24->x(146);
 		$ctrl_o2image24->y(16);
 		$ctrl_o2image24->larghezza(3);
 		$ctrl_o2image24->altezza(17);
 		$ctrl_o2image24->info_padre(array(0));
 		$ctrl_o2image24->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image5 = &$form_gestione->ctrldef("o2image5", "img", "o2multipage2", "", "");
+	$ctrl_o2image5 = $form_gestione->ctrldef("o2image5", "img", "o2multipage2", "", "");
 		$ctrl_o2image5->x(49);
 		$ctrl_o2image5->y(13);
 		$ctrl_o2image5->larghezza(24);
@@ -660,14 +660,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image5->label("Create table");
 		$ctrl_o2image5->css(jxconnectivity_exp_75());
 		$ctrl_o2image5->imgexp(jxconnectivity_exp_96());
-	$ctrl_o2image39 = &$form_gestione->ctrldef("o2image39", "img", "o2multipage2", "", "");
+	$ctrl_o2image39 = $form_gestione->ctrldef("o2image39", "img", "o2multipage2", "", "");
 		$ctrl_o2image39->x(329);
 		$ctrl_o2image39->y(16);
 		$ctrl_o2image39->larghezza(3);
 		$ctrl_o2image39->altezza(17);
 		$ctrl_o2image39->info_padre(array(0));
 		$ctrl_o2image39->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image7 = &$form_gestione->ctrldef("o2image7", "img", "o2multipage2", "", "");
+	$ctrl_o2image7 = $form_gestione->ctrldef("o2image7", "img", "o2multipage2", "", "");
 		$ctrl_o2image7->x(203);
 		$ctrl_o2image7->y(13);
 		$ctrl_o2image7->larghezza(24);
@@ -679,14 +679,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image7->css(jxconnectivity_exp_87());
 		$ctrl_o2image7->imgexp(jxconnectivity_exp_98());
 		$ctrl_o2image7->confirm_message(jxconnectivity_exp_150());
-	$ctrl_o2image23 = &$form_gestione->ctrldef("o2image23", "img", "o2multipage2", "", "");
+	$ctrl_o2image23 = $form_gestione->ctrldef("o2image23", "img", "o2multipage2", "", "");
 		$ctrl_o2image23->x(45);
 		$ctrl_o2image23->y(16);
 		$ctrl_o2image23->larghezza(3);
 		$ctrl_o2image23->altezza(17);
 		$ctrl_o2image23->info_padre(array(0));
 		$ctrl_o2image23->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image3 = &$form_gestione->ctrldef("o2image3", "img", "o2multipage2", "", "");
+	$ctrl_o2image3 = $form_gestione->ctrldef("o2image3", "img", "o2multipage2", "", "");
 		$ctrl_o2image3->x(150);
 		$ctrl_o2image3->y(13);
 		$ctrl_o2image3->larghezza(24);
@@ -697,7 +697,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image3->label("Export table data");
 		$ctrl_o2image3->css(jxconnectivity_exp_68());
 		$ctrl_o2image3->imgexp(jxconnectivity_exp_94());
-	$ctrl_o2image40 = &$form_gestione->ctrldef("o2image40", "img", "o2multipage2", "", "");
+	$ctrl_o2image40 = $form_gestione->ctrldef("o2image40", "img", "o2multipage2", "", "");
 		$ctrl_o2image40->x(333);
 		$ctrl_o2image40->y(13);
 		$ctrl_o2image40->larghezza(24);
@@ -708,7 +708,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image40->label("Add new constraint");
 		$ctrl_o2image40->css(jxconnectivity_exp_65());
 		$ctrl_o2image40->imgexp(jxconnectivity_exp_317());
-	$ctrl_o2image10 = &$form_gestione->ctrldef("o2image10", "img", "o2multipage2", "", "");
+	$ctrl_o2image10 = $form_gestione->ctrldef("o2image10", "img", "o2multipage2", "", "");
 		$ctrl_o2image10->x(280);
 		$ctrl_o2image10->y(13);
 		$ctrl_o2image10->larghezza(24);
@@ -720,7 +720,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image10->label("View table data log");
 		$ctrl_o2image10->css(jxconnectivity_exp_91());
 		$ctrl_o2image10->imgexp(jxconnectivity_exp_102());
-	$ctrl_o2image2 = &$form_gestione->ctrldef("o2image2", "img", "o2multipage2", "", "");
+	$ctrl_o2image2 = $form_gestione->ctrldef("o2image2", "img", "o2multipage2", "", "");
 		$ctrl_o2image2->x(20);
 		$ctrl_o2image2->y(13);
 		$ctrl_o2image2->larghezza(24);
@@ -731,7 +731,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image2->label("Browse table data");
 		$ctrl_o2image2->css(jxconnectivity_exp_68());
 		$ctrl_o2image2->imgexp(jxconnectivity_exp_93());
-	$ctrl_o2image4 = &$form_gestione->ctrldef("o2image4", "img", "o2multipage2", "", "");
+	$ctrl_o2image4 = $form_gestione->ctrldef("o2image4", "img", "o2multipage2", "", "");
 		$ctrl_o2image4->x(174);
 		$ctrl_o2image4->y(13);
 		$ctrl_o2image4->larghezza(24);
@@ -742,7 +742,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image4->label("Import table data");
 		$ctrl_o2image4->css(jxconnectivity_exp_77());
 		$ctrl_o2image4->imgexp(jxconnectivity_exp_95());
-	$ctrl_o2image6 = &$form_gestione->ctrldef("o2image6", "img", "o2multipage2", "", "");
+	$ctrl_o2image6 = $form_gestione->ctrldef("o2image6", "img", "o2multipage2", "", "");
 		$ctrl_o2image6->x(73);
 		$ctrl_o2image6->y(13);
 		$ctrl_o2image6->larghezza(24);
@@ -754,14 +754,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image6->css(jxconnectivity_exp_84());
 		$ctrl_o2image6->imgexp(jxconnectivity_exp_97());
 		$ctrl_o2image6->confirm_message("ATTENTION: table data will be lost.\nProceed?");
-	$ctrl_o2image26 = &$form_gestione->ctrldef("o2image26", "img", "o2multipage2", "", "");
+	$ctrl_o2image26 = $form_gestione->ctrldef("o2image26", "img", "o2multipage2", "", "");
 		$ctrl_o2image26->x(252);
 		$ctrl_o2image26->y(16);
 		$ctrl_o2image26->larghezza(3);
 		$ctrl_o2image26->altezza(17);
 		$ctrl_o2image26->info_padre(array(0));
 		$ctrl_o2image26->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image41 = &$form_gestione->ctrldef("o2image41", "img", "o2multipage2", "", "");
+	$ctrl_o2image41 = $form_gestione->ctrldef("o2image41", "img", "o2multipage2", "", "");
 		$ctrl_o2image41->x(357);
 		$ctrl_o2image41->y(13);
 		$ctrl_o2image41->larghezza(24);
@@ -772,14 +772,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image41->label("Activate all table constraints");
 		$ctrl_o2image41->css(jxconnectivity_exp_65());
 		$ctrl_o2image41->imgexp(jxconnectivity_exp_318());
-	$ctrl_o2image25 = &$form_gestione->ctrldef("o2image25", "img", "o2multipage2", "", "");
+	$ctrl_o2image25 = $form_gestione->ctrldef("o2image25", "img", "o2multipage2", "", "");
 		$ctrl_o2image25->x(199);
 		$ctrl_o2image25->y(16);
 		$ctrl_o2image25->larghezza(3);
 		$ctrl_o2image25->altezza(17);
 		$ctrl_o2image25->info_padre(array(0));
 		$ctrl_o2image25->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image42 = &$form_gestione->ctrldef("o2image42", "img", "o2multipage2", "", "");
+	$ctrl_o2image42 = $form_gestione->ctrldef("o2image42", "img", "o2multipage2", "", "");
 		$ctrl_o2image42->x(381);
 		$ctrl_o2image42->y(13);
 		$ctrl_o2image42->larghezza(24);
@@ -790,7 +790,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image42->label("Deactivate all table constraints");
 		$ctrl_o2image42->css(jxconnectivity_exp_65());
 		$ctrl_o2image42->imgexp(jxconnectivity_exp_319());
-	$ctrl_o2multipage5 = &$form_gestione->ctrldef("o2multipage5", "multipage", "o2multipage2", "", "");
+	$ctrl_o2multipage5 = $form_gestione->ctrldef("o2multipage5", "multipage", "o2multipage2", "", "");
 		$ctrl_o2multipage5->x(20);
 		$ctrl_o2multipage5->y(270);
 		$ctrl_o2multipage5->larghezza(430);
@@ -800,7 +800,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage5->info_padre(array(0));
 		$ctrl_o2multipage5->label(array("Field"));
 		$ctrl_o2multipage5->buttons("T");
-	$ctrl_o2multipage9 = &$form_gestione->ctrldef("o2multipage9", "multipage", "o2multipage2", "", "");
+	$ctrl_o2multipage9 = $form_gestione->ctrldef("o2multipage9", "multipage", "o2multipage2", "", "");
 		$ctrl_o2multipage9->x(20);
 		$ctrl_o2multipage9->y(270);
 		$ctrl_o2multipage9->larghezza(430);
@@ -810,7 +810,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage9->info_padre(array(0));
 		$ctrl_o2multipage9->label(array("Reference"));
 		$ctrl_o2multipage9->buttons("T");
-	$ctrl_o2multipage8 = &$form_gestione->ctrldef("o2multipage8", "multipage", "o2multipage2", "", "");
+	$ctrl_o2multipage8 = $form_gestione->ctrldef("o2multipage8", "multipage", "o2multipage2", "", "");
 		$ctrl_o2multipage8->x(20);
 		$ctrl_o2multipage8->y(270);
 		$ctrl_o2multipage8->larghezza(430);
@@ -820,7 +820,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2multipage8->info_padre(array(0));
 		$ctrl_o2multipage8->label(array("Constraint"));
 		$ctrl_o2multipage8->buttons("T");
-	$ctrl_o2label12 = &$form_gestione->ctrldef("o2label12", "label", "o2multipage3", "", "");
+	$ctrl_o2label12 = $form_gestione->ctrldef("o2label12", "label", "o2multipage3", "", "");
 		$ctrl_o2label12->x(10);
 		$ctrl_o2label12->y(10);
 		$ctrl_o2label12->larghezza(450);
@@ -829,35 +829,35 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label12->info_padre(array(0));
 		$ctrl_o2label12->label("");
 		$ctrl_o2label12->css(jxconnectivity_exp_32());
-	$ctrl_o2label24 = &$form_gestione->ctrldef("o2label24", "label", "o2multipage3", "", "");
+	$ctrl_o2label24 = $form_gestione->ctrldef("o2label24", "label", "o2multipage3", "", "");
 		$ctrl_o2label24->x(20);
 		$ctrl_o2label24->y(60);
 		$ctrl_o2label24->larghezza(100);
 		$ctrl_o2label24->altezza(20);
 		$ctrl_o2label24->info_padre(array(0));
 		$ctrl_o2label24->label("Database name:");
-	$ctrl_o2label26 = &$form_gestione->ctrldef("o2label26", "label", "o2multipage3", "", "");
+	$ctrl_o2label26 = $form_gestione->ctrldef("o2label26", "label", "o2multipage3", "", "");
 		$ctrl_o2label26->x(20);
 		$ctrl_o2label26->y(80);
 		$ctrl_o2label26->larghezza(100);
 		$ctrl_o2label26->altezza(20);
 		$ctrl_o2label26->info_padre(array(0));
 		$ctrl_o2label26->label("Engine:");
-	$ctrl_o2label28 = &$form_gestione->ctrldef("o2label28", "label", "o2multipage3", "", "");
+	$ctrl_o2label28 = $form_gestione->ctrldef("o2label28", "label", "o2multipage3", "", "");
 		$ctrl_o2label28->x(20);
 		$ctrl_o2label28->y(120);
 		$ctrl_o2label28->larghezza(100);
 		$ctrl_o2label28->altezza(20);
 		$ctrl_o2label28->info_padre(array(0));
 		$ctrl_o2label28->label("Physical name:");
-	$ctrl_o2label62 = &$form_gestione->ctrldef("o2label62", "label", "o2multipage3", "", "");
+	$ctrl_o2label62 = $form_gestione->ctrldef("o2label62", "label", "o2multipage3", "", "");
 		$ctrl_o2label62->x(20);
 		$ctrl_o2label62->y(160);
 		$ctrl_o2label62->larghezza(100);
 		$ctrl_o2label62->altezza(20);
 		$ctrl_o2label62->info_padre(array(0));
 		$ctrl_o2label62->label("ASP mode:");
-	$ctrl_o2label67 = &$form_gestione->ctrldef("o2label67", "label", "o2multipage3", "", "");
+	$ctrl_o2label67 = $form_gestione->ctrldef("o2label67", "label", "o2multipage3", "", "");
 		$ctrl_o2label67->x(20);
 		$ctrl_o2label67->y(210);
 		$ctrl_o2label67->larghezza(230);
@@ -866,7 +866,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label67->visibile(jxconnectivity_exp_213());
 		$ctrl_o2label67->info_padre(array(0));
 		$ctrl_o2label67->label(jxconnectivity_exp_212());
-	$ctrl_o2label31 = &$form_gestione->ctrldef("o2label31", "label", "o2multipage3", "", "");
+	$ctrl_o2label31 = $form_gestione->ctrldef("o2label31", "label", "o2multipage3", "", "");
 		$ctrl_o2label31->x(120);
 		$ctrl_o2label31->y(140);
 		$ctrl_o2label31->larghezza(310);
@@ -874,7 +874,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label31->expand("H");
 		$ctrl_o2label31->info_padre(array(0));
 		$ctrl_o2label31->label(jxconnectivity_exp_175());
-	$ctrl_o2label27 = &$form_gestione->ctrldef("o2label27", "label", "o2multipage3", "", "");
+	$ctrl_o2label27 = $form_gestione->ctrldef("o2label27", "label", "o2multipage3", "", "");
 		$ctrl_o2label27->x(120);
 		$ctrl_o2label27->y(80);
 		$ctrl_o2label27->larghezza(310);
@@ -882,7 +882,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label27->expand("H");
 		$ctrl_o2label27->info_padre(array(0));
 		$ctrl_o2label27->label(jxconnectivity_exp_173());
-	$ctrl_o2label64 = &$form_gestione->ctrldef("o2label64", "label", "o2multipage3", "", "");
+	$ctrl_o2label64 = $form_gestione->ctrldef("o2label64", "label", "o2multipage3", "", "");
 		$ctrl_o2label64->x(120);
 		$ctrl_o2label64->y(160);
 		$ctrl_o2label64->larghezza(310);
@@ -890,7 +890,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label64->expand("H");
 		$ctrl_o2label64->info_padre(array(0));
 		$ctrl_o2label64->label(jxconnectivity_exp_204());
-	$ctrl_o2label41 = &$form_gestione->ctrldef("o2label41", "label", "o2multipage3", "", "");
+	$ctrl_o2label41 = $form_gestione->ctrldef("o2label41", "label", "o2multipage3", "", "");
 		$ctrl_o2label41->x(120);
 		$ctrl_o2label41->y(100);
 		$ctrl_o2label41->larghezza(310);
@@ -898,14 +898,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label41->expand("H");
 		$ctrl_o2label41->info_padre(array(0));
 		$ctrl_o2label41->label(jxconnectivity_exp_179());
-	$ctrl_o2label30 = &$form_gestione->ctrldef("o2label30", "label", "o2multipage3", "", "");
+	$ctrl_o2label30 = $form_gestione->ctrldef("o2label30", "label", "o2multipage3", "", "");
 		$ctrl_o2label30->x(20);
 		$ctrl_o2label30->y(140);
 		$ctrl_o2label30->larghezza(100);
 		$ctrl_o2label30->altezza(20);
 		$ctrl_o2label30->info_padre(array(0));
 		$ctrl_o2label30->label("Schema:");
-	$ctrl_o2label66 = &$form_gestione->ctrldef("o2label66", "label", "o2multipage3", "", "");
+	$ctrl_o2label66 = $form_gestione->ctrldef("o2label66", "label", "o2multipage3", "", "");
 		$ctrl_o2label66->x(120);
 		$ctrl_o2label66->y(180);
 		$ctrl_o2label66->larghezza(310);
@@ -913,7 +913,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label66->expand("H");
 		$ctrl_o2label66->info_padre(array(0));
 		$ctrl_o2label66->label(jxconnectivity_exp_205());
-	$ctrl_o2label25 = &$form_gestione->ctrldef("o2label25", "label", "o2multipage3", "", "");
+	$ctrl_o2label25 = $form_gestione->ctrldef("o2label25", "label", "o2multipage3", "", "");
 		$ctrl_o2label25->x(120);
 		$ctrl_o2label25->y(60);
 		$ctrl_o2label25->larghezza(310);
@@ -921,14 +921,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label25->expand("H");
 		$ctrl_o2label25->info_padre(array(0));
 		$ctrl_o2label25->label(jxconnectivity_exp_172());
-	$ctrl_o2label40 = &$form_gestione->ctrldef("o2label40", "label", "o2multipage3", "", "");
+	$ctrl_o2label40 = $form_gestione->ctrldef("o2label40", "label", "o2multipage3", "", "");
 		$ctrl_o2label40->x(20);
 		$ctrl_o2label40->y(100);
 		$ctrl_o2label40->larghezza(100);
 		$ctrl_o2label40->altezza(20);
 		$ctrl_o2label40->info_padre(array(0));
 		$ctrl_o2label40->label("Server:");
-	$ctrl_o2label29 = &$form_gestione->ctrldef("o2label29", "label", "o2multipage3", "", "");
+	$ctrl_o2label29 = $form_gestione->ctrldef("o2label29", "label", "o2multipage3", "", "");
 		$ctrl_o2label29->x(120);
 		$ctrl_o2label29->y(120);
 		$ctrl_o2label29->larghezza(310);
@@ -936,14 +936,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label29->expand("H");
 		$ctrl_o2label29->info_padre(array(0));
 		$ctrl_o2label29->label(jxconnectivity_exp_174());
-	$ctrl_o2label65 = &$form_gestione->ctrldef("o2label65", "label", "o2multipage3", "", "");
+	$ctrl_o2label65 = $form_gestione->ctrldef("o2label65", "label", "o2multipage3", "", "");
 		$ctrl_o2label65->x(20);
 		$ctrl_o2label65->y(180);
 		$ctrl_o2label65->larghezza(100);
 		$ctrl_o2label65->altezza(20);
 		$ctrl_o2label65->info_padre(array(0));
 		$ctrl_o2label65->label("Modify tables:");
-	$ctrl_o2image38 = &$form_gestione->ctrldef("o2image38", "img", "o2multipage3", "", "");
+	$ctrl_o2image38 = $form_gestione->ctrldef("o2image38", "img", "o2multipage3", "", "");
 		$ctrl_o2image38->x(416);
 		$ctrl_o2image38->y(205);
 		$ctrl_o2image38->larghezza(24);
@@ -956,7 +956,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image38->css(jxconnectivity_exp_127());
 		$ctrl_o2image38->imgexp(jxconnectivity_exp_106());
 		$ctrl_o2image38->confirm_message(jxconnectivity_exp_240());
-	$ctrl_o2image12 = &$form_gestione->ctrldef("o2image12", "img", "o2multipage3", "", "");
+	$ctrl_o2image12 = $form_gestione->ctrldef("o2image12", "img", "o2multipage3", "", "");
 		$ctrl_o2image12->x(227);
 		$ctrl_o2image12->y(13);
 		$ctrl_o2image12->larghezza(24);
@@ -967,7 +967,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image12->label("Database unmapped tables");
 		$ctrl_o2image12->css(jxconnectivity_exp_1());
 		$ctrl_o2image12->imgexp(jxconnectivity_exp_207());
-	$ctrl_o2image11 = &$form_gestione->ctrldef("o2image11", "img", "o2multipage3", "", "");
+	$ctrl_o2image11 = $form_gestione->ctrldef("o2image11", "img", "o2multipage3", "", "");
 		$ctrl_o2image11->x(68);
 		$ctrl_o2image11->y(13);
 		$ctrl_o2image11->larghezza(24);
@@ -979,7 +979,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image11->css(jxconnectivity_exp_127());
 		$ctrl_o2image11->imgexp(jxconnectivity_exp_106());
 		$ctrl_o2image11->confirm_message("ATTENTION: all tables data will be lost.\nProceed?");
-	$ctrl_o2image15 = &$form_gestione->ctrldef("o2image15", "img", "o2multipage3", "", "");
+	$ctrl_o2image15 = $form_gestione->ctrldef("o2image15", "img", "o2multipage3", "", "");
 		$ctrl_o2image15->x(97);
 		$ctrl_o2image15->y(13);
 		$ctrl_o2image15->larghezza(24);
@@ -991,7 +991,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image15->css(jxconnectivity_exp_1());
 		$ctrl_o2image15->imgexp(jxconnectivity_exp_104());
 		$ctrl_o2image15->confirm_message(jxconnectivity_exp_146());
-	$ctrl_o2image31 = &$form_gestione->ctrldef("o2image31", "img", "o2multipage3", "", "");
+	$ctrl_o2image31 = $form_gestione->ctrldef("o2image31", "img", "o2multipage3", "", "");
 		$ctrl_o2image31->x(251);
 		$ctrl_o2image31->y(13);
 		$ctrl_o2image31->larghezza(24);
@@ -1003,14 +1003,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image31->label("Database logged tables list");
 		$ctrl_o2image31->css(jxconnectivity_exp_1());
 		$ctrl_o2image31->imgexp(jxconnectivity_exp_108());
-	$ctrl_o2image27 = &$form_gestione->ctrldef("o2image27", "img", "o2multipage3", "", "");
+	$ctrl_o2image27 = $form_gestione->ctrldef("o2image27", "img", "o2multipage3", "", "");
 		$ctrl_o2image27->x(93);
 		$ctrl_o2image27->y(16);
 		$ctrl_o2image27->larghezza(3);
 		$ctrl_o2image27->altezza(17);
 		$ctrl_o2image27->info_padre(array(0));
 		$ctrl_o2image27->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image45 = &$form_gestione->ctrldef("o2image45", "img", "o2multipage3", "", "");
+	$ctrl_o2image45 = $form_gestione->ctrldef("o2image45", "img", "o2multipage3", "", "");
 		$ctrl_o2image45->x(304);
 		$ctrl_o2image45->y(13);
 		$ctrl_o2image45->larghezza(24);
@@ -1021,14 +1021,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image45->label("Deactivate all database constraints");
 		$ctrl_o2image45->css(jxconnectivity_exp_65());
 		$ctrl_o2image45->imgexp(jxconnectivity_exp_319());
-	$ctrl_o2image47 = &$form_gestione->ctrldef("o2image47", "img", "o2multipage3", "", "");
+	$ctrl_o2image47 = $form_gestione->ctrldef("o2image47", "img", "o2multipage3", "", "");
 		$ctrl_o2image47->x(276);
 		$ctrl_o2image47->y(16);
 		$ctrl_o2image47->larghezza(3);
 		$ctrl_o2image47->altezza(17);
 		$ctrl_o2image47->info_padre(array(0));
 		$ctrl_o2image47->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image46 = &$form_gestione->ctrldef("o2image46", "img", "o2multipage3", "", "");
+	$ctrl_o2image46 = $form_gestione->ctrldef("o2image46", "img", "o2multipage3", "", "");
 		$ctrl_o2image46->x(328);
 		$ctrl_o2image46->y(13);
 		$ctrl_o2image46->larghezza(24);
@@ -1039,14 +1039,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image46->label("Validate all database constraints against records");
 		$ctrl_o2image46->css(jxconnectivity_exp_65());
 		$ctrl_o2image46->imgexp(jxconnectivity_exp_320());
-	$ctrl_o2image29 = &$form_gestione->ctrldef("o2image29", "img", "o2multipage3", "", "");
+	$ctrl_o2image29 = $form_gestione->ctrldef("o2image29", "img", "o2multipage3", "", "");
 		$ctrl_o2image29->x(223);
 		$ctrl_o2image29->y(16);
 		$ctrl_o2image29->larghezza(3);
 		$ctrl_o2image29->altezza(17);
 		$ctrl_o2image29->info_padre(array(0));
 		$ctrl_o2image29->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image19 = &$form_gestione->ctrldef("o2image19", "img", "o2multipage3", "", "");
+	$ctrl_o2image19 = $form_gestione->ctrldef("o2image19", "img", "o2multipage3", "", "");
 		$ctrl_o2image19->x(174);
 		$ctrl_o2image19->y(13);
 		$ctrl_o2image19->larghezza(24);
@@ -1058,7 +1058,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image19->css(jxconnectivity_exp_1());
 		$ctrl_o2image19->imgexp(jxconnectivity_exp_128());
 		$ctrl_o2image19->confirm_message(jxconnectivity_exp_147());
-	$ctrl_o2image22 = &$form_gestione->ctrldef("o2image22", "img", "o2multipage3", "", "");
+	$ctrl_o2image22 = $form_gestione->ctrldef("o2image22", "img", "o2multipage3", "", "");
 		$ctrl_o2image22->x(145);
 		$ctrl_o2image22->y(13);
 		$ctrl_o2image22->larghezza(24);
@@ -1068,14 +1068,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image22->label("Export database");
 		$ctrl_o2image22->css(jxconnectivity_exp_1());
 		$ctrl_o2image22->imgexp(jxconnectivity_exp_29());
-	$ctrl_o2image28 = &$form_gestione->ctrldef("o2image28", "img", "o2multipage3", "", "");
+	$ctrl_o2image28 = $form_gestione->ctrldef("o2image28", "img", "o2multipage3", "", "");
 		$ctrl_o2image28->x(170);
 		$ctrl_o2image28->y(16);
 		$ctrl_o2image28->larghezza(3);
 		$ctrl_o2image28->altezza(17);
 		$ctrl_o2image28->info_padre(array(0));
 		$ctrl_o2image28->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image14 = &$form_gestione->ctrldef("o2image14", "img", "o2multipage3", "", "");
+	$ctrl_o2image14 = $form_gestione->ctrldef("o2image14", "img", "o2multipage3", "", "");
 		$ctrl_o2image14->x(44);
 		$ctrl_o2image14->y(13);
 		$ctrl_o2image14->larghezza(24);
@@ -1087,7 +1087,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image14->css(jxconnectivity_exp_127());
 		$ctrl_o2image14->imgexp(jxconnectivity_exp_107());
 		$ctrl_o2image14->confirm_message(jxconnectivity_exp_149());
-	$ctrl_o2image37 = &$form_gestione->ctrldef("o2image37", "img", "o2multipage3", "", "");
+	$ctrl_o2image37 = $form_gestione->ctrldef("o2image37", "img", "o2multipage3", "", "");
 		$ctrl_o2image37->x(416);
 		$ctrl_o2image37->y(205);
 		$ctrl_o2image37->larghezza(24);
@@ -1100,7 +1100,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image37->css(jxconnectivity_exp_127());
 		$ctrl_o2image37->imgexp(jxconnectivity_exp_107());
 		$ctrl_o2image37->confirm_message(jxconnectivity_exp_149());
-	$ctrl_o2image17 = &$form_gestione->ctrldef("o2image17", "img", "o2multipage3", "", "");
+	$ctrl_o2image17 = $form_gestione->ctrldef("o2image17", "img", "o2multipage3", "", "");
 		$ctrl_o2image17->x(121);
 		$ctrl_o2image17->y(13);
 		$ctrl_o2image17->larghezza(24);
@@ -1112,7 +1112,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image17->css(jxconnectivity_exp_1());
 		$ctrl_o2image17->imgexp(jxconnectivity_exp_105());
 		$ctrl_o2image17->confirm_message("ATTENTION: all tables data may be lost.\nProceed?");
-	$ctrl_o2image18 = &$form_gestione->ctrldef("o2image18", "img", "o2multipage3", "", "");
+	$ctrl_o2image18 = $form_gestione->ctrldef("o2image18", "img", "o2multipage3", "", "");
 		$ctrl_o2image18->x(198);
 		$ctrl_o2image18->y(13);
 		$ctrl_o2image18->larghezza(24);
@@ -1124,7 +1124,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image18->css(jxconnectivity_exp_1());
 		$ctrl_o2image18->imgexp(jxconnectivity_exp_130());
 		$ctrl_o2image18->confirm_message(jxconnectivity_exp_148());
-	$ctrl_o2image44 = &$form_gestione->ctrldef("o2image44", "img", "o2multipage3", "", "");
+	$ctrl_o2image44 = $form_gestione->ctrldef("o2image44", "img", "o2multipage3", "", "");
 		$ctrl_o2image44->x(280);
 		$ctrl_o2image44->y(13);
 		$ctrl_o2image44->larghezza(24);
@@ -1135,7 +1135,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image44->label("Activate all database constraints");
 		$ctrl_o2image44->css(jxconnectivity_exp_65());
 		$ctrl_o2image44->imgexp(jxconnectivity_exp_318());
-	$ctrl_o2image13 = &$form_gestione->ctrldef("o2image13", "img", "o2multipage3", "", "");
+	$ctrl_o2image13 = $form_gestione->ctrldef("o2image13", "img", "o2multipage3", "", "");
 		$ctrl_o2image13->x(20);
 		$ctrl_o2image13->y(13);
 		$ctrl_o2image13->larghezza(24);
@@ -1147,7 +1147,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image13->css(jxconnectivity_exp_1());
 		$ctrl_o2image13->imgexp(jxconnectivity_exp_103());
 		$ctrl_o2image13->confirm_message(jxconnectivity_exp_145());
-	$ctrl_o2htmlarea2 = &$form_gestione->ctrldef("o2htmlarea2", "htmlarea", "o2multipage3", "", "");
+	$ctrl_o2htmlarea2 = $form_gestione->ctrldef("o2htmlarea2", "htmlarea", "o2multipage3", "", "");
 		$ctrl_o2htmlarea2->x(20);
 		$ctrl_o2htmlarea2->y(230);
 		$ctrl_o2htmlarea2->larghezza(420);
@@ -1157,14 +1157,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2htmlarea2->info_padre(array(0));
 		$ctrl_o2htmlarea2->html(jxconnectivity_exp_211());
 		$ctrl_o2htmlarea2->css(jxconnectivity_exp_26());
-	$ctrl_o2label20 = &$form_gestione->ctrldef("o2label20", "label", "o2multipage4", "", "");
+	$ctrl_o2label20 = $form_gestione->ctrldef("o2label20", "label", "o2multipage4", "", "");
 		$ctrl_o2label20->x(20);
 		$ctrl_o2label20->y(70);
 		$ctrl_o2label20->larghezza(100);
 		$ctrl_o2label20->altezza(20);
 		$ctrl_o2label20->info_padre(array(0));
 		$ctrl_o2label20->label("Engine:");
-	$ctrl_o2label21 = &$form_gestione->ctrldef("o2label21", "label", "o2multipage4", "", "");
+	$ctrl_o2label21 = $form_gestione->ctrldef("o2label21", "label", "o2multipage4", "", "");
 		$ctrl_o2label21->x(120);
 		$ctrl_o2label21->y(70);
 		$ctrl_o2label21->larghezza(290);
@@ -1172,7 +1172,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label21->expand("H");
 		$ctrl_o2label21->info_padre(array(0));
 		$ctrl_o2label21->label(jxconnectivity_exp_170());
-	$ctrl_o2label16 = &$form_gestione->ctrldef("o2label16", "label", "o2multipage4", "", "");
+	$ctrl_o2label16 = $form_gestione->ctrldef("o2label16", "label", "o2multipage4", "", "");
 		$ctrl_o2label16->x(120);
 		$ctrl_o2label16->y(90);
 		$ctrl_o2label16->larghezza(290);
@@ -1180,14 +1180,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label16->expand("H");
 		$ctrl_o2label16->info_padre(array(0));
 		$ctrl_o2label16->label(jxconnectivity_exp_167());
-	$ctrl_o2label14 = &$form_gestione->ctrldef("o2label14", "label", "o2multipage4", "", "");
+	$ctrl_o2label14 = $form_gestione->ctrldef("o2label14", "label", "o2multipage4", "", "");
 		$ctrl_o2label14->x(20);
 		$ctrl_o2label14->y(110);
 		$ctrl_o2label14->larghezza(100);
 		$ctrl_o2label14->altezza(20);
 		$ctrl_o2label14->info_padre(array(0));
 		$ctrl_o2label14->label("User:");
-	$ctrl_o2label17 = &$form_gestione->ctrldef("o2label17", "label", "o2multipage4", "", "");
+	$ctrl_o2label17 = $form_gestione->ctrldef("o2label17", "label", "o2multipage4", "", "");
 		$ctrl_o2label17->x(120);
 		$ctrl_o2label17->y(110);
 		$ctrl_o2label17->larghezza(290);
@@ -1195,21 +1195,21 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label17->expand("H");
 		$ctrl_o2label17->info_padre(array(0));
 		$ctrl_o2label17->label(jxconnectivity_exp_168());
-	$ctrl_o2label15 = &$form_gestione->ctrldef("o2label15", "label", "o2multipage4", "", "");
+	$ctrl_o2label15 = $form_gestione->ctrldef("o2label15", "label", "o2multipage4", "", "");
 		$ctrl_o2label15->x(20);
 		$ctrl_o2label15->y(130);
 		$ctrl_o2label15->larghezza(100);
 		$ctrl_o2label15->altezza(20);
 		$ctrl_o2label15->info_padre(array(0));
 		$ctrl_o2label15->label("Password:");
-	$ctrl_o2label19 = &$form_gestione->ctrldef("o2label19", "label", "o2multipage4", "", "");
+	$ctrl_o2label19 = $form_gestione->ctrldef("o2label19", "label", "o2multipage4", "", "");
 		$ctrl_o2label19->x(330);
 		$ctrl_o2label19->y(130);
 		$ctrl_o2label19->larghezza(100);
 		$ctrl_o2label19->altezza(20);
 		$ctrl_o2label19->info_padre(array(0));
 		$ctrl_o2label19->label("Show password");
-	$ctrl_o2label23 = &$form_gestione->ctrldef("o2label23", "label", "o2multipage4", "", "");
+	$ctrl_o2label23 = $form_gestione->ctrldef("o2label23", "label", "o2multipage4", "", "");
 		$ctrl_o2label23->x(120);
 		$ctrl_o2label23->y(50);
 		$ctrl_o2label23->larghezza(290);
@@ -1217,21 +1217,21 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label23->expand("H");
 		$ctrl_o2label23->info_padre(array(0));
 		$ctrl_o2label23->label(jxconnectivity_exp_171());
-	$ctrl_o2label22 = &$form_gestione->ctrldef("o2label22", "label", "o2multipage4", "", "");
+	$ctrl_o2label22 = $form_gestione->ctrldef("o2label22", "label", "o2multipage4", "", "");
 		$ctrl_o2label22->x(20);
 		$ctrl_o2label22->y(50);
 		$ctrl_o2label22->larghezza(100);
 		$ctrl_o2label22->altezza(20);
 		$ctrl_o2label22->info_padre(array(0));
 		$ctrl_o2label22->label("Server name:");
-	$ctrl_o2label13 = &$form_gestione->ctrldef("o2label13", "label", "o2multipage4", "", "");
+	$ctrl_o2label13 = $form_gestione->ctrldef("o2label13", "label", "o2multipage4", "", "");
 		$ctrl_o2label13->x(20);
 		$ctrl_o2label13->y(90);
 		$ctrl_o2label13->larghezza(100);
 		$ctrl_o2label13->altezza(20);
 		$ctrl_o2label13->info_padre(array(0));
 		$ctrl_o2label13->label("Host:");
-	$ctrl_o2label18 = &$form_gestione->ctrldef("o2label18", "label", "o2multipage4", "", "");
+	$ctrl_o2label18 = $form_gestione->ctrldef("o2label18", "label", "o2multipage4", "", "");
 		$ctrl_o2label18->x(120);
 		$ctrl_o2label18->y(130);
 		$ctrl_o2label18->larghezza(180);
@@ -1239,14 +1239,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label18->expand("H");
 		$ctrl_o2label18->info_padre(array(0));
 		$ctrl_o2label18->label(jxconnectivity_exp_169());
-	$ctrl_o2checkbox3 = &$form_gestione->ctrldef("o2checkbox3", "check", "o2multipage4", "prg§_§var", "show_password");
+	$ctrl_o2checkbox3 = $form_gestione->ctrldef("o2checkbox3", "check", "o2multipage4", "prg§_§var", "show_password");
 		$ctrl_o2checkbox3->x(310);
 		$ctrl_o2checkbox3->y(130);
 		$ctrl_o2checkbox3->larghezza(20);
 		$ctrl_o2checkbox3->altezza(20);
 		$ctrl_o2checkbox3->on_change(jxconnectivity_exp_40());
 		$ctrl_o2checkbox3->info_padre(array(0));
-	$ctrl_o2label56 = &$form_gestione->ctrldef("o2label56", "label", "o2multipage5", "", "");
+	$ctrl_o2label56 = $form_gestione->ctrldef("o2label56", "label", "o2multipage5", "", "");
 		$ctrl_o2label56->x(110);
 		$ctrl_o2label56->y(115);
 		$ctrl_o2label56->larghezza(300);
@@ -1255,7 +1255,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label56->visibile(jxconnectivity_exp_198());
 		$ctrl_o2label56->info_padre(array(0));
 		$ctrl_o2label56->label(jxconnectivity_exp_195());
-	$ctrl_o2label60 = &$form_gestione->ctrldef("o2label60", "label", "o2multipage5", "", "");
+	$ctrl_o2label60 = $form_gestione->ctrldef("o2label60", "label", "o2multipage5", "", "");
 		$ctrl_o2label60->x(110);
 		$ctrl_o2label60->y(165);
 		$ctrl_o2label60->larghezza(300);
@@ -1264,7 +1264,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label60->visibile(jxconnectivity_exp_200());
 		$ctrl_o2label60->info_padre(array(0));
 		$ctrl_o2label60->label(jxconnectivity_exp_197());
-	$ctrl_o2label68 = &$form_gestione->ctrldef("o2label68", "label", "o2multipage5", "", "");
+	$ctrl_o2label68 = $form_gestione->ctrldef("o2label68", "label", "o2multipage5", "", "");
 		$ctrl_o2label68->x(110);
 		$ctrl_o2label68->y(65);
 		$ctrl_o2label68->larghezza(300);
@@ -1273,7 +1273,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label68->info_padre(array(0));
 		$ctrl_o2label68->label(jxconnectivity_exp_60());
 		$ctrl_o2label68->css(jxconnectivity_exp_62());
-	$ctrl_o2label54 = &$form_gestione->ctrldef("o2label54", "label", "o2multipage5", "", "");
+	$ctrl_o2label54 = $form_gestione->ctrldef("o2label54", "label", "o2multipage5", "", "");
 		$ctrl_o2label54->x(110);
 		$ctrl_o2label54->y(90);
 		$ctrl_o2label54->larghezza(300);
@@ -1282,7 +1282,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label54->visibile(jxconnectivity_exp_198());
 		$ctrl_o2label54->info_padre(array(0));
 		$ctrl_o2label54->label(jxconnectivity_exp_193());
-	$ctrl_o2label57 = &$form_gestione->ctrldef("o2label57", "label", "o2multipage5", "", "");
+	$ctrl_o2label57 = $form_gestione->ctrldef("o2label57", "label", "o2multipage5", "", "");
 		$ctrl_o2label57->x(10);
 		$ctrl_o2label57->y(140);
 		$ctrl_o2label57->larghezza(100);
@@ -1290,7 +1290,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label57->visibile(jxconnectivity_exp_198());
 		$ctrl_o2label57->info_padre(array(0));
 		$ctrl_o2label57->label("Type:");
-	$ctrl_o2label53 = &$form_gestione->ctrldef("o2label53", "label", "o2multipage5", "", "");
+	$ctrl_o2label53 = $form_gestione->ctrldef("o2label53", "label", "o2multipage5", "", "");
 		$ctrl_o2label53->x(10);
 		$ctrl_o2label53->y(90);
 		$ctrl_o2label53->larghezza(100);
@@ -1298,7 +1298,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label53->visibile(jxconnectivity_exp_198());
 		$ctrl_o2label53->info_padre(array(0));
 		$ctrl_o2label53->label("Physical name:");
-	$ctrl_o2label58 = &$form_gestione->ctrldef("o2label58", "label", "o2multipage5", "", "");
+	$ctrl_o2label58 = $form_gestione->ctrldef("o2label58", "label", "o2multipage5", "", "");
 		$ctrl_o2label58->x(110);
 		$ctrl_o2label58->y(140);
 		$ctrl_o2label58->larghezza(300);
@@ -1307,7 +1307,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label58->visibile(jxconnectivity_exp_198());
 		$ctrl_o2label58->info_padre(array(0));
 		$ctrl_o2label58->label(jxconnectivity_exp_196());
-	$ctrl_o2label59 = &$form_gestione->ctrldef("o2label59", "label", "o2multipage5", "", "");
+	$ctrl_o2label59 = $form_gestione->ctrldef("o2label59", "label", "o2multipage5", "", "");
 		$ctrl_o2label59->x(10);
 		$ctrl_o2label59->y(165);
 		$ctrl_o2label59->larghezza(100);
@@ -1315,7 +1315,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label59->visibile(jxconnectivity_exp_200());
 		$ctrl_o2label59->info_padre(array(0));
 		$ctrl_o2label59->label("Physical type:");
-	$ctrl_o2label52 = &$form_gestione->ctrldef("o2label52", "label", "o2multipage5", "", "");
+	$ctrl_o2label52 = $form_gestione->ctrldef("o2label52", "label", "o2multipage5", "", "");
 		$ctrl_o2label52->x(110);
 		$ctrl_o2label52->y(40);
 		$ctrl_o2label52->larghezza(300);
@@ -1323,7 +1323,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label52->expand("H");
 		$ctrl_o2label52->info_padre(array(0));
 		$ctrl_o2label52->label(jxconnectivity_exp_59());
-	$ctrl_o2label51 = &$form_gestione->ctrldef("o2label51", "label", "o2multipage5", "", "");
+	$ctrl_o2label51 = $form_gestione->ctrldef("o2label51", "label", "o2multipage5", "", "");
 		$ctrl_o2label51->x(10);
 		$ctrl_o2label51->y(40);
 		$ctrl_o2label51->larghezza(100);
@@ -1331,7 +1331,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label51->visibile(jxconnectivity_exp_198());
 		$ctrl_o2label51->info_padre(array(0));
 		$ctrl_o2label51->label("Field name:");
-	$ctrl_o2label55 = &$form_gestione->ctrldef("o2label55", "label", "o2multipage5", "", "");
+	$ctrl_o2label55 = $form_gestione->ctrldef("o2label55", "label", "o2multipage5", "", "");
 		$ctrl_o2label55->x(10);
 		$ctrl_o2label55->y(115);
 		$ctrl_o2label55->larghezza(100);
@@ -1339,21 +1339,21 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label55->visibile(jxconnectivity_exp_198());
 		$ctrl_o2label55->info_padre(array(0));
 		$ctrl_o2label55->label("Meta-type:");
-	$ctrl_o2image35 = &$form_gestione->ctrldef("o2image35", "img", "o2multipage7", "", "");
+	$ctrl_o2image35 = $form_gestione->ctrldef("o2image35", "img", "o2multipage7", "", "");
 		$ctrl_o2image35->x(280);
 		$ctrl_o2image35->y(370);
 		$ctrl_o2image35->larghezza(90);
 		$ctrl_o2image35->altezza(15);
 		$ctrl_o2image35->info_padre(array(0));
 		$ctrl_o2image35->imgexp(jxconnectivity_exp_117());
-	$ctrl_o2htmlarea5 = &$form_gestione->ctrldef("o2htmlarea5", "htmlarea", "o2multipage7", "", "");
+	$ctrl_o2htmlarea5 = $form_gestione->ctrldef("o2htmlarea5", "htmlarea", "o2multipage7", "", "");
 		$ctrl_o2htmlarea5->x(70);
 		$ctrl_o2htmlarea5->y(373);
 		$ctrl_o2htmlarea5->larghezza(160);
 		$ctrl_o2htmlarea5->altezza(10);
 		$ctrl_o2htmlarea5->expand("H");
 		$ctrl_o2htmlarea5->info_padre(array(0));
-	$ctrl_o2htmlarea6 = &$form_gestione->ctrldef("o2htmlarea6", "htmlarea", "o2multipage7", "", "");
+	$ctrl_o2htmlarea6 = $form_gestione->ctrldef("o2htmlarea6", "htmlarea", "o2multipage7", "", "");
 		$ctrl_o2htmlarea6->x(70);
 		$ctrl_o2htmlarea6->y(120);
 		$ctrl_o2htmlarea6->larghezza(300);
@@ -1362,7 +1362,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2htmlarea6->info_padre(array(0));
 		$ctrl_o2htmlarea6->html(jxconnectivity_exp_116());
 		$ctrl_o2htmlarea6->css(jxconnectivity_exp_118());
-	$ctrl_o2label79 = &$form_gestione->ctrldef("o2label79", "label", "o2multipage8", "", "");
+	$ctrl_o2label79 = $form_gestione->ctrldef("o2label79", "label", "o2multipage8", "", "");
 		$ctrl_o2label79->x(10);
 		$ctrl_o2label79->y(30);
 		$ctrl_o2label79->larghezza(410);
@@ -1371,7 +1371,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label79->info_padre(array(0));
 		$ctrl_o2label79->label("");
 		$ctrl_o2label79->css(jxconnectivity_exp_32());
-	$ctrl_o2label83 = &$form_gestione->ctrldef("o2label83", "label", "o2multipage8", "", "");
+	$ctrl_o2label83 = $form_gestione->ctrldef("o2label83", "label", "o2multipage8", "", "");
 		$ctrl_o2label83->x(110);
 		$ctrl_o2label83->y(90);
 		$ctrl_o2label83->larghezza(310);
@@ -1379,7 +1379,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label83->expand("H");
 		$ctrl_o2label83->info_padre(array(0));
 		$ctrl_o2label83->label(jxconnectivity_exp_322());
-	$ctrl_o2label80 = &$form_gestione->ctrldef("o2label80", "label", "o2multipage8", "", "");
+	$ctrl_o2label80 = $form_gestione->ctrldef("o2label80", "label", "o2multipage8", "", "");
 		$ctrl_o2label80->x(110);
 		$ctrl_o2label80->y(70);
 		$ctrl_o2label80->larghezza(310);
@@ -1387,35 +1387,35 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label80->expand("H");
 		$ctrl_o2label80->info_padre(array(0));
 		$ctrl_o2label80->label(jxconnectivity_exp_321());
-	$ctrl_o2label82 = &$form_gestione->ctrldef("o2label82", "label", "o2multipage8", "", "");
+	$ctrl_o2label82 = $form_gestione->ctrldef("o2label82", "label", "o2multipage8", "", "");
 		$ctrl_o2label82->x(10);
 		$ctrl_o2label82->y(90);
 		$ctrl_o2label82->larghezza(100);
 		$ctrl_o2label82->altezza(20);
 		$ctrl_o2label82->info_padre(array(0));
 		$ctrl_o2label82->label("By table:");
-	$ctrl_o2label81 = &$form_gestione->ctrldef("o2label81", "label", "o2multipage8", "", "");
+	$ctrl_o2label81 = $form_gestione->ctrldef("o2label81", "label", "o2multipage8", "", "");
 		$ctrl_o2label81->x(10);
 		$ctrl_o2label81->y(110);
 		$ctrl_o2label81->larghezza(100);
 		$ctrl_o2label81->altezza(20);
 		$ctrl_o2label81->info_padre(array(0));
 		$ctrl_o2label81->label("Fields:");
-	$ctrl_o2label84 = &$form_gestione->ctrldef("o2label84", "label", "o2multipage8", "", "");
+	$ctrl_o2label84 = $form_gestione->ctrldef("o2label84", "label", "o2multipage8", "", "");
 		$ctrl_o2label84->x(10);
 		$ctrl_o2label84->y(70);
 		$ctrl_o2label84->larghezza(100);
 		$ctrl_o2label84->altezza(20);
 		$ctrl_o2label84->info_padre(array(0));
 		$ctrl_o2label84->label("Constraint name:");
-	$ctrl_o2image49 = &$form_gestione->ctrldef("o2image49", "img", "o2multipage8", "", "");
+	$ctrl_o2image49 = $form_gestione->ctrldef("o2image49", "img", "o2multipage8", "", "");
 		$ctrl_o2image49->x(45);
 		$ctrl_o2image49->y(36);
 		$ctrl_o2image49->larghezza(3);
 		$ctrl_o2image49->altezza(17);
 		$ctrl_o2image49->info_padre(array(0));
 		$ctrl_o2image49->imgexp(jxconnectivity_exp_154());
-	$ctrl_o2image51 = &$form_gestione->ctrldef("o2image51", "img", "o2multipage8", "", "");
+	$ctrl_o2image51 = $form_gestione->ctrldef("o2image51", "img", "o2multipage8", "", "");
 		$ctrl_o2image51->x(49);
 		$ctrl_o2image51->y(33);
 		$ctrl_o2image51->larghezza(24);
@@ -1426,7 +1426,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image51->label(jxconnectivity_exp_329());
 		$ctrl_o2image51->css(jxconnectivity_exp_65());
 		$ctrl_o2image51->imgexp(jxconnectivity_exp_328());
-	$ctrl_o2image50 = &$form_gestione->ctrldef("o2image50", "img", "o2multipage8", "", "");
+	$ctrl_o2image50 = $form_gestione->ctrldef("o2image50", "img", "o2multipage8", "", "");
 		$ctrl_o2image50->x(20);
 		$ctrl_o2image50->y(33);
 		$ctrl_o2image50->larghezza(24);
@@ -1438,7 +1438,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image50->css(jxconnectivity_exp_65());
 		$ctrl_o2image50->imgexp(jxconnectivity_exp_326());
 		$ctrl_o2image50->confirm_message(jxconnectivity_exp_327());
-	$ctrl_o2image48 = &$form_gestione->ctrldef("o2image48", "img", "o2multipage8", "", "");
+	$ctrl_o2image48 = $form_gestione->ctrldef("o2image48", "img", "o2multipage8", "", "");
 		$ctrl_o2image48->x(73);
 		$ctrl_o2image48->y(33);
 		$ctrl_o2image48->larghezza(24);
@@ -1449,7 +1449,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2image48->label("Validate constraint against records");
 		$ctrl_o2image48->css(jxconnectivity_exp_65());
 		$ctrl_o2image48->imgexp(jxconnectivity_exp_320());
-	$ctrl_o2htmlarea9 = &$form_gestione->ctrldef("o2htmlarea9", "htmlarea", "o2multipage8", "", "");
+	$ctrl_o2htmlarea9 = $form_gestione->ctrldef("o2htmlarea9", "htmlarea", "o2multipage8", "", "");
 		$ctrl_o2htmlarea9->x(110);
 		$ctrl_o2htmlarea9->y(110);
 		$ctrl_o2htmlarea9->larghezza(310);
@@ -1458,14 +1458,14 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2htmlarea9->info_padre(array(0));
 		$ctrl_o2htmlarea9->html(jxconnectivity_exp_323());
 		$ctrl_o2htmlarea9->css(jxconnectivity_exp_188());
-	$ctrl_o2label75 = &$form_gestione->ctrldef("o2label75", "label", "o2multipage9", "", "");
+	$ctrl_o2label75 = $form_gestione->ctrldef("o2label75", "label", "o2multipage9", "", "");
 		$ctrl_o2label75->x(10);
 		$ctrl_o2label75->y(70);
 		$ctrl_o2label75->larghezza(100);
 		$ctrl_o2label75->altezza(20);
 		$ctrl_o2label75->info_padre(array(0));
 		$ctrl_o2label75->label("Constraint name:");
-	$ctrl_o2label74 = &$form_gestione->ctrldef("o2label74", "label", "o2multipage9", "", "");
+	$ctrl_o2label74 = $form_gestione->ctrldef("o2label74", "label", "o2multipage9", "", "");
 		$ctrl_o2label74->x(110);
 		$ctrl_o2label74->y(70);
 		$ctrl_o2label74->larghezza(310);
@@ -1473,7 +1473,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label74->expand("H");
 		$ctrl_o2label74->info_padre(array(0));
 		$ctrl_o2label74->label(jxconnectivity_exp_321());
-	$ctrl_o2label77 = &$form_gestione->ctrldef("o2label77", "label", "o2multipage9", "", "");
+	$ctrl_o2label77 = $form_gestione->ctrldef("o2label77", "label", "o2multipage9", "", "");
 		$ctrl_o2label77->x(110);
 		$ctrl_o2label77->y(90);
 		$ctrl_o2label77->larghezza(310);
@@ -1481,21 +1481,21 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label77->expand("H");
 		$ctrl_o2label77->info_padre(array(0));
 		$ctrl_o2label77->label(jxconnectivity_exp_322());
-	$ctrl_o2label76 = &$form_gestione->ctrldef("o2label76", "label", "o2multipage9", "", "");
+	$ctrl_o2label76 = $form_gestione->ctrldef("o2label76", "label", "o2multipage9", "", "");
 		$ctrl_o2label76->x(10);
 		$ctrl_o2label76->y(90);
 		$ctrl_o2label76->larghezza(100);
 		$ctrl_o2label76->altezza(20);
 		$ctrl_o2label76->info_padre(array(0));
 		$ctrl_o2label76->label("By table:");
-	$ctrl_o2label73 = &$form_gestione->ctrldef("o2label73", "label", "o2multipage9", "", "");
+	$ctrl_o2label73 = $form_gestione->ctrldef("o2label73", "label", "o2multipage9", "", "");
 		$ctrl_o2label73->x(10);
 		$ctrl_o2label73->y(110);
 		$ctrl_o2label73->larghezza(100);
 		$ctrl_o2label73->altezza(20);
 		$ctrl_o2label73->info_padre(array(0));
 		$ctrl_o2label73->label("Fields:");
-	$ctrl_o2label78 = &$form_gestione->ctrldef("o2label78", "label", "o2multipage9", "", "");
+	$ctrl_o2label78 = $form_gestione->ctrldef("o2label78", "label", "o2multipage9", "", "");
 		$ctrl_o2label78->x(10);
 		$ctrl_o2label78->y(33);
 		$ctrl_o2label78->larghezza(410);
@@ -1504,7 +1504,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2label78->info_padre(array(0));
 		$ctrl_o2label78->label("");
 		$ctrl_o2label78->css(jxconnectivity_exp_32());
-	$ctrl_o2htmlarea8 = &$form_gestione->ctrldef("o2htmlarea8", "htmlarea", "o2multipage9", "", "");
+	$ctrl_o2htmlarea8 = $form_gestione->ctrldef("o2htmlarea8", "htmlarea", "o2multipage9", "", "");
 		$ctrl_o2htmlarea8->x(110);
 		$ctrl_o2htmlarea8->y(110);
 		$ctrl_o2htmlarea8->larghezza(310);
@@ -1514,7 +1514,7 @@ function jxconnectivity§§gestione_form_def(&$form_gestione) {
 		$ctrl_o2htmlarea8->html(jxconnectivity_exp_323());
 		$ctrl_o2htmlarea8->css(jxconnectivity_exp_188());
 		}
-function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
+function jxconnectivity§§m_expimp_dialog_form_def($form_m_expimp_dialog) {
 	$form_m_expimp_dialog->x(76);
 	$form_m_expimp_dialog->y(107);
 	$form_m_expimp_dialog->larghezza(447);
@@ -1524,13 +1524,13 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 	$form_m_expimp_dialog->frm_status(jxconnectivity_exp_22());
 	$form_m_expimp_dialog->css_doc("sys_tables_doc");
 	$form_m_expimp_dialog->close_action("clear_operation");
-	$ctrl_o2label8 = &$form_m_expimp_dialog->ctrldef("o2label8", "label", "", "", "");
+	$ctrl_o2label8 = $form_m_expimp_dialog->ctrldef("o2label8", "label", "", "", "");
 		$ctrl_o2label8->x(20);
 		$ctrl_o2label8->y(150);
 		$ctrl_o2label8->larghezza(100);
 		$ctrl_o2label8->altezza(20);
 		$ctrl_o2label8->label(jxconnectivity_exp_131());
-	$ctrl_o2ListBox2 = &$form_m_expimp_dialog->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "folder");
+	$ctrl_o2ListBox2 = $form_m_expimp_dialog->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "folder");
 		$ctrl_o2ListBox2->x(20);
 		$ctrl_o2ListBox2->y(20);
 		$ctrl_o2ListBox2->larghezza(190);
@@ -1539,14 +1539,14 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 		$ctrl_o2ListBox2->on_change(jxconnectivity_exp_40());
 		$ctrl_o2ListBox2->valori(jxconnectivity_exp_33());
 		$ctrl_o2ListBox2->righe(10);
-	$ctrl_o2htmlarea7 = &$form_m_expimp_dialog->ctrldef("o2htmlarea7", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea7 = $form_m_expimp_dialog->ctrldef("o2htmlarea7", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea7->x(120);
 		$ctrl_o2htmlarea7->y(190);
 		$ctrl_o2htmlarea7->larghezza(305);
 		$ctrl_o2htmlarea7->altezza(50);
 		$ctrl_o2htmlarea7->html(jxconnectivity_exp_203());
 		$ctrl_o2htmlarea7->css(jxconnectivity_exp_208());
-	$ctrl_o2ListBox3 = &$form_m_expimp_dialog->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "selected_file");
+	$ctrl_o2ListBox3 = $form_m_expimp_dialog->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "selected_file");
 		$ctrl_o2ListBox3->x(215);
 		$ctrl_o2ListBox3->y(20);
 		$ctrl_o2ListBox3->larghezza(210);
@@ -1556,7 +1556,7 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 		$ctrl_o2ListBox3->on_change(jxconnectivity_exp_40());
 		$ctrl_o2ListBox3->valori(jxconnectivity_exp_43());
 		$ctrl_o2ListBox3->righe(10);
-	$ctrl_o2edit2 = &$form_m_expimp_dialog->ctrldef("o2edit2", "edit", "", "prg§_§var", "file_name");
+	$ctrl_o2edit2 = $form_m_expimp_dialog->ctrldef("o2edit2", "edit", "", "prg§_§var", "file_name");
 		$ctrl_o2edit2->x(120);
 		$ctrl_o2edit2->y(150);
 		$ctrl_o2edit2->larghezza(305);
@@ -1564,13 +1564,13 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 		$ctrl_o2edit2->modificabile(jxconnectivity_exp_129());
 		$ctrl_o2edit2->azione("load_files");
 		$ctrl_o2edit2->on_change(jxconnectivity_exp_40());
-	$ctrl_o2checkbox2 = &$form_m_expimp_dialog->ctrldef("o2checkbox2", "check", "", "prg§_§var", "imp_exp_asp");
+	$ctrl_o2checkbox2 = $form_m_expimp_dialog->ctrldef("o2checkbox2", "check", "", "prg§_§var", "imp_exp_asp");
 		$ctrl_o2checkbox2->x(90);
 		$ctrl_o2checkbox2->y(190);
 		$ctrl_o2checkbox2->larghezza(20);
 		$ctrl_o2checkbox2->altezza(20);
 		$ctrl_o2checkbox2->visibile(jxconnectivity_exp_129());
-	$ctrl_o2button3 = &$form_m_expimp_dialog->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_m_expimp_dialog->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(235);
 		$ctrl_o2button3->y(250);
 		$ctrl_o2button3->larghezza(90);
@@ -1578,7 +1578,7 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 		$ctrl_o2button3->azione("export_import");
 		$ctrl_o2button3->label(jxconnectivity_exp_46());
 		$ctrl_o2button3->css(jxconnectivity_exp_254());
-	$ctrl_o2button6 = &$form_m_expimp_dialog->ctrldef("o2button6", "button", "", "", "");
+	$ctrl_o2button6 = $form_m_expimp_dialog->ctrldef("o2button6", "button", "", "", "");
 		$ctrl_o2button6->x(335);
 		$ctrl_o2button6->y(250);
 		$ctrl_o2button6->larghezza(90);
@@ -1587,7 +1587,7 @@ function jxconnectivity§§m_expimp_dialog_form_def(&$form_m_expimp_dialog) {
 		$ctrl_o2button6->label("&Close");
 		$ctrl_o2button6->css(jxconnectivity_exp_253());
 		}
-function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
+function jxconnectivity§§n_rebuild_dialog_form_def($form_n_rebuild_dialog) {
 	$form_n_rebuild_dialog->x(250);
 	$form_n_rebuild_dialog->y(90);
 	$form_n_rebuild_dialog->larghezza(450);
@@ -1597,36 +1597,36 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 	$form_n_rebuild_dialog->frm_status(jxconnectivity_exp_22());
 	$form_n_rebuild_dialog->css_doc("sys_tables_doc");
 	$form_n_rebuild_dialog->close_action("clear_operation");
-	$ctrl_o2label3 = &$form_n_rebuild_dialog->ctrldef("o2label3", "label", "", "", "");
+	$ctrl_o2label3 = $form_n_rebuild_dialog->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(20);
 		$ctrl_o2label3->y(20);
 		$ctrl_o2label3->larghezza(128);
 		$ctrl_o2label3->altezza(15);
 		$ctrl_o2label3->label("Only in definition:");
-	$ctrl_o2label5 = &$form_n_rebuild_dialog->ctrldef("o2label5", "label", "", "", "");
+	$ctrl_o2label5 = $form_n_rebuild_dialog->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(230);
 		$ctrl_o2label5->y(200);
 		$ctrl_o2label5->larghezza(131);
 		$ctrl_o2label5->altezza(15);
 		$ctrl_o2label5->label("In new structure:");
-	$ctrl_o2label4 = &$form_n_rebuild_dialog->ctrldef("o2label4", "label", "", "", "");
+	$ctrl_o2label4 = $form_n_rebuild_dialog->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(20);
 		$ctrl_o2label4->y(200);
 		$ctrl_o2label4->larghezza(129);
 		$ctrl_o2label4->altezza(15);
 		$ctrl_o2label4->label("From older structure:");
-	$ctrl_o2label2 = &$form_n_rebuild_dialog->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_n_rebuild_dialog->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(230);
 		$ctrl_o2label2->y(20);
 		$ctrl_o2label2->larghezza(131);
 		$ctrl_o2label2->altezza(15);
 		$ctrl_o2label2->label("Undefined:");
-	$ctrl_o2separator2 = &$form_n_rebuild_dialog->ctrldef("o2separator2", "line", "", "", "");
+	$ctrl_o2separator2 = $form_n_rebuild_dialog->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(20);
 		$ctrl_o2separator2->y(430);
 		$ctrl_o2separator2->larghezza(410);
 		$ctrl_o2separator2->altezza(2);
-	$ctrl_list_plus_phisical = &$form_n_rebuild_dialog->ctrldef("list_plus_phisical", "listcombo", "", "prg§_§var", "field_from_o2def");
+	$ctrl_list_plus_phisical = $form_n_rebuild_dialog->ctrldef("list_plus_phisical", "listcombo", "", "prg§_§var", "field_from_o2def");
 		$ctrl_list_plus_phisical->x(20);
 		$ctrl_list_plus_phisical->y(40);
 		$ctrl_list_plus_phisical->larghezza(200);
@@ -1634,7 +1634,7 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 		$ctrl_list_plus_phisical->on_change(jxconnectivity_exp_40());
 		$ctrl_list_plus_phisical->valori(jxconnectivity_exp_8());
 		$ctrl_list_plus_phisical->righe(10);
-	$ctrl_list_plus_structure = &$form_n_rebuild_dialog->ctrldef("list_plus_structure", "listcombo", "", "prg§_§var", "field_from_physical");
+	$ctrl_list_plus_structure = $form_n_rebuild_dialog->ctrldef("list_plus_structure", "listcombo", "", "prg§_§var", "field_from_physical");
 		$ctrl_list_plus_structure->x(230);
 		$ctrl_list_plus_structure->y(40);
 		$ctrl_list_plus_structure->larghezza(200);
@@ -1642,7 +1642,7 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 		$ctrl_list_plus_structure->on_change(jxconnectivity_exp_40());
 		$ctrl_list_plus_structure->valori(jxconnectivity_exp_9());
 		$ctrl_list_plus_structure->righe(10);
-	$ctrl_o2button2 = &$form_n_rebuild_dialog->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_n_rebuild_dialog->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(185);
 		$ctrl_o2button2->y(150);
 		$ctrl_o2button2->larghezza(90);
@@ -1650,7 +1650,7 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 		$ctrl_o2button2->modificabile(jxconnectivity_exp_74());
 		$ctrl_o2button2->azione("match");
 		$ctrl_o2button2->label("&Match");
-	$ctrl_list_phisical = &$form_n_rebuild_dialog->ctrldef("list_phisical", "listcombo", "", "prg§_§var", "field_dummy");
+	$ctrl_list_phisical = $form_n_rebuild_dialog->ctrldef("list_phisical", "listcombo", "", "prg§_§var", "field_dummy");
 		$ctrl_list_phisical->x(20);
 		$ctrl_list_phisical->y(220);
 		$ctrl_list_phisical->larghezza(200);
@@ -1658,7 +1658,7 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 		$ctrl_list_phisical->modificabile(jxconnectivity_exp_22());
 		$ctrl_list_phisical->valori(jxconnectivity_exp_7());
 		$ctrl_list_phisical->righe(10);
-	$ctrl_list_structure = &$form_n_rebuild_dialog->ctrldef("list_structure", "listcombo", "", "prg§_§var", "field_dummy");
+	$ctrl_list_structure = $form_n_rebuild_dialog->ctrldef("list_structure", "listcombo", "", "prg§_§var", "field_dummy");
 		$ctrl_list_structure->x(230);
 		$ctrl_list_structure->y(220);
 		$ctrl_list_structure->larghezza(200);
@@ -1666,7 +1666,7 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 		$ctrl_list_structure->modificabile(jxconnectivity_exp_22());
 		$ctrl_list_structure->valori(jxconnectivity_exp_6());
 		$ctrl_list_structure->righe(10);
-	$ctrl_btn_rebuild = &$form_n_rebuild_dialog->ctrldef("btn_rebuild", "button", "", "", "");
+	$ctrl_btn_rebuild = $form_n_rebuild_dialog->ctrldef("btn_rebuild", "button", "", "", "");
 		$ctrl_btn_rebuild->x(240);
 		$ctrl_btn_rebuild->y(450);
 		$ctrl_btn_rebuild->larghezza(90);
@@ -1674,7 +1674,7 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 		$ctrl_btn_rebuild->azione("rebuild");
 		$ctrl_btn_rebuild->label("&Rebuild");
 		$ctrl_btn_rebuild->css(jxconnectivity_exp_254());
-	$ctrl_o2button12 = &$form_n_rebuild_dialog->ctrldef("o2button12", "button", "", "", "");
+	$ctrl_o2button12 = $form_n_rebuild_dialog->ctrldef("o2button12", "button", "", "", "");
 		$ctrl_o2button12->x(340);
 		$ctrl_o2button12->y(450);
 		$ctrl_o2button12->larghezza(90);
@@ -1683,7 +1683,7 @@ function jxconnectivity§§n_rebuild_dialog_form_def(&$form_n_rebuild_dialog) {
 		$ctrl_o2button12->label("&Close");
 		$ctrl_o2button12->css(jxconnectivity_exp_253());
 		}
-function jxconnectivity§§aspclone_form_def(&$form_aspclone) {
+function jxconnectivity§§aspclone_form_def($form_aspclone) {
 	$form_aspclone->x(106);
 	$form_aspclone->y(168);
 	$form_aspclone->larghezza(300);
@@ -1693,20 +1693,20 @@ function jxconnectivity§§aspclone_form_def(&$form_aspclone) {
 	$form_aspclone->frm_status(jxconnectivity_exp_22());
 	$form_aspclone->css_doc("sys_tables_doc");
 	$form_aspclone->close_action("clear_operation");
-	$ctrl_o2label10 = &$form_aspclone->ctrldef("o2label10", "label", "", "", "");
+	$ctrl_o2label10 = $form_aspclone->ctrldef("o2label10", "label", "", "", "");
 		$ctrl_o2label10->x(30);
 		$ctrl_o2label10->y(30);
 		$ctrl_o2label10->larghezza(130);
 		$ctrl_o2label10->altezza(20);
 		$ctrl_o2label10->label("Target ASP area:");
-	$ctrl_o2edit5 = &$form_aspclone->ctrldef("o2edit5", "edit", "", "prg§_§var", "clone_target_area");
+	$ctrl_o2edit5 = $form_aspclone->ctrldef("o2edit5", "edit", "", "prg§_§var", "clone_target_area");
 		$ctrl_o2edit5->x(160);
 		$ctrl_o2edit5->y(30);
 		$ctrl_o2edit5->larghezza(100);
 		$ctrl_o2edit5->altezza(20);
 		$ctrl_o2edit5->on_change(jxconnectivity_exp_40());
 		$ctrl_o2edit5->maschera(jxconnectivity_exp_61());
-	$ctrl_o2button4 = &$form_aspclone->ctrldef("o2button4", "button", "", "", "");
+	$ctrl_o2button4 = $form_aspclone->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(70);
 		$ctrl_o2button4->y(70);
 		$ctrl_o2button4->larghezza(90);
@@ -1716,7 +1716,7 @@ function jxconnectivity§§aspclone_form_def(&$form_aspclone) {
 		$ctrl_o2button4->label("Co&py");
 		$ctrl_o2button4->confirm_message(jxconnectivity_exp_151());
 		$ctrl_o2button4->css(jxconnectivity_exp_254());
-	$ctrl_o2button5 = &$form_aspclone->ctrldef("o2button5", "button", "", "", "");
+	$ctrl_o2button5 = $form_aspclone->ctrldef("o2button5", "button", "", "", "");
 		$ctrl_o2button5->x(170);
 		$ctrl_o2button5->y(70);
 		$ctrl_o2button5->larghezza(90);
@@ -1725,7 +1725,7 @@ function jxconnectivity§§aspclone_form_def(&$form_aspclone) {
 		$ctrl_o2button5->label("&Close");
 		$ctrl_o2button5->css(jxconnectivity_exp_253());
 		}
-function jxconnectivity§§getdef_form_def(&$form_getdef) {
+function jxconnectivity§§getdef_form_def($form_getdef) {
 	$form_getdef->x(290);
 	$form_getdef->y(60);
 	$form_getdef->larghezza(560);
@@ -1735,7 +1735,7 @@ function jxconnectivity§§getdef_form_def(&$form_getdef) {
 	$form_getdef->css_body("visor");
 	$form_getdef->css_doc("sys_tables_doc");
 	$form_getdef->close_action("clear_operation");
-	$ctrl_o2htmlarea4 = &$form_getdef->ctrldef("o2htmlarea4", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea4 = $form_getdef->ctrldef("o2htmlarea4", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea4->x(30);
 		$ctrl_o2htmlarea4->y(30);
 		$ctrl_o2htmlarea4->larghezza(500);
@@ -1743,7 +1743,7 @@ function jxconnectivity§§getdef_form_def(&$form_getdef) {
 		$ctrl_o2htmlarea4->expand("B");
 		$ctrl_o2htmlarea4->html(jxconnectivity_exp_234());
 		}
-function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
+function jxconnectivity§§constr_add_form_def($form_constr_add) {
 	$form_constr_add->x(475);
 	$form_constr_add->y(30);
 	$form_constr_add->larghezza(950);
@@ -1753,35 +1753,35 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 	$form_constr_add->frm_status(jxconnectivity_exp_22());
 	$form_constr_add->css_doc("sys_tables_doc");
 	$form_constr_add->close_action("close_constr_details");
-	$ctrl_o2multipage10 = &$form_constr_add->ctrldef("o2multipage10", "multipage", "", "", "");
+	$ctrl_o2multipage10 = $form_constr_add->ctrldef("o2multipage10", "multipage", "", "", "");
 		$ctrl_o2multipage10->x(20);
 		$ctrl_o2multipage10->y(120);
 		$ctrl_o2multipage10->larghezza(450);
 		$ctrl_o2multipage10->altezza(450);
 		$ctrl_o2multipage10->label(array("This table fields"));
 		$ctrl_o2multipage10->buttons("T");
-	$ctrl_o2multipage11 = &$form_constr_add->ctrldef("o2multipage11", "multipage", "", "", "");
+	$ctrl_o2multipage11 = $form_constr_add->ctrldef("o2multipage11", "multipage", "", "", "");
 		$ctrl_o2multipage11->x(480);
 		$ctrl_o2multipage11->y(30);
 		$ctrl_o2multipage11->larghezza(450);
 		$ctrl_o2multipage11->altezza(80);
 		$ctrl_o2multipage11->label(array("Constraint to table"));
 		$ctrl_o2multipage11->buttons("T");
-	$ctrl_o2multipage12 = &$form_constr_add->ctrldef("o2multipage12", "multipage", "", "", "");
+	$ctrl_o2multipage12 = $form_constr_add->ctrldef("o2multipage12", "multipage", "", "", "");
 		$ctrl_o2multipage12->x(480);
 		$ctrl_o2multipage12->y(120);
 		$ctrl_o2multipage12->larghezza(450);
 		$ctrl_o2multipage12->altezza(450);
 		$ctrl_o2multipage12->label(array("Constraint by referenced fields"));
 		$ctrl_o2multipage12->buttons("T");
-	$ctrl_o2multipage13 = &$form_constr_add->ctrldef("o2multipage13", "multipage", "", "", "");
+	$ctrl_o2multipage13 = $form_constr_add->ctrldef("o2multipage13", "multipage", "", "", "");
 		$ctrl_o2multipage13->x(20);
 		$ctrl_o2multipage13->y(30);
 		$ctrl_o2multipage13->larghezza(450);
 		$ctrl_o2multipage13->altezza(80);
 		$ctrl_o2multipage13->label(array("Constraint name"));
 		$ctrl_o2multipage13->buttons("T");
-	$ctrl_o2button13 = &$form_constr_add->ctrldef("o2button13", "button", "", "", "");
+	$ctrl_o2button13 = $form_constr_add->ctrldef("o2button13", "button", "", "", "");
 		$ctrl_o2button13->x(840);
 		$ctrl_o2button13->y(580);
 		$ctrl_o2button13->larghezza(90);
@@ -1789,7 +1789,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2button13->azione("check_create_new_constr");
 		$ctrl_o2button13->label("&Add");
 		$ctrl_o2button13->css(jxconnectivity_exp_254());
-	$ctrl_o2button11 = &$form_constr_add->ctrldef("o2button11", "button", "", "", "");
+	$ctrl_o2button11 = $form_constr_add->ctrldef("o2button11", "button", "", "", "");
 		$ctrl_o2button11->x(740);
 		$ctrl_o2button11->y(580);
 		$ctrl_o2button11->larghezza(90);
@@ -1797,7 +1797,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2button11->azione("close_constr_details");
 		$ctrl_o2button11->label("&Cancel");
 		$ctrl_o2button11->css(jxconnectivity_exp_253());
-	$ctrl_o2ListBox7 = &$form_constr_add->ctrldef("o2ListBox7", "listcombo", "o2multipage10", "prg§_§var", "new_c_main_all_field");
+	$ctrl_o2ListBox7 = $form_constr_add->ctrldef("o2ListBox7", "listcombo", "o2multipage10", "prg§_§var", "new_c_main_all_field");
 		$ctrl_o2ListBox7->x(20);
 		$ctrl_o2ListBox7->y(40);
 		$ctrl_o2ListBox7->larghezza(180);
@@ -1806,7 +1806,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2ListBox7->info_padre(array(0));
 		$ctrl_o2ListBox7->valori(jxconnectivity_exp_245());
 		$ctrl_o2ListBox7->righe(20);
-	$ctrl_o2button8 = &$form_constr_add->ctrldef("o2button8", "button", "o2multipage10", "", "");
+	$ctrl_o2button8 = $form_constr_add->ctrldef("o2button8", "button", "o2multipage10", "", "");
 		$ctrl_o2button8->x(205);
 		$ctrl_o2button8->y(60);
 		$ctrl_o2button8->larghezza(40);
@@ -1815,7 +1815,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2button8->azione("new_c_add_main_field");
 		$ctrl_o2button8->info_padre(array(0));
 		$ctrl_o2button8->label(">>");
-	$ctrl_o2button9 = &$form_constr_add->ctrldef("o2button9", "button", "o2multipage10", "", "");
+	$ctrl_o2button9 = $form_constr_add->ctrldef("o2button9", "button", "o2multipage10", "", "");
 		$ctrl_o2button9->x(205);
 		$ctrl_o2button9->y(100);
 		$ctrl_o2button9->larghezza(40);
@@ -1824,7 +1824,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2button9->azione("new_c_remove_main_field");
 		$ctrl_o2button9->info_padre(array(0));
 		$ctrl_o2button9->label("<<");
-	$ctrl_o2ListBox8 = &$form_constr_add->ctrldef("o2ListBox8", "listcombo", "o2multipage10", "prg§_§var", "new_c_main_field");
+	$ctrl_o2ListBox8 = $form_constr_add->ctrldef("o2ListBox8", "listcombo", "o2multipage10", "prg§_§var", "new_c_main_field");
 		$ctrl_o2ListBox8->x(250);
 		$ctrl_o2ListBox8->y(40);
 		$ctrl_o2ListBox8->larghezza(180);
@@ -1833,7 +1833,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2ListBox8->info_padre(array(0));
 		$ctrl_o2ListBox8->valori(jxconnectivity_exp_248());
 		$ctrl_o2ListBox8->righe(20);
-	$ctrl_o2ListBox9 = &$form_constr_add->ctrldef("o2ListBox9", "listcombo", "o2multipage11", "prg§_§var", "new_c_link_tab");
+	$ctrl_o2ListBox9 = $form_constr_add->ctrldef("o2ListBox9", "listcombo", "o2multipage11", "prg§_§var", "new_c_link_tab");
 		$ctrl_o2ListBox9->x(20);
 		$ctrl_o2ListBox9->y(40);
 		$ctrl_o2ListBox9->larghezza(250);
@@ -1843,7 +1843,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2ListBox9->info_padre(array(0));
 		$ctrl_o2ListBox9->valori(jxconnectivity_exp_330());
 		$ctrl_o2ListBox9->righe(1);
-	$ctrl_o2ListBox5 = &$form_constr_add->ctrldef("o2ListBox5", "listcombo", "o2multipage12", "prg§_§var", "new_c_link_field");
+	$ctrl_o2ListBox5 = $form_constr_add->ctrldef("o2ListBox5", "listcombo", "o2multipage12", "prg§_§var", "new_c_link_field");
 		$ctrl_o2ListBox5->x(20);
 		$ctrl_o2ListBox5->y(40);
 		$ctrl_o2ListBox5->larghezza(180);
@@ -1852,7 +1852,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2ListBox5->info_padre(array(0));
 		$ctrl_o2ListBox5->valori(jxconnectivity_exp_249());
 		$ctrl_o2ListBox5->righe(20);
-	$ctrl_o2button7 = &$form_constr_add->ctrldef("o2button7", "button", "o2multipage12", "", "");
+	$ctrl_o2button7 = $form_constr_add->ctrldef("o2button7", "button", "o2multipage12", "", "");
 		$ctrl_o2button7->x(205);
 		$ctrl_o2button7->y(60);
 		$ctrl_o2button7->larghezza(40);
@@ -1861,7 +1861,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2button7->azione("new_c_add_link_field");
 		$ctrl_o2button7->info_padre(array(0));
 		$ctrl_o2button7->label("<<");
-	$ctrl_o2button10 = &$form_constr_add->ctrldef("o2button10", "button", "o2multipage12", "", "");
+	$ctrl_o2button10 = $form_constr_add->ctrldef("o2button10", "button", "o2multipage12", "", "");
 		$ctrl_o2button10->x(205);
 		$ctrl_o2button10->y(100);
 		$ctrl_o2button10->larghezza(40);
@@ -1870,7 +1870,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2button10->azione("new_c_remove_link_field");
 		$ctrl_o2button10->info_padre(array(0));
 		$ctrl_o2button10->label(">>");
-	$ctrl_o2ListBox6 = &$form_constr_add->ctrldef("o2ListBox6", "listcombo", "o2multipage12", "prg§_§var", "new_c_link_all_field");
+	$ctrl_o2ListBox6 = $form_constr_add->ctrldef("o2ListBox6", "listcombo", "o2multipage12", "prg§_§var", "new_c_link_all_field");
 		$ctrl_o2ListBox6->x(250);
 		$ctrl_o2ListBox6->y(40);
 		$ctrl_o2ListBox6->larghezza(180);
@@ -1879,7 +1879,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2ListBox6->info_padre(array(0));
 		$ctrl_o2ListBox6->valori(jxconnectivity_exp_252());
 		$ctrl_o2ListBox6->righe(20);
-	$ctrl_o2edit6 = &$form_constr_add->ctrldef("o2edit6", "edit", "o2multipage13", "prg§_§var", "new_c_name");
+	$ctrl_o2edit6 = $form_constr_add->ctrldef("o2edit6", "edit", "o2multipage13", "prg§_§var", "new_c_name");
 		$ctrl_o2edit6->x(20);
 		$ctrl_o2edit6->y(40);
 		$ctrl_o2edit6->larghezza(200);
@@ -1887,7 +1887,7 @@ function jxconnectivity§§constr_add_form_def(&$form_constr_add) {
 		$ctrl_o2edit6->modificabile(jxconnectivity_exp_22());
 		$ctrl_o2edit6->info_padre(array(0));
 		}
-function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
+function jxconnectivity§§eixdx_add_form_def($form_eixdx_add) {
 	$form_eixdx_add->x(208);
 	$form_eixdx_add->y(30);
 	$form_eixdx_add->larghezza(500);
@@ -1897,21 +1897,21 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 	$form_eixdx_add->frm_status(jxconnectivity_exp_22());
 	$form_eixdx_add->css_doc("sys_tables_doc");
 	$form_eixdx_add->close_action("close_exidx_details");
-	$ctrl_o2multipage15 = &$form_eixdx_add->ctrldef("o2multipage15", "multipage", "", "", "");
+	$ctrl_o2multipage15 = $form_eixdx_add->ctrldef("o2multipage15", "multipage", "", "", "");
 		$ctrl_o2multipage15->x(20);
 		$ctrl_o2multipage15->y(30);
 		$ctrl_o2multipage15->larghezza(450);
 		$ctrl_o2multipage15->altezza(80);
 		$ctrl_o2multipage15->label(array("Index name"));
 		$ctrl_o2multipage15->buttons("T");
-	$ctrl_o2multipage14 = &$form_eixdx_add->ctrldef("o2multipage14", "multipage", "", "", "");
+	$ctrl_o2multipage14 = $form_eixdx_add->ctrldef("o2multipage14", "multipage", "", "", "");
 		$ctrl_o2multipage14->x(20);
 		$ctrl_o2multipage14->y(120);
 		$ctrl_o2multipage14->larghezza(450);
 		$ctrl_o2multipage14->altezza(450);
 		$ctrl_o2multipage14->label(array("Index segments"));
 		$ctrl_o2multipage14->buttons("T");
-	$ctrl_o2button17 = &$form_eixdx_add->ctrldef("o2button17", "button", "", "", "");
+	$ctrl_o2button17 = $form_eixdx_add->ctrldef("o2button17", "button", "", "", "");
 		$ctrl_o2button17->x(380);
 		$ctrl_o2button17->y(580);
 		$ctrl_o2button17->larghezza(90);
@@ -1920,7 +1920,7 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2button17->azione("create_new_idx");
 		$ctrl_o2button17->label("&Add");
 		$ctrl_o2button17->css(jxconnectivity_exp_254());
-	$ctrl_o2button16 = &$form_eixdx_add->ctrldef("o2button16", "button", "", "", "");
+	$ctrl_o2button16 = $form_eixdx_add->ctrldef("o2button16", "button", "", "", "");
 		$ctrl_o2button16->x(280);
 		$ctrl_o2button16->y(580);
 		$ctrl_o2button16->larghezza(90);
@@ -1928,7 +1928,7 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2button16->azione("close_exidx_details");
 		$ctrl_o2button16->label("&Cancel");
 		$ctrl_o2button16->css(jxconnectivity_exp_253());
-	$ctrl_o2ListBox10 = &$form_eixdx_add->ctrldef("o2ListBox10", "listcombo", "o2multipage14", "prg§_§var", "new_ei_all_field");
+	$ctrl_o2ListBox10 = $form_eixdx_add->ctrldef("o2ListBox10", "listcombo", "o2multipage14", "prg§_§var", "new_ei_all_field");
 		$ctrl_o2ListBox10->x(20);
 		$ctrl_o2ListBox10->y(40);
 		$ctrl_o2ListBox10->larghezza(180);
@@ -1937,7 +1937,7 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2ListBox10->info_padre(array(0));
 		$ctrl_o2ListBox10->valori(jxconnectivity_exp_342());
 		$ctrl_o2ListBox10->righe(20);
-	$ctrl_o2button14 = &$form_eixdx_add->ctrldef("o2button14", "button", "o2multipage14", "", "");
+	$ctrl_o2button14 = $form_eixdx_add->ctrldef("o2button14", "button", "o2multipage14", "", "");
 		$ctrl_o2button14->x(205);
 		$ctrl_o2button14->y(60);
 		$ctrl_o2button14->larghezza(40);
@@ -1946,7 +1946,7 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2button14->azione("new_ei_add_field");
 		$ctrl_o2button14->info_padre(array(0));
 		$ctrl_o2button14->label(">>");
-	$ctrl_o2button15 = &$form_eixdx_add->ctrldef("o2button15", "button", "o2multipage14", "", "");
+	$ctrl_o2button15 = $form_eixdx_add->ctrldef("o2button15", "button", "o2multipage14", "", "");
 		$ctrl_o2button15->x(205);
 		$ctrl_o2button15->y(100);
 		$ctrl_o2button15->larghezza(40);
@@ -1955,7 +1955,7 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2button15->azione("new_ei_remove_field");
 		$ctrl_o2button15->info_padre(array(0));
 		$ctrl_o2button15->label("<<");
-	$ctrl_o2ListBox11 = &$form_eixdx_add->ctrldef("o2ListBox11", "listcombo", "o2multipage14", "prg§_§var", "new_ei_field");
+	$ctrl_o2ListBox11 = $form_eixdx_add->ctrldef("o2ListBox11", "listcombo", "o2multipage14", "prg§_§var", "new_ei_field");
 		$ctrl_o2ListBox11->x(250);
 		$ctrl_o2ListBox11->y(40);
 		$ctrl_o2ListBox11->larghezza(180);
@@ -1964,7 +1964,7 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2ListBox11->info_padre(array(0));
 		$ctrl_o2ListBox11->valori(jxconnectivity_exp_379());
 		$ctrl_o2ListBox11->righe(20);
-	$ctrl_o2multipage6 = &$form_eixdx_add->ctrldef("o2multipage6", "multipage", "o2multipage14", "", "");
+	$ctrl_o2multipage6 = $form_eixdx_add->ctrldef("o2multipage6", "multipage", "o2multipage14", "", "");
 		$ctrl_o2multipage6->x(250);
 		$ctrl_o2multipage6->y(180);
 		$ctrl_o2multipage6->larghezza(180);
@@ -1973,14 +1973,14 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2multipage6->info_padre(array(0));
 		$ctrl_o2multipage6->label(array("Segment"));
 		$ctrl_o2multipage6->buttons("T");
-	$ctrl_o2label63 = &$form_eixdx_add->ctrldef("o2label63", "label", "o2multipage15", "", "");
+	$ctrl_o2label63 = $form_eixdx_add->ctrldef("o2label63", "label", "o2multipage15", "", "");
 		$ctrl_o2label63->x(360);
 		$ctrl_o2label63->y(40);
 		$ctrl_o2label63->larghezza(50);
 		$ctrl_o2label63->altezza(20);
 		$ctrl_o2label63->info_padre(array(0));
 		$ctrl_o2label63->label("Unique:");
-	$ctrl_eixdx_name = &$form_eixdx_add->ctrldef("eixdx_name", "edit", "o2multipage15", "prg§_§var", "new_ei_name");
+	$ctrl_eixdx_name = $form_eixdx_add->ctrldef("eixdx_name", "edit", "o2multipage15", "prg§_§var", "new_ei_name");
 		$ctrl_eixdx_name->x(20);
 		$ctrl_eixdx_name->y(40);
 		$ctrl_eixdx_name->larghezza(300);
@@ -1988,13 +1988,13 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_eixdx_name->azione("check_index_name");
 		$ctrl_eixdx_name->on_change(jxconnectivity_exp_40());
 		$ctrl_eixdx_name->info_padre(array(0));
-	$ctrl_o2checkbox4 = &$form_eixdx_add->ctrldef("o2checkbox4", "check", "o2multipage15", "prg§_§var", "new_ei_unique");
+	$ctrl_o2checkbox4 = $form_eixdx_add->ctrldef("o2checkbox4", "check", "o2multipage15", "prg§_§var", "new_ei_unique");
 		$ctrl_o2checkbox4->x(410);
 		$ctrl_o2checkbox4->y(40);
 		$ctrl_o2checkbox4->larghezza(20);
 		$ctrl_o2checkbox4->altezza(20);
 		$ctrl_o2checkbox4->info_padre(array(0));
-	$ctrl_o2button18 = &$form_eixdx_add->ctrldef("o2button18", "button", "o2multipage6", "", "");
+	$ctrl_o2button18 = $form_eixdx_add->ctrldef("o2button18", "button", "o2multipage6", "", "");
 		$ctrl_o2button18->x(10);
 		$ctrl_o2button18->y(40);
 		$ctrl_o2button18->larghezza(160);
@@ -2004,100 +2004,100 @@ function jxconnectivity§§eixdx_add_form_def(&$form_eixdx_add) {
 		$ctrl_o2button18->label(jxconnectivity_exp_380());
 		}
 
-function jxconnectivity§§activate_db_cons_act(&$o2exe) {
+function jxconnectivity§§activate_db_cons_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "res_count", jxconnectivity_exp_339()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("info_db", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::alert(jxconnectivity_exp_259(), 2) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§activate_single_cons_act(&$o2exe) {
+function jxconnectivity§§activate_single_cons_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "cons_index", jxconnectivity_exp_260()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("switch_cons_status", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "res_count", jxconnectivity_exp_261()) && $o2exe->e();
 	$o2exe->s(4) && (jxconnectivity_exp_263() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_262(), 2) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§activate_tab_cons_act(&$o2exe) {
+function jxconnectivity§§activate_tab_cons_act($o2exe) {
 	$o2exe->s(1) && (jxconnectivity_exp_66() || $o2exe->e()) && o2act::set("prg§_§var", "res_count", jxconnectivity_exp_335()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::alert(jxconnectivity_exp_336(), 2) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§area_change_act(&$o2exe) {
+function jxconnectivity§§area_change_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("_o2SESSION", "_area", jxconnectivity_exp_80()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§asp_clear_act(&$o2exe) {
+function jxconnectivity§§asp_clear_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "operation_res", jxconnectivity_exp_227()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::alert(jxconnectivity_exp_76(), 2) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::alert(jxconnectivity_exp_76(), 1) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§asp_clear_all_act(&$o2exe) {
+function jxconnectivity§§asp_clear_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_219()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§asp_clone_act(&$o2exe) {
+function jxconnectivity§§asp_clone_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "operation", jxconnectivity_exp_136()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(jxconnectivity_exp_161()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§asp_clone_all_act(&$o2exe) {
+function jxconnectivity§§asp_clone_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "operation", jxconnectivity_exp_137()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(jxconnectivity_exp_161()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§browse_table_act(&$o2exe) {
+function jxconnectivity§§browse_table_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxconnectivity_exp_57()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§check_cons_validate_act(&$o2exe) {
+function jxconnectivity§§check_cons_validate_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Validate constraint if active") && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_265() || $o2exe->e()) && o2act::exe("validate_constraint", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§check_create_new_constr_act(&$o2exe) {
+function jxconnectivity§§check_create_new_constr_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_check_data_ok", jxconnectivity_exp_266()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_267() || $o2exe->e()) && o2act::exe("create_new_constr", True, "") && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_268() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_269(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§check_create_new_exidx_act(&$o2exe) {
+function jxconnectivity§§check_create_new_exidx_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_check_data_ok", jxconnectivity_exp_266()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_267() || $o2exe->e()) && o2act::exe("create_new_constr", True, "") && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_268() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_269(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§check_db_cons_act(&$o2exe) {
+function jxconnectivity§§check_db_cons_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_270()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_14() || $o2exe->e()) && o2act::exe("activate_tab_cons", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "tables_index", jxconnectivity_exp_271()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§check_db_cons_off_act(&$o2exe) {
+function jxconnectivity§§check_db_cons_off_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_270()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_14() || $o2exe->e()) && o2act::exe("deactivate_tab_cons", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "tables_index", jxconnectivity_exp_271()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§check_db_cons_validate_act(&$o2exe) {
+function jxconnectivity§§check_db_cons_validate_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_270()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_391() || $o2exe->e()) && o2act::exe("validate_tab_cons", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "tables_index", jxconnectivity_exp_271()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§check_index_name_act(&$o2exe) {
+function jxconnectivity§§check_index_name_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_ei_check_data", jxconnectivity_exp_387()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_389() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_388(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§check_single_cons_act(&$o2exe) {
+function jxconnectivity§§check_single_cons_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Switch status if constraint is not active in DB") && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_265() || $o2exe->e()) && o2act::exe("activate_single_cons", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§clear_operation_act(&$o2exe) {
+function jxconnectivity§§clear_operation_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "operation", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "field_from_o2def", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "field_from_physical", jxconnectivity_exp_38()) && $o2exe->e();
@@ -2105,15 +2105,15 @@ function jxconnectivity§§clear_operation_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::set("prg§_§var", "clone_target_area", jxconnectivity_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§close_constr_details_act(&$o2exe) {
+function jxconnectivity§§close_constr_details_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_constr_details", jxconnectivity_exp_22()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§close_exidx_details_act(&$o2exe) {
+function jxconnectivity§§close_exidx_details_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_exidx_details", jxconnectivity_exp_22()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§constraint_add_act(&$o2exe) {
+function jxconnectivity§§constraint_add_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_constr_details", jxconnectivity_exp_40()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_c_check_data_ok", jxconnectivity_exp_22()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_c_check_duplicate", jxconnectivity_exp_22()) && $o2exe->e();
@@ -2129,7 +2129,7 @@ function jxconnectivity§§constraint_add_act(&$o2exe) {
 	$o2exe->s(13) && True && o2act::set("prg§_§var", "new_c_name", jxconnectivity_exp_274()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§constraint_remove_act(&$o2exe) {
+function jxconnectivity§§constraint_remove_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_new_main_tab", jxconnectivity_exp_14()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_c_new_main_fields", jxconnectivity_exp_331()) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_275() || $o2exe->e()) && o2act::exe("switch_cons_status", True, "") && $o2exe->e();
@@ -2138,14 +2138,14 @@ function jxconnectivity§§constraint_remove_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§crea_act(&$o2exe) {
+function jxconnectivity§§crea_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxconnectivity_exp_4()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::alert(jxconnectivity_exp_222(), 2) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::alert(jxconnectivity_exp_222(), 1) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§create_new_constr_act(&$o2exe) {
+function jxconnectivity§§create_new_constr_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_new_main_tab", jxconnectivity_exp_14()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_c_new_main_fields", jxconnectivity_exp_277()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_c_check_duplicate", jxconnectivity_exp_278()) && $o2exe->e();
@@ -2153,7 +2153,7 @@ function jxconnectivity§§create_new_constr_act(&$o2exe) {
 	$o2exe->s(5) && (jxconnectivity_exp_280() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_281(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§create_new_idx_act(&$o2exe) {
+function jxconnectivity§§create_new_idx_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_ei_new_fields", jxconnectivity_exp_350()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_ei_check_data", jxconnectivity_exp_384()) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_352() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_353(), 0) && $o2exe->e();
@@ -2161,23 +2161,23 @@ function jxconnectivity§§create_new_idx_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::set("prg§_§var", "new_ei_check_data", jxconnectivity_exp_40()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§deactivate_db_cons_act(&$o2exe) {
+function jxconnectivity§§deactivate_db_cons_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "res_count", jxconnectivity_exp_340()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("info_db", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::alert(jxconnectivity_exp_282(), 2) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§deactivate_tab_cons_act(&$o2exe) {
+function jxconnectivity§§deactivate_tab_cons_act($o2exe) {
 	$o2exe->s(1) && (jxconnectivity_exp_66() || $o2exe->e()) && o2act::set("prg§_§var", "res_count", jxconnectivity_exp_337()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::alert(jxconnectivity_exp_338(), 2) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§define_treeview_act(&$o2exe) {
+function jxconnectivity§§define_treeview_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "tables_list", jxconnectivity_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§do_clone_act(&$o2exe) {
+function jxconnectivity§§do_clone_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Clone") && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_139() || $o2exe->e()) && o2act::set("prg§_§var", "operation_res", jxconnectivity_exp_228()) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_139() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_134(), 2) && $o2exe->e();
@@ -2187,7 +2187,7 @@ function jxconnectivity§§do_clone_act(&$o2exe) {
 	$o2exe->s(7) && True && o2act::exe("clear_operation", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§do_create_new_constr_act(&$o2exe) {
+function jxconnectivity§§do_create_new_constr_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("new_constraint", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("new_constraint", "main_table", jxconnectivity_exp_14()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("new_constraint", "main_fields", jxconnectivity_exp_242()) && $o2exe->e();
@@ -2199,7 +2199,7 @@ function jxconnectivity§§do_create_new_constr_act(&$o2exe) {
 	$o2exe->s(9) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§do_create_new_idx_act(&$o2exe) {
+function jxconnectivity§§do_create_new_idx_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("new_extidx", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("new_extidx", "index_table", jxconnectivity_exp_14()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("new_extidx", "index_fields", jxconnectivity_exp_383()) && $o2exe->e();
@@ -2210,7 +2210,7 @@ function jxconnectivity§§do_create_new_idx_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§do_tree_select_act(&$o2exe) {
+function jxconnectivity§§do_tree_select_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_type", jxconnectivity_exp_56()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_141() || $o2exe->e()) && o2act::exe("set_table", True, "") && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_142() || $o2exe->e()) && o2act::exe("info_db", True, "") && $o2exe->e();
@@ -2221,22 +2221,22 @@ function jxconnectivity§§do_tree_select_act(&$o2exe) {
 	$o2exe->s(8) && (jxconnectivity_exp_341() || $o2exe->e()) && o2act::exe("info_extra_index", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§drop_act(&$o2exe) {
+function jxconnectivity§§drop_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxconnectivity_exp_25()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::alert(jxconnectivity_exp_223(), 2) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::alert(jxconnectivity_exp_223(), 1) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§drop_all_act(&$o2exe) {
+function jxconnectivity§§drop_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_214()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§drop_unmapped_act(&$o2exe) {
+function jxconnectivity§§drop_unmapped_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_239()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§export_act(&$o2exe) {
+function jxconnectivity§§export_act($o2exe) {
 	$o2exe->s(1) && (jxconnectivity_exp_14() || $o2exe->e()) && o2act::set("prg§_§var", "operation", jxconnectivity_exp_35()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_14() || $o2exe->e()) && o2act::set("prg§_§var", "file_name", jxconnectivity_exp_44()) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_14() || $o2exe->e()) && o2act::exe("load_folders", True, "") && $o2exe->e();
@@ -2244,29 +2244,29 @@ function jxconnectivity§§export_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::script(jxconnectivity_exp_162()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§export_all_act(&$o2exe) {
+function jxconnectivity§§export_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "operation", jxconnectivity_exp_143()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("load_folders", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§export_db_act(&$o2exe) {
+function jxconnectivity§§export_db_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxconnectivity_exp_159(), False, jxconnectivity_exp_206()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§export_import_act(&$o2exe) {
+function jxconnectivity§§export_import_act($o2exe) {
 	$o2exe->s(1) && (jxconnectivity_exp_129() || $o2exe->e()) && o2act::exe("export_import_tab", True, "") && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_132() || $o2exe->e()) && o2act::exe("export_import_all", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("clear_operation", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§export_import_all_act(&$o2exe) {
+function jxconnectivity§§export_import_all_act($o2exe) {
 	$o2exe->s(1) && (jxconnectivity_exp_186() || $o2exe->e()) && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_216()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_186() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_190(), 2) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_187() || $o2exe->e()) && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_217()) && $o2exe->e();
 	$o2exe->s(4) && (jxconnectivity_exp_187() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_194(), 2) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§export_import_tab_act(&$o2exe) {
+function jxconnectivity§§export_import_tab_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("=== EXPORT ===") && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_48() || $o2exe->e()) && o2act::set("prg§_§var", "affected_rows", jxconnectivity_exp_47()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("=== IMPORT ===") && $o2exe->e();
@@ -2277,7 +2277,7 @@ function jxconnectivity§§export_import_tab_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§extra_index_remove_act(&$o2exe) {
+function jxconnectivity§§extra_index_remove_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_ei_new_fields", jxconnectivity_exp_354()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_358() || $o2exe->e()) && o2act::exe("switch_idx_status", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("new_extidx", "C", "") && $o2exe->e();
@@ -2285,12 +2285,12 @@ function jxconnectivity§§extra_index_remove_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§get_definition_act(&$o2exe) {
+function jxconnectivity§§get_definition_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "operation", jxconnectivity_exp_232()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "get_def", jxconnectivity_exp_231()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§import_act(&$o2exe) {
+function jxconnectivity§§import_act($o2exe) {
 	$o2exe->s(1) && (jxconnectivity_exp_14() || $o2exe->e()) && o2act::set("prg§_§var", "operation", jxconnectivity_exp_37()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_14() || $o2exe->e()) && o2act::set("prg§_§var", "file_name", jxconnectivity_exp_45()) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_14() || $o2exe->e()) && o2act::exe("load_folders", True, "") && $o2exe->e();
@@ -2298,12 +2298,12 @@ function jxconnectivity§§import_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::script(jxconnectivity_exp_162()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§import_all_act(&$o2exe) {
+function jxconnectivity§§import_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "operation", jxconnectivity_exp_184()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("load_folders", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§index_add_act(&$o2exe) {
+function jxconnectivity§§index_add_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_exidx_details", jxconnectivity_exp_40()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_ei_name", jxconnectivity_exp_378()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_ei_field", jxconnectivity_exp_38()) && $o2exe->e();
@@ -2314,7 +2314,7 @@ function jxconnectivity§§index_add_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::script(jxconnectivity_exp_390()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§info_constraint_act(&$o2exe) {
+function jxconnectivity§§info_constraint_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "field", jxconnectivity_exp_27()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "field_type", jxconnectivity_exp_288()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_289()) && $o2exe->e();
@@ -2323,11 +2323,11 @@ function jxconnectivity§§info_constraint_act(&$o2exe) {
 	$o2exe->s(6) && (jxconnectivity_exp_291() || $o2exe->e()) && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§info_db_act(&$o2exe) {
+function jxconnectivity§§info_db_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_27()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§info_extra_index_act(&$o2exe) {
+function jxconnectivity§§info_extra_index_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "field", jxconnectivity_exp_27()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "field_type", jxconnectivity_exp_348()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_289()) && $o2exe->e();
@@ -2337,7 +2337,7 @@ function jxconnectivity§§info_extra_index_act(&$o2exe) {
 	$o2exe->s(7) && (jxconnectivity_exp_291() || $o2exe->e()) && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§info_field_act(&$o2exe) {
+function jxconnectivity§§info_field_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "field", jxconnectivity_exp_27()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "field_type", jxconnectivity_exp_191()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "tab4check", jxconnectivity_exp_14()) && $o2exe->e();
@@ -2349,7 +2349,7 @@ function jxconnectivity§§info_field_act(&$o2exe) {
 	$o2exe->s(9) && (jxconnectivity_exp_52() || $o2exe->e()) && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§info_reference_act(&$o2exe) {
+function jxconnectivity§§info_reference_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "field", jxconnectivity_exp_27()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "field_type", jxconnectivity_exp_19()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_289()) && $o2exe->e();
@@ -2357,12 +2357,12 @@ function jxconnectivity§§info_reference_act(&$o2exe) {
 	$o2exe->s(5) && (jxconnectivity_exp_291() || $o2exe->e()) && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§info_server_act(&$o2exe) {
+function jxconnectivity§§info_server_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_27()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "show_password", jxconnectivity_exp_22()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§info_tab_act(&$o2exe) {
+function jxconnectivity§§info_tab_act($o2exe) {
 	$o2exe->s(1) && (jxconnectivity_exp_66() || $o2exe->e()) && o2act::set("prg§_§var", "phys_structure", jxconnectivity_exp_13()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "is_view", jxconnectivity_exp_152()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Add fields and indexes") && $o2exe->e();
@@ -2375,38 +2375,38 @@ function jxconnectivity§§info_tab_act(&$o2exe) {
 	$o2exe->s(10) && True && o2act::set("prg§_§var", "tables_list", jxconnectivity_exp_189()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§load_constraint_act(&$o2exe) {
+function jxconnectivity§§load_constraint_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "tab_constraints", jxconnectivity_exp_292()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§load_extraindexes_act(&$o2exe) {
+function jxconnectivity§§load_extraindexes_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "tab_extra_indexes", jxconnectivity_exp_2()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§load_files_act(&$o2exe) {
+function jxconnectivity§§load_files_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "files_list", jxconnectivity_exp_39()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_132() || $o2exe->e()) && o2act::set("prg§_§var", "file_name", jxconnectivity_exp_138()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§load_folders_act(&$o2exe) {
+function jxconnectivity§§load_folders_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "folders_list", jxconnectivity_exp_31()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "folder", jxconnectivity_exp_34()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("load_files", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§load_references_act(&$o2exe) {
+function jxconnectivity§§load_references_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "tab_constraints", jxconnectivity_exp_293()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§log_list_act(&$o2exe) {
+function jxconnectivity§§log_list_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxconnectivity_exp_165(), False, jxconnectivity_exp_206()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§log_off_act(&$o2exe) {
+function jxconnectivity§§log_off_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("logged_table", "C", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§log_on_act(&$o2exe) {
+function jxconnectivity§§log_on_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("logged_table", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("logged_table", "log_tabname", jxconnectivity_exp_14()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("logged_table", "log_level", jxconnectivity_exp_19()) && $o2exe->e();
@@ -2417,13 +2417,13 @@ function jxconnectivity§§log_on_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::view("logged_table", "1", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§log_table_act(&$o2exe) {
+function jxconnectivity§§log_table_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "log_active", jxconnectivity_exp_86()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_156() || $o2exe->e()) && o2act::exe("log_on", True, "") && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_157() || $o2exe->e()) && o2act::exe("log_off", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§match_act(&$o2exe) {
+function jxconnectivity§§match_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "fields_physical", jxconnectivity_exp_15()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "fields_o2def", jxconnectivity_exp_16()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "only_in_physical", jxconnectivity_exp_20()) && $o2exe->e();
@@ -2432,61 +2432,61 @@ function jxconnectivity§§match_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::set("prg§_§var", "field_from_physical", jxconnectivity_exp_18()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§new_c_add_link_field_act(&$o2exe) {
+function jxconnectivity§§new_c_add_link_field_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_link_fields", jxconnectivity_exp_294()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_c_link_all_fields", jxconnectivity_exp_295()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_c_link_field", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "new_c_link_all_field", jxconnectivity_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§new_c_add_main_field_act(&$o2exe) {
+function jxconnectivity§§new_c_add_main_field_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_main_fields", jxconnectivity_exp_296()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_c_main_all_fields", jxconnectivity_exp_297()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_c_main_field", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "new_c_main_all_field", jxconnectivity_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§new_c_remove_link_field_act(&$o2exe) {
+function jxconnectivity§§new_c_remove_link_field_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_link_all_fields", jxconnectivity_exp_298()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_c_link_fields", jxconnectivity_exp_299()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_c_link_field", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "new_c_link_all_field", jxconnectivity_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§new_c_remove_main_field_act(&$o2exe) {
+function jxconnectivity§§new_c_remove_main_field_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_main_all_fields", jxconnectivity_exp_300()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_c_main_fields", jxconnectivity_exp_301()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_c_main_field", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "new_c_main_all_field", jxconnectivity_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§new_c_tab_change_act(&$o2exe) {
+function jxconnectivity§§new_c_tab_change_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_c_link_all_fields", jxconnectivity_exp_302()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§new_ei_add_field_act(&$o2exe) {
+function jxconnectivity§§new_ei_add_field_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_ei_fields", jxconnectivity_exp_374()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_ei_all_fields", jxconnectivity_exp_375()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_ei_field", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "new_ei_all_field", jxconnectivity_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§new_ei_remove_field_act(&$o2exe) {
+function jxconnectivity§§new_ei_remove_field_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_ei_all_fields", jxconnectivity_exp_376()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_ei_fields", jxconnectivity_exp_377()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_ei_field", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "new_ei_all_field", jxconnectivity_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§new_ei_switch_dir_act(&$o2exe) {
+function jxconnectivity§§new_ei_switch_dir_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "new_ei_fields", jxconnectivity_exp_385()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§query_table_cons_act(&$o2exe) {
+function jxconnectivity§§query_table_cons_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "cons_read_list", jxconnectivity_exp_332()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§rebuild_act(&$o2exe) {
+function jxconnectivity§§rebuild_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "rebuild_ok", jxconnectivity_exp_5()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("clear_operation", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::alert(jxconnectivity_exp_224(), 2) && $o2exe->e();
@@ -2494,11 +2494,11 @@ function jxconnectivity§§rebuild_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§rebuild_all_act(&$o2exe) {
+function jxconnectivity§§rebuild_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_215()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§rebuild_dialog_act(&$o2exe) {
+function jxconnectivity§§rebuild_dialog_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "only_in_physical", jxconnectivity_exp_36()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "only_in_o2def", jxconnectivity_exp_63()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "fields_physical", jxconnectivity_exp_64()) && $o2exe->e();
@@ -2507,40 +2507,40 @@ function jxconnectivity§§rebuild_dialog_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::script(jxconnectivity_exp_160()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§rebuild_errors_act(&$o2exe) {
+function jxconnectivity§§rebuild_errors_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_237()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§result_select_act(&$o2exe) {
+function jxconnectivity§§result_select_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "tables_list", jxconnectivity_exp_210()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("tree_select", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§set_file_name_act(&$o2exe) {
+function jxconnectivity§§set_file_name_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "file_name", jxconnectivity_exp_41()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§set_table_act(&$o2exe) {
+function jxconnectivity§§set_table_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "table", jxconnectivity_exp_27()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "field", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "field_type", jxconnectivity_exp_38()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§start_act(&$o2exe) {
+function jxconnectivity§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "area_local", jxconnectivity_exp_79()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "asp_codes_list", jxconnectivity_exp_114()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("define_treeview", True, "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::script(jxconnectivity_exp_166()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§switch_cons_status_act(&$o2exe) {
+function jxconnectivity§§switch_cons_status_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxconnectivity_exp_333()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_308() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_309(), 2) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_308() || $o2exe->e()) && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§switch_idx_status_act(&$o2exe) {
+function jxconnectivity§§switch_idx_status_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxconnectivity_exp_359()) && $o2exe->e();
 	$o2exe->s(2) && (jxconnectivity_exp_308() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_360(), 2) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_308() || $o2exe->e()) && o2act::exe("info_tab", True, "") && $o2exe->e();
@@ -2550,39 +2550,39 @@ function jxconnectivity§§switch_idx_status_act(&$o2exe) {
 	$o2exe->s(7) && True && o2act::set("prg§_§var", "index_is_on", jxconnectivity_exp_365()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§switch_lock_asp_codes_act(&$o2exe) {
+function jxconnectivity§§switch_lock_asp_codes_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "unlock_asp_codes", jxconnectivity_exp_55()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "area_local", jxconnectivity_exp_79()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§tables_check_act(&$o2exe) {
+function jxconnectivity§§tables_check_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_209()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§toggle_sort_tree_act(&$o2exe) {
+function jxconnectivity§§toggle_sort_tree_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "sort_tree", jxconnectivity_exp_121()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("define_treeview", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§tree_fold_all_act(&$o2exe) {
+function jxconnectivity§§tree_fold_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxconnectivity_exp_42()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§tree_select_act(&$o2exe) {
+function jxconnectivity§§tree_select_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "node_type4check", jxconnectivity_exp_124()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_22()) && $o2exe->e();
 	$o2exe->s(3) && (jxconnectivity_exp_56() || $o2exe->e()) && o2act::exe("do_tree_select", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§tree_unfold_all_act(&$o2exe) {
+function jxconnectivity§§tree_unfold_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxconnectivity_exp_53()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§unmapped_tabs_act(&$o2exe) {
+function jxconnectivity§§unmapped_tabs_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_result", jxconnectivity_exp_221()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§validate_constraint_act(&$o2exe) {
+function jxconnectivity§§validate_constraint_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "cons_index", jxconnectivity_exp_260()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(jxconnectivity_exp_334()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "res_count", jxconnectivity_exp_261()) && $o2exe->e();
@@ -2590,7 +2590,7 @@ function jxconnectivity§§validate_constraint_act(&$o2exe) {
 	$o2exe->s(5) && (jxconnectivity_exp_263() || $o2exe->e()) && o2act::alert(jxconnectivity_exp_312(), 2) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§validate_db_cons_act(&$o2exe) {
+function jxconnectivity§§validate_db_cons_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "res_count", jxconnectivity_exp_255()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "cons_loop_db", jxconnectivity_exp_14()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "tables_total", jxconnectivity_exp_256()) && $o2exe->e();
@@ -2602,7 +2602,7 @@ function jxconnectivity§§validate_db_cons_act(&$o2exe) {
 	$o2exe->s(9) && True && o2act::alert(jxconnectivity_exp_316(), 2) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§validate_tab_cons_act(&$o2exe) {
+function jxconnectivity§§validate_tab_cons_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("query_table_cons", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "tab_constraints", jxconnectivity_exp_264()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("load_constraint", False, "constraints") && $o2exe->e();
@@ -2613,7 +2613,7 @@ function jxconnectivity§§validate_tab_cons_act(&$o2exe) {
 	$o2exe->s(8) && (jxconnectivity_exp_263() || $o2exe->e()) && o2act::exe("info_tab", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxconnectivity§§view_log_act(&$o2exe) {
+function jxconnectivity§§view_log_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxconnectivity_exp_92()) && $o2exe->e();
 	} //|o2_fine_act|
 

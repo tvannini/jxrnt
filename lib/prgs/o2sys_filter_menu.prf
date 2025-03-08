@@ -1,13 +1,13 @@
 <?php
 
-function o2sys_filter_menu§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_filter_menu§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("exclude_list", "_o2structure");
 	$task_prg§_§var->definisci("right_vis", "_o2logical");
 	$task_prg§_§var->definisci("user_has_right", "_o2logical");
 		}
 
-function o2sys_filter_menu§§objs_rights_def(&$task_objs_rights, $_o2viewalias = "") {
+function o2sys_filter_menu§§objs_rights_def($task_objs_rights, $_o2viewalias = "") {
 	$task_objs_rights->righe_vis = 10;
 
 	$task_objs_rights->usa_file("o2_profiling","o2_profiling","obj",null,null);
@@ -19,7 +19,7 @@ function o2sys_filter_menu§§objs_rights_def(&$task_objs_rights, $_o2viewalias = 
 	$task_objs_rights->usa("right_enable","o2_profiling","right_enable",null,null,null,null);
 }
 
-function o2sys_filter_menu§§add_to_excluded_act(&$o2exe) {
+function o2sys_filter_menu§§add_to_excluded_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Right for visibility is set") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "right_vis", o2sys_filter_menu_exp_11()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("User has that right") && $o2exe->e();
@@ -30,20 +30,20 @@ function o2sys_filter_menu§§add_to_excluded_act(&$o2exe) {
 	$o2exe->s(8) && (o2sys_filter_menu_exp_7() || $o2exe->e()) && o2act::set("prg§_§var", "exclude_list", o2sys_filter_menu_exp_8()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_filter_menu§§check_item_act(&$o2exe) {
+function o2sys_filter_menu§§check_item_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Removes item from list if user don't own the right") && $o2exe->e();
 	$o2exe->s(2) && (o2sys_filter_menu_exp_2() || $o2exe->e()) && o2act::script(o2sys_filter_menu_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_filter_menu§§exit_act(&$o2exe) {
+function o2sys_filter_menu§§exit_act($o2exe) {
 	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_filter_menu§§remove_excluded_act(&$o2exe) {
+function o2sys_filter_menu§§remove_excluded_act($o2exe) {
 	$o2exe->s(1) && (o2sys_filter_menu_exp_10() || $o2exe->e()) && o2act::script(o2sys_filter_menu_exp_9()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_filter_menu§§start_act(&$o2exe) {
+function o2sys_filter_menu§§start_act($o2exe) {
 	$o2exe->s(1) && (o2sys_filter_menu_exp_4() || $o2exe->e()) && o2act::exe("exit", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("add_to_excluded", False, "objs_rights") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("remove_excluded", True, "") && $o2exe->e();
@@ -64,7 +64,7 @@ function o2sys_filter_menu_exp_3() {
 if ($_SESSION["o2_app"]->menu[$menu_local]) {
    unset($_SESSION["o2_app"]->menu[$menu_local]);
    }
-foreach ($_SESSION["o2_app"]->menu as &$single_menu) {
+foreach ($_SESSION["o2_app"]->menu as $single_menu) {
    if ($single_menu->voci[$menu_local]) {
       unset($single_menu->voci[$menu_local]);
       }
@@ -102,13 +102,13 @@ return ($l);
 	} //|o2_fine_exp|
 
 function o2sys_filter_menu_exp_9() {
-	$app_menu = &$_SESSION["o2_app"]->menu;
+	$app_menu = $_SESSION["o2_app"]->menu;
 foreach (o2val('prg§_§var','exclude_list') as $menu_name => $excluded) {
    if ($excluded) {
       if ($app_menu[$menu_name]) {
          unset($app_menu[$menu_name]);
          }
-      foreach ($app_menu as &$single_menu) {
+      foreach ($app_menu as $single_menu) {
          if ($single_menu->voci[$menu_name]) {
             unset($single_menu->voci[$menu_name]);
             }

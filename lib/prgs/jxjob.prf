@@ -1,6 +1,6 @@
 <?php
 
-function jxjob§§prg§_§var_def(&$task_prg§_§var) {
+function jxjob§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("check_ok", "_o2logical");
 	$task_prg§_§var->definisci("job_block_mode", "jxjob_block_mode");
@@ -23,7 +23,7 @@ function jxjob§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("prgs_list", "_o2structure");
 	$task_prg§_§var->definisci("services", "_o2structure");
 		}
-function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
+function jxjob§§jxjob_1_form_def($form_jxjob_1) {
 	$form_jxjob_1->x(100);
 	$form_jxjob_1->y(50);
 	$form_jxjob_1->larghezza(440);
@@ -32,103 +32,103 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 	$form_jxjob_1->titolo("Job details");
 	$form_jxjob_1->frm_status(jxjob_exp_10());
 	$form_jxjob_1->css_doc("sys_jobs_doc");
-	$ctrl_o2label4 = &$form_jxjob_1->ctrldef("o2label4", "label", "", "", "");
+	$ctrl_o2label4 = $form_jxjob_1->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(20);
 		$ctrl_o2label4->y(90);
 		$ctrl_o2label4->larghezza(100);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->label("Description:");
-	$ctrl_o2label12 = &$form_jxjob_1->ctrldef("o2label12", "label", "", "", "");
+	$ctrl_o2label12 = $form_jxjob_1->ctrldef("o2label12", "label", "", "", "");
 		$ctrl_o2label12->x(230);
 		$ctrl_o2label12->y(170);
 		$ctrl_o2label12->larghezza(190);
 		$ctrl_o2label12->altezza(20);
 		$ctrl_o2label12->visibile(jxjob_exp_30());
 		$ctrl_o2label12->label("(0 = No limit)");
-	$ctrl_o2label7 = &$form_jxjob_1->ctrldef("o2label7", "label", "", "", "");
+	$ctrl_o2label7 = $form_jxjob_1->ctrldef("o2label7", "label", "", "", "");
 		$ctrl_o2label7->x(150);
 		$ctrl_o2label7->y(500);
 		$ctrl_o2label7->larghezza(270);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->label("Time run instances are kept in archive (0=forever)");
-	$ctrl_o2label3 = &$form_jxjob_1->ctrldef("o2label3", "label", "", "", "");
+	$ctrl_o2label3 = $form_jxjob_1->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(20);
 		$ctrl_o2label3->y(60);
 		$ctrl_o2label3->larghezza(100);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->label("Name:");
-	$ctrl_o2label2 = &$form_jxjob_1->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_jxjob_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(20);
 		$ctrl_o2label2->y(30);
 		$ctrl_o2label2->larghezza(100);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("ID:");
-	$ctrl_o2label9 = &$form_jxjob_1->ctrldef("o2label9", "label", "", "", "");
+	$ctrl_o2label9 = $form_jxjob_1->ctrldef("o2label9", "label", "", "", "");
 		$ctrl_o2label9->x(20);
 		$ctrl_o2label9->y(170);
 		$ctrl_o2label9->larghezza(100);
 		$ctrl_o2label9->altezza(20);
 		$ctrl_o2label9->label("Max instances:");
-	$ctrl_o2label6 = &$form_jxjob_1->ctrldef("o2label6", "label", "", "", "");
+	$ctrl_o2label6 = $form_jxjob_1->ctrldef("o2label6", "label", "", "", "");
 		$ctrl_o2label6->x(20);
 		$ctrl_o2label6->y(500);
 		$ctrl_o2label6->larghezza(80);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->label("Keep days:");
-	$ctrl_o2label5 = &$form_jxjob_1->ctrldef("o2label5", "label", "", "", "");
+	$ctrl_o2label5 = $form_jxjob_1->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(20);
 		$ctrl_o2label5->y(200);
 		$ctrl_o2label5->larghezza(100);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->label("Module:");
-	$ctrl_o2label10 = &$form_jxjob_1->ctrldef("o2label10", "label", "", "", "");
+	$ctrl_o2label10 = $form_jxjob_1->ctrldef("o2label10", "label", "", "", "");
 		$ctrl_o2label10->x(230);
 		$ctrl_o2label10->y(170);
 		$ctrl_o2label10->larghezza(90);
 		$ctrl_o2label10->altezza(20);
 		$ctrl_o2label10->visibile(jxjob_exp_29());
 		$ctrl_o2label10->label("Blocking mode:");
-	$ctrl_o2label11 = &$form_jxjob_1->ctrldef("o2label11", "label", "", "", "");
+	$ctrl_o2label11 = $form_jxjob_1->ctrldef("o2label11", "label", "", "", "");
 		$ctrl_o2label11->x(230);
 		$ctrl_o2label11->y(30);
 		$ctrl_o2label11->larghezza(90);
 		$ctrl_o2label11->altezza(20);
 		$ctrl_o2label11->label("Job disabled:");
-	$ctrl_o2separator2 = &$form_jxjob_1->ctrldef("o2separator2", "line", "", "", "");
+	$ctrl_o2separator2 = $form_jxjob_1->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(20);
 		$ctrl_o2separator2->y(520);
 		$ctrl_o2separator2->larghezza(400);
 		$ctrl_o2separator2->altezza(2);
-	$ctrl_o2label13 = &$form_jxjob_1->ctrldef("o2label13", "label", "", "", "");
+	$ctrl_o2label13 = $form_jxjob_1->ctrldef("o2label13", "label", "", "", "");
 		$ctrl_o2label13->x(20);
 		$ctrl_o2label13->y(140);
 		$ctrl_o2label13->larghezza(100);
 		$ctrl_o2label13->altezza(20);
 		$ctrl_o2label13->label("Service:");
-	$ctrl_o2checkbox2 = &$form_jxjob_1->ctrldef("o2checkbox2", "check", "", "prg§_§var", "job_disabled");
+	$ctrl_o2checkbox2 = $form_jxjob_1->ctrldef("o2checkbox2", "check", "", "prg§_§var", "job_disabled");
 		$ctrl_o2checkbox2->x(320);
 		$ctrl_o2checkbox2->y(30);
 		$ctrl_o2checkbox2->larghezza(20);
 		$ctrl_o2checkbox2->altezza(20);
-	$ctrl_o2edit3 = &$form_jxjob_1->ctrldef("o2edit3", "edit", "", "prg§_§var", "job_name");
+	$ctrl_o2edit3 = $form_jxjob_1->ctrldef("o2edit3", "edit", "", "prg§_§var", "job_name");
 		$ctrl_o2edit3->x(120);
 		$ctrl_o2edit3->y(60);
 		$ctrl_o2edit3->larghezza(300);
 		$ctrl_o2edit3->altezza(20);
 		$ctrl_o2edit3->azione("name_changed");
 		$ctrl_o2edit3->on_change(jxjob_exp_13());
-	$ctrl_o2textarea2 = &$form_jxjob_1->ctrldef("o2textarea2", "text", "", "prg§_§var", "job_desc");
+	$ctrl_o2textarea2 = $form_jxjob_1->ctrldef("o2textarea2", "text", "", "prg§_§var", "job_desc");
 		$ctrl_o2textarea2->x(120);
 		$ctrl_o2textarea2->y(90);
 		$ctrl_o2textarea2->larghezza(300);
 		$ctrl_o2textarea2->altezza(40);
-	$ctrl_o2edit6 = &$form_jxjob_1->ctrldef("o2edit6", "edit", "", "prg§_§var", "job_max_instances");
+	$ctrl_o2edit6 = $form_jxjob_1->ctrldef("o2edit6", "edit", "", "prg§_§var", "job_max_instances");
 		$ctrl_o2edit6->x(120);
 		$ctrl_o2edit6->y(170);
 		$ctrl_o2edit6->larghezza(40);
 		$ctrl_o2edit6->altezza(20);
 		$ctrl_o2edit6->on_change(jxjob_exp_13());
-	$ctrl_o2ListBox3 = &$form_jxjob_1->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "job_block_mode");
+	$ctrl_o2ListBox3 = $form_jxjob_1->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "job_block_mode");
 		$ctrl_o2ListBox3->x(320);
 		$ctrl_o2ListBox3->y(170);
 		$ctrl_o2ListBox3->larghezza(100);
@@ -136,7 +136,7 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2ListBox3->visibile(jxjob_exp_29());
 		$ctrl_o2ListBox3->valori(array());
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2ListBox2 = &$form_jxjob_1->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "job_prg");
+	$ctrl_o2ListBox2 = $form_jxjob_1->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "job_prg");
 		$ctrl_o2ListBox2->x(120);
 		$ctrl_o2ListBox2->y(200);
 		$ctrl_o2ListBox2->larghezza(300);
@@ -145,19 +145,19 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2ListBox2->on_change(jxjob_exp_13());
 		$ctrl_o2ListBox2->valori(jxjob_exp_11());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2multipage2 = &$form_jxjob_1->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_jxjob_1->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(20);
 		$ctrl_o2multipage2->y(230);
 		$ctrl_o2multipage2->larghezza(400);
 		$ctrl_o2multipage2->altezza(250);
 		$ctrl_o2multipage2->label(array("Parameters"));
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2edit5 = &$form_jxjob_1->ctrldef("o2edit5", "edit", "", "prg§_§var", "job_keep_days");
+	$ctrl_o2edit5 = $form_jxjob_1->ctrldef("o2edit5", "edit", "", "prg§_§var", "job_keep_days");
 		$ctrl_o2edit5->x(100);
 		$ctrl_o2edit5->y(500);
 		$ctrl_o2edit5->larghezza(40);
 		$ctrl_o2edit5->altezza(20);
-	$ctrl_o2button3 = &$form_jxjob_1->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_jxjob_1->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(332);
 		$ctrl_o2button3->y(540);
 		$ctrl_o2button3->larghezza(90);
@@ -165,7 +165,7 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2button3->azione("save_job");
 		$ctrl_o2button3->label("&Save");
 		$ctrl_o2button3->css(jxjob_exp_39());
-	$ctrl_o2button4 = &$form_jxjob_1->ctrldef("o2button4", "button", "", "", "");
+	$ctrl_o2button4 = $form_jxjob_1->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(230);
 		$ctrl_o2button4->y(540);
 		$ctrl_o2button4->larghezza(90);
@@ -173,20 +173,20 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2button4->azione("close");
 		$ctrl_o2button4->label("&Cancel");
 		$ctrl_o2button4->css(jxjob_exp_38());
-	$ctrl_o2edit2 = &$form_jxjob_1->ctrldef("o2edit2", "edit", "", "prg§_§var", "job_id");
+	$ctrl_o2edit2 = $form_jxjob_1->ctrldef("o2edit2", "edit", "", "prg§_§var", "job_id");
 		$ctrl_o2edit2->x(120);
 		$ctrl_o2edit2->y(30);
 		$ctrl_o2edit2->larghezza(50);
 		$ctrl_o2edit2->altezza(20);
 		$ctrl_o2edit2->modificabile(jxjob_exp_10());
-	$ctrl_o2ListBox5 = &$form_jxjob_1->ctrldef("o2ListBox5", "listcombo", "", "prg§_§var", "job_service");
+	$ctrl_o2ListBox5 = $form_jxjob_1->ctrldef("o2ListBox5", "listcombo", "", "prg§_§var", "job_service");
 		$ctrl_o2ListBox5->x(120);
 		$ctrl_o2ListBox5->y(140);
 		$ctrl_o2ListBox5->larghezza(120);
 		$ctrl_o2ListBox5->altezza(20);
 		$ctrl_o2ListBox5->valori(jxjob_exp_32());
 		$ctrl_o2ListBox5->righe(1);
-	$ctrl_o2label8 = &$form_jxjob_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
+	$ctrl_o2label8 = $form_jxjob_1->ctrldef("o2label8", "label", "o2multipage2", "", "");
 		$ctrl_o2label8->x(20);
 		$ctrl_o2label8->y(210);
 		$ctrl_o2label8->larghezza(40);
@@ -194,7 +194,7 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2label8->visibile(jxjob_exp_22());
 		$ctrl_o2label8->info_padre(array(0));
 		$ctrl_o2label8->label("Value:");
-	$ctrl_o2ListBox4 = &$form_jxjob_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "param_id");
+	$ctrl_o2ListBox4 = $form_jxjob_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "param_id");
 		$ctrl_o2ListBox4->x(20);
 		$ctrl_o2ListBox4->y(40);
 		$ctrl_o2ListBox4->larghezza(360);
@@ -204,7 +204,7 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(jxjob_exp_12());
 		$ctrl_o2ListBox4->righe(10);
-	$ctrl_o2ListBox6 = &$form_jxjob_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "param_value_combo");
+	$ctrl_o2ListBox6 = $form_jxjob_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "param_value_combo");
 		$ctrl_o2ListBox6->x(60);
 		$ctrl_o2ListBox6->y(210);
 		$ctrl_o2ListBox6->larghezza(260);
@@ -213,14 +213,14 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2ListBox6->info_padre(array(0));
 		$ctrl_o2ListBox6->valori(jxjob_exp_21());
 		$ctrl_o2ListBox6->righe(1);
-	$ctrl_o2checkbox4 = &$form_jxjob_1->ctrldef("o2checkbox4", "check", "o2multipage2", "prg§_§var", "param_value_logic");
+	$ctrl_o2checkbox4 = $form_jxjob_1->ctrldef("o2checkbox4", "check", "o2multipage2", "prg§_§var", "param_value_logic");
 		$ctrl_o2checkbox4->x(60);
 		$ctrl_o2checkbox4->y(210);
 		$ctrl_o2checkbox4->larghezza(20);
 		$ctrl_o2checkbox4->altezza(20);
 		$ctrl_o2checkbox4->visibile(jxjob_exp_19());
 		$ctrl_o2checkbox4->info_padre(array(0));
-	$ctrl_o2edit4 = &$form_jxjob_1->ctrldef("o2edit4", "edit", "o2multipage2", "prg§_§var", "param_value");
+	$ctrl_o2edit4 = $form_jxjob_1->ctrldef("o2edit4", "edit", "o2multipage2", "prg§_§var", "param_value");
 		$ctrl_o2edit4->x(60);
 		$ctrl_o2edit4->y(210);
 		$ctrl_o2edit4->larghezza(260);
@@ -228,7 +228,7 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2edit4->visibile(jxjob_exp_18());
 		$ctrl_o2edit4->info_padre(array(0));
 		$ctrl_o2edit4->maschera(jxjob_exp_17());
-	$ctrl_o2button2 = &$form_jxjob_1->ctrldef("o2button2", "button", "o2multipage2", "", "");
+	$ctrl_o2button2 = $form_jxjob_1->ctrldef("o2button2", "button", "o2multipage2", "", "");
 		$ctrl_o2button2->x(330);
 		$ctrl_o2button2->y(210);
 		$ctrl_o2button2->larghezza(50);
@@ -239,18 +239,18 @@ function jxjob§§jxjob_1_form_def(&$form_jxjob_1) {
 		$ctrl_o2button2->label("Set");
 		}
 
-function jxjob§§close_act(&$o2exe) {
+function jxjob§§close_act($o2exe) {
 	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxjob§§create_job_act(&$o2exe) {
+function jxjob§§create_job_act($o2exe) {
 	} //|o2_fine_act|
 
-function jxjob§§name_changed_act(&$o2exe) {
+function jxjob§§name_changed_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "job_name", jxjob_exp_42()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxjob§§read_job_act(&$o2exe) {
+function jxjob§§read_job_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "job_obj", jxjob_exp_3()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "job_id", jxjob_exp_4()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "job_name", jxjob_exp_5()) && $o2exe->e();
@@ -264,29 +264,29 @@ function jxjob§§read_job_act(&$o2exe) {
 	$o2exe->s(11) && True && o2act::set("prg§_§var", "job_disabled", jxjob_exp_26()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxjob§§read_params_act(&$o2exe) {
+function jxjob§§read_params_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "params_list", jxjob_exp_14()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxjob§§save_job_act(&$o2exe) {
+function jxjob§§save_job_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "check_ok", jxjob_exp_34()) && $o2exe->e();
 	$o2exe->s(2) && (jxjob_exp_35() || $o2exe->e()) && o2act::ret(1, jxjob_exp_24()) && $o2exe->e();
 	$o2exe->s(3) && (jxjob_exp_35() || $o2exe->e()) && o2act::close()&& $o2exe->e();
 	$o2exe->s(4) && (jxjob_exp_37() || $o2exe->e()) && o2act::alert(jxjob_exp_36(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxjob§§set_param_act(&$o2exe) {
+function jxjob§§set_param_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "param_ctrl_type", jxjob_exp_15()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "param_value", jxjob_exp_16()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "param_value_combo", jxjob_exp_41()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "param_value_logic", jxjob_exp_40()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxjob§§set_value_act(&$o2exe) {
+function jxjob§§set_value_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "params_list", jxjob_exp_23()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxjob§§start_act(&$o2exe) {
+function jxjob§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "prgs_list", jxjob_exp_9()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "services", jxjob_exp_31()) && $o2exe->e();
 	$o2exe->s(3) && (jxjob_exp_1() || $o2exe->e()) && o2act::exe("create_job", True, "") && $o2exe->e();

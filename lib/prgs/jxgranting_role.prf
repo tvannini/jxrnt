@@ -1,6 +1,6 @@
 <?php
 
-function jxgranting_role§§prg§_§var_def(&$task_prg§_§var) {
+function jxgranting_role§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("copy_users", "_o2logical");
 	$task_prg§_§var->definisci("role_desc", "_o2text");
@@ -8,7 +8,7 @@ function jxgranting_role§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("role_name", "_o2alpha");
 		}
 
-function jxgranting_role§§roles_def(&$task_roles, $_o2viewalias = "") {
+function jxgranting_role§§roles_def($task_roles, $_o2viewalias = "") {
 	$task_roles->righe_vis = 10;
 
 	$task_roles->usa_file("o2_roles","o2_roles","role_name",null,null);
@@ -16,7 +16,7 @@ function jxgranting_role§§roles_def(&$task_roles, $_o2viewalias = "") {
 	$task_roles->usa("role_name","o2_roles","role_name","jxgranting_role_exp_4()","jxgranting_role_exp_4()",null,null);
 }
 
-function jxgranting_role§§model_roles_def(&$task_model_roles, $_o2viewalias = "") {
+function jxgranting_role§§model_roles_def($task_model_roles, $_o2viewalias = "") {
 	$task_model_roles->righe_vis = 10;
 
 	$task_model_roles->usa_file("o2_roles","o2_roles","role_name",null,null);
@@ -24,7 +24,7 @@ function jxgranting_role§§model_roles_def(&$task_model_roles, $_o2viewalias = ""
 	$task_model_roles->usa("role_name","o2_roles","role_name",null,null,null,null);
 }
 
-function jxgranting_role§§model_role_rights_def(&$task_model_role_rights, $_o2viewalias = "") {
+function jxgranting_role§§model_role_rights_def($task_model_role_rights, $_o2viewalias = "") {
 	$task_model_role_rights->righe_vis = 10;
 
 	$task_model_role_rights->usa_file("o2_rights_per_role","o2_rights_per_role","role_name",null,null);
@@ -33,7 +33,7 @@ function jxgranting_role§§model_role_rights_def(&$task_model_role_rights, $_o2vi
 	$task_model_role_rights->usa("right_code","o2_rights_per_role","right_code",null,null,null,null);
 }
 
-function jxgranting_role§§model_role_users_def(&$task_model_role_users, $_o2viewalias = "") {
+function jxgranting_role§§model_role_users_def($task_model_role_users, $_o2viewalias = "") {
 	$task_model_role_users->righe_vis = 10;
 
 	$task_model_role_users->usa_file("o2_roles_per_user","o2_roles_per_user","role_name",null,null);
@@ -42,7 +42,7 @@ function jxgranting_role§§model_role_users_def(&$task_model_role_users, $_o2view
 	$task_model_role_users->usa("o2user","o2_roles_per_user","o2user",null,null,null,null);
 }
 
-function jxgranting_role§§role_rights_def(&$task_role_rights, $_o2viewalias = "") {
+function jxgranting_role§§role_rights_def($task_role_rights, $_o2viewalias = "") {
 	$task_role_rights->righe_vis = 10;
 
 	$task_role_rights->usa_file("o2_rights_per_role","o2_rights_per_role","role_name",null,null);
@@ -51,7 +51,7 @@ function jxgranting_role§§role_rights_def(&$task_role_rights, $_o2viewalias = ""
 	$task_role_rights->usa("right_code","o2_rights_per_role","right_code",null,null,null,null);
 }
 
-function jxgranting_role§§role_users_def(&$task_role_users, $_o2viewalias = "") {
+function jxgranting_role§§role_users_def($task_role_users, $_o2viewalias = "") {
 	$task_role_users->righe_vis = 10;
 
 	$task_role_users->usa_file("o2_roles_per_user","o2_roles_per_user","o2user",null,null);
@@ -59,7 +59,7 @@ function jxgranting_role§§role_users_def(&$task_role_users, $_o2viewalias = "") 
 	$task_role_users->usa("o2user","o2_roles_per_user","o2user",null,null,null,null);
 	$task_role_users->usa("role_name","o2_roles_per_user","role_name",null,null,null,null);
 }
-function jxgranting_role§§role_form_def(&$form_role) {
+function jxgranting_role§§role_form_def($form_role) {
 	$form_role->x(-100);
 	$form_role->y(250);
 	$form_role->larghezza(310);
@@ -70,53 +70,53 @@ function jxgranting_role§§role_form_def(&$form_role) {
 	$form_role->frm_status(jxgranting_role_exp_1());
 	$form_role->css_doc("sys_roles_doc");
 	$form_role->close_action("cancel");
-	$ctrl_o2label3 = &$form_role->ctrldef("o2label3", "label", "", "", "");
+	$ctrl_o2label3 = $form_role->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(30);
 		$ctrl_o2label3->y(240);
 		$ctrl_o2label3->larghezza(250);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->label("Copy from existing role:
 ");
-	$ctrl_o2label4 = &$form_role->ctrldef("o2label4", "label", "", "", "");
+	$ctrl_o2label4 = $form_role->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(30);
 		$ctrl_o2label4->y(290);
 		$ctrl_o2label4->larghezza(100);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->label("Copy users too:");
-	$ctrl_o2separator6 = &$form_role->ctrldef("o2separator6", "line", "", "", "");
+	$ctrl_o2separator6 = $form_role->ctrldef("o2separator6", "line", "", "", "");
 		$ctrl_o2separator6->x(30);
 		$ctrl_o2separator6->y(320);
 		$ctrl_o2separator6->larghezza(250);
 		$ctrl_o2separator6->altezza(2);
-	$ctrl_o2label2 = &$form_role->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_role->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(30);
 		$ctrl_o2label2->y(100);
 		$ctrl_o2label2->larghezza(100);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("Role description:");
-	$ctrl_o2label26 = &$form_role->ctrldef("o2label26", "label", "", "", "");
+	$ctrl_o2label26 = $form_role->ctrldef("o2label26", "label", "", "", "");
 		$ctrl_o2label26->x(30);
 		$ctrl_o2label26->y(70);
 		$ctrl_o2label26->larghezza(100);
 		$ctrl_o2label26->altezza(20);
 		$ctrl_o2label26->label("Role name:");
-	$ctrl_o2label25 = &$form_role->ctrldef("o2label25", "label", "", "", "");
+	$ctrl_o2label25 = $form_role->ctrldef("o2label25", "label", "", "", "");
 		$ctrl_o2label25->x(30);
 		$ctrl_o2label25->y(30);
 		$ctrl_o2label25->larghezza(250);
 		$ctrl_o2label25->altezza(20);
 		$ctrl_o2label25->label("Create a new role.");
-	$ctrl_o2edit9 = &$form_role->ctrldef("o2edit9", "edit", "", "prg§_§var", "role_name");
+	$ctrl_o2edit9 = $form_role->ctrldef("o2edit9", "edit", "", "prg§_§var", "role_name");
 		$ctrl_o2edit9->x(130);
 		$ctrl_o2edit9->y(70);
 		$ctrl_o2edit9->larghezza(150);
 		$ctrl_o2edit9->altezza(20);
-	$ctrl_o2textarea2 = &$form_role->ctrldef("o2textarea2", "text", "", "prg§_§var", "role_desc");
+	$ctrl_o2textarea2 = $form_role->ctrldef("o2textarea2", "text", "", "prg§_§var", "role_desc");
 		$ctrl_o2textarea2->x(30);
 		$ctrl_o2textarea2->y(120);
 		$ctrl_o2textarea2->larghezza(250);
 		$ctrl_o2textarea2->altezza(100);
-	$ctrl_o2ListBox2 = &$form_role->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "role_model");
+	$ctrl_o2ListBox2 = $form_role->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "role_model");
 		$ctrl_o2ListBox2->x(30);
 		$ctrl_o2ListBox2->y(260);
 		$ctrl_o2ListBox2->larghezza(250);
@@ -125,7 +125,7 @@ function jxgranting_role§§role_form_def(&$form_role) {
 		$ctrl_o2ListBox2->on_change(jxgranting_role_exp_5());
 		$ctrl_o2ListBox2->valori(o2_view2list("model_roles", "role_name", "role_name"));
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2button10 = &$form_role->ctrldef("o2button10", "button", "", "", "");
+	$ctrl_o2button10 = $form_role->ctrldef("o2button10", "button", "", "", "");
 		$ctrl_o2button10->x(90);
 		$ctrl_o2button10->y(340);
 		$ctrl_o2button10->larghezza(90);
@@ -133,7 +133,7 @@ function jxgranting_role§§role_form_def(&$form_role) {
 		$ctrl_o2button10->azione("cancel");
 		$ctrl_o2button10->label("&Cancel");
 		$ctrl_o2button10->css(jxgranting_role_exp_2());
-	$ctrl_o2button11 = &$form_role->ctrldef("o2button11", "button", "", "", "");
+	$ctrl_o2button11 = $form_role->ctrldef("o2button11", "button", "", "", "");
 		$ctrl_o2button11->x(190);
 		$ctrl_o2button11->y(340);
 		$ctrl_o2button11->larghezza(90);
@@ -141,7 +141,7 @@ function jxgranting_role§§role_form_def(&$form_role) {
 		$ctrl_o2button11->azione("check");
 		$ctrl_o2button11->label("&Add");
 		$ctrl_o2button11->css(jxgranting_role_exp_3());
-	$ctrl_o2checkbox2 = &$form_role->ctrldef("o2checkbox2", "check", "", "prg§_§var", "copy_users");
+	$ctrl_o2checkbox2 = $form_role->ctrldef("o2checkbox2", "check", "", "prg§_§var", "copy_users");
 		$ctrl_o2checkbox2->x(130);
 		$ctrl_o2checkbox2->y(290);
 		$ctrl_o2checkbox2->larghezza(20);
@@ -149,32 +149,32 @@ function jxgranting_role§§role_form_def(&$form_role) {
 		$ctrl_o2checkbox2->modificabile(jxgranting_role_exp_13());
 		}
 
-function jxgranting_role§§add_model_right_act(&$o2exe) {
+function jxgranting_role§§add_model_right_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("role_rights", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("role_rights", "role_name", jxgranting_role_exp_4()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("role_rights", "right_code", jxgranting_role_exp_11()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::view("role_rights", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_role§§add_model_user_act(&$o2exe) {
+function jxgranting_role§§add_model_user_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("role_users", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("role_users", "o2user", jxgranting_role_exp_12()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("role_users", "role_name", jxgranting_role_exp_4()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::view("role_users", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_role§§cancel_act(&$o2exe) {
+function jxgranting_role§§cancel_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(2, jxgranting_role_exp_1()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_role§§check_act(&$o2exe) {
+function jxgranting_role§§check_act($o2exe) {
 	$o2exe->s(1) && (jxgranting_role_exp_16() || $o2exe->e()) && o2act::exe("create", True, "") && $o2exe->e();
 	$o2exe->s(2) && (jxgranting_role_exp_7() || $o2exe->e()) && o2act::alert(jxgranting_role_exp_8(), 0) && $o2exe->e();
 	$o2exe->s(3) && (jxgranting_role_exp_17() || $o2exe->e()) && o2act::alert(jxgranting_role_exp_18(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_role§§create_act(&$o2exe) {
+function jxgranting_role§§create_act($o2exe) {
 	$o2exe->s(1) && (jxgranting_role_exp_13() || $o2exe->e()) && o2act::exe("add_model_right", False, "model_role_rights") && $o2exe->e();
 	$o2exe->s(2) && (jxgranting_role_exp_15() || $o2exe->e()) && o2act::exe("add_model_user", False, "model_role_users") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::ret(1, jxgranting_role_exp_4()) && $o2exe->e();
@@ -183,7 +183,7 @@ function jxgranting_role§§create_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_role§§on_change_model_act(&$o2exe) {
+function jxgranting_role§§on_change_model_act($o2exe) {
 	$o2exe->s(1) && (jxgranting_role_exp_14() || $o2exe->e()) && o2act::set("prg§_§var", "copy_users", jxgranting_role_exp_1()) && $o2exe->e();
 	} //|o2_fine_act|
 

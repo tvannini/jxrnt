@@ -26,8 +26,8 @@
  *
  * @name      jxgam
  * @package   janox/bin/jxgam.php
- * @version   2.9
- * @copyright Tommaso Vannini (tvannini@janox.it) 2007
+ * @version   3.0
+ * @copyright Tommaso Vannini (tvannini@janox.it) 2007-2025
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 

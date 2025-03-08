@@ -1,18 +1,18 @@
 <?php
 
-function o2sys_table_browser§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_table_browser§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("preset_done", "_o2logical");
 	$task_prg§_§var->definisci("tot_recs", "_o2alpha");
 		}
 
-function o2sys_table_browser§§browser_def(&$task_browser, $_o2viewalias = "") {
+function o2sys_table_browser§§browser_def($task_browser, $_o2viewalias = "") {
 	$task_browser->righe_vis = o2sys_table_browser_exp_14();
 
 	$task_browser->usa_file("".o2par(1)."","o2table_browser","".o2par(2)."",null,null);
 
 }
-function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
+function o2sys_table_browser§§table_browser_form_def($form_table_browser) {
 	$form_table_browser->x(410);
 	$form_table_browser->y(10);
 	$form_table_browser->larghezza(800);
@@ -21,7 +21,7 @@ function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
 	$form_table_browser->titolo(o2sys_table_browser_exp_1());
 	$form_table_browser->css_body("o2_form_body open_body");
 	$form_table_browser->css_doc("sys_tables_doc");
-	$ctrl_bar = &$form_table_browser->ctrldef("bar", "navigator", "", "browser", "");
+	$ctrl_bar = $form_table_browser->ctrldef("bar", "navigator", "", "browser", "");
 		$ctrl_bar->x(0);
 		$ctrl_bar->y(0);
 		$ctrl_bar->larghezza(800);
@@ -38,7 +38,7 @@ function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
 		$ctrl_bar->act_save("browser_post");
 		$ctrl_bar->act_del("browser_delete");
 		$ctrl_bar->act_undo("browser_undo");
-	$ctrl_btn_refresh = &$form_table_browser->ctrldef("btn_refresh", "img", "", "", "");
+	$ctrl_btn_refresh = $form_table_browser->ctrldef("btn_refresh", "img", "", "", "");
 		$ctrl_btn_refresh->x(150);
 		$ctrl_btn_refresh->y(3);
 		$ctrl_btn_refresh->larghezza(32);
@@ -47,7 +47,7 @@ function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
 		$ctrl_btn_refresh->label("Refresh");
 		$ctrl_btn_refresh->css(o2sys_table_browser_exp_4());
 		$ctrl_btn_refresh->imgexp(o2sys_table_browser_exp_17());
-	$ctrl_btn_search = &$form_table_browser->ctrldef("btn_search", "img", "", "", "");
+	$ctrl_btn_search = $form_table_browser->ctrldef("btn_search", "img", "", "", "");
 		$ctrl_btn_search->x(182);
 		$ctrl_btn_search->y(3);
 		$ctrl_btn_search->larghezza(32);
@@ -56,19 +56,19 @@ function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
 		$ctrl_btn_search->label("Search");
 		$ctrl_btn_search->css(o2sys_table_browser_exp_16());
 		$ctrl_btn_search->imgexp(o2sys_table_browser_exp_17());
-	$ctrl_o2image2 = &$form_table_browser->ctrldef("o2image2", "img", "", "", "");
+	$ctrl_o2image2 = $form_table_browser->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(144);
 		$ctrl_o2image2->y(7);
 		$ctrl_o2image2->larghezza(3);
 		$ctrl_o2image2->altezza(17);
 		$ctrl_o2image2->imgexp(o2sys_table_browser_exp_18());
-	$ctrl_o2image3 = &$form_table_browser->ctrldef("o2image3", "img", "", "", "");
+	$ctrl_o2image3 = $form_table_browser->ctrldef("o2image3", "img", "", "", "");
 		$ctrl_o2image3->x(217);
 		$ctrl_o2image3->y(7);
 		$ctrl_o2image3->larghezza(3);
 		$ctrl_o2image3->altezza(17);
 		$ctrl_o2image3->imgexp(o2sys_table_browser_exp_18());
-	$ctrl_o2image4 = &$form_table_browser->ctrldef("o2image4", "img", "", "", "");
+	$ctrl_o2image4 = $form_table_browser->ctrldef("o2image4", "img", "", "", "");
 		$ctrl_o2image4->x(223);
 		$ctrl_o2image4->y(3);
 		$ctrl_o2image4->larghezza(32);
@@ -77,13 +77,13 @@ function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
 		$ctrl_o2image4->label("Close");
 		$ctrl_o2image4->css(o2sys_table_browser_exp_19());
 		$ctrl_o2image4->imgexp(o2sys_table_browser_exp_17());
-	$ctrl_data_browser_tab = &$form_table_browser->ctrldef("data_browser_tab", "tab", "", "browser", "");
+	$ctrl_data_browser_tab = $form_table_browser->ctrldef("data_browser_tab", "tab", "", "browser", "");
 		$ctrl_data_browser_tab->x(0);
 		$ctrl_data_browser_tab->y(32);
 		$ctrl_data_browser_tab->larghezza(800);
 		$ctrl_data_browser_tab->altezza(540);
 		$ctrl_data_browser_tab->expand("B");
-	$ctrl_o2edit2 = &$form_table_browser->ctrldef("o2edit2", "edit", "", "prg§_§var", "tot_recs");
+	$ctrl_o2edit2 = $form_table_browser->ctrldef("o2edit2", "edit", "", "prg§_§var", "tot_recs");
 		$ctrl_o2edit2->x(300);
 		$ctrl_o2edit2->y(6);
 		$ctrl_o2edit2->larghezza(200);
@@ -91,55 +91,55 @@ function o2sys_table_browser§§table_browser_form_def(&$form_table_browser) {
 		$ctrl_o2edit2->css(o2sys_table_browser_exp_20());
 		}
 
-function o2sys_table_browser§§browser_delete_act(&$o2exe) {
+function o2sys_table_browser§§browser_delete_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "C", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "tot_recs", o2sys_table_browser_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§browser_insert_act(&$o2exe) {
+function o2sys_table_browser§§browser_insert_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "I", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§browser_post_act(&$o2exe) {
+function o2sys_table_browser§§browser_post_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "S", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "tot_recs", o2sys_table_browser_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§browser_undo_act(&$o2exe) {
+function o2sys_table_browser§§browser_undo_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "A", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§close_act(&$o2exe) {
+function o2sys_table_browser§§close_act($o2exe) {
 	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§delete_act(&$o2exe) {
+function o2sys_table_browser§§delete_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "C", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§filter_act(&$o2exe) {
+function o2sys_table_browser§§filter_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(o2sys_table_browser_exp_2(), False, o2sys_table_browser_exp_7(), o2sys_table_browser_exp_5(), o2sys_table_browser_exp_6()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "tot_recs", o2sys_table_browser_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§new_act(&$o2exe) {
+function o2sys_table_browser§§new_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "I", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§refresh_act(&$o2exe) {
+function o2sys_table_browser§§refresh_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "0", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "tot_recs", o2sys_table_browser_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§save_act(&$o2exe) {
+function o2sys_table_browser§§save_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§start_act(&$o2exe) {
+function o2sys_table_browser§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2sys_table_browser_exp_8()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_browser§§undo_act(&$o2exe) {
+function o2sys_table_browser§§undo_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("browser", "A", "") && $o2exe->e();
 	} //|o2_fine_act|
 

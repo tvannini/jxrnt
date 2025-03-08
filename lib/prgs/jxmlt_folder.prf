@@ -1,6 +1,6 @@
 <?php
 
-function jxmlt_folder§§start_act(&$o2exe) {
+function jxmlt_folder§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::gotoprg(jxmlt_folder_exp_7(), false, jxmlt_folder_exp_1(), jxmlt_folder_exp_2(), jxmlt_folder_exp_3(), jxmlt_folder_exp_4(), jxmlt_folder_exp_4(), jxmlt_folder_exp_5(), jxmlt_folder_exp_5(), jxmlt_folder_exp_5(), jxmlt_folder_exp_6()) && $o2exe->e();
 	} //|o2_fine_act|
 

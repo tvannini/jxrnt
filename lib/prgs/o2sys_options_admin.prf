@@ -1,6 +1,6 @@
 <?php
 
-function o2sys_options_admin§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_options_admin§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("all_skins_list", "_o2structure");
 	$task_prg§_§var->definisci("avail_skins_list", "_o2structure");
@@ -28,7 +28,7 @@ function o2sys_options_admin§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("user_code", "_o2alpha");
 		}
 
-function o2sys_options_admin§§options_def(&$task_options, $_o2viewalias = "") {
+function o2sys_options_admin§§options_def($task_options, $_o2viewalias = "") {
 	$task_options->righe_vis = 10;
 
 	$task_options->usa_file("o2_options","o2_options","id",null,null);
@@ -37,7 +37,7 @@ function o2sys_options_admin§§options_def(&$task_options, $_o2viewalias = "") {
 	$task_options->usa("code","o2_options","code","o2sys_options_admin_exp_2()","o2sys_options_admin_exp_2()",null,null);
 	$task_options->usa("value","o2_options","value",null,null,null,null);
 }
-function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
+function o2sys_options_admin§§options_admin_form_def($form_options_admin) {
 	$form_options_admin->x(230);
 	$form_options_admin->y(100);
 	$form_options_admin->larghezza(460);
@@ -46,14 +46,14 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 	$form_options_admin->titolo("Preferences");
 	$form_options_admin->frm_status(o2sys_options_admin_exp_8());
 	$form_options_admin->css_doc("sys_options_doc");
-	$ctrl_o2multipage7 = &$form_options_admin->ctrldef("o2multipage7", "multipage", "", "prg§_§var", "page");
+	$ctrl_o2multipage7 = $form_options_admin->ctrldef("o2multipage7", "multipage", "", "prg§_§var", "page");
 		$ctrl_o2multipage7->x(30);
 		$ctrl_o2multipage7->y(20);
 		$ctrl_o2multipage7->larghezza(400);
 		$ctrl_o2multipage7->altezza(290);
 		$ctrl_o2multipage7->label(array("Language","Menu","Tables","Themes","Combo-lookup"));
 		$ctrl_o2multipage7->buttons("T");
-	$ctrl_o2button2 = &$form_options_admin->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_options_admin->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(240);
 		$ctrl_o2button2->y(320);
 		$ctrl_o2button2->larghezza(90);
@@ -62,7 +62,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2button2->label("&Reset");
 		$ctrl_o2button2->confirm_message("Reset all settings to application default?");
 		$ctrl_o2button2->css(o2sys_options_admin_exp_24());
-	$ctrl_o2button3 = &$form_options_admin->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_options_admin->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(340);
 		$ctrl_o2button3->y(320);
 		$ctrl_o2button3->larghezza(90);
@@ -71,42 +71,42 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2button3->azione("save_options");
 		$ctrl_o2button3->label("&Save");
 		$ctrl_o2button3->css(o2sys_options_admin_exp_25());
-	$ctrl_o2label17 = &$form_options_admin->ctrldef("o2label17", "label", "o2multipage7", "", "");
+	$ctrl_o2label17 = $form_options_admin->ctrldef("o2label17", "label", "o2multipage7", "", "");
 		$ctrl_o2label17->x(30);
 		$ctrl_o2label17->y(170);
 		$ctrl_o2label17->larghezza(350);
 		$ctrl_o2label17->altezza(20);
 		$ctrl_o2label17->info_padre(array(0));
 		$ctrl_o2label17->label("NOTE: this code is used by the spell-checker.");
-	$ctrl_o2label7 = &$form_options_admin->ctrldef("o2label7", "label", "o2multipage7", "", "");
+	$ctrl_o2label7 = $form_options_admin->ctrldef("o2label7", "label", "o2multipage7", "", "");
 		$ctrl_o2label7->x(30);
 		$ctrl_o2label7->y(80);
 		$ctrl_o2label7->larghezza(120);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->info_padre(array(0));
 		$ctrl_o2label7->label("Translation code:");
-	$ctrl_o2label16 = &$form_options_admin->ctrldef("o2label16", "label", "o2multipage7", "", "");
+	$ctrl_o2label16 = $form_options_admin->ctrldef("o2label16", "label", "o2multipage7", "", "");
 		$ctrl_o2label16->x(30);
 		$ctrl_o2label16->y(190);
 		$ctrl_o2label16->larghezza(120);
 		$ctrl_o2label16->altezza(20);
 		$ctrl_o2label16->info_padre(array(0));
 		$ctrl_o2label16->label("Language code:");
-	$ctrl_o2label14 = &$form_options_admin->ctrldef("o2label14", "label", "o2multipage7", "", "");
+	$ctrl_o2label14 = $form_options_admin->ctrldef("o2label14", "label", "o2multipage7", "", "");
 		$ctrl_o2label14->x(30);
 		$ctrl_o2label14->y(60);
 		$ctrl_o2label14->larghezza(360);
 		$ctrl_o2label14->altezza(20);
 		$ctrl_o2label14->info_padre(array(0));
 		$ctrl_o2label14->label("Translation language (code must be provided by application).");
-	$ctrl_o2label15 = &$form_options_admin->ctrldef("o2label15", "label", "o2multipage7", "", "");
+	$ctrl_o2label15 = $form_options_admin->ctrldef("o2label15", "label", "o2multipage7", "", "");
 		$ctrl_o2label15->x(30);
 		$ctrl_o2label15->y(150);
 		$ctrl_o2label15->larghezza(360);
 		$ctrl_o2label15->altezza(20);
 		$ctrl_o2label15->info_padre(array(0));
 		$ctrl_o2label15->label("Client language (code must be supported by browser).");
-	$ctrl_o2ListBox4 = &$form_options_admin->ctrldef("o2ListBox4", "listcombo", "o2multipage7", "prg§_§var", "opt_language");
+	$ctrl_o2ListBox4 = $form_options_admin->ctrldef("o2ListBox4", "listcombo", "o2multipage7", "prg§_§var", "opt_language");
 		$ctrl_o2ListBox4->x(170);
 		$ctrl_o2ListBox4->y(80);
 		$ctrl_o2ListBox4->larghezza(80);
@@ -117,7 +117,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2ListBox4->info_padre(array(0));
 		$ctrl_o2ListBox4->valori(o2sys_options_admin_exp_30());
 		$ctrl_o2ListBox4->righe(1);
-	$ctrl_o2edit2 = &$form_options_admin->ctrldef("o2edit2", "edit", "o2multipage7", "prg§_§var", "opt_language");
+	$ctrl_o2edit2 = $form_options_admin->ctrldef("o2edit2", "edit", "o2multipage7", "prg§_§var", "opt_language");
 		$ctrl_o2edit2->x(170);
 		$ctrl_o2edit2->y(80);
 		$ctrl_o2edit2->larghezza(80);
@@ -126,7 +126,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2edit2->azione("mod_language");
 		$ctrl_o2edit2->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2edit2->info_padre(array(0));
-	$ctrl_o2edit3 = &$form_options_admin->ctrldef("o2edit3", "edit", "o2multipage7", "prg§_§var", "opt_client_lang");
+	$ctrl_o2edit3 = $form_options_admin->ctrldef("o2edit3", "edit", "o2multipage7", "prg§_§var", "opt_client_lang");
 		$ctrl_o2edit3->x(170);
 		$ctrl_o2edit3->y(190);
 		$ctrl_o2edit3->larghezza(80);
@@ -134,68 +134,68 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2edit3->azione("mod_language");
 		$ctrl_o2edit3->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2edit3->info_padre(array(0));
-	$ctrl_o2label2 = &$form_options_admin->ctrldef("o2label2", "label", "o2multipage7", "", "");
+	$ctrl_o2label2 = $form_options_admin->ctrldef("o2label2", "label", "o2multipage7", "", "");
 		$ctrl_o2label2->x(40);
 		$ctrl_o2label2->y(240);
 		$ctrl_o2label2->larghezza(170);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->info_padre(array(1));
 		$ctrl_o2label2->label("Show Documentation");
-	$ctrl_o2separator2 = &$form_options_admin->ctrldef("o2separator2", "line", "o2multipage7", "", "");
+	$ctrl_o2separator2 = $form_options_admin->ctrldef("o2separator2", "line", "o2multipage7", "", "");
 		$ctrl_o2separator2->x(30);
 		$ctrl_o2separator2->y(65);
 		$ctrl_o2separator2->larghezza(340);
 		$ctrl_o2separator2->altezza(2);
 		$ctrl_o2separator2->info_padre(array(1));
-	$ctrl_o2label9 = &$form_options_admin->ctrldef("o2label9", "label", "o2multipage7", "", "");
+	$ctrl_o2label9 = $form_options_admin->ctrldef("o2label9", "label", "o2multipage7", "", "");
 		$ctrl_o2label9->x(40);
 		$ctrl_o2label9->y(180);
 		$ctrl_o2label9->larghezza(170);
 		$ctrl_o2label9->altezza(20);
 		$ctrl_o2label9->info_padre(array(1));
 		$ctrl_o2label9->label("Show application menu");
-	$ctrl_o2label5 = &$form_options_admin->ctrldef("o2label5", "label", "o2multipage7", "", "");
+	$ctrl_o2label5 = $form_options_admin->ctrldef("o2label5", "label", "o2multipage7", "", "");
 		$ctrl_o2label5->x(30);
 		$ctrl_o2label5->y(150);
 		$ctrl_o2label5->larghezza(100);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->info_padre(array(1));
 		$ctrl_o2label5->label("Context menu");
-	$ctrl_o2label10 = &$form_options_admin->ctrldef("o2label10", "label", "o2multipage7", "", "");
+	$ctrl_o2label10 = $form_options_admin->ctrldef("o2label10", "label", "o2multipage7", "", "");
 		$ctrl_o2label10->x(40);
 		$ctrl_o2label10->y(110);
 		$ctrl_o2label10->larghezza(170);
 		$ctrl_o2label10->altezza(20);
 		$ctrl_o2label10->info_padre(array(1));
 		$ctrl_o2label10->label("Open on:");
-	$ctrl_o2separator3 = &$form_options_admin->ctrldef("o2separator3", "line", "o2multipage7", "", "");
+	$ctrl_o2separator3 = $form_options_admin->ctrldef("o2separator3", "line", "o2multipage7", "", "");
 		$ctrl_o2separator3->x(30);
 		$ctrl_o2separator3->y(165);
 		$ctrl_o2separator3->larghezza(340);
 		$ctrl_o2separator3->altezza(2);
 		$ctrl_o2separator3->info_padre(array(1));
-	$ctrl_o2label4 = &$form_options_admin->ctrldef("o2label4", "label", "o2multipage7", "", "");
+	$ctrl_o2label4 = $form_options_admin->ctrldef("o2label4", "label", "o2multipage7", "", "");
 		$ctrl_o2label4->x(30);
 		$ctrl_o2label4->y(50);
 		$ctrl_o2label4->larghezza(100);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(1));
 		$ctrl_o2label4->label("Main menu");
-	$ctrl_o2label8 = &$form_options_admin->ctrldef("o2label8", "label", "o2multipage7", "", "");
+	$ctrl_o2label8 = $form_options_admin->ctrldef("o2label8", "label", "o2multipage7", "", "");
 		$ctrl_o2label8->x(40);
 		$ctrl_o2label8->y(210);
 		$ctrl_o2label8->larghezza(170);
 		$ctrl_o2label8->altezza(20);
 		$ctrl_o2label8->info_padre(array(1));
 		$ctrl_o2label8->label("Show 'Open new session'");
-	$ctrl_o2label24 = &$form_options_admin->ctrldef("o2label24", "label", "o2multipage7", "", "");
+	$ctrl_o2label24 = $form_options_admin->ctrldef("o2label24", "label", "o2multipage7", "", "");
 		$ctrl_o2label24->x(40);
 		$ctrl_o2label24->y(80);
 		$ctrl_o2label24->larghezza(170);
 		$ctrl_o2label24->altezza(20);
 		$ctrl_o2label24->info_padre(array(1));
 		$ctrl_o2label24->label("Menu style:");
-	$ctrl_o2ListBox5 = &$form_options_admin->ctrldef("o2ListBox5", "listcombo", "o2multipage7", "prg§_§var", "opt_menu_open_on");
+	$ctrl_o2ListBox5 = $form_options_admin->ctrldef("o2ListBox5", "listcombo", "o2multipage7", "prg§_§var", "opt_menu_open_on");
 		$ctrl_o2ListBox5->x(210);
 		$ctrl_o2ListBox5->y(110);
 		$ctrl_o2ListBox5->larghezza(160);
@@ -206,7 +206,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2ListBox5->info_padre(array(1));
 		$ctrl_o2ListBox5->valori(array("C" => "Mouse click","O" => "Mouse over"));
 		$ctrl_o2ListBox5->righe(1);
-	$ctrl_o2checkbox4 = &$form_options_admin->ctrldef("o2checkbox4", "check", "o2multipage7", "prg§_§var", "opt_menu_app");
+	$ctrl_o2checkbox4 = $form_options_admin->ctrldef("o2checkbox4", "check", "o2multipage7", "prg§_§var", "opt_menu_app");
 		$ctrl_o2checkbox4->x(210);
 		$ctrl_o2checkbox4->y(180);
 		$ctrl_o2checkbox4->larghezza(20);
@@ -214,7 +214,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2checkbox4->azione("mod_appmenu");
 		$ctrl_o2checkbox4->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2checkbox4->info_padre(array(1));
-	$ctrl_o2checkbox3 = &$form_options_admin->ctrldef("o2checkbox3", "check", "o2multipage7", "prg§_§var", "opt_menu_newsess");
+	$ctrl_o2checkbox3 = $form_options_admin->ctrldef("o2checkbox3", "check", "o2multipage7", "prg§_§var", "opt_menu_newsess");
 		$ctrl_o2checkbox3->x(210);
 		$ctrl_o2checkbox3->y(210);
 		$ctrl_o2checkbox3->larghezza(20);
@@ -222,7 +222,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2checkbox3->azione("mod_newsession");
 		$ctrl_o2checkbox3->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2checkbox3->info_padre(array(1));
-	$ctrl_o2checkbox2 = &$form_options_admin->ctrldef("o2checkbox2", "check", "o2multipage7", "prg§_§var", "opt_menu_help");
+	$ctrl_o2checkbox2 = $form_options_admin->ctrldef("o2checkbox2", "check", "o2multipage7", "prg§_§var", "opt_menu_help");
 		$ctrl_o2checkbox2->x(210);
 		$ctrl_o2checkbox2->y(240);
 		$ctrl_o2checkbox2->larghezza(20);
@@ -231,7 +231,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2checkbox2->azione("mod_menu_help");
 		$ctrl_o2checkbox2->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2checkbox2->info_padre(array(1));
-	$ctrl_o2ListBox8 = &$form_options_admin->ctrldef("o2ListBox8", "listcombo", "o2multipage7", "prg§_§var", "opt_menu_style");
+	$ctrl_o2ListBox8 = $form_options_admin->ctrldef("o2ListBox8", "listcombo", "o2multipage7", "prg§_§var", "opt_menu_style");
 		$ctrl_o2ListBox8->x(210);
 		$ctrl_o2ListBox8->y(80);
 		$ctrl_o2ListBox8->larghezza(160);
@@ -241,35 +241,35 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2ListBox8->info_padre(array(1));
 		$ctrl_o2ListBox8->valori(o2sys_options_admin_exp_59());
 		$ctrl_o2ListBox8->righe(1);
-	$ctrl_o2label12 = &$form_options_admin->ctrldef("o2label12", "label", "o2multipage7", "", "");
+	$ctrl_o2label12 = $form_options_admin->ctrldef("o2label12", "label", "o2multipage7", "", "");
 		$ctrl_o2label12->x(30);
 		$ctrl_o2label12->y(50);
 		$ctrl_o2label12->larghezza(160);
 		$ctrl_o2label12->altezza(20);
 		$ctrl_o2label12->info_padre(array(2));
 		$ctrl_o2label12->label("Double click executes:");
-	$ctrl_o2label11 = &$form_options_admin->ctrldef("o2label11", "label", "o2multipage7", "", "");
+	$ctrl_o2label11 = $form_options_admin->ctrldef("o2label11", "label", "o2multipage7", "", "");
 		$ctrl_o2label11->x(30);
 		$ctrl_o2label11->y(80);
 		$ctrl_o2label11->larghezza(160);
 		$ctrl_o2label11->altezza(20);
 		$ctrl_o2label11->info_padre(array(2));
 		$ctrl_o2label11->label("Settings save mode:");
-	$ctrl_o2label18 = &$form_options_admin->ctrldef("o2label18", "label", "o2multipage7", "", "");
+	$ctrl_o2label18 = $form_options_admin->ctrldef("o2label18", "label", "o2multipage7", "", "");
 		$ctrl_o2label18->x(30);
 		$ctrl_o2label18->y(140);
 		$ctrl_o2label18->larghezza(160);
 		$ctrl_o2label18->altezza(20);
 		$ctrl_o2label18->info_padre(array(2));
 		$ctrl_o2label18->label("Enable navigator effects:");
-	$ctrl_o2label13 = &$form_options_admin->ctrldef("o2label13", "label", "o2multipage7", "", "");
+	$ctrl_o2label13 = $form_options_admin->ctrldef("o2label13", "label", "o2multipage7", "", "");
 		$ctrl_o2label13->x(30);
 		$ctrl_o2label13->y(110);
 		$ctrl_o2label13->larghezza(160);
 		$ctrl_o2label13->altezza(20);
 		$ctrl_o2label13->info_padre(array(2));
 		$ctrl_o2label13->label("Enable mouse wheel:");
-	$ctrl_o2ListBox7 = &$form_options_admin->ctrldef("o2ListBox7", "listcombo", "o2multipage7", "prg§_§var", "opt_grid_dblclick");
+	$ctrl_o2ListBox7 = $form_options_admin->ctrldef("o2ListBox7", "listcombo", "o2multipage7", "prg§_§var", "opt_grid_dblclick");
 		$ctrl_o2ListBox7->x(190);
 		$ctrl_o2ListBox7->y(50);
 		$ctrl_o2ListBox7->larghezza(120);
@@ -279,7 +279,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2ListBox7->info_padre(array(2));
 		$ctrl_o2ListBox7->valori(o2sys_options_admin_exp_44());
 		$ctrl_o2ListBox7->righe(1);
-	$ctrl_o2ListBox6 = &$form_options_admin->ctrldef("o2ListBox6", "listcombo", "o2multipage7", "prg§_§var", "opt_grid_settings");
+	$ctrl_o2ListBox6 = $form_options_admin->ctrldef("o2ListBox6", "listcombo", "o2multipage7", "prg§_§var", "opt_grid_settings");
 		$ctrl_o2ListBox6->x(190);
 		$ctrl_o2ListBox6->y(80);
 		$ctrl_o2ListBox6->larghezza(120);
@@ -289,7 +289,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2ListBox6->info_padre(array(2));
 		$ctrl_o2ListBox6->valori(array("0" => "None","1" => "Automatic","2" => "Manual"));
 		$ctrl_o2ListBox6->righe(1);
-	$ctrl_o2checkbox5 = &$form_options_admin->ctrldef("o2checkbox5", "check", "o2multipage7", "prg§_§var", "opt_grid_scroll");
+	$ctrl_o2checkbox5 = $form_options_admin->ctrldef("o2checkbox5", "check", "o2multipage7", "prg§_§var", "opt_grid_scroll");
 		$ctrl_o2checkbox5->x(190);
 		$ctrl_o2checkbox5->y(110);
 		$ctrl_o2checkbox5->larghezza(20);
@@ -297,7 +297,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2checkbox5->azione("mod_grid_wheel");
 		$ctrl_o2checkbox5->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2checkbox5->info_padre(array(2));
-	$ctrl_o2checkbox6 = &$form_options_admin->ctrldef("o2checkbox6", "check", "o2multipage7", "prg§_§var", "opt_nav_effects");
+	$ctrl_o2checkbox6 = $form_options_admin->ctrldef("o2checkbox6", "check", "o2multipage7", "prg§_§var", "opt_nav_effects");
 		$ctrl_o2checkbox6->x(190);
 		$ctrl_o2checkbox6->y(140);
 		$ctrl_o2checkbox6->larghezza(20);
@@ -305,21 +305,21 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2checkbox6->azione("mod_nav_effects");
 		$ctrl_o2checkbox6->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2checkbox6->info_padre(array(2));
-	$ctrl_o2label6 = &$form_options_admin->ctrldef("o2label6", "label", "o2multipage7", "", "");
+	$ctrl_o2label6 = $form_options_admin->ctrldef("o2label6", "label", "o2multipage7", "", "");
 		$ctrl_o2label6->x(250);
 		$ctrl_o2label6->y(50);
 		$ctrl_o2label6->larghezza(120);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->info_padre(array(3));
 		$ctrl_o2label6->label("Loaded skins:");
-	$ctrl_o2label3 = &$form_options_admin->ctrldef("o2label3", "label", "o2multipage7", "", "");
+	$ctrl_o2label3 = $form_options_admin->ctrldef("o2label3", "label", "o2multipage7", "", "");
 		$ctrl_o2label3->x(30);
 		$ctrl_o2label3->y(50);
 		$ctrl_o2label3->larghezza(120);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->info_padre(array(3));
 		$ctrl_o2label3->label("Available skins:");
-	$ctrl_o2ListBox2 = &$form_options_admin->ctrldef("o2ListBox2", "listcombo", "o2multipage7", "prg§_§var", "in_avail_skin_list");
+	$ctrl_o2ListBox2 = $form_options_admin->ctrldef("o2ListBox2", "listcombo", "o2multipage7", "prg§_§var", "in_avail_skin_list");
 		$ctrl_o2ListBox2->x(30);
 		$ctrl_o2ListBox2->y(70);
 		$ctrl_o2ListBox2->larghezza(120);
@@ -327,7 +327,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2ListBox2->info_padre(array(3));
 		$ctrl_o2ListBox2->valori(o2sys_options_admin_exp_13());
 		$ctrl_o2ListBox2->righe(10);
-	$ctrl_o2button4 = &$form_options_admin->ctrldef("o2button4", "button", "o2multipage7", "", "");
+	$ctrl_o2button4 = $form_options_admin->ctrldef("o2button4", "button", "o2multipage7", "", "");
 		$ctrl_o2button4->x(175);
 		$ctrl_o2button4->y(120);
 		$ctrl_o2button4->larghezza(50);
@@ -335,7 +335,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2button4->azione("add_skin");
 		$ctrl_o2button4->info_padre(array(3));
 		$ctrl_o2button4->label(">>");
-	$ctrl_o2button5 = &$form_options_admin->ctrldef("o2button5", "button", "o2multipage7", "", "");
+	$ctrl_o2button5 = $form_options_admin->ctrldef("o2button5", "button", "o2multipage7", "", "");
 		$ctrl_o2button5->x(175);
 		$ctrl_o2button5->y(150);
 		$ctrl_o2button5->larghezza(50);
@@ -343,7 +343,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2button5->azione("remove_skin");
 		$ctrl_o2button5->info_padre(array(3));
 		$ctrl_o2button5->label("<<");
-	$ctrl_o2ListBox3 = &$form_options_admin->ctrldef("o2ListBox3", "listcombo", "o2multipage7", "prg§_§var", "in_set_skins_list");
+	$ctrl_o2ListBox3 = $form_options_admin->ctrldef("o2ListBox3", "listcombo", "o2multipage7", "prg§_§var", "in_set_skins_list");
 		$ctrl_o2ListBox3->x(250);
 		$ctrl_o2ListBox3->y(70);
 		$ctrl_o2ListBox3->larghezza(120);
@@ -351,42 +351,42 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2ListBox3->info_padre(array(3));
 		$ctrl_o2ListBox3->valori(o2sys_options_admin_exp_14());
 		$ctrl_o2ListBox3->righe(10);
-	$ctrl_o2label19 = &$form_options_admin->ctrldef("o2label19", "label", "o2multipage7", "", "");
+	$ctrl_o2label19 = $form_options_admin->ctrldef("o2label19", "label", "o2multipage7", "", "");
 		$ctrl_o2label19->x(30);
 		$ctrl_o2label19->y(50);
 		$ctrl_o2label19->larghezza(200);
 		$ctrl_o2label19->altezza(20);
 		$ctrl_o2label19->info_padre(array(4));
 		$ctrl_o2label19->label("Lookup request delay time:");
-	$ctrl_o2label20 = &$form_options_admin->ctrldef("o2label20", "label", "o2multipage7", "", "");
+	$ctrl_o2label20 = $form_options_admin->ctrldef("o2label20", "label", "o2multipage7", "", "");
 		$ctrl_o2label20->x(285);
 		$ctrl_o2label20->y(50);
 		$ctrl_o2label20->larghezza(40);
 		$ctrl_o2label20->altezza(20);
 		$ctrl_o2label20->info_padre(array(4));
 		$ctrl_o2label20->label("ms");
-	$ctrl_o2label21 = &$form_options_admin->ctrldef("o2label21", "label", "o2multipage7", "", "");
+	$ctrl_o2label21 = $form_options_admin->ctrldef("o2label21", "label", "o2multipage7", "", "");
 		$ctrl_o2label21->x(50);
 		$ctrl_o2label21->y(75);
 		$ctrl_o2label21->larghezza(320);
 		$ctrl_o2label21->altezza(20);
 		$ctrl_o2label21->info_padre(array(4));
 		$ctrl_o2label21->label("NOTE: Minimum allowed time is 300 ms.");
-	$ctrl_o2label22 = &$form_options_admin->ctrldef("o2label22", "label", "o2multipage7", "", "");
+	$ctrl_o2label22 = $form_options_admin->ctrldef("o2label22", "label", "o2multipage7", "", "");
 		$ctrl_o2label22->x(30);
 		$ctrl_o2label22->y(110);
 		$ctrl_o2label22->larghezza(200);
 		$ctrl_o2label22->altezza(20);
 		$ctrl_o2label22->info_padre(array(4));
 		$ctrl_o2label22->label("Click on icon handler to open:");
-	$ctrl_o2label23 = &$form_options_admin->ctrldef("o2label23", "label", "o2multipage7", "", "");
+	$ctrl_o2label23 = $form_options_admin->ctrldef("o2label23", "label", "o2multipage7", "", "");
 		$ctrl_o2label23->x(30);
 		$ctrl_o2label23->y(140);
 		$ctrl_o2label23->larghezza(200);
 		$ctrl_o2label23->altezza(20);
 		$ctrl_o2label23->info_padre(array(4));
 		$ctrl_o2label23->label("Magnify icon handler on over:");
-	$ctrl_o2edit4 = &$form_options_admin->ctrldef("o2edit4", "edit", "o2multipage7", "prg§_§var", "opt_lookup_time");
+	$ctrl_o2edit4 = $form_options_admin->ctrldef("o2edit4", "edit", "o2multipage7", "prg§_§var", "opt_lookup_time");
 		$ctrl_o2edit4->x(230);
 		$ctrl_o2edit4->y(50);
 		$ctrl_o2edit4->larghezza(50);
@@ -394,7 +394,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2edit4->azione("mod_lookup_time");
 		$ctrl_o2edit4->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2edit4->info_padre(array(4));
-	$ctrl_o2checkbox7 = &$form_options_admin->ctrldef("o2checkbox7", "check", "o2multipage7", "prg§_§var", "opt_lookup_handler");
+	$ctrl_o2checkbox7 = $form_options_admin->ctrldef("o2checkbox7", "check", "o2multipage7", "prg§_§var", "opt_lookup_handler");
 		$ctrl_o2checkbox7->x(230);
 		$ctrl_o2checkbox7->y(110);
 		$ctrl_o2checkbox7->larghezza(20);
@@ -402,7 +402,7 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2checkbox7->azione("mod_lookup_handler");
 		$ctrl_o2checkbox7->on_change(o2sys_options_admin_exp_5());
 		$ctrl_o2checkbox7->info_padre(array(4));
-	$ctrl_o2checkbox8 = &$form_options_admin->ctrldef("o2checkbox8", "check", "o2multipage7", "prg§_§var", "opt_lookup_effect");
+	$ctrl_o2checkbox8 = $form_options_admin->ctrldef("o2checkbox8", "check", "o2multipage7", "prg§_§var", "opt_lookup_effect");
 		$ctrl_o2checkbox8->x(230);
 		$ctrl_o2checkbox8->y(140);
 		$ctrl_o2checkbox8->larghezza(20);
@@ -413,13 +413,13 @@ function o2sys_options_admin§§options_admin_form_def(&$form_options_admin) {
 		$ctrl_o2checkbox8->info_padre(array(4));
 		}
 
-function o2sys_options_admin§§add_skin_act(&$o2exe) {
+function o2sys_options_admin§§add_skin_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "opt_skin", o2sys_options_admin_exp_16()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("load_skins", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§load_options_act(&$o2exe) {
+function o2sys_options_admin§§load_options_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_8()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("skin") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_9()) && $o2exe->e();
@@ -469,78 +469,78 @@ function o2sys_options_admin§§load_options_act(&$o2exe) {
 	$o2exe->s(47) && True && o2act::set("prg§_§var", "opt_lookup_effect", o2sys_options_admin_exp_54()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§load_skins_act(&$o2exe) {
+function o2sys_options_admin§§load_skins_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "all_skins_list", o2sys_options_admin_exp_11()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "set_skins_list", o2sys_options_admin_exp_12()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "avail_skins_list", o2sys_options_admin_exp_15()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_appmenu_act(&$o2exe) {
+function o2sys_options_admin§§mod_appmenu_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_grid_dblclick_act(&$o2exe) {
+function o2sys_options_admin§§mod_grid_dblclick_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_grid_settings_act(&$o2exe) {
+function o2sys_options_admin§§mod_grid_settings_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_grid_wheel_act(&$o2exe) {
+function o2sys_options_admin§§mod_grid_wheel_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_language_act(&$o2exe) {
+function o2sys_options_admin§§mod_language_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_lookup_effect_act(&$o2exe) {
+function o2sys_options_admin§§mod_lookup_effect_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_lookup_handler_act(&$o2exe) {
+function o2sys_options_admin§§mod_lookup_handler_act($o2exe) {
 	$o2exe->s(1) && (o2sys_options_admin_exp_57() || $o2exe->e()) && o2act::set("prg§_§var", "opt_lookup_effect", o2sys_options_admin_exp_8()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_lookup_time_act(&$o2exe) {
+function o2sys_options_admin§§mod_lookup_time_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "opt_lookup_time", o2sys_options_admin_exp_35()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_menu_help_act(&$o2exe) {
+function o2sys_options_admin§§mod_menu_help_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_menu_open_on_act(&$o2exe) {
+function o2sys_options_admin§§mod_menu_open_on_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_menu_style_act(&$o2exe) {
+function o2sys_options_admin§§mod_menu_style_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "opt_menu_open_on", o2sys_options_admin_exp_61()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_nav_effects_act(&$o2exe) {
+function o2sys_options_admin§§mod_nav_effects_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_newsession_act(&$o2exe) {
+function o2sys_options_admin§§mod_newsession_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§mod_rowtools_act(&$o2exe) {
+function o2sys_options_admin§§mod_rowtools_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§remove_skin_act(&$o2exe) {
+function o2sys_options_admin§§remove_skin_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_5()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "opt_skin", o2sys_options_admin_exp_17()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("load_skins", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§reset_act(&$o2exe) {
+function o2sys_options_admin§§reset_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("skin") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_9()) && $o2exe->e();
 	$o2exe->s(3) && (o2sys_options_admin_exp_31() || $o2exe->e()) && o2act::view("options", "C", "") && $o2exe->e();
@@ -577,7 +577,7 @@ function o2sys_options_admin§§reset_act(&$o2exe) {
 	$o2exe->s(34) && True && o2act::exe("load_options", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§save_options_act(&$o2exe) {
+function o2sys_options_admin§§save_options_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "modified_options", o2sys_options_admin_exp_8()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("Skin") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "option_key", o2sys_options_admin_exp_9()) && $o2exe->e();
@@ -684,7 +684,7 @@ function o2sys_options_admin§§save_options_act(&$o2exe) {
 	$o2exe->s(104) && True && o2act::alert(o2sys_options_admin_exp_45(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_options_admin§§start_act(&$o2exe) {
+function o2sys_options_admin§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_code", o2sys_options_admin_exp_18()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("load_options", True, "") && $o2exe->e();
 	} //|o2_fine_act|

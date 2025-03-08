@@ -1,6 +1,6 @@
 <?php
 
-function jxcalendar§§prg§_§var_def(&$task_prg§_§var) {
+function jxcalendar§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("btn_menu", "_o2alpha");
 	$task_prg§_§var->definisci("cal_html", "_o2text");
@@ -19,7 +19,7 @@ function jxcalendar§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("user_is_operator", "_o2logical");
 	$task_prg§_§var->definisci("view", "jxcal_view");
 		}
-function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
+function jxcalendar§§jxcalendar_form_def($form_jxcalendar) {
 	$form_jxcalendar->x(200);
 	$form_jxcalendar->y(100);
 	$form_jxcalendar->larghezza(400);
@@ -29,14 +29,14 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 	$form_jxcalendar->css_body(" open_body");
 	$form_jxcalendar->css_doc("sys_calendar_doc");
 	$form_jxcalendar->refresh_action("refresh_win");
-	$ctrl_o2htmlarea3 = &$form_jxcalendar->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea3 = $form_jxcalendar->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea3->x(0);
 		$ctrl_o2htmlarea3->y(40);
 		$ctrl_o2htmlarea3->larghezza(400);
 		$ctrl_o2htmlarea3->altezza(330);
 		$ctrl_o2htmlarea3->expand("B");
 		$ctrl_o2htmlarea3->html(jxcalendar_exp_6());
-	$ctrl_o2multipage2 = &$form_jxcalendar->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_jxcalendar->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(0);
 		$ctrl_o2multipage2->y(0);
 		$ctrl_o2multipage2->larghezza(400);
@@ -48,7 +48,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2multipage2->css_label_on(jxcalendar_exp_5());
 		$ctrl_o2multipage2->css_label_off(jxcalendar_exp_5());
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2ListBox2 = &$form_jxcalendar->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "btn_menu");
+	$ctrl_o2ListBox2 = $form_jxcalendar->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "btn_menu");
 		$ctrl_o2ListBox2->x(5);
 		$ctrl_o2ListBox2->y(8);
 		$ctrl_o2ListBox2->larghezza(24);
@@ -59,7 +59,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2ListBox2->valori(jxcalendar_exp_35());
 		$ctrl_o2ListBox2->css(jxcalendar_exp_34());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2button2 = &$form_jxcalendar->ctrldef("o2button2", "button", "o2multipage2", "", "");
+	$ctrl_o2button2 = $form_jxcalendar->ctrldef("o2button2", "button", "o2multipage2", "", "");
 		$ctrl_o2button2->x(34);
 		$ctrl_o2button2->y(8);
 		$ctrl_o2button2->larghezza(24);
@@ -67,7 +67,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2button2->azione("prev");
 		$ctrl_o2button2->info_padre(array(0));
 		$ctrl_o2button2->label("<");
-	$ctrl_o2button3 = &$form_jxcalendar->ctrldef("o2button3", "button", "o2multipage2", "", "");
+	$ctrl_o2button3 = $form_jxcalendar->ctrldef("o2button3", "button", "o2multipage2", "", "");
 		$ctrl_o2button3->x(58);
 		$ctrl_o2button3->y(8);
 		$ctrl_o2button3->larghezza(24);
@@ -75,7 +75,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2button3->azione("next");
 		$ctrl_o2button3->info_padre(array(0));
 		$ctrl_o2button3->label(">");
-	$ctrl_o2button7 = &$form_jxcalendar->ctrldef("o2button7", "button", "o2multipage2", "", "");
+	$ctrl_o2button7 = $form_jxcalendar->ctrldef("o2button7", "button", "o2multipage2", "", "");
 		$ctrl_o2button7->x(87);
 		$ctrl_o2button7->y(8);
 		$ctrl_o2button7->larghezza(50);
@@ -83,7 +83,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2button7->azione("today");
 		$ctrl_o2button7->info_padre(array(0));
 		$ctrl_o2button7->label(jxcalendar_exp_30());
-	$ctrl_o2button8 = &$form_jxcalendar->ctrldef("o2button8", "button", "o2multipage2", "", "");
+	$ctrl_o2button8 = $form_jxcalendar->ctrldef("o2button8", "button", "o2multipage2", "", "");
 		$ctrl_o2button8->x(190);
 		$ctrl_o2button8->y(8);
 		$ctrl_o2button8->larghezza(50);
@@ -92,7 +92,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2button8->azione("view_day");
 		$ctrl_o2button8->info_padre(array(0));
 		$ctrl_o2button8->label(jxcalendar_exp_20());
-	$ctrl_o2button4 = &$form_jxcalendar->ctrldef("o2button4", "button", "o2multipage2", "", "");
+	$ctrl_o2button4 = $form_jxcalendar->ctrldef("o2button4", "button", "o2multipage2", "", "");
 		$ctrl_o2button4->x(240);
 		$ctrl_o2button4->y(8);
 		$ctrl_o2button4->larghezza(50);
@@ -101,7 +101,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2button4->azione("view_week");
 		$ctrl_o2button4->info_padre(array(0));
 		$ctrl_o2button4->label(jxcalendar_exp_31());
-	$ctrl_o2button5 = &$form_jxcalendar->ctrldef("o2button5", "button", "o2multipage2", "", "");
+	$ctrl_o2button5 = $form_jxcalendar->ctrldef("o2button5", "button", "o2multipage2", "", "");
 		$ctrl_o2button5->x(290);
 		$ctrl_o2button5->y(8);
 		$ctrl_o2button5->larghezza(50);
@@ -110,7 +110,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2button5->azione("view_month");
 		$ctrl_o2button5->info_padre(array(0));
 		$ctrl_o2button5->label(jxcalendar_exp_32());
-	$ctrl_o2button6 = &$form_jxcalendar->ctrldef("o2button6", "button", "o2multipage2", "", "");
+	$ctrl_o2button6 = $form_jxcalendar->ctrldef("o2button6", "button", "o2multipage2", "", "");
 		$ctrl_o2button6->x(340);
 		$ctrl_o2button6->y(8);
 		$ctrl_o2button6->larghezza(50);
@@ -119,7 +119,7 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2button6->azione("view_year");
 		$ctrl_o2button6->info_padre(array(0));
 		$ctrl_o2button6->label(jxcalendar_exp_33());
-	$ctrl_o2htmlarea2 = &$form_jxcalendar->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea2 = $form_jxcalendar->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea2->x(150);
 		$ctrl_o2htmlarea2->y(10);
 		$ctrl_o2htmlarea2->larghezza(20);
@@ -128,41 +128,41 @@ function jxcalendar§§jxcalendar_form_def(&$form_jxcalendar) {
 		$ctrl_o2htmlarea2->info_padre(array(0));
 		}
 
-function jxcalendar§§cal_event_create_act(&$o2exe) {
+function jxcalendar§§cal_event_create_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxcalendar_exp_40(), False, null, jxcalendar_exp_41()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§cal_event_selection_act(&$o2exe) {
+function jxcalendar§§cal_event_selection_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxcalendar_exp_40(), False, jxcalendar_exp_41()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§compose_html_act(&$o2exe) {
+function jxcalendar§§compose_html_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "cal_html", jxcalendar_exp_42()) && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_exp_27() || $o2exe->e()) && o2act::call(jxcalendar_exp_19(), False, jxcalendar_exp_7(), jxcalendar_exp_18(), "prg§_§var§§cal_html", jxcalendar_exp_11(), jxcalendar_exp_13(), jxcalendar_exp_55()) && $o2exe->e();
 	$o2exe->s(3) && (jxcalendar_exp_29() || $o2exe->e()) && o2act::call(jxcalendar_exp_28(), False, jxcalendar_exp_7(), jxcalendar_exp_18(), "prg§_§var§§cal_html", jxcalendar_exp_11(), jxcalendar_exp_13(), jxcalendar_exp_55()) && $o2exe->e();
 	$o2exe->s(4) && (jxcalendar_exp_60() || $o2exe->e()) && o2act::call(jxcalendar_exp_59(), False, jxcalendar_exp_7(), jxcalendar_exp_18(), "prg§_§var§§cal_html", jxcalendar_exp_11(), jxcalendar_exp_13(), jxcalendar_exp_55()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§create_event_act(&$o2exe) {
+function jxcalendar§§create_event_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxcalendar_exp_40(), False) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§festivities_act(&$o2exe) {
+function jxcalendar§§festivities_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxcalendar_exp_39(), False) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§goto_date_act(&$o2exe) {
+function jxcalendar§§goto_date_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "date_str", jxcalendar_exp_7()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::call(jxcalendar_exp_50(), False, "prg§_§var§§date_str") && $o2exe->e();
 	$o2exe->s(3) && (jxcalendar_exp_52() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_51()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§menu_selection_act(&$o2exe) {
+function jxcalendar§§menu_selection_act($o2exe) {
 	$o2exe->s(1) && (jxcalendar_exp_48() || $o2exe->e()) && o2act::exe("goto_date", True, "") && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_exp_36() || $o2exe->e()) && o2act::exe("create_event", True, "") && $o2exe->e();
 	$o2exe->s(3) && (jxcalendar_exp_37() || $o2exe->e()) && o2act::exe("festivities", True, "") && $o2exe->e();
@@ -171,41 +171,41 @@ function jxcalendar§§menu_selection_act(&$o2exe) {
 	$o2exe->s(6) && (jxcalendar_exp_57() || $o2exe->e()) && o2act::exe("show_user", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§next_act(&$o2exe) {
+function jxcalendar§§next_act($o2exe) {
 	$o2exe->s(1) && (jxcalendar_exp_27() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_16()) && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_exp_29() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_46()) && $o2exe->e();
 	$o2exe->s(3) && (jxcalendar_exp_60() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_62()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§prev_act(&$o2exe) {
+function jxcalendar§§prev_act($o2exe) {
 	$o2exe->s(1) && (jxcalendar_exp_27() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_15()) && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_exp_29() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_47()) && $o2exe->e();
 	$o2exe->s(3) && (jxcalendar_exp_60() || $o2exe->e()) && o2act::set("prg§_§var", "date", jxcalendar_exp_61()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§refresh_win_act(&$o2exe) {
+function jxcalendar§§refresh_win_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Update size by window") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "size", jxcalendar_exp_44()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§set_size_act(&$o2exe) {
+function jxcalendar§§set_size_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "size", jxcalendar_exp_1()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§settings_act(&$o2exe) {
+function jxcalendar§§settings_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxcalendar_exp_54(), False) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§show_user_act(&$o2exe) {
+function jxcalendar§§show_user_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxcalendar_exp_58(), False, "prg§_§var§§show_user", jxcalendar_exp_9998()) && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_exp_55() || $o2exe->e()) && o2act::set("prg§_§var", "show_all", jxcalendar_exp_9999()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§start_act(&$o2exe) {
+function jxcalendar§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "lang", jxcalendar_exp_23()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "date", jxcalendar_exp_2()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "user_is_operator", jxcalendar_exp_56()) && $o2exe->e();
@@ -215,33 +215,33 @@ function jxcalendar§§start_act(&$o2exe) {
 	$o2exe->s(7) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§switch_show_all_act(&$o2exe) {
+function jxcalendar§§switch_show_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_all", jxcalendar_exp_38()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "show_user", jxcalendar_exp_42()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§today_act(&$o2exe) {
+function jxcalendar§§today_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "date", jxcalendar_exp_17()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§view_day_act(&$o2exe) {
+function jxcalendar§§view_day_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "view", jxcalendar_exp_25()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§view_month_act(&$o2exe) {
+function jxcalendar§§view_month_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "view", jxcalendar_exp_24()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§view_week_act(&$o2exe) {
+function jxcalendar§§view_week_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "view", jxcalendar_exp_22()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar§§view_year_act(&$o2exe) {
+function jxcalendar§§view_year_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "view", jxcalendar_exp_26()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("compose_html", True, "") && $o2exe->e();
 	} //|o2_fine_act|

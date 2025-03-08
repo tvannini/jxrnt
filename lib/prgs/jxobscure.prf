@@ -1,6 +1,6 @@
 <?php
 
-function jxobscure§§prg§_§var_def(&$task_prg§_§var) {
+function jxobscure§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("app_prgs", "_o2structure");
 	$task_prg§_§var->definisci("custom_level", "_o2structure");
@@ -24,7 +24,7 @@ function jxobscure§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("page", "_o2number");
 	$task_prg§_§var->definisci("show_res", "_o2logical");
 		}
-function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
+function jxobscure§§jxobscure_1_form_def($form_jxobscure_1) {
 	$form_jxobscure_1->x(300);
 	$form_jxobscure_1->y(100);
 	$form_jxobscure_1->larghezza(560);
@@ -33,67 +33,67 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 	$form_jxobscure_1->titolo("Obscure application code");
 	$form_jxobscure_1->frm_status(jxobscure_exp_21());
 	$form_jxobscure_1->css_doc("sys_rights_doc");
-	$ctrl_o2label2 = &$form_jxobscure_1->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_jxobscure_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(160);
 		$ctrl_o2label2->y(40);
 		$ctrl_o2label2->larghezza(70);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("Level:");
-	$ctrl_o2ListBox2 = &$form_jxobscure_1->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "obs_level");
+	$ctrl_o2ListBox2 = $form_jxobscure_1->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "obs_level");
 		$ctrl_o2ListBox2->x(230);
 		$ctrl_o2ListBox2->y(40);
 		$ctrl_o2ListBox2->larghezza(300);
 		$ctrl_o2ListBox2->altezza(20);
 		$ctrl_o2ListBox2->valori(array("1" => "1. Obscure code only","2" => "2. Raplace variables and obscure code","3" => "3. Replace variables and actions and obscure code"));
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2image2 = &$form_jxobscure_1->ctrldef("o2image2", "img", "", "", "");
+	$ctrl_o2image2 = $form_jxobscure_1->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(40);
 		$ctrl_o2image2->y(30);
 		$ctrl_o2image2->larghezza(48);
 		$ctrl_o2image2->altezza(48);
 		$ctrl_o2image2->imgexp(jxobscure_exp_35());
-	$ctrl_o2button2 = &$form_jxobscure_1->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_jxobscure_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(440);
 		$ctrl_o2button2->y(460);
 		$ctrl_o2button2->larghezza(90);
 		$ctrl_o2button2->altezza(30);
 		$ctrl_o2button2->azione("obscure");
 		$ctrl_o2button2->label("&Obscure");
-	$ctrl_o2multipage2 = &$form_jxobscure_1->ctrldef("o2multipage2", "multipage", "", "prg§_§var", "page");
+	$ctrl_o2multipage2 = $form_jxobscure_1->ctrldef("o2multipage2", "multipage", "", "prg§_§var", "page");
 		$ctrl_o2multipage2->x(30);
 		$ctrl_o2multipage2->y(100);
 		$ctrl_o2multipage2->larghezza(500);
 		$ctrl_o2multipage2->altezza(350);
 		$ctrl_o2multipage2->label(array("Header","Programs custom level","Exclude actions","Extra files"));
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2button8 = &$form_jxobscure_1->ctrldef("o2button8", "button", "", "", "");
+	$ctrl_o2button8 = $form_jxobscure_1->ctrldef("o2button8", "button", "", "", "");
 		$ctrl_o2button8->x(340);
 		$ctrl_o2button8->y(460);
 		$ctrl_o2button8->larghezza(90);
 		$ctrl_o2button8->altezza(30);
 		$ctrl_o2button8->azione("save_conf");
 		$ctrl_o2button8->label("&Save settings");
-	$ctrl_o2textarea2 = &$form_jxobscure_1->ctrldef("o2textarea2", "text", "o2multipage2", "prg§_§var", "obs_header");
+	$ctrl_o2textarea2 = $form_jxobscure_1->ctrldef("o2textarea2", "text", "o2multipage2", "prg§_§var", "obs_header");
 		$ctrl_o2textarea2->x(30);
 		$ctrl_o2textarea2->y(50);
 		$ctrl_o2textarea2->larghezza(440);
 		$ctrl_o2textarea2->altezza(270);
 		$ctrl_o2textarea2->info_padre(array(0));
-	$ctrl_o2label6 = &$form_jxobscure_1->ctrldef("o2label6", "label", "o2multipage2", "", "");
+	$ctrl_o2label6 = $form_jxobscure_1->ctrldef("o2label6", "label", "o2multipage2", "", "");
 		$ctrl_o2label6->x(230);
 		$ctrl_o2label6->y(50);
 		$ctrl_o2label6->larghezza(250);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->info_padre(array(1));
 		$ctrl_o2label6->label("Program:");
-	$ctrl_o2label7 = &$form_jxobscure_1->ctrldef("o2label7", "label", "o2multipage2", "", "");
+	$ctrl_o2label7 = $form_jxobscure_1->ctrldef("o2label7", "label", "o2multipage2", "", "");
 		$ctrl_o2label7->x(230);
 		$ctrl_o2label7->y(100);
 		$ctrl_o2label7->larghezza(250);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->info_padre(array(1));
 		$ctrl_o2label7->label("Program custom level:");
-	$ctrl_o2ListBox6 = &$form_jxobscure_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "custom_level_idx");
+	$ctrl_o2ListBox6 = $form_jxobscure_1->ctrldef("o2ListBox6", "listcombo", "o2multipage2", "prg§_§var", "custom_level_idx");
 		$ctrl_o2ListBox6->x(30);
 		$ctrl_o2ListBox6->y(50);
 		$ctrl_o2ListBox6->larghezza(180);
@@ -102,7 +102,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2ListBox6->info_padre(array(1));
 		$ctrl_o2ListBox6->valori(jxobscure_exp_39());
 		$ctrl_o2ListBox6->righe(100);
-	$ctrl_o2ListBox7 = &$form_jxobscure_1->ctrldef("o2ListBox7", "listcombo", "o2multipage2", "prg§_§var", "new_prg");
+	$ctrl_o2ListBox7 = $form_jxobscure_1->ctrldef("o2ListBox7", "listcombo", "o2multipage2", "prg§_§var", "new_prg");
 		$ctrl_o2ListBox7->x(230);
 		$ctrl_o2ListBox7->y(70);
 		$ctrl_o2ListBox7->larghezza(250);
@@ -111,7 +111,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2ListBox7->info_padre(array(1));
 		$ctrl_o2ListBox7->valori(jxobscure_exp_16());
 		$ctrl_o2ListBox7->righe(1);
-	$ctrl_o2button10 = &$form_jxobscure_1->ctrldef("o2button10", "button", "o2multipage2", "", "");
+	$ctrl_o2button10 = $form_jxobscure_1->ctrldef("o2button10", "button", "o2multipage2", "", "");
 		$ctrl_o2button10->x(390);
 		$ctrl_o2button10->y(160);
 		$ctrl_o2button10->larghezza(90);
@@ -120,7 +120,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2button10->azione("add_custom_level");
 		$ctrl_o2button10->info_padre(array(1));
 		$ctrl_o2button10->label("&Add");
-	$ctrl_o2button11 = &$form_jxobscure_1->ctrldef("o2button11", "button", "o2multipage2", "", "");
+	$ctrl_o2button11 = $form_jxobscure_1->ctrldef("o2button11", "button", "o2multipage2", "", "");
 		$ctrl_o2button11->x(230);
 		$ctrl_o2button11->y(290);
 		$ctrl_o2button11->larghezza(90);
@@ -129,7 +129,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2button11->azione("remove_custom_level");
 		$ctrl_o2button11->info_padre(array(1));
 		$ctrl_o2button11->label("&Remove");
-	$ctrl_o2ListBox8 = &$form_jxobscure_1->ctrldef("o2ListBox8", "listcombo", "o2multipage2", "prg§_§var", "new_custom_level");
+	$ctrl_o2ListBox8 = $form_jxobscure_1->ctrldef("o2ListBox8", "listcombo", "o2multipage2", "prg§_§var", "new_custom_level");
 		$ctrl_o2ListBox8->x(230);
 		$ctrl_o2ListBox8->y(120);
 		$ctrl_o2ListBox8->larghezza(250);
@@ -138,21 +138,21 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2ListBox8->info_padre(array(1));
 		$ctrl_o2ListBox8->valori(array("0" => "","1" => "1. Obscure code only","2" => "2. Raplace variables and obscure code","3" => "3. Replace variables and actions and obscure code"));
 		$ctrl_o2ListBox8->righe(1);
-	$ctrl_o2label3 = &$form_jxobscure_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
+	$ctrl_o2label3 = $form_jxobscure_1->ctrldef("o2label3", "label", "o2multipage2", "", "");
 		$ctrl_o2label3->x(290);
 		$ctrl_o2label3->y(50);
 		$ctrl_o2label3->larghezza(100);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->info_padre(array(2));
 		$ctrl_o2label3->label("Program:");
-	$ctrl_o2label4 = &$form_jxobscure_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
+	$ctrl_o2label4 = $form_jxobscure_1->ctrldef("o2label4", "label", "o2multipage2", "", "");
 		$ctrl_o2label4->x(290);
 		$ctrl_o2label4->y(100);
 		$ctrl_o2label4->larghezza(190);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(2));
 		$ctrl_o2label4->label("List of comma separated actions:");
-	$ctrl_o2ListBox3 = &$form_jxobscure_1->ctrldef("o2ListBox3", "listcombo", "o2multipage2", "prg§_§var", "excluded_act_idx");
+	$ctrl_o2ListBox3 = $form_jxobscure_1->ctrldef("o2ListBox3", "listcombo", "o2multipage2", "prg§_§var", "excluded_act_idx");
 		$ctrl_o2ListBox3->x(30);
 		$ctrl_o2ListBox3->y(50);
 		$ctrl_o2ListBox3->larghezza(240);
@@ -161,7 +161,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2ListBox3->info_padre(array(2));
 		$ctrl_o2ListBox3->valori(jxobscure_exp_10());
 		$ctrl_o2ListBox3->righe(100);
-	$ctrl_o2ListBox4 = &$form_jxobscure_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "new_prg");
+	$ctrl_o2ListBox4 = $form_jxobscure_1->ctrldef("o2ListBox4", "listcombo", "o2multipage2", "prg§_§var", "new_prg");
 		$ctrl_o2ListBox4->x(290);
 		$ctrl_o2ListBox4->y(70);
 		$ctrl_o2ListBox4->larghezza(190);
@@ -170,14 +170,14 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2ListBox4->info_padre(array(2));
 		$ctrl_o2ListBox4->valori(jxobscure_exp_16());
 		$ctrl_o2ListBox4->righe(1);
-	$ctrl_o2edit2 = &$form_jxobscure_1->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "new_act_prefix");
+	$ctrl_o2edit2 = $form_jxobscure_1->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "new_act_prefix");
 		$ctrl_o2edit2->x(290);
 		$ctrl_o2edit2->y(120);
 		$ctrl_o2edit2->larghezza(190);
 		$ctrl_o2edit2->altezza(20);
 		$ctrl_o2edit2->on_change(jxobscure_exp_12());
 		$ctrl_o2edit2->info_padre(array(2));
-	$ctrl_o2button4 = &$form_jxobscure_1->ctrldef("o2button4", "button", "o2multipage2", "", "");
+	$ctrl_o2button4 = $form_jxobscure_1->ctrldef("o2button4", "button", "o2multipage2", "", "");
 		$ctrl_o2button4->x(390);
 		$ctrl_o2button4->y(160);
 		$ctrl_o2button4->larghezza(90);
@@ -186,7 +186,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2button4->azione("add_excluded_act");
 		$ctrl_o2button4->info_padre(array(2));
 		$ctrl_o2button4->label("&Add");
-	$ctrl_o2button3 = &$form_jxobscure_1->ctrldef("o2button3", "button", "o2multipage2", "", "");
+	$ctrl_o2button3 = $form_jxobscure_1->ctrldef("o2button3", "button", "o2multipage2", "", "");
 		$ctrl_o2button3->x(290);
 		$ctrl_o2button3->y(290);
 		$ctrl_o2button3->larghezza(90);
@@ -195,14 +195,14 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2button3->azione("remove_excluded_act");
 		$ctrl_o2button3->info_padre(array(2));
 		$ctrl_o2button3->label("&Remove");
-	$ctrl_o2label5 = &$form_jxobscure_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
+	$ctrl_o2label5 = $form_jxobscure_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
 		$ctrl_o2label5->x(290);
 		$ctrl_o2label5->y(50);
 		$ctrl_o2label5->larghezza(100);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->info_padre(array(3));
 		$ctrl_o2label5->label("Script file:");
-	$ctrl_o2ListBox5 = &$form_jxobscure_1->ctrldef("o2ListBox5", "listcombo", "o2multipage2", "prg§_§var", "extra_file_idx");
+	$ctrl_o2ListBox5 = $form_jxobscure_1->ctrldef("o2ListBox5", "listcombo", "o2multipage2", "prg§_§var", "extra_file_idx");
 		$ctrl_o2ListBox5->x(30);
 		$ctrl_o2ListBox5->y(50);
 		$ctrl_o2ListBox5->larghezza(240);
@@ -211,14 +211,14 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2ListBox5->info_padre(array(3));
 		$ctrl_o2ListBox5->valori(jxobscure_exp_27());
 		$ctrl_o2ListBox5->righe(100);
-	$ctrl_o2edit3 = &$form_jxobscure_1->ctrldef("o2edit3", "edit", "o2multipage2", "prg§_§var", "new_extra_file");
+	$ctrl_o2edit3 = $form_jxobscure_1->ctrldef("o2edit3", "edit", "o2multipage2", "prg§_§var", "new_extra_file");
 		$ctrl_o2edit3->x(290);
 		$ctrl_o2edit3->y(70);
 		$ctrl_o2edit3->larghezza(170);
 		$ctrl_o2edit3->altezza(20);
 		$ctrl_o2edit3->on_change(jxobscure_exp_12());
 		$ctrl_o2edit3->info_padre(array(3));
-	$ctrl_o2button7 = &$form_jxobscure_1->ctrldef("o2button7", "button", "o2multipage2", "", "");
+	$ctrl_o2button7 = $form_jxobscure_1->ctrldef("o2button7", "button", "o2multipage2", "", "");
 		$ctrl_o2button7->x(390);
 		$ctrl_o2button7->y(110);
 		$ctrl_o2button7->larghezza(90);
@@ -227,7 +227,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2button7->azione("add_extra_file");
 		$ctrl_o2button7->info_padre(array(3));
 		$ctrl_o2button7->label("&Add");
-	$ctrl_o2button6 = &$form_jxobscure_1->ctrldef("o2button6", "button", "o2multipage2", "", "");
+	$ctrl_o2button6 = $form_jxobscure_1->ctrldef("o2button6", "button", "o2multipage2", "", "");
 		$ctrl_o2button6->x(290);
 		$ctrl_o2button6->y(290);
 		$ctrl_o2button6->larghezza(90);
@@ -236,7 +236,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2button6->azione("remove_extra_file");
 		$ctrl_o2button6->info_padre(array(3));
 		$ctrl_o2button6->label("&Remove");
-	$ctrl_o2button5 = &$form_jxobscure_1->ctrldef("o2button5", "button", "o2multipage2", "", "");
+	$ctrl_o2button5 = $form_jxobscure_1->ctrldef("o2button5", "button", "o2multipage2", "", "");
 		$ctrl_o2button5->x(460);
 		$ctrl_o2button5->y(70);
 		$ctrl_o2button5->larghezza(20);
@@ -245,7 +245,7 @@ function jxobscure§§jxobscure_1_form_def(&$form_jxobscure_1) {
 		$ctrl_o2button5->info_padre(array(3));
 		$ctrl_o2button5->label("...");
 		}
-function jxobscure§§jxobscure_2_form_def(&$form_jxobscure_2) {
+function jxobscure§§jxobscure_2_form_def($form_jxobscure_2) {
 	$form_jxobscure_2->x(250);
 	$form_jxobscure_2->y(70);
 	$form_jxobscure_2->larghezza(500);
@@ -254,19 +254,19 @@ function jxobscure§§jxobscure_2_form_def(&$form_jxobscure_2) {
 	$form_jxobscure_2->titolo("Obscure result");
 	$form_jxobscure_2->css_doc("sys_rights_doc");
 	$form_jxobscure_2->close_action("close_res");
-	$ctrl_o2htmlarea2 = &$form_jxobscure_2->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_jxobscure_2->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(30);
 		$ctrl_o2htmlarea2->y(30);
 		$ctrl_o2htmlarea2->larghezza(440);
 		$ctrl_o2htmlarea2->altezza(470);
 		$ctrl_o2htmlarea2->html(jxobscure_exp_37());
 		$ctrl_o2htmlarea2->css(jxobscure_exp_7());
-	$ctrl_o2separator2 = &$form_jxobscure_2->ctrldef("o2separator2", "line", "", "", "");
+	$ctrl_o2separator2 = $form_jxobscure_2->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(30);
 		$ctrl_o2separator2->y(505);
 		$ctrl_o2separator2->larghezza(440);
 		$ctrl_o2separator2->altezza(2);
-	$ctrl_o2button9 = &$form_jxobscure_2->ctrldef("o2button9", "button", "", "", "");
+	$ctrl_o2button9 = $form_jxobscure_2->ctrldef("o2button9", "button", "", "", "");
 		$ctrl_o2button9->x(380);
 		$ctrl_o2button9->y(520);
 		$ctrl_o2button9->larghezza(90);
@@ -275,37 +275,37 @@ function jxobscure§§jxobscure_2_form_def(&$form_jxobscure_2) {
 		$ctrl_o2button9->label("&Close");
 		}
 
-function jxobscure§§add_custom_level_act(&$o2exe) {
+function jxobscure§§add_custom_level_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "custom_level", jxobscure_exp_42()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "list_custom_level", jxobscure_exp_41()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_custom_level", jxobscure_exp_40()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "new_prg", jxobscure_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§add_excluded_act_act(&$o2exe) {
+function jxobscure§§add_excluded_act_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "excluded_actions", jxobscure_exp_31()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "list_excluded_acts", jxobscure_exp_32()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_act_prefix", jxobscure_exp_20()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "new_prg", jxobscure_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§add_extra_file_act(&$o2exe) {
+function jxobscure§§add_extra_file_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "list_extra_files", jxobscure_exp_26()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "extra_files", jxobscure_exp_28()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "new_extra_file", jxobscure_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§close_res_act(&$o2exe) {
+function jxobscure§§close_res_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_res", jxobscure_exp_21()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§obscure_act(&$o2exe) {
+function jxobscure§§obscure_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("write_options", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "exe_res", jxobscure_exp_1()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "show_res", jxobscure_exp_12()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§read_options_act(&$o2exe) {
+function jxobscure§§read_options_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "options", jxobscure_exp_2()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "obs_level", jxobscure_exp_3()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "obs_header", jxobscure_exp_4()) && $o2exe->e();
@@ -318,40 +318,40 @@ function jxobscure§§read_options_act(&$o2exe) {
 	$o2exe->s(10) && True && o2act::set("prg§_§var", "list_extra_files", jxobscure_exp_17()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§remove_custom_level_act(&$o2exe) {
+function jxobscure§§remove_custom_level_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "list_custom_level", jxobscure_exp_47()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "custom_level", jxobscure_exp_48()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "custom_level_idx", jxobscure_exp_40()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§remove_excluded_act_act(&$o2exe) {
+function jxobscure§§remove_excluded_act_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "list_excluded_acts", jxobscure_exp_33()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "excluded_actions", jxobscure_exp_34()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "excluded_act_idx", jxobscure_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§remove_extra_file_act(&$o2exe) {
+function jxobscure§§remove_extra_file_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "list_extra_files", jxobscure_exp_30()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "extra_files", jxobscure_exp_29()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "extra_file_idx", jxobscure_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§save_conf_act(&$o2exe) {
+function jxobscure§§save_conf_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("write_options", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::alert(jxobscure_exp_36(), 0) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§select_extra_file_act(&$o2exe) {
+function jxobscure§§select_extra_file_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(jxobscure_exp_23(), False, "prg§_§var§§new_extra_file", jxobscure_exp_20(), jxobscure_exp_20(), jxobscure_exp_12(), jxobscure_exp_21(), jxobscure_exp_21(), jxobscure_exp_21(), jxobscure_exp_21(), jxobscure_exp_22()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "new_extra_file", jxobscure_exp_25()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§start_act(&$o2exe) {
+function jxobscure§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("read_options", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "app_prgs", jxobscure_exp_15()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxobscure§§write_options_act(&$o2exe) {
+function jxobscure§§write_options_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxobscure_exp_6()) && $o2exe->e();
 	} //|o2_fine_act|
 

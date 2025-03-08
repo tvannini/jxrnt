@@ -1,6 +1,6 @@
 <?php
 
-function jxvisor§§prg§_§var_def(&$task_prg§_§var) {
+function jxvisor§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("option_code", "_o2alpha");
 	$task_prg§_§var->definisci("option_value", "_o2alpha");
@@ -11,7 +11,7 @@ function jxvisor§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("win_y", "_o2number");
 		}
 
-function jxvisor§§options_def(&$task_options, $_o2viewalias = "") {
+function jxvisor§§options_def($task_options, $_o2viewalias = "") {
 	$task_options->righe_vis = 1;
 
 	$task_options->usa_file("o2_options","o2_options","id",null,null);
@@ -20,7 +20,7 @@ function jxvisor§§options_def(&$task_options, $_o2viewalias = "") {
 	$task_options->usa("code","o2_options","code","jxvisor_exp_7()","jxvisor_exp_7()",null,null);
 	$task_options->usa("value","o2_options","value",null,null,null,null);
 }
-function jxvisor§§jxvisor_1_form_def(&$form_jxvisor_1) {
+function jxvisor§§jxvisor_1_form_def($form_jxvisor_1) {
 	$form_jxvisor_1->x(400);
 	$form_jxvisor_1->y(70);
 	$form_jxvisor_1->larghezza(500);
@@ -33,7 +33,7 @@ function jxvisor§§jxvisor_1_form_def(&$form_jxvisor_1) {
 	$form_jxvisor_1->larghezza_exp(jxvisor_exp_5());
 		}
 
-function jxvisor§§close_act(&$o2exe) {
+function jxvisor§§close_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "option_code", jxvisor_exp_8()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "option_value", jxvisor_exp_9()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("write_option", True, "") && $o2exe->e();
@@ -48,7 +48,7 @@ function jxvisor§§close_act(&$o2exe) {
 	$o2exe->s(12) && True && o2act::exe("write_option", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxvisor§§start_act(&$o2exe) {
+function jxvisor§§start_act($o2exe) {
 	$o2exe->s(1) && (jxvisor_exp_21() || $o2exe->e()) && o2act::close()&& $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "url", jxvisor_exp_6()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Read size & position from options") && $o2exe->e();
@@ -62,7 +62,7 @@ function jxvisor§§start_act(&$o2exe) {
 	$o2exe->s(11) && True && o2act::set("prg§_§var", "win_h", jxvisor_exp_17()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxvisor§§write_option_act(&$o2exe) {
+function jxvisor§§write_option_act($o2exe) {
 	$o2exe->s(1) && (jxvisor_exp_16() || $o2exe->e()) && o2act::view("options", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("options", "o2user", jxvisor_exp_1()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("options", "code", jxvisor_exp_7()) && $o2exe->e();

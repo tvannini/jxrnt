@@ -1,6 +1,6 @@
 <?php
 
-function o2dev_split_rep§§split_act(&$o2exe) {
+function o2dev_split_rep§§split_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_split_rep_exp_1()) && $o2exe->e();
 	} //|o2_fine_act|
 

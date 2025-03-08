@@ -1,12 +1,12 @@
 <?php
 
-function o2sys_profile_menu§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_profile_menu§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("menu_label", "o2sys_long_str");
 	$task_prg§_§var->definisci("menu2profile", "_o2alpha");
 		}
 
-function o2sys_profile_menu§§obj_rights_def(&$task_obj_rights, $_o2viewalias = "") {
+function o2sys_profile_menu§§obj_rights_def($task_obj_rights, $_o2viewalias = "") {
 	$task_obj_rights->righe_vis = 10;
 
 	$task_obj_rights->usa_file("o2_profiling","o2_profiling","obj",null,null);
@@ -16,14 +16,14 @@ function o2sys_profile_menu§§obj_rights_def(&$task_obj_rights, $_o2viewalias = "
 	$task_obj_rights->usa("right_vis","o2_profiling","right_vis",null,null,null,null);
 }
 
-function o2sys_profile_menu§§app_rights_def(&$task_app_rights, $_o2viewalias = "") {
+function o2sys_profile_menu§§app_rights_def($task_app_rights, $_o2viewalias = "") {
 	$task_app_rights->righe_vis = 10;
 
 	$task_app_rights->usa_file("o2_rights","o2_rights","right_code",null,null);
 
 	$task_app_rights->usa("right_code","o2_rights","right_code",null,null,null,null);
 }
-function o2sys_profile_menu§§o2sys_profile_menu_1_form_def(&$form_o2sys_profile_menu_1) {
+function o2sys_profile_menu§§o2sys_profile_menu_1_form_def($form_o2sys_profile_menu_1) {
 	$form_o2sys_profile_menu_1->x(245);
 	$form_o2sys_profile_menu_1->y(70);
 	$form_o2sys_profile_menu_1->larghezza(390);
@@ -31,45 +31,45 @@ function o2sys_profile_menu§§o2sys_profile_menu_1_form_def(&$form_o2sys_profile_
 	$form_o2sys_profile_menu_1->titolo("Profile menu");
 	$form_o2sys_profile_menu_1->align_o("Center");
 	$form_o2sys_profile_menu_1->frm_status(o2sys_profile_menu_exp_9999());
-	$ctrl_o2label2 = &$form_o2sys_profile_menu_1->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_o2sys_profile_menu_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(20);
 		$ctrl_o2label2->y(42);
 		$ctrl_o2label2->larghezza(350);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label(o2sys_profile_menu_exp_7());
 		$ctrl_o2label2->css("sys_title");
-	$ctrl_o2label3 = &$form_o2sys_profile_menu_1->ctrldef("o2label3", "label", "", "", "");
+	$ctrl_o2label3 = $form_o2sys_profile_menu_1->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(20);
 		$ctrl_o2label3->y(20);
 		$ctrl_o2label3->larghezza(90);
 		$ctrl_o2label3->altezza(18);
 		$ctrl_o2label3->label("Profiling menu:");
-	$ctrl_o2label4 = &$form_o2sys_profile_menu_1->ctrldef("o2label4", "label", "", "", "");
+	$ctrl_o2label4 = $form_o2sys_profile_menu_1->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(20);
 		$ctrl_o2label4->y(95);
 		$ctrl_o2label4->larghezza(350);
 		$ctrl_o2label4->altezza(18);
 		$ctrl_o2label4->label("of rights listed below:");
-	$ctrl_o2label5 = &$form_o2sys_profile_menu_1->ctrldef("o2label5", "label", "", "", "");
+	$ctrl_o2label5 = $form_o2sys_profile_menu_1->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(20);
 		$ctrl_o2label5->y(75);
 		$ctrl_o2label5->larghezza(350);
 		$ctrl_o2label5->altezza(18);
 		$ctrl_o2label5->label("Menu item will be visible only for users owning AT LEAST ONE");
-	$ctrl_o2htmlarea2 = &$form_o2sys_profile_menu_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_o2sys_profile_menu_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(110);
 		$ctrl_o2htmlarea2->y(20);
 		$ctrl_o2htmlarea2->larghezza(260);
 		$ctrl_o2htmlarea2->altezza(20);
 		$ctrl_o2htmlarea2->html(o2sys_profile_menu_exp_8());
 		$ctrl_o2htmlarea2->css(o2sys_profile_menu_exp_9());
-	$ctrl_o2table2 = &$form_o2sys_profile_menu_1->ctrldef("o2table2", "tab", "", "obj_rights", "");
+	$ctrl_o2table2 = $form_o2sys_profile_menu_1->ctrldef("o2table2", "tab", "", "obj_rights", "");
 		$ctrl_o2table2->x(20);
 		$ctrl_o2table2->y(130);
 		$ctrl_o2table2->larghezza(350);
 		$ctrl_o2table2->altezza(223);
 		$ctrl_o2table2->norec_msg("Public item: no restrictions applied.<br>Press AddRight [+] to start profiling menu.");
-	$ctrl_o2dbnavigator2 = &$form_o2sys_profile_menu_1->ctrldef("o2dbnavigator2", "navigator", "o2table2", "obj_rights", "");
+	$ctrl_o2dbnavigator2 = $form_o2sys_profile_menu_1->ctrldef("o2dbnavigator2", "navigator", "o2table2", "obj_rights", "");
 		$ctrl_o2dbnavigator2->x(320);
 		$ctrl_o2dbnavigator2->y(30);
 		$ctrl_o2dbnavigator2->larghezza(18);
@@ -81,7 +81,7 @@ function o2sys_profile_menu§§o2sys_profile_menu_1_form_def(&$form_o2sys_profile_
 		$ctrl_o2dbnavigator2->act_save("obj_rights_post");
 		$ctrl_o2dbnavigator2->act_del("obj_rights_delete");
 		$ctrl_o2dbnavigator2->act_undo("obj_rights_undo");
-	$ctrl_o2ListBox2 = &$form_o2sys_profile_menu_1->ctrldef("o2ListBox2", "listcombo", "o2table2", "obj_rights", "right_vis");
+	$ctrl_o2ListBox2 = $form_o2sys_profile_menu_1->ctrldef("o2ListBox2", "listcombo", "o2table2", "obj_rights", "right_vis");
 		$ctrl_o2ListBox2->x(10);
 		$ctrl_o2ListBox2->y(30);
 		$ctrl_o2ListBox2->larghezza(300);
@@ -91,30 +91,30 @@ function o2sys_profile_menu§§o2sys_profile_menu_1_form_def(&$form_o2sys_profile_
 		$ctrl_o2ListBox2->righe(1);
 		}
 
-function o2sys_profile_menu§§exit_act(&$o2exe) {
+function o2sys_profile_menu§§exit_act($o2exe) {
 	$o2exe->s(1) && True && o2act::alert(o2sys_profile_menu_exp_2(), 0) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_profile_menu§§obj_rights_delete_act(&$o2exe) {
+function o2sys_profile_menu§§obj_rights_delete_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("obj_rights", "C", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_profile_menu§§obj_rights_insert_act(&$o2exe) {
+function o2sys_profile_menu§§obj_rights_insert_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("obj_rights", "I", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_profile_menu§§obj_rights_post_act(&$o2exe) {
+function o2sys_profile_menu§§obj_rights_post_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("obj_rights", "obj_type", o2sys_profile_menu_exp_5()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("obj_rights", "obj_name", o2sys_profile_menu_exp_6()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("obj_rights", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_profile_menu§§obj_rights_undo_act(&$o2exe) {
+function o2sys_profile_menu§§obj_rights_undo_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("obj_rights", "A", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_profile_menu§§start_act(&$o2exe) {
+function o2sys_profile_menu§§start_act($o2exe) {
 	$o2exe->s(1) && (o2sys_profile_menu_exp_1() || $o2exe->e()) && o2act::exe("exit", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "menu2profile", o2sys_profile_menu_exp_3()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "menu_label", o2sys_profile_menu_exp_4()) && $o2exe->e();

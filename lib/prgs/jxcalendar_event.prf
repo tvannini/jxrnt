@@ -1,6 +1,6 @@
 <?php
 
-function jxcalendar_event§§prg§_§var_def(&$task_prg§_§var) {
+function jxcalendar_event§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("calendar", "_o2alpha");
 	$task_prg§_§var->definisci("edit", "_o2logical");
@@ -8,7 +8,7 @@ function jxcalendar_event§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("user_is_operator", "_o2logical");
 		}
 
-function jxcalendar_event§§event_def(&$task_event, $_o2viewalias = "") {
+function jxcalendar_event§§event_def($task_event, $_o2viewalias = "") {
 	$task_event->righe_vis = 1;
 
 	$task_event->usa_file("jx_calendar_events","jx_calendar_events","id",null,null);
@@ -23,7 +23,7 @@ function jxcalendar_event§§event_def(&$task_event, $_o2viewalias = "") {
 	$task_event->usa("whole_day","jx_calendar_events","whole_day",null,null,null,null);
 }
 
-function jxcalendar_event§§event_id_def(&$task_event_id, $_o2viewalias = "") {
+function jxcalendar_event§§event_id_def($task_event_id, $_o2viewalias = "") {
 	$task_event_id->righe_vis = 1;
 
 	$task_event_id->usa_file("jx_calendar_events","jx_calendar_events","id",null,null);
@@ -31,7 +31,7 @@ function jxcalendar_event§§event_id_def(&$task_event_id, $_o2viewalias = "") {
 	$task_event_id->usa("event_id","jx_calendar_events","event_id",null,null,null,null);
 }
 
-function jxcalendar_event§§users_def(&$task_users, $_o2viewalias = "") {
+function jxcalendar_event§§users_def($task_users, $_o2viewalias = "") {
 	$task_users->righe_vis = 10;
 
 	$task_users->usa_file("o2_users","o2_users","o2user",null,null);
@@ -39,7 +39,7 @@ function jxcalendar_event§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->usa("o2user","o2_users","o2user",null,null,null,null);
 	$task_users->usa("area","o2_users","area","jxcalendar_event_exp_38()","jxcalendar_event_exp_38()",null,null);
 }
-function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
+function jxcalendar_event§§jxcalendar_event_form_def($form_jxcalendar_event) {
 	$form_jxcalendar_event->x(270);
 	$form_jxcalendar_event->y(150);
 	$form_jxcalendar_event->larghezza(540);
@@ -48,49 +48,49 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 	$form_jxcalendar_event->titolo(jxcalendar_event_exp_2());
 	$form_jxcalendar_event->css_doc("sys_calendar_doc");
 	$form_jxcalendar_event->close_action("cancel");
-	$ctrl_o2label3 = &$form_jxcalendar_event->ctrldef("o2label3", "label", "", "", "");
+	$ctrl_o2label3 = $form_jxcalendar_event->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(20);
 		$ctrl_o2label3->y(50);
 		$ctrl_o2label3->larghezza(100);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->label(jxcalendar_event_exp_4());
-	$ctrl_o2label4 = &$form_jxcalendar_event->ctrldef("o2label4", "label", "", "", "");
+	$ctrl_o2label4 = $form_jxcalendar_event->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(20);
 		$ctrl_o2label4->y(80);
 		$ctrl_o2label4->larghezza(100);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->label(jxcalendar_event_exp_5());
-	$ctrl_o2label5 = &$form_jxcalendar_event->ctrldef("o2label5", "label", "", "", "");
+	$ctrl_o2label5 = $form_jxcalendar_event->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(20);
 		$ctrl_o2label5->y(110);
 		$ctrl_o2label5->larghezza(100);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->label(jxcalendar_event_exp_6());
-	$ctrl_o2label6 = &$form_jxcalendar_event->ctrldef("o2label6", "label", "", "", "");
+	$ctrl_o2label6 = $form_jxcalendar_event->ctrldef("o2label6", "label", "", "", "");
 		$ctrl_o2label6->x(260);
 		$ctrl_o2label6->y(110);
 		$ctrl_o2label6->larghezza(160);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->label(jxcalendar_event_exp_7());
-	$ctrl_o2label7 = &$form_jxcalendar_event->ctrldef("o2label7", "label", "", "", "");
+	$ctrl_o2label7 = $form_jxcalendar_event->ctrldef("o2label7", "label", "", "", "");
 		$ctrl_o2label7->x(20);
 		$ctrl_o2label7->y(140);
 		$ctrl_o2label7->larghezza(100);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->label(jxcalendar_event_exp_10());
-	$ctrl_o2separator2 = &$form_jxcalendar_event->ctrldef("o2separator2", "line", "", "", "");
+	$ctrl_o2separator2 = $form_jxcalendar_event->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(20);
 		$ctrl_o2separator2->y(260);
 		$ctrl_o2separator2->larghezza(500);
 		$ctrl_o2separator2->altezza(10);
 		$ctrl_o2separator2->expand("H");
-	$ctrl_o2label2 = &$form_jxcalendar_event->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_jxcalendar_event->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(20);
 		$ctrl_o2label2->y(20);
 		$ctrl_o2label2->larghezza(100);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label(jxcalendar_event_exp_24());
-	$ctrl_o2ListBox2 = &$form_jxcalendar_event->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "calendar");
+	$ctrl_o2ListBox2 = $form_jxcalendar_event->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "calendar");
 		$ctrl_o2ListBox2->x(120);
 		$ctrl_o2ListBox2->y(20);
 		$ctrl_o2ListBox2->larghezza(400);
@@ -100,7 +100,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2ListBox2->visibile(jxcalendar_event_exp_40());
 		$ctrl_o2ListBox2->valori(jxcalendar_event_exp_25());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2ListBox3 = &$form_jxcalendar_event->ctrldef("o2ListBox3", "listcombo", "", "event", "event_user");
+	$ctrl_o2ListBox3 = $form_jxcalendar_event->ctrldef("o2ListBox3", "listcombo", "", "event", "event_user");
 		$ctrl_o2ListBox3->x(120);
 		$ctrl_o2ListBox3->y(20);
 		$ctrl_o2ListBox3->larghezza(400);
@@ -110,7 +110,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2ListBox3->on_change(jxcalendar_event_exp_9998());
 		$ctrl_o2ListBox3->valori(o2_view2list("users", "o2user", "o2user"));
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2edit2 = &$form_jxcalendar_event->ctrldef("o2edit2", "edit", "", "event", "event_title");
+	$ctrl_o2edit2 = $form_jxcalendar_event->ctrldef("o2edit2", "edit", "", "event", "event_title");
 		$ctrl_o2edit2->x(120);
 		$ctrl_o2edit2->y(50);
 		$ctrl_o2edit2->larghezza(400);
@@ -118,21 +118,21 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2edit2->expand("H");
 		$ctrl_o2edit2->modificabile(jxcalendar_event_exp_31());
 		$ctrl_o2edit2->on_change(jxcalendar_event_exp_9998());
-	$ctrl_o2edit3 = &$form_jxcalendar_event->ctrldef("o2edit3", "edit", "", "event", "event_date");
+	$ctrl_o2edit3 = $form_jxcalendar_event->ctrldef("o2edit3", "edit", "", "event", "event_date");
 		$ctrl_o2edit3->x(120);
 		$ctrl_o2edit3->y(80);
 		$ctrl_o2edit3->larghezza(100);
 		$ctrl_o2edit3->altezza(20);
 		$ctrl_o2edit3->modificabile(jxcalendar_event_exp_31());
 		$ctrl_o2edit3->on_change(jxcalendar_event_exp_9998());
-	$ctrl_o2edit4 = &$form_jxcalendar_event->ctrldef("o2edit4", "edit", "", "event", "event_time");
+	$ctrl_o2edit4 = $form_jxcalendar_event->ctrldef("o2edit4", "edit", "", "event", "event_time");
 		$ctrl_o2edit4->x(120);
 		$ctrl_o2edit4->y(110);
 		$ctrl_o2edit4->larghezza(100);
 		$ctrl_o2edit4->altezza(20);
 		$ctrl_o2edit4->modificabile(jxcalendar_event_exp_11());
 		$ctrl_o2edit4->on_change(jxcalendar_event_exp_9998());
-	$ctrl_o2checkbox2 = &$form_jxcalendar_event->ctrldef("o2checkbox2", "check", "", "event", "whole_day");
+	$ctrl_o2checkbox2 = $form_jxcalendar_event->ctrldef("o2checkbox2", "check", "", "event", "whole_day");
 		$ctrl_o2checkbox2->x(230);
 		$ctrl_o2checkbox2->y(110);
 		$ctrl_o2checkbox2->larghezza(20);
@@ -140,7 +140,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2checkbox2->modificabile(jxcalendar_event_exp_31());
 		$ctrl_o2checkbox2->azione("whole_day");
 		$ctrl_o2checkbox2->on_change(jxcalendar_event_exp_9998());
-	$ctrl_o2textarea2 = &$form_jxcalendar_event->ctrldef("o2textarea2", "text", "", "event", "event_note");
+	$ctrl_o2textarea2 = $form_jxcalendar_event->ctrldef("o2textarea2", "text", "", "event", "event_note");
 		$ctrl_o2textarea2->x(120);
 		$ctrl_o2textarea2->y(140);
 		$ctrl_o2textarea2->larghezza(400);
@@ -148,7 +148,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2textarea2->expand("B");
 		$ctrl_o2textarea2->modificabile(jxcalendar_event_exp_31());
 		$ctrl_o2textarea2->on_change(jxcalendar_event_exp_9998());
-	$ctrl_o2button2 = &$form_jxcalendar_event->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_jxcalendar_event->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(430);
 		$ctrl_o2button2->y(290);
 		$ctrl_o2button2->larghezza(90);
@@ -157,7 +157,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2button2->azione("save");
 		$ctrl_o2button2->label(jxcalendar_event_exp_12());
 		$ctrl_o2button2->css(jxcalendar_event_exp_13());
-	$ctrl_o2button3 = &$form_jxcalendar_event->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_jxcalendar_event->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(330);
 		$ctrl_o2button3->y(290);
 		$ctrl_o2button3->larghezza(90);
@@ -165,7 +165,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2button3->azione("cancel");
 		$ctrl_o2button3->label(jxcalendar_event_exp_14());
 		$ctrl_o2button3->css(jxcalendar_event_exp_15());
-	$ctrl_o2button4 = &$form_jxcalendar_event->ctrldef("o2button4", "button", "", "", "");
+	$ctrl_o2button4 = $form_jxcalendar_event->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(20);
 		$ctrl_o2button4->y(290);
 		$ctrl_o2button4->larghezza(90);
@@ -175,7 +175,7 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2button4->label(jxcalendar_event_exp_32());
 		$ctrl_o2button4->confirm_message(jxcalendar_event_exp_33());
 		$ctrl_o2button4->css(jxcalendar_event_exp_35());
-	$ctrl_o2htmlarea2 = &$form_jxcalendar_event->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_jxcalendar_event->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(150);
 		$ctrl_o2htmlarea2->y(300);
 		$ctrl_o2htmlarea2->larghezza(170);
@@ -183,24 +183,24 @@ function jxcalendar_event§§jxcalendar_event_form_def(&$form_jxcalendar_event) {
 		$ctrl_o2htmlarea2->expand("H");
 		}
 
-function jxcalendar_event§§cancel_act(&$o2exe) {
+function jxcalendar_event§§cancel_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("event", "A", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar_event§§create_act(&$o2exe) {
+function jxcalendar_event§§create_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("event_id", "4", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("event", "event_id", jxcalendar_event_exp_18()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("event", "event_type", jxcalendar_event_exp_19()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar_event§§delete_act(&$o2exe) {
+function jxcalendar_event§§delete_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("event_id", "C", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::alert(jxcalendar_event_exp_34(), 2) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar_event§§prepare_new_event_act(&$o2exe) {
+function jxcalendar_event§§prepare_new_event_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("event", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("event", "event_date", jxcalendar_event_exp_21()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("event", "event_time", jxcalendar_event_exp_22()) && $o2exe->e();
@@ -208,18 +208,18 @@ function jxcalendar_event§§prepare_new_event_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::set("prg§_§var", "calendar", jxcalendar_event_exp_28()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar_event§§save_act(&$o2exe) {
+function jxcalendar_event§§save_act($o2exe) {
 	$o2exe->s(1) && (jxcalendar_event_exp_27() || $o2exe->e()) && o2act::exe("create", True, "") && $o2exe->e();
 	$o2exe->s(2) && (jxcalendar_event_exp_40() || $o2exe->e()) && o2act::set("event", "event_user", jxcalendar_event_exp_20()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("event", "S", "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar_event§§set_editable_act(&$o2exe) {
+function jxcalendar_event§§set_editable_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "edit", jxcalendar_event_exp_30()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar_event§§start_act(&$o2exe) {
+function jxcalendar_event§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "lang", jxcalendar_event_exp_3()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_is_operator", jxcalendar_event_exp_37()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "calendar", jxcalendar_event_exp_29()) && $o2exe->e();
@@ -227,7 +227,7 @@ function jxcalendar_event§§start_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::exe("set_editable", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxcalendar_event§§whole_day_act(&$o2exe) {
+function jxcalendar_event§§whole_day_act($o2exe) {
 	$o2exe->s(1) && (jxcalendar_event_exp_8() || $o2exe->e()) && o2act::set("event", "event_time", jxcalendar_event_exp_9()) && $o2exe->e();
 	} //|o2_fine_act|
 

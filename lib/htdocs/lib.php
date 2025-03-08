@@ -2,7 +2,7 @@
 
 /**
  * Janox Application Main Script
- * PHP7/8
+ * PHP5
  *
  * This PHP script  file  is  part  of  an  application  realized  under
  * Janox architecture, the full cross-tech development suite.
@@ -29,28 +29,26 @@ $jxrnt = "";
 
 
 // __________________________________ Command line parameter [jxrnt] ___
-if (isset($_SERVER['argc']) && ($_SERVER['argc'] > 1)) {
- foreach ($_SERVER['argv'] as $param) {
-  list($par_name, $par_val) = array_pad(explode('=', $param, 2), 2, '');
-  if ($par_name == 'jxrnt') (@include $par_val) ||
-                             die('Wrong Janox Runtime '.$par_val."\n");
+if ($_SERVER["argc"] > 1) {
+ foreach ($_SERVER["argv"] as $single_param) {
+  list($par_name, $par_val) = explode("=", $single_param, 2);
+  if ($par_name == "jxrnt") (@include $par_val) ||
+                             die("Wrong Janox Runtime ".$par_val."\n");
   }
  }
 // __ $o2_runtime is defined when called from inside a Janox context ___
-if (!isset($o2_runtime)) {
+if (!$o2_runtime) {
  // ___________________________________ Script coded variable $jxrnt ___
- if ($jxrnt) (@include $jxrnt) ||
-              die('Wrong Janox Runtime '.$jxrnt."\n");
+ if ($jxrnt) (@include $jxrnt) || die("Wrong Janox Runtime ".$jxrnt."\n");
  // ___________________________________ Environment variable [jxrnt] ___
- elseif (getenv('JXRNT')) (@include getenv('JXRNT')) ||
-                           die('Wrong Janox Runtime '.getenv('JXRNT').
-                               "\n");
+ elseif (getenv("JXRNT")) (@include getenv("JXRNT")) ||
+                           die("Wrong Janox Runtime ".getenv("JXRNT")."\n");
  // __________________________________________ Missing Janox Runtime ___
  else die("Missing Janox Runtime\n");
  }
 
 
 // ______________________________________ Application instance start ___
-o2def::app('2.9');
+o2def::app('3.0');
 
 ?>

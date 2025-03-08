@@ -1,12 +1,12 @@
 <?php
 
-function o2sys_confirm§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_confirm§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("local_txt", "_o2text");
 	$task_prg§_§var->definisci("txt_lines", "_o2number");
 	$task_prg§_§var->definisci("txt_max_width", "_o2number");
 		}
-function o2sys_confirm§§sys_confirm_form_def(&$form_sys_confirm) {
+function o2sys_confirm§§sys_confirm_form_def($form_sys_confirm) {
 	$form_sys_confirm->x(200);
 	$form_sys_confirm->y(100);
 	$form_sys_confirm->x_exp(o2sys_confirm_exp_12());
@@ -24,7 +24,7 @@ function o2sys_confirm§§sys_confirm_form_def(&$form_sys_confirm) {
 	$form_sys_confirm->css_open("hidden");
 	$form_sys_confirm->css_exit("sys_alert_close");
 	$form_sys_confirm->close_action("act_no");
-	$ctrl_sys_confirm_area = &$form_sys_confirm->ctrldef("sys_confirm_area", "htmlarea", "", "", "");
+	$ctrl_sys_confirm_area = $form_sys_confirm->ctrldef("sys_confirm_area", "htmlarea", "", "", "");
 		$ctrl_sys_confirm_area->x(20);
 		$ctrl_sys_confirm_area->y(0);
 		$ctrl_sys_confirm_area->larghezza(370);
@@ -33,17 +33,17 @@ function o2sys_confirm§§sys_confirm_form_def(&$form_sys_confirm) {
 		$ctrl_sys_confirm_area->html(o2sys_confirm_exp_11());
 		}
 
-function o2sys_confirm§§act_no_act(&$o2exe) {
+function o2sys_confirm§§act_no_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(2, o2sys_confirm_exp_1()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_confirm§§act_yes_act(&$o2exe) {
+function o2sys_confirm§§act_yes_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(2, o2sys_confirm_exp_15()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_confirm§§start_act(&$o2exe) {
+function o2sys_confirm§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "local_txt", o2sys_confirm_exp_2()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "txt_lines", o2sys_confirm_exp_6()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "txt_max_width", o2sys_confirm_exp_7()) && $o2exe->e();

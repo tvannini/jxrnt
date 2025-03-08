@@ -1,6 +1,6 @@
 <?php
 
-function o2sys_start§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_start§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("expire", "_o2sid");
 	$task_prg§_§var->definisci("login_correct", "_o2logical");
@@ -15,7 +15,7 @@ function o2sys_start§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("user_name", "jxuser");
 		}
 
-function o2sys_start§§users_def(&$task_users, $_o2viewalias = "") {
+function o2sys_start§§users_def($task_users, $_o2viewalias = "") {
 	$task_users->righe_vis = 1;
 
 	$task_users->usa_file("o2_users","users","o2user",null,null);
@@ -35,7 +35,7 @@ function o2sys_start§§users_def(&$task_users, $_o2viewalias = "") {
 	$task_users->calcola("active","_o2logical","o2sys_start_exp_46()",null,null,"o2sys_start_exp_18()",null);
 }
 
-function o2sys_start§§sessions_def(&$task_sessions, $_o2viewalias = "") {
+function o2sys_start§§sessions_def($task_sessions, $_o2viewalias = "") {
 	$task_sessions->righe_vis = 1;
 
 	$task_sessions->usa_file("o2_sessions","sessions","sid",null,null);
@@ -54,7 +54,7 @@ function o2sys_start§§sessions_def(&$task_sessions, $_o2viewalias = "") {
 	$task_sessions->usa("host","sessions","host",null,null,null,null);
 }
 
-function o2sys_start§§root_lookup_def(&$task_root_lookup, $_o2viewalias = "") {
+function o2sys_start§§root_lookup_def($task_root_lookup, $_o2viewalias = "") {
 	$task_root_lookup->righe_vis = 1;
 
 	$task_root_lookup->usa_file("o2_users","users","o2user",null,null);
@@ -62,7 +62,7 @@ function o2sys_start§§root_lookup_def(&$task_root_lookup, $_o2viewalias = "") {
 	$task_root_lookup->usa("o2user","users","o2user","o2sys_start_exp_2()","o2sys_start_exp_2()",null,null);
 }
 
-function o2sys_start§§options_def(&$task_options, $_o2viewalias = "") {
+function o2sys_start§§options_def($task_options, $_o2viewalias = "") {
 	$task_options->righe_vis = 10;
 
 	$task_options->usa_file("o2_options","options","id",null,null);
@@ -72,7 +72,7 @@ function o2sys_start§§options_def(&$task_options, $_o2viewalias = "") {
 	$task_options->usa("opt_value","options","value",null,null,null,null);
 }
 
-function o2sys_start§§roles_def(&$task_roles, $_o2viewalias = "") {
+function o2sys_start§§roles_def($task_roles, $_o2viewalias = "") {
 	$task_roles->righe_vis = 10;
 
 	$task_roles->usa_file("o2_roles_per_user","o2_roles_per_user","o2user",null,null);
@@ -81,7 +81,7 @@ function o2sys_start§§roles_def(&$task_roles, $_o2viewalias = "") {
 	$task_roles->usa("role_name","o2_roles_per_user","role_name",null,null,null,null);
 }
 
-function o2sys_start§§rights_per_role_def(&$task_rights_per_role, $_o2viewalias = "") {
+function o2sys_start§§rights_per_role_def($task_rights_per_role, $_o2viewalias = "") {
 	$task_rights_per_role->righe_vis = 10;
 
 	$task_rights_per_role->usa_file("o2_rights_per_role","o2_rights_per_role","role_name",null,null);
@@ -90,7 +90,7 @@ function o2sys_start§§rights_per_role_def(&$task_rights_per_role, $_o2viewalias 
 	$task_rights_per_role->usa("right_code","o2_rights_per_role","right_code",null,null,null,null);
 }
 
-function o2sys_start§§logged_tabs_def(&$task_logged_tabs, $_o2viewalias = "") {
+function o2sys_start§§logged_tabs_def($task_logged_tabs, $_o2viewalias = "") {
 	$task_logged_tabs->righe_vis = 10;
 
 	$task_logged_tabs->usa_file("o2_tabslog","o2_tabslog","log_tabname",null,null);
@@ -100,7 +100,7 @@ function o2sys_start§§logged_tabs_def(&$task_logged_tabs, $_o2viewalias = "") {
 	$task_logged_tabs->usa("log_operations","o2_tabslog","log_operations",null,null,"o2sys_start_exp_35()",null);
 }
 
-function o2sys_start§§jxsys_lookup_def(&$task_jxsys_lookup, $_o2viewalias = "") {
+function o2sys_start§§jxsys_lookup_def($task_jxsys_lookup, $_o2viewalias = "") {
 	$task_jxsys_lookup->righe_vis = 1;
 
 	$task_jxsys_lookup->usa_file("o2_users","users","o2user",null,null);
@@ -108,7 +108,7 @@ function o2sys_start§§jxsys_lookup_def(&$task_jxsys_lookup, $_o2viewalias = "") 
 	$task_jxsys_lookup->usa("o2user","users","o2user","o2sys_start_exp_26()","o2sys_start_exp_26()",null,null);
 }
 
-function o2sys_start§§terminals_def(&$task_terminals, $_o2viewalias = "") {
+function o2sys_start§§terminals_def($task_terminals, $_o2viewalias = "") {
 	$task_terminals->righe_vis = 10;
 
 	$task_terminals->usa_file("o2_sessions","o2_sessions","sid",null,null);
@@ -117,7 +117,7 @@ function o2sys_start§§terminals_def(&$task_terminals, $_o2viewalias = "") {
 	$task_terminals->usa("terminal_id","o2_sessions","terminal_id",null,null,null,null);
 }
 
-function o2sys_start§§otp_def(&$task_otp, $_o2viewalias = "") {
+function o2sys_start§§otp_def($task_otp, $_o2viewalias = "") {
 	$task_otp->righe_vis = 10;
 
 	$task_otp->usa_file("jx_otp","jx_otp","code",null,null);
@@ -127,11 +127,11 @@ function o2sys_start§§otp_def(&$task_otp, $_o2viewalias = "") {
 	$task_otp->usa("create_time","jx_otp","create_time","o2sys_start_exp_72()",null,null,null);
 }
 
-function o2sys_start§§check_session_terminal_act(&$o2exe) {
+function o2sys_start§§check_session_terminal_act($o2exe) {
 	$o2exe->s(1) && (o2sys_start_exp_43() || $o2exe->e()) && o2act::set("prg§_§var", "terminal_id", o2sys_start_exp_42()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§db_session_act(&$o2exe) {
+function o2sys_start§§db_session_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("-------------------- Write session record in sessions table") && $o2exe->e();
 	$o2exe->s(2) && (o2sys_start_exp_40() || $o2exe->e()) && o2act::view("sessions", "I", "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("sessions", "sid", o2sys_start_exp_4()) && $o2exe->e();
@@ -149,7 +149,7 @@ function o2sys_start§§db_session_act(&$o2exe) {
 	$o2exe->s(15) && True && o2act::view("sessions", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§insert_jxsys_act(&$o2exe) {
+function o2sys_start§§insert_jxsys_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("No password for "jxsys": user always") && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("granted from CMD") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("users", "I", "") && $o2exe->e();
@@ -158,32 +158,32 @@ function o2sys_start§§insert_jxsys_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::view("users", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§insert_root_act(&$o2exe) {
+function o2sys_start§§insert_root_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("users", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("users", "o2user", o2sys_start_exp_2()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("users", "admin", o2sys_start_exp_69()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::view("users", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§ldap_with_domain_act(&$o2exe) {
+function o2sys_start§§ldap_with_domain_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("-----------------------------------Retry login without domain") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "original_login_name", o2sys_start_exp_54()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_56()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("login", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§load_logged_act(&$o2exe) {
+function o2sys_start§§load_logged_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(5, o2sys_start_exp_36()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§load_options_act(&$o2exe) {
+function o2sys_start§§load_options_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "lookup_user", o2sys_start_exp_22()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::ret(3, o2sys_start_exp_24()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "lookup_user", o2sys_start_exp_1()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::ret(4, o2sys_start_exp_24()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§load_rights_act(&$o2exe) {
+function o2sys_start§§load_rights_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "roles", o2sys_start_exp_5()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "rights", o2sys_start_exp_5()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("load_role_rights", False, "roles") && $o2exe->e();
@@ -191,12 +191,12 @@ function o2sys_start§§load_rights_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::ret(2, o2sys_start_exp_14()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§load_role_rights_act(&$o2exe) {
+function o2sys_start§§load_role_rights_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "roles", o2sys_start_exp_33()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "rights", o2sys_start_exp_31()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§login_act(&$o2exe) {
+function o2sys_start§§login_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Ensure presence of user "root"") && $o2exe->e();
 	$o2exe->s(2) && (o2sys_start_exp_10() || $o2exe->e()) && o2act::exe("insert_root", True, "") && $o2exe->e();
 	$o2exe->s(3) && (o2sys_start_exp_23() || $o2exe->e()) && o2act::exe("insert_jxsys", True, "") && $o2exe->e();
@@ -209,7 +209,7 @@ function o2sys_start§§login_act(&$o2exe) {
 	$o2exe->s(10) && (o2sys_start_exp_12() || $o2exe->e()) && o2act::script(o2sys_start_exp_68()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§login_correct_act(&$o2exe) {
+function o2sys_start§§login_correct_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("_o2SESSION", "_area", o2sys_start_exp_21()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("users", "last_date", o2sys_start_exp_6()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("users", "last_time", o2sys_start_exp_7()) && $o2exe->e();
@@ -222,7 +222,7 @@ function o2sys_start§§login_correct_act(&$o2exe) {
 	$o2exe->s(10) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§login_correct_ldap_act(&$o2exe) {
+function o2sys_start§§login_correct_ldap_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Strip local domain from user name") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "user_name", o2sys_start_exp_53()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("users", "1", "") && $o2exe->e();
@@ -237,7 +237,7 @@ function o2sys_start§§login_correct_ldap_act(&$o2exe) {
 	$o2exe->s(12) && True && o2act::ret(6, o2sys_start_exp_18()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§login_failed_act(&$o2exe) {
+function o2sys_start§§login_failed_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Set "default" user") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_start_exp_25()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Set terminal-ID if needed for logging") && $o2exe->e();
@@ -246,7 +246,7 @@ function o2sys_start§§login_failed_act(&$o2exe) {
 	$o2exe->s(6) && (o2sys_start_exp_28() || $o2exe->e()) && o2act::script(o2sys_start_exp_11()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§login_ldap_act(&$o2exe) {
+function o2sys_start§§login_ldap_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("LDAP from CMD: no password check!!!") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_52()) && $o2exe->e();
 	$o2exe->s(3) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_49()) && $o2exe->e();
@@ -256,7 +256,7 @@ function o2sys_start§§login_ldap_act(&$o2exe) {
 	$o2exe->s(7) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::exe("login_failed", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§login_std_act(&$o2exe) {
+function o2sys_start§§login_std_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_3()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("------------------------------------------------------Set Area value") && $o2exe->e();
 	$o2exe->s(3) && (o2sys_start_exp_12() || $o2exe->e()) && o2act::exe("login_correct", True, "") && $o2exe->e();
@@ -266,7 +266,7 @@ function o2sys_start§§login_std_act(&$o2exe) {
 	$o2exe->s(7) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::exe("login_failed", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§session_act(&$o2exe) {
+function o2sys_start§§session_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "expire", o2sys_start_exp_17()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("Set terminal ID") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("terminal_id", True, "") && $o2exe->e();
@@ -276,7 +276,7 @@ function o2sys_start§§session_act(&$o2exe) {
 	$o2exe->s(7) && (o2sys_start_exp_63() || $o2exe->e()) && o2act::script(o2sys_start_exp_27()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§start_act(&$o2exe) {
+function o2sys_start§§start_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Preset return values") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::ret(1, o2sys_start_exp_5()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::ret(2, o2sys_start_exp_5()) && $o2exe->e();
@@ -301,7 +301,7 @@ function o2sys_start§§start_act(&$o2exe) {
 	$o2exe->s(22) && (o2sys_start_exp_64() || $o2exe->e()) && o2act::script(o2sys_start_exp_65()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_start§§terminal_id_act(&$o2exe) {
+function o2sys_start§§terminal_id_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "terminal_id", o2sys_start_exp_35()) && $o2exe->e();
 	$o2exe->s(2) && (o2sys_start_exp_41() || $o2exe->e()) && o2act::exe("check_session_terminal", False, "terminals") && $o2exe->e();
 	$o2exe->s(3) && (o2sys_start_exp_44() || $o2exe->e()) && o2act::set("prg§_§var", "terminal_id", o2sys_start_exp_45()) && $o2exe->e();

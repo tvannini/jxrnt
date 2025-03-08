@@ -1,6 +1,6 @@
 <?php
 
-function jxmlt_do_all§§start_act(&$o2exe) {
+function jxmlt_do_all§§start_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Harvest") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::call(jxmlt_do_all_exp_10(), False, jxmlt_do_all_exp_1(), jxmlt_do_all_exp_2(), jxmlt_do_all_exp_3(), jxmlt_do_all_exp_4(), jxmlt_do_all_exp_5(), jxmlt_do_all_exp_15(), jxmlt_do_all_exp_16()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Receive") && $o2exe->e();

@@ -1,6 +1,6 @@
 <?php
 
-function jxgranting_pwd§§prg§_§var_def(&$task_prg§_§var) {
+function jxgranting_pwd§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("password", "_o2alpha");
 	$task_prg§_§var->definisci("password_check", "_o2number");
@@ -9,7 +9,7 @@ function jxgranting_pwd§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("user", "_o2alpha");
 		}
 
-function jxgranting_pwd§§user_def(&$task_user, $_o2viewalias = "") {
+function jxgranting_pwd§§user_def($task_user, $_o2viewalias = "") {
 	$task_user->righe_vis = 1;
 
 	$task_user->usa_file("o2_users","o2_users","o2user",null,null);
@@ -20,7 +20,7 @@ function jxgranting_pwd§§user_def(&$task_user, $_o2viewalias = "") {
 	$task_user->usa("pwds_history","o2_users","pwds_history",null,null,null,null);
 	$task_user->usa("force_pwd_change","o2_users","force_pwd_change",null,null,null,null);
 }
-function jxgranting_pwd§§password_form_def(&$form_password) {
+function jxgranting_pwd§§password_form_def($form_password) {
 	$form_password->x(75);
 	$form_password->y(200);
 	$form_password->larghezza(310);
@@ -31,72 +31,72 @@ function jxgranting_pwd§§password_form_def(&$form_password) {
 	$form_password->frm_status(jxgranting_pwd_exp_1());
 	$form_password->css_doc("sys_rights_doc");
 	$form_password->close_action("cancel");
-	$ctrl_o2label16 = &$form_password->ctrldef("o2label16", "label", "", "", "");
+	$ctrl_o2label16 = $form_password->ctrldef("o2label16", "label", "", "", "");
 		$ctrl_o2label16->x(30);
 		$ctrl_o2label16->y(135);
 		$ctrl_o2label16->larghezza(130);
 		$ctrl_o2label16->altezza(20);
 		$ctrl_o2label16->visibile(jxgranting_pwd_exp_25());
 		$ctrl_o2label16->label("Repeat new password:");
-	$ctrl_o2label15 = &$form_password->ctrldef("o2label15", "label", "", "", "");
+	$ctrl_o2label15 = $form_password->ctrldef("o2label15", "label", "", "", "");
 		$ctrl_o2label15->x(30);
 		$ctrl_o2label15->y(110);
 		$ctrl_o2label15->larghezza(110);
 		$ctrl_o2label15->altezza(20);
 		$ctrl_o2label15->visibile(jxgranting_pwd_exp_25());
 		$ctrl_o2label15->label("New password:");
-	$ctrl_o2label4 = &$form_password->ctrldef("o2label4", "label", "", "", "");
+	$ctrl_o2label4 = $form_password->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(30);
 		$ctrl_o2label4->y(130);
 		$ctrl_o2label4->larghezza(130);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->visibile(jxgranting_pwd_exp_26());
 		$ctrl_o2label4->label("Repeat password:");
-	$ctrl_o2label3 = &$form_password->ctrldef("o2label3", "label", "", "", "");
+	$ctrl_o2label3 = $form_password->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(30);
 		$ctrl_o2label3->y(105);
 		$ctrl_o2label3->larghezza(110);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->visibile(jxgranting_pwd_exp_26());
 		$ctrl_o2label3->label("Password:");
-	$ctrl_o2label14 = &$form_password->ctrldef("o2label14", "label", "", "", "");
+	$ctrl_o2label14 = $form_password->ctrldef("o2label14", "label", "", "", "");
 		$ctrl_o2label14->x(30);
 		$ctrl_o2label14->y(30);
 		$ctrl_o2label14->larghezza(250);
 		$ctrl_o2label14->altezza(20);
 		$ctrl_o2label14->label(jxgranting_pwd_exp_2());
-	$ctrl_o2separator2 = &$form_password->ctrldef("o2separator2", "line", "", "", "");
+	$ctrl_o2separator2 = $form_password->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(30);
 		$ctrl_o2separator2->y(160);
 		$ctrl_o2separator2->larghezza(250);
 		$ctrl_o2separator2->altezza(2);
-	$ctrl_o2label2 = &$form_password->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_password->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(30);
 		$ctrl_o2label2->y(80);
 		$ctrl_o2label2->larghezza(130);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->visibile(jxgranting_pwd_exp_25());
 		$ctrl_o2label2->label("Old password:");
-	$ctrl_pwd_old = &$form_password->ctrldef("pwd_old", "edit", "", "prg§_§var", "password_old");
+	$ctrl_pwd_old = $form_password->ctrldef("pwd_old", "edit", "", "prg§_§var", "password_old");
 		$ctrl_pwd_old->x(160);
 		$ctrl_pwd_old->y(80);
 		$ctrl_pwd_old->larghezza(120);
 		$ctrl_pwd_old->altezza(20);
 		$ctrl_pwd_old->visibile(jxgranting_pwd_exp_25());
 		$ctrl_pwd_old->pswd(true);
-	$ctrl_pwd = &$form_password->ctrldef("pwd", "edit", "", "prg§_§var", "password");
+	$ctrl_pwd = $form_password->ctrldef("pwd", "edit", "", "prg§_§var", "password");
 		$ctrl_pwd->x(160);
 		$ctrl_pwd->y(105);
 		$ctrl_pwd->larghezza(120);
 		$ctrl_pwd->altezza(20);
 		$ctrl_pwd->pswd(true);
-	$ctrl_pwd_repeat = &$form_password->ctrldef("pwd_repeat", "edit", "", "prg§_§var", "password_repeat");
+	$ctrl_pwd_repeat = $form_password->ctrldef("pwd_repeat", "edit", "", "prg§_§var", "password_repeat");
 		$ctrl_pwd_repeat->x(160);
 		$ctrl_pwd_repeat->y(130);
 		$ctrl_pwd_repeat->larghezza(120);
 		$ctrl_pwd_repeat->altezza(20);
 		$ctrl_pwd_repeat->pswd(true);
-	$ctrl_o2image2 = &$form_password->ctrldef("o2image2", "img", "", "", "");
+	$ctrl_o2image2 = $form_password->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(142);
 		$ctrl_o2image2->y(107);
 		$ctrl_o2image2->larghezza(16);
@@ -104,7 +104,7 @@ function jxgranting_pwd§§password_form_def(&$form_password) {
 		$ctrl_o2image2->visibile(jxgranting_pwd_exp_15());
 		$ctrl_o2image2->label(jxgranting_pwd_exp_14());
 		$ctrl_o2image2->imgexp(jxgranting_pwd_exp_13());
-	$ctrl_o2button3 = &$form_password->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_password->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(90);
 		$ctrl_o2button3->y(185);
 		$ctrl_o2button3->larghezza(90);
@@ -112,13 +112,13 @@ function jxgranting_pwd§§password_form_def(&$form_password) {
 		$ctrl_o2button3->azione("cancel");
 		$ctrl_o2button3->label("&Cancel");
 		$ctrl_o2button3->css(jxgranting_pwd_exp_17());
-	$ctrl_o2htmlarea2 = &$form_password->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_password->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(190);
 		$ctrl_o2htmlarea2->y(185);
 		$ctrl_o2htmlarea2->larghezza(90);
 		$ctrl_o2htmlarea2->altezza(30);
 		$ctrl_o2htmlarea2->html(jxgranting_pwd_exp_18());
-	$ctrl_o2htmlarea3 = &$form_password->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea3 = $form_password->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea3->x(30);
 		$ctrl_o2htmlarea3->y(60);
 		$ctrl_o2htmlarea3->larghezza(250);
@@ -127,13 +127,13 @@ function jxgranting_pwd§§password_form_def(&$form_password) {
 		$ctrl_o2htmlarea3->html(jxgranting_pwd_exp_31());
 		}
 
-function jxgranting_pwd§§cancel_act(&$o2exe) {
+function jxgranting_pwd§§cancel_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(jxgranting_pwd_exp_29()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::ret(3, jxgranting_pwd_exp_1()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_pwd§§ok_act(&$o2exe) {
+function jxgranting_pwd§§ok_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("user", "o2password", jxgranting_pwd_exp_22()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("user", "last_pwd_date", jxgranting_pwd_exp_23()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("user", "pwds_history", jxgranting_pwd_exp_24()) && $o2exe->e();
@@ -144,7 +144,7 @@ function jxgranting_pwd§§ok_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_pwd§§save_act(&$o2exe) {
+function jxgranting_pwd§§save_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "password_check", jxgranting_pwd_exp_19()) && $o2exe->e();
 	$o2exe->s(2) && (jxgranting_pwd_exp_5() || $o2exe->e()) && o2act::exe("wrong_old_pwd", True, "") && $o2exe->e();
 	$o2exe->s(3) && (jxgranting_pwd_exp_21() || $o2exe->e()) && o2act::exe("wrong_repeat", True, "") && $o2exe->e();
@@ -152,11 +152,11 @@ function jxgranting_pwd§§save_act(&$o2exe) {
 	$o2exe->s(5) && (jxgranting_pwd_exp_6() || $o2exe->e()) && o2act::exe("ok", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_pwd§§start_act(&$o2exe) {
+function jxgranting_pwd§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "user", jxgranting_pwd_exp_30()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_pwd§§wrong_history_act(&$o2exe) {
+function jxgranting_pwd§§wrong_history_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "password", jxgranting_pwd_exp_7()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "password_repeat", jxgranting_pwd_exp_7()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "password_old", jxgranting_pwd_exp_7()) && $o2exe->e();
@@ -164,7 +164,7 @@ function jxgranting_pwd§§wrong_history_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::script(jxgranting_pwd_exp_9()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_pwd§§wrong_old_pwd_act(&$o2exe) {
+function jxgranting_pwd§§wrong_old_pwd_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "password", jxgranting_pwd_exp_7()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "password_repeat", jxgranting_pwd_exp_7()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "password_old", jxgranting_pwd_exp_7()) && $o2exe->e();
@@ -172,7 +172,7 @@ function jxgranting_pwd§§wrong_old_pwd_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::script(jxgranting_pwd_exp_9()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_pwd§§wrong_repeat_act(&$o2exe) {
+function jxgranting_pwd§§wrong_repeat_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "password", jxgranting_pwd_exp_7()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "password_repeat", jxgranting_pwd_exp_7()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "password_old", jxgranting_pwd_exp_7()) && $o2exe->e();

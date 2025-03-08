@@ -1,6 +1,6 @@
 <?php
 
-function o2sys_table_filter§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_table_filter§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("column_id", "_o2number");
 	$task_prg§_§var->definisci("columns_list", "_o2structure");
@@ -9,7 +9,7 @@ function o2sys_table_filter§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("view_obj", "_o2structure");
 		}
 
-function o2sys_table_filter§§tmp_where_def(&$task_tmp_where, $_o2viewalias = "") {
+function o2sys_table_filter§§tmp_where_def($task_tmp_where, $_o2viewalias = "") {
 	$task_tmp_where->righe_vis = 100;
 
 	$task_tmp_where->usa_file("o2_tmp_where","o2_tmp_where","id",null,null);
@@ -24,7 +24,7 @@ function o2sys_table_filter§§tmp_where_def(&$task_tmp_where, $_o2viewalias = "")
 	$task_tmp_where->usa("not_exp","o2_tmp_where","not_exp",null,null,null,null);
 	$task_tmp_where->usa("like_exp","o2_tmp_where","like_exp",null,null,null,null);
 }
-function o2sys_table_filter§§filters_form_def(&$form_filters) {
+function o2sys_table_filter§§filters_form_def($form_filters) {
 	$form_filters->x(300);
 	$form_filters->y(40);
 	$form_filters->larghezza(600);
@@ -32,7 +32,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 	$form_filters->align_o("Center");
 	$form_filters->titolo("Filters");
 	$form_filters->css_body("o2_form_body open_body");
-	$ctrl_bar = &$form_filters->ctrldef("bar", "navigator", "", "tmp_where", "");
+	$ctrl_bar = $form_filters->ctrldef("bar", "navigator", "", "tmp_where", "");
 		$ctrl_bar->x(0);
 		$ctrl_bar->y(0);
 		$ctrl_bar->larghezza(600);
@@ -49,7 +49,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_bar->visible_undo(o2sys_table_filter_exp_9999());
 		$ctrl_bar->visible_detail(o2sys_table_filter_exp_9999());
 		$ctrl_bar->visible_select(o2sys_table_filter_exp_9999());
-	$ctrl_o2image2 = &$form_filters->ctrldef("o2image2", "img", "", "", "");
+	$ctrl_o2image2 = $form_filters->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(10);
 		$ctrl_o2image2->y(3);
 		$ctrl_o2image2->larghezza(32);
@@ -58,7 +58,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_o2image2->label("Apply filters");
 		$ctrl_o2image2->css(o2sys_table_filter_exp_21());
 		$ctrl_o2image2->imgexp(o2sys_table_filter_exp_20());
-	$ctrl_o2image4 = &$form_filters->ctrldef("o2image4", "img", "", "", "");
+	$ctrl_o2image4 = $form_filters->ctrldef("o2image4", "img", "", "", "");
 		$ctrl_o2image4->x(74);
 		$ctrl_o2image4->y(3);
 		$ctrl_o2image4->larghezza(32);
@@ -67,7 +67,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_o2image4->label("Close");
 		$ctrl_o2image4->css(o2sys_table_filter_exp_23());
 		$ctrl_o2image4->imgexp(o2sys_table_filter_exp_20());
-	$ctrl_o2image3 = &$form_filters->ctrldef("o2image3", "img", "", "", "");
+	$ctrl_o2image3 = $form_filters->ctrldef("o2image3", "img", "", "", "");
 		$ctrl_o2image3->x(42);
 		$ctrl_o2image3->y(3);
 		$ctrl_o2image3->larghezza(32);
@@ -76,7 +76,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_o2image3->label("Clear all filters");
 		$ctrl_o2image3->css(o2sys_table_filter_exp_22());
 		$ctrl_o2image3->imgexp(o2sys_table_filter_exp_20());
-	$ctrl_tab = &$form_filters->ctrldef("tab", "tab", "", "tmp_where", "");
+	$ctrl_tab = $form_filters->ctrldef("tab", "tab", "", "tmp_where", "");
 		$ctrl_tab->x(0);
 		$ctrl_tab->y(32);
 		$ctrl_tab->larghezza(600);
@@ -84,21 +84,21 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_tab->expand("B");
 		$ctrl_tab->grid_plus(array(0,0,1,0,0,0,0,0));
 		$ctrl_tab->pinned_cols(1);
-	$ctrl_o2label3 = &$form_filters->ctrldef("o2label3", "label", "tab", "", "");
+	$ctrl_o2label3 = $form_filters->ctrldef("o2label3", "label", "tab", "", "");
 		$ctrl_o2label3->x(0);
 		$ctrl_o2label3->y(20);
 		$ctrl_o2label3->larghezza(30);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->info_padre(array("01", "01", "01"));
 		$ctrl_o2label3->label(o2sys_table_filter_exp_14());
-	$ctrl_o2label2 = &$form_filters->ctrldef("o2label2", "label", "tab", "", "");
+	$ctrl_o2label2 = $form_filters->ctrldef("o2label2", "label", "tab", "", "");
 		$ctrl_o2label2->x(40);
 		$ctrl_o2label2->y(20);
 		$ctrl_o2label2->larghezza(150);
 		$ctrl_o2label2->altezza(22);
 		$ctrl_o2label2->info_padre(array("01", "02", "02", "Column", False, "", False, ""));
 		$ctrl_o2label2->label(o2sys_table_filter_exp_2());
-	$ctrl_o2edit2 = &$form_filters->ctrldef("o2edit2", "edit", "tab", "tmp_where", "min_exp");
+	$ctrl_o2edit2 = $form_filters->ctrldef("o2edit2", "edit", "tab", "tmp_where", "min_exp");
 		$ctrl_o2edit2->x(260);
 		$ctrl_o2edit2->y(20);
 		$ctrl_o2edit2->larghezza(80);
@@ -106,7 +106,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_o2edit2->expand("H");
 		$ctrl_o2edit2->info_padre(array("01", "03", "03", "From", True, "", False, ""));
 		$ctrl_o2edit2->maschera(o2sys_table_filter_exp_10());
-	$ctrl_o2edit3 = &$form_filters->ctrldef("o2edit3", "edit", "tab", "tmp_where", "max_exp");
+	$ctrl_o2edit3 = $form_filters->ctrldef("o2edit3", "edit", "tab", "tmp_where", "max_exp");
 		$ctrl_o2edit3->x(340);
 		$ctrl_o2edit3->y(20);
 		$ctrl_o2edit3->larghezza(80);
@@ -114,7 +114,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_o2edit3->expand("H");
 		$ctrl_o2edit3->info_padre(array("01", "04", "04", "To", True, "", False, ""));
 		$ctrl_o2edit3->maschera(o2sys_table_filter_exp_10());
-	$ctrl_o2edit4 = &$form_filters->ctrldef("o2edit4", "edit", "tab", "tmp_where", "not_exp");
+	$ctrl_o2edit4 = $form_filters->ctrldef("o2edit4", "edit", "tab", "tmp_where", "not_exp");
 		$ctrl_o2edit4->x(420);
 		$ctrl_o2edit4->y(20);
 		$ctrl_o2edit4->larghezza(80);
@@ -122,7 +122,7 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_o2edit4->expand("H");
 		$ctrl_o2edit4->info_padre(array("01", "05", "05", "Not", True, "", False, ""));
 		$ctrl_o2edit4->maschera(o2sys_table_filter_exp_10());
-	$ctrl_o2edit5 = &$form_filters->ctrldef("o2edit5", "edit", "tab", "tmp_where", "like_exp");
+	$ctrl_o2edit5 = $form_filters->ctrldef("o2edit5", "edit", "tab", "tmp_where", "like_exp");
 		$ctrl_o2edit5->x(500);
 		$ctrl_o2edit5->y(20);
 		$ctrl_o2edit5->larghezza(80);
@@ -132,11 +132,11 @@ function o2sys_table_filter§§filters_form_def(&$form_filters) {
 		$ctrl_o2edit5->maschera(o2sys_table_filter_exp_10());
 		}
 
-function o2sys_table_filter§§add_filter_act(&$o2exe) {
+function o2sys_table_filter§§add_filter_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2sys_table_filter_exp_13()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§apply_act(&$o2exe) {
+function o2sys_table_filter§§apply_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("tmp_where_post", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "view_obj", o2sys_table_filter_exp_12()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::script(o2sys_table_filter_exp_15()) && $o2exe->e();
@@ -144,7 +144,7 @@ function o2sys_table_filter§§apply_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§clear_all_act(&$o2exe) {
+function o2sys_table_filter§§clear_all_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "view_obj", o2sys_table_filter_exp_12()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("--- Clear last index") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::script(o2sys_table_filter_exp_18()) && $o2exe->e();
@@ -152,11 +152,11 @@ function o2sys_table_filter§§clear_all_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::exe("start", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§close_act(&$o2exe) {
+function o2sys_table_filter§§close_act($o2exe) {
 	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§start_act(&$o2exe) {
+function o2sys_table_filter§§start_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("--- Check if re-filter same view") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "continue", o2sys_table_filter_exp_16()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("--- If new view clear tmp") && $o2exe->e();
@@ -165,7 +165,7 @@ function o2sys_table_filter§§start_act(&$o2exe) {
 	$o2exe->s(6) && (o2sys_table_filter_exp_17() || $o2exe->e()) && o2act::exe("tmp_where_fill", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§tmp_where_add_act(&$o2exe) {
+function o2sys_table_filter§§tmp_where_add_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("tmp_where", "I", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("tmp_where", "session_profile", o2sys_table_filter_exp_1()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("tmp_where", "pos_id", o2sys_table_filter_exp_7()) && $o2exe->e();
@@ -176,26 +176,26 @@ function o2sys_table_filter§§tmp_where_add_act(&$o2exe) {
 	$o2exe->s(8) && True && o2act::set("prg§_§var", "column_id", o2sys_table_filter_exp_7()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§tmp_where_clear_act(&$o2exe) {
+function o2sys_table_filter§§tmp_where_clear_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("tmp_where", "D", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§tmp_where_delete_act(&$o2exe) {
+function o2sys_table_filter§§tmp_where_delete_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("tmp_where", "C", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§tmp_where_fill_act(&$o2exe) {
+function o2sys_table_filter§§tmp_where_fill_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "column_id", o2sys_table_filter_exp_4()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "columns_tot", o2sys_table_filter_exp_5()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("tmp_where_add", "o2sys_table_filter_exp_6()", "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::view("tmp_where", "1", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§tmp_where_post_act(&$o2exe) {
+function o2sys_table_filter§§tmp_where_post_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("tmp_where", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_table_filter§§tmp_where_undo_act(&$o2exe) {
+function o2sys_table_filter§§tmp_where_undo_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("tmp_where", "A", "") && $o2exe->e();
 	} //|o2_fine_act|
 

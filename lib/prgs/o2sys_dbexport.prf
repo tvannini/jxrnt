@@ -1,6 +1,6 @@
 <?php
 
-function o2sys_dbexport§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_dbexport§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("asp_index", "_o2number");
 	$task_prg§_§var->definisci("asp_list", "_o2structure");
@@ -17,7 +17,7 @@ function o2sys_dbexport§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("target_conn", "_o2structure");
 	$task_prg§_§var->definisci("wizard_page", "_o2number");
 		}
-function o2sys_dbexport§§select_db_form_def(&$form_select_db) {
+function o2sys_dbexport§§select_db_form_def($form_select_db) {
 	$form_select_db->x(210);
 	$form_select_db->y(100);
 	$form_select_db->larghezza(370);
@@ -26,20 +26,20 @@ function o2sys_dbexport§§select_db_form_def(&$form_select_db) {
 	$form_select_db->css_doc("sys_tables_doc");
 	$form_select_db->align_o("Center");
 	$form_select_db->frm_status(o2sys_dbexport_exp_9999());
-	$ctrl_o2label2 = &$form_select_db->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_select_db->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(30);
 		$ctrl_o2label2->y(30);
 		$ctrl_o2label2->larghezza(300);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("Select the application database you want to export:");
-	$ctrl_o2ListBox2 = &$form_select_db->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "jxdb");
+	$ctrl_o2ListBox2 = $form_select_db->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "jxdb");
 		$ctrl_o2ListBox2->x(30);
 		$ctrl_o2ListBox2->y(50);
 		$ctrl_o2ListBox2->larghezza(300);
 		$ctrl_o2ListBox2->altezza(20);
 		$ctrl_o2ListBox2->valori(o2sys_dbexport_exp_1());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2button2 = &$form_select_db->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_select_db->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(237);
 		$ctrl_o2button2->y(100);
 		$ctrl_o2button2->larghezza(93);
@@ -47,7 +47,7 @@ function o2sys_dbexport§§select_db_form_def(&$form_select_db) {
 		$ctrl_o2button2->azione("select_target");
 		$ctrl_o2button2->label("     Next");
 		$ctrl_o2button2->css("jxwiz_next");
-	$ctrl_o2button3 = &$form_select_db->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_select_db->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(140);
 		$ctrl_o2button3->y(100);
 		$ctrl_o2button3->larghezza(93);
@@ -56,7 +56,7 @@ function o2sys_dbexport§§select_db_form_def(&$form_select_db) {
 		$ctrl_o2button3->label("     Cancel");
 		$ctrl_o2button3->css("jxwiz_cancel");
 		}
-function o2sys_dbexport§§confirm_export_form_def(&$form_confirm_export) {
+function o2sys_dbexport§§confirm_export_form_def($form_confirm_export) {
 	$form_confirm_export->x(237);
 	$form_confirm_export->y(88);
 	$form_confirm_export->larghezza(470);
@@ -65,7 +65,7 @@ function o2sys_dbexport§§confirm_export_form_def(&$form_confirm_export) {
 	$form_confirm_export->css_doc("sys_tables_doc");
 	$form_confirm_export->align_o("Center");
 	$form_confirm_export->frm_status(o2sys_dbexport_exp_9999());
-	$ctrl_o2button4 = &$form_confirm_export->ctrldef("o2button4", "button", "", "", "");
+	$ctrl_o2button4 = $form_confirm_export->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(347);
 		$ctrl_o2button4->y(340);
 		$ctrl_o2button4->larghezza(93);
@@ -74,7 +74,7 @@ function o2sys_dbexport§§confirm_export_form_def(&$form_confirm_export) {
 		$ctrl_o2button4->azione("export");
 		$ctrl_o2button4->label("     Export");
 		$ctrl_o2button4->css("jxwiz_save");
-	$ctrl_o2button5 = &$form_confirm_export->ctrldef("o2button5", "button", "", "", "");
+	$ctrl_o2button5 = $form_confirm_export->ctrldef("o2button5", "button", "", "", "");
 		$ctrl_o2button5->x(250);
 		$ctrl_o2button5->y(340);
 		$ctrl_o2button5->larghezza(93);
@@ -82,98 +82,98 @@ function o2sys_dbexport§§confirm_export_form_def(&$form_confirm_export) {
 		$ctrl_o2button5->azione("quit");
 		$ctrl_o2button5->label("     Cancel");
 		$ctrl_o2button5->css("jxwiz_cancel");
-	$ctrl_o2multipage2 = &$form_confirm_export->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_confirm_export->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(30);
 		$ctrl_o2multipage2->y(30);
 		$ctrl_o2multipage2->larghezza(410);
 		$ctrl_o2multipage2->altezza(130);
 		$ctrl_o2multipage2->label(array("Source"));
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2multipage3 = &$form_confirm_export->ctrldef("o2multipage3", "multipage", "", "", "");
+	$ctrl_o2multipage3 = $form_confirm_export->ctrldef("o2multipage3", "multipage", "", "", "");
 		$ctrl_o2multipage3->x(30);
 		$ctrl_o2multipage3->y(180);
 		$ctrl_o2multipage3->larghezza(410);
 		$ctrl_o2multipage3->altezza(130);
 		$ctrl_o2multipage3->label(array("Target"));
 		$ctrl_o2multipage3->buttons("T");
-	$ctrl_o2label7 = &$form_confirm_export->ctrldef("o2label7", "label", "o2multipage2", "", "");
+	$ctrl_o2label7 = $form_confirm_export->ctrldef("o2label7", "label", "o2multipage2", "", "");
 		$ctrl_o2label7->x(20);
 		$ctrl_o2label7->y(90);
 		$ctrl_o2label7->larghezza(80);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->info_padre(array(0));
 		$ctrl_o2label7->label("Archive:");
-	$ctrl_o2label4 = &$form_confirm_export->ctrldef("o2label4", "label", "o2multipage2", "", "");
+	$ctrl_o2label4 = $form_confirm_export->ctrldef("o2label4", "label", "o2multipage2", "", "");
 		$ctrl_o2label4->x(100);
 		$ctrl_o2label4->y(50);
 		$ctrl_o2label4->larghezza(300);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(0));
 		$ctrl_o2label4->label(o2sys_dbexport_exp_11());
-	$ctrl_o2label3 = &$form_confirm_export->ctrldef("o2label3", "label", "o2multipage2", "", "");
+	$ctrl_o2label3 = $form_confirm_export->ctrldef("o2label3", "label", "o2multipage2", "", "");
 		$ctrl_o2label3->x(20);
 		$ctrl_o2label3->y(50);
 		$ctrl_o2label3->larghezza(80);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->info_padre(array(0));
 		$ctrl_o2label3->label("Database:");
-	$ctrl_o2label6 = &$form_confirm_export->ctrldef("o2label6", "label", "o2multipage2", "", "");
+	$ctrl_o2label6 = $form_confirm_export->ctrldef("o2label6", "label", "o2multipage2", "", "");
 		$ctrl_o2label6->x(100);
 		$ctrl_o2label6->y(70);
 		$ctrl_o2label6->larghezza(300);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->info_padre(array(0));
 		$ctrl_o2label6->label(o2sys_dbexport_exp_12());
-	$ctrl_o2label8 = &$form_confirm_export->ctrldef("o2label8", "label", "o2multipage2", "", "");
+	$ctrl_o2label8 = $form_confirm_export->ctrldef("o2label8", "label", "o2multipage2", "", "");
 		$ctrl_o2label8->x(100);
 		$ctrl_o2label8->y(90);
 		$ctrl_o2label8->larghezza(300);
 		$ctrl_o2label8->altezza(20);
 		$ctrl_o2label8->info_padre(array(0));
 		$ctrl_o2label8->label(o2sys_dbexport_exp_13());
-	$ctrl_o2label5 = &$form_confirm_export->ctrldef("o2label5", "label", "o2multipage2", "", "");
+	$ctrl_o2label5 = $form_confirm_export->ctrldef("o2label5", "label", "o2multipage2", "", "");
 		$ctrl_o2label5->x(20);
 		$ctrl_o2label5->y(70);
 		$ctrl_o2label5->larghezza(80);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->info_padre(array(0));
 		$ctrl_o2label5->label("Type:");
-	$ctrl_o2label10 = &$form_confirm_export->ctrldef("o2label10", "label", "o2multipage3", "", "");
+	$ctrl_o2label10 = $form_confirm_export->ctrldef("o2label10", "label", "o2multipage3", "", "");
 		$ctrl_o2label10->x(20);
 		$ctrl_o2label10->y(50);
 		$ctrl_o2label10->larghezza(80);
 		$ctrl_o2label10->altezza(20);
 		$ctrl_o2label10->info_padre(array(0));
 		$ctrl_o2label10->label("Type:");
-	$ctrl_o2label11 = &$form_confirm_export->ctrldef("o2label11", "label", "o2multipage3", "", "");
+	$ctrl_o2label11 = $form_confirm_export->ctrldef("o2label11", "label", "o2multipage3", "", "");
 		$ctrl_o2label11->x(20);
 		$ctrl_o2label11->y(70);
 		$ctrl_o2label11->larghezza(80);
 		$ctrl_o2label11->altezza(20);
 		$ctrl_o2label11->info_padre(array(0));
 		$ctrl_o2label11->label("Archive:");
-	$ctrl_o2label13 = &$form_confirm_export->ctrldef("o2label13", "label", "o2multipage3", "", "");
+	$ctrl_o2label13 = $form_confirm_export->ctrldef("o2label13", "label", "o2multipage3", "", "");
 		$ctrl_o2label13->x(100);
 		$ctrl_o2label13->y(50);
 		$ctrl_o2label13->larghezza(300);
 		$ctrl_o2label13->altezza(20);
 		$ctrl_o2label13->info_padre(array(0));
 		$ctrl_o2label13->label(o2sys_dbexport_exp_14());
-	$ctrl_o2label14 = &$form_confirm_export->ctrldef("o2label14", "label", "o2multipage3", "", "");
+	$ctrl_o2label14 = $form_confirm_export->ctrldef("o2label14", "label", "o2multipage3", "", "");
 		$ctrl_o2label14->x(100);
 		$ctrl_o2label14->y(70);
 		$ctrl_o2label14->larghezza(300);
 		$ctrl_o2label14->altezza(20);
 		$ctrl_o2label14->info_padre(array(0));
 		$ctrl_o2label14->label(o2sys_dbexport_exp_15());
-	$ctrl_o2label12 = &$form_confirm_export->ctrldef("o2label12", "label", "o2multipage3", "", "");
+	$ctrl_o2label12 = $form_confirm_export->ctrldef("o2label12", "label", "o2multipage3", "", "");
 		$ctrl_o2label12->x(100);
 		$ctrl_o2label12->y(90);
 		$ctrl_o2label12->larghezza(100);
 		$ctrl_o2label12->altezza(20);
 		$ctrl_o2label12->info_padre(array(0));
 		$ctrl_o2label12->label(o2sys_dbexport_exp_17());
-	$ctrl_o2label9 = &$form_confirm_export->ctrldef("o2label9", "label", "o2multipage3", "", "");
+	$ctrl_o2label9 = $form_confirm_export->ctrldef("o2label9", "label", "o2multipage3", "", "");
 		$ctrl_o2label9->x(20);
 		$ctrl_o2label9->y(90);
 		$ctrl_o2label9->larghezza(80);
@@ -182,7 +182,7 @@ function o2sys_dbexport§§confirm_export_form_def(&$form_confirm_export) {
 		$ctrl_o2label9->label("Status:");
 		}
 
-function o2sys_dbexport§§export_act(&$o2exe) {
+function o2sys_dbexport§§export_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "wizard_page", o2sys_dbexport_exp_6()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("Run export in separete process") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::script(o2sys_dbexport_exp_19()) && $o2exe->e();
@@ -191,11 +191,11 @@ function o2sys_dbexport§§export_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_dbexport§§quit_act(&$o2exe) {
+function o2sys_dbexport§§quit_act($o2exe) {
 	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_dbexport§§select_target_act(&$o2exe) {
+function o2sys_dbexport§§select_target_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "wizard_page", o2sys_dbexport_exp_6()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("Set source DB") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "jxdb", o2sys_dbexport_exp_33()) && $o2exe->e();
@@ -207,7 +207,7 @@ function o2sys_dbexport§§select_target_act(&$o2exe) {
 	$o2exe->s(9) && (o2sys_dbexport_exp_10() || $o2exe->e()) && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_dbexport§§start_act(&$o2exe) {
+function o2sys_dbexport§§start_act($o2exe) {
 	$o2exe->s(1) && (o2sys_dbexport_exp_33() || $o2exe->e()) && o2act::exe("select_target", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 

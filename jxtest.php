@@ -6,8 +6,8 @@
  *
  * @name      jxtest
  * @package   janox/jxtest.php
- * @version   2.9
- * @copyright Tommaso Vannini (tvannini@janox.it) 2024
+ * @version   2.3
+ * @copyright Tommaso Vannini (tvannini@janox.it) 2024-2025
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 

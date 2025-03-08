@@ -1,6 +1,6 @@
 <?php
 
-function o2sys_fs_browser§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_fs_browser§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("action_path", "o2sys_long_str");
 	$task_prg§_§var->definisci("action_result", "_o2logical");
@@ -31,7 +31,7 @@ function o2sys_fs_browser§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("status_str", "_o2text");
 	$task_prg§_§var->definisci("uploaded_file", "_o2structure");
 		}
-function o2sys_fs_browser§§browser_form_def(&$form_browser) {
+function o2sys_fs_browser§§browser_form_def($form_browser) {
 	$form_browser->x(328);
 	$form_browser->y(58);
 	$form_browser->larghezza(700);
@@ -40,7 +40,7 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 	$form_browser->titolo(o2sys_fs_browser_exp_40());
 	$form_browser->css_body("o2_form_body open_body");
 	$form_browser->css_doc("sys_fs_doc");
-	$ctrl_bottom_bar = &$form_browser->ctrldef("bottom_bar", "label", "", "", "");
+	$ctrl_bottom_bar = $form_browser->ctrldef("bottom_bar", "label", "", "", "");
 		$ctrl_bottom_bar->x(0);
 		$ctrl_bottom_bar->y(540);
 		$ctrl_bottom_bar->larghezza(700);
@@ -48,13 +48,13 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_bottom_bar->expand("H");
 		$ctrl_bottom_bar->label("");
 		$ctrl_bottom_bar->css(o2sys_fs_browser_exp_41());
-	$ctrl_status = &$form_browser->ctrldef("status", "label", "", "", "");
+	$ctrl_status = $form_browser->ctrldef("status", "label", "", "", "");
 		$ctrl_status->x(10);
 		$ctrl_status->y(545);
 		$ctrl_status->larghezza(680);
 		$ctrl_status->altezza(20);
 		$ctrl_status->label(o2sys_fs_browser_exp_49());
-	$ctrl_o2multipage2 = &$form_browser->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_browser->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(0);
 		$ctrl_o2multipage2->y(0);
 		$ctrl_o2multipage2->larghezza(700);
@@ -66,7 +66,7 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2multipage2->css_label_on(o2sys_fs_browser_exp_74());
 		$ctrl_o2multipage2->css_label_off(o2sys_fs_browser_exp_74());
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2htmlarea3 = &$form_browser->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea3 = $form_browser->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea3->x(0);
 		$ctrl_o2htmlarea3->y(40);
 		$ctrl_o2htmlarea3->larghezza(250);
@@ -74,7 +74,7 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2htmlarea3->expand("B");
 		$ctrl_o2htmlarea3->html(o2sys_fs_browser_exp_42());
 		$ctrl_o2htmlarea3->css(o2sys_fs_browser_exp_45());
-	$ctrl_o2htmlarea2 = &$form_browser->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_browser->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(250);
 		$ctrl_o2htmlarea2->y(40);
 		$ctrl_o2htmlarea2->larghezza(450);
@@ -82,14 +82,14 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2htmlarea2->expand("B");
 		$ctrl_o2htmlarea2->html(o2sys_fs_browser_exp_6());
 		$ctrl_o2htmlarea2->css(o2sys_fs_browser_exp_63());
-	$ctrl_o2label4 = &$form_browser->ctrldef("o2label4", "label", "o2multipage2", "", "");
+	$ctrl_o2label4 = $form_browser->ctrldef("o2label4", "label", "o2multipage2", "", "");
 		$ctrl_o2label4->x(30);
 		$ctrl_o2label4->y(8);
 		$ctrl_o2label4->larghezza(70);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(0));
 		$ctrl_o2label4->label("Filter files:");
-	$ctrl_o2edit2 = &$form_browser->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "files_filter");
+	$ctrl_o2edit2 = $form_browser->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "files_filter");
 		$ctrl_o2edit2->x(100);
 		$ctrl_o2edit2->y(8);
 		$ctrl_o2edit2->larghezza(100);
@@ -97,7 +97,7 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2edit2->azione("load_file_list");
 		$ctrl_o2edit2->on_change(o2sys_fs_browser_exp_3());
 		$ctrl_o2edit2->info_padre(array(0));
-	$ctrl_o2image2 = &$form_browser->ctrldef("o2image2", "img", "o2multipage2", "", "");
+	$ctrl_o2image2 = $form_browser->ctrldef("o2image2", "img", "o2multipage2", "", "");
 		$ctrl_o2image2->x(260);
 		$ctrl_o2image2->y(6);
 		$ctrl_o2image2->larghezza(24);
@@ -108,7 +108,7 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2image2->label("Go to parent folder");
 		$ctrl_o2image2->css(o2sys_fs_browser_exp_51());
 		$ctrl_o2image2->imgexp(o2sys_fs_browser_exp_50());
-	$ctrl_o2image3 = &$form_browser->ctrldef("o2image3", "img", "o2multipage2", "", "");
+	$ctrl_o2image3 = $form_browser->ctrldef("o2image3", "img", "o2multipage2", "", "");
 		$ctrl_o2image3->x(284);
 		$ctrl_o2image3->y(6);
 		$ctrl_o2image3->larghezza(24);
@@ -119,7 +119,7 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2image3->label("Add files (upload)");
 		$ctrl_o2image3->css(o2sys_fs_browser_exp_56());
 		$ctrl_o2image3->imgexp(o2sys_fs_browser_exp_54());
-	$ctrl_o2image4 = &$form_browser->ctrldef("o2image4", "img", "o2multipage2", "", "");
+	$ctrl_o2image4 = $form_browser->ctrldef("o2image4", "img", "o2multipage2", "", "");
 		$ctrl_o2image4->x(308);
 		$ctrl_o2image4->y(6);
 		$ctrl_o2image4->larghezza(24);
@@ -130,14 +130,14 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2image4->label("Create new folder");
 		$ctrl_o2image4->css(o2sys_fs_browser_exp_56());
 		$ctrl_o2image4->imgexp(o2sys_fs_browser_exp_55());
-	$ctrl_o2htmlarea4 = &$form_browser->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea4 = $form_browser->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea4->x(210);
 		$ctrl_o2htmlarea4->y(8);
 		$ctrl_o2htmlarea4->larghezza(40);
 		$ctrl_o2htmlarea4->altezza(20);
 		$ctrl_o2htmlarea4->expand("H");
 		$ctrl_o2htmlarea4->info_padre(array(0));
-	$ctrl_o2htmlarea5 = &$form_browser->ctrldef("o2htmlarea5", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea5 = $form_browser->ctrldef("o2htmlarea5", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea5->x(440);
 		$ctrl_o2htmlarea5->y(8);
 		$ctrl_o2htmlarea5->larghezza(50);
@@ -145,7 +145,7 @@ function o2sys_fs_browser§§browser_form_def(&$form_browser) {
 		$ctrl_o2htmlarea5->expand("H");
 		$ctrl_o2htmlarea5->info_padre(array(0));
 		}
-function o2sys_fs_browser§§add_folder_form_def(&$form_add_folder) {
+function o2sys_fs_browser§§add_folder_form_def($form_add_folder) {
 	$form_add_folder->x(262);
 	$form_add_folder->y(231);
 	$form_add_folder->larghezza(388);
@@ -155,12 +155,12 @@ function o2sys_fs_browser§§add_folder_form_def(&$form_add_folder) {
 	$form_add_folder->frm_status(o2sys_fs_browser_exp_9999());
 	$form_add_folder->css_doc("sys_fs_doc");
 	$form_add_folder->close_action("close_form_newdir");
-	$ctrl_new_folder = &$form_add_folder->ctrldef("new_folder", "edit", "", "prg§_§var", "newdir_name");
+	$ctrl_new_folder = $form_add_folder->ctrldef("new_folder", "edit", "", "prg§_§var", "newdir_name");
 		$ctrl_new_folder->x(10);
 		$ctrl_new_folder->y(10);
 		$ctrl_new_folder->larghezza(230);
 		$ctrl_new_folder->altezza(20);
-	$ctrl_o2button3 = &$form_add_folder->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_add_folder->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(270);
 		$ctrl_o2button3->y(10);
 		$ctrl_o2button3->larghezza(90);
@@ -168,7 +168,7 @@ function o2sys_fs_browser§§add_folder_form_def(&$form_add_folder) {
 		$ctrl_o2button3->azione("create_dir");
 		$ctrl_o2button3->label("Create");
 		}
-function o2sys_fs_browser§§add_file_form_def(&$form_add_file) {
+function o2sys_fs_browser§§add_file_form_def($form_add_file) {
 	$form_add_file->x(240);
 	$form_add_file->y(150);
 	$form_add_file->larghezza(480);
@@ -178,19 +178,19 @@ function o2sys_fs_browser§§add_file_form_def(&$form_add_file) {
 	$form_add_file->frm_status(o2sys_fs_browser_exp_9999());
 	$form_add_file->css_doc("sys_fs_doc");
 	$form_add_file->close_action("close_form_fileupload");
-	$ctrl_o2label2 = &$form_add_file->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_add_file->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(20);
 		$ctrl_o2label2->y(20);
 		$ctrl_o2label2->larghezza(120);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("Files to upload:");
-	$ctrl_o2file2 = &$form_add_file->ctrldef("o2file2", "file", "", "prg§_§var", "uploaded_file");
+	$ctrl_o2file2 = $form_add_file->ctrldef("o2file2", "file", "", "prg§_§var", "uploaded_file");
 		$ctrl_o2file2->x(140);
 		$ctrl_o2file2->y(20);
 		$ctrl_o2file2->larghezza(320);
 		$ctrl_o2file2->altezza(20);
 		$ctrl_o2file2->multiple();
-	$ctrl_o2button4 = &$form_add_file->ctrldef("o2button4", "button", "", "", "");
+	$ctrl_o2button4 = $form_add_file->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(200);
 		$ctrl_o2button4->y(70);
 		$ctrl_o2button4->larghezza(90);
@@ -198,7 +198,7 @@ function o2sys_fs_browser§§add_file_form_def(&$form_add_file) {
 		$ctrl_o2button4->azione("send_file");
 		$ctrl_o2button4->label("Send");
 		}
-function o2sys_fs_browser§§visor_form_def(&$form_visor) {
+function o2sys_fs_browser§§visor_form_def($form_visor) {
 	$form_visor->x(305);
 	$form_visor->y(100);
 	$form_visor->larghezza(610);
@@ -209,19 +209,19 @@ function o2sys_fs_browser§§visor_form_def(&$form_visor) {
 	$form_visor->close_action("close_form_fileget");
 		}
 
-function o2sys_fs_browser§§close_form_fileget_act(&$o2exe) {
+function o2sys_fs_browser§§close_form_fileget_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_fileget", o2sys_fs_browser_exp_9999()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§close_form_fileupload_act(&$o2exe) {
+function o2sys_fs_browser§§close_form_fileupload_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_fileupload", o2sys_fs_browser_exp_9999()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§close_form_newdir_act(&$o2exe) {
+function o2sys_fs_browser§§close_form_newdir_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_newdir", o2sys_fs_browser_exp_9999()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§create_dir_act(&$o2exe) {
+function o2sys_fs_browser§§create_dir_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "name_error", o2sys_fs_browser_exp_15()) && $o2exe->e();
 	$o2exe->s(2) && (o2sys_fs_browser_exp_17() || $o2exe->e()) && o2act::alert(o2sys_fs_browser_exp_16(), 0) && $o2exe->e();
 	$o2exe->s(3) && (o2sys_fs_browser_exp_21() || $o2exe->e()) && o2act::alert(o2sys_fs_browser_exp_20(), 0) && $o2exe->e();
@@ -231,36 +231,36 @@ function o2sys_fs_browser§§create_dir_act(&$o2exe) {
 	$o2exe->s(7) && (o2sys_fs_browser_exp_19() || $o2exe->e()) && o2act::exe("load_file_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§file_add_act(&$o2exe) {
+function o2sys_fs_browser§§file_add_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_fileupload", o2sys_fs_browser_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§file_del_act(&$o2exe) {
+function o2sys_fs_browser§§file_del_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "action_path", o2sys_fs_browser_exp_71()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::confirm("prg§_§var", "dialog_confirm", o2sys_fs_browser_exp_70()) && $o2exe->e();
 	$o2exe->s(3) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::alert(o2sys_fs_browser_exp_10(), 0) && $o2exe->e();
 	$o2exe->s(4) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::exe("load_file_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§file_download_act(&$o2exe) {
+function o2sys_fs_browser§§file_download_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "file_name", o2sys_fs_browser_exp_2()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_fs_browser_exp_66()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§file_get_act(&$o2exe) {
+function o2sys_fs_browser§§file_get_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "file_name", o2sys_fs_browser_exp_2()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "form_fileget", o2sys_fs_browser_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§file_ren_act(&$o2exe) {
+function o2sys_fs_browser§§file_ren_act($o2exe) {
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§file_select_act(&$o2exe) {
+function o2sys_fs_browser§§file_select_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(1, o2sys_fs_browser_exp_2()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§folder_del_act(&$o2exe) {
+function o2sys_fs_browser§§folder_del_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "action_path", o2sys_fs_browser_exp_39()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::confirm("prg§_§var", "dialog_confirm", o2sys_fs_browser_exp_38()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "del_result", o2sys_fs_browser_exp_3()) && $o2exe->e();
@@ -270,16 +270,16 @@ function o2sys_fs_browser§§folder_del_act(&$o2exe) {
 	$o2exe->s(7) && (o2sys_fs_browser_exp_36() || $o2exe->e()) && o2act::exe("load_file_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§folder_up_act(&$o2exe) {
+function o2sys_fs_browser§§folder_up_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_7()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_fs_browser_exp_47()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§load_all_files_act(&$o2exe) {
+function o2sys_fs_browser§§load_all_files_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "load_all_files", o2sys_fs_browser_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§load_file_list_act(&$o2exe) {
+function o2sys_fs_browser§§load_file_list_act($o2exe) {
 	$o2exe->s(1) && (o2sys_fs_browser_exp_26() || $o2exe->e()) && o2act::set("prg§_§var", "files_filter", o2sys_fs_browser_exp_25()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "file_list", o2sys_fs_browser_exp_1()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "status_str", o2sys_fs_browser_exp_9()) && $o2exe->e();
@@ -287,50 +287,50 @@ function o2sys_fs_browser§§load_file_list_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::set("prg§_§var", "file_name", o2sys_fs_browser_exp_72()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§load_folder_list_act(&$o2exe) {
+function o2sys_fs_browser§§load_folder_list_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_list", o2sys_fs_browser_exp_44()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§load_from_folder_limit_act(&$o2exe) {
+function o2sys_fs_browser§§load_from_folder_limit_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_start", o2sys_fs_browser_exp_60()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_58()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("loop_from_folder_limit", "o2sys_fs_browser_exp_61()", "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_65()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§loop_from_folder_limit_act(&$o2exe) {
+function o2sys_fs_browser§§loop_from_folder_limit_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("load_folder_list", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_62()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§order_by_act(&$o2exe) {
+function o2sys_fs_browser§§order_by_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "sort_by", o2sys_fs_browser_exp_43()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("load_file_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§req_newdir_name_act(&$o2exe) {
+function o2sys_fs_browser§§req_newdir_name_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "form_newdir", o2sys_fs_browser_exp_3()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_fs_browser_exp_37()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§send_file_act(&$o2exe) {
+function o2sys_fs_browser§§send_file_act($o2exe) {
 	$o2exe->s(1) && (o2sys_fs_browser_exp_24() || $o2exe->e()) && o2act::script(o2sys_fs_browser_exp_27()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("close_form_fileupload", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("load_file_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§set_folder_act(&$o2exe) {
+function o2sys_fs_browser§§set_folder_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_2()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_fs_browser_exp_47()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§set_folder_by_tree_act(&$o2exe) {
+function o2sys_fs_browser§§set_folder_by_tree_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_48()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("load_folder_list", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("load_file_list", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_fs_browser§§start_act(&$o2exe) {
+function o2sys_fs_browser§§start_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Setting start and limit browsable folders") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "folder_path", o2sys_fs_browser_exp_5()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "folder_limit", o2sys_fs_browser_exp_8()) && $o2exe->e();

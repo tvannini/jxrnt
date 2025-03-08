@@ -1,6 +1,6 @@
 <?php
 
-function o2sys_tables_relations§§do_act(&$o2exe) {
+function o2sys_tables_relations§§do_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(1, o2sys_tables_relations_exp_1()) && $o2exe->e();
 	} //|o2_fine_act|
 

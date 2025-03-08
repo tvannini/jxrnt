@@ -1,26 +1,26 @@
 <?php
 
-function o2dev_app_analysis§§prg§_§var_def(&$task_prg§_§var) {
+function o2dev_app_analysis§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("analysis_model", "_o2alpha");
 	$task_prg§_§var->definisci("done", "_o2logical");
 	$task_prg§_§var->definisci("ext_data", "_o2structure");
 	$task_prg§_§var->definisci("models_list", "_o2structure");
 		}
-function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analysis) {
+function o2dev_app_analysis§§o2dev_app_analysis_form_def($form_o2dev_app_analysis) {
 	$form_o2dev_app_analysis->x(340);
 	$form_o2dev_app_analysis->y(20);
 	$form_o2dev_app_analysis->larghezza(680);
 	$form_o2dev_app_analysis->altezza(650);
 	$form_o2dev_app_analysis->align_o("Center");
 	$form_o2dev_app_analysis->titolo("Application analysis");
-	$ctrl_o2label2 = &$form_o2dev_app_analysis->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_o2dev_app_analysis->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(30);
 		$ctrl_o2label2->y(30);
 		$ctrl_o2label2->larghezza(100);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("Analysis model:");
-	$ctrl_o2ListBox2 = &$form_o2dev_app_analysis->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "analysis_model");
+	$ctrl_o2ListBox2 = $form_o2dev_app_analysis->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "analysis_model");
 		$ctrl_o2ListBox2->x(130);
 		$ctrl_o2ListBox2->y(30);
 		$ctrl_o2ListBox2->larghezza(300);
@@ -30,7 +30,7 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 		$ctrl_o2ListBox2->on_change(o2dev_app_analysis_exp_3());
 		$ctrl_o2ListBox2->valori(o2dev_app_analysis_exp_1());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2button2 = &$form_o2dev_app_analysis->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_o2dev_app_analysis->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(460);
 		$ctrl_o2button2->y(25);
 		$ctrl_o2button2->larghezza(90);
@@ -38,7 +38,7 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 		$ctrl_o2button2->modificabile(o2dev_app_analysis_exp_2());
 		$ctrl_o2button2->azione("do_analysis");
 		$ctrl_o2button2->label("&Execute");
-	$ctrl_o2multipage2 = &$form_o2dev_app_analysis->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_o2dev_app_analysis->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(30);
 		$ctrl_o2multipage2->y(70);
 		$ctrl_o2multipage2->larghezza(620);
@@ -46,7 +46,7 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 		$ctrl_o2multipage2->expand("B");
 		$ctrl_o2multipage2->label(array("Result"));
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2button3 = &$form_o2dev_app_analysis->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_o2dev_app_analysis->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(560);
 		$ctrl_o2button3->y(25);
 		$ctrl_o2button3->larghezza(90);
@@ -54,7 +54,7 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 		$ctrl_o2button3->modificabile(o2dev_app_analysis_exp_21());
 		$ctrl_o2button3->azione("export");
 		$ctrl_o2button3->label("E&xport CSV");
-	$ctrl_o2htmlarea2 = &$form_o2dev_app_analysis->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea2 = $form_o2dev_app_analysis->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea2->x(10);
 		$ctrl_o2htmlarea2->y(30);
 		$ctrl_o2htmlarea2->larghezza(600);
@@ -65,87 +65,87 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def(&$form_o2dev_app_analys
 		$ctrl_o2htmlarea2->css(o2dev_app_analysis_exp_5());
 		}
 
-function o2dev_app_analysis§§a_build_tabs_relations_act(&$o2exe) {
+function o2dev_app_analysis§§a_build_tabs_relations_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(o2dev_app_analysis_exp_43(), False, "prg§_§var§§ext_data") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2dev_app_analysis_exp_42()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_check_exps_act(&$o2exe) {
+function o2dev_app_analysis§§a_check_exps_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_28()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_check_links_act(&$o2exe) {
+function o2dev_app_analysis§§a_check_links_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_check_locks_act(&$o2exe) {
+function o2dev_app_analysis§§a_check_locks_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_40()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_check_tabs_relations_act(&$o2exe) {
+function o2dev_app_analysis§§a_check_tabs_relations_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_24()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_count_calls_act(&$o2exe) {
+function o2dev_app_analysis§§a_count_calls_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_45()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_duplicated_fileds_act(&$o2exe) {
+function o2dev_app_analysis§§a_duplicated_fileds_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_34()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_missing_catch_act(&$o2exe) {
+function o2dev_app_analysis§§a_missing_catch_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_51()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_nuidxs_to_rep_act(&$o2exe) {
+function o2dev_app_analysis§§a_nuidxs_to_rep_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_36()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_report_alias_act(&$o2exe) {
+function o2dev_app_analysis§§a_report_alias_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_38()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_session_act(&$o2exe) {
+function o2dev_app_analysis§§a_session_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_30()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_sql_formulas_act(&$o2exe) {
+function o2dev_app_analysis§§a_sql_formulas_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_32()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_unused_fields_act(&$o2exe) {
+function o2dev_app_analysis§§a_unused_fields_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_11()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_unused_keys_act(&$o2exe) {
+function o2dev_app_analysis§§a_unused_keys_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_18()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_unused_models_act(&$o2exe) {
+function o2dev_app_analysis§§a_unused_models_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_14()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_unused_progs_act(&$o2exe) {
+function o2dev_app_analysis§§a_unused_progs_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_16()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_unused_tables_act(&$o2exe) {
+function o2dev_app_analysis§§a_unused_tables_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_9()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§a_views_in_loop_act(&$o2exe) {
+function o2dev_app_analysis§§a_views_in_loop_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_26()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§batch_act(&$o2exe) {
+function o2dev_app_analysis§§batch_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "analysis_model", o2dev_app_analysis_exp_48()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("do_analysis", True, "") && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Export CSV") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::script(o2dev_app_analysis_exp_49()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
+function o2dev_app_analysis§§do_analysis_act($o2exe) {
 	$o2exe->s(1) && (o2dev_app_analysis_exp_8() || $o2exe->e()) && o2act::exe("a_unused_tables", True, "") && $o2exe->e();
 	$o2exe->s(2) && (o2dev_app_analysis_exp_10() || $o2exe->e()) && o2act::exe("a_unused_fields", True, "") && $o2exe->e();
 	$o2exe->s(3) && (o2dev_app_analysis_exp_13() || $o2exe->e()) && o2act::exe("a_unused_models", True, "") && $o2exe->e();
@@ -167,16 +167,16 @@ function o2dev_app_analysis§§do_analysis_act(&$o2exe) {
 	$o2exe->s(19) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§export_act(&$o2exe) {
+function o2dev_app_analysis§§export_act($o2exe) {
 	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_22()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§on_model_change_act(&$o2exe) {
+function o2dev_app_analysis§§on_model_change_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Reset result view") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2dev_app_analysis_exp_12()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2dev_app_analysis§§start_act(&$o2exe) {
+function o2dev_app_analysis§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "models_list", o2dev_app_analysis_exp_4()) && $o2exe->e();
 //	$o2exe->s(2) && True && o2act::remark("Init treeview") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::script(o2dev_app_analysis_exp_7()) && $o2exe->e();
@@ -962,7 +962,7 @@ $show   = "jxresult";
 $id_prg = 0;
 $tool   = new o2_inspector();
 
-$descend_act = function(&$func, $tool, $prf_code, $view, $act, $acts_list) {
+$descend_act = function($func, $tool, $prf_code, $view, $act, $acts_list) {
 
    $l_list = array();
    if (strpos($acts_list, '|'.$act.'|')) {

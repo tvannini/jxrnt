@@ -1,6 +1,6 @@
 <?php
 
-function o2sys_sessions_admin§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_sessions_admin§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("apps_list", "_o2structure");
 	$task_prg§_§var->definisci("create_minutes", "_o2number");
@@ -15,7 +15,7 @@ function o2sys_sessions_admin§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("total_sessions", "_o2number");
 		}
 
-function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "") {
+function o2sys_sessions_admin§§sessions_def($task_sessions, $_o2viewalias = "") {
 	$task_sessions->righe_vis = 50;
 
 	$task_sessions->usa_file("o2_sessions","o2_sessions","upd_desc",null,o2sys_sessions_admin_exp_18());
@@ -46,7 +46,7 @@ function o2sys_sessions_admin§§sessions_def(&$task_sessions, $_o2viewalias = "")
 	$task_sessions->calcola("descr","o2sys_long_str","o2sys_sessions_admin_exp_5()",null,null,null,null);
 	$task_sessions->calcola("mode","o2sys_long_str","o2sys_sessions_admin_exp_27()",null,null,null,null);
 }
-function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
+function o2sys_sessions_admin§§sessions_admin_form_def($form_sessions_admin) {
 	$form_sessions_admin->x(450);
 	$form_sessions_admin->y(50);
 	$form_sessions_admin->larghezza(900);
@@ -54,7 +54,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 	$form_sessions_admin->align_o("Center");
 	$form_sessions_admin->titolo("Manage sessions");
 	$form_sessions_admin->css_body("o2_form_body open_body");
-	$ctrl_o2table2 = &$form_sessions_admin->ctrldef("o2table2", "tab", "", "sessions", "");
+	$ctrl_o2table2 = $form_sessions_admin->ctrldef("o2table2", "tab", "", "sessions", "");
 		$ctrl_o2table2->x(0);
 		$ctrl_o2table2->y(72);
 		$ctrl_o2table2->larghezza(900);
@@ -63,7 +63,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2table2->modificabile(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2table2->css_riga(o2sys_sessions_admin_exp_9());
 		$ctrl_o2table2->css_alt(o2sys_sessions_admin_exp_9());
-	$ctrl_o2dbnavigator2 = &$form_sessions_admin->ctrldef("o2dbnavigator2", "navigator", "", "sessions", "");
+	$ctrl_o2dbnavigator2 = $form_sessions_admin->ctrldef("o2dbnavigator2", "navigator", "", "sessions", "");
 		$ctrl_o2dbnavigator2->x(0);
 		$ctrl_o2dbnavigator2->y(40);
 		$ctrl_o2dbnavigator2->larghezza(900);
@@ -76,13 +76,13 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2dbnavigator2->visible_detail(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2dbnavigator2->visible_select(o2sys_sessions_admin_exp_9999());
 		$ctrl_o2dbnavigator2->act_del("sessions_delete");
-	$ctrl_o2image2 = &$form_sessions_admin->ctrldef("o2image2", "img", "", "", "");
+	$ctrl_o2image2 = $form_sessions_admin->ctrldef("o2image2", "img", "", "", "");
 		$ctrl_o2image2->x(42);
 		$ctrl_o2image2->y(47);
 		$ctrl_o2image2->larghezza(3);
 		$ctrl_o2image2->altezza(17);
 		$ctrl_o2image2->imgexp(o2sys_sessions_admin_exp_16());
-	$ctrl_btn_refresh = &$form_sessions_admin->ctrldef("btn_refresh", "img", "", "", "");
+	$ctrl_btn_refresh = $form_sessions_admin->ctrldef("btn_refresh", "img", "", "", "");
 		$ctrl_btn_refresh->x(48);
 		$ctrl_btn_refresh->y(43);
 		$ctrl_btn_refresh->larghezza(32);
@@ -91,7 +91,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_btn_refresh->label("Refresh");
 		$ctrl_btn_refresh->css(o2sys_sessions_admin_exp_19());
 		$ctrl_btn_refresh->imgexp(o2sys_sessions_admin_exp_17());
-	$ctrl_o2multipage2 = &$form_sessions_admin->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_sessions_admin->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(0);
 		$ctrl_o2multipage2->y(0);
 		$ctrl_o2multipage2->larghezza(900);
@@ -103,56 +103,56 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2multipage2->css_label_on(o2sys_sessions_admin_exp_21());
 		$ctrl_o2multipage2->css_label_off(o2sys_sessions_admin_exp_21());
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2label4 = &$form_sessions_admin->ctrldef("o2label4", "label", "o2multipage2", "", "");
+	$ctrl_o2label4 = $form_sessions_admin->ctrldef("o2label4", "label", "o2multipage2", "", "");
 		$ctrl_o2label4->x(173);
 		$ctrl_o2label4->y(10);
 		$ctrl_o2label4->larghezza(30);
 		$ctrl_o2label4->altezza(20);
 		$ctrl_o2label4->info_padre(array(0));
 		$ctrl_o2label4->label("min.");
-	$ctrl_o2label3 = &$form_sessions_admin->ctrldef("o2label3", "label", "o2multipage2", "", "");
+	$ctrl_o2label3 = $form_sessions_admin->ctrldef("o2label3", "label", "o2multipage2", "", "");
 		$ctrl_o2label3->x(220);
 		$ctrl_o2label3->y(10);
 		$ctrl_o2label3->larghezza(50);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->info_padre(array(0));
 		$ctrl_o2label3->label("Activity:");
-	$ctrl_o2label5 = &$form_sessions_admin->ctrldef("o2label5", "label", "o2multipage2", "", "");
+	$ctrl_o2label5 = $form_sessions_admin->ctrldef("o2label5", "label", "o2multipage2", "", "");
 		$ctrl_o2label5->x(313);
 		$ctrl_o2label5->y(10);
 		$ctrl_o2label5->larghezza(30);
 		$ctrl_o2label5->altezza(20);
 		$ctrl_o2label5->info_padre(array(0));
 		$ctrl_o2label5->label("min.");
-	$ctrl_o2label6 = &$form_sessions_admin->ctrldef("o2label6", "label", "o2multipage2", "", "");
+	$ctrl_o2label6 = $form_sessions_admin->ctrldef("o2label6", "label", "o2multipage2", "", "");
 		$ctrl_o2label6->x(360);
 		$ctrl_o2label6->y(10);
 		$ctrl_o2label6->larghezza(80);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->info_padre(array(0));
 		$ctrl_o2label6->label("Application:");
-	$ctrl_o2label7 = &$form_sessions_admin->ctrldef("o2label7", "label", "o2multipage2", "", "");
+	$ctrl_o2label7 = $form_sessions_admin->ctrldef("o2label7", "label", "o2multipage2", "", "");
 		$ctrl_o2label7->x(790);
 		$ctrl_o2label7->y(10);
 		$ctrl_o2label7->larghezza(70);
 		$ctrl_o2label7->altezza(20);
 		$ctrl_o2label7->info_padre(array(0));
 		$ctrl_o2label7->label("Scheduler:");
-	$ctrl_o2label2 = &$form_sessions_admin->ctrldef("o2label2", "label", "o2multipage2", "", "");
+	$ctrl_o2label2 = $form_sessions_admin->ctrldef("o2label2", "label", "o2multipage2", "", "");
 		$ctrl_o2label2->x(80);
 		$ctrl_o2label2->y(10);
 		$ctrl_o2label2->larghezza(50);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->info_padre(array(0));
 		$ctrl_o2label2->label("Logged:");
-	$ctrl_o2label8 = &$form_sessions_admin->ctrldef("o2label8", "label", "o2multipage2", "", "");
+	$ctrl_o2label8 = $form_sessions_admin->ctrldef("o2label8", "label", "o2multipage2", "", "");
 		$ctrl_o2label8->x(620);
 		$ctrl_o2label8->y(10);
 		$ctrl_o2label8->larghezza(70);
 		$ctrl_o2label8->altezza(20);
 		$ctrl_o2label8->info_padre(array(0));
 		$ctrl_o2label8->label("Run mode:");
-	$ctrl_o2edit8 = &$form_sessions_admin->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "create_minutes");
+	$ctrl_o2edit8 = $form_sessions_admin->ctrldef("o2edit8", "edit", "o2multipage2", "prg§_§var", "create_minutes");
 		$ctrl_o2edit8->x(130);
 		$ctrl_o2edit8->y(10);
 		$ctrl_o2edit8->larghezza(40);
@@ -160,7 +160,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2edit8->azione("refresh");
 		$ctrl_o2edit8->on_change(o2sys_sessions_admin_exp_4());
 		$ctrl_o2edit8->info_padre(array(0));
-	$ctrl_o2edit9 = &$form_sessions_admin->ctrldef("o2edit9", "edit", "o2multipage2", "prg§_§var", "since_minutes");
+	$ctrl_o2edit9 = $form_sessions_admin->ctrldef("o2edit9", "edit", "o2multipage2", "prg§_§var", "since_minutes");
 		$ctrl_o2edit9->x(270);
 		$ctrl_o2edit9->y(10);
 		$ctrl_o2edit9->larghezza(40);
@@ -168,7 +168,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2edit9->azione("refresh");
 		$ctrl_o2edit9->on_change(o2sys_sessions_admin_exp_4());
 		$ctrl_o2edit9->info_padre(array(0));
-	$ctrl_o2ListBox2 = &$form_sessions_admin->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "filter_app");
+	$ctrl_o2ListBox2 = $form_sessions_admin->ctrldef("o2ListBox2", "listcombo", "o2multipage2", "prg§_§var", "filter_app");
 		$ctrl_o2ListBox2->x(440);
 		$ctrl_o2ListBox2->y(10);
 		$ctrl_o2ListBox2->larghezza(150);
@@ -177,14 +177,14 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2ListBox2->info_padre(array(0));
 		$ctrl_o2ListBox2->valori(o2sys_sessions_admin_exp_3());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2checkbox2 = &$form_sessions_admin->ctrldef("o2checkbox2", "check", "o2multipage2", "prg§_§var", "scheduler_sessions");
+	$ctrl_o2checkbox2 = $form_sessions_admin->ctrldef("o2checkbox2", "check", "o2multipage2", "prg§_§var", "scheduler_sessions");
 		$ctrl_o2checkbox2->x(860);
 		$ctrl_o2checkbox2->y(10);
 		$ctrl_o2checkbox2->larghezza(20);
 		$ctrl_o2checkbox2->altezza(20);
 		$ctrl_o2checkbox2->on_change(o2sys_sessions_admin_exp_4());
 		$ctrl_o2checkbox2->info_padre(array(0));
-	$ctrl_o2image3 = &$form_sessions_admin->ctrldef("o2image3", "img", "o2multipage2", "", "");
+	$ctrl_o2image3 = $form_sessions_admin->ctrldef("o2image3", "img", "o2multipage2", "", "");
 		$ctrl_o2image3->x(15);
 		$ctrl_o2image3->y(6);
 		$ctrl_o2image3->larghezza(24);
@@ -194,7 +194,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2image3->label("Application lock");
 		$ctrl_o2image3->css(o2sys_sessions_admin_exp_22());
 		$ctrl_o2image3->imgexp(o2sys_sessions_admin_exp_23());
-	$ctrl_o2ListBox3 = &$form_sessions_admin->ctrldef("o2ListBox3", "listcombo", "o2multipage2", "prg§_§var", "run_mode");
+	$ctrl_o2ListBox3 = $form_sessions_admin->ctrldef("o2ListBox3", "listcombo", "o2multipage2", "prg§_§var", "run_mode");
 		$ctrl_o2ListBox3->x(690);
 		$ctrl_o2ListBox3->y(10);
 		$ctrl_o2ListBox3->larghezza(70);
@@ -203,7 +203,7 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2ListBox3->info_padre(array(0));
 		$ctrl_o2ListBox3->valori(o2sys_sessions_admin_exp_28());
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2image4 = &$form_sessions_admin->ctrldef("o2image4", "img", "o2multipage2", "", "");
+	$ctrl_o2image4 = $form_sessions_admin->ctrldef("o2image4", "img", "o2multipage2", "", "");
 		$ctrl_o2image4->x(39);
 		$ctrl_o2image4->y(6);
 		$ctrl_o2image4->larghezza(24);
@@ -214,79 +214,79 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2image4->label("Browse access log");
 		$ctrl_o2image4->css(o2sys_sessions_admin_exp_22());
 		$ctrl_o2image4->imgexp(o2sys_sessions_admin_exp_30());
-	$ctrl_o2htmlarea2 = &$form_sessions_admin->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea2 = $form_sessions_admin->ctrldef("o2htmlarea2", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea2->x(70);
 		$ctrl_o2htmlarea2->y(10);
 		$ctrl_o2htmlarea2->larghezza(10);
 		$ctrl_o2htmlarea2->altezza(20);
 		$ctrl_o2htmlarea2->expand("H");
 		$ctrl_o2htmlarea2->info_padre(array(0));
-	$ctrl_o2htmlarea4 = &$form_sessions_admin->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea4 = $form_sessions_admin->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea4->x(880);
 		$ctrl_o2htmlarea4->y(10);
 		$ctrl_o2htmlarea4->larghezza(10);
 		$ctrl_o2htmlarea4->altezza(20);
 		$ctrl_o2htmlarea4->expand("H");
 		$ctrl_o2htmlarea4->info_padre(array(0));
-	$ctrl_o2edit2 = &$form_sessions_admin->ctrldef("o2edit2", "edit", "o2table2", "sessions", "sid");
+	$ctrl_o2edit2 = $form_sessions_admin->ctrldef("o2edit2", "edit", "o2table2", "sessions", "sid");
 		$ctrl_o2edit2->x(10);
 		$ctrl_o2edit2->y(10);
 		$ctrl_o2edit2->larghezza(220);
 		$ctrl_o2edit2->altezza(20);
 		$ctrl_o2edit2->info_padre(array("01", "01", "01", "Session ID", False, "", False, "", "", ""));
-	$ctrl_o2edit11 = &$form_sessions_admin->ctrldef("o2edit11", "edit", "o2table2", "sessions", "app_name");
+	$ctrl_o2edit11 = $form_sessions_admin->ctrldef("o2edit11", "edit", "o2table2", "sessions", "app_name");
 		$ctrl_o2edit11->x(230);
 		$ctrl_o2edit11->y(10);
 		$ctrl_o2edit11->larghezza(160);
 		$ctrl_o2edit11->altezza(20);
 		$ctrl_o2edit11->expand("H");
 		$ctrl_o2edit11->info_padre(array("01", "02", "02", "Application name", False, "", False, "", "", "", ""));
-	$ctrl_o2edit13 = &$form_sessions_admin->ctrldef("o2edit13", "edit", "o2table2", "sessions", "host");
+	$ctrl_o2edit13 = $form_sessions_admin->ctrldef("o2edit13", "edit", "o2table2", "sessions", "host");
 		$ctrl_o2edit13->x(390);
 		$ctrl_o2edit13->y(10);
 		$ctrl_o2edit13->larghezza(150);
 		$ctrl_o2edit13->altezza(20);
 		$ctrl_o2edit13->expand("H");
 		$ctrl_o2edit13->info_padre(array("01", "03", "03", "Host", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit12 = &$form_sessions_admin->ctrldef("o2edit12", "edit", "o2table2", "sessions", "mode");
+	$ctrl_o2edit12 = $form_sessions_admin->ctrldef("o2edit12", "edit", "o2table2", "sessions", "mode");
 		$ctrl_o2edit12->x(540);
 		$ctrl_o2edit12->y(10);
 		$ctrl_o2edit12->larghezza(50);
 		$ctrl_o2edit12->altezza(20);
 		$ctrl_o2edit12->expand("H");
 		$ctrl_o2edit12->info_padre(array("01", "04", "04", "Run mode", False, "", 0, "", "", "", "", ""));
-	$ctrl_o2edit3 = &$form_sessions_admin->ctrldef("o2edit3", "edit", "o2table2", "sessions", "o2user");
+	$ctrl_o2edit3 = $form_sessions_admin->ctrldef("o2edit3", "edit", "o2table2", "sessions", "o2user");
 		$ctrl_o2edit3->x(590);
 		$ctrl_o2edit3->y(10);
 		$ctrl_o2edit3->larghezza(160);
 		$ctrl_o2edit3->altezza(20);
 		$ctrl_o2edit3->expand("H");
 		$ctrl_o2edit3->info_padre(array("01", "05", "05", "User", False, "", False, "", "", "tab_foot_nb", ""));
-	$ctrl_o2edit10 = &$form_sessions_admin->ctrldef("o2edit10", "edit", "o2table2", "sessions", "terminal_id");
+	$ctrl_o2edit10 = $form_sessions_admin->ctrldef("o2edit10", "edit", "o2table2", "sessions", "terminal_id");
 		$ctrl_o2edit10->x(750);
 		$ctrl_o2edit10->y(10);
 		$ctrl_o2edit10->larghezza(80);
 		$ctrl_o2edit10->altezza(20);
 		$ctrl_o2edit10->info_padre(array("01", "06", "06", "Terminal", False, "", False, "", "", "tab_foot_nb", ""));
-	$ctrl_o2edit7 = &$form_sessions_admin->ctrldef("o2edit7", "edit", "o2table2", "sessions", "descr");
+	$ctrl_o2edit7 = $form_sessions_admin->ctrldef("o2edit7", "edit", "o2table2", "sessions", "descr");
 		$ctrl_o2edit7->x(830);
 		$ctrl_o2edit7->y(10);
 		$ctrl_o2edit7->larghezza(90);
 		$ctrl_o2edit7->altezza(20);
 		$ctrl_o2edit7->info_padre(array("01", "07", "07", "Status", False, "", False, "", "", "tab_foot_nb", ""));
-	$ctrl_o2edit5 = &$form_sessions_admin->ctrldef("o2edit5", "edit", "o2table2", "sessions", "update");
+	$ctrl_o2edit5 = $form_sessions_admin->ctrldef("o2edit5", "edit", "o2table2", "sessions", "update");
 		$ctrl_o2edit5->x(920);
 		$ctrl_o2edit5->y(10);
 		$ctrl_o2edit5->larghezza(130);
 		$ctrl_o2edit5->altezza(20);
 		$ctrl_o2edit5->info_padre(array("01", "08", "08", "Updated", False, "", False, "", "", "tab_foot_nb", ""));
-	$ctrl_o2edit4 = &$form_sessions_admin->ctrldef("o2edit4", "edit", "o2table2", "sessions", "creation");
+	$ctrl_o2edit4 = $form_sessions_admin->ctrldef("o2edit4", "edit", "o2table2", "sessions", "creation");
 		$ctrl_o2edit4->x(1050);
 		$ctrl_o2edit4->y(10);
 		$ctrl_o2edit4->larghezza(130);
 		$ctrl_o2edit4->altezza(20);
 		$ctrl_o2edit4->info_padre(array("01", "09", "09", "Creation", False, "", False, "", o2sys_sessions_admin_exp_11(), "tab_foot_nb", ""));
-	$ctrl_o2edit6 = &$form_sessions_admin->ctrldef("o2edit6", "edit", "o2table2", "sessions", "expire");
+	$ctrl_o2edit6 = $form_sessions_admin->ctrldef("o2edit6", "edit", "o2table2", "sessions", "expire");
 		$ctrl_o2edit6->x(1180);
 		$ctrl_o2edit6->y(10);
 		$ctrl_o2edit6->larghezza(130);
@@ -294,28 +294,28 @@ function o2sys_sessions_admin§§sessions_admin_form_def(&$form_sessions_admin) {
 		$ctrl_o2edit6->info_padre(array("01", "10", "10", "Expiration", False, "", 0, "", o2sys_sessions_admin_exp_33(), "tab_foot_dx", "", ""));
 		}
 
-function o2sys_sessions_admin§§access_log_act(&$o2exe) {
+function o2sys_sessions_admin§§access_log_act($o2exe) {
 	$o2exe->s(1) && True && o2act::gotoprg(o2sys_sessions_admin_exp_32(), false) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_sessions_admin§§app_lock_act(&$o2exe) {
+function o2sys_sessions_admin§§app_lock_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(o2sys_sessions_admin_exp_1(), False) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::view("sessions", "1", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_sessions_admin§§refresh_act(&$o2exe) {
+function o2sys_sessions_admin§§refresh_act($o2exe) {
 	$o2exe->s(1) && True && o2act::view("sessions", "1", "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "total_sessions", o2sys_sessions_admin_exp_10()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_sessions_admin§§sessions_delete_act(&$o2exe) {
+function o2sys_sessions_admin§§sessions_delete_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Try to remove session file too") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_sessions_admin_exp_24()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::view("sessions", "C", "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::exe("refresh", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_sessions_admin§§start_act(&$o2exe) {
+function o2sys_sessions_admin§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "apps_list", o2sys_sessions_admin_exp_2()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "total_sessions", o2sys_sessions_admin_exp_10()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::script(o2sys_sessions_admin_exp_12()) && $o2exe->e();

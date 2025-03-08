@@ -1,10 +1,10 @@
 <?php
 
-function jxgranting_desc§§prg§_§var_def(&$task_prg§_§var) {
+function jxgranting_desc§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("description_local", "_o2text");
 		}
-function jxgranting_desc§§jxgranting_desc_1_form_def(&$form_jxgranting_desc_1) {
+function jxgranting_desc§§jxgranting_desc_1_form_def($form_jxgranting_desc_1) {
 	$form_jxgranting_desc_1->x(0);
 	$form_jxgranting_desc_1->y(140);
 	$form_jxgranting_desc_1->larghezza(360);
@@ -13,23 +13,23 @@ function jxgranting_desc§§jxgranting_desc_1_form_def(&$form_jxgranting_desc_1) {
 	$form_jxgranting_desc_1->titolo("Enter description");
 	$form_jxgranting_desc_1->frm_status(jxgranting_desc_exp_5());
 	$form_jxgranting_desc_1->close_action("cancel");
-	$ctrl_o2label2 = &$form_jxgranting_desc_1->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_jxgranting_desc_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(30);
 		$ctrl_o2label2->y(30);
 		$ctrl_o2label2->larghezza(100);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->label("Description:");
-	$ctrl_o2separator2 = &$form_jxgranting_desc_1->ctrldef("o2separator2", "line", "", "", "");
+	$ctrl_o2separator2 = $form_jxgranting_desc_1->ctrldef("o2separator2", "line", "", "", "");
 		$ctrl_o2separator2->x(30);
 		$ctrl_o2separator2->y(270);
 		$ctrl_o2separator2->larghezza(300);
 		$ctrl_o2separator2->altezza(2);
-	$ctrl_o2textarea2 = &$form_jxgranting_desc_1->ctrldef("o2textarea2", "text", "", "prg§_§var", "description_local");
+	$ctrl_o2textarea2 = $form_jxgranting_desc_1->ctrldef("o2textarea2", "text", "", "prg§_§var", "description_local");
 		$ctrl_o2textarea2->x(30);
 		$ctrl_o2textarea2->y(60);
 		$ctrl_o2textarea2->larghezza(300);
 		$ctrl_o2textarea2->altezza(200);
-	$ctrl_o2button2 = &$form_jxgranting_desc_1->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_jxgranting_desc_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(140);
 		$ctrl_o2button2->y(290);
 		$ctrl_o2button2->larghezza(90);
@@ -37,7 +37,7 @@ function jxgranting_desc§§jxgranting_desc_1_form_def(&$form_jxgranting_desc_1) {
 		$ctrl_o2button2->azione("cancel");
 		$ctrl_o2button2->label("&Cancel");
 		$ctrl_o2button2->css(jxgranting_desc_exp_1());
-	$ctrl_o2button3 = &$form_jxgranting_desc_1->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_jxgranting_desc_1->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(240);
 		$ctrl_o2button3->y(290);
 		$ctrl_o2button3->larghezza(90);
@@ -47,19 +47,19 @@ function jxgranting_desc§§jxgranting_desc_1_form_def(&$form_jxgranting_desc_1) {
 		$ctrl_o2button3->css(jxgranting_desc_exp_2());
 		}
 
-function jxgranting_desc§§cancel_act(&$o2exe) {
+function jxgranting_desc§§cancel_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(1, jxgranting_desc_exp_4()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::ret(2, jxgranting_desc_exp_5()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_desc§§save_act(&$o2exe) {
+function jxgranting_desc§§save_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(1, jxgranting_desc_exp_6()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::ret(2, jxgranting_desc_exp_7()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_desc§§start_act(&$o2exe) {
+function jxgranting_desc§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "description_local", jxgranting_desc_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 

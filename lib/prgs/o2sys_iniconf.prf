@@ -1,6 +1,6 @@
 <?php
 
-function o2sys_iniconf§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_iniconf§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("create_start", "_o2logical");
 	$task_prg§_§var->definisci("description", "_o2text");
@@ -18,7 +18,7 @@ function o2sys_iniconf§§prg§_§var_def(&$task_prg§_§var) {
 	$task_prg§_§var->definisci("value", "_o2text");
 	$task_prg§_§var->definisci("wide", "_o2logical");
 		}
-function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
+function o2sys_iniconf§§o2sys_iniconf_1_form_def($form_o2sys_iniconf_1) {
 	$form_o2sys_iniconf_1->x(350);
 	$form_o2sys_iniconf_1->y(80);
 	$form_o2sys_iniconf_1->larghezza(700);
@@ -27,7 +27,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 	$form_o2sys_iniconf_1->titolo("Settings");
 	$form_o2sys_iniconf_1->css_body("o2_form_body open_body");
 	$form_o2sys_iniconf_1->css_doc("sys_options_doc");
-	$ctrl_o2label5 = &$form_o2sys_iniconf_1->ctrldef("o2label5", "label", "", "", "");
+	$ctrl_o2label5 = $form_o2sys_iniconf_1->ctrldef("o2label5", "label", "", "", "");
 		$ctrl_o2label5->x(370);
 		$ctrl_o2label5->y(80);
 		$ctrl_o2label5->larghezza(300);
@@ -35,14 +35,14 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2label5->expand("H");
 		$ctrl_o2label5->visibile(o2sys_iniconf_exp_18());
 		$ctrl_o2label5->label(o2sys_iniconf_exp_15());
-	$ctrl_o2label3 = &$form_o2sys_iniconf_1->ctrldef("o2label3", "label", "", "", "");
+	$ctrl_o2label3 = $form_o2sys_iniconf_1->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(270);
 		$ctrl_o2label3->y(160);
 		$ctrl_o2label3->larghezza(90);
 		$ctrl_o2label3->altezza(20);
 		$ctrl_o2label3->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2label3->label("Set value:");
-	$ctrl_o2label4 = &$form_o2sys_iniconf_1->ctrldef("o2label4", "label", "", "", "");
+	$ctrl_o2label4 = $form_o2sys_iniconf_1->ctrldef("o2label4", "label", "", "", "");
 		$ctrl_o2label4->x(370);
 		$ctrl_o2label4->y(120);
 		$ctrl_o2label4->larghezza(300);
@@ -50,14 +50,14 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2label4->expand("H");
 		$ctrl_o2label4->visibile(o2sys_iniconf_exp_18());
 		$ctrl_o2label4->label(o2sys_iniconf_exp_1());
-	$ctrl_o2label2 = &$form_o2sys_iniconf_1->ctrldef("o2label2", "label", "", "", "");
+	$ctrl_o2label2 = $form_o2sys_iniconf_1->ctrldef("o2label2", "label", "", "", "");
 		$ctrl_o2label2->x(270);
 		$ctrl_o2label2->y(120);
 		$ctrl_o2label2->larghezza(90);
 		$ctrl_o2label2->altezza(20);
 		$ctrl_o2label2->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2label2->label("From runtime:");
-	$ctrl_o2label8 = &$form_o2sys_iniconf_1->ctrldef("o2label8", "label", "", "", "");
+	$ctrl_o2label8 = $form_o2sys_iniconf_1->ctrldef("o2label8", "label", "", "", "");
 		$ctrl_o2label8->x(370);
 		$ctrl_o2label8->y(80);
 		$ctrl_o2label8->larghezza(300);
@@ -65,14 +65,14 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2label8->expand("H");
 		$ctrl_o2label8->visibile(o2sys_iniconf_exp_17());
 		$ctrl_o2label8->label(o2sys_iniconf_exp_15());
-	$ctrl_o2label6 = &$form_o2sys_iniconf_1->ctrldef("o2label6", "label", "", "", "");
+	$ctrl_o2label6 = $form_o2sys_iniconf_1->ctrldef("o2label6", "label", "", "", "");
 		$ctrl_o2label6->x(270);
 		$ctrl_o2label6->y(80);
 		$ctrl_o2label6->larghezza(100);
 		$ctrl_o2label6->altezza(20);
 		$ctrl_o2label6->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2label6->label("Default:");
-	$ctrl_o2label7 = &$form_o2sys_iniconf_1->ctrldef("o2label7", "label", "", "", "");
+	$ctrl_o2label7 = $form_o2sys_iniconf_1->ctrldef("o2label7", "label", "", "", "");
 		$ctrl_o2label7->x(370);
 		$ctrl_o2label7->y(120);
 		$ctrl_o2label7->larghezza(300);
@@ -80,13 +80,13 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2label7->expand("H");
 		$ctrl_o2label7->visibile(o2sys_iniconf_exp_17());
 		$ctrl_o2label7->label(o2sys_iniconf_exp_1());
-	$ctrl_o2label21 = &$form_o2sys_iniconf_1->ctrldef("o2label21", "label", "", "", "");
+	$ctrl_o2label21 = $form_o2sys_iniconf_1->ctrldef("o2label21", "label", "", "", "");
 		$ctrl_o2label21->x(20);
 		$ctrl_o2label21->y(60);
 		$ctrl_o2label21->larghezza(160);
 		$ctrl_o2label21->altezza(20);
 		$ctrl_o2label21->label("Parameter:");
-	$ctrl_keys_list = &$form_o2sys_iniconf_1->ctrldef("keys_list", "listcombo", "", "prg§_§var", "selected_word");
+	$ctrl_keys_list = $form_o2sys_iniconf_1->ctrldef("keys_list", "listcombo", "", "prg§_§var", "selected_word");
 		$ctrl_keys_list->x(20);
 		$ctrl_keys_list->y(80);
 		$ctrl_keys_list->larghezza(230);
@@ -96,7 +96,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_keys_list->on_change(o2sys_iniconf_exp_4());
 		$ctrl_keys_list->valori(o2sys_iniconf_exp_3());
 		$ctrl_keys_list->righe(10);
-	$ctrl_o2edit3 = &$form_o2sys_iniconf_1->ctrldef("o2edit3", "edit", "", "prg§_§var", "value");
+	$ctrl_o2edit3 = $form_o2sys_iniconf_1->ctrldef("o2edit3", "edit", "", "prg§_§var", "value");
 		$ctrl_o2edit3->x(370);
 		$ctrl_o2edit3->y(160);
 		$ctrl_o2edit3->larghezza(300);
@@ -106,7 +106,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2edit3->visibile(o2sys_iniconf_exp_6());
 		$ctrl_o2edit3->azione("check_value");
 		$ctrl_o2edit3->on_change(o2sys_iniconf_exp_24());
-	$ctrl_o2ListBox3 = &$form_o2sys_iniconf_1->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "value");
+	$ctrl_o2ListBox3 = $form_o2sys_iniconf_1->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "value");
 		$ctrl_o2ListBox3->x(370);
 		$ctrl_o2ListBox3->y(160);
 		$ctrl_o2ListBox3->larghezza(300);
@@ -117,7 +117,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2ListBox3->on_change(o2sys_iniconf_exp_4());
 		$ctrl_o2ListBox3->valori(o2sys_iniconf_exp_8());
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2checkbox2 = &$form_o2sys_iniconf_1->ctrldef("o2checkbox2", "check", "", "prg§_§var", "set_value");
+	$ctrl_o2checkbox2 = $form_o2sys_iniconf_1->ctrldef("o2checkbox2", "check", "", "prg§_§var", "set_value");
 		$ctrl_o2checkbox2->x(340);
 		$ctrl_o2checkbox2->y(160);
 		$ctrl_o2checkbox2->larghezza(20);
@@ -125,7 +125,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2checkbox2->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2checkbox2->azione("enable_value");
 		$ctrl_o2checkbox2->on_change(o2sys_iniconf_exp_4());
-	$ctrl_o2textarea3 = &$form_o2sys_iniconf_1->ctrldef("o2textarea3", "text", "", "prg§_§var", "value");
+	$ctrl_o2textarea3 = $form_o2sys_iniconf_1->ctrldef("o2textarea3", "text", "", "prg§_§var", "value");
 		$ctrl_o2textarea3->x(370);
 		$ctrl_o2textarea3->y(160);
 		$ctrl_o2textarea3->larghezza(300);
@@ -135,7 +135,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2textarea3->visibile(o2sys_iniconf_exp_19());
 		$ctrl_o2textarea3->azione("save_value");
 		$ctrl_o2textarea3->on_change(o2sys_iniconf_exp_4());
-	$ctrl_o2button3 = &$form_o2sys_iniconf_1->ctrldef("o2button3", "button", "", "", "");
+	$ctrl_o2button3 = $form_o2sys_iniconf_1->ctrldef("o2button3", "button", "", "", "");
 		$ctrl_o2button3->x(370);
 		$ctrl_o2button3->y(520);
 		$ctrl_o2button3->larghezza(90);
@@ -143,7 +143,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2button3->azione("open_save_as");
 		$ctrl_o2button3->label("&Save as");
 		$ctrl_o2button3->css(o2sys_iniconf_exp_28());
-	$ctrl_o2button4 = &$form_o2sys_iniconf_1->ctrldef("o2button4", "button", "", "", "");
+	$ctrl_o2button4 = $form_o2sys_iniconf_1->ctrldef("o2button4", "button", "", "", "");
 		$ctrl_o2button4->x(475);
 		$ctrl_o2button4->y(520);
 		$ctrl_o2button4->larghezza(90);
@@ -152,7 +152,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2button4->label("&Apply");
 		$ctrl_o2button4->confirm_message(o2sys_iniconf_exp_32());
 		$ctrl_o2button4->css(o2sys_iniconf_exp_28());
-	$ctrl_o2button2 = &$form_o2sys_iniconf_1->ctrldef("o2button2", "button", "", "", "");
+	$ctrl_o2button2 = $form_o2sys_iniconf_1->ctrldef("o2button2", "button", "", "", "");
 		$ctrl_o2button2->x(580);
 		$ctrl_o2button2->y(520);
 		$ctrl_o2button2->larghezza(90);
@@ -160,7 +160,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2button2->azione("quit");
 		$ctrl_o2button2->label("&Cancel");
 		$ctrl_o2button2->css(o2sys_iniconf_exp_29());
-	$ctrl_o2multipage2 = &$form_o2sys_iniconf_1->ctrldef("o2multipage2", "multipage", "", "", "");
+	$ctrl_o2multipage2 = $form_o2sys_iniconf_1->ctrldef("o2multipage2", "multipage", "", "", "");
 		$ctrl_o2multipage2->x(0);
 		$ctrl_o2multipage2->y(0);
 		$ctrl_o2multipage2->larghezza(700);
@@ -172,13 +172,13 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2multipage2->css_label_on(o2sys_iniconf_exp_49());
 		$ctrl_o2multipage2->css_label_off(o2sys_iniconf_exp_49());
 		$ctrl_o2multipage2->buttons("T");
-	$ctrl_o2htmlarea3 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea3 = $form_o2sys_iniconf_1->ctrldef("o2htmlarea3", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea3->x(270);
 		$ctrl_o2htmlarea3->y(520);
 		$ctrl_o2htmlarea3->larghezza(80);
 		$ctrl_o2htmlarea3->altezza(30);
 		$ctrl_o2htmlarea3->expand("H");
-	$ctrl_o2htmlarea2 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
+	$ctrl_o2htmlarea2 = $form_o2sys_iniconf_1->ctrldef("o2htmlarea2", "htmlarea", "", "", "");
 		$ctrl_o2htmlarea2->x(270);
 		$ctrl_o2htmlarea2->y(230);
 		$ctrl_o2htmlarea2->larghezza(400);
@@ -187,14 +187,14 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2htmlarea2->visibile(o2sys_iniconf_exp_47());
 		$ctrl_o2htmlarea2->html(o2sys_iniconf_exp_46());
 		$ctrl_o2htmlarea2->css(o2sys_iniconf_exp_48());
-	$ctrl_o2label9 = &$form_o2sys_iniconf_1->ctrldef("o2label9", "label", "o2multipage2", "", "");
+	$ctrl_o2label9 = $form_o2sys_iniconf_1->ctrldef("o2label9", "label", "o2multipage2", "", "");
 		$ctrl_o2label9->x(450);
 		$ctrl_o2label9->y(10);
 		$ctrl_o2label9->larghezza(70);
 		$ctrl_o2label9->altezza(20);
 		$ctrl_o2label9->info_padre(array(0));
 		$ctrl_o2label9->label("Search:");
-	$ctrl_o2edit2 = &$form_o2sys_iniconf_1->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "search");
+	$ctrl_o2edit2 = $form_o2sys_iniconf_1->ctrldef("o2edit2", "edit", "o2multipage2", "prg§_§var", "search");
 		$ctrl_o2edit2->x(520);
 		$ctrl_o2edit2->y(10);
 		$ctrl_o2edit2->larghezza(150);
@@ -202,7 +202,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2edit2->azione("search");
 		$ctrl_o2edit2->on_change(o2sys_iniconf_exp_4());
 		$ctrl_o2edit2->info_padre(array(0));
-	$ctrl_o2htmlarea4 = &$form_o2sys_iniconf_1->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
+	$ctrl_o2htmlarea4 = $form_o2sys_iniconf_1->ctrldef("o2htmlarea4", "htmlarea", "o2multipage2", "", "");
 		$ctrl_o2htmlarea4->x(200);
 		$ctrl_o2htmlarea4->y(10);
 		$ctrl_o2htmlarea4->larghezza(190);
@@ -210,7 +210,7 @@ function o2sys_iniconf§§o2sys_iniconf_1_form_def(&$form_o2sys_iniconf_1) {
 		$ctrl_o2htmlarea4->expand("H");
 		$ctrl_o2htmlarea4->info_padre(array(0));
 		}
-function o2sys_iniconf§§o2sys_iniconf_2_form_def(&$form_o2sys_iniconf_2) {
+function o2sys_iniconf§§o2sys_iniconf_2_form_def($form_o2sys_iniconf_2) {
 	$form_o2sys_iniconf_2->x(228);
 	$form_o2sys_iniconf_2->y(172);
 	$form_o2sys_iniconf_2->larghezza(482);
@@ -218,73 +218,73 @@ function o2sys_iniconf§§o2sys_iniconf_2_form_def(&$form_o2sys_iniconf_2) {
 	$form_o2sys_iniconf_2->align_o("Center");
 	$form_o2sys_iniconf_2->titolo("Save as");
 	$form_o2sys_iniconf_2->frm_status(o2sys_iniconf_exp_9999());
-	$ctrl_o2label18 = &$form_o2sys_iniconf_2->ctrldef("o2label18", "label", "", "", "");
+	$ctrl_o2label18 = $form_o2sys_iniconf_2->ctrldef("o2label18", "label", "", "", "");
 		$ctrl_o2label18->x(270);
 		$ctrl_o2label18->y(120);
 		$ctrl_o2label18->larghezza(170);
 		$ctrl_o2label18->altezza(20);
 		$ctrl_o2label18->label("Flag this option to set the");
-	$ctrl_o2label10 = &$form_o2sys_iniconf_2->ctrldef("o2label10", "label", "", "", "");
+	$ctrl_o2label10 = $form_o2sys_iniconf_2->ctrldef("o2label10", "label", "", "", "");
 		$ctrl_o2label10->x(30);
 		$ctrl_o2label10->y(190);
 		$ctrl_o2label10->larghezza(200);
 		$ctrl_o2label10->altezza(22);
 		$ctrl_o2label10->label("Save configuration as:");
-	$ctrl_o2label11 = &$form_o2sys_iniconf_2->ctrldef("o2label11", "label", "", "", "");
+	$ctrl_o2label11 = $form_o2sys_iniconf_2->ctrldef("o2label11", "label", "", "", "");
 		$ctrl_o2label11->x(405);
 		$ctrl_o2label11->y(190);
 		$ctrl_o2label11->larghezza(40);
 		$ctrl_o2label11->altezza(22);
 		$ctrl_o2label11->label(".ini");
-	$ctrl_o2label12 = &$form_o2sys_iniconf_2->ctrldef("o2label12", "label", "", "", "");
+	$ctrl_o2label12 = $form_o2sys_iniconf_2->ctrldef("o2label12", "label", "", "", "");
 		$ctrl_o2label12->x(30);
 		$ctrl_o2label12->y(30);
 		$ctrl_o2label12->larghezza(200);
 		$ctrl_o2label12->altezza(22);
 		$ctrl_o2label12->label("Create application launcher:");
-	$ctrl_o2label13 = &$form_o2sys_iniconf_2->ctrldef("o2label13", "label", "", "", "");
+	$ctrl_o2label13 = $form_o2sys_iniconf_2->ctrldef("o2label13", "label", "", "", "");
 		$ctrl_o2label13->x(270);
 		$ctrl_o2label13->y(30);
 		$ctrl_o2label13->larghezza(170);
 		$ctrl_o2label13->altezza(22);
 		$ctrl_o2label13->label("Flag this option to create");
-	$ctrl_o2label15 = &$form_o2sys_iniconf_2->ctrldef("o2label15", "label", "", "", "");
+	$ctrl_o2label15 = $form_o2sys_iniconf_2->ctrldef("o2label15", "label", "", "", "");
 		$ctrl_o2label15->x(270);
 		$ctrl_o2label15->y(70);
 		$ctrl_o2label15->larghezza(170);
 		$ctrl_o2label15->altezza(22);
 		$ctrl_o2label15->label("with the provided name");
-	$ctrl_o2label17 = &$form_o2sys_iniconf_2->ctrldef("o2label17", "label", "", "", "");
+	$ctrl_o2label17 = $form_o2sys_iniconf_2->ctrldef("o2label17", "label", "", "", "");
 		$ctrl_o2label17->x(30);
 		$ctrl_o2label17->y(120);
 		$ctrl_o2label17->larghezza(200);
 		$ctrl_o2label17->altezza(22);
 		$ctrl_o2label17->label("Include runtime:");
-	$ctrl_o2label14 = &$form_o2sys_iniconf_2->ctrldef("o2label14", "label", "", "", "");
+	$ctrl_o2label14 = $form_o2sys_iniconf_2->ctrldef("o2label14", "label", "", "", "");
 		$ctrl_o2label14->x(270);
 		$ctrl_o2label14->y(50);
 		$ctrl_o2label14->larghezza(170);
 		$ctrl_o2label14->altezza(22);
 		$ctrl_o2label14->label("a full application launcher");
-	$ctrl_o2label19 = &$form_o2sys_iniconf_2->ctrldef("o2label19", "label", "", "", "");
+	$ctrl_o2label19 = $form_o2sys_iniconf_2->ctrldef("o2label19", "label", "", "", "");
 		$ctrl_o2label19->x(270);
 		$ctrl_o2label19->y(140);
 		$ctrl_o2label19->larghezza(170);
 		$ctrl_o2label19->altezza(20);
 		$ctrl_o2label19->label("current runtime path in the");
-	$ctrl_o2label20 = &$form_o2sys_iniconf_2->ctrldef("o2label20", "label", "", "", "");
+	$ctrl_o2label20 = $form_o2sys_iniconf_2->ctrldef("o2label20", "label", "", "", "");
 		$ctrl_o2label20->x(270);
 		$ctrl_o2label20->y(160);
 		$ctrl_o2label20->larghezza(170);
 		$ctrl_o2label20->altezza(20);
 		$ctrl_o2label20->label("application launcher.");
-	$ctrl_o2label16 = &$form_o2sys_iniconf_2->ctrldef("o2label16", "label", "", "", "");
+	$ctrl_o2label16 = $form_o2sys_iniconf_2->ctrldef("o2label16", "label", "", "", "");
 		$ctrl_o2label16->x(270);
 		$ctrl_o2label16->y(90);
 		$ctrl_o2label16->larghezza(170);
 		$ctrl_o2label16->altezza(20);
 		$ctrl_o2label16->label("in the <app>/htdocs folder.");
-	$ctrl_o2button5 = &$form_o2sys_iniconf_2->ctrldef("o2button5", "button", "", "", "");
+	$ctrl_o2button5 = $form_o2sys_iniconf_2->ctrldef("o2button5", "button", "", "", "");
 		$ctrl_o2button5->x(260);
 		$ctrl_o2button5->y(250);
 		$ctrl_o2button5->larghezza(90);
@@ -292,7 +292,7 @@ function o2sys_iniconf§§o2sys_iniconf_2_form_def(&$form_o2sys_iniconf_2) {
 		$ctrl_o2button5->azione("save_as");
 		$ctrl_o2button5->label("     &Save");
 		$ctrl_o2button5->css(o2sys_iniconf_exp_28());
-	$ctrl_o2button6 = &$form_o2sys_iniconf_2->ctrldef("o2button6", "button", "", "", "");
+	$ctrl_o2button6 = $form_o2sys_iniconf_2->ctrldef("o2button6", "button", "", "", "");
 		$ctrl_o2button6->x(360);
 		$ctrl_o2button6->y(250);
 		$ctrl_o2button6->larghezza(90);
@@ -300,18 +300,18 @@ function o2sys_iniconf§§o2sys_iniconf_2_form_def(&$form_o2sys_iniconf_2) {
 		$ctrl_o2button6->azione("close_save_as");
 		$ctrl_o2button6->label("     &Cancel");
 		$ctrl_o2button6->css(o2sys_iniconf_exp_29());
-	$ctrl_new_name = &$form_o2sys_iniconf_2->ctrldef("new_name", "edit", "", "prg§_§var", "file_name");
+	$ctrl_new_name = $form_o2sys_iniconf_2->ctrldef("new_name", "edit", "", "prg§_§var", "file_name");
 		$ctrl_new_name->x(230);
 		$ctrl_new_name->y(190);
 		$ctrl_new_name->larghezza(170);
 		$ctrl_new_name->altezza(22);
-	$ctrl_o2checkbox3 = &$form_o2sys_iniconf_2->ctrldef("o2checkbox3", "check", "", "prg§_§var", "create_start");
+	$ctrl_o2checkbox3 = $form_o2sys_iniconf_2->ctrldef("o2checkbox3", "check", "", "prg§_§var", "create_start");
 		$ctrl_o2checkbox3->x(230);
 		$ctrl_o2checkbox3->y(30);
 		$ctrl_o2checkbox3->larghezza(20);
 		$ctrl_o2checkbox3->altezza(22);
 		$ctrl_o2checkbox3->on_change(o2sys_iniconf_exp_4());
-	$ctrl_o2checkbox4 = &$form_o2sys_iniconf_2->ctrldef("o2checkbox4", "check", "", "prg§_§var", "include_runtime");
+	$ctrl_o2checkbox4 = $form_o2sys_iniconf_2->ctrldef("o2checkbox4", "check", "", "prg§_§var", "include_runtime");
 		$ctrl_o2checkbox4->x(230);
 		$ctrl_o2checkbox4->y(120);
 		$ctrl_o2checkbox4->larghezza(20);
@@ -319,53 +319,53 @@ function o2sys_iniconf§§o2sys_iniconf_2_form_def(&$form_o2sys_iniconf_2) {
 		$ctrl_o2checkbox4->modificabile(o2sys_iniconf_exp_39());
 		}
 
-function o2sys_iniconf§§apply_conf_act(&$o2exe) {
+function o2sys_iniconf§§apply_conf_act($o2exe) {
 	$o2exe->s(1) && True && o2act::exe("select_word", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_iniconf_exp_30()) && $o2exe->e();
 	$o2exe->s(3) && (o2sys_iniconf_exp_38() || $o2exe->e()) && o2act::alert(o2sys_iniconf_exp_33(), 0) && $o2exe->e();
 	$o2exe->s(4) && (o2sys_iniconf_exp_38() || $o2exe->e()) && o2act::exe("quit", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§check_number_act(&$o2exe) {
+function o2sys_iniconf§§check_number_act($o2exe) {
 	$o2exe->s(1) && True && o2act::alert(o2sys_iniconf_exp_22(), 0) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "value", o2sys_iniconf_exp_23()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§check_value_act(&$o2exe) {
+function o2sys_iniconf§§check_value_act($o2exe) {
 	$o2exe->s(1) && (o2sys_iniconf_exp_21() || $o2exe->e()) && o2act::exe("check_number", True, "") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("save_value", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§close_save_as_act(&$o2exe) {
+function o2sys_iniconf§§close_save_as_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "save_as", o2sys_iniconf_exp_9999()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_iniconf_exp_41()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§enable_value_act(&$o2exe) {
+function o2sys_iniconf§§enable_value_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "value", o2sys_iniconf_exp_10()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_31()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§open_save_as_act(&$o2exe) {
+function o2sys_iniconf§§open_save_as_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "save_as", o2sys_iniconf_exp_4()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "create_start", o2sys_iniconf_exp_9999()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "include_runtime", o2sys_iniconf_exp_4()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::script(o2sys_iniconf_exp_40()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§parse_app_ini_act(&$o2exe) {
+function o2sys_iniconf§§parse_app_ini_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_27()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§parse_rnt_ini_act(&$o2exe) {
+function o2sys_iniconf§§parse_rnt_ini_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_26()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§quit_act(&$o2exe) {
+function o2sys_iniconf§§quit_act($o2exe) {
 	$o2exe->s(1) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§save_as_act(&$o2exe) {
+function o2sys_iniconf§§save_as_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("Create application launcher") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_iniconf_exp_42()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Create INI file") && $o2exe->e();
@@ -375,16 +375,16 @@ function o2sys_iniconf§§save_as_act(&$o2exe) {
 	$o2exe->s(7) && True && o2act::set("prg§_§var", "save_as", o2sys_iniconf_exp_9999()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§save_value_act(&$o2exe) {
+function o2sys_iniconf§§save_value_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "ini_struct", o2sys_iniconf_exp_31()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§search_act(&$o2exe) {
+function o2sys_iniconf§§search_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "selected_word", o2sys_iniconf_exp_23()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::exe("select_word", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§select_word_act(&$o2exe) {
+function o2sys_iniconf§§select_word_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "set_value", o2sys_iniconf_exp_11()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "value", o2sys_iniconf_exp_10()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("prg§_§var", "description", o2sys_iniconf_exp_7()) && $o2exe->e();
@@ -392,7 +392,7 @@ function o2sys_iniconf§§select_word_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::set("prg§_§var", "is_number", o2sys_iniconf_exp_20()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_iniconf§§start_act(&$o2exe) {
+function o2sys_iniconf§§start_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("INI file to write") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "ini_file", o2sys_iniconf_exp_35()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("Smart list for arranged order and spaces") && $o2exe->e();

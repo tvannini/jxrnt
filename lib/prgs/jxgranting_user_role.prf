@@ -1,11 +1,11 @@
 <?php
 
-function jxgranting_user_role§§prg§_§var_def(&$task_prg§_§var) {
+function jxgranting_user_role§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("role_name", "_o2alpha");
 		}
 
-function jxgranting_user_role§§roles_def(&$task_roles, $_o2viewalias = "") {
+function jxgranting_user_role§§roles_def($task_roles, $_o2viewalias = "") {
 	$task_roles->righe_vis = 10;
 
 	$task_roles->usa_file("o2_roles","o2_roles","role_name",null,null);
@@ -18,7 +18,7 @@ function jxgranting_user_role§§roles_def(&$task_roles, $_o2viewalias = "") {
 	$task_roles->usa("o2user","o2_roles_per_user","o2user",null,null,null,null);
 	$task_roles->calcola("free","o2sys_long_str","jxgranting_user_role_exp_9()","jxgranting_user_role_exp_6()","jxgranting_user_role_exp_6()",null,null);
 }
-function jxgranting_user_role§§user_role_form_def(&$form_user_role) {
+function jxgranting_user_role§§user_role_form_def($form_user_role) {
 	$form_user_role->x(-100);
 	$form_user_role->y(250);
 	$form_user_role->larghezza(310);
@@ -29,31 +29,31 @@ function jxgranting_user_role§§user_role_form_def(&$form_user_role) {
 	$form_user_role->frm_status(jxgranting_user_role_exp_1());
 	$form_user_role->css_doc("sys_roles_doc");
 	$form_user_role->close_action("cancel");
-	$ctrl_o2label21 = &$form_user_role->ctrldef("o2label21", "label", "", "", "");
+	$ctrl_o2label21 = $form_user_role->ctrldef("o2label21", "label", "", "", "");
 		$ctrl_o2label21->x(30);
 		$ctrl_o2label21->y(30);
 		$ctrl_o2label21->larghezza(250);
 		$ctrl_o2label21->altezza(20);
 		$ctrl_o2label21->label(jxgranting_user_role_exp_2());
-	$ctrl_o2label22 = &$form_user_role->ctrldef("o2label22", "label", "", "", "");
+	$ctrl_o2label22 = $form_user_role->ctrldef("o2label22", "label", "", "", "");
 		$ctrl_o2label22->x(30);
 		$ctrl_o2label22->y(70);
 		$ctrl_o2label22->larghezza(100);
 		$ctrl_o2label22->altezza(20);
 		$ctrl_o2label22->label("Role:");
-	$ctrl_o2separator4 = &$form_user_role->ctrldef("o2separator4", "line", "", "", "");
+	$ctrl_o2separator4 = $form_user_role->ctrldef("o2separator4", "line", "", "", "");
 		$ctrl_o2separator4->x(30);
 		$ctrl_o2separator4->y(150);
 		$ctrl_o2separator4->larghezza(250);
 		$ctrl_o2separator4->altezza(2);
-	$ctrl_o2ListBox3 = &$form_user_role->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "role_name");
+	$ctrl_o2ListBox3 = $form_user_role->ctrldef("o2ListBox3", "listcombo", "", "prg§_§var", "role_name");
 		$ctrl_o2ListBox3->x(130);
 		$ctrl_o2ListBox3->y(70);
 		$ctrl_o2ListBox3->larghezza(150);
 		$ctrl_o2ListBox3->altezza(20);
 		$ctrl_o2ListBox3->valori(o2_view2list("roles", "role_name", "role_name"));
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2button6 = &$form_user_role->ctrldef("o2button6", "button", "", "", "");
+	$ctrl_o2button6 = $form_user_role->ctrldef("o2button6", "button", "", "", "");
 		$ctrl_o2button6->x(90);
 		$ctrl_o2button6->y(170);
 		$ctrl_o2button6->larghezza(90);
@@ -61,7 +61,7 @@ function jxgranting_user_role§§user_role_form_def(&$form_user_role) {
 		$ctrl_o2button6->azione("cancel");
 		$ctrl_o2button6->label("&Cancel");
 		$ctrl_o2button6->css(jxgranting_user_role_exp_3());
-	$ctrl_o2button7 = &$form_user_role->ctrldef("o2button7", "button", "", "", "");
+	$ctrl_o2button7 = $form_user_role->ctrldef("o2button7", "button", "", "", "");
 		$ctrl_o2button7->x(190);
 		$ctrl_o2button7->y(170);
 		$ctrl_o2button7->larghezza(90);
@@ -71,13 +71,13 @@ function jxgranting_user_role§§user_role_form_def(&$form_user_role) {
 		$ctrl_o2button7->css(jxgranting_user_role_exp_4());
 		}
 
-function jxgranting_user_role§§add_act(&$o2exe) {
+function jxgranting_user_role§§add_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(2, jxgranting_user_role_exp_5()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::ret(3, jxgranting_user_role_exp_6()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|
 
-function jxgranting_user_role§§cancel_act(&$o2exe) {
+function jxgranting_user_role§§cancel_act($o2exe) {
 	$o2exe->s(1) && True && o2act::ret(3, jxgranting_user_role_exp_1()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
 	} //|o2_fine_act|

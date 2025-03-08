@@ -1,13 +1,13 @@
 <?php
 
-function o2sys_request§§prg§_§var_def(&$task_prg§_§var) {
+function o2sys_request§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("expire", "_o2sid");
 	$task_prg§_§var->definisci("now", "_o2sid");
 	$task_prg§_§var->definisci("session_verified", "_o2logical");
 		}
 
-function o2sys_request§§sessions_def(&$task_sessions, $_o2viewalias = "") {
+function o2sys_request§§sessions_def($task_sessions, $_o2viewalias = "") {
 	$task_sessions->righe_vis = 1;
 
 	$task_sessions->usa_file("o2_sessions","sessions","sid",null,null);
@@ -20,7 +20,7 @@ function o2sys_request§§sessions_def(&$task_sessions, $_o2viewalias = "") {
 	$task_sessions->usa("e_time","sessions","e_time",null,null,null,null);
 }
 
-function o2sys_request§§session_error_act(&$o2exe) {
+function o2sys_request§§session_error_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("----- Set 401 HTTP code header") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2sys_request_exp_16()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("----- Redirect to "Sessione error" page") && $o2exe->e();
@@ -29,7 +29,7 @@ function o2sys_request§§session_error_act(&$o2exe) {
 	$o2exe->s(6) && True && o2act::script(o2sys_request_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_request§§update_db_session_act(&$o2exe) {
+function o2sys_request§§update_db_session_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("sessions", "a_date", o2sys_request_exp_7()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("sessions", "a_time", o2sys_request_exp_9()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("sessions", "e_date", o2sys_request_exp_8()) && $o2exe->e();
@@ -37,7 +37,7 @@ function o2sys_request§§update_db_session_act(&$o2exe) {
 	$o2exe->s(5) && True && o2act::view("sessions", "S", "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_request§§verify_db_session_act(&$o2exe) {
+function o2sys_request§§verify_db_session_act($o2exe) {
 //	$o2exe->s(1) && True && o2act::remark("---------------------------------- Verify session existance") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "session_verified", o2sys_request_exp_2()) && $o2exe->e();
 //	$o2exe->s(3) && True && o2act::remark("--------------------------------------- Handle session error") && $o2exe->e();
@@ -46,7 +46,7 @@ function o2sys_request§§verify_db_session_act(&$o2exe) {
 	$o2exe->s(6) && (o2sys_request_exp_13() || $o2exe->e()) && o2act::exe("update_db_session", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
-function o2sys_request§§verify_session_act(&$o2exe) {
+function o2sys_request§§verify_session_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "now", o2sys_request_exp_5()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "expire", o2sys_request_exp_6()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("verify_db_session", True, "") && $o2exe->e();
