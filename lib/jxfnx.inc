@@ -1125,8 +1125,8 @@ function o2ctrl_set_width($form_name, $ctrl_name, $width = 0) {
 
     $app  = $_SESSION['o2_app'];
     $prg  = $app->istanze_prg[$app->progressivo_istanze];
-    $form = $prg->form[$form_name."_form"];
-    if ($form && $form->controlli[$ctrl_name]) {
+    $form = $prg->form[$form_name.'_form'];
+    if ($form && isset($form->controlli[$ctrl_name])) {
         $ctrl = $form->controlli[$ctrl_name];
         if ($width) {
             $ctrl->larghezza    = $width;
@@ -1137,13 +1137,13 @@ function o2ctrl_set_width($form_name, $ctrl_name, $width = 0) {
             }
         }
     else {
-        if (!$prg->custom_ctrls[$form->nome]) {
+        if (!isset($prg->custom_ctrls[$form->nome])) {
             $prg->custom_ctrls[$form->nome] = array();
             }
-        if (!$prg->custom_ctrls[$form->nome][$ctrl_name]) {
+        if (!isset($prg->custom_ctrls[$form->nome][$ctrl_name])) {
             $prg->custom_ctrls[$form->nome][$ctrl_name] = array();
             }
-        $prg->custom_ctrls[$form->nome][$ctrl_name]["W"] = $width;
+        $prg->custom_ctrls[$form->nome][$ctrl_name]['W'] = $width;
         }
 
     }
@@ -1163,8 +1163,8 @@ function o2ctrl_set_height($form_name, $ctrl_name, $height = 0) {
 
     $app  = $_SESSION['o2_app'];
     $prg  = $app->istanze_prg[$app->progressivo_istanze];
-    $form = $prg->form[$form_name."_form"];
-    if ($form && $form->controlli[$ctrl_name]) {
+    $form = $prg->form[$form_name.'_form'];
+    if ($form && isset($form->controlli[$ctrl_name])) {
         $ctrl = $form->controlli[$ctrl_name];
         if ($height) {
             $ctrl->altezza       = $height;
@@ -1175,13 +1175,13 @@ function o2ctrl_set_height($form_name, $ctrl_name, $height = 0) {
             }
         }
     else {
-        if (!$prg->custom_ctrls[$form->nome]) {
+        if (!isset($prg->custom_ctrls[$form->nome])) {
             $prg->custom_ctrls[$form->nome] = array();
             }
-        if (!$prg->custom_ctrls[$form->nome][$ctrl_name]) {
+        if (!isset($prg->custom_ctrls[$form->nome][$ctrl_name])) {
             $prg->custom_ctrls[$form->nome][$ctrl_name] = array();
             }
-        $prg->custom_ctrls[$form->nome][$ctrl_name]["H"] = $height;
+        $prg->custom_ctrls[$form->nome][$ctrl_name]['H'] = $height;
         }
 
     }
@@ -6562,7 +6562,7 @@ function o2view_fetch($view_name) {
                                     $srv->user,
                                     $srv->password);
         // _________________________________________________________________ Statement ___
-        if (!$GLOBALS["jxlasterror"]) {
+        if (!isset($GLOBALS["jxlasterror"])) {
             $stm = false;
             // _____________________________________________________________ SQL trace ___
             if ($app->sqltrace) {
@@ -8758,7 +8758,7 @@ function o2error_lastclear() {
  */
 function o2error_getlastid($box_div = false) {
 
-    if ($GLOBALS["jxlasterror"]) {
+    if (isset($GLOBALS["jxlasterror"])) {
         return ($box_div ? "jxerror_" : "").$GLOBALS["jxlasterror"]->id;
         }
     else {
@@ -8776,7 +8776,7 @@ function o2error_getlastid($box_div = false) {
  */
 function o2error_getlastcode() {
 
-    if ($GLOBALS["jxlasterror"]) {
+    if (isset($GLOBALS["jxlasterror"])) {
         return $GLOBALS["jxlasterror"]->get_code();
         }
     else {
@@ -8794,7 +8794,7 @@ function o2error_getlastcode() {
  */
 function o2error_getlastclass() {
 
-    if ($GLOBALS["jxlasterror"]) {
+    if (isset($GLOBALS["jxlasterror"])) {
         return $GLOBALS["jxlasterror"]->get_class();
         }
     else {
@@ -8812,7 +8812,7 @@ function o2error_getlastclass() {
  */
 function o2error_getlastmsg() {
 
-    if ($GLOBALS["jxlasterror"]) {
+    if (isset($GLOBALS["jxlasterror"])) {
         return $GLOBALS["jxlasterror"]->get_message();
         }
     else {
@@ -8830,7 +8830,7 @@ function o2error_getlastmsg() {
  */
 function o2error_getlasttxt() {
 
-    if ($GLOBALS["jxlasterror"]) {
+    if (isset($GLOBALS["jxlasterror"])) {
         return $GLOBALS["jxlasterror"]->to_raw_text();
         }
     else {
@@ -8849,7 +8849,7 @@ function o2error_getlasttxt() {
  */
 function o2error_getlasthtml() {
 
-    if ($GLOBALS["jxlasterror"]) {
+    if (isset($GLOBALS["jxlasterror"])) {
         return $GLOBALS["jxlasterror"]->to_html();
         }
     else {

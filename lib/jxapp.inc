@@ -12201,7 +12201,7 @@ class o2_inspector {
                  " FROM ".$qtab.
                  " WHERE ".$f['mlt_lang']."='' AND ".$f['mlt_prg']."='".$prg_name."'";
         // _________________________________________________________________ Statement ___
-        if (!$GLOBALS["jxlasterror"]) {
+        if (!isset($GLOBALS["jxlasterror"])) {
             $stm = false;
             // ________________________________________________ Create query statement ___
             if (!($stm = $conn->query($query))) {

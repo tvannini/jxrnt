@@ -8256,7 +8256,8 @@ class o2act {
             $chiamata_local = $app->chiamate[$next_id];
             if ($chiamata_local && $chiamata_local['fine']) {
                 foreach ($chiamata_local['parametri'] as $singolo_parametro) {
-                    if ($singolo_parametro['tipo'] == "V") {
+                    if (isset($singolo_parametro['tipo']) &&
+                        ($singolo_parametro['tipo'] == 'V')) {
                         $view_local = $app->istanze_prg[$app->progressivo_istanze]->
                                        contesto[$singolo_parametro['task']];
                         if ($view_local->campo($singolo_parametro['campo']) !==
