@@ -9481,7 +9481,7 @@ class o2_inspector {
         $ret   = array();
         // __________________________________________ Used as base field for a control ___
         $parts = array();
-        $res   = preg_match_all('/\$ctrl_\w*\s*=\s*&\$form_(\w*)->ctrldef\("([^"]*)",\s*'.
+        $res   = preg_match_all('/\$ctrl_\w*\s*=\s*\$form_(\w*)->ctrldef\("([^"]*)",\s*'.
                                 '"([^"]*)",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)"\);/',
                                 $prf_code, $parts);
         if ($res) {
@@ -9517,7 +9517,7 @@ class o2_inspector {
                 $l_desc = $parts[4][$i];
                 $l_exp  = $parts[5][$i];
                 $parts2 = array();
-                $res2   = preg_match('/\$ctrl_'.$ctrl.'\s*=\s*&\$form_(\w*)->ctrldef\("'.
+                $res2   = preg_match('/\$ctrl_'.$ctrl.'\s*=\s*\$form_(\w*)->ctrldef\("'.
                                      $ctrl.'",\s*"([^"]*)",\s*"([^"]*)",\s*"([^"]*)",'.
                                      '\s*"([^"]*)"\);/', $prf_code, $parts2);
                 $form   = $parts2[1];
@@ -9572,7 +9572,7 @@ class o2_inspector {
                     }
                 // ________________________________________________ Look for ctrl form ___
                 $parts2 = array();
-                $res2   = preg_match('/\$ctrl_'.$ctrl.'\s*=\s*&\$form_(\w*)->ctrldef\("'.
+                $res2   = preg_match('/\$ctrl_'.$ctrl.'\s*=\s*\$form_(\w*)->ctrldef\("'.
                                      $ctrl.'",/', $prf_code, $parts2);
                 $form   = $parts2[1];
                 if (!isset($ret[$action])) {
@@ -11772,7 +11772,7 @@ class o2_inspector {
                                                  $prg_code);
                         // _________________________________ Replace action definition ___
                         $prf_code = preg_replace('/(function \w*'.JX_DEF_DELIMITER.')'.
-                                                 $act.'(_act\(&\$o2exe\) {)/',
+                                                 $act.'(_act\(\$o2exe\) {)/',
                                                  '$1'.$new_act.'$2',
                                                  $prf_code);
                         // ____________________________________ Replace execute action ___
