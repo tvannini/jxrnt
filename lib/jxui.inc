@@ -7144,7 +7144,7 @@ class o2_ctrl_progress extends o2_ctrl {
                             }
                         }
                     // ___________ Stop refreshing when all bars completed or in error ___
-                    elseif ($ctrl_obj->valore < 100) {
+                    if ($ctrl_obj->valore < 100) {
                         if ($ctrl_obj->error_action &&
                          ($run_job = o2_run_job::get_by_id(substr($ctrl_obj->nome, 2)))) {
                             $run    = $run_job->is_running();
@@ -7226,7 +7226,6 @@ class o2_ctrl_progress extends o2_ctrl {
                             $act_id = $rec[$f_id];
                             }
                         }
-
                     }
                 unset($view);
                 }
