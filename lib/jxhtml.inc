@@ -507,6 +507,7 @@ class o2html {
                         isset($form_obj->controlli[$ctrl_name]) &&
                         $form_obj->controlli[$ctrl_name]->is_visible() &&
                         ($form_obj->controlli[$ctrl_name]->modificabile ||
+                         $form_obj->controlli[$ctrl_name]->is_zoomable() ||
                         $form_obj->controlli[$ctrl_name]->tipo_ctrl == 'tab')) {
                     $sele_mode = ($sele_mode === null ? 'null' :
                                   ($sele_mode === 0 ? '0' : '1'));
