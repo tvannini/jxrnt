@@ -2308,7 +2308,7 @@ class o2_ctrl {
                 return true;
                 }
             // __________________________________________ Zoom program from data model ___
-            elseif ($this->maschera->zoom_prg) {
+            elseif ($this->maschera && $this->maschera->zoom_prg) {
                 return true;
                 }
             }
