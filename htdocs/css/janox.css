@@ -239,6 +239,7 @@ option:hover {
 .o2_ctrl_listcombo_dis div,
 .o2_ctrl_listcombo_list div {
     padding: 1px 3px 1px 3px;
+    white-space: nowrap;
     }
 
 .o2_ctrl_listcombo div:hover,
@@ -249,6 +250,10 @@ option:hover {
     }
 
 .jxlsr {
+    background-color: #ffddcd;
+    }
+
+ .o2_ctrl_listcombo:focus .jxlsr {
     background-color: var(--jx-color-sele);
     }
 

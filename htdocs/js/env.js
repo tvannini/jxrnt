@@ -4642,13 +4642,19 @@ o2jse.cmd.focus = function(ctrlName, seleMode) {
                     o2jse.infoForm[markName].focus();
                     }
                 }
-            // __________________________________________________________ Combo lookup ___
-            else if (ctrlLocal.o2.cT == "listcombo" &&
-                     o2jse.infoForm[ctrlName + "_desc"]) {
-                ctrlLocal = o2jse.infoForm[ctrlName + "_desc"];
-                ctrlLocal.focus();
-                if (ctrlLocal.select) {
-                    ctrlLocal.select();
+            // _____________________________________________________________ Listcombo ___
+            else if (ctrlLocal.o2.cT == "listcombo") {
+                // ______________________________________________________ Combo lookup ___
+                if (o2jse.infoForm[ctrlName + "_desc"]) {
+                    ctrlLocal = o2jse.infoForm[ctrlName + "_desc"];
+                    ctrlLocal.focus();
+                    if (ctrlLocal.select) {
+                        ctrlLocal.select();
+                        }
+                    }
+                // ___________________________________________________________ Listbox ___
+                else if (ctrlLocal.o2.listbox) {
+                    document.getElementById(ctrlLocal.name).focus();
                     }
                 }
             // ______________________________________________________________ Treeview ___
@@ -6296,17 +6302,20 @@ o2jse.lb.m = function(eventObj) {
     var stdEvent  = o2jse.event.std(eventObj);
     var targetObj = stdEvent.target;
     // ____________________________________ Filter clicks on items only, not container ___
-    if (!targetObj.onclick) {
+    if (typeof targetObj.dataset.code !== 'undefined') {
         var tarParent = targetObj.parentNode;
         var itemsDivs = tarParent.getElementsByTagName("div");
         for (var i = itemsDivs.length - 1; i >= 0; i--) {
             itemsDivs[i].className = "";
+            if (itemsDivs[i].dataset.code === targetObj.dataset.code) {
+                tarParent.jxSeleId = i;
+                }
             }
         targetObj.className = "jxlsr";
         o2jse.ctrl.init(tarParent);
         var o2data      = targetObj.parentNode.o2;
         var codeField   = o2jse.infoForm[o2data.c + o2data.e];
-        codeField.value = targetObj.id.substr(7);
+        codeField.value = targetObj.dataset.code
         codeField.o2    = o2data;
         if (o2jse.cliMode && o2data.fret) {
             jxjs.request(codeField, codeField.value);
@@ -6330,52 +6339,72 @@ o2jse.lb.k = function(eventObj) {
     var targetObj = stdEvent.target;
     var doMove    = false;
     var seleItem;
+    var seleId    = parseInt(targetObj.jxSeleId || 0);
+    var codeVal   = "";
+    var itemsDivs = targetObj.getElementsByTagName("div");
+    // ________________________________________________________________________ PageUp ___
+    if (stdEvent.keyCode == 33) {
+        if (seleId > 0) {
+            var cI = itemsDivs[seleId];
+            var pN = parseInt(targetObj.offsetHeight / cI.offsetHeight) - 1;
+            var nI = itemsDivs[Math.max(seleId - pN, 0)];
+            if (cI.className.indexOf("jxlsr") !== false) {
+                cI.className = cI.className.substr(0, cI.className.indexOf("jxlsr"));
+                }
+            doMove             = true;
+            targetObj.jxSeleId = Math.max(seleId - pN, 0);
+            }
+        }
     // _________________________________________________________________________ KeyUp ___
     if (stdEvent.keyCode == 38) {
-        var itemsDivs = targetObj.getElementsByTagName("div");
-        var seleId    = parseInt(targetObj.jxSeleId || 0);
-        var codeVal   = "";
         if (seleId > 0) {
             var cI = itemsDivs[seleId];
             var nI = itemsDivs[seleId - 1];
-            if (cI.className.indexOf("jxlsr")) {
+            if (cI.className.indexOf("jxlsr") !== false) {
                 cI.className = cI.className.substr(0, cI.className.indexOf("jxlsr"));
                 }
-            nI.className      += " jxlsr";
-            codeVal            = nI.id.substr(7);
-            seleItem           = nI;
             doMove             = true;
             targetObj.jxSeleId = (seleId - 1);
             }
         }
     // _______________________________________________________________________ KeyDown ___
     if (stdEvent.keyCode == 40) {
-        var itemsDivs = targetObj.getElementsByTagName("div");
-        var seleId    = parseInt(targetObj.jxSeleId || 0);
-        var codeVal   = "";
         if (seleId < (itemsDivs.length - 1)) {
             var cI = itemsDivs[seleId];
             var nI = itemsDivs[seleId + 1];
-            if (seleId > -1 && cI.className.indexOf("jxlsr")) {
+            if (seleId > -1 && cI.className.indexOf("jxlsr") !== false) {
                 cI.className = cI.className.substr(0, cI.className.indexOf("jxlsr"));
                 }
-            nI.className      += " jxlsr";
-            codeVal            = nI.id.substr(7);
-            seleItem           = nI;
             doMove             = true;
             targetObj.jxSeleId = (seleId + 1);
+            }
+        }
+    // ______________________________________________________________________ PageDown ___
+    if (stdEvent.keyCode == 34) {
+        if (seleId < (itemsDivs.length - 1)) {
+            var cI = itemsDivs[seleId];
+            var pN = parseInt(targetObj.offsetHeight / cI.offsetHeight) - 1;
+            var nI = itemsDivs[Math.min(seleId + pN, itemsDivs.length - 1)];
+            if (seleId > -1 && cI.className.indexOf("jxlsr") !== false) {
+                cI.className = cI.className.substr(0, cI.className.indexOf("jxlsr"));
+                }
+            doMove             = true;
+            targetObj.jxSeleId = Math.min(seleId + pN, itemsDivs.length - 1);
             }
         }
     // _______________________________________________________________ Process control ___
     if (doMove) {
         stdEvent.stop();
+        nI.className += " jxlsr";
+        codeVal       = nI.dataset.code;
+        seleItem      = nI;
         o2jse.ctrl.init(targetObj);
         var o2data      = targetObj.o2;
         var codeField   = o2jse.infoForm[o2data.c + o2data.e];
         codeField.value = codeVal;
         codeField.o2    = o2data;
         // ___________________________________________ Ensure selected item visibility ___
-        o2jse.showByScroll(seleItem);
+        o2jse.lb.showByScroll(seleItem);
         if (o2jse.cliMode && o2data.fret) {
             jxjs.request(codeField, codeField.value);
             }
@@ -6385,6 +6414,47 @@ o2jse.lb.k = function(eventObj) {
         }
 
     };
+
+
+/**
+ * Set listbox items index and make selected item visible
+ *
+ * @param {String} listCtrlId   Listbox control ID
+ */
+o2jse.lb.set = function(listCtrlId, value) {
+
+    var listCtrl;
+    if (!(listCtrl = document.getElementById(listCtrlId))) {
+        return false;
+        }
+    var itemsDivs = listCtrl.getElementsByTagName("div");
+    for (var i = itemsDivs.length - 1; i >= 0; i--) {
+        if (itemsDivs[i].dataset.code == value) {
+            listCtrl.jxSeleId = i;
+            o2jse.lb.showByScroll(itemsDivs[i]);
+            break;
+            }
+        }
+
+    };
+
+
+/**
+ * Make an item visible in a scrollable listbox control
+ *
+ * @param {Object} item   Listbox item row DIV element
+ */
+o2jse.lb.showByScroll = function(item) {
+
+    if (item.offsetTop < item.parentNode.scrollTop) {
+        item.parentNode.scrollTop = item.offsetTop;
+        }
+    else if (item.offsetTop >
+         (item.parentNode.scrollTop + item.parentNode.offsetHeight - item.offsetHeight)) {
+        item.parentNode.scrollTop = item.offsetTop;
+        }
+
+    }
 
 
 /**
@@ -8716,12 +8786,13 @@ jxc = function(defObj) {
                         var itext;
                         divObj.innerHTML = "";
                         for (var i = 0; i < defObj.items.length; i++) {
-                            icode      = defObj.items[i][0];
-                            itext      = defObj.items[i][1];
-                            opts[i]    = o2jse.createEl(divObj, "DIV", "", itext);
-                            opts[i].id = "jxdata:" + icode;
+                            icode   = defObj.items[i][0];
+                            itext   = defObj.items[i][1];
+                            opts[i] = o2jse.createEl(divObj, "DIV", "", itext);
+                            opts[i].dataset.code = icode;
                             if (icode == defObj.d) {
                                opts[i].className = "jxlsr";
+                               o2jse.lb.showByScroll(opts[i]);
                                }
                             }
                         // ________________________ Set value (if not changed by user) ___

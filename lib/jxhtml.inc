@@ -2516,21 +2516,18 @@ class o2html {
 
         $app            = $_SESSION['o2_app'];
         $mask           = $o2ctrl_obj->maschera;
-        $task_obj       = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->
-                           contesto[$o2ctrl_obj->task];
-        $form_local     = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->
-                           form[$o2ctrl_obj->form];
         $enabled_in_tab = $o2ctrl_obj->active_by_tab;
         $active         = $o2ctrl_obj->is_active();
         $enabled        = $o2ctrl_obj->is_enabled();
         $v_local        = trim($o2ctrl_obj->ctrl2sql());
         $zoom           = $o2ctrl_obj->is_zoomable();
+        $html_name      = $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione;
         // __________________________________________________ Values list from picture ___
         if (!count($o2ctrl_obj->valori) && is_array($mask->valori)) {
             $o2ctrl_obj->valori = $mask->valori;
             }
-        $jsl = "";
-        $jsi = "";
+        $jsl = '';
+        $jsi = '';
         if ($active && $enabled) {
             $jsi = 'tabindex="0" onClick="o2jse.lb.m(event);" '.
                    'onkeydown="o2jse.lb.k(event);" ';
@@ -2540,16 +2537,15 @@ class o2html {
             $jsl = 'onDblClick="o2jse.ctrl.zoom(event);" ';
             }
         if ($enabled_in_tab) {
-            $cod_default = false;
-            print '<div id="'.$o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.
-                  '" class="'.$o2ctrl_obj->css.($enabled ? "" : "_dis").
+            print '<div id="'.$html_name.
+                  '" class="'.$o2ctrl_obj->css.($enabled ? '' : '_dis').
                                                ($zoom && $active ? ' jxzoom' : '').
                                                ($o2ctrl_obj->forza_submit &&
                                                 $active && $enabled ? ' jxsoc' :'').
                   '" style="width:'.
-                  $o2ctrl_obj->larghezza.'px;height:'.$o2ctrl_obj->altezza."px;".
-                  ($o2ctrl_obj->visibile ? "" : "display:none;")."\"\n".
-                  $o2ctrl_obj->js_props($zoom ? "z:!0" : "z:!1").$jsi.$jsl.">\n";
+                  $o2ctrl_obj->larghezza.'px;height:'.$o2ctrl_obj->altezza.'px;'.
+                  ($o2ctrl_obj->visibile ? '' : 'display:none;')."\"\n".
+                  $o2ctrl_obj->js_props($zoom ? 'z:!0' : 'z:!1').$jsi.$jsl.">\n";
             // _____________________________ Draw items list and verify code existence ___
             $o2ctrl_obj->error = true;
             $list              = '';
@@ -2560,31 +2556,31 @@ class o2html {
                                                    $codice,
                                                    $descrizione);
                     }
-                $cod_default = ($cod_default !== false ? $cod_default : $codice);
-                $list.= '<div id="jxdata:'.$codice.'" ';
+                $list.= '<div data-code="'.$codice.'" ';
                 if ($v_local === trim($codice)) {
                     $list             .= "class='jxlsr'";
                     $o2ctrl_obj->error = false;
                     }
                 if (!$descrizione) {
-                    $descrizione = "&nbsp;";
+                    $descrizione = '&nbsp;';
                     }
                 else  {
                     $descrizione = htmlentities($descrizione, ENT_QUOTES,
                                                               $app->chr_encoding);
                     }
-                $list.= ">".$descrizione."</div>\n";
+                $list.= '>'.$descrizione."</div>\n";
                 }
             if ($o2ctrl_obj->error && $v_local) {
-                $list = '<div id="jxdata:'.$v_local.'" class="jxlsr jxerror">['.
+                $list = '<div data-code="'.$v_local.'" class="jxlsr jxerror">['.
                         $v_local.'] Value not in list</div>'.$list;
                 }
-            print $list.'</div><input type="hidden" name="'.
-                  $o2ctrl_obj->nome.$o2ctrl_obj->id_esecuzione.
-                  "\" value='".$cod_default."'>\n";
+            print $list.'</div><input type="hidden" name="'.$html_name.'" '.
+                  $o2ctrl_obj->js_props('listbox:!0').
+                  " value='".$v_local."'>\n".
+                  '<script>o2jse.lb.set("'.$html_name.'","'.$v_local.'");</script>';
             }
         else {
-            $valore_local = "";
+            $valore_local = '';
             foreach ($o2ctrl_obj->valori as $codice => $descrizione) {
                 if ($app->multilang) {
                     $descrizione = $app->translate($o2ctrl_obj->nome,
@@ -2597,12 +2593,12 @@ class o2html {
                                              $app->chr_encoding).'<br />';
                 }
             if (!$valore_local) {
-                $valore_local = "&nbsp;";
+                $valore_local = '&nbsp;';
                 }
             print '<div style="width:'.$o2ctrl_obj->larghezza.
                           'px;height:'.$o2ctrl_obj->altezza.'px;'.
-                  ($o2ctrl_obj->visibile ? "" : "display:none;").'" '.
-                  $o2ctrl_obj->js_props().">".$valore_local."</div>\n";
+                  ($o2ctrl_obj->visibile ? '' : 'display:none;').'" '.
+                  $o2ctrl_obj->js_props().'>'.$valore_local."</div>\n";
             }
 
         }
