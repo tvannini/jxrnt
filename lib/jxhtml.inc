@@ -2018,6 +2018,7 @@ class o2html {
                  '" class="'.($nowin ? $nowin : "winshadow").
                  '" style="position:absolute;'.$align_buffer.
                  "\">\n<div class=\"".$o2form_obj->css_finestra.
+                      ($o2form_obj->attiva ? '' : ' jxform_inactive').
                       '" style="width:'.$o2form_obj->larghezza."px;\">\n";
 
         // ===================== NOME E PROPRIETA' CLIENT DELLA FORM =====================
@@ -2545,7 +2546,8 @@ class o2html {
                   '" style="width:'.
                   $o2ctrl_obj->larghezza.'px;height:'.$o2ctrl_obj->altezza.'px;'.
                   ($o2ctrl_obj->visibile ? '' : 'display:none;')."\"\n".
-                  $o2ctrl_obj->js_props($zoom ? 'z:!0' : 'z:!1').$jsi.$jsl.">\n";
+                  $o2ctrl_obj->js_props("boxtype:'list'".($zoom ? ',z:!0' : ',z:!1')).
+                  $jsi.$jsl.">\n";
             // _____________________________ Draw items list and verify code existence ___
             $o2ctrl_obj->error = true;
             $list              = '';
@@ -2575,7 +2577,7 @@ class o2html {
                         $v_local.'] Value not in list</div>'.$list;
                 }
             print $list.'</div><input type="hidden" name="'.$html_name.'" '.
-                  $o2ctrl_obj->js_props('listbox:!0').
+                  $o2ctrl_obj->js_props("boxtype:'list'").
                   " value='".$v_local."'>\n".
                   '<script>o2jse.lb.set("'.$html_name.'","'.$v_local.'");</script>';
             }

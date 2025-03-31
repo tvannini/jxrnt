@@ -14,8 +14,12 @@
     overflow: hidden;
     }
 
-table.o2_form_titlebar_no + div.o2_form_body {
-    opacity: 60%;
+.jxform_inactive {
+    filter: grayscale(100%) brightness(112%);
+    }
+
+.jxform_inactive * {
+    color: var(--jx-color-disabled);
     }
 
 .open_body {

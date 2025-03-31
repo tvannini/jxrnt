@@ -238,14 +238,14 @@ option:hover {
 .o2_ctrl_listcombo div,
 .o2_ctrl_listcombo_dis div,
 .o2_ctrl_listcombo_list div {
-    padding: 1px 3px 1px 3px;
+    padding:2px 3px 2px 3px;
     white-space: nowrap;
     }
 
 .o2_ctrl_listcombo div:hover,
 .o2_ctrl_listcombo_list div:hover {
     background-color: #f0efed;
-    padding: 1px 3px 1px 3px;
+    padding: 2px 3px 2px 3px;
     cursor: pointer;
     }
 

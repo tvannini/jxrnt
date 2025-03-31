@@ -4653,7 +4653,7 @@ o2jse.cmd.focus = function(ctrlName, seleMode) {
                         }
                     }
                 // ___________________________________________________________ Listbox ___
-                else if (ctrlLocal.o2.listbox) {
+                else if (ctrlLocal.o2.boxtype == "list") {
                     document.getElementById(ctrlLocal.name).focus();
                     }
                 }

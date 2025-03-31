@@ -563,7 +563,8 @@ class jxjs {
                                         ',y:'.$o2ctrl_obj->y.
                                         ',w:'.$o2ctrl_obj->larghezza.
                                         ',h:'.$o2ctrl_obj->altezza,
-                                 $o2ctrl_obj->js_props(($zoom ? 'z:!0' : 'z:!1'), true));
+                                 $o2ctrl_obj->js_props("boxtype:'list',".
+                                                       ($zoom ? 'z:!0' : 'z:!1'), true));
                 }
             }
 
