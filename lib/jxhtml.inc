@@ -1068,6 +1068,10 @@ class o2html {
             $app->progressivo_istanze = $prgexe_id;
             }
         elseif (($prgexe_id > $app->progressivo_istanze) || ($prgexe_id == 0)) {
+            // ________________________________________________ Execute system actions ___
+            if (isset($_REQUEST['jxact'])) {
+                return o2html::sys_action();
+                }
             return false;
             }
         // _______________________________________________________________ Get uploads ___
