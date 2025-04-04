@@ -1396,8 +1396,17 @@ o2jse.ctrl.k = function(eventObj) {
                         var navLocal = o2jse.infoForm[navName];
                         o2jse.ctrl.init(navLocal);
                         if (navLocal.o2.navNav) {
+                            // __ Take focus on current control while changing dataset ___
+                            if (stdEvent.target.focus) {
+                                o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f;
+                                o2jse.infoForm['o2lastctrl'].value = stdEvent.target.o2.c;
+                                }
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName + "_fbtn"));
+                            // _____________________________ Fallback to control focus ___
+                            if (stdEvent.target.focus) {
+                                stdEvent.target.focus();
+                                }
                             return false;
                             }
                         }
@@ -1408,8 +1417,17 @@ o2jse.ctrl.k = function(eventObj) {
                         var navLocal = o2jse.infoForm[navName];
                         o2jse.ctrl.init(navLocal);
                         if (navLocal.o2.navNav) {
+                            // __ Take focus on current control while changing dataset ___
+                            if (stdEvent.target.focus) {
+                                o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f;
+                                o2jse.infoForm['o2lastctrl'].value = stdEvent.target.o2.c;
+                                }
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName + "_ppbtn"));
+                            // _____________________________ Fallback to control focus ___
+                            if (stdEvent.target.focus) {
+                                stdEvent.target.focus();
+                                }
                             return false;
                             }
                         }
@@ -1418,6 +1436,11 @@ o2jse.ctrl.k = function(eventObj) {
                     if (o2jse.cliMode &&
                        (stdEvent.target.o2.cT == "tab" ||
                         stdEvent.target.o2.pT == "tab")) {
+                        // ______ Take focus on current control while changing dataset ___
+                        if (stdEvent.target.focus) {
+                            o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f;
+                            o2jse.infoForm['o2lastctrl'].value = stdEvent.target.o2.c;
+                            }
                         o2jse.tab.changeRow(stdEvent.target, "P", navName);
                         stdEvent.stop();
                         return false;
@@ -1427,6 +1450,11 @@ o2jse.ctrl.k = function(eventObj) {
                         var navLocal = o2jse.infoForm[navName];
                         o2jse.ctrl.init(navLocal);
                         if (navLocal.o2.navNav) {
+                            // __ Take focus on current control while changing dataset ___
+                            if (stdEvent.target.focus) {
+                                o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f;
+                                o2jse.infoForm['o2lastctrl'].value = stdEvent.target.o2.c;
+                                }
                             stdEvent.target.blur();
                             // _______________________________________ Selection table ___
                             if (stdEvent.target.o2.pointer) {
@@ -1436,6 +1464,10 @@ o2jse.ctrl.k = function(eventObj) {
                                 o2jse.nav.btnExe(document.getElementById(navName +
                                                                          "_pbtn"));
                                 }
+                            // _____________________________ Fallback to control focus ___
+                            if (stdEvent.target.focus) {
+                                stdEvent.target.focus();
+                                }
                             return false;
                             }
                         }
@@ -1444,6 +1476,11 @@ o2jse.ctrl.k = function(eventObj) {
                     if (o2jse.cliMode &&
                        (stdEvent.target.o2.cT == "tab" ||
                         stdEvent.target.o2.pT == "tab")) {
+                        // ______ Take focus on current control while changing dataset ___
+                        if (stdEvent.target.focus) {
+                            o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f;
+                            o2jse.infoForm['o2lastctrl'].value = stdEvent.target.o2.c;
+                            }
                         o2jse.tab.changeRow(stdEvent.target, "N", navName);
                         stdEvent.stop();
                         return false;
@@ -1453,6 +1490,11 @@ o2jse.ctrl.k = function(eventObj) {
                         var navLocal = o2jse.infoForm[navName];
                         o2jse.ctrl.init(navLocal);
                         if (navLocal.o2.navNav) {
+                            // __ Take focus on current control while changing dataset ___
+                            if (stdEvent.target.focus) {
+                                o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f;
+                                o2jse.infoForm['o2lastctrl'].value = stdEvent.target.o2.c;
+                                }
                             stdEvent.target.blur();
                             // _______________________________________ Selection table ___
                             if (stdEvent.target.o2.pointer) {
@@ -1461,6 +1503,10 @@ o2jse.ctrl.k = function(eventObj) {
                             else {
                                 o2jse.nav.btnExe(document.getElementById(navName +
                                                                           "_nbtn"));
+                                }
+                            // _____________________________ Fallback to control focus ___
+                            if (stdEvent.target.focus) {
+                                stdEvent.target.focus();
                                 }
                             return false;
                             }
@@ -1472,8 +1518,17 @@ o2jse.ctrl.k = function(eventObj) {
                         var navLocal = o2jse.infoForm[navName];
                         o2jse.ctrl.init(navLocal);
                         if (navLocal.o2.navNav) {
+                            // __ Take focus on current control while changing dataset ___
+                            if (stdEvent.target.focus) {
+                                o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f;
+                                o2jse.infoForm['o2lastctrl'].value = stdEvent.target.o2.c;
+                                }
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName + "_npbtn"));
+                            // _____________________________ Fallback to control focus ___
+                            if (stdEvent.target.focus) {
+                                stdEvent.target.focus();
+                                }
                             return false;
                             }
                         }
@@ -1484,8 +1539,17 @@ o2jse.ctrl.k = function(eventObj) {
                         var navLocal = o2jse.infoForm[navName];
                         o2jse.ctrl.init(navLocal);
                         if (navLocal.o2.navNav) {
+                            // __ Take focus on current control while changing dataset ___
+                            if (stdEvent.target.focus) {
+                                o2jse.infoForm['o2lastform'].value = stdEvent.target.o2.f;
+                                o2jse.infoForm['o2lastctrl'].value = stdEvent.target.o2.c;
+                                }
                             stdEvent.target.blur();
                             o2jse.nav.btnExe(document.getElementById(navName + "_lbtn"));
+                            // _____________________________ Fallback to control focus ___
+                            if (stdEvent.target.focus) {
+                                stdEvent.target.focus();
+                                }
                             return false;
                             }
                         }
@@ -3948,30 +4012,30 @@ o2jse.nav = {
  */
 o2jse.nav.btnExe = function(targetObj) {
 
-    o2jse.ctrl.init(targetObj);
-    // __________________________________ Preserve waiting requests (submit-on-change) ___
-    if (o2jse.submitting && o2jse.submitCtrl) {
-        jxjs.cachedObj = targetObj;
-        jxjs.cachedCmd = "if(jxjs.cachedObj.style.display != 'none' && " +
-                            "jxjs.cachedObj.onclick){\n" +
-                            "o2jse.submitting=false;\n" +
-                            "o2jse.nav.btnExe(jxjs.cachedObj);}\n";
-        return false;
-        }
-    if(!targetObj.o2.msg || o2jse.cmd.confirm(targetObj.o2.msg)) {
-        var ctrlName                        = targetObj.o2.c + targetObj.o2.e;
-        o2jse.infoForm["o2_prgexeid"].value = targetObj.o2.e;
-        o2jse.infoForm[ctrlName].value      = targetObj.o2.action;
-        targetObj.o2.msg                    = "";
-        o2jse.ctrl.make_waiting(targetObj);
-        o2jse.infoForm['o2lastform'].value = '';
-        o2jse.infoForm['o2lastctrl'].value = '';
-        // _____________________________________________________ Client mode execution ___
-        if (o2jse.cliMode) {
-            jxjs.request(targetObj, targetObj.o2.action);
+    if (targetObj !== null) {
+        o2jse.ctrl.init(targetObj);
+        // ______________________________ Preserve waiting requests (submit-on-change) ___
+        if (o2jse.submitting && o2jse.submitCtrl) {
+            jxjs.cachedObj = targetObj;
+            jxjs.cachedCmd = "if(jxjs.cachedObj.style.display != 'none' && " +
+                                "jxjs.cachedObj.onclick){\n" +
+                                "o2jse.submitting=false;\n" +
+                                "o2jse.nav.btnExe(jxjs.cachedObj);}\n";
+            return false;
             }
-        else {
-            o2jse.cmd.ctrlUpd(targetObj);
+        if(!targetObj.o2.msg || o2jse.cmd.confirm(targetObj.o2.msg)) {
+            var ctrlName                        = targetObj.o2.c + targetObj.o2.e;
+            o2jse.infoForm["o2_prgexeid"].value = targetObj.o2.e;
+            o2jse.infoForm[ctrlName].value      = targetObj.o2.action;
+            targetObj.o2.msg                    = "";
+            o2jse.ctrl.make_waiting(targetObj);
+            // _________________________________________________ Client mode execution ___
+            if (o2jse.cliMode) {
+                jxjs.request(targetObj, targetObj.o2.action);
+                }
+            else {
+                o2jse.cmd.ctrlUpd(targetObj);
+                }
             }
         }
 
