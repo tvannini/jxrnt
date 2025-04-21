@@ -263,8 +263,11 @@ option:hover {
     }
 
 .o2_ctrl_img {
+    margin: 0;
+    padding: 0;
+    object-fit: none;
+    object-position: center center;
     vertical-align: middle;
-    border-radius: 3px;
     }
 
 .o2_ctrl_check:focus {
