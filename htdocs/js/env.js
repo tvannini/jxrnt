@@ -6379,7 +6379,7 @@ o2jse.lb.m = function(eventObj) {
         o2jse.ctrl.init(tarParent);
         var o2data      = targetObj.parentNode.o2;
         var codeField   = o2jse.infoForm[o2data.c + o2data.e];
-        codeField.value = targetObj.dataset.code
+        codeField.value = targetObj.dataset.code;
         codeField.o2    = o2data;
         if (o2jse.cliMode && o2data.fret) {
             jxjs.request(codeField, codeField.value);
@@ -6518,7 +6518,7 @@ o2jse.lb.showByScroll = function(item) {
         item.parentNode.scrollTop = item.offsetTop;
         }
 
-    }
+    };
 
 
 /**
