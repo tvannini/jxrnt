@@ -7836,7 +7836,7 @@ function o2_time(){
 function jx_encode($string, $encode = false) {
 
     if (trim($string) === '') {
-        return '';
+        return $string;
         }
     elseif (!$encode) {
         $encode = (isset($_SESSION['o2_app']) ?
