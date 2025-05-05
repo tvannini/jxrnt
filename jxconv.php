@@ -1078,7 +1078,7 @@ class upgrades_collection {
      */
     static function to3_0($app_name, $app_dir) {
 
-        // ____________________________ Remove ->wide syntax and replace with ->expand ___
+        // ___________________________________ Remove force-to-reference character "&" ___
         $dir   = new dir_descriptor($app_dir.'prgs/');
         $files = $dir->get_elements();
         // _________________________________________________ Loop on folder files list ___
