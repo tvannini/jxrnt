@@ -1703,7 +1703,21 @@ class o2_ctrl {
                                           +-----------------------------+               */
     public $form            = "";      /* Name of form containing control               */
     public $padre           = "";      /* Name of parent (container) control (""=form)  */
-    public $info_padre      = array(); /* Control informations for parent               */
+    public $info_padre      = array(); /* Control informations for parent
+                                          +------- Grid --------+
+                                          |  0 row              |
+                                          |  1 start column     |
+                                          |  2 end column       |
+                                          |  3 title            |
+                                          |  4 hide sort button |
+                                          |  5 cell CSS         |
+                                          |  6 * NOT USED *     |
+                                          |  7 header CSS       |
+                                          |  8 footer           |
+                                          |  9 footer CSS       |
+                                          | 10 tooltip          |
+                                          | 11 header action    |
+                                          +---------------------+                       */
     public $prg             = "";      /* Name of prg containing control                */
     public $id_esecuzione   = 0;       /* Program execution id (PRG_EXE_ID)             */
     public $task            = "";      /* View name if one is binded to control         */
