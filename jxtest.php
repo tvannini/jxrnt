@@ -162,11 +162,10 @@ function error_mode($error_mode) {
     $ret = '';
     switch ($error_mode) {
         case 'DEV':
-            $ret = 'error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE); ';
+            $ret = 'error_reporting(E_ALL & ~E_NOTICE); ';
             break;
         case 'EXE':
-            $ret = 'error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & '.
-                   '~E_NOTICE); ';
+            $ret = 'error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_NOTICE); ';
             break;
         }
     $ret.= 'ini_set("display_errors", true); ini_set("log_errors", false); ';

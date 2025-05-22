@@ -87,7 +87,7 @@ $apps = ['jxdemo'   => __DIR__.DIRECTORY_SEPARATOR.'demo'.DIRECTORY_SEPARATOR.'h
 $port = 8333;
 
 // ____________________________________ Set down error reporting to avoid braking HTML ___
-error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_NOTICE);
 ini_set('display_errors', false);
 ini_set('log_errors', true);
 

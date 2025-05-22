@@ -374,7 +374,7 @@ class o2_exception extends Exception {
                 (new o2_exception($message.'<br>File: '.$file.' Line: '.$line,
                                   o2error_DEPRECATED))->send();
                 }
-            elseif ($severity != E_STRICT && $severity != E_NOTICE) {
+            elseif ($severity != E_NOTICE) {
                 (new o2_exception($message.'<br>File: '.$file.' Line: '.$line))->send();
                 }
             else {

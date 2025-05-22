@@ -518,16 +518,12 @@ class o2_app {
 
         switch ($this->error_mode) {
             case 'DEV':
-                error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE);
+                error_reporting(E_ALL & ~E_NOTICE);
                 ini_set('display_errors', false);
                 ini_set('log_errors', true);
                 break;
             case 'EXE':
-                error_reporting(E_ALL &
-                                ~E_WARNING &
-                                ~E_DEPRECATED &
-                                ~E_STRICT &
-                                ~E_NOTICE);
+                error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_NOTICE);
                 ini_set('display_errors', false);
                 ini_set('log_errors', true);
                 break;

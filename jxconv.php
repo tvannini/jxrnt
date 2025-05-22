@@ -56,7 +56,7 @@ JANOX_SCRIPT_HEAD;
 
 
 // ____________________________________ Set down error reporting to avoid braking HTML ___
-error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_NOTICE);
 ini_set('display_errors', false);
 ini_set('log_errors', true);
 
