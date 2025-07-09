@@ -191,7 +191,7 @@ if (session_start()) {
                     }
                 }
             // ___________________________________________________________ Log to file ___
-            elseif ($_REQUEST['jxfilelog']) {
+            elseif (isset($_REQUEST['jxfilelog'])) {
                 $app->log2file = ($_REQUEST['jxfilelog'] == "on");
                 print "o2jse.lab.status(".
                       ($_REQUEST['jxfilelog'] == "on" ? "true," : "false,").
@@ -200,7 +200,7 @@ if (session_start()) {
                       ");\n";
                 }
             // _____________________________________________________ Log DB activities ___
-            elseif ($_REQUEST['jxsqllog']) {
+            elseif (isset($_REQUEST['jxsqllog'])) {
                 $app->sqltrace = ($_REQUEST['jxsqllog'] == "on");
                 print "o2jse.lab.status(".
                       ($app->log2file ? "true," : "false,").
@@ -209,7 +209,7 @@ if (session_start()) {
                       ");\n";
                 }
             // ___________________________________ Mute console log - log only to file ___
-            elseif ($_REQUEST['jxmutelog']) {
+            elseif (isset($_REQUEST['jxmutelog'])) {
                 $app->mutelog = ($_REQUEST['jxmutelog'] == "on");
                 print "o2jse.lab.status(".
                       ($app->log2file ? "true," : "false,").
@@ -218,7 +218,7 @@ if (session_start()) {
                       ");\n";
                 }
             // ________________________________________________ Request variables list ___
-            elseif ($_REQUEST['jxvarlist']) {
+            elseif (isset($_REQUEST['jxvarlist'])) {
                 if ($_REQUEST['jxvarlist'] !== "1") {
                     $filter = strtolower($_REQUEST['jxvarlist']);
                     }
@@ -301,7 +301,7 @@ if (session_start()) {
                     }
                 }
             // _____________________________________ Re-execute module with parameters ___
-            elseif ($_REQUEST['jxexemodule']) {
+            elseif (isset($_REQUEST['jxexemodule'])) {
                 if (is_a($app, "o2_app")) {
                     // _____________________________ Clear all previous output, if any ___
                     ob_end_clean();
