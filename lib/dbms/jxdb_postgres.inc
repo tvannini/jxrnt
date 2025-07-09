@@ -228,6 +228,7 @@ function o2_postgres_execute($query,
             o2log('(Start fetching) '.$query);
             }
         else {
+            $ppars = '';
             if ($prepared_pars) {
                 $ppars = "\nWith parameters: ".print_r($prepared_pars, 1);
                 }
