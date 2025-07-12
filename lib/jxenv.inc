@@ -300,7 +300,7 @@ class o2_prg {
      */
     function risorsa($nome, $tipo, $risorsa = "", $direzione = "O") {
 
-        if (!$this->risorse[$nome]) {
+        if (!isset($this->risorse[$nome])) {
             $this->risorse[$nome] = new o2_risorsa($this->nome,
                                                    $this->id,
                                                    $nome,
@@ -320,7 +320,7 @@ class o2_prg {
      */
     function protocollo($nome, $tipo = "XML") {
 
-        if (!$this->protocolli[$nome]) {
+        if (!isset($this->protocolli[$nome])) {
             $this->protocolli[$nome] = new o2_protocollo($this->nome,
                                                          $this->id,
                                                          $nome,
