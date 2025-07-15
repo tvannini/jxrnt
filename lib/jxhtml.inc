@@ -1258,7 +1258,7 @@ class o2html {
                             $hscr = $ctrl_obj->nome.$ctrl_obj->id_esecuzione.'_hscroll';
                             // _________________________________ Get horizontal scroll ___
                             if (isset($_REQUEST[$hscr]) && $_REQUEST[$hscr] !== '') {
-                                $ctrl_obj->hscroll = intval($_REQUEST[$$hscr]);
+                                $ctrl_obj->hscroll = intval($_REQUEST[$hscr]);
                                 }
                             // ___________________________________ Get vertical scroll ___
                             $vscr = $ctrl_obj->nome.$ctrl_obj->id_esecuzione.'_vscroll';
