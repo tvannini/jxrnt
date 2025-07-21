@@ -1,5 +1,5 @@
 <?php
-//2.9
+//3.0
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -9,6 +9,7 @@ o2def::prgnotes("");
 o2def::prg("o2dev_app_analysis", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
+o2def::act("a_aspid");
 o2def::act("a_build_tabs_relations");
 o2def::act("a_check_exps");
 o2def::act("a_check_links");

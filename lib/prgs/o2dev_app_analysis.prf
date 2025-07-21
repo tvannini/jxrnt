@@ -65,6 +65,10 @@ function o2dev_app_analysis§§o2dev_app_analysis_form_def($form_o2dev_app_analysi
 		$ctrl_o2htmlarea2->css(o2dev_app_analysis_exp_5());
 		}
 
+function o2dev_app_analysis§§a_aspid_act($o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2dev_app_analysis_exp_53()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function o2dev_app_analysis§§a_build_tabs_relations_act($o2exe) {
 	$o2exe->s(1) && True && o2act::call(o2dev_app_analysis_exp_43(), False, "prg§_§var§§ext_data") && $o2exe->e();
 	$o2exe->s(2) && True && o2act::script(o2dev_app_analysis_exp_42()) && $o2exe->e();
@@ -164,7 +168,8 @@ function o2dev_app_analysis§§do_analysis_act($o2exe) {
 	$o2exe->s(16) && (o2dev_app_analysis_exp_39() || $o2exe->e()) && o2act::exe("a_check_locks", True, "") && $o2exe->e();
 	$o2exe->s(17) && (o2dev_app_analysis_exp_44() || $o2exe->e()) && o2act::exe("a_count_calls", True, "") && $o2exe->e();
 	$o2exe->s(18) && (o2dev_app_analysis_exp_50() || $o2exe->e()) && o2act::exe("a_missing_catch", True, "") && $o2exe->e();
-	$o2exe->s(19) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
+	$o2exe->s(19) && (o2dev_app_analysis_exp_52() || $o2exe->e()) && o2act::exe("a_aspid", True, "") && $o2exe->e();
+	$o2exe->s(20) && True && o2act::set("prg§_§var", "done", o2dev_app_analysis_exp_3()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2dev_app_analysis§§export_act($o2exe) {
@@ -217,7 +222,8 @@ function o2dev_app_analysis_exp_4() {
               "NUIDXTOREP"  => "Move not unique indexes to repository",
               "REPALIASLEN" => "Aliases longer then 35 chars in reports",
               "CHECKLOCKS"  => "Uses of SELECT FOR UPDATE (LOCK)",
-              "REMNOCATCH"  => "Remove missing catch-actions definitions");
+              "REMNOCATCH"  => "Remove missing catch-actions definitions",
+              "ASPID"       => "Programs using ASPID related functions");
 return ($list);
 	} //|o2_fine_exp|
 
@@ -1910,6 +1916,66 @@ if (count($res)) {
 else {
    $tree = array('jxresult' => array(0, 'No missing catch-actions found'));
    o2tree_def('jxresult', $tree);
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_52() {
+	
+return (o2val('prg§_§var','analysis_model') == 'ASPID');
+	} //|o2_fine_exp|
+
+function o2dev_app_analysis_exp_53() {
+	$app     = $_SESSION['o2_app'];
+$res     = array();
+$show    = "jxresult";
+$id_prg  = 0;
+$tool    = new o2_inspector();
+$needles = array('o2db_asp',
+                 'o2tab_asp',
+                 'o2asp_code_get',
+                 'o2asp_code_set',
+                 'o2asp_codes');
+$search  = implode('|', $needles); 
+/* _____________________________________________________ Loop on programs ___ */
+foreach ($tool->prgs_list as $prg => $prf) {
+   $code = file_get_contents($prf);
+   $list = array();
+   foreach (o2_inspector::get_prg_exps($code, $prg) as $exp_id => $exp_body) {
+      $parts = array();
+      preg_match('/'.$search.'/', $exp_body, $parts);
+o2log($parts);
+/*      
+      if (strpos($parts[1], ';') !== false) {
+         $list[] = $exp_id;
+         }
+*/         
+      }
+   if (count($list)) {
+      $id_prg++;
+      $id_exe = 0;
+      if (!isset($res['P'.$id_prg])) {
+         $res['P'.$id_prg] = array($show, $prg, '<jx>/img/tools/tree/prg.png');
+         }
+      foreach ($list as $exp) {
+         $res['P'.$id_prg.'.'.$exp] = array('P'.$id_prg, $exp, '<jx>/img/tools/tree/exp.png');
+         }
+      }
+   }
+if ($id_prg) {
+   $res["jxresult"] = array(0,
+                            $id_prg." programs refering to ASPID",
+                            "<jx>/img/tabadmin/tree/folder.png");
+   }
+else {
+   $res["jxresult"] = array(0,
+                            "No programs refering to ASPID",
+                            "<jx>/img/tabadmin/tree/folder.png");
+   }
+ksort($res);
+o2tree_def("jxresult", $res);
+if ($id_prg) {
+   o2tree_node_show("jxresult", 'P'.$id_prg);
    }
 return (true);
 	} //|o2_fine_exp|
