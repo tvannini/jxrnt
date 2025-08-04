@@ -105,11 +105,11 @@ function o2sys_filter_menu_exp_9() {
 	$app_menu = $_SESSION["o2_app"]->menu;
 foreach (o2val('prg§_§var','exclude_list') as $menu_name => $excluded) {
    if ($excluded) {
-      if ($app_menu[$menu_name]) {
+      if (isset($app_menu[$menu_name])) {
          unset($app_menu[$menu_name]);
          }
       foreach ($app_menu as $single_menu) {
-         if ($single_menu->voci[$menu_name]) {
+         if (isset($single_menu->voci[$menu_name])) {
             unset($single_menu->voci[$menu_name]);
             }
          }
