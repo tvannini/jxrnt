@@ -2603,12 +2603,14 @@ o2jse.tab.stopColMoving = function(eventObj, stopped) {
     var x = stdEvent.x;
     var rect;
     var colIdx;
+    var rm = (movingCol.c[0].className === "o2_tab_marker" ? 0 : 1);
     if (x >= movingCol.l && x <= movingCol.r) {
         for (var i = 0; i < movingCol.c.length; i++) {
             rect = movingCol.c[i].getBoundingClientRect();
             if (x >= rect.left && x <= rect.right) {
                 o2jse.ctrl.init(movingCol.c[i]);
-                colIdx = movingCol.c[i].o2.col;
+                colIdx = movingCol.c[i].o2.col + rm;
+                break
                 }
             }
         }
@@ -3630,17 +3632,18 @@ o2jse.tab.orderCols = function(jxInfo) {
     // __________________________ Skip last pseudo-column (used to resize last column) ___
     for (var i = 0; i < colsLen - 1; i++) {
         o2jse.ctrl.init(cols[i]);
-        if (cols[i].className.substr(0, 13) != "o2_tab_marker" && cols[i].o2.v) {
-            var ctrlName        = cols[i].o2.inctrl;
-            singleRow           = frameTable.insertRow(-1);
-            fieldCell           = singleRow.insertCell(-1);
-            fieldCell.innerHTML = (cols[i].innerText || cols[i].textContent).trim();
-            btnUpCell           = singleRow.insertCell(-1);
-            btnUpObj    = o2jse.createEl(btnUpCell, 'div', '',
-                                         '<img src="' + o2jse.rntAlias +
-                                         'img/grid/up.png" title="Move column up" ' +
-                                         'onclick="o2jse.tab.orderCol(this,\'U\',\'' +
-                                         ctrlName + '\');" ' + style + '>');
+        if (cols[i].className.substring(0, 13) != "o2_tab_marker" && cols[i].o2.v) {
+            var ctrlName          = cols[i].o2.inctrl;
+            singleRow             = frameTable.insertRow(-1);
+            singleRow.dataset.col = cols[i].o2.col;
+            fieldCell             = singleRow.insertCell(-1);
+            fieldCell.innerHTML   = (cols[i].innerText || cols[i].textContent).trim();
+            btnUpCell             = singleRow.insertCell(-1);
+            btnUpObj = o2jse.createEl(btnUpCell, 'div', '',
+                                      '<img src="' + o2jse.rntAlias +
+                                      'img/grid/up.png" title="Move column up" ' +
+                                      'onclick="o2jse.tab.orderCol(this,\'U\',\'' +
+                                      ctrlName + '\');" ' + style + '>');
             // _____________________________________________ No "move up" on first row ___
             if (!start) {
                 btnUpObj.firstChild.style.display = 'none';
@@ -3676,8 +3679,9 @@ o2jse.tab.orderCols = function(jxInfo) {
  */
 o2jse.tab.orderCol = function(imgTag, mode, colCtrl) {
 
-    var tr   = imgTag.parentNode.parentNode.parentNode;
-    var idx  = tr.rowIndex + 1;
+    var tr      = imgTag.parentNode.parentNode.parentNode;
+    var idx     = tr.rowIndex + 1;
+    var colSave = tr.dataset.col;
     // _________________________________________ Rows number (excluded "Apply" button) ___
     var rows = tr.parentNode.rows.length - 1;
     var tds;
@@ -3688,6 +3692,9 @@ o2jse.tab.orderCol = function(imgTag, mode, colCtrl) {
             imgTag.style.display = 'none';
             tds = tr.previousSibling.getElementsByTagName('td');
             tds[1].firstChild.firstChild.style.display = 'block';
+            o2jse.tab.orderList[colCtrl] = tr.previousSibling.dataset.col;
+            tr.dataset.col = tr.previousSibling.dataset.col;
+
             }
         // __________________________________________________________ Last row goes up ___
         else if (idx == rows) {
@@ -3695,9 +3702,11 @@ o2jse.tab.orderCol = function(imgTag, mode, colCtrl) {
             tds[2].firstChild.firstChild.style.display = 'block';
             tds = tr.previousSibling.getElementsByTagName('td');
             tds[2].firstChild.firstChild.style.display = 'none';
+            o2jse.tab.orderList[colCtrl] = tr.previousSibling.previousSibling.dataset.col;
+            tr.dataset.col = tr.previousSibling.previousSibling.dataset.col;
             }
+        tr.previousSibling.dataset.col = colSave;
         tr.parentNode.insertBefore(tr, tr.previousSibling);
-        o2jse.tab.orderList[colCtrl] = idx - 1;
         }
     // _____________________________________________________________________ Move down ___
     else {
@@ -3715,7 +3724,9 @@ o2jse.tab.orderCol = function(imgTag, mode, colCtrl) {
             tds[2].firstChild.firstChild.style.display = 'block';
             }
         tr.parentNode.insertBefore(tr.nextSibling, tr);
-        o2jse.tab.orderList[colCtrl] = idx + 1;
+        o2jse.tab.orderList[colCtrl] = tr.nextSibling.dataset.col;
+        tr.dataset.col = tr.nextSibling.dataset.col;
+        tr.nextSibling.dataset.col = colSave;
         }
 
     };
@@ -3815,7 +3826,7 @@ o2jse.tab.customizeColsOrder = function() {
             resp+= "'" + k + "'=>" + oList[k] + ",";
             }
         }
-    resp             = resp.substr(0, resp.length -1) + ')';
+    resp             = resp.substring(0, resp.length - 1) + ')';
     var colSortField = o2jse.createInput(o2jse.infoForm,
                                          "hidden",
                                          "",
