@@ -2337,16 +2337,21 @@ class o2_dbview extends o2_view {
             }
         // ______________________________________________________ SQL field definition ___
         elseif ($formula) {
-            // __ Add JXTAB() for main and link tables to resolve column names in JXSQL___
-            $formula.= '."##JX##';
-            foreach ($this->files as $file_alias => $file) {
-                $formula.= ' JXTAB('.$file->repos_index.':'.$file_alias.')';
-                }
-            $formula.= '"';
             if (strpos($formula, "_exp_") !== false) {
+                // Add JXTAB() for main and link tables to resolve column names in JXSQL__
+                $formula.= '."##JX##';
+                foreach ($this->files as $file_alias => $file) {
+                    $formula.= ' JXTAB('.$file->repos_index.':'.$file_alias.')';
+                    }
+                $formula.= '"';
                 eval("\$sql = jxsql('".$this->file->db->id."',".$formula.");");
                 }
             else {
+                // Add JXTAB() for main and link tables to resolve column names in JXSQL__
+                $formula.= '##JX##';
+                foreach ($this->files as $file_alias => $file) {
+                    $formula.= ' JXTAB('.$file->repos_index.':'.$file_alias.')';
+                    }
                 $sql = jxsql($this->file->db->id, $formula);
                 }
             $sql = '('.substr($sql, 0, strpos($sql, '##JX##')).')';
