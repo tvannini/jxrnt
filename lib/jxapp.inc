@@ -9727,7 +9727,7 @@ class o2_inspector {
                                                                          self::$w_action);
                                     }
                                 foreach ($step as $step_n => $step_act) {
-                                    $key       = "p".$id_prg."a".$act_name.'s'.$step;
+                                    $key       = "p".$id_prg."a".$act_name.'s'.$step_n;
                                     $ret[$key] = array('p'.$id_prg.'a'.$act_name,
                                                        $step_n.' '.$step_act,
                                                        $this->img_path."step.png",
