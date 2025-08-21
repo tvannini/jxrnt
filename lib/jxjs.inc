@@ -138,7 +138,8 @@ class jxjs {
             if ($app->caret_position[$exeid]["int"] && isset($_REQUEST['jxnofocus'])) {
                 $caret = o2html::get_caret(true);
                 if ($caret) {
-                    print "o2jse.ctrl.focusFallBack=".reset(explode(",", $caret)).";\n";
+                    $cl = explode(",", $caret);
+                    print "o2jse.ctrl.focusFallBack=".reset($cl).";\n";
                     }
                 }
             else {

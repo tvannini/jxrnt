@@ -262,8 +262,8 @@ return ('F');
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_5() {
-
-return (array_shift(o2val('prg§_§var','prgs_list')));
+	$l = o2val('prg§_§var','prgs_list');
+return (array_shift($l));
 	} //|o2_fine_exp|
 
 function o2dev_runner_exp_6() {
