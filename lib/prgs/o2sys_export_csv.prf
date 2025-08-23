@@ -4,7 +4,10 @@ function o2sys_export_csv§§prg§_§var_def($task_prg§_§var) {
 	$task_prg§_§var->righe_vis = 1;
 	$task_prg§_§var->definisci("col_excluded", "_o2logical");
 	$task_prg§_§var->definisci("col_name", "_o2alpha");
+	$task_prg§_§var->definisci("columns_all_off", "_o2logical");
+	$task_prg§_§var->definisci("columns_all_on", "_o2logical");
 	$task_prg§_§var->definisci("columns_idx", "_o2number");
+	$task_prg§_§var->definisci("columns_search", "_o2alpha");
 	$task_prg§_§var->definisci("columns_total", "_o2number");
 	$task_prg§_§var->definisci("date_format", "_o2alpha");
 	$task_prg§_§var->definisci("date_sep", "_o2alpha");
@@ -51,8 +54,8 @@ function o2sys_export_csv§§tmp_def($task_tmp, $_o2viewalias = "") {
 	$task_tmp->usa("session_profile","o2_tmp_where","session_profile","o2sys_export_csv_exp_53()","o2sys_export_csv_exp_53()",null,null);
 	$task_tmp->usa("pos_id","o2_tmp_where","pos_id",null,null,null,null);
 	$task_tmp->usa("field_name","o2_tmp_where","field_name","o2sys_export_csv_exp_40()","o2sys_export_csv_exp_40()",null,null);
-	$task_tmp->usa("field_title","o2_tmp_where","field_title",null,null,null,null);
-	$task_tmp->calcola("col_selection","o2sys_long_str","o2sys_export_csv_exp_47()",null,null,null,null);
+	$task_tmp->usa("field_title","o2_tmp_where","field_title",null,null,null,"o2sys_export_csv_exp_63()");
+	$task_tmp->calcola("col_selection","_o2logical","o2sys_export_csv_exp_47()",null,null,null,null);
 }
 
 function o2sys_export_csv§§default_options_def($task_default_options, $_o2viewalias = "") {
@@ -240,25 +243,62 @@ function o2sys_export_csv§§o2sys_export_csv_form_def($form_o2sys_export_csv) {
 function o2sys_export_csv§§o2sys_export_csv_2_form_def($form_o2sys_export_csv_2) {
 	$form_o2sys_export_csv_2->x(40);
 	$form_o2sys_export_csv_2->y(130);
-	$form_o2sys_export_csv_2->larghezza(350);
-	$form_o2sys_export_csv_2->altezza(463);
+	$form_o2sys_export_csv_2->larghezza(340);
+	$form_o2sys_export_csv_2->altezza(460);
 	$form_o2sys_export_csv_2->align_o("Center");
 	$form_o2sys_export_csv_2->titolo("Select columns to export");
 	$form_o2sys_export_csv_2->frm_status(o2sys_export_csv_exp_14());
+	$form_o2sys_export_csv_2->css_body(" open_body");
 	$form_o2sys_export_csv_2->close_action("close_sele_cols");
 	$ctrl_o2table2 = $form_o2sys_export_csv_2->ctrldef("o2table2", "tab", "", "tmp", "");
-		$ctrl_o2table2->x(20);
-		$ctrl_o2table2->y(20);
-		$ctrl_o2table2->larghezza(310);
-		$ctrl_o2table2->altezza(360);
+		$ctrl_o2table2->x(-1);
+		$ctrl_o2table2->y(40);
+		$ctrl_o2table2->larghezza(340);
+		$ctrl_o2table2->altezza(340);
 		$ctrl_o2table2->modificabile(o2sys_export_csv_exp_14());
 	$ctrl_o2button4 = $form_o2sys_export_csv_2->ctrldef("o2button4", "button", "", "", "");
-		$ctrl_o2button4->x(240);
+		$ctrl_o2button4->x(130);
 		$ctrl_o2button4->y(390);
 		$ctrl_o2button4->larghezza(90);
 		$ctrl_o2button4->altezza(30);
 		$ctrl_o2button4->azione("close_sele_cols");
 		$ctrl_o2button4->label("&Done");
+	$ctrl_o2multipage3 = $form_o2sys_export_csv_2->ctrldef("o2multipage3", "multipage", "", "", "");
+		$ctrl_o2multipage3->x(0);
+		$ctrl_o2multipage3->y(0);
+		$ctrl_o2multipage3->larghezza(340);
+		$ctrl_o2multipage3->altezza(42);
+		$ctrl_o2multipage3->label(array("Page1"));
+		$ctrl_o2multipage3->css_space_out(o2sys_export_csv_exp_61());
+		$ctrl_o2multipage3->css_space_in(o2sys_export_csv_exp_60());
+		$ctrl_o2multipage3->css_label_on(o2sys_export_csv_exp_62());
+		$ctrl_o2multipage3->css_label_off(o2sys_export_csv_exp_62());
+		$ctrl_o2multipage3->buttons("T");
+	$ctrl_o2edit4 = $form_o2sys_export_csv_2->ctrldef("o2edit4", "edit", "o2multipage3", "prg§_§var", "columns_search");
+		$ctrl_o2edit4->x(10);
+		$ctrl_o2edit4->y(12);
+		$ctrl_o2edit4->larghezza(160);
+		$ctrl_o2edit4->altezza(20);
+		$ctrl_o2edit4->on_change(o2sys_export_csv_exp_10());
+		$ctrl_o2edit4->info_padre(array(0));
+	$ctrl_o2checkbox4 = $form_o2sys_export_csv_2->ctrldef("o2checkbox4", "check", "o2multipage3", "prg§_§var", "columns_all_on");
+		$ctrl_o2checkbox4->x(290);
+		$ctrl_o2checkbox4->y(12);
+		$ctrl_o2checkbox4->larghezza(20);
+		$ctrl_o2checkbox4->altezza(20);
+		$ctrl_o2checkbox4->azione("columns_select_all");
+		$ctrl_o2checkbox4->on_change(o2sys_export_csv_exp_10());
+		$ctrl_o2checkbox4->popup("o2sys_export_csv_exp_65()");
+		$ctrl_o2checkbox4->info_padre(array(0));
+	$ctrl_o2checkbox5 = $form_o2sys_export_csv_2->ctrldef("o2checkbox5", "check", "o2multipage3", "prg§_§var", "columns_all_off");
+		$ctrl_o2checkbox5->x(310);
+		$ctrl_o2checkbox5->y(12);
+		$ctrl_o2checkbox5->larghezza(20);
+		$ctrl_o2checkbox5->altezza(20);
+		$ctrl_o2checkbox5->azione("columns_unselect_all");
+		$ctrl_o2checkbox5->on_change(o2sys_export_csv_exp_10());
+		$ctrl_o2checkbox5->popup("o2sys_export_csv_exp_64()");
+		$ctrl_o2checkbox5->info_padre(array(0));
 	$ctrl_o2dbnavigator2 = $form_o2sys_export_csv_2->ctrldef("o2dbnavigator2", "navigator", "o2table2", "tmp", "");
 		$ctrl_o2dbnavigator2->x(280);
 		$ctrl_o2dbnavigator2->y(40);
@@ -308,6 +348,16 @@ function o2sys_export_csv§§check_custom_col_act($o2exe) {
 
 function o2sys_export_csv§§close_sele_cols_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "show_cols_sele", o2sys_export_csv_exp_14()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§columns_select_all_act($o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2sys_export_csv_exp_66()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "columns_all_on", o2sys_export_csv_exp_10()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function o2sys_export_csv§§columns_unselect_all_act($o2exe) {
+	$o2exe->s(1) && True && o2act::script(o2sys_export_csv_exp_67()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "columns_all_off", o2sys_export_csv_exp_9999()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_export_csv§§export_act($o2exe) {
@@ -377,7 +427,9 @@ function o2sys_export_csv§§start_act($o2exe) {
 	$o2exe->s(2) && True && o2act::exe("read_options", True, "") && $o2exe->e();
 	$o2exe->s(3) && True && o2act::exe("load_columns", True, "") && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("prg§_§var", "show_cols_sele", o2sys_export_csv_exp_14()) && $o2exe->e();
-	$o2exe->s(5) && True && o2act::set("prg§_§var", "file_name", o2sys_export_csv_exp_30()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "columns_all_off", o2sys_export_csv_exp_9999()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "columns_all_on", o2sys_export_csv_exp_10()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "file_name", o2sys_export_csv_exp_30()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_export_csv§§write_custom_col_act($o2exe) {
@@ -454,42 +506,42 @@ function o2sys_export_csv§§write_options_act($o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_export_csv_exp_1() {
-
+	
 return (array("," => ",", ";" => ";"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_2() {
-
+	
 return (array('D' => '"', "S" => "'"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_3() {
-
+	
 return (array("." => ".", "," => ","));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_4() {
-
+	
 return (array("" => "None", "/" => "/", "-" => "-", "." => "."));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_5() {
-
+	
 return (array("" => "None", ":" => ":"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_6() {
-
+	
 return (o2user_is_admin() ? '' : o2app_user());
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_7() {
-
+	
 return (o2val('prg§_§var','option_code'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_8() {
-
+	
 return ("csv_field_sep");
 	} //|o2_fine_exp|
 
@@ -505,7 +557,7 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_10() {
-
+	
 return (true);
 	} //|o2_fine_exp|
 
@@ -540,7 +592,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_12() {
-
+	
 return ("<jx>/img/wait.gif");
 	} //|o2_fine_exp|
 
@@ -559,87 +611,87 @@ return ($html);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_14() {
-
+	
 return (false);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_15() {
-
+	
 return ("csv_text_delimiter");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_16() {
-
+	
 return ("csv_decimal_sep");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_17() {
-
+	
 return ("csv_date_sep");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_18() {
-
+	
 return ("csv_date_format");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_19() {
-
+	
 return ("csv_time_sep");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_20() {
-
+	
 return ("csv_time_seconds");
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_21() {
-
+	
 return (o2val('user_options','value'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_22() {
-
+	
 return (!o2view_rec("user_options"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_23() {
-
+	
 return (o2val('prg§_§var','fields_sep'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_24() {
-
+	
 return (o2val('prg§_§var','text_del'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_25() {
-
+	
 return (o2val('prg§_§var','decimal_point'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_26() {
-
+	
 return (o2val('prg§_§var','date_sep'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_27() {
-
+	
 return (o2val('prg§_§var','date_format'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_28() {
-
+	
 return (o2val('prg§_§var','time_sep'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_29() {
-
+	
 return (o2val('prg§_§var','with_seconds'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_30() {
-
+	
 return (trim(o2par(1))."_".date("Ymd_Hms"));
 	} //|o2_fine_exp|
 
@@ -690,67 +742,67 @@ return ($prg);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_33() {
-
+	
 return (o2val('prg§_§var','prg_name'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_34() {
-
+	
 return (o2par(1));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_35() {
-
+	
 return ('E');
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_36() {
-
+	
 return (count(o2val('prg§_§var','view_columns')));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_37() {
-
+	
 return (o2val('prg§_§var','columns_idx') >= o2val('prg§_§var','columns_total'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_38() {
-
+	
 return (o2val('prg§_§var','columns_idx') + 1);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_39() {
-
+	
 return (o2val('prg§_§var','view_columns', o2val('prg§_§var','columns_idx'), 'F'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_40() {
-
+	
 return ((o2zero('prg§_§var','col_name') ? null : o2val('prg§_§var','col_name')));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_41() {
-
+	
 return (o2view_rec("custom_cols"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_42() {
-
+	
 return (o2val('prg§_§var','col_name'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_43() {
-
+	
 return (o2val('tmp','field_name'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_44() {
-
+	
 return (o2val('prg§_§var','show_cols_sele'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_45() {
-
+	
 return ('');
 	} //|o2_fine_exp|
 
@@ -760,17 +812,17 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_47() {
-
+	
 return (o2view_selector('tmp'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_48() {
-
+	
 return (!o2val('prg§_§var','col_excluded'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_49() {
-
+	
 return (array());
 	} //|o2_fine_exp|
 
@@ -781,32 +833,32 @@ return ($list);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_51() {
-
+	
 return (!o2val('tmp','col_selection'));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_52() {
-
+	
 return ('W');
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_53() {
-
+	
 return (o2app_sid());
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_54() {
-
+	
 return (0);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_55() {
-
+	
 return (o2val('prg§_§var','columns_idx') + 1);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_56() {
-
+	
 return (o2val('prg§_§var','view_columns', o2val('prg§_§var','columns_idx'), 'T'));
 	} //|o2_fine_exp|
 
@@ -834,17 +886,57 @@ return (true);
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_58() {
-
+	
 return (!o2user_is_admin() && !o2view_rec("user_options") && o2view_rec("default_options"));
 	} //|o2_fine_exp|
 
 function o2sys_export_csv_exp_59() {
-
+	
 return (o2val('default_options','value'));
 	} //|o2_fine_exp|
 
-function o2sys_export_csv_exp_9999() {
+function o2sys_export_csv_exp_60() {
+	
+return ('nowindow');
+	} //|o2_fine_exp|
 
+function o2sys_export_csv_exp_61() {
+	
+return ('nav_big');
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_62() {
+	
+return ('hidden');
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_63() {
+	
+return ((o2zero('prg§_§var','columns_search') ? null : o2val('prg§_§var','columns_search')));
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_64() {
+	
+return ('Unselect all columns');
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_65() {
+	
+return ('Select all columns');
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_66() {
+	o2view_selector_all('tmp');
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_67() {
+	o2view_selector_none('tmp');
+return (true);
+	} //|o2_fine_exp|
+
+function o2sys_export_csv_exp_9999() {
+	
 return (false);
 	} //|o2_fine_exp|
 ?>
