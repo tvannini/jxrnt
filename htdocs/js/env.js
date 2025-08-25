@@ -3467,17 +3467,31 @@ o2jse.tab.visibleCols = function(jxInfo) {
 
     // ___________________________________ Create menu content for "Customize columns" ___
     var frameTable = document.createElement("TABLE");
+    frameTable.id  = "jxcolvis_table";
     // ______________________________________________________________ Get grid control ___
     var gridObj    = document.getElementById(jxInfo.c + jxInfo.e + "_tab");
     var cols       = gridObj.getElementsByTagName("thead")[0].getElementsByTagName("th");
     var colsLen    = cols.length;
+    // ___________________________________________________ Select/unselect all buttons ___
+    var singleRow       = frameTable.insertRow(-1);
+    var fieldCell       = singleRow.insertCell(-1);
+    var valueCell       = singleRow.insertCell(-1);
+    fieldCell.innerHTML = "Select/unselect all: ";
+    valueCell.innerHTML = "<input type='checkbox' checked='checked' title='Select all' " +
+                          "class='o2_ctrl_check'  onclick='o2jse.tab.visColsAll(!0);'>" +
+                          "<input type='checkbox' title='Unselect all' " +
+                          "class='o2_ctrl_check'  onclick='o2jse.tab.visColsAll(!1);'>";
+    singleRow           = frameTable.insertRow(-1);
+    fieldCell           = singleRow.insertCell(-1);
+    fieldCell.colSpan   = 2;
+    fieldCell.innerHTML = "<hr class='o2_ctrl_line'>";
     // __________________________ Skip last pseudo-column (used to resize last column) ___
     for (var i = 0; i < colsLen - 1; i++) {
         o2jse.ctrl.init(cols[i]);
         if (cols[i].className.substr(0, 13) != "o2_tab_marker" && cols[i].o2.v) {
-            var singleRow       = frameTable.insertRow(-1);
-            var fieldCell       = singleRow.insertCell(-1);
-            var valueCell       = singleRow.insertCell(-1);
+            singleRow           = frameTable.insertRow(-1);
+            fieldCell           = singleRow.insertCell(-1);
+            valueCell           = singleRow.insertCell(-1);
             fieldCell.innerHTML = (cols[i].innerText || cols[i].textContent).trim();
             var checkName       = jxInfo.c + jxInfo.e + "_jxcolvis" + i;
             var checkObj        = o2jse.createInput(valueCell, "checkbox",
@@ -3490,11 +3504,42 @@ o2jse.tab.visibleCols = function(jxInfo) {
         }
     singleRow           = frameTable.insertRow(-1);
     fieldCell           = singleRow.insertCell(-1);
-    fieldCell.colSpan   = 4;
+    fieldCell.colSpan   = 2;
+    fieldCell.innerHTML = "<hr class='o2_ctrl_line'>";
+    singleRow           = frameTable.insertRow(-1);
+    fieldCell           = singleRow.insertCell(-1);
+    fieldCell.colSpan   = 2;
     fieldCell.align     = "center";
     fieldCell.innerHTML = "<input type='button' value='Apply' class='o2_ctrl_button'" +
                           "onclick='o2jse.tab.customizeCols();'>";
     o2jse.menu.menuList["jxCustumTabCols"].context(frameTable);
+
+    };
+
+
+/**
+ * Method used to select/unselect all Columns Custom Visibility menu
+ *
+ */
+o2jse.tab.visColsAll = function(selectAll) {
+
+    // ______________________________________________________________ Get grid control ___
+    const cols = document.querySelectorAll('#jxcolvis_table input[type="checkbox"]');
+    // ________________________________________________ Select/unselect all checkboxes ___
+    for (var i = 0; i < cols.length; i++) {
+        // ________________________________________________ Select all pseudo-checkbox ___
+        if (i == 0) {
+            cols[i].checked = "checked";
+            }
+        // ______________________________________________ Unselect all pseudo-checkbox ___
+        else if (i == 1) {
+            cols[i].checked = false;
+            }
+        // _______________________________________________________ Columns check-boxes ___
+        else {
+            cols[i].checked = selectAll;
+            }
+        }
 
     };
 
