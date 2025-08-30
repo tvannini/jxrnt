@@ -713,7 +713,8 @@ class jxjs {
         $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
         $form_obj  = $prg_local->form[$o2ctrl_obj->form];
         $reselect  = true;
-        $mod_ctrls = explode(";", $_REQUEST["o2_modfields"]);
+        $mod_ctrls = (isset($_REQUEST['o2_modfields']) ?
+                      explode(";", $_REQUEST['o2_modfields']) : array());
         array_pop($mod_ctrls);
         $o2ctrl_obj->pagine = count($o2ctrl_obj->label);
         if ($o2ctrl_obj->pagine > 1) {
@@ -1039,7 +1040,8 @@ class jxjs {
         $app       = $_SESSION['o2_app'];
         $send_all  = $o2ctrl_obj->view_shared || $o2ctrl_obj->check_dependences();
         $tab_name  = $o2ctrl_obj->nome;
-        $mod_ctrls = explode(";", $_REQUEST['o2_modfields']);
+        $mod_ctrls = (isset($_REQUEST['o2_modfields']) ?
+                      explode(";", $_REQUEST['o2_modfields']) : array());
         array_pop($mod_ctrls);
         foreach ($mod_ctrls as $ctrl) {
             // _________________________ Navigation on DB-Grid (preserve client focus) ___

@@ -1775,7 +1775,7 @@ class o2_ctrl {
     function ctrl2sql() {
 
         $sql_valore_local = '';
-        $mask = $this->maschera;
+        $mask = ($this->maschera ? $this->maschera : new o2_maschera('dummy', ''));
         switch ($mask->tipo) {
             // =============================== ALPHA =====================================
             case 'A':
@@ -5731,7 +5731,8 @@ class o2_ctrl_tab extends o2_ctrl {
                               $cs_tab->nome,
                               $where);
         // ___________________________________________________ Save view rows settings ___
-        if ($prg->custom_grids[$view->nome]["R"][""]) {
+        if (isset($prg->custom_grids[$view->nome]) &&
+            $prg->custom_grids[$view->nome]["R"][""]) {
             $fields = array($csf_user,
                             $csf_prg,
                             $csf_obj,

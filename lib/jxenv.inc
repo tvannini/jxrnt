@@ -185,7 +185,8 @@ class o2_prg {
                             }
                         break;
                     case 'A':
-                        $par_value_local = (trim($par_value_local) !== "" ?
+                        $par_value_local = (!is_null($par_value_local) &&
+                                            trim($par_value_local) !== '' ?
                                             $par_value_local :
                                             $parameter_local->default);
                                             break;
@@ -6074,7 +6075,7 @@ class o2_dbview extends o2_view {
     function imposta($campo, $valore) {
 
         $campo         = strtoupper($campo);
-        $file_to_check = ($this->campi[$campo]->file ?
+        $file_to_check = (isset($this->campi[$campo]) ?
                           $this->campi[$campo]->file :
                           $this->file->indice);
         if (($this->variato($file_to_check) || !isset($this->corrente[$campo])) &&
@@ -6100,7 +6101,8 @@ class o2_dbview extends o2_view {
                 }
             }
         $dummy_ctrl           = new o2_ctrl();
-        $dummy_ctrl->maschera = $this->campi[$campo]->maschera;
+        $dummy_ctrl->maschera = (isset($this->campi[$campo]) ?
+                                 $this->campi[$campo]->maschera : false);
         $dummy_ctrl->valore   = $valore;
         $valore               = $dummy_ctrl->ctrl2sql();
         if (!isset($this->corrente[$campo]) || ($this->corrente[$campo] !== $valore)) {
@@ -8337,7 +8339,7 @@ class o2act {
             if ($prg && $prg->concluso()) {
                 $app->termina_prg();
                 foreach ($chiamata_local['parametri'] as $single_par) {
-                    if ($single_par['tipo'] == 'V') {
+                    if (isset($single_par['tipo']) && $single_par['tipo'] == 'V') {
                         $view = $app->istanze_prg[$app->progressivo_istanze]->
                                  contesto[$single_par['task']];
                         if ($view->campo($single_par['campo']) != $single_par['valore']) {
