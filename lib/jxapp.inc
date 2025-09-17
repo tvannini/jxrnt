@@ -11262,7 +11262,7 @@ class o2_inspector {
                                              '$1'.$new_var.'$2',
                                              $prf_code);
                     // ______________________________________ Replace uses in controls ___
-                    $prf_code = preg_replace('/(\$ctrl_\w*\s*=\s*&\$form_\w*->ctrldef\('.
+                    $prf_code = preg_replace('/(\$ctrl_\w*\s*=\s*\$form_\w*->ctrldef\('.
                                              '"[^"]*",\s*"[^"]*",\s*"[^"]*",\s*'.
                                              '"'.JX_VIRT_VIEW.'",\s*")'.$var.'("\);)/',
                                              '$1'.$new_var.'$2',
