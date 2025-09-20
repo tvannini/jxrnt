@@ -8394,7 +8394,7 @@ function o2img_thumbnail($source_file, $target_file, $width, $height, $ratio = t
         $newx   = floor($oldx * $ratiox);
         $newy   = floor($oldy * $ratioy);
         $newimg = imagecreatetruecolor($newx, $newy);
-        imagecopyresized($newimg, $simg, 0, 0, 0, 0, $newx, $newy, $oldx, $oldy);
+        imagecopyresampled($newimg, $simg, 0, 0, 0, 0, $newx, $newy, $oldx, $oldy);
         $target = new o2_fsitem($target_file);
         if (file_exists($target->nome_completo)) {
             unlink($target->nome_completo);
