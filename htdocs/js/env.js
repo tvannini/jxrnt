@@ -1692,7 +1692,7 @@ o2jse.ctrl.f = function(targetObj) {
     o2jse.infoForm['o2lastform'].value = objInfo.f;
     o2jse.infoForm['o2lastctrl'].value = objInfo.c;
     o2jse.ctrl.focusCtrl               = targetObj.name;
-    if (objInfo.cT != "text" && targetObj.select) {
+    if (objInfo.cT != "text" && objInfo.cT != "checkcheckbox" && targetObj.select) {
         targetObj.select();
         // ______________________________________ Prevent onMouseUp to unset selection ___
         targetObj.onmouseup = function(e) {

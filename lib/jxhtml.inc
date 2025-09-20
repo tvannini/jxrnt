@@ -2487,7 +2487,8 @@ class o2html {
               ($o2ctrl_obj->sql2ctrl() ? " CHECKED " : "").
               $o2ctrl_obj->js_props("vS:!0").
               ($o2ctrl_obj->visibile ? '' : 'style="display:none;" ').
-              ($active ? 'onClick="o2jse.cb.c(this,'.$submit.');" ' : 'DISABLED').
+              ($active ? 'onClick="o2jse.cb.c(this,'.$submit.');"' : 'DISABLED').
+              ' onFocus="o2jse.ctrl.f(this);" onBlur="o2jse.ctrl.b(this);"'.
               ($o2ctrl_obj->is_active() && $o2ctrl_obj->popup_exp ?
                ' onMouseOver="o2jse.pu.i(event)" onMouseOut="o2jse.pu.o()"' : '').
               ">\n";
