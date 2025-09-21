@@ -3596,8 +3596,6 @@ class o2_dbview extends o2_view {
         $this->dipendenze = array();
         $mainfile         = $this->file->indice;
         $file_type        = $this->file->db->server->type;
-        $c_o              = constant("o2_".$file_type."_o");
-        $c_c              = constant("o2_".$file_type."_c");
         $last             = $this->direzione == 3;
         $to_do            = false;
         // _______________________________________ Where clause from range expressions ___
@@ -3624,7 +3622,7 @@ class o2_dbview extends o2_view {
             $this->struttura();
             }
         // ____________________________________________________ View key by expression ___
-        elseif ($this->chiavi_exps[$mainfile]) {
+        elseif (isset($this->chiavi_exps[$mainfile]) && $this->chiavi_exps[$mainfile]) {
             $key_by_exp = $this->chiavi_exps[$mainfile]();
             if ($key_by_exp != $this->chiavi_in_uso[$mainfile]) {
                 $this->struttura();
@@ -3637,9 +3635,6 @@ class o2_dbview extends o2_view {
         $this->fine           = false;
         $selezione_originaria = $this->selezione;
         $ritornati_local      = 0;
-        $key_for_prev         = "";
-        $key_for_next         = "";
-        $key_for_same         = "";
         $start_local          = true;
         // _______________________________________________ Main table ORDER BY clauses ___
         if (!isset($this->indici[$mainfile]) || !$preserve_orderby) {
@@ -6596,12 +6591,22 @@ class o2_dbview extends o2_view {
                         $rec.= ',';
                         }
                     if ($fld->tipo == 'N') {
-                        $rec.= ($row[$fld_name] ? $row[$fld_name] : '0');
+                        if (isset($row[$fld_name]) && $row[$fld_name]) {
+                            $rec.= $row[$fld_name];
+                            }
+                        else {
+                            $rec.= '0';
+                            }
                         }
                     else {
-                        $rec.= "'".o2_gateway::normalize($srv_type,
-                                                         $row[$fld_name],
-                                                         true)."'";
+                        if (isset($row[$fld_name]) && $row[$fld_name]) {
+                            $rec.= "'".o2_gateway::normalize($srv_type,
+                                                             $row[$fld_name],
+                                                             true)."'";
+                            }
+                        else {
+                            $rec.= "''";
+                            }
                         }
                     }
                 }
@@ -6679,12 +6684,18 @@ class o2_dbview extends o2_view {
                     $like = null;
                     }
                 }
-            else {
+            elseif (isset($this->formule[$fld_name])) {
                 $ori_fld = $this->formule[$fld_name];
                 $min     = $ori_fld->min;
                 $max     = $ori_fld->max;
                 $not     = $ori_fld->not;
                 $like    = $ori_fld->like;
+                }
+            else {
+                $min  = null;
+                $max  = null;
+                $not  = null;
+                $like = null;
                 }
             $snps_view->campi[$fld_name] = new o2_campo_task($fld_name,
                                                              $table->indice,
