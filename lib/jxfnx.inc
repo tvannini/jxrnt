@@ -6596,6 +6596,7 @@ function o2view_fetch($view_name) {
  */
 function o2view_fetch_free($view_name) {
 
+    $app      = $_SESSION['o2_app'];
     $view_obj = $app->istanze_prg[$app->progressivo_istanze]->contesto[$view_name];
     if ($view_obj->statement) {
         $view_obj->statement->closeCursor();
