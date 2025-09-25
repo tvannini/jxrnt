@@ -7603,7 +7603,7 @@ class o2_protocollo {
     function xml_metadata() {
 
         $rpc      = $_SESSION['o2_app']->rpc_server;
-        $metadata.= ($rpc ? '' : "<METADATA>\n<FIELDS>\n");
+        $metadata = ($rpc ? '' : "<METADATA>\n<FIELDS>\n");
         // _________________________________________________ Remove "_protocol" suffix ___
         $name     = substr($this->nome, 0, -11);
         foreach ($this->campi as &$field) {
