@@ -9047,7 +9047,7 @@ class o2_inspector {
                             $act_pos = strpos($line,
                                               'function '.$prg_name.JX_DEF_DELIMITER);
                             if ($act_pos !== false) {
-                                $act = substr($line, $act_pos + $prg_len + 11, -16);
+                                $act = substr($line, $act_pos + $prg_len + 11, -15);
                                 break;
                                 }
                             }
