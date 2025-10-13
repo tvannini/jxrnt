@@ -6599,7 +6599,7 @@ class o2_dbview extends o2_view {
                             }
                         }
                     else {
-                        if (isset($row[$fld_name]) && $row[$fld_name]) {
+                        if (isset($row[$fld_name]) && trim($row[$fld_name]) !== '') {
                             $rec.= "'".o2_gateway::normalize($srv_type,
                                                              $row[$fld_name],
                                                              true)."'";
