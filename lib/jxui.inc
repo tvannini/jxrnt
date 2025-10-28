@@ -2478,6 +2478,7 @@ class o2_ctrl {
                 ",c:'".$this->nome.
                 "',cT:'".$this->tipo_ctrl.
                 "',v:'".$view.
+                ($app->run_level == 'DEV' && $this->campo_in_ctrl ? "',fld:'".$this->campo_in_ctrl : '').
                 "',f:'".$this->form.
                 "',pT:'".($parent ? $parent->tipo_ctrl : 'form')."'".
                 ($this->maschera ?

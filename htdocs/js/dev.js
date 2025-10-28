@@ -186,13 +186,49 @@ o2jse.dev.cMenuDevUIInfo = function() {
     o2jse.createEl(titlesRow, "TH", "", "<b>Property</b>");
     o2jse.createEl(titlesRow, "TH", "", "<b>Value</b>");
     o2jse.ctrl.init(o2jse.cMenu.target);
+    const props = {
+        e: 'Execution index',
+        c: 'Control name',
+        cT: 'Control type',
+        v: 'View',
+        fld: 'Field',
+        f: 'Form name',
+        pT: 'Parent type',
+        dT: 'Data type',
+        m: 'Data mask',
+        s: 'Size',
+        log: 'Log active',
+        fret: 'Submit on change',
+        nav: 'Related navigator',
+        cssc: 'CSS class',
+        msg: 'Message',
+        z: 'Zoom',
+        puact: 'Popup action',
+        puexp: 'Popup expression',
+        vS: 'Submit on click',
+        inctrl: 'Column control',
+        col: 'Column index',
+        rows: 'Rows per page',
+        action: 'Action',
+        page: 'Page index',
+        alignH: 'Horizontal align',
+        alignV: 'Vertical align',
+        x: 'X',
+        y: 'Y',
+        exit: 'Allow close',
+        dyn: 'Dynamic list',
+        cssf: 'Field CSS class',
+        cssl: 'List CSS class',
+        subf: 'Number of sub-forms',
+        rt: '(Not used)'
+    };
     for (var sProp in o2jse.cMenu.target.o2) {
         var singlePropRow   = frameTable.insertRow(-1);
         var typeCell        = singlePropRow.insertCell(-1);
         var propCell        = singlePropRow.insertCell(-1);
         var valueCell       = singlePropRow.insertCell(-1);
         typeCell.innerHTML  = "<i>" + (typeof o2jse.cMenu.target.o2[sProp]) + "</i>";
-        propCell.innerHTML  = "<b>" + sProp + "</b>";
+        propCell.innerHTML  = "<b>" + (sProp in props ? props[sProp] : sProp) + "</b>";
         valueCell.innerHTML = "<code>" + o2jse.cMenu.target.o2[sProp] + "</code>";
         }
     o2jse.menu.menuList["o2uiinfo"].context(frameTable);
