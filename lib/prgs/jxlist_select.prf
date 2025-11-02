@@ -1,0 +1,321 @@
+<?php
+
+function jxlist_select§§prg§_§var_def($task_prg§_§var) {
+	$task_prg§_§var->righe_vis = 1;
+	$task_prg§_§var->definisci("item_idx", "_o2number");
+	$task_prg§_§var->definisci("item_name", "_o2alpha");
+	$task_prg§_§var->definisci("items", "_o2structure");
+	$task_prg§_§var->definisci("items_all_off", "_o2logical");
+	$task_prg§_§var->definisci("items_all_on", "_o2logical");
+	$task_prg§_§var->definisci("items_names", "_o2structure");
+	$task_prg§_§var->definisci("items_search", "_o2alpha");
+	$task_prg§_§var->definisci("items_total", "_o2number");
+	$task_prg§_§var->definisci("result", "_o2structure");
+		}
+
+function jxlist_select§§tmp_def($task_tmp, $_o2viewalias = "") {
+	$task_tmp->righe_vis = 100;
+
+	$task_tmp->usa_file("o2_tmp_where","o2_tmp_where","id",null,null);
+
+	$task_tmp->usa("session_profile","o2_tmp_where","session_profile","jxlist_select_exp_53()","jxlist_select_exp_53()",null,null);
+	$task_tmp->usa("pos_id","o2_tmp_where","pos_id",null,null,null,null);
+	$task_tmp->usa("field_name","o2_tmp_where","field_name","jxlist_select_exp_40()","jxlist_select_exp_40()",null,null);
+	$task_tmp->usa("field_title","o2_tmp_where","field_title",null,null,null,"jxlist_select_exp_63()");
+	$task_tmp->calcola("col_selection","_o2logical","jxlist_select_exp_47()",null,null,null,null);
+}
+function jxlist_select§§jxlist_select_2_form_def($form_jxlist_select_2) {
+	$form_jxlist_select_2->x(40);
+	$form_jxlist_select_2->y(130);
+	$form_jxlist_select_2->larghezza(340);
+	$form_jxlist_select_2->altezza(460);
+	$form_jxlist_select_2->align_o("Center");
+	$form_jxlist_select_2->titolo(jxlist_select_exp_7());
+	$form_jxlist_select_2->frm_status(jxlist_select_exp_14());
+	$form_jxlist_select_2->css_body(" open_body");
+	$form_jxlist_select_2->close_action("cancel");
+	$ctrl_o2table2 = $form_jxlist_select_2->ctrldef("o2table2", "tab", "", "tmp", "");
+		$ctrl_o2table2->x(-1);
+		$ctrl_o2table2->y(40);
+		$ctrl_o2table2->larghezza(340);
+		$ctrl_o2table2->altezza(340);
+		$ctrl_o2table2->modificabile(jxlist_select_exp_14());
+	$ctrl_o2button4 = $form_jxlist_select_2->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(130);
+		$ctrl_o2button4->y(390);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->azione("done");
+		$ctrl_o2button4->label("&OK");
+	$ctrl_o2multipage3 = $form_jxlist_select_2->ctrldef("o2multipage3", "multipage", "", "", "");
+		$ctrl_o2multipage3->x(0);
+		$ctrl_o2multipage3->y(0);
+		$ctrl_o2multipage3->larghezza(340);
+		$ctrl_o2multipage3->altezza(42);
+		$ctrl_o2multipage3->label(array("Page1"));
+		$ctrl_o2multipage3->css_space_out(jxlist_select_exp_61());
+		$ctrl_o2multipage3->css_space_in(jxlist_select_exp_60());
+		$ctrl_o2multipage3->css_label_on(jxlist_select_exp_62());
+		$ctrl_o2multipage3->css_label_off(jxlist_select_exp_62());
+		$ctrl_o2multipage3->buttons("T");
+	$ctrl_o2edit4 = $form_jxlist_select_2->ctrldef("o2edit4", "edit", "o2multipage3", "prg§_§var", "items_search");
+		$ctrl_o2edit4->x(10);
+		$ctrl_o2edit4->y(12);
+		$ctrl_o2edit4->larghezza(160);
+		$ctrl_o2edit4->altezza(20);
+		$ctrl_o2edit4->on_change(jxlist_select_exp_10());
+		$ctrl_o2edit4->info_padre(array(0));
+	$ctrl_o2checkbox4 = $form_jxlist_select_2->ctrldef("o2checkbox4", "check", "o2multipage3", "prg§_§var", "items_all_on");
+		$ctrl_o2checkbox4->x(290);
+		$ctrl_o2checkbox4->y(12);
+		$ctrl_o2checkbox4->larghezza(20);
+		$ctrl_o2checkbox4->altezza(20);
+		$ctrl_o2checkbox4->azione("columns_select_all");
+		$ctrl_o2checkbox4->on_change(jxlist_select_exp_10());
+		$ctrl_o2checkbox4->popup("jxlist_select_exp_65()");
+		$ctrl_o2checkbox4->info_padre(array(0));
+	$ctrl_o2checkbox5 = $form_jxlist_select_2->ctrldef("o2checkbox5", "check", "o2multipage3", "prg§_§var", "items_all_off");
+		$ctrl_o2checkbox5->x(310);
+		$ctrl_o2checkbox5->y(12);
+		$ctrl_o2checkbox5->larghezza(20);
+		$ctrl_o2checkbox5->altezza(20);
+		$ctrl_o2checkbox5->azione("columns_unselect_all");
+		$ctrl_o2checkbox5->on_change(jxlist_select_exp_10());
+		$ctrl_o2checkbox5->popup("jxlist_select_exp_64()");
+		$ctrl_o2checkbox5->info_padre(array(0));
+	$ctrl_o2dbnavigator2 = $form_jxlist_select_2->ctrldef("o2dbnavigator2", "navigator", "o2table2", "tmp", "");
+		$ctrl_o2dbnavigator2->x(280);
+		$ctrl_o2dbnavigator2->y(40);
+		$ctrl_o2dbnavigator2->larghezza(18);
+		$ctrl_o2dbnavigator2->altezza(200);
+		$ctrl_o2dbnavigator2->vertical();
+		$ctrl_o2dbnavigator2->visible_new(jxlist_select_exp_9999());
+		$ctrl_o2dbnavigator2->visible_save(jxlist_select_exp_9999());
+		$ctrl_o2dbnavigator2->visible_del(jxlist_select_exp_9999());
+		$ctrl_o2dbnavigator2->visible_undo(jxlist_select_exp_9999());
+		$ctrl_o2dbnavigator2->visible_detail(jxlist_select_exp_9999());
+		$ctrl_o2dbnavigator2->visible_select(jxlist_select_exp_9999());
+	$ctrl_o2checkbox3 = $form_jxlist_select_2->ctrldef("o2checkbox3", "check", "o2table2", "tmp", "col_selection");
+		$ctrl_o2checkbox3->x(20);
+		$ctrl_o2checkbox3->y(10);
+		$ctrl_o2checkbox3->larghezza(20);
+		$ctrl_o2checkbox3->altezza(20);
+		$ctrl_o2checkbox3->info_padre(array("01", "01", "01"));
+	$ctrl_o2edit3 = $form_jxlist_select_2->ctrldef("o2edit3", "edit", "o2table2", "tmp", "field_title");
+		$ctrl_o2edit3->x(70);
+		$ctrl_o2edit3->y(10);
+		$ctrl_o2edit3->larghezza(200);
+		$ctrl_o2edit3->altezza(20);
+		$ctrl_o2edit3->info_padre(array("01", "02", "02", "Column", True, "", False, "", "", "", ""));
+		}
+
+function jxlist_select§§add_item_act($o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "item_name", jxlist_select_exp_4()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("tmp", "I", "") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("tmp", "session_profile", jxlist_select_exp_53()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("tmp", "pos_id", jxlist_select_exp_55()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("tmp", "field_name", jxlist_select_exp_42()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("tmp", "field_title", jxlist_select_exp_42()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::view("tmp", "S", "") && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "item_idx", jxlist_select_exp_38()) && $o2exe->e();
+	$o2exe->s(9) && (jxlist_select_exp_6() || $o2exe->e()) && o2act::script(jxlist_select_exp_46()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlist_select§§cancel_act($o2exe) {
+	$o2exe->s(1) && True && o2act::ret(1, jxlist_select_exp_49()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlist_select§§check_custom_col_act($o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "result", jxlist_select_exp_1()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlist_select§§columns_select_all_act($o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxlist_select_exp_66()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "items_all_on", jxlist_select_exp_10()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlist_select§§columns_unselect_all_act($o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxlist_select_exp_67()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "items_all_off", jxlist_select_exp_9999()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlist_select§§done_act($o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "result", jxlist_select_exp_49()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("check_custom_col", False, "tmp") && $o2exe->e();
+	$o2exe->s(3) && True && o2act::view("tmp", "D", "") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::ret(1, jxlist_select_exp_2()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::close()&& $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlist_select§§load_items_act($o2exe) {
+//	$o2exe->s(1) && True && o2act::remark("Clear work set") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("tmp", "D", "") && $o2exe->e();
+//	$o2exe->s(3) && True && o2act::remark("Fill work set") && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("prg§_§var", "items", jxlist_select_exp_3()) && $o2exe->e();
+	$o2exe->s(5) && True && o2act::set("prg§_§var", "items_total", jxlist_select_exp_36()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::set("prg§_§var", "items_names", jxlist_select_exp_5()) && $o2exe->e();
+	$o2exe->s(7) && True && o2act::set("prg§_§var", "item_idx", jxlist_select_exp_54()) && $o2exe->e();
+	$o2exe->s(8) && True && o2act::set("prg§_§var", "item_name", jxlist_select_exp_45()) && $o2exe->e();
+	$o2exe->s(9) && True && o2act::exe("add_item", "jxlist_select_exp_37()", "") && $o2exe->e();
+	$o2exe->s(10) && True && o2act::set("prg§_§var", "item_name", jxlist_select_exp_45()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::view("tmp", "1", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlist_select§§start_act($o2exe) {
+	$o2exe->s(1) && True && o2act::exe("load_items", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("prg§_§var", "items_all_off", jxlist_select_exp_9999()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("prg§_§var", "items_all_on", jxlist_select_exp_10()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxlist_select_exp_1() {
+	$res = o2val('prg§_§var','result');
+$res[o2val('tmp','field_name')] = o2val('tmp','col_selection');
+return ($res);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_2() {
+	
+return (o2val('prg§_§var','result'));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_3() {
+	
+return (o2par(1));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_4() {
+	
+return (o2val('prg§_§var','items_names', o2val('prg§_§var','item_idx')));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_5() {
+	
+return (array_keys(o2val('prg§_§var','items')));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_6() {
+	
+return (o2val('prg§_§var','items', o2val('prg§_§var','item_name')));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_7() {
+	
+return ((o2par_zero(2) ? 'Select items in list' : o2par(2)));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_10() {
+	
+return (true);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_14() {
+	
+return (false);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_36() {
+	
+return (count(o2val('prg§_§var','items')));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_37() {
+	
+return (o2val('prg§_§var','item_idx') >= o2val('prg§_§var','items_total'));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_38() {
+	
+return (o2val('prg§_§var','item_idx') + 1);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_40() {
+	
+return ((o2zero('prg§_§var','item_name') ? null : o2val('prg§_§var','item_name')));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_42() {
+	
+return (o2val('prg§_§var','item_name'));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_45() {
+	
+return ('');
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_46() {
+	o2view_selector_set('tmp');
+return (true);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_47() {
+	
+return (o2view_selector('tmp'));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_49() {
+	
+return (array());
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_53() {
+	
+return (o2app_sid());
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_54() {
+	
+return (0);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_55() {
+	
+return (o2val('prg§_§var','item_idx') + 1);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_60() {
+	
+return ('nowindow');
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_61() {
+	
+return ('nav_big');
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_62() {
+	
+return ('hidden');
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_63() {
+	
+return ((o2zero('prg§_§var','items_search') ? null : o2val('prg§_§var','items_search')));
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_64() {
+	
+return ('Unselect all columns');
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_65() {
+	
+return ('Select all columns');
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_66() {
+	o2view_selector_all('tmp');
+return (true);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_67() {
+	o2view_selector_none('tmp');
+return (true);
+	} //|o2_fine_exp|
+
+function jxlist_select_exp_9999() {
+	
+return (false);
+	} //|o2_fine_exp|
+?>
