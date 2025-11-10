@@ -1,5 +1,5 @@
 <?php
-//2.6
+//3.0
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -14,6 +14,7 @@ o2def::act("detail");
 o2def::act("get_attach");
 o2def::act("goto_jobs");
 o2def::act("goto_scheduler");
+o2def::act("keep_alive");
 o2def::act("refresh");
 o2def::act("start");
 o2def::form("jxprocesses_1", "", False, "true", false);
