@@ -720,6 +720,7 @@ class o2_exception extends Exception {
         $fun = "";
         $app = $_SESSION['o2_app'];
         if (is_array($app->istanze_prg)) {
+            $prg_name = '';
             foreach (array_reverse($app->istanze_prg) as $singola_istanza) {
                 if ($prg == "") {
                     $prg = o2_exception::colorize($singola_istanza->nome." [".
@@ -733,11 +734,14 @@ class o2_exception extends Exception {
             foreach ($this->getTrace() as $single_step) {
                 if ($this->getCode() > 99 &&
                     substr($single_step['function'], 0, 2) == "o2") {
-                    $fun = $single_step['function'].
-                           "(".implode(", ", $single_step['args']).")";
+                    $fun      = $single_step['function'].
+                                '('.implode(', ', $single_step['args']).')';
                     }
-                list($prg_name, $exp) = explode("_exp_", $single_step['function']);
-                if ($prg_name == $singola_istanza->nome) {
+                elseif (strpos($single_step['function'], '_exp_') !== false) {
+                    list($prg_name, $exp) = explode('_exp_', $single_step['function']);
+                    }
+//                list($prg_name, $exp) = explode("_exp_", $single_step['function']);
+                if ($prg_name && ($prg_name == $singola_istanza->nome)) {
                     $exp = ($exp ?
                             "         ".
                             o2_exception::colorize("Expression:", 7, 8, 2)." ".
@@ -758,7 +762,7 @@ class o2_exception extends Exception {
                                                     "\n".str_repeat(" ", 18), true),
                                            3)."\n" : "");
             }
-        if ($app->esecuzioni[0]) {
+        if (isset($app->esecuzioni[0])) {
             if ($app->esecuzioni[0]->passo) {
                 $act_txt = $app->esecuzioni[0]->azione.
                            " [step ".$app->esecuzioni[0]->passo."]";

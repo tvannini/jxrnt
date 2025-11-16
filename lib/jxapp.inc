@@ -712,7 +712,8 @@ class o2_app {
                 $host     = $this->host;
                 $run_mode = o2app_runmode();
                 $terminal = $this->terminal_id;
-                $ip       = $_SERVER['REMOTE_ADDR'];
+                $ip       = (isset($_SERVER['REMOTE_ADDR']) ?
+                             $_SERVER['REMOTE_ADDR'] : '');
                 break;
             }
         $fields               = array($f['timestamp']->nome_fisico,
@@ -5121,7 +5122,8 @@ class o2_run_job {
                 $by_host    = $run_job->host && ($run_job->host == $app->host);
                 if (($by_service || $by_host) &&
                     $run_job->exe_time <= $now &&
-                    ($maxs[$run_job->job] == 0 ||
+                    (!isset($maxs[$run_job->job]) ||
+                     $maxs[$run_job->job] == 0 ||
                      $maxs[$run_job->job] > $running[$run_job->job])) {
                     $res++;
                     // ____________________ Set run-job status from Queued to Starting ___
@@ -5143,7 +5145,8 @@ class o2_run_job {
                            ($dev ? ' dev='.$run_job->developer. ' key='.$devkey : '').' '.
                            self::$run_word.'='.$run_job->id;
                     $rnt->batch_exec($cmd);
-                    $running[$run_job->job] = $running[$run_job->job] + 1;
+                    $running[$run_job->job] = (isset($running[$run_job->job]) ?
+                                               $running[$run_job->job] + 1 : 1);
                     if (!isset($maxs[$run_job->job])) {
                         $job                 = o2_job::get_by_id($run_job->job);
                         $maxs[$run_job->job] = $job->max_instances;
