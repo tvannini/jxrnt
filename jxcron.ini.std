@@ -1,0 +1,51 @@
+; Janox Cron Server settings
+;
+; This file contains configuration directives for Janox Cron Server: see
+; file jxrnt/jxcron.php.
+;
+; Settings are in the form:
+;  key = value
+; Double-quote strings to insert spaces or control chars.
+;
+; @name      jxcron_conf
+; @package   jxrnt/jxcron.ini
+; @version   3.0
+; @copyright Tommaso Vannini (tvannini@janox.it) 2007-2025
+; @author    Tommaso Vannini (tvannini@janox.it)
+
+
+; Janox runtime, usually you can leave it unset.
+; This parameter is useful when Janox Cron script is moved outside Janox
+; folder.
+;
+; @var String   Filesystem absolute or relative (use "." and "..") path
+; jxrnt = "./jxrnt.php"
+
+
+; Frequency for Janox Cron Server to run processes.
+; Default frequency is 10 seconds.
+;
+; @var String   Frequency in seconds for Janox Cron Server
+; frequency = 10
+
+
+; REGISTERED APPLICATIONS
+; =======================
+;
+; To register an application to be served by Janox Cron Server just add
+; it to the list below, in the form:
+;
+; app-name1 = "app-root1"
+; app-name2 = "app-root2"
+; ...
+; app-nameN = "app-rootN"
+;
+; Paths can be absolute or relative to Janox Cron Server script location
+; folder, using "." and ".." in path.
+;
+; @var array   List of served applications with name and folder
+;/
+[APPS]
+; "jxdemo" = "../demo/"
+; "myapp"  = "/janox/projects/myapp/"
+
