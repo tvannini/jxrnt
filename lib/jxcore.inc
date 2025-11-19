@@ -740,7 +740,6 @@ class o2_exception extends Exception {
                 elseif (strpos($single_step['function'], '_exp_') !== false) {
                     list($prg_name, $exp) = explode('_exp_', $single_step['function']);
                     }
-//                list($prg_name, $exp) = explode("_exp_", $single_step['function']);
                 if ($prg_name && ($prg_name == $singola_istanza->nome)) {
                     $exp = ($exp ?
                             "         ".
