@@ -2188,7 +2188,9 @@ class o2_file {
             $def_fields[$single_field->phys_name] = array('type' => $type,
                                                           'dim'  => $dim,
                                                           'meta' => $meta,
-                                                          'name' => $field_name);
+                                                          'name' => $field_name,
+                                                          'model'=>
+                                                           $single_field->maschera->nome);
             }
         // ___________________________________________ Janox definition structure keys ___
         foreach ($this->chiavi as $single_key) {

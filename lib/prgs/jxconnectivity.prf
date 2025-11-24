@@ -1289,7 +1289,7 @@ function jxconnectivity§§gestione_form_def($form_gestione) {
 		$ctrl_o2label57->altezza(20);
 		$ctrl_o2label57->visibile(jxconnectivity_exp_198());
 		$ctrl_o2label57->info_padre(array(0));
-		$ctrl_o2label57->label("Type:");
+		$ctrl_o2label57->label("Type [ model ]:");
 	$ctrl_o2label53 = $form_gestione->ctrldef("o2label53", "label", "o2multipage5", "", "");
 		$ctrl_o2label53->x(10);
 		$ctrl_o2label53->y(90);
@@ -3641,7 +3641,8 @@ return ("tools/o2sys_log_list");
 	} //|o2_fine_exp|
 
 function jxconnectivity_exp_166() {
-	o2ctrl_focus("gestione", "o2edit4");
+	o2form_maximize('gestione');
+o2ctrl_focus('gestione', 'o2edit4');
 return (true);
 	} //|o2_fine_exp|
 
@@ -3881,7 +3882,8 @@ foreach ($def_fields as $def_name => $def_field) {
                                                     $def_field['type'],
                                                     $size,
                                                     $oldtype,
-                                                    $oldsize);
+                                                    $oldsize,
+                                                    $def_field['model']);
 
     }
 // _______________________________________________ Undefined physical fields ___
@@ -4138,7 +4140,8 @@ return ($meta);
 function jxconnectivity_exp_196() {
 	$field = o2val('prg§_§var','tables_list',o2val('prg§_§var','field'));
 if (is_array($field)) {
-   $type  = $field[7].($field[8] ? ' ('.$field[8].')' : '');
+   $type  = $field[7].($field[8] ? ' ('.$field[8].')' : '').
+            ($field[11] ? ' [ '.$field[11].' ]' : '');
    }
 else {
    $type = '';
