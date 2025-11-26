@@ -244,7 +244,7 @@ function o2_postgres_execute($query,
             }
         // ____________________________________________________ On execution exception ___
 		catch (Exception $o2e) {
-            $conn->rollBack && @$conn->rollBack();
+            method_exists($conn, 'rollBack') && @$conn->rollBack();
             $res = false;
             throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
                                    '</i><br>query: <code>'.$query.
@@ -274,7 +274,7 @@ function o2_postgres_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                $conn->rollBack && @$conn->rollBack();
+                method_exists($conn, 'rollBack') && @$conn->rollBack();
                 throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
                                         '</i><br>query: <code>'.$query.
                                         '</code><hr>'.$o2e->getMessage(),
@@ -289,7 +289,7 @@ function o2_postgres_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                $conn->rollBack && @$conn->rollBack();
+                method_exists($conn, 'rollBack') && @$conn->rollBack();
 				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
                 throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
                                        '</i>'.$q.'<hr>'.$o2e->getMessage(),
@@ -315,7 +315,7 @@ function o2_postgres_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                $conn->rollBack && @$conn->rollBack();
+                method_exists($conn, 'rollBack') && @$conn->rollBack();
 				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
                 throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
                                        '</i>'.$q.'<hr>'.$o2e->getMessage(),
@@ -336,7 +336,7 @@ function o2_postgres_execute($query,
             catch (Exception $o2e) {
                 $stm->closeCursor();
                 $stm = null;
-                $conn->rollBack && @$conn->rollBack();
+                method_exists($conn, 'rollBack') && @$conn->rollBack();
                 throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
                                        '</i><br>query: <code>'.$query.
                                        '</code><hr>'.$o2e->getMessage(),
@@ -1477,8 +1477,7 @@ function o2_postgres_count($server,
         }
     // ________________________________________________________ On execution exception ___
     catch (Exception $o2e) {
-        $rb = $conn->rollBack;
-        $rb && @$rb();
+        method_exists($conn, 'rollBack') && @$conn->rollBack();
         throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
                                '</i><br>Error counting dataset.<hr><code>'.
                                $query.'</code><br><br>'.$o2e->getMessage(),

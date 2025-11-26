@@ -212,8 +212,7 @@ function o2_mysql_execute($query,
         // ______________________________________________________ On execution failure ___
         if ($res === false) {
             $err = $conn->errorInfo();
-            $rb  = $conn->rollBack;
-            $rb && @$rb();
+            method_exists($conn, 'rollBack') && @$conn->rollBack();
             throw new o2_exception("<b>MySQL</b> server: <i>".$server.
                                    "</i><br>query: <code>".$query."</code><hr>".
                                    $err[2],
@@ -227,8 +226,7 @@ function o2_mysql_execute($query,
         // ______________________________________________________ On execution failure ___
         if (!($res = $conn->query($query))) {
             $err = $conn->errorInfo();
-            $rb  = $conn->rollBack;
-            $rb && @$rb();
+            method_exists($conn, 'rollBack') && @$conn->rollBack();
             throw new o2_exception("<b>MySQL</b> server: <i>".$server.
                                    "</i><br>query: <code>".$query."</code><hr>".
                                    $err[2],
@@ -1306,8 +1304,7 @@ function o2_mysql_count($server,
     // __________________________________________________________ On execution failure ___
     if (!($res = $conn->query($query))) {
         $err = $conn->errorInfo();
-        $rb  = $conn->rollBack;
-        $rb && @$rb();
+        method_exists($conn, 'rollBack') && @$conn->rollBack();
         throw new o2_exception("<b>MySQL</b> server: <i>".$server.
                                "</i><br>Error counting dataset.<hr>".
                                $err[2],
