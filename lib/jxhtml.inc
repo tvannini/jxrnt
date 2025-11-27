@@ -199,7 +199,7 @@ class o2html {
                   "onBeforeUnload=\"o2jse.cmd.showClock();\">\n";
             // ______________________________________________________ Page HTML prefix ___
             if ($app->pagina_prima) {
-                include_once $app->dir_htdocs.$app->pagina_prima;
+                require_once $app->dir_htdocs.$app->pagina_prima;
                 }
             }
         // ____________________________________________ Actual menu bar height & width ___

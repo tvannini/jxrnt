@@ -4811,6 +4811,10 @@ class o2_run_job {
                                                     $where,
                                                     '',
                                                     1);
+        // ________________________________ Check if run-job exists, else return false ___
+        if (!count($run_rec)) {
+            return false;
+            }
         $run_rec            = $run_rec[0];
         $run_job            = new o2_run_job();
         $run_job->id        = $run_rec['RUN_ID'];
