@@ -2932,9 +2932,10 @@ class o2_dbview extends o2_view {
                                                $this->link_wheres[$file_in_esame] : '');
                                     if ($sql_join &&
                                         strpos($main_where, $single_cond) === false) {
-                                        $this->link_wheres[$file_in_esame].=($main_where ?
-                                                                            ' AND ' : '').
-                                                                             $single_cond;
+                                        $this->link_wheres[$file_in_esame] =
+                                              (isset($this->link_wheres[$file_in_esame]) ?
+                                               $this->link_wheres[$file_in_esame] : '').
+                                               ($main_where ? ' AND ' : '').$single_cond;
                                         }
                                     }
                                 // _____ Remove from SQL-JOIN if already added to list ___
@@ -3041,9 +3042,10 @@ class o2_dbview extends o2_view {
                                                $this->link_wheres[$file_in_esame] : '');
                                     if ($sql_join &&
                                         strpos($main_where, $single_cond) === false) {
-                                        $this->link_wheres[$file_in_esame].=($main_where ?
-                                                                            ' AND ' : '').
-                                                                            $single_cond;
+                                        $this->link_wheres[$file_in_esame] =
+                                              (isset($this->link_wheres[$file_in_esame]) ?
+                                               $this->link_wheres[$file_in_esame] : '').
+                                              ($main_where ? ' AND ' : '').$single_cond;
                                         }
                                     }
                                 // _____ Remove from SQL-JOIN if already added to list ___
@@ -3163,9 +3165,10 @@ class o2_dbview extends o2_view {
                                                $this->link_wheres[$file_in_esame] : '');
                                 if ($sql_join &&
                                     strpos($main_where, $single_cond) === false) {
-                                    $this->link_wheres[$file_in_esame].= ($main_where ?
-                                                                          ' AND ' : '').
-                                                                          $single_cond;
+                                    $this->link_wheres[$file_in_esame] =
+                                              (isset($this->link_wheres[$file_in_esame]) ?
+                                               $this->link_wheres[$file_in_esame] : '').
+                                              ($main_where ? ' AND ' : '').$single_cond;
                                     }
                                 }
                             // _________ Remove from SQL-JOIN if already added to list ___
@@ -3212,9 +3215,10 @@ class o2_dbview extends o2_view {
                                            $this->link_wheres[$file_in_esame] : '');
                             if ($sql_join &&
                                 strpos($main_where, $single_cond) === false) {
-                                $this->link_wheres[$file_in_esame].= ($main_where ?
-                                                                      " AND " : "").
-                                                                      $single_cond;
+                                $this->link_wheres[$file_in_esame] =
+                                              (isset($this->link_wheres[$file_in_esame]) ?
+                                               $this->link_wheres[$file_in_esame] : '').
+                                              ($main_where ? ' AND ' : '').$single_cond;
                                 }
                             }
                         // _________ Remove from SQL-JOIN if already added to list ___
