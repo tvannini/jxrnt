@@ -10971,9 +10971,10 @@ class o2_inspector {
                     }
                 }
             }
-        // _____________________________________ Find uses in expressions (o2view_*()) ___
+        // __________________________________________________ Find uses in expressions ___
         $exps = self::get_prg_exps($code, $prg);
         foreach ($exps as $exp_id => $body) {
+            // ____________________________________________________________ o2view_*() ___
             $parts = array();
             $res   = preg_match('/o2view_(\w+)\s*\(\s*["\']'.$view.'["\']/',
                                 $body, $parts);
@@ -10988,6 +10989,25 @@ class o2_inspector {
                                           $exp_id,
                                           $this->img_path."exp.png",
                                           self::$w_expression);
+                }
+            // ____________________________________________ o2val(), o2zero(), o2pre() ___
+            $parts = array();
+            $res   = preg_match('/o2(\w+)\s*\(\s*["\']'.$view.
+                                '["\']\s*,\s*["\']\w+["\']\s*\)/',
+                                $body, $parts);
+            if (isset($parts[0])) {
+                if (strpos($parts[1], "_") === false) {
+                    if (!isset($ret['p'])) {
+                        $ret["p"] = array($root,
+                                          $prg,
+                                          $this->img_path."prg.png",
+                                          self::$w_program);
+                        }
+                    $ret["e".$exp_id] = array("p",
+                                              $exp_id,
+                                              $this->img_path."exp.png",
+                                              self::$w_expression);
+                    }
                 }
             }
         if (count($ret)) {
