@@ -228,8 +228,14 @@ class JXSQLparser {
 
         // _______________________________ Extract string in the middle of parenthesis ___
         preg_match('/\((.*?)\)/', $sql, $match);
-        // _______________________________________________ Split table name from alias ___
-        list($tabname, $tabalias) = explode(':', $match[1]);
+        // ____________________________________ Split table name from alias if present ___
+        if (strpos($match[1], ':') === false) {
+            $tabname  = $match[1];
+            $tabalias = '';
+            }
+        else {
+            list($tabname, $tabalias) = explode(':', $match[1]);
+            }
         // _____________________ If alias was not specified, assume same name as table ___
         if (!$tabalias) {
             $tabalias = $tabname;

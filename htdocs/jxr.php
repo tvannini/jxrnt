@@ -244,7 +244,7 @@ if (session_start()) {
                 $last_view = "";
                 if (count($prg->contesto)) {
                     foreach ($prg->contesto as $view) {
-                        if ($view->campi) {
+                        if (isset($view->campi)) {
                             if ($last_view != $view->nome) {
                                 print "|   [".$view->nome."]\n";
                                 $last_view = $view;
@@ -286,9 +286,12 @@ if (session_start()) {
                                             $field->maschera->maschera;
                                     print "|   <a href='#' title='".$mask.
                                           "' onclick='o2jse.lab.addEl(\"o2val(\\\"".
-                                          htmlentities($view->nome,
-                                                       ENT_COMPAT | ENT_HTML5,
-                                                       $app->chr_encoding)."\\\",\\\"".
+                                          ($app->chr_encoding == "utf-8" &&
+                                           $view->nome == JX_VIRT_VIEW ?
+                                           'prg§_§var' :
+                                           htmlentities($view->nome,
+                                                        ENT_COMPAT | ENT_HTML5,
+                                                        $app->chr_encoding))."\\\",\\\"".
                                           $field->nome."\\\")\");'>".
                                           $field->nome."</a>\n";
                                     }

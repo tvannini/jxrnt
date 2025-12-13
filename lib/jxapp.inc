@@ -4398,7 +4398,8 @@ class o2_job {
             // _____________________________________________________ Add module params ___
             if ($job_rec['JOB_PARAMS']) {
                 foreach (unserialize($job_rec['JOB_PARAMS']) as $par_id => $par) {
-                    $desc                      = $par_id.': '.$par;
+                    $desc                      = $par_id.': '.
+                                                 (is_array($par) ? 'Array' : $par);
                     $desc                      = (strlen($desc) < $desc_len ? $desc :
                                                   substr($desc, 0, $desc_len - 3).'...');
                     $list[$id.'_par_'.$par_id] = array($id.'_prg',
