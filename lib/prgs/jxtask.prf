@@ -115,6 +115,16 @@ function jxtask§§jxtask_1_form_def($form_jxtask_1) {
 		$ctrl_o2button3->azione("close");
 		$ctrl_o2button3->label("&Cancel");
 		$ctrl_o2button3->css(jxtask_exp_42());
+	$ctrl_o2button4 = $form_jxtask_1->ctrldef("o2button4", "button", "", "", "");
+		$ctrl_o2button4->x(30);
+		$ctrl_o2button4->y(440);
+		$ctrl_o2button4->larghezza(90);
+		$ctrl_o2button4->altezza(30);
+		$ctrl_o2button4->visibile(jxtask_exp_47());
+		$ctrl_o2button4->azione("delete");
+		$ctrl_o2button4->label("&Delete");
+		$ctrl_o2button4->confirm_message("Job schedule is going to be deleted.\nProceed?");
+		$ctrl_o2button4->css(jxtask_exp_45());
 	$ctrl_o2label5 = $form_jxtask_1->ctrldef("o2label5", "label", "o2multipage2", "", "");
 		$ctrl_o2label5->x(20);
 		$ctrl_o2label5->y(40);
@@ -345,6 +355,11 @@ function jxtask§§close_act($o2exe) {
 
 function jxtask§§create_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "sched_aspid", jxtask_exp_40()) && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxtask§§delete_act($o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxtask_exp_46()) && $o2exe->e();
+	$o2exe->s(2) && True && o2act::exe("close", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxtask§§read_task_act($o2exe) {
@@ -666,5 +681,22 @@ function jxtask_exp_44() {
 	$task      = o2val('prg§_§var','sched_obj');
 $all_hosts = $task->all_hosts;
 return ($all_hosts);
+	} //|o2_fine_exp|
+
+function jxtask_exp_45() {
+	
+return (' jxbtn_delete');
+	} //|o2_fine_exp|
+
+function jxtask_exp_46() {
+	if ($task = o2val('prg§_§var','sched_obj')) {
+   $task->delete();
+   }
+return (true);
+	} //|o2_fine_exp|
+
+function jxtask_exp_47() {
+	
+return (!o2zero('prg§_§var','sched_obj'));
 	} //|o2_fine_exp|
 ?>

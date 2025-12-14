@@ -1,5 +1,5 @@
 <?php
-//2.6
+//3.0
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -9,13 +9,14 @@ o2def::prgnotes("");
 o2def::prg("jxtask", "start", "", __FILE__);
 
 o2def::view('prg§_§var');
-o2def::view("jobs_combo", False, "", "", 1);
+o2def::view("jobs_combo", false, "", "", 1, 0);
 o2def::act("change_desc");
 o2def::act("clear_interval");
 o2def::act("clear_once");
 o2def::act("clear_recurrence");
 o2def::act("close");
 o2def::act("create");
+o2def::act("delete");
 o2def::act("read_task");
 o2def::act("save");
 o2def::act("start");
