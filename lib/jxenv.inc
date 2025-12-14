@@ -1088,7 +1088,7 @@ class o2_prg {
         $server = $db->server;
         $key    = $tab->chiave;
         // _____________________________________________________ Compose select string ___
-        $selstr = "log_id, log_act, log_user, ".$field->nome_fisico." jxlogfield";
+        $selstr = 'log_id, log_act, log_user, '.$field->nome_fisico.' jxlogfield';
         // ____________________ Compose where clause by pkey (from the original table) ___
         $where  = $view->chiave_corrente($view->files[$field->file],
                                          false,
@@ -1098,10 +1098,10 @@ class o2_prg {
                                          false,
                                          true);
         // ______________________________________________________ Compose order clause ___
-        $order  = "";
+        $order  = '';
         foreach ($tab->chiave->segmenti as $segm) {
-           $order.= ($order ? ", " : "").$segm->campo->nome_fisico." ".
-                    ($segm->direzione == "D" ? "DESC " : "ASC ");
+           $order.= ($order ? ', ' : '').$segm->campo->nome_fisico.' '.
+                    ($segm->direzione == 'D' ? 'DESC ' : 'ASC ');
            }
         // _________________________________________________________ Get log recordset ___
         $set  = o2_gateway::recordset($server->type,
@@ -1127,28 +1127,30 @@ class o2_prg {
         $last = "";
         foreach ($set as $prog => $rec) {
             $rec   = array_change_key_case($rec);
-            $prec  = ($set[$prog + 1] ? array_change_key_case($set[$prog + 1]) : array());
-            $id    = $rec["log_id"];
-            $date  = date("Ymd", substr($id, 0, -6));
-            $time  = date("His", substr($id, 0, -6));
-            $value = $rec["jxlogfield"];
+            $prec  = (isset($set[$prog + 1]) ?
+                      array_change_key_case($set[$prog + 1]) : array());
+            $id    = $rec['log_id'];
+            $date  = date('Ymd', substr($id, 0, -6));
+            $time  = date('His', substr($id, 0, -6));
+            $value = $rec['jxlogfield'];
             // ________________________ "D" records of UPDATE pairs are changed to "P" ___
-            if ($id == $prec["log_id"] &&
-                $rec["log_act"] == "D" &&
-                $prec["log_act"] == "U") {
-                $act = "P";
+            if (isset($prec['log_id']) &&
+                $id == $prec['log_id'] &&
+                $rec['log_act'] == 'D' &&
+                $prec['log_act'] == 'U') {
+                $act = 'P';
                 }
             else {
-                $act = $rec["log_act"];
+                $act = $rec['log_act'];
                 }
             // _______________________________ Filter records where field is unchanged ___
-            if ($value != $last || $act != "U") {
-                $rset[] = array("id"    => $id,
-                                "date"  => $date,
-                                "time"  => $time,
-                                "act"   => $act,
-                                "user"  => $rec["log_user"],
-                                "value" => $value);
+            if ($value != $last || $act != 'U') {
+                $rset[] = array('id'    => $id,
+                                'date'  => $date,
+                                'time'  => $time,
+                                'act'   => $act,
+                                'user'  => $rec['log_user'],
+                                'value' => $value);
                 }
             $last = $value;
             }
@@ -1220,10 +1222,10 @@ class o2_prg {
                                            false,
                                            true);
         // ______________________________________________________ Compose order clause ___
-        $order    = "";
+        $order    = '';
         foreach ($src_tab->chiave->segmenti as $segm) {
-           $order.= ($order ? ", " : "").$segm->campo->nome_fisico." ".
-                    ($segm->direzione == "D" ? "DESC " : "ASC ");
+           $order.= ($order ? ', ' : '').$segm->campo->nome_fisico.' '.
+                    ($segm->direzione == 'D' ? 'DESC ' : 'ASC ');
            }
         // _____________________________________________________ Include current value ___
         $rec  = o2_gateway::recordset($server->type,
@@ -1271,32 +1273,33 @@ class o2_prg {
         // ________________________________________________________ Refine log dataset ___
         foreach ($set as $prog => $rec) {
             $rec  = array_change_key_case($rec);
-            $prec = ($set[$prog + 1] ? array_change_key_case($set[$prog + 1]) : array());
-            $id   = $rec["log_id"];
-            $user = $rec["log_user"];
-            $date = date("Ymd", substr($id, 0, -6));
-            $time = date("His", substr($id, 0, -6));
+            $prec = (isset($set[$prog + 1]) ?
+                     array_change_key_case($set[$prog + 1]) : array());
+            $id   = $rec['log_id'];
+            $user = $rec['log_user'];
+            $date = date('Ymd', substr($id, 0, -6));
+            $time = date('His', substr($id, 0, -6));
             // ________________________ "D" records of UPDATE pairs are changed to "C" ___
-            if ($rec["log_act"] == "D" &&
-                $prec["log_act"] == "U" &&
+            if ($rec['log_act'] == 'D' &&
+                $prec['log_act'] == 'U' &&
                 $id == $prec["log_id"]) {
                 $act = "C";
                 }
             else {
-                $act = $rec["log_act"];
+                $act = $rec['log_act'];
                 }
-            unset($rec["log_id"]);
-            unset($rec["log_user"]);
-            unset($rec["log_act"]);
-            if (isset($rec["o2aspid"])) {
-                unset($rec["o2aspid"]);
+            unset($rec['log_id']);
+            unset($rec['log_user']);
+            unset($rec['log_act']);
+            if (isset($rec['o2aspid'])) {
+                unset($rec['o2aspid']);
                 }
             // _________________________________________________ Filter update records ___
-            $rset[] = array("jxlog_id"   => $id,
-                            "jxlog_date" => $date,
-                            "jxlog_time" => $time,
-                            "jxlog_act"  => $act,
-                            "jxlog_user" => $user) + $rec;
+            $rset[] = array('jxlog_id'   => $id,
+                            'jxlog_date' => $date,
+                            'jxlog_time' => $time,
+                            'jxlog_act'  => $act,
+                            'jxlog_user' => $user) + $rec;
             }
         return $rset;
 
