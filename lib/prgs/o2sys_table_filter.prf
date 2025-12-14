@@ -338,11 +338,13 @@ if ($min.$max.$not.$like) {
    $field_name = false;
    $formula    = true;
    $sql        = false;
+   $model      = 'o2sys_long_str';
    /*  Look for field original name because field names in view are
     *  always uppercase  */
    if (isset($view->campi[strtoupper($name)]) && $view->campi[strtoupper($name)]->virtual) {
       $field_name = $name;
       $formula    = $view->campi[strtoupper($name)]->formula;
+	  $model	  = $view->campi[strtoupper($name)]->maschera->nome;
       $sql        = true;
       }
    else {
@@ -350,6 +352,7 @@ if ($min.$max.$not.$like) {
          if (strtoupper($f_name) == $name) {
             $field_name = $f_name;
             $formula    = false;
+			$model	    = $f_obj->maschera->nome;
             break;
             }
          }
@@ -360,6 +363,7 @@ if ($min.$max.$not.$like) {
          if (strtoupper($f_name) == $name) {
             $field_name = $f_name;
             $formula    = $f_obj->formula;
+			$model	    = $f_obj->maschera->nome;
             break;
             }
          }
@@ -368,18 +372,17 @@ if ($min.$max.$not.$like) {
 	  /* ______________________________________________________ SQL field ___ */
       if ($sql) {
          $view->sql_formula($name."_jxfilter",
-                            'o2sys_long_str',
-                            $formula,
+                            $model,
+                            ($formula ? $formula : $field_name),
                             ($min ? $min : null),
                             ($max ? $max : null),
                             ($not ? $not : null),
                             ($like ? $like : null));
-
          }
 	  /* ________________________________________________________ Formula ___ */
       elseif ($formula) {
          $view->calcola($name."_jxfilter",
-                        'o2sys_long_str',
+                        $model,
                         $formula,
                         ($min ? "'".$min."'" : null),
                         ($max ? "'".$max."'" : null),
