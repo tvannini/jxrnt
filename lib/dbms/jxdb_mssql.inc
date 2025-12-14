@@ -260,7 +260,12 @@ function o2_mssql_execute($query,
 			}
         // ____________________________________________________ On execution exception ___
 		catch (Exception $o2e) {
-            method_exists($conn, 'rollBack') && @$conn->rollBack();
+            if (isset($GLOBALS['o2_mssql_trans']
+                              [$server.$user.
+                               ($_SESSION['o2_app']->isolated_trans ? 'jxext' : '')]) &&
+                method_exists($conn, 'rollBack')) {
+                @$conn->rollBack();
+                }
 			$res = false;
 			throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
 								   '</i><br>query: <code>'.$query.
@@ -290,7 +295,12 @@ function o2_mssql_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                method_exists($conn, 'rollBack') && @$conn->rollBack();
+                if (isset($GLOBALS['o2_mssql_trans']
+                                  [$server.$user.
+                                ($_SESSION['o2_app']->isolated_trans ? 'jxext' : '')]) &&
+                    method_exists($conn, 'rollBack')) {
+                    @$conn->rollBack();
+                    }
 				throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
 									   '</i><br>query: <code>'.$query.
 									   '</code><hr>'.$o2e->getMessage(),
@@ -324,7 +334,12 @@ function o2_mssql_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                method_exists($conn, 'rollBack') && @$conn->rollBack();
+                if (isset($GLOBALS['o2_mssql_trans']
+                                  [$server.$user.
+                                ($_SESSION['o2_app']->isolated_trans ? 'jxext' : '')]) &&
+                    method_exists($conn, 'rollBack')) {
+                    @$conn->rollBack();
+                    }
 				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
                 throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
                                        '</i>'.$q.'<hr>'.$o2e->getMessage(),
@@ -349,7 +364,12 @@ function o2_mssql_execute($query,
             catch (Exception $o2e) {
                 $stm->closeCursor();
                 $stm = null;
-                method_exists($conn, 'rollBack') && @$conn->rollBack();
+                if (isset($GLOBALS['o2_mssql_trans']
+                                  [$server.$user.
+                                ($_SESSION['o2_app']->isolated_trans ? 'jxext' : '')]) &&
+                    method_exists($conn, 'rollBack')) {
+                    @$conn->rollBack();
+                    }
                 throw new o2_exception('<b>MSSQL</b> server: <i>'.$server.
                                        '</i><br>query: <code>'.$query.
                                        '</code><hr>'.$o2e->getMessage(),
@@ -1579,7 +1599,12 @@ function o2_mssql_count($server,
         }
     // ________________________________________________________ On execution exception ___
     catch (o2_exception $o2e) {
-        method_exists($conn, 'rollBack') && @$conn->rollBack();
+        if (isset($GLOBALS['o2_mssql_trans']
+                          [$server.$user.
+                           ($_SESSION['o2_app']->isolated_trans ? 'jxext' : '')]) &&
+            method_exists($conn, 'rollBack')) {
+            @$conn->rollBack();
+            }
         $o2e->set_error_class(o2error_DBCOUNT);
         throw $o2e;
         return false;

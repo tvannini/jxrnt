@@ -1477,7 +1477,12 @@ function o2_postgres_count($server,
         }
     // ________________________________________________________ On execution exception ___
     catch (Exception $o2e) {
-        method_exists($conn, 'rollBack') && @$conn->rollBack();
+        if (isset($GLOBALS['o2_postgres_trans']
+                          [$server.$user.
+                           ($_SESSION['o2_app']->isolated_trans ? 'jxext' : '')]) &&
+            method_exists($conn, 'rollBack')) {
+            @$conn->rollBack();
+            }
         throw new o2_exception('<b>PostgreSQL</b> server: <i>'.$server.
                                '</i><br>Error counting dataset.<hr><code>'.
                                $query.'</code><br><br>'.$o2e->getMessage(),

@@ -89,6 +89,37 @@ function o2_sqlite3_qualify($database, $owner, $name = '') {
 
 
 /**
+ * Return the physical path of the Sqlite database file
+ *
+ * @param  string $server
+ * @return string
+ */
+function o2_sqlite3_server($server) {
+
+    $app = $_SESSION['o2_app'];
+    // ______________________________________________ Prevent blank and relative names ___
+    if (!$server) {
+        $server = $app->dir_data.$app->nome.'.db';
+        }
+    // _________________________________________________________ Session physical file ___
+    elseif (strpos(':session:', strtolower($server)) === 0) {
+        if (strtolower($server) == ':session:') {
+            $server = $app->dir_tmp.$app->nome.'.db';
+            }
+        else {
+            $server = $app->dir_tmp.substr($server, 9);
+            }
+        }
+    elseif (strpos(':memory:', strtolower($server)) === false &&
+            basename($server) == $server) {
+        $server = $app->dir_data.$server;
+        }
+    return $server;
+
+    }
+
+
+/**
  * Return a sqlite connection handle
  *
  * @param  string $location   SQLite database file path
@@ -99,24 +130,7 @@ function o2_sqlite3_qualify($database, $owner, $name = '') {
  */
 function o2_sqlite3_connect($location, $user, $password, $trans) {
 
-    $app = $_SESSION['o2_app'];
-    // ______________________________________________ Prevent blank and relative names ___
-    if (!$location) {
-        $location = $app->dir_data.$app->nome.'.db';
-        }
-    // _________________________________________________________ Session physical file ___
-    elseif (strpos(strtolower($location), ':session:') === 0) {
-        if (strtolower($location) == ':session:') {
-            $location = $app->dir_tmp.$app->nome.'.db';
-            }
-        else {
-            $location = $app->dir_tmp.substr($location, 9);
-            }
-        }
-    elseif (strpos(':memory:', strtolower($location)) === false &&
-            basename($location) == $location) {
-        $location = $app->dir_data.$location;
-        }
+    $location = o2_sqlite3_server($location);
     // _________________________________________________ Check for existing connection ___
     if (!isset($GLOBALS['o2_sqlite3_conn'][$location])) {
         // _____________________________________________________ Create new connection ___
@@ -228,7 +242,10 @@ function o2_sqlite3_execute($query,
             }
         // ____________________________________________________ On execution exception ___
 		catch (Exception $o2e) {
-            method_exists($conn, 'rollBack') && @$conn->rollBack();
+            if (isset($GLOBALS['o2_sqlite3_trans'][o2_sqlite3_server($server)]) &&
+                method_exists($conn, 'rollBack')) {
+                @$conn->rollBack();
+                }
             $res = false;
             throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
                                    '</i><br>query: <code>'.$query.'</code><hr>'.
@@ -258,7 +275,10 @@ function o2_sqlite3_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                method_exists($conn, 'rollBack') && @$conn->rollBack();
+                if (isset($GLOBALS['o2_sqlite3_trans'][o2_sqlite3_server($server)]) &&
+                    method_exists($conn, 'rollBack')) {
+                    @$conn->rollBack();
+                    }
                 throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
                                        '</i><br>query: <code>'.$query.'</code><hr>'.
                                        $o2e->getMessage(),
@@ -273,7 +293,10 @@ function o2_sqlite3_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                method_exists($conn, 'rollBack') && @$conn->rollBack();
+                if (isset($GLOBALS['o2_sqlite3_trans'][o2_sqlite3_server($server)]) &&
+                    method_exists($conn, 'rollBack')) {
+                    @$conn->rollBack();
+                    }
 				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
                 throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
                                        '</i>'.$q.'<hr>'.$o2e->getMessage(),
@@ -299,7 +322,10 @@ function o2_sqlite3_execute($query,
                 }
             // ________________________________________________ On execution exception ___
             catch (Exception $o2e) {
-                method_exists($conn, 'rollBack') && @$conn->rollBack();
+                if (isset($GLOBALS['o2_sqlite3_trans'][o2_sqlite3_server($server)]) &&
+                    method_exists($conn, 'rollBack')) {
+                    @$conn->rollBack();
+                    }
 				$q = ($stm ? '<br>query: <code>'.$stm->queryString.'</code>' : $query);
                 throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
                                        '</i>'.$q.'<hr>'.$o2e->getMessage(),
@@ -320,7 +346,10 @@ function o2_sqlite3_execute($query,
             catch (Exception $o2e) {
                 $stm->closeCursor();
                 $stm = null;
-                method_exists($conn, 'rollBack') && @$conn->rollBack();
+                if (isset($GLOBALS['o2_sqlite3_trans'][o2_sqlite3_server($server)]) &&
+                    method_exists($conn, 'rollBack')) {
+                    @$conn->rollBack();
+                    }
                 throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
                                        '</i><br>query: <code>'.$query.
                                        '</code><hr>'.$o2e->getMessage(),
@@ -1152,7 +1181,10 @@ function o2_sqlite3_count($server,
         }
     // ________________________________________________________ On execution exception ___
     catch (Exception $o2e) {
-        method_exists($conn, 'rollBack') && @$conn->rollBack();
+        if (isset($GLOBALS['o2_sqlite3_trans'][o2_sqlite3_server($server)]) &&
+            method_exists($conn, 'rollBack')) {
+            @$conn->rollBack();
+            }
         throw new o2_exception('<b>SQLite3</b> server: <i>'.$server.
                                '</i><br>Error counting dataset.<hr><code>'.
                                $query.'</code><br><br>'.$o2e->getMessage(),
@@ -1465,25 +1497,7 @@ function o2_sqlite3_fkeysinfo($server,
  */
 function o2_sqlite3_commit($server, $user, $password, $end = false) {
 
-    $app = $_SESSION['o2_app'];
-    // ______________________________________________ Prevent blank and relative names ___
-    if (!$server) {
-        $server = $app->dir_data.$app->nome.'.db';
-        }
-    // _________________________________________________________ Session physical file ___
-    elseif (strpos(':session:', strtolower($server)) === 0) {
-        if (strtolower($server) == ':session:') {
-            $server = $app->dir_tmp.$app->nome.'.db';
-            }
-        else {
-            $server = $app->dir_tmp.substr($server, 9);
-            }
-        }
-    elseif (strpos(':memory:', strtolower($server)) === false &&
-            basename($server) == $server) {
-        $server = $app->dir_data.$server;
-        }
-
+    $server = o2_sqlite3_server($server);
     // ________________________________________________ Check for existing transaction ___
     if (isset($GLOBALS['o2_sqlite3_trans'][$server])) {
         // ___________________________________ Check for errors on current transaction ___
