@@ -2871,7 +2871,7 @@ return (o2val('prg§_§var','node_type') == "table" || o2val('prg§_§var','node_typ
 
 function jxconnectivity_exp_31() {
 	$list = array();
-$root_folder = o2app_dir_home()."data".DIRECTORY_SEPARATOR;
+$root_folder = str_replace("\\", "/", o2app_dir_home())."data/";
 $list[$root_folder] = '/';
 $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root_folder),
                                        RecursiveIteratorIterator::SELF_FIRST);
