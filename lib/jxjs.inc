@@ -297,7 +297,9 @@ class jxjs {
      */
     static function ctrl_line($o2ctrl_obj) {
 
-        print jxjs::ctrl($o2ctrl_obj, "");
+        if ($o2ctrl_obj->check_dependences()) {
+            print jxjs::ctrl($o2ctrl_obj, "");
+            }
 
         }
 
@@ -309,28 +311,30 @@ class jxjs {
      */
     static function ctrl_nav($o2ctrl_obj) {
 
-        $code   = "''";
-        $parent = '{}';
-        if ($o2ctrl_obj->visibile) {
-            $app    = $_SESSION['o2_app'];
-            $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->
-                                                                  form[$o2ctrl_obj->form];
-            $parent = "{pT:'".($o2ctrl_obj->padre ?
-                               $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
-                               'form')."'}";
-            ob_start();
-            $GLOBALS['jxjs'] = false;
-            o2html::ctrl_nav($o2ctrl_obj);
-            $code            = jxjs::html_embed(ob_get_clean());
-            $GLOBALS['jxjs'] = true;
+        if ($o2ctrl_obj->check_dependences()) {
+            $code   = "''";
+            $parent = '{}';
+            if ($o2ctrl_obj->visibile) {
+                $app    = $_SESSION['o2_app'];
+                $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->
+                          form[$o2ctrl_obj->form];
+                $parent = "{pT:'".($o2ctrl_obj->padre ?
+                                $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
+                                'form')."'}";
+                ob_start();
+                $GLOBALS['jxjs'] = false;
+                o2html::ctrl_nav($o2ctrl_obj);
+                $code            = jxjs::html_embed(ob_get_clean());
+                $GLOBALS['jxjs'] = true;
+                }
+            print jxjs::ctrl($o2ctrl_obj,
+                            'code:'.$code.
+                            ',x:'.$o2ctrl_obj->x.
+                            ',y:'.$o2ctrl_obj->y.
+                            ',w:'.$o2ctrl_obj->larghezza.
+                            ',h:'.$o2ctrl_obj->altezza,
+                            $parent);
             }
-        print jxjs::ctrl($o2ctrl_obj,
-                         'code:'.$code.
-                         ',x:'.$o2ctrl_obj->x.
-                         ',y:'.$o2ctrl_obj->y.
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
-                         $parent);
 
         }
 
@@ -637,17 +641,20 @@ class jxjs {
      */
     static function ctrl_file($o2ctrl_obj) {
 
-        $app    = $_SESSION['o2_app'];
-        $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
-        $parent = "{pT:'".($o2ctrl_obj->padre ?
-                           $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
-                           'form')."'}";
-        print jxjs::ctrl($o2ctrl_obj,
-                         'x:'.$o2ctrl_obj->x.
-                        ',y:'.$o2ctrl_obj->y.
-                        ',w:'.$o2ctrl_obj->larghezza.
-                        ',h:'.$o2ctrl_obj->altezza,
-                        $parent);
+        if ($o2ctrl_obj->check_dependences()) {
+            $app    = $_SESSION['o2_app'];
+            $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->
+                      form[$o2ctrl_obj->form];
+            $parent = "{pT:'".($o2ctrl_obj->padre ?
+                               $form->controlli[$o2ctrl_obj->padre]->tipo_ctrl :
+                               'form')."'}";
+            print jxjs::ctrl($o2ctrl_obj,
+                            'x:'.$o2ctrl_obj->x.
+                            ',y:'.$o2ctrl_obj->y.
+                            ',w:'.$o2ctrl_obj->larghezza.
+                            ',h:'.$o2ctrl_obj->altezza,
+                            $parent);
+            }
 
         }
 
@@ -709,119 +716,121 @@ class jxjs {
      */
     static function ctrl_multipage($o2ctrl_obj) {
 
-        $value     = $o2ctrl_obj->sql2ctrl();
-        $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
-        $form_obj  = $prg_local->form[$o2ctrl_obj->form];
-        $reselect  = true;
-        $mod_ctrls = (isset($_REQUEST['o2_modfields']) ?
-                      explode(";", $_REQUEST['o2_modfields']) : array());
-        array_pop($mod_ctrls);
-        $o2ctrl_obj->pagine = count($o2ctrl_obj->label);
-        if ($o2ctrl_obj->pagine > 1) {
-            foreach ($mod_ctrls as $ctrl) {
-                // ____________________ Selection on multipage (preserve client focus) ___
-                if ($ctrl == $o2ctrl_obj->nome) {
-                    $reselect = false;
-                    break;
-                    }
-                }
-            }
-        else {
-            $reselect = false;
-            }
-        foreach ($o2ctrl_obj->label as $label_index => $single_label) {
-            // ___________________________________________________________ Active page ___
-            if (intval($o2ctrl_obj->valore) == $label_index) {
-                // _______________________________________ If HTML code has to be sent ___
-                $send_all = !isset($o2ctrl_obj->sent_pages[$label_index]);
-                if ($send_all) {
-                    ob_start();
-                    $GLOBALS['jxjs'] = false;
-                    }
-                foreach ($form_obj->controlli as &$singolo_ctrl) {
-                        // _____________________________________ Controls in multipage ___
-                        if ($singolo_ctrl->padre == $o2ctrl_obj->nome &&
-                            $singolo_ctrl->info_padre[0] == $label_index) {
-                            // ___________________________________ Read-only multipage ___
-                            if (!$o2ctrl_obj->modificabile) {
-                                switch ($singolo_ctrl->tipo_ctrl) {
-                                    case "tab":
-                                        $singolo_ctrl->modificabile = false;
-                                        foreach ($form_obj->controlli as &$tmp_ctrl) {
-                                            if ($tmp_ctrl->tipo_ctrl == "navigator" &&
-                                                $tmp_ctrl->padre == $singolo_ctrl->nome) {
-                                                $tmp_ctrl->enable_del(false);
-                                                $tmp_ctrl->enable_detail(false);
-                                                $tmp_ctrl->enable_new(false);
-                                                $tmp_ctrl->enable_save(false);
-                                                $tmp_ctrl->enable_select(false);
-                                                $tmp_ctrl->enable_undo(false);
-                                                break;
-                                                }
-                                            }
-                                        break;
-                                    case "navigator":
-                                        $singolo_ctrl->enable_del(false);
-                                        $singolo_ctrl->enable_detail(false);
-                                        $singolo_ctrl->enable_new(false);
-                                        $singolo_ctrl->enable_save(false);
-                                        $singolo_ctrl->enable_select(false);
-                                        $singolo_ctrl->enable_undo(false);
-                                        break;
-                                    default:
-                                        $singolo_ctrl->modificabile = false;
-                                        break;
-                                    }
-                                }
-                            if ($send_all) {
-                                print '<div style="position:absolute;left:'.
-                                      $singolo_ctrl->x.'px;top:'.$singolo_ctrl->y.
-                                      "px;padding:0;margin:0;white-space:nowrap;\">\n";
-                                }
-                            $singolo_ctrl->disegna();
-                            if ($send_all) {
-                                print "</div>\n";
-                                }
-                            }
-                        }
-                if ($send_all) {
-                    $code            = jxjs::html_embed(ob_get_clean());
-                    $GLOBALS['jxjs'] = true;
-                    $o2ctrl_obj->sent_pages[$label_index] = true;
-                    }
-                else {
-                    $code = "!1";
-                    }
-                // _________________________________ Only first time HTML code is sent ___
-                print jxjs::ctrl($o2ctrl_obj,
-                                 'd:'.($value ? $value : '0').
-                                 ",select:".($reselect ? '!0' : '!1').
-                                 ",ctrlName:'".$o2ctrl_obj->nome.
-                                 "',cssOn:'".$o2ctrl_obj->css_label_on.
-                                 "',cssOff:'".$o2ctrl_obj->css_label_off.
-                                 "',code:".$code.
-                                 ',x:'.$o2ctrl_obj->x.
-                                 ',y:'.$o2ctrl_obj->y.
-                                 ',w:'.$o2ctrl_obj->larghezza.
-                                 ',h:'.$o2ctrl_obj->altezza,
-                                 $o2ctrl_obj->js_props("", true));
-                }
-            // ______________________________________________________ Not active pages ___
-            elseif (isset($o2ctrl_obj->sent_pages[$label_index]) &&
-                    $o2ctrl_obj->sent_pages[$label_index]) {
-                foreach ($form_obj->controlli as $ctrl) {
-                    // _________________________________________ Controls in multipage ___
-                    if ($ctrl->padre == $o2ctrl_obj->nome &&
-                        $ctrl->info_padre[0] == $label_index &&
-                        $ctrl->check_dependences()) {
-                        // ____________________ Resend page next time, to show changes ___
-                        unset($o2ctrl_obj->sent_pages[$label_index]);
+        if ($o2ctrl_obj->check_dependences()) {
+            $value     = $o2ctrl_obj->sql2ctrl();
+            $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+            $form_obj  = $prg_local->form[$o2ctrl_obj->form];
+            $reselect  = true;
+            $mod_ctrls = (isset($_REQUEST['o2_modfields']) ?
+                        explode(";", $_REQUEST['o2_modfields']) : array());
+            array_pop($mod_ctrls);
+            $o2ctrl_obj->pagine = count($o2ctrl_obj->label);
+            if ($o2ctrl_obj->pagine > 1) {
+                foreach ($mod_ctrls as $ctrl) {
+                    // ________________ Selection on multipage (preserve client focus) ___
+                    if ($ctrl == $o2ctrl_obj->nome) {
+                        $reselect = false;
                         break;
                         }
                     }
                 }
+            else {
+                $reselect = false;
+                }
+            foreach ($o2ctrl_obj->label as $label_index => $single_label) {
+                // _______________________________________________________ Active page ___
+                if (intval($o2ctrl_obj->valore) == $label_index) {
+                    // ___________________________________ If HTML code has to be sent ___
+                    $send_all = !isset($o2ctrl_obj->sent_pages[$label_index]);
+                    if ($send_all) {
+                        ob_start();
+                        $GLOBALS['jxjs'] = false;
+                        }
+                    foreach ($form_obj->controlli as &$singolo_ctrl) {
+                            // _________________________________ Controls in multipage ___
+                            if ($singolo_ctrl->padre == $o2ctrl_obj->nome &&
+                                $singolo_ctrl->info_padre[0] == $label_index) {
+                                // _______________________________ Read-only multipage ___
+                                if (!$o2ctrl_obj->modificabile) {
+                                    switch ($singolo_ctrl->tipo_ctrl) {
+                                        case "tab":
+                                            $singolo_ctrl->modificabile = false;
+                                            foreach ($form_obj->controlli as &$tmp_ctrl) {
+                                                if ($tmp_ctrl->tipo_ctrl == "navigator" &&
+                                                    $tmp_ctrl->padre ==
+                                                                    $singolo_ctrl->nome) {
+                                                    $tmp_ctrl->enable_del(false);
+                                                    $tmp_ctrl->enable_detail(false);
+                                                    $tmp_ctrl->enable_new(false);
+                                                    $tmp_ctrl->enable_save(false);
+                                                    $tmp_ctrl->enable_select(false);
+                                                    $tmp_ctrl->enable_undo(false);
+                                                    break;
+                                                    }
+                                                }
+                                            break;
+                                        case "navigator":
+                                            $singolo_ctrl->enable_del(false);
+                                            $singolo_ctrl->enable_detail(false);
+                                            $singolo_ctrl->enable_new(false);
+                                            $singolo_ctrl->enable_save(false);
+                                            $singolo_ctrl->enable_select(false);
+                                            $singolo_ctrl->enable_undo(false);
+                                            break;
+                                        default:
+                                            $singolo_ctrl->modificabile = false;
+                                            break;
+                                        }
+                                    }
+                                if ($send_all) {
+                                    print '<div style="position:absolute;left:'.
+                                        $singolo_ctrl->x.'px;top:'.$singolo_ctrl->y.
+                                        "px;padding:0;margin:0;white-space:nowrap;\">\n";
+                                    }
+                                $singolo_ctrl->disegna();
+                                if ($send_all) {
+                                    print "</div>\n";
+                                    }
+                                }
+                            }
+                    if ($send_all) {
+                        $code            = jxjs::html_embed(ob_get_clean());
+                        $GLOBALS['jxjs'] = true;
+                        $o2ctrl_obj->sent_pages[$label_index] = true;
+                        }
+                    else {
+                        $code = "!1";
+                        }
+                    // _____________________________ Only first time HTML code is sent ___
+                    print jxjs::ctrl($o2ctrl_obj,
+                                    'd:'.($value ? $value : '0').
+                                    ",select:".($reselect ? '!0' : '!1').
+                                    ",ctrlName:'".$o2ctrl_obj->nome.
+                                    "',cssOn:'".$o2ctrl_obj->css_label_on.
+                                    "',cssOff:'".$o2ctrl_obj->css_label_off.
+                                    "',code:".$code.
+                                    ',x:'.$o2ctrl_obj->x.
+                                    ',y:'.$o2ctrl_obj->y.
+                                    ',w:'.$o2ctrl_obj->larghezza.
+                                    ',h:'.$o2ctrl_obj->altezza,
+                                    $o2ctrl_obj->js_props("", true));
+                    }
+                // __________________________________________________ Not active pages ___
+                elseif (isset($o2ctrl_obj->sent_pages[$label_index]) &&
+                        $o2ctrl_obj->sent_pages[$label_index]) {
+                    foreach ($form_obj->controlli as $ctrl) {
+                        // _____________________________________ Controls in multipage ___
+                        if ($ctrl->padre == $o2ctrl_obj->nome &&
+                            $ctrl->info_padre[0] == $label_index &&
+                            $ctrl->check_dependences()) {
+                            // ________________ Resend page next time, to show changes ___
+                            unset($o2ctrl_obj->sent_pages[$label_index]);
+                            break;
+                            }
+                        }
+                    }
+                }
             }
-
         }
 
 
@@ -833,22 +842,23 @@ class jxjs {
      */
     static function ctrl_flowbox($o2ctrl_obj) {
 
-        $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
-        $form_obj  = $prg_local->form[$o2ctrl_obj->form];
-        foreach ($form_obj->controlli as &$singolo_ctrl) {
-            // ___________________________________________________ Controls in flowbox ___
-            if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
-                $singolo_ctrl->disegna();
+        if ($o2ctrl_obj->check_dependences()) {
+            $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+            $form_obj  = $prg_local->form[$o2ctrl_obj->form];
+            foreach ($form_obj->controlli as &$singolo_ctrl) {
+                // _______________________________________________ Controls in flowbox ___
+                if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
+                    $singolo_ctrl->disegna();
+                    }
                 }
+            print jxjs::ctrl($o2ctrl_obj,
+                            'x:'.$o2ctrl_obj->x.
+                            ',y:'.$o2ctrl_obj->y.
+                            ',w:'.$o2ctrl_obj->larghezza.
+                            ',h:'.$o2ctrl_obj->altezza.
+                            ",s:'".$o2ctrl_obj->css."'",
+                            $o2ctrl_obj->js_props("", true));
             }
-        print jxjs::ctrl($o2ctrl_obj,
-                         'x:'.$o2ctrl_obj->x.
-                         ',y:'.$o2ctrl_obj->y.
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza.
-                         ",s:'".$o2ctrl_obj->css."'",
-                         $o2ctrl_obj->js_props("", true));
-
         }
 
 
@@ -859,50 +869,52 @@ class jxjs {
      */
     static function ctrl_frame($o2ctrl_obj) {
 
-        $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
-        $form_obj  = $prg_local->form[$o2ctrl_obj->form];
-        foreach ($form_obj->controlli as &$singolo_ctrl) {
-            // _____________________________________________________ Controls in frame ___
-            if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
-                // ___________________________________________________ Read-only frame ___
-                if (!$o2ctrl_obj->modificabile) {
-                    switch ($singolo_ctrl->tipo_ctrl) {
-                        case "tab":
-                            $singolo_ctrl->modificabile = false;
-                            foreach ($form_obj->controlli as &$tmp_ctrl) {
-                                if ($tmp_ctrl->tipo_ctrl == "navigator" &&
-                                    $tmp_ctrl->padre == $singolo_ctrl->nome) {
-                                    $tmp_ctrl->enable_del(false);
-                                    $tmp_ctrl->enable_detail(false);
-                                    $tmp_ctrl->enable_new(false);
-                                    $tmp_ctrl->enable_save(false);
-                                    $tmp_ctrl->enable_select(false);
-                                    $tmp_ctrl->enable_undo(false);
-                                    break;
+        if ($o2ctrl_obj->check_dependences()) {
+            $prg_local = $_SESSION['o2_app']->istanze_prg[$o2ctrl_obj->id_esecuzione];
+            $form_obj  = $prg_local->form[$o2ctrl_obj->form];
+            foreach ($form_obj->controlli as &$singolo_ctrl) {
+                // _________________________________________________ Controls in frame ___
+                if ($singolo_ctrl->padre == $o2ctrl_obj->nome) {
+                    // _______________________________________________ Read-only frame ___
+                    if (!$o2ctrl_obj->modificabile) {
+                        switch ($singolo_ctrl->tipo_ctrl) {
+                            case "tab":
+                                $singolo_ctrl->modificabile = false;
+                                foreach ($form_obj->controlli as &$tmp_ctrl) {
+                                    if ($tmp_ctrl->tipo_ctrl == "navigator" &&
+                                        $tmp_ctrl->padre == $singolo_ctrl->nome) {
+                                        $tmp_ctrl->enable_del(false);
+                                        $tmp_ctrl->enable_detail(false);
+                                        $tmp_ctrl->enable_new(false);
+                                        $tmp_ctrl->enable_save(false);
+                                        $tmp_ctrl->enable_select(false);
+                                        $tmp_ctrl->enable_undo(false);
+                                        break;
+                                        }
                                     }
-                                }
-                            break;
-                        case "navigator":
-                            $singolo_ctrl->enable_del(false);
-                            $singolo_ctrl->enable_detail(false);
-                            $singolo_ctrl->enable_new(false);
-                            $singolo_ctrl->enable_save(false);
-                            $singolo_ctrl->enable_select(false);
-                            $singolo_ctrl->enable_undo(false);
-                            break;
-                        default:
-                            $singolo_ctrl->modificabile = false;
-                            break;
+                                break;
+                            case "navigator":
+                                $singolo_ctrl->enable_del(false);
+                                $singolo_ctrl->enable_detail(false);
+                                $singolo_ctrl->enable_new(false);
+                                $singolo_ctrl->enable_save(false);
+                                $singolo_ctrl->enable_select(false);
+                                $singolo_ctrl->enable_undo(false);
+                                break;
+                            default:
+                                $singolo_ctrl->modificabile = false;
+                                break;
+                            }
                         }
+                    $singolo_ctrl->disegna();
                     }
-                $singolo_ctrl->disegna();
                 }
+            print jxjs::ctrl($o2ctrl_obj,
+                            'w:'.$o2ctrl_obj->larghezza.
+                            ',h:'.$o2ctrl_obj->altezza.
+                            ",s:'".$o2ctrl_obj->css."'",
+                            $o2ctrl_obj->js_props("", true));
             }
-        print jxjs::ctrl($o2ctrl_obj,
-                         'w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza.
-                         ",s:'".$o2ctrl_obj->css."'",
-                         $o2ctrl_obj->js_props("", true));
 
         }
 
@@ -945,23 +957,25 @@ class jxjs {
      */
     static function ctrl_tree($o2ctrl_obj) {
 
-        $jsp = $o2ctrl_obj->js_props('std:'.($o2ctrl_obj->scripting ? '!1' : '!0').
-                                     ',sorted:'.($o2ctrl_obj->sorted ? "!0" : "!1").
-                                     ',aL:'.($o2ctrl_obj->act_level),
-                                     true);
-        $value = $o2ctrl_obj->sql2ctrl();
-        if ($o2ctrl_obj->sele_node != $value) {
-            $o2ctrl_obj->node_select($value, true);
+        if ($o2ctrl_obj->check_dependences()) {
+            $jsp = $o2ctrl_obj->js_props('std:'.($o2ctrl_obj->scripting ? '!1' : '!0').
+                                        ',sorted:'.($o2ctrl_obj->sorted ? "!0" : "!1").
+                                        ',aL:'.($o2ctrl_obj->act_level),
+                                        true);
+            $value = $o2ctrl_obj->sql2ctrl();
+            if ($o2ctrl_obj->sele_node != $value) {
+                $o2ctrl_obj->node_select($value, true);
+                }
+            $html   = $o2ctrl_obj->get_node_code(0, -1);
+            print jxjs::ctrl($o2ctrl_obj,
+                            'code:'.jxjs::html_embed($html).
+                            ",s:'".$o2ctrl_obj->css.
+                            "',x:".$o2ctrl_obj->x.
+                            ',y:'.$o2ctrl_obj->y.
+                            ',w:'.$o2ctrl_obj->larghezza.
+                            ',h:'.$o2ctrl_obj->altezza,
+                            $jsp);
             }
-        $html   = $o2ctrl_obj->get_node_code(0, -1);
-        print jxjs::ctrl($o2ctrl_obj,
-                         'code:'.jxjs::html_embed($html).
-                         ",s:'".$o2ctrl_obj->css.
-                        "',x:".$o2ctrl_obj->x.
-                         ',y:'.$o2ctrl_obj->y.
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
-                         $jsp);
 
         }
 
@@ -973,19 +987,19 @@ class jxjs {
      */
     static function ctrl_imglist($o2ctrl_obj) {
 
-        $app    = $_SESSION['o2_app'];
-        $form   = $app->istanze_prg[$o2ctrl_obj->id_esecuzione]->form[$o2ctrl_obj->form];
-        $jsp    = $o2ctrl_obj->js_props('std:'.($o2ctrl_obj->scripting ? '!1' : '!0'),
-                                        true);
-        $html   = $o2ctrl_obj->get_code();
-        print jxjs::ctrl($o2ctrl_obj,
-                         "code:".jxjs::html_embed($html).
-                         ",s:'".$o2ctrl_obj->css.
-                        "',x:".$o2ctrl_obj->x.
-                         ',y:'.$o2ctrl_obj->y.
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
-                         $jsp);
+        if ($o2ctrl_obj->check_dependences()) {
+            $jsp  = $o2ctrl_obj->js_props('std:'.($o2ctrl_obj->scripting ? '!1' : '!0'),
+                                          true);
+            $html = $o2ctrl_obj->get_code();
+            print jxjs::ctrl($o2ctrl_obj,
+                            "code:".jxjs::html_embed($html).
+                            ",s:'".$o2ctrl_obj->css.
+                            "',x:".$o2ctrl_obj->x.
+                            ',y:'.$o2ctrl_obj->y.
+                            ',w:'.$o2ctrl_obj->larghezza.
+                            ',h:'.$o2ctrl_obj->altezza,
+                            $jsp);
+            }
 
         }
 
@@ -997,18 +1011,20 @@ class jxjs {
      */
     static function ctrl_progress($o2ctrl_obj) {
 
-        $val = intval($o2ctrl_obj->valore);
-        $jsp = $o2ctrl_obj->js_props('std:!0', true);
-        print jxjs::ctrl($o2ctrl_obj,
-                         "vl:".$val.
-                         ",a:".($o2ctrl_obj->modificabile ? '!0' : '!1').
-                         ",s:'".$o2ctrl_obj->css_out.($o2ctrl_obj->modificabile ?
-                                                      '' : '_dis').
-                        "',x:".$o2ctrl_obj->x.
-                         ',y:'.$o2ctrl_obj->y.
-                         ',w:'.$o2ctrl_obj->larghezza.
-                         ',h:'.$o2ctrl_obj->altezza,
-                         $jsp);
+        if ($o2ctrl_obj->check_dependences()) {
+            $val = intval($o2ctrl_obj->valore);
+            $jsp = $o2ctrl_obj->js_props('std:!0', true);
+            print jxjs::ctrl($o2ctrl_obj,
+                            "vl:".$val.
+                            ",a:".($o2ctrl_obj->modificabile ? '!0' : '!1').
+                            ",s:'".$o2ctrl_obj->css_out.($o2ctrl_obj->modificabile ?
+                                                        '' : '_dis').
+                            "',x:".$o2ctrl_obj->x.
+                            ',y:'.$o2ctrl_obj->y.
+                            ',w:'.$o2ctrl_obj->larghezza.
+                            ',h:'.$o2ctrl_obj->altezza,
+                            $jsp);
+            }
 
         }
 
