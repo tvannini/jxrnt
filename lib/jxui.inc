@@ -1133,9 +1133,8 @@ class o2_form {
             }
         // _________________________ Set drawing control to update control dependences ___
         switch ($tipo) {
-            case 'htmlarea':
-            case 'document':
             case 'tab':
+            case 'document':
                 // ________________________ No dependences checked for theses controls ___
                 $prg->drawing_ctrl = false;
                 break;
@@ -2069,10 +2068,8 @@ class o2_ctrl {
      */
     function check_dependences() {
 
-        // For theses controls dependences are not checked and they are always drawed ____
-        if ($this->tipo_ctrl == 'tab'     ||
-            $this->tipo_ctrl == 'html' ||
-            $this->tipo_ctrl == 'document') {
+        //  For theses controls dependences are not checked and they are always drawed ___
+        if ($this->tipo_ctrl == 'tab' || $this->tipo_ctrl == 'document') {
             return true;
             }
         $app = $_SESSION['o2_app'];
@@ -2091,7 +2088,7 @@ class o2_ctrl {
                         return $value;
                         }
                    };
-        // _________________________ Check dependences for controls inside a container ___
+        // ________ Check dependences for controls inside a container and other logics ___
         $chk = function($container) use ($cac, $prg) {
                    switch ($container->tipo_ctrl) {
                        case 'multipage':
@@ -2106,9 +2103,15 @@ class o2_ctrl {
                        /* For theses controls dependences are not checked and they are
                           always drawed________________________________________________ */
                        case 'tab':
-                       case 'html':
                        case 'document':
                            return true;
+                           break;
+                       // ___________________ Evaluate redraw flag for theses controls ___
+                       case 'tree':
+                       case 'imglist':
+                           if ($container->redraw) {
+                               return true;
+                               }
                            break;
                        default:
                            return false;
@@ -5947,6 +5950,7 @@ class o2_ctrl_tree extends o2_ctrl {
     public $filter_txt = false;    /* Text to use for filtering elements labels by      */
     public $scripting  = false;    /* If control is defined in old scripting style      */
     public $vscroll    = 0;        /* Control vertical srolling value                   */
+    public $redraw     = false;    /* If TRUE control must be redrawn (see dependences) */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css        = "jxtree"; /* Whole control space <DIV>                   */
 
@@ -6020,6 +6024,7 @@ class o2_ctrl_tree extends o2_ctrl {
             $node_id = count($this->list) + 1;
             }
         $this->list[$node_id] = array($parent_id, $node_code, $node_icon);
+        $this->redraw         = true;
         return $node_id;
 
         }
@@ -6044,6 +6049,7 @@ class o2_ctrl_tree extends o2_ctrl {
                     $nodes+= $this->node_remove($index);
                     }
                 }
+            $this->redraw = true;
             }
         return $nodes;
 
@@ -6061,6 +6067,7 @@ class o2_ctrl_tree extends o2_ctrl {
 
         if (isset($this->list[$node_id]) && isset($this->list[$new_parent])) {
             $this->list[$node_id][0] = $new_parent;
+            $this->redraw            = true;
             return true;
             }
         else {
@@ -6089,6 +6096,7 @@ class o2_ctrl_tree extends o2_ctrl {
                     }
                 $node_id = $parent_id;
                 } while (true);
+            $this->redraw = true;
             return true;
             }
         else {
@@ -6108,10 +6116,12 @@ class o2_ctrl_tree extends o2_ctrl {
     function node_select($node_id, $no_action = false) {
 
         if (!$node_id) {
+            $this->redraw     = true;
             $this->sele_node  = false;
             $this->focus_node = false;
             }
         elseif (isset($this->list[$node_id])) {
+            $this->redraw     = true;
             $this->sele_node  = $node_id;
             $this->focus_node = $node_id;
             $this->node_show($node_id);
@@ -6160,6 +6170,7 @@ class o2_ctrl_tree extends o2_ctrl {
                 $this->open_nodes[$node_id] = true;
                 }
             }
+        $this->redraw = true;
 
         }
 
@@ -6171,6 +6182,7 @@ class o2_ctrl_tree extends o2_ctrl {
     function unfold_all() {
 
         $this->open_nodes = array();
+        $this->redraw     = true;
 
         }
 
@@ -6183,6 +6195,7 @@ class o2_ctrl_tree extends o2_ctrl {
     function node_fold($node_id) {
 
         $this->open_nodes[$node_id] = true;
+        $this->redraw               = true;
 
         }
 
@@ -6196,6 +6209,7 @@ class o2_ctrl_tree extends o2_ctrl {
 
         if (isset($this->open_nodes[$node_id])) {
             unset($this->open_nodes[$node_id]);
+            $this->redraw = true;
             }
 
         }
@@ -6208,6 +6222,7 @@ class o2_ctrl_tree extends o2_ctrl {
     function switch_sort() {
 
         $this->sorted = !$this->sorted;
+        $this->redraw = true;
 
         }
 
@@ -6225,6 +6240,7 @@ class o2_ctrl_tree extends o2_ctrl {
         else {
             $this->filter_txt = false;
             }
+        $this->redraw = true;
 
         }
 
@@ -6393,6 +6409,7 @@ class o2_ctrl_tree extends o2_ctrl {
             foreach ($show_list as $node_id) {
                 $this->node_show($node_id);
                 }
+            $this->redraw = true;
             }
 
         }
@@ -6572,6 +6589,7 @@ class o2_ctrl_imglist extends o2_ctrl {
     public $items_h    = false;   /* Items height (if FALSE height wides as needed)     */
     public $scripting  = false;   /* If control is defined in old scripting style       */
     public $vscroll    = 0;       /* Control vertical srolling value                    */
+    public $redraw     = false;   /* If TRUE control must be redrawn (see dependences)  */
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css        = "jximglist"; /* Whole control space <DIV>                      */
 
@@ -6696,6 +6714,7 @@ class o2_ctrl_imglist extends o2_ctrl {
         $img_file            = rtrim($img_file).(strpos($img_file, "?") ? "&" : "?").
                                "jxrs=".microtime(true);
         $this->list[$img_id] = array($img_file, $item_code);
+        $this->redraw        = true;
         return $img_id;
 
         }
@@ -6713,6 +6732,7 @@ class o2_ctrl_imglist extends o2_ctrl {
         if (isset($this->list[$image_id])) {
             $remimg = $this->list[$image_id];
             unset($this->list[$image_id]);
+            $this->redraw = true;
             }
         return $remimg;
 
@@ -6734,6 +6754,7 @@ class o2_ctrl_imglist extends o2_ctrl {
         if ($height !== false) {
             $this->items_h = intval($height);
             }
+        $this->redraw = true;
         return $this;
 
         }
@@ -6795,6 +6816,7 @@ class o2_ctrl_imglist extends o2_ctrl {
             $old = $this->list[$img_id][0];
             $old = substr($old, 0, strpos($old, "jxrs="));
             $this->list[$img_id][0] = $old."jxrs=".microtime(true);
+            $this->redraw           = true;
             return true;
             }
         else {

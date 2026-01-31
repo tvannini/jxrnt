@@ -1498,6 +1498,8 @@ class o2html {
                     if (isset($_REQUEST['jxtvlastctrl'])) {
                         $ctrl_obj->focus_node = $node_id;
                         }
+                    // ____ Force tree ctrl to be resend in response (see dependences) ___
+                    $ctrl_obj->redraw = true;
                     }
                 // _____________________________________________ Activate node request ___
                 elseif ($_REQUEST['jxtreenode']) {

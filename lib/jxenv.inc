@@ -501,7 +501,20 @@ class o2_prg {
                 }
             }
         $app->block_exe = false;
+        // ______________________________________ Reset changes for selective-response ___
         $this->changes  = false;
+        // __________________ Reset treeview controls "redraw" flag to force redrawing ___
+        if (isset($this->ctrls['tree'])) {
+            foreach ($this->ctrls['tree'] as $tree_ctrl) {
+                $tree_ctrl->redraw = false;
+                }
+            }
+        // __________________ Reset img-list controls "redraw" flag to force redrawing ___
+        if (isset($this->ctrls['imglist'])) {
+            foreach ($this->ctrls['imglist'] as $imglist_ctrl) {
+                $imglist_ctrl->redraw = false;
+                }
+            }
 
         }
 
@@ -517,7 +530,7 @@ class o2_prg {
         // __________________________________________________ Loop on program controls ___
         foreach ($this->ctrls as $type => $ctrls) {
             // ____________________________________ Only controls that use dependences ___
-            if (in_array($type, array('button', 'edit', 'label', 'listcombo', 'text'))) {
+            if (($type != 'tab') && ($type != 'document')) {
                 foreach ($ctrls as $ctrl) {
                     foreach ($ctrl->dependences as $view => $dependence) {
                         // ___________________________ If found a dependence from view ___
