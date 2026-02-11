@@ -62,8 +62,8 @@ foreach ($app->dir_progs->all_elements("*.prf") as $prf) {
                                     /*                         <table>   <field>   */
                                     '->usa\("'.$main_field.'","([^"]*)","([^"]*)",/s',
                                     $cont, $matches3);
-                     $main_tab_alias = $matches3[1][0];
-                     $main_tab_field = $matches3[2][0];
+                     $main_tab_alias = $matches3[1][0] ?? false;
+                     $main_tab_field = $matches3[2][0] ?? false;
                      /*   IF SELECT FOUND   */
                      if ($main_tab_alias) {
                         $matches3 = array();
