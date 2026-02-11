@@ -233,6 +233,8 @@ class o2_app {
      * @var o2_dispatcher
      */
     public $dispatcher      = null;    /* o2_dispatcher object                          */
+    public $disp_remove     = false;   /* Prg called on dispatch remove icon click      */
+    public $disp_remove_all = false;   /* Prg called on dispatch remove all icon click  */
     /*     _____ Documentor o2::doc ___________________________________________________ */
     public $doc             = null;    /* Application o2_doc object                     */
     public $doc_enabled     = false;   /* Application documentor module is active       */
@@ -1810,6 +1812,12 @@ class o2_app {
             }
         if (isset($conf['refresh_time'])) {
             $this->refresh_time = max($conf['refresh_time'], 3);
+            }
+        if (isset($conf['dispatch_remove_prg'])) {
+            $this->disp_remove = $conf['dispatch_remove_prg'];
+            }
+        if (isset($conf['dispatcher_remove_all_prg'])) {
+            $this->disp_remove_all = $conf['dispatcher_remove_all_prg'];
             }
         if (isset($conf['grid_plus'])) {
             $this->grid_plus = ($conf['grid_plus'] ? true : false);

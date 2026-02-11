@@ -95,6 +95,8 @@ var o2jse = {
     keepAlive       : 0,           /* Number of seconds for keep-alive sending (0=OFF)  */
     keepAliveHdl    : null,        /* Keep-alive timeout handler */
     refreshTime     : 0,           /* Number of seconds for refresh count-down (0=OFF)  */
+    notifyRemove    : false,       /* Show remove icon on dispatcher items              */
+    notifyRemoveAll : false,       /* Show remove all icon on dispatcher                */
     maxMultiReq     : 5,           /* Max allowed number of unresponsed requests        */
     menuStyle       : 'T',         /* Menu style [T]op or [L]eft                        */
     doc             : false,       /* If JXDocumentor is anabled for application        */
@@ -758,6 +760,18 @@ o2jse.conf.setRefresh = function(tSecs) {
 
 
 /**
+ * Set dispatcher to show "Remove item" and "Remove all items" icons
+ *
+ */
+o2jse.conf.dispatcher = function(removeItem, removeAll) {
+
+    o2jse.notifyRemove    = removeItem;
+    o2jse.notifyRemoveAll = removeAll;
+
+    };
+
+
+/**
  * Sets the maximum number of unresponded requests user is allowed to start
  *
  * @param {Integer} reqs   Number of requests
@@ -1076,8 +1090,10 @@ o2jse.requester.exe = function(action, addToBody, fromObj, callBack, noFields = 
                         clearTimeout(o2jse.notify.timeOut);
                         o2jse.notify.timeOut = null;
                         }
-                    o2jse.notify.timeOut   = setTimeout(o2jse.notify.exeReq,
-                                                        o2jse.refreshTime);
+                    if (o2jse.refreshTime) {
+                        o2jse.notify.timeOut   = setTimeout(o2jse.notify.exeReq,
+                                                            o2jse.refreshTime);
+                        }
                     o2jse.notify.inRequest = false;
                     }
                 }
@@ -7841,6 +7857,13 @@ o2jse.notify.createWin = function() {
         // _____________________________________________________________________ Title ___
         iTxt          = o2jse.createEl(iRow, "TD", "", item[0]);
         empty         = false
+        // ________________________________________________________ Set item read icon ___
+        if (o2jse.notifyRemove) {
+            remImgTd        = o2jse.createEl(iRow, "TD", "o2notify_img");
+            remImg          = o2jse.createEl(remImgTd, "IMG");
+            remImg.src      = o2jse.rntAlias + "img/notify/remove.png";
+            remImg.onclick  = function(e) { o2jse.notify.removeDispatch(this, e); };
+            }
         }
     if (empty) {
         iList           = document.createElement("DIV");
@@ -7927,7 +7950,9 @@ o2jse.notify.getList = function(nullObj, listText) {
         clearTimeout(o2jse.notify.timeOut);
         o2jse.notify.timeOut = null;
         }
-    o2jse.notify.timeOut   = setTimeout(o2jse.notify.exeReq, o2jse.refreshTime);
+    if (o2jse.refreshTime) {
+        o2jse.notify.timeOut = setTimeout(o2jse.notify.exeReq, o2jse.refreshTime);
+        }
     o2jse.notify.inRequest = false;
 
     };
@@ -7971,6 +7996,35 @@ o2jse.notify.clickOnDispatch = function(trObj) {
         }
 
     };
+
+
+/**
+ * Handler for click events on single dispatch notification: manage activable dispatches
+ * activation
+ *
+ * @param object trObj
+ */
+o2jse.notify.removeDispatch = function(icon, event) {
+
+    const eventObj = o2jse.event.std(event);
+    eventObj.stop();
+    o2jse.removeEl(icon.parentNode.parentNode);
+    o2jse.requester.exe("remdispatch",
+                        "jxmsgid=" + icon.parentNode.parentNode.jxMsgID,
+                        o2jse.notify,
+                        null);
+    // ____________________________________________________________ Update status icon ___
+    var notifyArea   = document.getElementById("jxnotify");
+    var notifyText   = notifyArea.getElementsByTagName("DIV")[0];
+    var unread       = parseInt(notifyText.innerHTML) - 1;
+    notifyArea.title = (unread ?
+                        "You have " + unread + " unread messages" :
+                        "No messages");
+    // ___________________________________________________________ Set notify icon ___
+    notifyArea.getElementsByTagName("IMG")[0].src = o2jse.rntAlias + "img/notify/" +
+                                                    (unread ? "msg.png" : "empty.png");
+    notifyText.innerHTML                          = (unread ? unread : "");
+    }
 
 
 /**

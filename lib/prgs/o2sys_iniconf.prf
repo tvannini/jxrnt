@@ -431,6 +431,22 @@ $list = array(
                                         "See \"refresh_prg\" parameter too.\n".
                                         "Refresh time is set in seconds. Minimum value is 3.",
                            "default" => 0),
+   "dispatch_remove_prg" => array("rntval"  => null,
+                                  "appval"  => null,
+                                  "desc"    => "   *** Remove dispactcher item program ***\n\n".
+                                               "Name of an application program to be executed on ".
+                                               "dispatch remove icon click.\n".
+                                               "(See \"dispatcher_remove_all_prg\" setting.)",
+                                  "default" => "",
+                                  "values"  => 'prg'),
+   "dispatcher_remove_all_prg" => array("rntval"  => null,
+                                        "appval"  => null,
+                                        "desc"    => "   *** Remove dispactcher all items program ***\n\n".
+                                                     "Name of an application program to be executed on ".
+                                                     "dispatcher remove all icon click.\n".
+                                                     "(See \"dispatch_remove_prg\" setting.)",
+                                        "default" => "",
+                                        "values"  => 'prg'),                           
    "maint_time" => array("rntval"  => null,
                          "appval"  => null,
                          "desc"    => "   *** Maintenance time ***\n\n".
@@ -1451,6 +1467,8 @@ function o2sys_iniconf_exp_34() {
               'reqprg',
               'refresh_prg',
               'refresh_time',
+              'dispatch_remove_prg',
+              'dispatcher_remove_all_prg',
               'rpc_server',
               'max_req_n',
               '',
