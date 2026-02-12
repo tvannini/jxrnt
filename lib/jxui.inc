@@ -2099,6 +2099,7 @@ class o2_ctrl {
                                    return true;
                                    }
                                }
+                           return false;
                            break;
                        /* For theses controls dependences are not checked and they are
                           always drawed________________________________________________ */
@@ -2109,9 +2110,11 @@ class o2_ctrl {
                        // ___________________ Evaluate redraw flag for theses controls ___
                        case 'tree':
                        case 'imglist':
+                       case 'html':
                            if ($container->redraw) {
                                return true;
                                }
+                           return false;
                            break;
                        default:
                            return false;
@@ -4917,8 +4920,10 @@ class o2_ctrl_frame extends o2_ctrl {
 class o2_ctrl_html extends o2_ctrl {
 
     /*     ===== PROPERTIES =========================================================== */
-    public $html  = "";             /* HTML code to write in control                    */
-    public $no_id = false;          /* Used by tables for NOT current rows              */
+    public $html   = "";    /* HTML code to write in control                            */
+    public $no_id  = false; /* Used by tables for NOT current rows                      */
+    public $redraw = false; /* If TRUE control must be redrawn (see dependences)        */
+
     /*     _____ CSS CLASSES __________________________________________________________ */
     public $css   = "o2_ctrl_html"; /* Whole control space <DIV>                        */
 

@@ -8263,6 +8263,10 @@ function o2tree_get_code($name) {
 
     $app = $_SESSION['o2_app'];
     $prg = $app->istanze_prg[$app->progressivo_istanze];
+    // ____ If tree control is defined by script force redrawing of parent (HTML-area) ___
+    if (isset($prg->drawing_ctrl) && $prg->drawing_ctrl->tipo_ctrl == 'html') {
+        $prg->drawing_ctrl->redraw = true;
+        }
     if (isset($prg->tree_ctrls[$name])) {
         return o2html::ctrl_tree($prg->tree_ctrls[$name]);
         }
@@ -8584,6 +8588,10 @@ function o2imglist_get_code($name) {
 
     $app = $_SESSION['o2_app'];
     $prg = $app->istanze_prg[$app->progressivo_istanze];
+    // ____ If tree control is defined by script force redrawing of parent (HTML-area) ___
+    if (isset($prg->drawing_ctrl) && $prg->drawing_ctrl->tipo_ctrl == 'html') {
+        $prg->drawing_ctrl->redraw = true;
+        }
     if (isset($prg->imglist_ctrls[$name])) {
         return o2html::ctrl_imglist($prg->imglist_ctrls[$name]);
         }

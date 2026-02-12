@@ -504,6 +504,12 @@ class o2_prg {
         // ______________________________________ Reset changes for selective-response ___
         $this->changes  = false;
         // __________________ Reset treeview controls "redraw" flag to force redrawing ___
+        if (isset($this->ctrls['htmlarea'])) {
+            foreach ($this->ctrls['htmlarea'] as $htmlarea_ctrl) {
+                $htmlarea_ctrl->redraw = false;
+                }
+            }
+        // __________________ Reset treeview controls "redraw" flag to force redrawing ___
         if (isset($this->ctrls['tree'])) {
             foreach ($this->ctrls['tree'] as $tree_ctrl) {
                 $tree_ctrl->redraw = false;
