@@ -96,7 +96,6 @@ var o2jse = {
     keepAliveHdl    : null,        /* Keep-alive timeout handler */
     refreshTime     : 0,           /* Number of seconds for refresh count-down (0=OFF)  */
     notifyRemove    : false,       /* Show remove icon on dispatcher items              */
-    notifyRemoveAll : false,       /* Show remove all icon on dispatcher                */
     maxMultiReq     : 5,           /* Max allowed number of unresponsed requests        */
     menuStyle       : 'T',         /* Menu style [T]op or [L]eft                        */
     doc             : false,       /* If JXDocumentor is anabled for application        */
@@ -760,13 +759,12 @@ o2jse.conf.setRefresh = function(tSecs) {
 
 
 /**
- * Set dispatcher to show "Remove item" and "Remove all items" icons
+ * Set dispatcher to show "Remove item" on messages
  *
  */
-o2jse.conf.dispatcher = function(removeItem, removeAll) {
+o2jse.conf.dispatcher = function(removeItem) {
 
-    o2jse.notifyRemove    = removeItem;
-    o2jse.notifyRemoveAll = removeAll;
+    o2jse.notifyRemove = removeItem;
 
     };
 
