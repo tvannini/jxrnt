@@ -8052,7 +8052,8 @@ o2jse.notify.removeDispatch = function(icon, event) {
     notifyArea.getElementsByTagName("IMG")[0].src = o2jse.rntAlias + "img/notify/" +
                                                     (unread ? "msg.png" : "empty.png");
     notifyText.innerHTML                          = (unread ? unread : "");
-    }
+
+    };
 
 
 /**
