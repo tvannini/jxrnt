@@ -7835,34 +7835,63 @@ o2jse.notify.createWin = function() {
     var empty       = true;
     // ____________________________________________________________ Read items context ___
     for (var l in o2jse.notify.itemsList) {
-        item          = o2jse.notify.itemsList[l];
-        iRow          = o2jse.createEl(iList,
-                                       "TR",
-                                       "o2notify_row" + (item[3] ? "_on" : "_off"));
-        body          = o2jse.textDecode(item[1]);
-        iRow.title    = (body.length > 100 ? body.substr(0, 94) + "[...]" : body);
-        iRow.jxMsgID  = l;
-        iRow.jxMsgAct = (item[3] ? true : false);
-        iRow.onclick  = function() { o2jse.notify.clickOnDispatch(this); };
+        item            = o2jse.notify.itemsList[l];
+        iRow            = o2jse.createEl(iList,
+                                         "TR",
+                                         (item[4] ? "o2notify_label" : "o2notify_row") +
+                                         (item[3] ? "_on" : "_off"));
+        body            = o2jse.textDecode(item[1]);
+        iRow.title      = (body.length > 100 ? body.substr(0, 94) + "[...]" : body);
+        iRow.jxMsgID    = l;
+        iRow.jxMsgLabel = item[4];
+        iRow.jxMsgAct   = (item[3] ? true : false);
+        // __________________________ If item is not an inactive label set click event ___
+        if (!iRow.jxMsgLabel || iRow.jxMsgAct) {
+            iRow.onclick  = function() { o2jse.notify.clickOnDispatch(this); };
+            }
         // _____________________________________________________________________ Image ___
-        iImgTd        = o2jse.createEl(iRow, "TD", "o2notify_img");
-        iImg          = o2jse.createEl(iImgTd, "IMG");
+        iImgTd = o2jse.createEl(iRow, "TD", "o2notify_img");
+        iImg   = o2jse.createEl(iImgTd, "IMG");
         // _______________________________________________________________ Custom icon ___
         if (item[2]) {
             iImg.src = item[2];
             }
+        // ________________________________________________________________ Label icon ___
+        else if (iRow.jxMsgLabel) {
+            // __________________________________________________________ Active label ___
+            if (iRow.jxMsgAct) {
+                iImg.src = o2jse.rntAlias + "img/notify/label_on.png";
+                }
+            // ________________________________________________________ Inactive label ___
+            else {
+                iImg.src = o2jse.rntAlias + "img/notify/off.png";
+                }
+            }
         else {
-            iImg.src = o2jse.rntAlias + "img/notify/msg.png";
+            // __________________________________________________________ Active label ___
+            if (iRow.jxMsgAct) {
+                iImg.src = o2jse.rntAlias + "img/notify/msg.png";
+                }
+            // ________________________________________________________ Inactive label ___
+            else {
+                iImg.src = o2jse.rntAlias + "img/notify/msg_no.png";
+                }
             }
         // _____________________________________________________________________ Title ___
-        iTxt          = o2jse.createEl(iRow, "TD", "", item[0]);
-        empty         = false
+        iTxt  = o2jse.createEl(iRow, "TD", "", item[0]);
+        empty = false
         // ________________________________________________________ Set item read icon ___
         if (o2jse.notifyRemove) {
-            remImgTd        = o2jse.createEl(iRow, "TD", "o2notify_img");
-            remImg          = o2jse.createEl(remImgTd, "IMG");
-            remImg.src      = o2jse.rntAlias + "img/notify/remove.png";
-            remImg.onclick  = function(e) { o2jse.notify.removeDispatch(this, e); };
+            // ________________________________________________________ Label elements ___
+            if (item[4]) {
+                labelImgTd = o2jse.createEl(iRow, "TD");
+                }
+            else {
+                remImgTd        = o2jse.createEl(iRow, "TD", "o2notify_img");
+                remImg          = o2jse.createEl(remImgTd, "IMG");
+                remImg.src      = o2jse.rntAlias + "img/notify/remove.png";
+                remImg.onclick  = function(e) { o2jse.notify.removeDispatch(this, e); };
+                }
             }
         }
     if (empty) {
@@ -7966,6 +7995,7 @@ o2jse.notify.getList = function(nullObj, listText) {
  */
 o2jse.notify.clickOnDispatch = function(trObj) {
 
+    // _____________________________________________________________ If item is active ___
     if (trObj.jxMsgAct) {
         var fields           = [];
         fields['JXSESSNAME'] = o2jse.sessName;
@@ -7976,7 +8006,7 @@ o2jse.notify.clickOnDispatch = function(trObj) {
         fields['jxmsgid'] = trObj.jxMsgID;
         o2jse.cmd.post(false, fields);
         }
-    else {
+    else if (!trObj.jxMsgLabel) {
         o2jse.removeEl(trObj);
         o2jse.requester.exe("remdispatch",
                             "jxmsgid=" + trObj.jxMsgID,

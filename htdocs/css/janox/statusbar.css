@@ -73,7 +73,7 @@
     }
 
  .o2notify_row_on td {
-    color: #19181A;
+    color: #5d6a80;
     padding: 5px;
     cursor: pointer;
     }
@@ -82,4 +82,25 @@
     color: #5d6a80;
     padding: 5px;
     cursor: pointer;
+    }
+
+.o2notify_row_on:has(+ tr.o2notify_label_on) TD,
+.o2notify_row_off:has(+ tr.o2notify_label_on) TD,
+.o2notify_row_on:has(+ tr.o2notify_label_off) TD,
+.o2notify_row_off:has(+ tr.o2notify_label_off) TD {
+    padding-bottom: 10px;
+    }
+
+.o2notify_label_on td {
+    color: #19181A;
+    border-bottom: 1px solid var(--jx-color-border);
+    padding: 5px;
+    cursor: pointer;
+    }
+
+.o2notify_label_off td {
+    color: #19181A;
+    border-bottom: 1px solid var(--jx-color-border);
+    padding: 5px;
+    cursor: default;
     }

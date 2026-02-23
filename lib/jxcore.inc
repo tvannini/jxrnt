@@ -7551,8 +7551,8 @@ class o2_dispatcher {
         array_shift($params); // ____________________________________ Shifts $prg_name ___
         $this->id_counter++;
         // ____________________________________________________ Create dispatch packet ___
-        $this->dispatches[$this->id_counter] = array("title" => $title,
-                                                     "body"  => $body,
+        $this->dispatches[$this->id_counter] = array("title" => jx_encode($title),
+                                                     "body"  => jx_encode($body),
                                                      "img"   => $icon,
                                                      "prg"   => $prg_name,
                                                      "pars"  => $params,
@@ -7658,6 +7658,9 @@ class o2_dispatcher {
         if (isset($this->dispatches[$id]) && $this->dispatches[$id]["prg"]) {
             $pars = $this->dispatches[$id]["pars"];
             array_unshift($pars, $this->dispatches[$id]["prg"]);
+            if (!$this->dispatches[$id]['label'] && !$preserve) {
+                $this->dispatch_remove($id);
+                }
             return call_user_func_array(array($_SESSION['o2_app'], "intcall"), $pars);
             }
         else {
