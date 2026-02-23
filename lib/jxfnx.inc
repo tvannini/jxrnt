@@ -6705,7 +6705,6 @@ function o2view_selector_all($view_name) {
     $cview                     = clone $view;
     $prg->contesto[$view_name] = $cview;
     $cview->record_primo();
-    $view->selections = array();
     if (count($cview->recordset) > 0) {
         // ________________________________________________ Action loop on cloned view ___
         do {
