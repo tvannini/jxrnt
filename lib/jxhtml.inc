@@ -331,8 +331,7 @@ class o2html {
                                         $app->instance_id."');\n" : '').
               ($app->refresh_prg && $app->refresh_time && !$app->lock ?
                'o2jse.conf.setRefresh('.$app->refresh_time.");\n" : '').
-              ($app->disp_remove || $app->disp_remove_all ?
-               'o2jse.conf.dispatcher('.($app->disp_remove ? '!0' : '!1').");\n" : '').
+              ($app->disp_remove ? "o2jse.conf.dispatcher();\n" : '').
               ($lu_time >= 300 ? 'o2jse.conf.luReqTime('.$lu_time.");\n" : '').
               'o2jse.conf.setMaxReq('.$app->max_req_n.");\n".
               'o2jse.conf.setFastMsgTime('.$app->fastmsg_time.");\n".

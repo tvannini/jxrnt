@@ -762,9 +762,9 @@ o2jse.conf.setRefresh = function(tSecs) {
  * Set dispatcher to show "Remove item" on messages
  *
  */
-o2jse.conf.dispatcher = function(removeItem) {
+o2jse.conf.dispatcher = function() {
 
-    o2jse.notifyRemove = removeItem;
+    o2jse.notifyRemove = true;
 
     };
 
