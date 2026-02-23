@@ -7877,7 +7877,7 @@ o2jse.notify.createWin = function() {
             }
         // _____________________________________________________________________ Title ___
         iTxt  = o2jse.createEl(iRow, "TD", "", item[0]);
-        empty = false
+        empty = false;
         // ________________________________________________________ Set item read icon ___
         if (o2jse.notifyRemove) {
             // ________________________________________________________ Label elements ___
