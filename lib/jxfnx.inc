@@ -6739,7 +6739,6 @@ function o2view_selector_none($view_name) {
     $app              = $_SESSION['o2_app'];
     $prg              = $app->istanze_prg[$app->progressivo_istanze];
     $view             = $prg->contesto[$view_name];
-    $view->selections = array();
     $view->relocated  = true;
     $selector         = false;
     // ______________________________________ Set to FALSE formula values in recordset ___
