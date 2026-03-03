@@ -135,7 +135,11 @@ if (session_start()) {
             o2_ctrl_progress::get_values();
             break;
         case "remdispatch": // _______________________________________ Remove dispatch ___
-            o2_dispatcher::get_dispatcher()->dispatch_remove($_REQUEST['jxmsgid']);
+            if (is_a($app, 'o2_app') && !$app->lock) {
+                provide_db($app);
+                o2_dispatcher::get_dispatcher()->dispatch_remove($_REQUEST['jxmsgid']);
+                $app->commit_all(true);
+                }
             break;
         case "sessopen": // _________________________________________ Open new session ___
             if (is_a($app, "o2_app")) {

@@ -7504,6 +7504,20 @@ class o2_dispatcher {
     private $dispatches = array(); /* Messages list                                     */
     private $id_counter = 0;       /* Internal counter for unique id                    */
     private $alert      = false;   /* Alert status flag                                 */
+    private $remove_prg = false;   /* PRG to call on dispatch remove                    */
+
+
+    /**
+     * Constructor
+     */
+    function __construct() {
+
+        $app = $_SESSION['o2_app'];
+        if ($app->disp_remove) {
+            $this->remove_prg = $app->disp_remove;
+            }
+
+        }
 
 
     /**
@@ -7620,6 +7634,11 @@ class o2_dispatcher {
 
         if (isset($this->dispatches[$id])) {
             $dispatch = $this->dispatches[$id];
+            // ___________________________________________ Call prg to remove dispatch ___
+            if ($this->remove_prg) {
+                $pars = array($this->remove_prg, $id);
+                call_user_func_array(array($_SESSION['o2_app'], "intcall"), $pars);
+                }
             // _____________________________________________ Remove dispatch from list ___
             unset($this->dispatches[$id]);
             return $dispatch;
@@ -7658,9 +7677,6 @@ class o2_dispatcher {
         if (isset($this->dispatches[$id]) && $this->dispatches[$id]["prg"]) {
             $pars = $this->dispatches[$id]["pars"];
             array_unshift($pars, $this->dispatches[$id]["prg"]);
-            if (!$this->dispatches[$id]['label'] && !$preserve) {
-                $this->dispatch_remove($id);
-                }
             return call_user_func_array(array($_SESSION['o2_app'], "intcall"), $pars);
             }
         else {
