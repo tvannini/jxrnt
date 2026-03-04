@@ -6732,7 +6732,7 @@ function o2view_selector_all($view_name) {
  * @package view
  * @param   string $view_name
  * @return  boolean
- * @see     o2view_selector(), o2view_selector_all()
+ * @see     o2view_selector(), o2view_selector_all(), o2view_selector_reset()
  */
 function o2view_selector_none($view_name) {
 
@@ -6754,6 +6754,26 @@ function o2view_selector_none($view_name) {
             }
         }
     $view->precedente[$selector] = false;
+    return true;
+
+    }
+
+
+/**
+ * Unselect all rows of a view in a view-selector structure and clear selections.
+ *
+ * @package view
+ * @param   string $view_name
+ * @return  boolean
+ * @see     o2view_selector(), o2view_selector_none()
+ */
+function o2view_selector_reset($view_name) {
+
+    o2view_selector_none($view_name);
+    $app              = $_SESSION['o2_app'];
+    $prg              = $app->istanze_prg[$app->progressivo_istanze];
+    $view             = $prg->contesto[$view_name];
+    $view->selections = array();
     return true;
 
     }
@@ -6830,6 +6850,24 @@ function o2view_selector_get_selected($view_name) {
         $list[] = $segs;
         }
     return $list;
+
+    }
+
+
+/**
+ * Returns the number of selected records in a view.
+ *
+ * @package view
+ * @param   string  $view_name
+ * @return  array
+ * @see     o2view_selector(), o2view_selector_get_selected()
+ */
+function o2view_selector_count($view_name) {
+
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $view = $prg->contesto[$view_name];
+    return count($view->selections);
 
     }
 
