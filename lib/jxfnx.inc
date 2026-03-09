@@ -6736,24 +6736,30 @@ function o2view_selector_all($view_name) {
  */
 function o2view_selector_none($view_name) {
 
-    $app              = $_SESSION['o2_app'];
-    $prg              = $app->istanze_prg[$app->progressivo_istanze];
-    $view             = $prg->contesto[$view_name];
-    $view->relocated  = true;
-    $selector         = false;
-    // ______________________________________ Set to FALSE formula values in recordset ___
-    foreach ($view->formule as $formula) {
-        if ($formula->selector) {
-            $selector = $formula->nome;
-            break;
+    $app                       = $_SESSION['o2_app'];
+    $prg                       = $app->istanze_prg[$app->progressivo_istanze];
+    $view                      = $prg->contesto[$view_name];
+    $cview                     = clone $view;
+    $prg->contesto[$view_name] = $cview;
+    $cview->record_primo();
+    // _____________________________________ Loop on cloned view to get selected items ___
+    do {
+        $ckey = $cview->chiave_corrente($cview->file,
+                                        false,
+                                        false,
+                                        false,
+                                        true,
+                                        true,
+                                        true);
+        // __________________________________________ Unset selection on original view ___
+        if (($item = array_search($ckey, $view->selections)) !== false) {
+            unset($view->selections[$item]);
             }
-        }
-    if ($selector) {
-        foreach ($view->recordset as $rec_id => $rec) {
-            $view->recordset[$rec_id][$selector] = false;
-            }
-        }
-    $view->precedente[$selector] = false;
+        $go_on = $cview->record_avanti();
+        } while ($go_on);
+    $prg->contesto[$view_name] = $view;
+    unset($cview);
+    $view->smart_refresh();
     return true;
 
     }
