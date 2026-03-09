@@ -6862,18 +6862,49 @@ function o2view_selector_get_selected($view_name) {
 
 /**
  * Returns the number of selected records in a view.
+ * If parameter $distinct is passed as TRUE then an array is returned with two values:
+ * [<total-selected>, <actually-filtered-selected>]
  *
  * @package view
  * @param   string  $view_name
- * @return  array
+ * @param   boolean $distinct   If TRUE returns [<tot-selected>, <filtered-selected>]
+ * @return  integer|array
  * @see     o2view_selector(), o2view_selector_get_selected()
  */
-function o2view_selector_count($view_name) {
+function o2view_selector_count($view_name, $distinct = false) {
 
-    $app  = $_SESSION['o2_app'];
-    $prg  = $app->istanze_prg[$app->progressivo_istanze];
-    $view = $prg->contesto[$view_name];
-    return count($view->selections);
+    $app   = $_SESSION['o2_app'];
+    $prg   = $app->istanze_prg[$app->progressivo_istanze];
+    $view  = $prg->contesto[$view_name];
+    $total = count($view->selections);
+    if ($distinct) {
+        $filtered                    = 0;
+        $cview                       = clone $view;
+        $cview->nome                 = $view_name.'_jxsel_cnt';
+        $prg->contesto[$cview->nome] = $cview;
+        unset($cview->corrente);
+        unset($cview->precedente);
+        $cview->record_primo();
+        // _________________________________ Loop on cloned view to get selected items ___
+        do {
+            $ckey = $cview->chiave_corrente($cview->file,
+                                            false,
+                                            false,
+                                            false,
+                                            true,
+                                            true,
+                                            true);
+            // _____________________________________ Count selections on original view ___
+            if (array_search($ckey, $view->selections) !== false) {
+                $filtered++;
+                }
+            $go_on = $cview->record_avanti();
+            } while ($go_on);
+        unset($prg->contesto[$cview->nome]);
+        unset($cview);
+        return array($total, $filtered);
+        }
+    return $total;
 
     }
 
