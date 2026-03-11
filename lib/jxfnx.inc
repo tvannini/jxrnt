@@ -6708,13 +6708,16 @@ function o2view_selector_all($view_name) {
     if (count($cview->recordset) > 0) {
         // ________________________________________________ Action loop on cloned view ___
         do {
-            $view->selections[] = $cview->chiave_corrente($cview->file,
-                                                          false,
-                                                          false,
-                                                          false,
-                                                          true,
-                                                          true,
-                                                          true);
+            $newkey = $cview->chiave_corrente($cview->file,
+                                              false,
+                                              false,
+                                              false,
+                                              true,
+                                              true,
+                                              true);
+            if (!in_array($newkey, $view->selections)) {
+                $view->selections[] = $newkey;
+                }
             $go_on = $cview->record_avanti();
             } while ($go_on);
         }
