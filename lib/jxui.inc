@@ -1976,7 +1976,7 @@ class o2_ctrl {
 
                 // ============================ LOGICAL ==================================
                 case 'L':
-                    $value = ($this->valore ? true : false);
+                    $value = (trim($this->valore) ? true : false);
                     break;
 
                 // ============================= OTHER ===================================
