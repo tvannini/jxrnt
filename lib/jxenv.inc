@@ -1747,8 +1747,9 @@ class o2_view {
 
         $prg = $_SESSION['o2_app']->istanze_prg[$this->id_esecuzione];
         foreach (array_keys($this->dipendenze) as $pending_view) {
-            $view = $prg->contesto[$pending_view];
-            if ($view instanceof o2_dbview) {
+            if (isset($prg->contesto[$pending_view]) &&
+                ($prg->contesto[$pending_view] instanceof o2_view)) {
+                $view = $prg->contesto[$pending_view];
                 foreach ($view->files as $single_file) {
                     $prg->variazioni[$pending_view][$single_file->indice] = true;
                     }
