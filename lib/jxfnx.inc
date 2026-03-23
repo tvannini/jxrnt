@@ -6731,58 +6731,70 @@ function o2view_selector_all($view_name) {
 
 /**
  * Unselect all selected rows of a view in a view-selector structure.
+ * If parameter $incremental is passed as TRUE, only rows currently filtered in the view
+ * will be unselected, otherwise all selected rows will be unselected.
  *
  * @package view
- * @param   string $view_name
+ * @param   string  $view_name
+ * @param   boolean $incremental
  * @return  boolean
- * @see     o2view_selector(), o2view_selector_all(), o2view_selector_reset()
+ * @see     o2view_selector(), o2view_selector_all(), o2view_selector_count()
  */
-function o2view_selector_none($view_name) {
+function o2view_selector_none($view_name, $incremental = false) {
 
-    $app                       = $_SESSION['o2_app'];
-    $prg                       = $app->istanze_prg[$app->progressivo_istanze];
-    $view                      = $prg->contesto[$view_name];
-    $cview                     = clone $view;
-    $prg->contesto[$view_name] = $cview;
-    $cview->record_primo();
-    // _____________________________________ Loop on cloned view to get selected items ___
-    do {
-        $ckey = $cview->chiave_corrente($cview->file,
-                                        false,
-                                        false,
-                                        false,
-                                        true,
-                                        true,
-                                        true);
-        // __________________________________________ Unset selection on original view ___
-        if (($item = array_search($ckey, $view->selections)) !== false) {
-            unset($view->selections[$item]);
+    $app  = $_SESSION['o2_app'];
+    $prg  = $app->istanze_prg[$app->progressivo_istanze];
+    $view = $prg->contesto[$view_name];
+    // _____________________________ No paging, no loop needed: work on actual dataset ___
+    if (!$incremental || ($view->totale_record <= $view->righe_vis)) {
+        $view->relocated  = true;
+        $selector         = false;
+        // __________________________________ Set to FALSE formula values in recordset ___
+        foreach ($view->formule as $formula) {
+            if ($formula->selector) {
+                $selector = $formula->nome;
+                break;
+                }
             }
-        $go_on = $cview->record_avanti();
-        } while ($go_on);
-    $prg->contesto[$view_name] = $view;
-    unset($cview);
-    $view->smart_refresh();
-    return true;
-
-    }
-
-
-/**
- * Unselect all rows of a view in a view-selector structure and clear selections.
- *
- * @package view
- * @param   string $view_name
- * @return  boolean
- * @see     o2view_selector(), o2view_selector_none()
- */
-function o2view_selector_reset($view_name) {
-
-    o2view_selector_none($view_name);
-    $app              = $_SESSION['o2_app'];
-    $prg              = $app->istanze_prg[$app->progressivo_istanze];
-    $view             = $prg->contesto[$view_name];
-    $view->selections = array();
+        if ($selector) {
+            foreach ($view->recordset as $rec_id => $rec) {
+                $pkey = implode(' AND ', $view->record_pkey($rec));
+                if ($idx = array_search($pkey, $view->selections)) {
+                    unset($view->selections[$idx]);
+                    }
+                $view->recordset[$rec_id][$selector] = false;
+            }
+            $view->precedente[$selector] = false;
+            }
+        // ____________ If not incremental reset all active selections outside dataset ___
+        if (!$incremental) {
+            $view->selections = array();
+            }
+        }
+    // ______________________________ Loop on all view recordset (only if incremental) ___
+    if ($incremental) {
+        $cview                     = clone $view;
+        $prg->contesto[$view_name] = $cview;
+        $cview->record_primo();
+        // _________________________________ Loop on cloned view to get selected items ___
+        do {
+            $ckey = $cview->chiave_corrente($cview->file,
+                                            false,
+                                            false,
+                                            false,
+                                            true,
+                                            true,
+                                            true);
+            // ______________________________________ Unset selection on original view ___
+            if (($item = array_search($ckey, $view->selections)) !== false) {
+                unset($view->selections[$item]);
+                }
+            $go_on = $cview->record_avanti();
+            } while ((count($view->selections) > 0) && $go_on);
+        $prg->contesto[$view_name] = $view;
+        unset($cview);
+        $view->smart_refresh();
+        }
     return true;
 
     }
@@ -6881,10 +6893,14 @@ function o2view_selector_count($view_name, $distinct = false) {
     $view  = $prg->contesto[$view_name];
     $total = count($view->selections);
     if ($distinct) {
+        if ($total == 0) {
+            return array(0, 0);
+            }
         $filtered                    = 0;
         $cview                       = clone $view;
         $cview->nome                 = $view_name.'_jxsel_cnt';
         $prg->contesto[$cview->nome] = $cview;
+        $cview->dipendenze           = array();
         unset($cview->corrente);
         unset($cview->precedente);
         $cview->record_primo();
@@ -6902,7 +6918,7 @@ function o2view_selector_count($view_name, $distinct = false) {
                 $filtered++;
                 }
             $go_on = $cview->record_avanti();
-            } while ($go_on);
+            } while (($filtered < $total) && $go_on);
         unset($prg->contesto[$cview->nome]);
         unset($cview);
         return array($total, $filtered);
