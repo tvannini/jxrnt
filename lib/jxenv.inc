@@ -5015,6 +5015,63 @@ class o2_dbview extends o2_view {
 
 
     /**
+     * Returns the primary key of a record (as in recordset or fetched via o2view_fetch)
+     * as an associative array in the form:
+     *
+     *   array('PHYS_FIELD_NAME1' => value1,
+     *         'PHYS_FIELD_NAME2' => value2, ...)
+     *
+     * NOTE:
+     * Fields values are extracted from the record array passed as parameter, not from the
+     * view current record!
+     *
+     * @param    array   $record   Record array
+     * @return   array|boolean     Associative array ['PHYS_FIELD' => value, ...]
+     */
+    function record_pkey(array $record) {
+
+        // ________________________________________________________ Extract key values ___
+        $db_type = $this->file->db->server->type;
+        $result  = array();
+        foreach ($this->file->chiave->segmenti as $segment) {
+            $field_name = strtoupper($segment->campo->name);
+            $value      = "''";
+            // _________________________________________________ Selected pkey segment ___
+            if (array_key_exists($field_name, $record)) {
+                // ___________________________________________ Get field current value ___
+                if ($segment->campo->tipo != 'N') {
+                    $value = "'".o2_gateway::normalize($db_type,$record[$field_name])."'";
+                    }
+                else {
+                    $value = number_format($record[$field_name],
+                                           $segmento_chiave->campo->maschera->decimali,
+                                           '.',
+                                           '');
+                    }
+                }
+            // _________________________________________ Pkey segment added by runtime ___
+            elseif (array_key_exists($field_name.'_JXKF', $record)) {
+                // ___________________________________________ Get field current value ___
+                if ($segment->campo->tipo != 'N') {
+                    $value = "'".
+                             o2_gateway::normalize($db_type,$record[$field_name.'_JXKF']).
+                             "'";
+                    }
+                else {
+                    $value = number_format($record[$field_name.'_JXKF'],
+                                           $segmento_chiave->campo->maschera->decimali,
+                                           '.',
+                                           '');
+                    }
+                }
+            $result[] = $segment->campo->nome_fisico.'='.$value;
+            }
+        return $result;
+
+        }
+
+
+    /**
      * Evaluates an aggregation on a view field and returns value in $target_field of
      * $target_view.
      * If view property $auto_aggr is TRUE, then aggregation value will be automatically
