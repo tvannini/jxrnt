@@ -6896,11 +6896,9 @@ function o2view_selector_count($view_name, $distinct = false) {
         if ($total == 0) {
             return array(0, 0);
             }
-        $filtered                    = 0;
-        $cview                       = clone $view;
-        $cview->nome                 = $view_name.'_jxsel_cnt';
-        $prg->contesto[$cview->nome] = $cview;
-        $cview->dipendenze           = array();
+        $filtered                  = 0;
+        $cview                     = clone $view;
+        $prg->contesto[$view_name] = $cview;
         unset($cview->corrente);
         unset($cview->precedente);
         $cview->record_primo();
@@ -6919,7 +6917,7 @@ function o2view_selector_count($view_name, $distinct = false) {
                 }
             $go_on = $cview->record_avanti();
             } while (($filtered < $total) && $go_on);
-        unset($prg->contesto[$cview->nome]);
+        $prg->contesto[$view_name] = $view;
         unset($cview);
         return array($total, $filtered);
         }
