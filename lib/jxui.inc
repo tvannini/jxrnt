@@ -1115,8 +1115,10 @@ class o2_form {
             $new_ctrl->modificabile = true;
             if ($task) {
                 $view_obj = $prg->contesto[$task];
-                // ______________ This is needed when controls are disabled by parents ___
                 if ($tipo == 'navigator') {
+                    // _____________________________ Set navigator dependences on view ___
+                    $new_ctrl->dependences[$task] = false;
+                    // __________ This is needed when controls are disabled by parents ___
                     $new_ctrl->enable_del(true);
                     $new_ctrl->enable_detail(true);
                     $new_ctrl->enable_new(true);
