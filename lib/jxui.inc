@@ -1085,7 +1085,7 @@ class o2_form {
                         $prg->view_grids[$task] = $alias_ctrl;
                         }
                     }
-                elseif ($prg->drawing_ctrl && $view_obj->dbdata) {
+                elseif ($view_obj->dbdata) {
                     $new_ctrl->dependences[$task] = false;
                     }
                 if ($campo_task) {
