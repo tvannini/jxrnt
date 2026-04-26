@@ -2775,6 +2775,12 @@ class o2html {
                     $filter = (isset($_REQUEST[$ctrl->nome.$ctrl->id_esecuzione.'_desc'])
                                ? $_REQUEST[$ctrl->nome.$ctrl->id_esecuzione.'_desc'] :
                                '');
+                    // ________________________ AJAX requests encoding is always UTF-8 ___
+                    if ($app->chr_encoding != "UTF-8") {
+                        $filter = iconv("UTF-8",
+                                        $app->chr_encoding."//TRANSLIT",
+                                        $filter);
+                        }
                     switch ($_REQUEST['jxluact']) {
                         case 'lulist': // __________________________ Lookup items list ___
                             print $ctrl->xlist(false, $filter);

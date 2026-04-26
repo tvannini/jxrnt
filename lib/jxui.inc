@@ -4009,6 +4009,8 @@ class o2_ctrl_listcombo extends o2_ctrl {
         $items_view       = $prg->contesto[$items_view_name];
         $filter_desc_name = $this->items_desc."_O2LUDESC";
         if ($filter_txt) {
+            // LIKE expressions are always checked against the uppercased value of field _
+            $filter_txt = mb_strtoupper(jx_encode($filter_txt), $app->chr_encoding);
             if (isset($items_view->campi[$this->items_desc])) {
                 $items_desc = $items_view->campi[$this->items_desc];
                 $items_view->campi[$filter_desc_name]       = clone $items_desc;
