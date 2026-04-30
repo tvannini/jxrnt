@@ -7292,8 +7292,7 @@ class o2_virtualview extends o2_view {
                             if (!$view->vista) {
                                 $view->record_primo();
                                 }
-                            // __ Bug compatibility tip: evaluate aggregations targets ___
-                            elseif ($app->bug_aggregate) {
+                            else {
                                 /**
                                  * This complex logic is needed to grant the right
                                  * behaviour for automatic aggregations in tables from
