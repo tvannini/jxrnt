@@ -532,7 +532,12 @@ function o2_date_obj($date_str = '', $time_str = '000000') {
  * If last parameter $format is not passed, then difference is returned in number of days.
  * If last parameter $format is passed, then it is used as PHP date/time format string.
  *
- * @return mixed
+ * @param string $date1    Start date in Janox format
+ * @param string $time1    Start time in Janox format
+ * @param string $date2    End date in Janox format
+ * @param string $time2    End time in Janox format
+ * @param string $format   PHP date/time format string
+ * @return integer|string
  */
 function o2_date_diff($date1, $time1, $date2, $time2 = '000000', $format = false) {
 
