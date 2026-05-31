@@ -2660,6 +2660,10 @@ class o2_dbview extends o2_view {
                 $this->$prop_id = $view_copy[$prop_id];
                 }
             }
+        if (isset($this->ultima_where['jx_formulas'])) {
+            $this->vista     = false;
+            $this->direzione = 0;
+            }
         $this->computing = false;
         return;
 
