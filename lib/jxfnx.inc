@@ -6906,6 +6906,8 @@ function o2view_selector_count($view_name, $distinct = false) {
         $prg->contesto[$view_name] = $cview;
         unset($cview->corrente);
         unset($cview->precedente);
+        $cview->corrente   = array();
+        $cview->precedente = array();
         $cview->record_primo();
         // _________________________________ Loop on cloned view to get selected items ___
         do {
