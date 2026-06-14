@@ -5048,7 +5048,7 @@ class o2_dbview extends o2_view {
                     }
                 else {
                     $value = number_format($record[$field_name],
-                                           $segmento_chiave->campo->maschera->decimali,
+                                           $segment->campo->maschera->decimali,
                                            '.',
                                            '');
                     }
@@ -5063,7 +5063,7 @@ class o2_dbview extends o2_view {
                     }
                 else {
                     $value = number_format($record[$field_name.'_JXKF'],
-                                           $segmento_chiave->campo->maschera->decimali,
+                                           $segment->campo->maschera->decimali,
                                            '.',
                                            '');
                     }
