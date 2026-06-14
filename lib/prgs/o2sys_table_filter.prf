@@ -333,72 +333,69 @@ $not  = o2val('tmp_where','not_exp');
 $like = o2val('tmp_where','like_exp');
 
 if ($min.$max.$not.$like) {
-   $field      = $view->campi[$name];
-   $file       = $view->files[$field->file];
-   $field_name = false;
-   $formula    = true;
-   $sql        = false;
-   $model      = 'o2sys_long_str';
-   /*  Look for field original name because field names in view are
-    *  always uppercase  */
-   if (isset($view->campi[strtoupper($name)]) && $view->campi[strtoupper($name)]->virtual) {
+   if (isset($view->campi[$name])) {
+	   $field = $view->campi[$name];
+      if ($field->virtual) {
+         $field_name = $name;
+         $model      = $field->maschera->nome;
+         $formula    = $field->formula;
+         $sql        = true;
+         }
+      else {
+         foreach ($view->files[$field->file]->campi as $f_name => $f_obj) {
+            if ($f_obj->phys_name == $field->phys_name) {
+               $field_name = $f_name;
+               break;
+               }
+            }
+         $formula = false;
+		   $sql     = false;
+         }
+	   }
+   /* _________________________________ If not in fields look in formulas ___ */
+   elseif (isset($view->formule[$name])) {
+      $field      = $view->formule[$name];
       $field_name = $name;
-      $formula    = $view->campi[strtoupper($name)]->formula;
-	  $model	  = $view->campi[strtoupper($name)]->maschera->nome;
-      $sql        = true;
+      $formula    = $field->formula;
+      $model	   = $field->maschera->nome;
+      $sql        = false;
       }
    else {
-      foreach ($file->campi as $f_name => $f_obj) {
-         if (strtoupper($f_name) == $name) {
-            $field_name = $f_name;
-            $formula    = false;
-			$model	    = $f_obj->maschera->nome;
-            break;
-            }
-         }
+	   $field_name = false;
+	   throw new o2_exception('Unknown field <i>'.$name.
+                             '</i> for filter in view <i>'.$view->nome.'</i>',
+                             o2error_UNKNOWNFIELD);
+	   return false;
       }
-   /* _________________________________ If not in fields look in formulas ___ */
-   if ($formula && !$sql) {
-      foreach ($view->formule as $f_name => $f_obj) {
-         if (strtoupper($f_name) == $name) {
-            $field_name = $f_name;
-            $formula    = $f_obj->formula;
-			$model	    = $f_obj->maschera->nome;
-            break;
-            }
-         }
+   /* _________________________________________________________ SQL field ___ */
+   if ($sql) {
+      $view->sql_formula($name."_jxfilter",
+                         $model,
+                         ($formula ? $formula : $field_name),
+                         ($min ? $min : null),
+                         ($max ? $max : null),
+                         ($not ? $not : null),
+                         ($like ? $like : null));
       }
-   if ($field_name) {
-	  /* ______________________________________________________ SQL field ___ */
-      if ($sql) {
-         $view->sql_formula($name."_jxfilter",
-                            $model,
-                            ($formula ? $formula : $field_name),
-                            ($min ? $min : null),
-                            ($max ? $max : null),
-                            ($not ? $not : null),
-                            ($like ? $like : null));
-         }
-	  /* ________________________________________________________ Formula ___ */
-      elseif ($formula) {
-         $view->calcola($name."_jxfilter",
-                        $model,
-                        $formula,
-                        ($min ? "'".$min."'" : null),
-                        ($max ? "'".$max."'" : null),
-                        ($not ? "'".$not."'" : null),
-                        ($like ? "'".$like."'" : null));
-         }
-	  /* _________________________________________________ Standard field ___ */
-      else {
-         $view->usa($name."_jxfilter",
-                    $field->file,
-                    $field_name,
-                    ($min ? $min : null),
-                    ($max ? $max : null),
-                    ($not ? $not : null),
-                    ($like ? $like : null));
-         }
+   /* ___________________________________________________________ Formula ___ */
+   elseif ($formula) {
+      $view->calcola($name."_jxfilter",
+                     $model,
+                     $formula,
+                     ($min ? "'".$min."'" : null),
+                     ($max ? "'".$max."'" : null),
+                     ($not ? "'".$not."'" : null),
+                     ($like ? "'".$like."'" : null));
+      }
+   /* ____________________________________________________ Standard field ___ */
+   else {
+      $view->usa($name."_jxfilter",
+                 $field->file,
+                 $field_name,
+                 ($min ? $min : null),
+                 ($max ? $max : null),
+                 ($not ? $not : null),
+                 ($like ? $like : null));
       }
    }
 return (true);
