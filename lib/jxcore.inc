@@ -6883,9 +6883,12 @@ endofjxmsg;
         $dev             = "";
         $this->developer = "";
         // _________________________________________ Get passed developer and password ___
-        if (isset($_REQUEST["dev"])) {
-            $dev = trim(strtolower($_REQUEST["dev"]));
-            $key = $_REQUEST["key"];
+        // ______________ Credentials accepted form POST and COOKIE only, not from GET ___
+        if (isset($_POST['dev']) || isset($_COOKIE['dev'])) {
+            $dev = trim(strtolower(isset($_POST['dev']) ?
+                                   $_POST['dev'] : $_COOKIE['dev']));
+            $key = (isset($_POST['key'])   ? $_POST['key']   :
+                   (isset($_COOKIE['key']) ? $_COOKIE['key'] : ''));
             }
         if ($dev) {
             // _______________________________________ Read list of allowed developers ___

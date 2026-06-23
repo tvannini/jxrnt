@@ -421,8 +421,12 @@ class o2_app {
             $this->get_params();
             $this->create_tables();
             // ______________________________ Login program execution and user options ___
-            $this->set_user($_REQUEST['user'],
-                            (isset($_REQUEST['password']) ? $_REQUEST['password'] : ''));
+            // __________ Credentials accepted form POST and COOKIE only, not from GET ___
+            $login_user     = (isset($_POST['user'])     ? $_POST['user']     :
+                              (isset($_COOKIE['user'])   ? $_COOKIE['user']   : false));
+            $login_password = (isset($_POST['password'])   ? $_POST['password'] :
+                              (isset($_COOKIE['password']) ? $_COOKIE['password'] : ''));
+            $this->set_user($login_user, $login_password);
             $this->exe_prg_start = ($this->prg_start ? true : false);
             // ___________________________________________________ Maintenance Service ___
             if ($this->maint_time) {
