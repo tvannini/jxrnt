@@ -6883,8 +6883,15 @@ endofjxmsg;
         $dev             = "";
         $this->developer = "";
         // _________________________________________ Get passed developer and password ___
+        // ____________________________ Credentials accepted form all $_REQUEST fields ___
+        if (isset($_SESSION['o2_app']) &&
+            $_SESSION['o2_app']->http_get_login &&
+            isset($_REQUEST['dev'])) {
+            $dev = trim(strtolower($_REQUEST['dev']));
+            $key = (isset($_REQUEST['key']) ? $_REQUEST['key'] : '');
+            }
         // ______________ Credentials accepted form POST and COOKIE only, not from GET ___
-        if (isset($_POST['dev']) || isset($_COOKIE['dev'])) {
+        elseif (isset($_POST['dev']) || isset($_COOKIE['dev'])) {
             $dev = trim(strtolower(isset($_POST['dev']) ?
                                    $_POST['dev'] : $_COOKIE['dev']));
             $key = (isset($_POST['key'])   ? $_POST['key']   :

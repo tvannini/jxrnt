@@ -192,6 +192,7 @@ class o2_app {
     public $host            = '';      /* Machine registered name in a Janox network    */
     public $zoom            = true;    /* Enables activation for zoomable fields        */
     public $start_user      = false;   /* Usually FALSE or start user after o2app_user()*/
+    public $http_get_login  = false;   /* If TRUE login credentials can be passed by GET*/
     public $max_req_n       = 5;       /* Max allowed number of unresponsed requests    */
     public $open_wins       = array(); /* List of open windows for full-ajax mode       */
     public $js_cache        = '';      /* JS commands to be fired at response end       */
@@ -421,11 +422,20 @@ class o2_app {
             $this->get_params();
             $this->create_tables();
             // ______________________________ Login program execution and user options ___
-            // __________ Credentials accepted form POST and COOKIE only, not from GET ___
-            $login_user     = (isset($_POST['user'])     ? $_POST['user']     :
-                              (isset($_COOKIE['user'])   ? $_COOKIE['user']   : false));
-            $login_password = (isset($_POST['password'])   ? $_POST['password'] :
-                              (isset($_COOKIE['password']) ? $_COOKIE['password'] : ''));
+            // ________________________ Credentials accepted form all $_REQUEST fields ___
+            if ($this->http_get_login) {
+                $login_user     = (isset($_REQUEST['user']) ? $_REQUEST['user'] : false);
+                $login_password = (isset($_REQUEST['password']) ?
+                                   $_REQUEST['password'] : '');
+                }
+            else {
+                // ______ Credentials accepted form POST and COOKIE only, not from GET ___
+                $login_user     = (isset($_POST['user'])   ? $_POST['user']   :
+                                  (isset($_COOKIE['user']) ? $_COOKIE['user'] : false));
+                $login_password = (isset($_POST['password']) ? $_POST['password'] :
+                                  (isset($_COOKIE['password']) ?
+                                   $_COOKIE['password'] : ''));
+                }
             $this->set_user($login_user, $login_password);
             $this->exe_prg_start = ($this->prg_start ? true : false);
             // ___________________________________________________ Maintenance Service ___
@@ -1633,6 +1643,9 @@ class o2_app {
             }
         if (isset($conf['password_change'])) {
             $this->password_change = intval($conf['password_change']);
+            }
+        if (isset($conf['http_get_login'])) {
+            $this->http_get_login = ($conf['http_get_login'] ? true : false);
             }
         if (isset($conf['block_md5_password'])) {
             $this->block_md5_pwd = ($conf['block_md5_password'] ? true : false);
