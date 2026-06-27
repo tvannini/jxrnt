@@ -6884,9 +6884,9 @@ endofjxmsg;
         $this->developer = "";
         // _________________________________________ Get passed developer and password ___
         // ____________________________ Credentials accepted form all $_REQUEST fields ___
-        if (isset($_SESSION['o2_app']) &&
-            $_SESSION['o2_app']->http_get_login &&
-            isset($_REQUEST['dev'])) {
+        if (($this->interface != 'HTML' ||
+             (isset($_SESSION['o2_app']) && $_SESSION['o2_app']->http_get_login)) &&
+             isset($_REQUEST['dev'])) {
             $dev = trim(strtolower($_REQUEST['dev']));
             $key = (isset($_REQUEST['key']) ? $_REQUEST['key'] : '');
             }

@@ -423,13 +423,13 @@ class o2_app {
             $this->create_tables();
             // ______________________________ Login program execution and user options ___
             // ________________________ Credentials accepted form all $_REQUEST fields ___
-            if ($this->http_get_login) {
+            if ($this->runtime->interface != 'HTML' || $this->http_get_login) {
                 $login_user     = (isset($_REQUEST['user']) ? $_REQUEST['user'] : false);
                 $login_password = (isset($_REQUEST['password']) ?
                                    $_REQUEST['password'] : '');
                 }
             else {
-                // ______ Credentials accepted form POST and COOKIE only, not from GET ___
+                // _ HTTP Credentials accepted form POST and COOKIE only, not from GET ___
                 $login_user     = (isset($_POST['user'])   ? $_POST['user']   :
                                   (isset($_COOKIE['user']) ? $_COOKIE['user'] : false));
                 $login_password = (isset($_POST['password']) ? $_POST['password'] :
