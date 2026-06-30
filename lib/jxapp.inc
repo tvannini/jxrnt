@@ -2006,9 +2006,7 @@ class o2_app {
             $user     = $this->start_user;
             $password = $this->get_user_password($user);
             }
-        // ____________________ This to allow clear password as command line parameter ___
-        $this->password = (strlen($password) < 32 || $this->block_md5_pwd ?
-                           md5($password) : $password);
+        $this->password = $password;
         $this->user     = $user;
         // __________________________________ Login program execution and user options ___
         list($this->user_roles,
@@ -2098,6 +2096,80 @@ class o2_app {
             }
         $this->commit_all(false);
         return true;
+
+        }
+
+
+    /**
+     * Check passed password against the stored password for a given user.
+     *
+     * Return integer [0-2]:
+     *  0 = password is wrong
+     *  1 = password is correct
+     *  2 = password is correct but is MD5 (backward compatibility)
+     *
+     * If user is not found redirect to application "nologin page".
+     *
+     * @param  string $user       User password is requested for
+     * @param  string $password   Password provided to check against the stored one
+     * @return int                0 = password is wrong, 1 = ok, 2 = ok but is MD5
+     */
+    function verify_password($user, $password,) {
+
+        $users  = $this->get_table('o2_users');
+        $db     = $users->db;
+        $server = $db->server;
+        $co     = constant('o2_'.$server->type.'_o');
+        $cc     = constant('o2_'.$server->type.'_c');
+        $select = $users->campi['o2password']->nome_fisico.' '.$co.'PASSWORD'.$cc;
+        $where  = $users->campi['o2user']->nome_fisico."='".$user."'";
+        $list   = o2_gateway::recordset($server->type,
+                                        $server->server,
+                                        $server->user,
+                                        $server->password,
+                                        $db->nome,
+                                        $db->proprietario,
+                                        $users->nome,
+                                        $users->indice,
+                                        $select,
+                                        $where,
+                                        false,
+                                        1);
+        // ____________________________ Unknown user, stop whit error 401 Unauthorized ___
+        if (!isset($list[0])) {
+            if ($this->runtime->interface == 'HTML') {
+                // __________________________________________ Send HTTP error code 401 ___
+                header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized", true, 401);
+                // _________________________________________ Redirect to no-login page ___
+                if ($this->no_login) {
+                    die('<form name="jxlogout" method="POST" enctype="text/plain" '.
+                        'action="'.$this->no_login.
+                        '"></form><script>document.forms["jxlogout"].submit();</script>');
+                    }
+                else {
+                    die('<br><br><center><h4>Access denied</h4></center>');
+                    }
+                }
+            // ___________________________________________________________________ CMD ___
+            else {
+                throw new o2_exception("Login failed from command line", o2error_APP);
+                die('Login failed');
+                }
+            }
+        else {
+            $stored_password = $list[0]['PASSWORD'];
+            }
+        // ________________________________________ Argon2ID || BCrypt algorithm ready ___
+        if (password_verify($password, $stored_password)) {
+            return 1;
+            }
+        // ___________________________________ MD5 password for backward compatibility ___
+        elseif (strlen($stored_password) == 32) {
+            return ($stored_password == md5($password) ? 2 : 0);
+            }
+        else {
+            return 0;
+            }
 
         }
 

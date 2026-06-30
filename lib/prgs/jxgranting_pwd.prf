@@ -134,7 +134,7 @@ function jxgranting_pwd§§cancel_act($o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting_pwd§§ok_act($o2exe) {
-	$o2exe->s(1) && True && o2act::set("user", "o2password", jxgranting_pwd_exp_22()) && $o2exe->e();
+	$o2exe->s(1) && True && o2act::set("user", "o2password", jxgranting_pwd_exp_33()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("user", "last_pwd_date", jxgranting_pwd_exp_23()) && $o2exe->e();
 	$o2exe->s(3) && True && o2act::set("user", "pwds_history", jxgranting_pwd_exp_24()) && $o2exe->e();
 	$o2exe->s(4) && True && o2act::set("user", "force_pwd_change", jxgranting_pwd_exp_1()) && $o2exe->e();
@@ -283,8 +283,7 @@ return (' jxbtn_cancel');
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_18() {
-	o2js_load_script(o2rnt_alias().'js/md5.js');
-$su  = (o2user_is_admin() ? '!0' : '!1');
+	$su  = (o2user_is_admin() ? '!0' : '!1');
 $idx = count(o2app_prg());
 $btn = '<div class="o2_ctrl_button jxbtn_save" style="width:100%;height:100%;line-height:30px;" '.
        'onkeyup="e=o2jse.event.std(event);if(e.keyCode==32||e.keyCode==13||(e.keyCode==83&&e.altKey)){'.
@@ -296,9 +295,7 @@ $btn.= '<script>function jxpwdcheck(event) {'.
        'var pwdo = o2jse.infoForm["pwd_old'.$idx.'"];'.
        'var re   = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])(?=.{8,})");'.
        'if ('.$su.' || (!'.($_SESSION['o2_app']->password_strength ? 'true' : 'false').'|| re.test(pwd.value))) {'.
-       'pwd.value  = hex_md5(pwd.value);o2jse.ctrl.c(pwd);'.
-       'pwdr.value = hex_md5(pwdr.value);o2jse.ctrl.c(pwdr);'.
-       'pwdo.value = hex_md5(pwdo.value);o2jse.ctrl.c(pwdo);'.
+       'o2jse.ctrl.c(pwd);o2jse.ctrl.c(pwdr);o2jse.ctrl.c(pwdo);'.
        o2_act4js(0, 'save').
        '} else {'.
        'alert("Password cannot be shorter then 8 characters and " +
@@ -327,8 +324,13 @@ $r = o2val('prg§_§var','password_repeat');
 $o = o2val('prg§_§var','password_old');
 /* Check password against last 4 used passwords */
 if ($_SESSION['o2_app']->password_strength === 2) {
-   $h = o2val('user','pwds_history');
-   $c = (strpos($h, $p.';') !== false ? 3 : $c);
+   if (!o2zero('user','pwds_history')) {
+      foreach (explode(';', o2val('user','pwds_history')) as $oldHash) {
+         if (password_verify($p, $oldHash)) {
+            $c = 3;
+            }
+         }
+      }
    }
 /* No rules for administrators */
 $c = (o2user_is_admin() ? 0 : $c);
@@ -336,7 +338,7 @@ $c = (o2user_is_admin() ? 0 : $c);
 $c = ($p === $r ? $c : 2);
 /* Old password */
 if (o2par(2) && !o2zero('user','o2password')) {
-   $c = ($o === o2val('user','o2password') ? $c : 1);
+   $c = ($_SESSION['o2_app']->verify_password(o2par(1), $o) ? $c : 1);
    }
 return ($c);
 	} //|o2_fine_exp|
@@ -362,10 +364,12 @@ return (date('Ymd'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_24() {
-	$h = trim(o2val('user','pwds_history'));
-$h.= o2val('prg§_§var','password').';' ;
-/* Each password is 32 long + 1 (;) = 33, 33 * 4 = 132 = last 4 passwords */
-$h = substr($h, -132);
+	$h   = (o2zero('user','pwds_history') ? [] : explode(';', o2val('user','pwds_history')));
+$h[] = o2val('user','o2password');
+if (count($h) > 4) {
+   $h = array_slice($h, -4);
+   }
+$h = implode(';', $h);
 return ($h);
 	} //|o2_fine_exp|
 
@@ -425,5 +429,21 @@ return ($msg);
 function jxgranting_pwd_exp_32() {
 	
 return (isset($GLOBALS['jxPwdChangeCode']) && $GLOBALS['jxPwdChangeCode']);
+	} //|o2_fine_exp|
+
+function jxgranting_pwd_exp_33() {
+	/* Use Argon2ID algorithm, if available */
+if (defined('PASSWORD_ARGON2ID')) {
+   $ph = password_hash(o2val('prg§_§var','password'), 
+                       PASSWORD_ARGON2ID, 
+                       ['memory_cost' => 65536, 'time_cost' => 4, 'threads' => 1]);
+   }
+/* else use BCrypt algorithm */
+else {
+   $ph = password_hash(o2val('prg§_§var','password'), 
+                       PASSWORD_BCRYPT, 
+                       ['cost' => 12]);
+   }
+return ($ph);
 	} //|o2_fine_exp|
 ?>

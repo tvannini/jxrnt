@@ -22,6 +22,7 @@ o2def::model("jxjob_params", "S", "", "");
 o2def::model("jxjob_prg", "A", "C50", "");
 o2def::model("jxjob_progress", "N", "3", "");
 o2def::model("jxjob_status", "A", "U1[Queued|Starting|Running|Completed|Killed]", "");
+o2def::model("jxmfa", "A", "U1[None|Internal OTP|TOTP]", "");
 o2def::model("jxsched_month_day", "N", "2Z", "");
 o2def::model("jxsched_recurrence", "A", "U1[Day|Week|Month]", "");
 o2def::model("jxsched_time", "O", ":HM", "");

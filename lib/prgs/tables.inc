@@ -9,7 +9,7 @@ o2def::tab("o2_dbrelease", "default", "o2sys_dbrelease", "relcode");
 o2def::tab("o2_users", "default", "o2sys_users", "o2user");
 
 	o2def::field("o2user", "o2user", "jxuser");
-	o2def::field("o2password", "o2password", "_o2sid");
+	o2def::field("o2password", "o2password", "o2sys_long_str");
 	o2def::field("area", "asp_area", "_o2alpha");
 	o2def::field("expire_date", "expire_date", "_o2date");
 	o2def::field("last_date", "last_date", "_o2date");
@@ -17,12 +17,14 @@ o2def::tab("o2_users", "default", "o2sys_users", "o2user");
 	o2def::field("login_type", "login_type", "o2sys_login_type");
 	o2def::field("last_pwd_date", "last_pwd_date", "_o2date");
 	o2def::field("force_pwd_change", "force_pwd_change", "_o2logical");
-	o2def::field("pwds_history", "pwds_history", "o2sys_long_str");
+	o2def::field("pwds_history", "pwds_history", "o2sys_full_str");
 	o2def::field("no_pwd_change", "no_pwd_change", "_o2logical");
 	o2def::field("creation_date", "creation_date", "_o2date");
 	o2def::field("admin", "admin", "_o2logical");
 	o2def::field("poweruser", "poweruser", "_o2logical");
 	o2def::field("hidden", "hidden", "_o2logical");
+	o2def::field("email", "email", "o2sys_long_str");
+	o2def::field("mfa", "mfa", "jxmfa");
 
 	o2def::index("o2user", "o2user","A");
 	o2def::index("asp_area", "area","A", "o2user","A");
