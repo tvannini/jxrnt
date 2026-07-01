@@ -119,7 +119,6 @@ $app->password            = '';
 $app->password_strength   = 0;
 $app->password_change     = false;
 $app->force_pwd_change    = false;
-$app->block_md5_pwd       = false;
 $app->ldap_server         = false;
 $app->ldap_search_domain  = false;
 $app->ldap_base_dn        = false;

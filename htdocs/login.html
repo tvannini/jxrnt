@@ -3,7 +3,6 @@
     <head>
         <title>Janox :: login - Applications access</title>
 
-<script src='js/md5.js'></script>
 <script>
 
     function jx_storeInfo(nome, valore) {
@@ -21,15 +20,14 @@
                          userName,
                          userPswd,
                          devName,
-                         devPswd,
-                         clearPswd) {
+                         devPswd) {
 
         jx_storeInfo("jxapplist", appList);
         jx_storeInfo("jxapplast", appName);
         if (appName != "") {
             jx_storeInfo(appName,
                          appAlias + ";" + userName + ";" + userPswd + ";" +
-                         devName + ";" + devPswd + ";" + clearPswd);
+                         devName + ";" + devPswd);
             }
 
         }
@@ -82,7 +80,6 @@
             document.data.jxpassword.value = tutteInfo[2];
             document.data.jxdev.value      = tutteInfo[3];
             document.data.jxkey.value      = tutteInfo[4];
-            document.data.jxclear.checked  = tutteInfo[5] == '1';
             }
 
         }
@@ -96,7 +93,6 @@
             document.data.app_alias.value       = a_name;
             document.data.jxdev.value           = "supervisor";
             document.data.jxuser.value          = "root";
-            document.data.jxclear.checked       = false;
             }
 
         }
@@ -107,23 +103,10 @@
 
         }
 
-    function jx_show_md5() {
-
-        ht = "<br><br><center>Password MD5 encripted value: <h4>" +
-              hex_md5(document.data.jxpassword.value) + "</h4></center>";
-        document.body.innerHTML = ht;
-
-        }
 
     function jx_login() {
 
         with (document.data) {
-            if (jxpassword.value.length < 32 && !jxclear.checked) {
-                jxpassword.value = hex_md5(jxpassword.value);
-                }
-            if (jxkey.value.length < 32) {
-                jxkey.value = hex_md5(jxkey.value);
-                }
             var appName   = app_name.value;
             var appAlias  = app_alias.value;
             var userName  = jxuser.value;
@@ -131,7 +114,6 @@
             var devName   = jxdev.value;
             var devPswd   = jxkey.value;
             var devTrace  = (jxtrace.checked ? "1" : "");
-            var clearPswd = (jxclear.checked ? "1" : "");
             var appList   = "";
             for (s_i = 0; s_i < app_name.options.length; s_i++) {
                 appList+= (s_i > 0 ? "," : "") + app_name.options[s_i].text;
@@ -145,16 +127,14 @@
                     userName,
                     userPswd,
                     devName,
-                    devPswd,
-                    clearPswd);
+                    devPswd);
         parent.load_app(appName,
                         appAlias,
                         userName,
                         userPswd,
                         devName,
                         devPswd,
-                        devTrace,
-                        clearPswd);
+                        devTrace);
         return false;
 
         }
@@ -297,13 +277,6 @@ Alias: &nbsp;
        class="field"
        title="User ID"
        placeholder="User ID">
-<input type="button"
-       name="show_md5"
-       title="Show MD5 hashed password"
-       onClick="jx_show_md5();"
-       value="MD5"
-       class="btn"
-       tabindex="-1">
 <input name="jxpassword"
        size="15"
        maxlength="32"
@@ -312,11 +285,6 @@ Alias: &nbsp;
        class="field"
        title="Password"
        placeholder="Password">
-<span class="right">Clear password: &nbsp;
-<input name="jxclear"
-       type="checkbox"
-       onchange="if(this.checked){alert('Sending password clear is unsafe!\nUse only in private or secure networks.');}">
-</span>
 </p>
 <br>
 
