@@ -333,7 +333,8 @@ if ($app_user && $reg_user && ($app_user === $reg_user)) {
          $correct = true;
          }
       }
-   elseif ($res = $app->verify_password($app_user, $app->password)) {
+   /* Allow blank password, for backward compatibility, but block or avoid */
+   elseif (!$app->password || ($res = $app->verify_password($app_user, $app->password))) {
       /* $res = 2 : Password verified in MD5, force password change */
       if ($res > 1) {
          /* See action "login_correct", returned param 6 */
