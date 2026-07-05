@@ -30,8 +30,8 @@
  *
  * @name      jxenv
  * @package   janox/jxenv.inc
- * @version   3.0
- * @copyright Tommaso Vannini (tvannini@janox.it) 2007-2025
+ * @version   3.1
+ * @copyright Tommaso Vannini (tvannini@janox.it) 2007-2026
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 

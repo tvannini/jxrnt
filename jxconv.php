@@ -6,12 +6,12 @@
  *
  * @name      jxconv
  * @package   janox/bin/jxconv.php
- * @version   3.0
- * @copyright Tommaso Vannini (tvannini@janox.it) 2007-2025
+ * @version   3.1
+ * @copyright Tommaso Vannini (tvannini@janox.it) 2007-2026
  * @author    Tommaso Vannini (tvannini@janox.it)
  */
 
-$jxrel = '3.0';
+$jxrel = '3.1';
 $info  = <<<JANOX_SCRIPT_HEAD
 
                       Janox Upgrade Tool
@@ -291,6 +291,29 @@ function add_tab_field($code, $table, $field, $name, $model) {
 
 
 /**
+ * Alter a field definition for (system) tables defined in repository
+ *
+ * @param  string $code    Tables repository code
+ * @param  string $table   Name of table to change field for
+ * @param  string $field   Field defining logical name
+ * @param  string $name    New field defining physical name
+ * @param  string $model   New field defining model
+ * @return string
+ */
+function alter_tab_field($code, $table, $field, $name, $model) {
+
+    $parts = array();
+    preg_match_all('/o2def::tab\("'.$table.'".*?\);.*?o2def::index/s', $code, $parts);
+    // _________________________ Replace field definition if already existing in table ___
+    $f_code = preg_replace('/o2def::field\(\s*[\'"]'.$field.'[\'"]\s*,.*?\);/',
+                           'o2def::field("'.$field.'", "'.$name.'", "'.$model.'");',
+                           $parts[0][0]);
+    return str_replace($parts[0][0], $f_code, $code);
+
+    }
+
+
+/**
  * Add a new index definition to (system) tables defined in repository
  *
  * @param  string $code    Tables repository code
@@ -351,8 +374,8 @@ class upgrades_collection {
      * Application INI file will be processed in order to remove "_o2" in front of
      * parameters names.
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to1_4($app_name, $app_dir) {
 
@@ -368,8 +391,8 @@ class upgrades_collection {
      * Programs files will be scanned and edited to copy windows URL expression from prf
      * to prg file.
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to1_5($app_name, $app_dir) {
 
@@ -425,8 +448,8 @@ class upgrades_collection {
      * Version 1.5 is a "wrong version" and will be not released. Upgrade step is
      * conserved for compatibility with already upgraded applications.
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to1_6($app_name, $app_dir) {
 
@@ -487,8 +510,8 @@ class upgrades_collection {
      * This modification is needed to match PHP5.3 syntax,  where  "goto"  is  a  reserved
      * word.
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to1_7($app_name, $app_dir) {
 
@@ -524,8 +547,8 @@ class upgrades_collection {
      * Upgrades application to release 1.8
      * No changes for existing programs.
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string          $app_name   Application name
+     * @param dir_descriptor  $app_dir    Application root directory
      */
     static function to1_8($app_name, $app_dir) {
 
@@ -538,8 +561,8 @@ class upgrades_collection {
      * Upgrades application to release 2.0
      * Removes ->azione() e ->on_change() methods from multipage controls.
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_0($app_name, $app_dir) {
 
@@ -598,8 +621,8 @@ class upgrades_collection {
      * Upgrades application to release 2.1
      * No changes for existing programs.
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_1($app_name, $app_dir) {
 
@@ -618,8 +641,8 @@ class upgrades_collection {
      *  - o2_sessions:
      *     - terminal_id
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_2($app_name, $app_dir) {
 
@@ -710,8 +733,8 @@ class upgrades_collection {
      *
      * In controls replace property "wide" with property "expand"
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_3($app_name, $app_dir) {
 
@@ -778,8 +801,8 @@ class upgrades_collection {
      *     - pwds_history       History of last N passsowrds to check a new one against
      *     - no_pwd_change      Password never expires for user, regardless INI settings
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_4($app_name, $app_dir) {
 
@@ -829,8 +852,8 @@ class upgrades_collection {
      *  - o2_users:
      *     - creation_date   User creation date
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_5($app_name, $app_dir) {
 
@@ -869,8 +892,8 @@ class upgrades_collection {
      *  - jx_scheduler:
      *     - sched_all_hosts   Flag to schedule task for all active hosts
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_6($app_name, $app_dir) {
 
@@ -983,8 +1006,8 @@ class upgrades_collection {
      *  - o2_users:
      *     - admin   User administrator flag
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_7($app_name, $app_dir) {
 
@@ -1017,8 +1040,8 @@ class upgrades_collection {
      *
      * Nothing to do: conversion is needed only to force CDS deletion in JXOB
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_8($app_name, $app_dir) {
 
@@ -1035,8 +1058,8 @@ class upgrades_collection {
      *     - poweruser   User poweruser flag
      *     - hidden      User hidden flag
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to2_9($app_name, $app_dir) {
 
@@ -1073,8 +1096,8 @@ class upgrades_collection {
      * Upgrades application to release 3.0
      *
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
     static function to3_0($app_name, $app_dir) {
 
@@ -1102,49 +1125,53 @@ class upgrades_collection {
 
 
     /**
-     * Upgrades application to a future release, to remove no UTF-8 chars
+     * Upgrades application to release 3.1
      *
      *
-     * @param string $app_name Application name
-     * @param jxdir  $app_dir  Application root directory
+     * @param string         $app_name   Application name
+     * @param dir_descriptor $app_dir    Application root directory
      */
-    static function _tox_x($app_name, $app_dir) {
+    static function to3_1($app_name, $app_dir) {
 
-        $dir   = new dir_descriptor($app_dir.'prgs/');
-        $files = $dir->get_elements();
-        // _________________ Define old "paragraph" char marker in Windows-1252 encode ___
-        $m     = html_entity_decode('&sect;', ENT_QUOTES, 'cp1252');
-        // _________________________________________________ Loop on folder files list ___
-        while ($file = array_shift($files)) {
-            // ___________________________________________________ Make all stuff here ___
-            if ($file->ext == 'prg') {
-                $prg   = $file->full_name;
-                $prf   = $file->path.$file->name.'.prf';
-                if (file_exists($prf)) {
-                    $codg = file_get_contents($prg);
-                    $codf = file_get_contents($prf);
-                    // ______________________ Replace local variables marker [prg|prf] ___
-                    $codg = preg_replace('/prg'.$m.'_'.$m.'var/', '[var]', $codg);
-                    $codf = preg_replace('/prg'.$m.'_'.$m.'var/', '[var]', $codf);
-
-                    // ______ Replace separator in call-prg reference parameters [prf] ___
-                    $codf  = preg_replace('/(["\']\w+)'.$m.$m.'(\w+["\'])/',
-                                          '$1|$2',
-                                          $codf);
-
-                    // Replace separator in view, form, action, protocol & report [prf] __
-                    $codf  = preg_replace('/(\s*function\s+\w+)'.$m.$m.'(\w+\s*\()/',
-                                          '$1__$2',
-                                          $codf);
-                    file_put_contents($prg, $codg);
-                    file_put_contents($prf, $codf);
-                    }
-                }
-            // _________________________________________ Add sub folders files to list ___
-            elseif ($file->type == 'D') {
-                $files+= $file->get_elements();
-                }
+        // ______________________ Read tab-repository file from INI or use default one ___
+        $ini_content = file_get_contents($app_dir.$app_name.".ini");
+        $parts       = array();
+        preg_match('/tables\s*=\s*"([^"]*)"/', $ini_content, $parts);
+        if (isset($parts[1])) {
+            $tables = $parts[1];
             }
+        else {
+            $tables = 'file_repository.inc';
+            }
+        // ________________________________________________ Get tables definition code ___
+        $code = file_get_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables);
+        // ______________________________________________ New model for "o2user" field ___
+        $code = alter_tab_field($code,
+                                'o2_users',
+                                'o2user',
+                                'o2user',
+                                'jxuser');
+        // _________________________________________________ Expand "o2password" field ___
+        $code = alter_tab_field($code,
+                                'o2_users',
+                                'o2password',
+                                'o2password',
+                                'o2sys_long_str');
+        // ____________________________________________________________ Add new fields ___
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'email',
+                              'email',
+                              'o2sys_long_str');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'mfa',
+                              'mfa',
+                              'jxmfa');
+        // ____________________________________________ Write down new repository code ___
+        file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
+
+
 
         }
 
