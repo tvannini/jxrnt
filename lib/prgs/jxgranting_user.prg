@@ -1,5 +1,5 @@
 <?php
-//2.9
+//3.1
 //o2def::module("");
 //o2def::folder("");
 /*
@@ -41,6 +41,8 @@ o2def::par(7, "no_pwd_change", "_o2logical");
 o2def::par(8, "admin", "_o2logical");
 o2def::par(9, "poweruser", "_o2logical");
 o2def::par(10, "hidden", "_o2logical");
-o2def::par(11, "create_ok", "_o2logical");
+o2def::par(11, "mfa", "jxmfa");
+o2def::par(12, "email", "o2sys_long_str");
+o2def::par(13, "create_ok", "_o2logical");
 
 ?>

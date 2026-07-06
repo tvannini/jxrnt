@@ -38,8 +38,11 @@ function jxgranting§§users_def($task_users, $_o2viewalias = "") {
 	$task_users->usa("admin","o2_users","admin",null,null,null,null);
 	$task_users->usa("poweruser","o2_users","poweruser",null,null,null,null);
 	$task_users->usa("hidden","o2_users","hidden",null,null,"jxgranting_exp_119()",null);
+	$task_users->usa("mfa","o2_users","mfa",null,null,null,null);
+	$task_users->usa("email","o2_users","email",null,null,null,null);
 	$task_users->calcola("active","o2sys_long_str","jxgranting_exp_86()",null,null,null,null);
 	$task_users->calcola("last_login","o2sys_long_str","jxgranting_exp_92()",null,null,null,null);
+	$task_users->calcola("login_mode","_o2alpha","jxgranting_exp_120()",null,null,null,null);
 }
 
 function jxgranting§§rights_def($task_rights, $_o2viewalias = "") {
@@ -756,21 +759,22 @@ function jxgranting§§jxgranting_form_def($form_jxgranting) {
 		$ctrl_o2edit2->altezza(20);
 		$ctrl_o2edit2->expand("H");
 		$ctrl_o2edit2->info_padre(array("01", "04", "04", "ASP area code", True, "", False, "", "", ""));
-	$ctrl_o2edit19 = $form_jxgranting->ctrldef("o2edit19", "edit", "o2table2", "users", "login_type");
+	$ctrl_o2edit19 = $form_jxgranting->ctrldef("o2edit19", "edit", "o2table2", "users", "login_mode");
 		$ctrl_o2edit19->x(342);
 		$ctrl_o2edit19->y(10);
-		$ctrl_o2edit19->larghezza(60);
+		$ctrl_o2edit19->larghezza(80);
 		$ctrl_o2edit19->altezza(20);
+		$ctrl_o2edit19->expand("H");
 		$ctrl_o2edit19->info_padre(array("01", "05", "05", "Login", False, "", False, "", "", "", ""));
 	$ctrl_o2edit17 = $form_jxgranting->ctrldef("o2edit17", "edit", "o2table2", "users", "expire_date");
-		$ctrl_o2edit17->x(402);
+		$ctrl_o2edit17->x(422);
 		$ctrl_o2edit17->y(10);
 		$ctrl_o2edit17->larghezza(80);
 		$ctrl_o2edit17->altezza(20);
 		$ctrl_o2edit17->info_padre(array("01", "06", "06", "Expires", False, "", False, "", "", "", ""));
 		$ctrl_o2edit17->maschera("o2sys_long_date");
 	$ctrl_o2edit18 = $form_jxgranting->ctrldef("o2edit18", "edit", "o2table2", "users", "last_login");
-		$ctrl_o2edit18->x(482);
+		$ctrl_o2edit18->x(502);
 		$ctrl_o2edit18->y(10);
 		$ctrl_o2edit18->larghezza(120);
 		$ctrl_o2edit18->altezza(20);
@@ -1179,7 +1183,7 @@ function jxgranting§§user_delete_role_act($o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting§§user_detail_act($o2exe) {
-	$o2exe->s(1) && True && o2act::call(jxgranting_exp_31(), False, jxgranting_exp_7(), "users§§area", "users§§expire_date", "users§§login_type", "users§§pwds_history", "users§§force_pwd_change", "users§§no_pwd_change", "users§§admin", "users§§poweruser", "users§§hidden", "prg§_§var§§action_ok") && $o2exe->e();
+	$o2exe->s(1) && True && o2act::call(jxgranting_exp_31(), False, jxgranting_exp_7(), "users§§area", "users§§expire_date", "users§§login_type", "users§§pwds_history", "users§§force_pwd_change", "users§§no_pwd_change", "users§§admin", "users§§poweruser", "users§§hidden", "users§§mfa", "users§§email", "prg§_§var§§action_ok") && $o2exe->e();
 	$o2exe->s(2) && (jxgranting_exp_32() || $o2exe->e()) && o2act::view("users", "A", "") && $o2exe->e();
 	$o2exe->s(3) && (jxgranting_exp_37() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
 	} //|o2_fine_act|
@@ -1847,6 +1851,12 @@ return (o2view_rec('users') && (o2zero('users','admin') || o2user_is_admin() || 
 function jxgranting_exp_119() {
 	
 return ((o2user_is_admin() || (o2app_runlevel() == 'DEV') ? null : '1'));
+	} //|o2_fine_exp|
+
+function jxgranting_exp_120() {
+	$l = (o2val('users','login_type') ? o2format(o2val('users','login_type'), 'o2sys_login_type') : '');
+$l.= ($l.o2val('users','mfa') ? ($l ? ' - ' : '').o2format(o2val('users','mfa'), 'jxmfa') : '');
+return ($l);
 	} //|o2_fine_exp|
 
 function jxgranting_exp_9999() {
