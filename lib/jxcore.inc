@@ -6874,6 +6874,25 @@ endofjxmsg;
 
 
     /**
+     * Returns a $length characters string, useful for a One Time Password (OTP).
+     * Use this method to generate a secure OTP.
+     *
+     * @param  integer $length   Length of the OTP token
+     * @return string
+     */
+    function generate_otp(int $length = 6): string {
+
+        // _______________________ Use only characters that are easily distinguishable ___
+        $charset = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+        $otp     = '';
+        for ($i = 0; $i < $length; $i++) {
+            $otp.= $charset[random_int(0, 31)];
+            }
+        return $otp;
+
+        }
+
+    /**
      * Set developer for Janox runtime
      *
      * @return array

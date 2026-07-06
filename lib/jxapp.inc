@@ -1332,9 +1332,7 @@ class o2_app {
         if (!$user) {
             $user = $this->user;
             }
-        $code   = substr(str_shuffle(str_repeat('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-                                                '1'.(substr($this->runtime->microtime(),
-                                                           -1) + 0))), -$otp_len);
+        $code   = $this->runtime->generate_otp($otp_len);
         $tab    = $this->get_table('jx_otp');
         $db     = $tab->db;
         $server = $db->server;
