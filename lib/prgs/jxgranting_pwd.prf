@@ -181,42 +181,42 @@ function jxgranting_pwd§§wrong_repeat_act($o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting_pwd_exp_1() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_2() {
-	
+
 return ("User: ".o2val('prg§_§var','user'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_3() {
-	
+
 return ("jxwiz_cancel");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_4() {
-	
+
 return ("jxwiz_save");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_5() {
-	
+
 return (o2val('prg§_§var','password_check') == 1);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_6() {
-	
+
 return (o2zero('prg§_§var','password_check'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_7() {
-	
+
 return ("");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_8() {
-	
+
 return ("Not matching repeated password.");
 	} //|o2_fine_exp|
 
@@ -231,22 +231,22 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_10() {
-	
+
 return ((o2zero('prg§_§var','password') ? "" : md5(o2val('prg§_§var','password'))));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_11() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_12() {
-	
+
 return (o2val('prg§_§var','user'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_13() {
-	
+
 return ('<jx>/img/info.png');
 	} //|o2_fine_exp|
 
@@ -273,12 +273,12 @@ return ($v);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_16() {
-	
+
 return ('o2_ctrl_button jxbtn_save');
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_17() {
-	
+
 return (' jxbtn_cancel');
 	} //|o2_fine_exp|
 
@@ -344,22 +344,22 @@ return ($c);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_20() {
-	
+
 return ("Password cannot be one of the last 4 used passwords.");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_21() {
-	
+
 return (o2val('prg§_§var','password_check') == 2);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_22() {
-	
+
 return (o2val('prg§_§var','password'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_23() {
-	
+
 return (date('Ymd'));
 	} //|o2_fine_exp|
 
@@ -374,22 +374,22 @@ return ($h);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_25() {
-	
+
 return (o2par(2) && !o2zero('user','o2password'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_26() {
-	
+
 return (!o2par(2) || o2zero('user','o2password'));
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_27() {
-	
+
 return ("Wrong password.");
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_28() {
-	
+
 return (o2val('prg§_§var','password_check') == 3);
 	} //|o2_fine_exp|
 
@@ -404,7 +404,7 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_30() {
-	
+
 return ((o2par(1) ? o2par(1) : $_SESSION['o2_app']->user));
 	} //|o2_fine_exp|
 
@@ -427,23 +427,14 @@ return ($msg);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_32() {
-	
+
 return (isset($GLOBALS['jxPwdChangeCode']) && $GLOBALS['jxPwdChangeCode']);
 	} //|o2_fine_exp|
 
 function jxgranting_pwd_exp_33() {
-	/* Use Argon2ID algorithm, if available */
-if (defined('PASSWORD_ARGON2ID')) {
-   $ph = password_hash(o2val('prg§_§var','password'), 
-                       PASSWORD_ARGON2ID, 
-                       ['memory_cost' => 65536, 'time_cost' => 4, 'threads' => 1]);
-   }
-/* else use BCrypt algorithm */
-else {
-   $ph = password_hash(o2val('prg§_§var','password'), 
-                       PASSWORD_BCRYPT, 
-                       ['cost' => 12]);
-   }
+
+    $ph = $_SESSION['o2_runtime']->crypt(o2val('prg§_§var','password'));
+
 return ($ph);
 	} //|o2_fine_exp|
 ?>

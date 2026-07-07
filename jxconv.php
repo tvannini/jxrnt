@@ -303,12 +303,18 @@ function add_tab_field($code, $table, $field, $name, $model) {
 function alter_tab_field($code, $table, $field, $name, $model) {
 
     $parts = array();
-    preg_match_all('/o2def::tab\("'.$table.'".*?\);.*?o2def::index/s', $code, $parts);
+    $res   = preg_match_all('/o2def::tab\("'.$table.'".*?\);.*?o2def::index/s',
+                            $code, $parts);
     // _________________________ Replace field definition if already existing in table ___
-    $f_code = preg_replace('/o2def::field\(\s*[\'"]'.$field.'[\'"]\s*,.*?\);/',
-                           'o2def::field("'.$field.'", "'.$name.'", "'.$model.'");',
-                           $parts[0][0]);
-    return str_replace($parts[0][0], $f_code, $code);
+    if ($res) {
+        $f_code = preg_replace('/o2def::field\(\s*[\'"]'.$field.'[\'"]\s*,.*?\);/',
+                               'o2def::field("'.$field.'", "'.$name.'", "'.$model.'");',
+                               $parts[0][0]);
+        return str_replace($parts[0][0], $f_code, $code);
+        }
+    else {
+        return $code;
+        }
 
     }
 
@@ -1157,7 +1163,7 @@ class upgrades_collection {
                                 'o2password',
                                 'o2password',
                                 'o2sys_long_str');
-        // ____________________________________________________________ Add new fields ___
+        // ________________________________________ Add new fields to "o2_users" table ___
         $code = add_tab_field($code,
                               'o2_users',
                               'email',
@@ -1168,6 +1174,17 @@ class upgrades_collection {
                               'mfa',
                               'mfa',
                               'jxmfa');
+        $code = add_tab_field($code,
+                              'o2_users',
+                              'phone_number',
+                              'phone_number',
+                              'jxphone_number');
+        // _____________________________________ Expand "code" field in "o2_otp" table ___
+        $code = alter_tab_field($code,
+                                'jx_otp',
+                                'code',
+                                'code',
+                                'o2sys_long_str');
         // ____________________________________________ Write down new repository code ___
         file_put_contents($app_dir.'prgs'.DIRECTORY_SEPARATOR.$tables, $code);
 

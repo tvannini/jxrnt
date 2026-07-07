@@ -25,6 +25,7 @@ o2def::tab("o2_users", "default", "o2sys_users", "o2user");
 	o2def::field("hidden", "hidden", "_o2logical");
 	o2def::field("email", "email", "o2sys_long_str");
 	o2def::field("mfa", "mfa", "jxmfa");
+	o2def::field("phone_number", "phone_number", "jxphone_number");
 
 	o2def::index("o2user", "o2user","A");
 	o2def::index("asp_area", "area","A", "o2user","A");
@@ -322,7 +323,7 @@ o2def::tab("jx_asp_areas", "default", "jx_asp_areas", "area");
 
 o2def::tab("jx_otp", "default", "jx_otp", "code");
 
-	o2def::field("code", "code", "_o2sid");
+	o2def::field("code", "code", "o2sys_long_str");
 	o2def::field("user", "user", "jxuser");
 	o2def::field("create_time", "create_time", "o2sys_full_number");
 

@@ -6892,6 +6892,33 @@ endofjxmsg;
 
         }
 
+
+    /**
+     * Returns a crypted version of the passed $code, useful for password_verify().
+     *
+     * @param  string $code   The string to be encrypted
+     * @return string
+     */
+    function crypt(string $code): string {
+
+        $ch = "";
+        // ______________________________________ Use Argon2ID algorithm, if available ___
+        if (defined('PASSWORD_ARGON2ID')) {
+            $ch = password_hash($code,
+                                PASSWORD_ARGON2ID,
+                                ['memory_cost' => 65536,
+                                 'time_cost'   => 4,
+                                 'threads'     => 1]);
+            }
+        // _________________________________________________ else use BCrypt algorithm ___
+        else {
+            $ch = password_hash($code, PASSWORD_BCRYPT, ['cost' => 12]);
+            }
+        return $ch;
+
+        }
+
+
     /**
      * Set developer for Janox runtime
      *
@@ -8489,6 +8516,13 @@ function o2_upgrade($table, $rel_code, $test = false) {
             // _____________________________________________________ o2_users - 3.1.00 ___
             case "o2_users":
                 $msg_txt = "Converting USERS";
+                if (!$test) {
+                    $table->ricostruisci();
+                    }
+                break;
+            // _______________________________________________________ jx_otp - 3.1.00 ___
+            case "jx_otp":
+                $msg_txt = "Converting OTP";
                 if (!$test) {
                     $table->ricostruisci();
                     }

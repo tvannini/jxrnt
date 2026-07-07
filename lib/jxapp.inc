@@ -1339,7 +1339,8 @@ class o2_app {
         $fields = array($tab->campi['code']->nome_fisico,
                         $tab->campi['user']->nome_fisico,
                         $tab->campi['create_time']->nome_fisico);
-        $values = array("'".md5($code)."'", "'".$user."'", time());
+        $ch     = $this->runtime->crypt($code);
+        $values = array("'".$ch."'", "'".$user."'", time());
         $trans  = $this->isolated_trans;
         $this->isolated_trans = $this->progressivo_istanze;
         o2_gateway::insertrec($server->type,

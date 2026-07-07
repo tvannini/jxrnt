@@ -122,10 +122,14 @@ function o2sys_start§§otp_def($task_otp, $_o2viewalias = "") {
 
 	$task_otp->usa_file("jx_otp","jx_otp","code",null,null);
 
-	$task_otp->usa("code","jx_otp","code","o2sys_start_exp_71()","o2sys_start_exp_71()",null,null);
+	$task_otp->usa("code","jx_otp","code",null,null,null,null);
 	$task_otp->usa("user","jx_otp","user","o2sys_start_exp_54()","o2sys_start_exp_54()",null,null);
 	$task_otp->usa("create_time","jx_otp","create_time","o2sys_start_exp_72()",null,null,null);
 }
+
+function o2sys_start§§check_otp_act($o2exe) {
+	$o2exe->s(1) && True && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_78()) && $o2exe->e();
+	} //|o2_fine_act|
 
 function o2sys_start§§check_session_terminal_act($o2exe) {
 	$o2exe->s(1) && (o2sys_start_exp_43() || $o2exe->e()) && o2act::set("prg§_§var", "terminal_id", o2sys_start_exp_42()) && $o2exe->e();
@@ -210,16 +214,17 @@ function o2sys_start§§login_act($o2exe) {
 	} //|o2_fine_act|
 
 function o2sys_start§§login_correct_act($o2exe) {
-	$o2exe->s(1) && True && o2act::set("_o2SESSION", "_area", o2sys_start_exp_21()) && $o2exe->e();
-	$o2exe->s(2) && True && o2act::set("users", "last_date", o2sys_start_exp_6()) && $o2exe->e();
-	$o2exe->s(3) && True && o2act::set("users", "last_time", o2sys_start_exp_7()) && $o2exe->e();
-	$o2exe->s(4) && (o2sys_start_exp_70() || $o2exe->e()) && o2act::set("users", "admin", o2sys_start_exp_69()) && $o2exe->e();
-	$o2exe->s(5) && True && o2act::view("users", "S", "") && $o2exe->e();
-//	$o2exe->s(6) && True && o2act::remark("Remove used OTP") && $o2exe->e();
-	$o2exe->s(7) && (o2sys_start_exp_74() || $o2exe->e()) && o2act::view("otp", "C", "") && $o2exe->e();
-//	$o2exe->s(8) && True && o2act::remark("Set user password in application for OTP sessions") && $o2exe->e();
-	$o2exe->s(9) && True && o2act::script(o2sys_start_exp_75()) && $o2exe->e();
-	$o2exe->s(10) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
+//	$o2exe->s(1) && True && o2act::remark("------------------------------------------------------Set Area value") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::set("_o2SESSION", "_area", o2sys_start_exp_21()) && $o2exe->e();
+	$o2exe->s(3) && True && o2act::set("users", "last_date", o2sys_start_exp_6()) && $o2exe->e();
+	$o2exe->s(4) && True && o2act::set("users", "last_time", o2sys_start_exp_7()) && $o2exe->e();
+	$o2exe->s(5) && (o2sys_start_exp_70() || $o2exe->e()) && o2act::set("users", "admin", o2sys_start_exp_69()) && $o2exe->e();
+	$o2exe->s(6) && True && o2act::view("users", "S", "") && $o2exe->e();
+//	$o2exe->s(7) && True && o2act::remark("Remove used OTP") && $o2exe->e();
+	$o2exe->s(8) && (o2sys_start_exp_74() || $o2exe->e()) && o2act::view("otp", "C", "") && $o2exe->e();
+//	$o2exe->s(9) && True && o2act::remark("Set user password in application for OTP sessions") && $o2exe->e();
+	$o2exe->s(10) && True && o2act::script(o2sys_start_exp_75()) && $o2exe->e();
+	$o2exe->s(11) && True && o2act::ret(6, o2sys_start_exp_57()) && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§login_correct_ldap_act($o2exe) {
@@ -258,12 +263,14 @@ function o2sys_start§§login_ldap_act($o2exe) {
 
 function o2sys_start§§login_std_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "login_correct", o2sys_start_exp_3()) && $o2exe->e();
-//	$o2exe->s(2) && True && o2act::remark("------------------------------------------------------Set Area value") && $o2exe->e();
-	$o2exe->s(3) && (o2sys_start_exp_12() || $o2exe->e()) && o2act::exe("login_correct", True, "") && $o2exe->e();
-//	$o2exe->s(4) && True && o2act::remark("------------------------Check for LDAP user with domain") && $o2exe->e();
-	$o2exe->s(5) && (o2sys_start_exp_55() || $o2exe->e()) && o2act::exe("ldap_with_domain", True, "") && $o2exe->e();
-//	$o2exe->s(6) && True && o2act::remark("-------------------------Handle error if login is not correct") && $o2exe->e();
-	$o2exe->s(7) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::exe("login_failed", True, "") && $o2exe->e();
+//	$o2exe->s(2) && True && o2act::remark("--------------------------------------------------Check for OTP") && $o2exe->e();
+	$o2exe->s(3) && (o2sys_start_exp_76() || $o2exe->e()) && o2act::exe("check_otp", "o2sys_start_exp_12()", "otp") && $o2exe->e();
+//	$o2exe->s(4) && True && o2act::remark("----------------------------------------------------Login correct") && $o2exe->e();
+	$o2exe->s(5) && (o2sys_start_exp_12() || $o2exe->e()) && o2act::exe("login_correct", True, "") && $o2exe->e();
+//	$o2exe->s(6) && True && o2act::remark("------------------------Check for LDAP user with domain") && $o2exe->e();
+	$o2exe->s(7) && (o2sys_start_exp_55() || $o2exe->e()) && o2act::exe("ldap_with_domain", True, "") && $o2exe->e();
+//	$o2exe->s(8) && True && o2act::remark("-------------------------Handle error if login is not correct") && $o2exe->e();
+	$o2exe->s(9) && (o2sys_start_exp_15() || $o2exe->e()) && o2act::exe("login_failed", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function o2sys_start§§session_act($o2exe) {
@@ -340,9 +347,6 @@ if ($app_user && $reg_user && ($app_user === $reg_user)) {
          /* See action "login_correct", returned param 6 */
          $GLOBALS['jxPwdChangeCode'] = 2;         
          }
-      $correct = true;
-      }
-   elseif (!o2zero('prg§_§var','otp_code') && o2view_rec('otp')) {
       $correct = true;
       }
    }
@@ -965,5 +969,20 @@ return (!o2zero('prg§_§var','otp_code') && o2view_rec('otp'));
 function o2sys_start_exp_75() {
 	$_SESSION['o2_app']->password = o2val('users','o2password');
 return (true);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_76() {
+	$app      = $_SESSION['o2_app']; 
+$app_user = $app->user;
+$reg_user = o2val('users','o2user');
+$c        = !o2val('prg§_§var','login_correct') && 
+            !o2zero('prg§_§var','otp_code') && o2view_rec("otp") && 
+            $app_user && $reg_user && ($app_user === $reg_user);
+return ($c);
+	} //|o2_fine_exp|
+
+function o2sys_start_exp_78() {
+	
+return (password_verify(o2val('prg§_§var','otp_code'), o2val('otp','code')));
 	} //|o2_fine_exp|
 ?>

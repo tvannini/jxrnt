@@ -1,5 +1,5 @@
 <?php
-//3.0
+//3.1
 //o2def::module("");
 //o2def::folder("triggers");
 /*
@@ -19,6 +19,7 @@ o2def::view("logged_tabs", false, "", "", 1, 0);
 o2def::view("jxsys_lookup", false, "", "", 1, 0);
 o2def::view("terminals", false, "", "", 0, 0);
 o2def::view("otp", false, "", "", 0, 0);
+o2def::act("check_otp");
 o2def::act("check_session_terminal");
 o2def::act("db_session");
 o2def::act("insert_jxsys");
