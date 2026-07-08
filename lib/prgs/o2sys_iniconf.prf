@@ -688,6 +688,12 @@ $list = array(
                                         "This is the time fast messages will persist before fading away.\n".
                                         "Time-out is set in seconds. Minimum value is 3.",
                            "default" => 5),
+   "otp_time" => array("rntval"  => null,
+                       "appval"  => null,
+                       "desc"    => "   *** One Time Password time ***\n\n".
+                                    "This is the time a generated OTP will be valid before expiring.\n".
+                                    "Time is set in minutes. Minimum value is 1.",
+                       "default" => 60),
    "decimals" => array("rntval"  => null,
                        "appval"  => null,
                        "desc"    => "   *** Decimal separator ***\n\n".
@@ -1476,6 +1482,7 @@ function o2sys_iniconf_exp_34() {
               'ldap_base_dn',
               '',
               'timeout',
+              'otp_time',
               'keepalive',
               'lockpage',
               'unlockprg',

@@ -220,7 +220,7 @@ class o2_app {
     public $refresh_time    = 0;       /* Number of seconds to wait before refreshing   */
     public $refresh_last    = 0;       /* Last refresh execution time-out               */
     public $jxhttp_extra    = false;   /* Extra data for HTTP requests (see o2_post())  */
-    public $otp_time        = 3600;    /* Time (in seconds) One Time Passwords expire   */
+    public $otp_time        = 60;      /* Time (in minutes) One Time Passwords expire   */
     /*     _____ BUGS compatibility ___________________________________________________ */
     public $bug_aggregate   = false;   /* If TRUE uncountable aggregations are skipped  */
     public $bug_error_flow  = false;   /* If TRUE executions continue after SQL errors  */
@@ -1302,7 +1302,7 @@ class o2_app {
         $server = $db->server;
         $f      = $otps->campi;
         $now    = time();
-        $where  = $f['create_time'].'<'.($now - $this->otp_time);
+        $where  = $f['create_time'].'<'.($now - $this->otp_time * 60);
         o2_gateway::deleterec($server->type,
                               $server->server,
                               $server->user,
@@ -1323,7 +1323,7 @@ class o2_app {
      * Returned OTP is a string of $otp_len chars, default length is 6.
      * If $user is blank then OTP is generated for the currently logged user.
      *
-     * @param  string $user       User to generate the OTP for
+     * @param  string  $user      User to generate the OTP for
      * @param  integer $otp_len   Length of the OTP token
      * @return string
      */
@@ -1774,6 +1774,9 @@ class o2_app {
             }
         if (isset($conf['fastmsg_time'])) {
             $this->fastmsg_time = max(3, intval($conf['fastmsg_time']));
+            }
+        if (isset($conf['otp_time'])) {
+            $this->otp_time = max(1, intval($conf['otp_time']));
             }
         if (isset($conf['zoom'])) {
             $this->zoom = ($conf['zoom'] ? true : false);
