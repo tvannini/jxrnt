@@ -433,7 +433,7 @@ return (isset($GLOBALS['jxPwdChangeCode']) && $GLOBALS['jxPwdChangeCode']);
 
 function jxgranting_pwd_exp_33() {
 
-    $ph = $_SESSION['o2_runtime']->crypt(o2val('prg§_§var','password'));
+    $ph = $GLOBALS['o2_runtime']->crypt(o2val('prg§_§var','password'));
 
 return ($ph);
 	} //|o2_fine_exp|
