@@ -9058,67 +9058,6 @@ function jx_parse_conf($conf_file) {
 
 
 /**
- * Execute a post request to provided URL.
- * $postdata is an array in the form array("key1" => "val1", "key2" => "val2", ...).
- *
- * @param  string $url        Address for request
- * @param  array  $postdata   Postdata fields to include in request
- * @param  array  $cookies    Field-value pairs to send as cookies in request
- * @param  array  $headers    Response headers from connection
- * @return string             Response body
- */
-function jx_post($url, $postdata, $cookies = false, &$headers = null) {
-
-    $data = "";
-    $bndr = "---------------------".substr(md5(rand(0, 32000)), 0, 10);
-    // ___________________________________________________ Extra data for HTTP request ___
-    if ($_SESSION['o2_app']->jxhttp_extra) {
-        $postdata+= $_SESSION['o2_app']->jxhttp_extra;
-        }
-    foreach($postdata as $key => $val) {
-        $data.= "--$bndr\n";
-        $data.= "Content-Disposition: form-data; name=\"".$key."\"\n\n".$val."\n";
-        }
-    $data.= "--$bndr\n";
-    if ($cookies) {
-        $cookies_str = ";\r\nCookie: ";
-        if (is_array($cookies)) {
-            foreach ($cookies as $cname => $cvalue) {
-                $cookies_str.= $cname.'='.$cvalue.";";
-                }
-            }
-        else {
-            $cookies_str.= $cookies;
-            }
-        }
-    else {
-        $cookies_str = '';
-        }
-    $params = array('http'    => array(
-                    'method'  => 'POST',
-                    'header'  => 'Content-Type: multipart/form-data; boundary='.$bndr.
-                                 $cookies_str,
-                    'content' => $data));
-    $ctx    = stream_context_create($params);
-    $fp     = fopen($url, 'rb', false, $ctx);
-    $headers = $http_response_header;
-    if (!$fp) {
-        throw new o2_exception("Can't open stream ".$url."<br>".
-                               htmlspecialchars($php_errormsg),
-                               o2error_IO);
-        }
-    $response = @stream_get_contents($fp);
-    if ($response === false) {
-        throw new o2_exception("Can't read data from ".$url."<br>".
-                               htmlspecialchars($php_errormsg),
-                               o2error_IO);
-        }
-    return $response;
-
-    }
-
-
-/**
  * Logs out a dump of a passed object to the development console, with an execution stack
  * trace.
  *
