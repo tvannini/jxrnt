@@ -6708,6 +6708,8 @@ class o2_runtime {
     public $developers      = array();    /* List of allowed developers                 */
     public $developer       = false;      /* Developer ID, if passed and validated      */
     public $dev_key         = "";         /* Developer password (MD5)                   */
+    /*     _____ Miscellaneus _________________________________________________________ */
+    public $registered_apps = array();    /* List of app aliases with physical path     */
     /*     _____ Filesystem ___________________________________________________________ */
     public $php_engine      = "php";      /* Complete path to PHP (or PHP CLI) exe      */
     public $rnt_script      = "";         /* Runtime main script (jxrnt/jxrnt.php)      */
@@ -7032,7 +7034,7 @@ endofjxmsg;
         elseif ($this->root->exists("janox.ini")) {
             // ___________________________ Gets options from RUNTIME INI file settings ___
             $ini_file = $this->root->element("janox.ini");
-            if (!($conf = parse_ini_file($ini_file))) {
+            if (!($conf = parse_ini_file($ini_file, true))) {
                 throw new o2_exception("Cannot access setting file <i>".$ini_file."</i>",
                                        o2error_IO);
                 return;
@@ -7050,6 +7052,8 @@ endofjxmsg;
         isset($conf['php_exe']) && $conf['php_exe'] && $this->php_engine =
                                                                          $conf['php_exe'];
         isset($conf['multisession']) && $this->multisession       = $conf['multisession'];
+        isset($conf['registered_apps']) && count($conf['registered_apps']) &&
+                                        $this->registered_apps = $conf['registered_apps'];
 
         }
 
@@ -8016,7 +8020,7 @@ function jxlogo($dim = 1) {
 /**
  * Converte una qualunque variabile in array, ricorsivamente nei suoi sottoelementi
  *
- * @param  mix $obj
+ * @param  object|array $obj
  * @return array
  */
 function obj2array($obj = null) {

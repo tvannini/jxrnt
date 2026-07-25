@@ -91,3 +91,22 @@ thousands = " "
 ;
 ;data_chunk = 65535
 
+
+; ________________________________________ TOTP enabled applications ___
+;
+; List of applications aliases enabled for TOTP login.
+; The list is in the form:
+; <app-alias> = "<app-path>/htdocs/<app-name>.php"
+;
+; SAMPLE:
+;
+; [registered_apps]
+; test = "/janox/projects/test/htdocs/test.php"
+; erp = "/var/www/apps/erp/htdocs/erp.php"
+;
+; NOTE:
+; Section [registered_apps] must be at the very end of this file.
+; Any other parameter, extraneous to this section, must be defined
+; before!
+;
+[registered_apps]
