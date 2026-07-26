@@ -8467,7 +8467,23 @@ function o2img_thumbnail($source_file, $target_file, $width, $height, $ratio = t
         $file = new o2_fsitem($source_file);
         switch (strtolower($file->ext)) {
             case "jpg":
+            case "jpe":
+            case "jpeg":
                 $simg = imagecreatefromjpeg($file->nome_completo);
+                $exif = @exif_read_data($file->nome_completo);
+                if ($exif && isset($exif['Orientation'])) {
+                    switch ($exif['Orientation']) {
+                        case 3:
+                            $simg = imagerotate($simg, 180, 0);
+                            break;
+                        case 6:
+                            $simg = imagerotate($simg, -90, 0);
+                            break;
+                        case 8:
+                            $simg = imagerotate($simg, 90, 0);
+                            break;
+                        }
+                    }
                 break;
             case "gif":
                 $simg = imagecreatefromgif($file->nome_completo);
