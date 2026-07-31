@@ -136,10 +136,14 @@ function get_app_url($app_main_path) {
 
     if (!isset($_SESSION['o2_app'])) {
         $app_name     = basename(str_replace('\\', '/', $app_main_path));
-        $refParts     = parse_url($_SERVER['HTTP_REFERER']);
+		$refParts     = parse_url($_SERVER['HTTP_REFERER']);
+		$path         = $refParts['path'] ?? '/';
+        if (preg_match('/\.[a-zA-Z0-9]+$/', $path)) {
+            $path = dirname($path);
+            }
         $app_main_url = ($refParts['scheme'] ?? 'https').'://'.
                         ($refParts['host'] ?? '').
-                        rtrim(dirname($refParts['path'] ?? '/'), '/').'/'.
+                        rtrim($path, '/').'/'.
                         $app_name;
         $context = stream_context_create(['ssl'  => ['verify_peer'      => false,
                                                      'verify_peer_name' => false],
@@ -178,6 +182,7 @@ function process_app($app_main_path) {
             $_SESSION['o2_app']               = new stdClass();
             $_SESSION['o2_app']->nome         = $app_name;
             $_SESSION['o2_app']->referer      = $GLOBALS['app_main_url'];
+            $_SESSION['o2_app']->alias        = dirname($_SESSION['o2_app']->referer);
             $_SESSION['o2_app']->request_ori  = $_REQUEST;
             $_SESSION['o2_app']->chr_encoding = $app_ini['encoding'] ?? 'UTF-8';
             $_SESSION['o2_app']->dir_data     = $app_dir.DIRECTORY_SEPARATOR.'data'.
@@ -298,23 +303,24 @@ function app_check_user($tabs_code) {
                                    $where,
                                    '',
                                    1);
+
     if (!$res) {
         error_send('Sorry, you are not allowed.');
         }
+    $res = array_change_key_case($res[0]);
     // ___________________________________ Check if user is anabled for TOTP-MFA login ___
-    elseif (!isset($res[0]['mfa']) || $res[0]['mfa'] != 'T') {
+    if (!isset($res['mfa']) || $res['mfa'] != 'T') {
         // __________________________________ A standard login to application is fired ___
         app_login();
         }
     // ____________________________ Verify user standard credentials (user & password) ___
     elseif (isset($_REQUEST['password']) &&
-            (password_verify($_REQUEST['password'], $res[0]['o2password']) === false)) {
+            (password_verify($_REQUEST['password'], $res['o2password']) === false)) {
             error_send('Sorry, you are not allowed');
             die();
             }
     // __________________________________________________ User is enabled for TOTP-MFA ___
     else {
-
         // ═══════════════════════════════════════════════════ [TOTP-MFA] ═══════
         // Integrazione modulo secondo fattore (TOTP) — blocco AGGIUNTO, inizio.
         //
