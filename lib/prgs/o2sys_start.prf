@@ -32,6 +32,7 @@ function o2sys_start§§users_def($task_users, $_o2viewalias = "") {
 	$task_users->usa("no_pwd_change","users","no_pwd_change",null,null,null,null);
 	$task_users->usa("admin","users","admin",null,null,null,null);
 	$task_users->usa("poweruser","users","poweruser",null,null,null,null);
+	$task_users->usa("mfa","users","mfa",null,null,null,null);
 	$task_users->calcola("active","_o2logical","o2sys_start_exp_46()",null,null,"o2sys_start_exp_18()",null);
 }
 
@@ -339,6 +340,10 @@ if ($app_user && $reg_user && ($app_user === $reg_user)) {
       if (o2rnt_interface() == 'BAT') {
          $correct = true;
          }
+      }
+   /* MFA=TOTP: allowed only by internal OTP, no standard login with password */
+   elseif (o2val('users','mfa') === 'T') {
+      $correct = false;
       }
    /* Allow blank password, for backward compatibility, but block or avoid */
    elseif (o2zero('users','o2password') || ($res = $app->verify_password($app_user, $app->password))) {
