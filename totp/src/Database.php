@@ -56,32 +56,32 @@ class Database
         // (different database) — it's just a shared string key.
         $this->pdo->exec("
             CREATE TABLE IF NOT EXISTS totp_users (
-                -- Janox username (string, L50). Never cast to (int).
-                o2user               TEXT    NOT NULL,
+                -- Janox username (string, L50)
+                o2user               VARCHAR(50) NOT NULL,
 
-                -- Base32 TOTP secret (160 bit), plaintext — protect auth.db
+                -- Base32 TOTP secret (160 bit), plaintext — protect jxtotp.db
                 -- at the filesystem level.
-                totp_secret          TEXT    NOT NULL DEFAULT '',
+                totp_secret          VARCHAR(240) NOT NULL DEFAULT '',
 
                 -- 0 = setup pending (QR not yet confirmed), 1 = active.
-                totp_confirmed       INTEGER NOT NULL DEFAULT 0,
+                totp_confirmed       CHAR(1)      NOT NULL DEFAULT '0',
 
                 -- Anti-replay: last accepted OTP code + its time window
                 -- (floor(unix_time/30)).
-                last_totp_code       TEXT,
-                last_totp_window     INTEGER,
+                last_totp_code       VARCHAR(50)  NOT NULL DEFAULT '',
+                last_totp_window     INTEGER      NOT NULL DEFAULT 0,
 
                 -- Per-account lockout: consecutive failed attempts and
                 -- unlock timestamp (0 = not locked). Reset on success.
-                failed_otp_attempts  INTEGER NOT NULL DEFAULT 0,
-                otp_locked_until     INTEGER NOT NULL DEFAULT 0,
+                failed_otp_attempts  INTEGER      NOT NULL DEFAULT 0,
+                otp_locked_until     INTEGER      NOT NULL DEFAULT 0,
 
                 -- Row creation timestamp.
-                created_at           INTEGER NOT NULL DEFAULT 0,
+                created_at           INTEGER      NOT NULL DEFAULT 0,
 
                 -- Last successful 2FA timestamp; local audit only, does not
                 -- feed Janox's own last_date/last_time.
-                last_totp_login      INTEGER,
+                last_totp_login      INTEGER      NOT NULL DEFAULT 0,
 
                 PRIMARY KEY (o2user)
             )

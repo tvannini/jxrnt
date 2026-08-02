@@ -143,7 +143,7 @@ class Auth
      * Whether the user has completed second-factor setup.
      *
      * False both when the row doesn't exist and when it exists but
-     * totp_confirmed=0 (setup started but not yet confirmed with a
+     * totp_confirmed!='1' (setup started but not yet confirmed with a
      * first OTP code).
      */
     public function isTotpConfigured(string $username): bool
@@ -153,7 +153,7 @@ class Auth
             [$username]
         )->fetch();
 
-        return (bool) ($row && $row['totp_confirmed']);
+        return (bool) ($row && ($row['totp_confirmed'] === '1'));
     }
 
     /**
@@ -179,7 +179,7 @@ class Auth
      * Returns null if:
      *   - the user doesn't yet exist in totp_users (shouldn't happen:
      *     startMfaChallenge() always calls ensureTotpUser() first);
-     *   - setup is already complete (totp_confirmed = 1).
+     *   - setup is already complete (totp_confirmed = '1').
      *
      * The secret is deliberately withheld once setup is done — this
      * module has no account-recovery flow that would need to re-display it.
@@ -194,7 +194,7 @@ class Auth
             [$userId]
         )->fetch();
 
-        if (!$user || $user['totp_confirmed']) {
+        if (!$user || ($user['totp_confirmed'] === '1')) {
             return null;
         }
 
@@ -207,7 +207,7 @@ class Auth
     /**
      * Confirms TOTP setup by verifying the user's first OTP code.
      *
-     * Final setup step: totp_confirmed is set to 1 only on success.
+     * Final setup step: totp_confirmed is set to '1' only on success.
      * Success also satisfies the second factor for this session
      * (STATE_AUTHENTICATED) — a valid first code is itself proof of
      * authenticator possession, so there's no point asking for a second
@@ -227,7 +227,7 @@ class Auth
         )->fetch();
 
         // Don't allow confirming the same setup twice.
-        if (!$user || $user['totp_confirmed']) {
+        if (!$user || ($user['totp_confirmed'] === '1')) {
             return false;
         }
 
@@ -247,7 +247,7 @@ class Auth
         // Setup complete: mark confirmed, record the code used (anti-replay)
         // and the first successful-login timestamp.
         $this->db->query(
-            'UPDATE totp_users SET totp_confirmed = 1, last_totp_code = ?, last_totp_window = ?, last_totp_login = ? WHERE o2user = ?',
+            'UPDATE totp_users SET totp_confirmed = \'1\', last_totp_code = ?, last_totp_window = ?, last_totp_login = ? WHERE o2user = ?',
             [$code, $currentWindow, time(), $userId]
         );
 
