@@ -2,56 +2,24 @@
 declare(strict_types=1);
 
 /**
- * Generatore QR code — puro PHP + estensione GD.
+ * QR code generator: versions 1-9, error correction level M, pure PHP + GD,
+ * no external dependencies. Implements ISO/IEC 18004 encoding, Reed-Solomon
+ * ECC, and mask pattern selection.
  *
- * Supporta: byte mode, EC level M, versioni 1-9 (fino a 180 byte di dati).
- * File isolato: sostituibile senza toccare nulla al di fuori di questa classe.
+ * Byte mode only, EC level M, versions 1-9 (max 180 data bytes). Pure
+ * PHP + GD is a deliberate constraint (portability, no Composer dependency).
+ * Self-contained: no dependency on the rest of the JXTOTP/Janox integration.
  *
- * NOTA (modulo JXTOTP): file invariato rispetto al prototipo standalone —
- * la generazione del QR code non ha nulla di specifico per l'integrazione
- * Janox/ERP.
- *
- * ═══════════════════════════════════════════════════════════
- * COME È FATTO UN QR CODE — PANORAMICA PER JUNIOR DEVELOPER
- * ═══════════════════════════════════════════════════════════
- *
- * Un QR code è una griglia quadrata di moduli (quadratini) neri e bianchi.
- * La dimensione della griglia dipende dalla "versione": versione 1 = 21×21 moduli,
- * versione 2 = 25×25, ..., ogni versione aggiunge 4 moduli per lato.
- *
- * La griglia è divisa in zone "funzionali" (riservate al decodificatore) e
- * zone "dati" (dove i bit dei dati vengono scritti):
- *
- *   ┌──────────────────────────────────────────┐
- *   │ [FINDER] · · · · · · · · · [FINDER]      │  ← 3 quadrati agli angoli
- *   │                                          │
- *   │ · · TIMING STRIPS · · · · · ·            │  ← due righe/colonne a scacchi
- *   │         [ALIGN]                          │  ← piccoli quadrati interni (v2+)
- *   │                                          │
- *   │   D A T I   D A T I   D A T I           │  ← bit scritti in zigzag
- *   │                                          │
- *   │ [FINDER]                                 │
- *   └──────────────────────────────────────────┘
- *
- * Pipeline di costruzione (buildMatrix):
- *   1. Disegna i 3 finder pattern (angoli)
- *   2. Disegna le timing strip (righe/colonne 6)
- *   3. Disegna gli alignment pattern (versione 2+)
- *   4. Disegna il dark module
- *   5. Riserva le aree per format info e version info
- *   6. Codifica i dati + Reed-Solomon ECC → array di codeword
- *   7. Scrivi le codeword nella griglia (pattern zigzag)
- *   8. Prova tutte le 8 maschere, scegli quella con penalità minima
- *   9. Applica la maschera migliore
- *  10. Scrivi il format info (EC level + numero maschera) nelle aree riservate
- *  11. Scrivi il version info (solo per versioni 7+)
+ * buildMatrix() pipeline: finder patterns -> timing patterns -> alignment
+ * patterns -> dark module -> reserve format/version info areas -> encode
+ * data + Reed-Solomon ECC -> place data (zigzag) -> try all 8 masks, pick
+ * lowest penalty -> apply mask -> write format info -> write version info
+ * (v7+ only).
  */
 class QrCode
 {
     /**
-     * Capacità in byte per versione QR, EC level M.
-     * Esempio: versione 6 può contenere fino a 106 byte di dati.
-     * La versione minima che contiene i dati viene scelta automaticamente in selectVersion().
+     * Data capacity in bytes per QR version, EC level M.
      */
     private static $CAPACITY_M = [
         1 => 14,  2 => 26,  3 => 42,  4 => 62,  5 => 84,
@@ -59,18 +27,8 @@ class QrCode
     ];
 
     /**
-     * Struttura dei blocchi di correzione errori per EC level M.
-     *
-     * Formato: [ec_per_block, g1_count, g1_data, g2_count, g2_data]
-     *
-     * I dati vengono divisi in blocchi, ognuno con il proprio set di codeword EC
-     * (Error Correction). Versioni più grandi richiedono più blocchi per distribuire
-     * il carico di ECC.
-     *
-     * Esempio versione 7: [18, 4, 31, 0, 0]
-     *   → 4 blocchi (gruppo 1), ognuno con 31 codeword dati e 18 codeword EC
-     *   → 0 blocchi gruppo 2
-     *   → totale dati: 4×31 = 124 codeword (ma EC level M → 122 byte netti)
+     * EC block structure per version, EC level M.
+     * Format: [ecPerBlock, g1Count, g1Data, g2Count, g2Data].
      */
     private static $EC_BLOCKS_M = [
         1 => [10, 1, 16, 0,  0],
@@ -85,15 +43,8 @@ class QrCode
     ];
 
     /**
-     * Coordinate dei centri degli alignment pattern per ogni versione.
-     *
-     * Gli alignment pattern sono piccoli quadrati 5×5 aggiuntivi che aiutano il
-     * decodificatore a correggere la distorsione prospettica dell'immagine.
-     * Versione 1 non li ha. Da versione 2 in poi vengono posizionati alle
-     * intersezioni delle coordinate elencate qui.
-     *
-     * Esempio versione 7: coordinate [6, 22, 38] → 3×3 = 9 posizioni possibili,
-     * ma 3 vengono saltate perché coinciderebbero con i finder pattern negli angoli.
+     * Alignment pattern center coordinates per version (ISO/IEC 18004 table).
+     * Centers are the cartesian product of these coordinates; version 1 has none.
      */
     private static $ALIGN_POS = [
         1 => [],
@@ -108,51 +59,37 @@ class QrCode
     ];
 
     /**
-     * Version information per versioni 7-9 (pre-calcolato).
-     *
-     * Dalle versione 7 in poi, la griglia include 18 bit che codificano il numero
-     * di versione con correzione errori BCH(18,6). Questi 18 bit sono pre-calcolati
-     * secondo lo standard ISO 18004 e scritti in due blocchi 6×3 simmetrici:
-     * uno nell'angolo in alto a destra, uno in basso a sinistra.
+     * Pre-computed 18-bit version info (version number + BCH(18,6) ECC), v7-9 only.
      */
     private static $VERSION_INFO = [7 => 0x07C94, 8 => 0x085BC, 9 => 0x09A99];
 
     /**
-     * Format information per EC level M, maschere 0-7 (pre-calcolati).
-     *
-     * 15 bit che codificano: EC level (2 bit) + numero maschera (3 bit) + BCH ECC (10 bit).
-     * Già applicato XOR con la maschera di formato 101010000010010 (standard ISO 18004).
-     * Vengono scritti in due copie nella griglia per ridondanza.
-     *
-     * Questi valori sono stati calcolati con BCH(15,5) generatore polinomiale 10100110111.
-     * EC level M = 00 in binario.
+     * Pre-computed 15-bit format info per mask (0-7), EC level M.
+     * BCH(15,5), already XORed with the ISO 18004 format mask 101010000010010.
      */
     private static $FORMAT_INFO = [
         0 => 0x5412, 1 => 0x5125, 2 => 0x5E7C, 3 => 0x5B4B,
         4 => 0x45F9, 5 => 0x40CE, 6 => 0x4F97, 7 => 0x4AA0,
     ];
 
-    // Tabelle per l'aritmetica in GF(256) (Galois Field), necessaria per Reed-Solomon ECC.
-    // Vengono inizializzate una sola volta da initGF().
+    // GF(256) exp/log tables for Reed-Solomon arithmetic; lazily built once by initGF().
     private static $EXP      = [];
     private static $LOG      = [];
     private static $GF_INIT  = false;
 
-    // ── API pubblica ───────────────────────────────────────────────────────────
+    // ── Public API ─────────────────────────────────────────────────────────────
 
     /**
-     * Genera l'immagine QR code e restituisce i byte PNG.
+     * Generates a QR code image and returns the raw PNG bytes.
      *
-     * @param  string $data    Stringa da codificare (tipicamente un URI otpauth://)
-     * @param  int    $scale   Pixel per modulo QR (default 6 → ogni modulo è 6×6 pixel)
-     * @param  int    $margin  Moduli di bordo bianco attorno al QR (default 4, minimo consigliato)
-     * @return string          Byte dell'immagine PNG, pronti per base64_encode() o echo
-     * @throws \RuntimeException se i dati superano la capacità massima (180 byte, EC-M, v9)
+     * @param  string $data    Data to encode (typically an otpauth:// URI)
+     * @param  int    $scale   Pixels per module (default 6)
+     * @param  int    $margin  Quiet-zone width in modules (default 4, per spec minimum)
+     * @return string          PNG bytes, ready for base64_encode() or echo
+     * @throws \RuntimeException if $data exceeds capacity (180 bytes, EC-M, v9)
      */
     public static function generate(string $data, int $scale = 6, int $margin = 4): string
     {
-        // Le tabelle GF(256) sono costose da calcolare: vengono create solo una volta
-        // e riutilizzate per tutte le chiamate successive (flag GF_INIT).
         self::initGF();
 
         $version = self::selectVersion($data);
@@ -164,13 +101,12 @@ class QrCode
         return self::renderPng($matrix, $scale, $margin);
     }
 
-    // ── Selezione versione ─────────────────────────────────────────────────────
+    // ── Version selection ──────────────────────────────────────────────────────
 
     /**
-     * Sceglie la versione QR più piccola in grado di contenere i dati.
+     * Picks the smallest QR version that fits $data.
      *
-     * Versioni più basse = griglia più piccola = QR code più facile da scansionare.
-     * Restituisce 0 se nessuna versione supportata è sufficiente.
+     * @return int Version number, or 0 if $data exceeds the largest supported version
      */
     private static function selectVersion(string $data): int
     {
@@ -183,30 +119,22 @@ class QrCode
         return 0;
     }
 
-    // ── Costruzione matrice ────────────────────────────────────────────────────
+    // ── Matrix construction ────────────────────────────────────────────────────
 
     /**
-     * Costruisce la matrice QR completa (array 2D di 0 e 1).
+     * Builds the full QR matrix (2D array).
      *
-     * La matrice usa tre valori interni durante la costruzione:
-     *   -1 = modulo non ancora assegnato
-     *    0 = bianco
-     *    1 = nero
-     *
-     * La matrice $reserved tiene traccia di quali celle sono "funzionali"
-     * (riservate a finder, timing, alignment, format, version info) e quindi
-     * non devono essere sovrascritte dai dati.
+     * Cell values during construction: -1 = unassigned, 0 = light, 1 = dark.
+     * $reserved marks function-pattern cells (finder/timing/alignment/format/
+     * version info) that must not be overwritten by data placement.
      */
     private static function buildMatrix(string $data, int $version): array
     {
-        // La dimensione della griglia: versione 1 = 21, versione 2 = 25, ecc.
-        $size = $version * 4 + 17;
+        $size = $version * 4 + 17; // v1 = 21, +4 per version
 
-        // Inizializza la matrice a -1 (nessun modulo assegnato) e la mappa dei moduli riservati.
         $matrix  = array_fill(0, $size, array_fill(0, $size, -1));
         $reserved = array_fill(0, $size, array_fill(0, $size, false));
 
-        // Step 1-5: posizionamento dei pattern funzionali e riserva delle aree speciali.
         self::placeFinders($matrix, $reserved, $size);
         self::placeTimings($matrix, $reserved, $size);
         self::placeAlignments($matrix, $reserved, $version, $size);
@@ -214,17 +142,14 @@ class QrCode
         self::reserveFormat($reserved, $size);
         self::reserveVersionInfo($reserved, $version, $size);
 
-        // Step 6-7: codifica i dati (con ECC) e scrivili nella matrice.
         $codewords = self::encodeData($data, $version);
         self::placeData($matrix, $reserved, $codewords, $size);
 
-        // Step 8-9: scegli la maschera migliore e applicala.
-        // La maschera deve essere applicata PRIMA di scrivere il format info
-        // perché il format info include il numero della maschera scelta.
+        // Mask must be applied before format info is written, since format
+        // info encodes the chosen mask number.
         $mask = self::selectMask($matrix, $reserved, $size);
         self::applyMask($matrix, $reserved, $mask, $size);
 
-        // Step 10-11: scrivi le informazioni di formato e versione (nelle celle riservate).
         self::placeFormatInfo($matrix, $mask, $size);
         self::placeVersionInfo($matrix, $version, $size);
 
@@ -234,17 +159,9 @@ class QrCode
     // ── Finder pattern ─────────────────────────────────────────────────────────
 
     /**
-     * Disegna i 3 finder pattern (i quadrati caratteristici agli angoli del QR code).
-     *
-     * Ogni finder pattern è un quadrato 7×7 con struttura concentrica: bordo esterno nero,
-     * fascia bianca, quadrato centrale 3×3 nero. Il decodificatore li cerca per determinare
-     * la posizione, dimensione e orientamento del QR code nell'immagine fotografata.
-     *
-     * I tre pattern si trovano in: angolo in alto a sinistra (0,0), in alto a destra (0, size-7),
-     * in basso a sinistra (size-7, 0). L'angolo in basso a destra è lasciato libero per i dati.
-     *
-     * Attorno a ogni finder viene aggiunto un separatore di 1 modulo bianco che isola
-     * visivamente il pattern dalla zona dati.
+     * Draws the 3 finder patterns at top-left, top-right, and bottom-left
+     * (bottom-right corner is left free for data), plus their 1-module quiet
+     * zone separator.
      */
     private static function placeFinders(array &$m, array &$r, int $size): void
     {
@@ -252,17 +169,15 @@ class QrCode
         foreach ($positions as [$row, $col]) {
             for ($i = 0; $i < 7; $i++) {
                 for ($j = 0; $j < 7; $j++) {
-                    // 1 (nero) se siamo sul bordo esterno (i o j = 0 o 6)
-                    // oppure nel quadrato centrale (i e j tra 2 e 4).
-                    // 0 (bianco) nella fascia intermedia.
+                    // Dark ring (i/j = 0 or 6) or dark 3x3 core (i,j in 2..4); light band between.
                     $v = ($i === 0 || $i === 6 || $j === 0 || $j === 6 ||
                          ($i >= 2 && $i <= 4 && $j >= 2 && $j <= 4)) ? 1 : 0;
                     $m[$row + $i][$col + $j] = $v;
                     $r[$row + $i][$col + $j] = true;
                 }
             }
-            // Separatore: bordo bianco 1 modulo attorno al finder.
-            // Iteriamo su un'area 9×9 e settiamo a bianco solo le celle -1 (non ancora assegnate).
+            // 9x9 scan around the finder: only fill still-unassigned (-1) cells light,
+            // so the separator never overwrites an adjacent finder/timing cell.
             for ($i = -1; $i <= 7; $i++) {
                 for ($j = -1; $j <= 7; $j++) {
                     $rr = $row + $i;
@@ -279,18 +194,13 @@ class QrCode
     // ── Timing pattern ─────────────────────────────────────────────────────────
 
     /**
-     * Disegna le due "timing strip": una riga orizzontale (riga 6) e una colonna
-     * verticale (colonna 6) che alternano moduli neri e bianchi.
-     *
-     * Le timing strip permettono al decodificatore di calcolare la dimensione esatta
-     * di un modulo e di correggere eventuali distorsioni nell'immagine.
-     * Partono dalla fine dell'area del finder (modulo 8) e arrivano all'inizio
-     * del finder sull'altro lato (modulo size-8).
+     * Draws the alternating-module timing strips at row 6 and column 6,
+     * spanning between the finder patterns.
      */
     private static function placeTimings(array &$m, array &$r, int $size): void
     {
         for ($i = 8; $i < $size - 8; $i++) {
-            $v = ($i % 2 === 0) ? 1 : 0; // alterno: 8=nero, 9=bianco, 10=nero, ...
+            $v = ($i % 2 === 0) ? 1 : 0; // even index -> dark
             if ($m[6][$i] === -1) { $m[6][$i] = $v; $r[6][$i] = true; }
             if ($m[$i][6] === -1) { $m[$i][6] = $v; $r[$i][6] = true; }
         }
@@ -299,32 +209,22 @@ class QrCode
     // ── Alignment pattern ──────────────────────────────────────────────────────
 
     /**
-     * Disegna gli alignment pattern (quadrati 5×5 aggiuntivi per versioni 2+).
+     * Draws the 5x5 alignment patterns (version 2+) at the cartesian product
+     * of ALIGN_POS coordinates, skipping centers that overlap a finder pattern.
      *
-     * Gli alignment pattern hanno struttura simile ai finder ma in scala ridotta:
-     * bordo esterno nero, fascia bianca, modulo centrale nero.
-     * Aiutano il decodificatore a correggere la curvatura o la distorsione prospettica.
-     *
-     * Le posizioni vengono calcolate come prodotto cartesiano delle coordinate in ALIGN_POS:
-     * per versione 7 con coordinate [6, 22, 38] ci sarebbero 9 combinazioni,
-     * ma 3 vengono saltate perché il centro cadrebbe nell'area occupata dai finder pattern
-     * (angoli in alto a sinistra, in alto a destra, in basso a sinistra).
-     *
-     * NOTA: NON saltare i pattern che cadono sulle timing strip (riga/colonna 6).
-     * In quel caso il pattern di allineamento ha priorità e sovrascrive la timing strip.
-     * Questo è un comportamento previsto dallo standard ISO 18004.
+     * Centers that fall on a timing strip (row/col 6) are intentionally NOT
+     * skipped — the alignment pattern takes priority there, per ISO 18004.
      */
     private static function placeAlignments(array &$m, array &$r, int $version, int $size): void
     {
         $pos = self::$ALIGN_POS[$version];
         if (empty($pos)) {
-            return; // versione 1: nessun alignment pattern
+            return; // version 1 has no alignment patterns
         }
 
         foreach ($pos as $row) {
             foreach ($pos as $col) {
-                // Salta solo se il centro cade nell'area dei 3 finder pattern.
-                // Un centro che cade su una timing strip viene invece scritto normalmente.
+                // Only finder overlap is excluded; timing-strip overlap is allowed (see above).
                 $inTopLeft    = ($row <= 8 && $col <= 8);
                 $inTopRight   = ($row <= 8 && $col >= $size - 8);
                 $inBottomLeft = ($row >= $size - 8 && $col <= 8);
@@ -332,8 +232,7 @@ class QrCode
                     continue;
                 }
 
-                // Disegna il pattern 5×5 centrato su ($row, $col).
-                // Bordo esterno (|i|=2 o |j|=2) = nero, fascia interna = bianco, centro = nero.
+                // Dark ring (|i|=2 or |j|=2), light band, dark center — centered on (row, col).
                 for ($i = -2; $i <= 2; $i++) {
                     for ($j = -2; $j <= 2; $j++) {
                         $v = ($i === -2 || $i === 2 || $j === -2 || $j === 2 || ($i === 0 && $j === 0)) ? 1 : 0;
@@ -348,12 +247,7 @@ class QrCode
     // ── Dark module ────────────────────────────────────────────────────────────
 
     /**
-     * Posiziona il "dark module": un singolo modulo nero la cui posizione è fissa
-     * per ogni versione (riga version*4+9, colonna 8).
-     *
-     * È sempre nero, sempre presente, sempre riservato. La sua funzione principale
-     * è garantire che il format info abbia un numero dispari di moduli neri nelle
-     * sue posizioni di copia, per facilitare il rilevamento dell'orientamento.
+     * Places the single fixed dark module at (version*4+9, 8), per ISO 18004.
      */
     private static function placeDarkModule(array &$m, array &$r, int $version): void
     {
@@ -362,28 +256,24 @@ class QrCode
         $r[$row][8] = true;
     }
 
-    // ── Riserva area version info (v7+) ────────────────────────────────────────
+    // ── Version info area reservation (v7+) ────────────────────────────────────
 
     /**
-     * Riserva le due zone 6×3 dove verrà scritto il version information (solo per v7+).
-     *
-     * Nelle versioni 7 e superiori, la griglia include due copie speculari di un blocco
-     * 18-bit che codifica il numero di versione: una zona 6×3 nell'angolo in alto a destra
-     * (adiacente al finder), e una zona 3×6 simmetrica in basso a sinistra.
-     * Vengono marcate come riservate ora (fase di costruzione) e riempite dopo il masking.
+     * Reserves the two 6x3 version-info blocks (top-right and bottom-left,
+     * v7+ only). Filled in later by placeVersionInfo(), after masking.
      */
     private static function reserveVersionInfo(array &$r, int $version, int $size): void
     {
         if ($version < 7) {
             return;
         }
-        // Blocco in alto a destra: righe 0-5, colonne size-11 a size-9
+        // Top-right block: rows 0-5, cols size-11..size-9
         for ($i = 0; $i < 6; $i++) {
             for ($j = $size - 11; $j <= $size - 9; $j++) {
                 $r[$i][$j] = true;
             }
         }
-        // Blocco in basso a sinistra: righe size-11 a size-9, colonne 0-5
+        // Bottom-left block (transposed): rows size-11..size-9, cols 0-5
         for ($i = $size - 11; $i <= $size - 9; $i++) {
             for ($j = 0; $j < 6; $j++) {
                 $r[$i][$j] = true;
@@ -391,16 +281,10 @@ class QrCode
         }
     }
 
-    // ── Posizionamento version info (v7+, dopo masking) ────────────────────────
+    // ── Version info placement (v7+, post-mask) ────────────────────────────────
 
     /**
-     * Scrive i 18 bit del version information nelle zone riservate (solo v7+).
-     *
-     * Il valore intero in $VERSION_INFO contiene i 18 bit pre-calcolati (numero di versione
-     * + 12 bit BCH di correzione errori). I bit vengono scritti dal bit 0 (LSB) al bit 17:
-     *
-     * Bit i → riga = i/3 (intero), colonna = i%3 nel blocco 6×3.
-     * Stesso bit scritto simmetricamente in entrambe le copie (trasposizione della matrice).
+     * Writes the 18-bit version info into the reserved zones (v7+ only).
      */
     private static function placeVersionInfo(array &$m, int $version, int $size): void
     {
@@ -410,95 +294,75 @@ class QrCode
         $val = self::$VERSION_INFO[$version];
         for ($i = 0; $i < 18; $i++) {
             $bit = ($val >> $i) & 1;
-            $row = (int) floor($i / 3); // 0-5: riga nel blocco 6×3
-            $col = $i % 3;              // 0-2: colonna nel blocco 6×3
-            $m[$row][$size - 11 + $col] = $bit; // copia in alto a destra
-            $m[$size - 11 + $col][$row] = $bit; // copia in basso a sinistra (trasposta)
+            $row = (int) floor($i / 3); // bit i -> row i/3, col i%3 within the 6x3 block
+            $col = $i % 3;
+            $m[$row][$size - 11 + $col] = $bit; // top-right copy
+            $m[$size - 11 + $col][$row] = $bit; // bottom-left copy (transposed)
         }
     }
 
-    // ── Riserva area formato ────────────────────────────────────────────────────
+    // ── Format info area reservation ────────────────────────────────────────────
 
     /**
-     * Riserva le celle del format information (due copie attorno al finder in alto a sinistra
-     * e copie secondarie vicino agli altri due finder).
-     *
-     * Le celle vengono marcate come riservate ma non valorizzate ancora:
-     * il format info contiene il numero di maschera che verrà determinato dopo (selectMask),
-     * quindi può essere scritto solo al termine del processo.
+     * Reserves the format-info cells (two copies, marked here and valued
+     * later by placeFormatInfo() once the mask number is known).
      */
     private static function reserveFormat(array &$r, int $size): void
     {
-        // Prima copia: L-shape attorno al finder in alto a sinistra.
-        for ($j = 0; $j <= 8; $j++) { $r[8][$j] = true; }  // riga 8, colonne 0-8
-        for ($i = 0; $i <= 8; $i++) { $r[$i][8] = true; }  // colonna 8, righe 0-8
+        // Primary copy: L-shape around the top-left finder.
+        for ($j = 0; $j <= 8; $j++) { $r[8][$j] = true; }  // row 8, cols 0-8
+        for ($i = 0; $i <= 8; $i++) { $r[$i][8] = true; }  // col 8, rows 0-8
 
-        // Seconda copia: strip verticale adiacente al finder in basso a sinistra
+        // Secondary copy: strip next to the bottom-left finder
         for ($i = $size - 8; $i < $size; $i++) { $r[$i][8] = true; }
 
-        // Seconda copia: strip orizzontale adiacente al finder in alto a destra
+        // Secondary copy: strip next to the top-right finder
         for ($j = $size - 8; $j < $size; $j++) { $r[8][$j] = true; }
     }
 
-    // ── Codifica dati + ECC ────────────────────────────────────────────────────
+    // ── Data encoding + ECC ─────────────────────────────────────────────────────
 
     /**
-     * Codifica la stringa dati in un array di codeword (byte) pronti per la matrice.
+     * Encodes $data into the final interleaved codeword array: builds the
+     * byte-mode bitstream, splits into blocks, computes Reed-Solomon ECC per
+     * block, then interleaves data and ECC codewords (data byte 0 of every
+     * block, then byte 1, etc.) so burst errors spread across blocks instead
+     * of concentrating in one.
      *
-     * Il processo:
-     *
-     *   1. BITSTREAM: costruisce una sequenza di bit che inizia con l'indicatore di modo
-     *      (0100 = byte mode), poi la lunghezza dei dati (8 bit per versioni 1-9),
-     *      poi i byte dei dati stessi, poi un terminatore (0000), infine padding
-     *      per riempire esattamente totalData codeword × 8 bit.
-     *      I byte di padding alternano 0xEC (11101100) e 0x11 (00010001) — valori fissi
-     *      definiti dallo standard per essere riconoscibili e avere buona dispersione di bit.
-     *
-     *   2. BLOCCHI ECC: i dati vengono divisi in blocchi (g1Count blocchi da g1Data byte
-     *      e g2Count blocchi da g2Data byte). Per ogni blocco si calcolano ecPerBlock
-     *      codeword di Reed-Solomon (codice di correzione errori).
-     *
-     *   3. INTERLEAVING: i dati dei blocchi vengono interlacciati: prima il byte 0 di
-     *      ogni blocco, poi il byte 1 di ogni blocco, ecc. Questo distribuisce gli errori
-     *      burst (es. un graffio sul QR code) su blocchi diversi, migliorando la recuperabilità.
-     *      Subito dopo, vengono interlacciati anche i codeword ECC.
-     *
-     * @return int[]  Array di interi 0-255 (codeword)
+     * @return int[] Codewords (0-255)
      */
     private static function encodeData(string $data, int $version): array
     {
         list($ecPerBlock, $g1Count, $g1Data, $g2Count, $g2Data) = self::$EC_BLOCKS_M[$version];
         $totalData = $g1Count * $g1Data + $g2Count * $g2Data;
 
-        // ── Step 1: costruisci il bitstream ─────────────────────────────────────
+        // ── Step 1: build the bitstream ─────────────────────────────────────────
         $bits = '';
-        $bits .= '0100';                                 // mode indicator: 0100 = byte mode
-        $bits .= self::intToBits(strlen($data), 8);     // character count indicator (8 bit per v1-9)
+        $bits .= '0100';                                 // mode indicator: byte mode
+        $bits .= self::intToBits(strlen($data), 8);     // character count indicator (8 bit for v1-9)
         for ($i = 0; $i < strlen($data); $i++) {
-            $bits .= self::intToBits(ord($data[$i]), 8); // ogni carattere come 8 bit
+            $bits .= self::intToBits(ord($data[$i]), 8);
         }
-        $bits .= '0000';                                 // terminatore
+        $bits .= '0000';                                 // terminator
 
-        // Allinea a multiplo di 8 bit aggiungendo zeri
         while (strlen($bits) % 8 !== 0) {
             $bits .= '0';
         }
 
-        // Riempie con byte di padding alternati finché non raggiungiamo la capacità totale
-        $padBytes = ['11101100', '00010001']; // = 0xEC, 0x11
+        // Pad with the two fixed spec bytes (0xEC, 0x11), alternating, up to capacity.
+        $padBytes = ['11101100', '00010001'];
         $pi = 0;
         while (strlen($bits) < $totalData * 8) {
             $bits .= $padBytes[$pi % 2];
             $pi++;
         }
 
-        // Converte il bitstream in array di interi (codeword)
         $dataWords = [];
         for ($i = 0; $i < $totalData; $i++) {
             $dataWords[] = bindec(substr($bits, $i * 8, 8));
         }
 
-        // ── Step 2: calcola i blocchi e i codeword ECC ──────────────────────────
+        // ── Step 2: split into blocks, compute Reed-Solomon ECC per block ───────
         $blocks   = [];
         $ecBlocks = [];
         $idx = 0;
@@ -506,7 +370,7 @@ class QrCode
             $block = array_slice($dataWords, $idx, $g1Data);
             $idx  += $g1Data;
             $blocks[]   = $block;
-            $ecBlocks[] = self::rsBlock($block, $ecPerBlock); // calcola ECC con Reed-Solomon
+            $ecBlocks[] = self::rsBlock($block, $ecPerBlock);
         }
         for ($b = 0; $b < $g2Count; $b++) {
             $block = array_slice($dataWords, $idx, $g2Data);
@@ -515,7 +379,7 @@ class QrCode
             $ecBlocks[] = self::rsBlock($block, $ecPerBlock);
         }
 
-        // ── Step 3: interleave dati poi interleave ECC ───────────────────────────
+        // ── Step 3: interleave data, then interleave ECC ─────────────────────────
         $out     = [];
         $maxData = max($g1Data, $g2Data);
         for ($col = 0; $col < $maxData; $col++) {
@@ -534,45 +398,33 @@ class QrCode
         return $out;
     }
 
-    // ── Posizionamento dati nella matrice ──────────────────────────────────────
+    // ── Data placement ──────────────────────────────────────────────────────────
 
     /**
-     * Scrive i bit delle codeword nelle celle libere della matrice.
-     *
-     * Lo standard QR code definisce un percorso specifico per il posizionamento dei dati:
-     * si parte dall'angolo in basso a destra e si procede a "zigzag" verso l'alto in
-     * colonne da 2 moduli, poi si scende nella coppia di colonne successiva, ecc.
-     *
-     * Il percorso salta automaticamente le celle riservate ($reserved = true)
-     * e le celle già scritte da pattern funzionali ($matrix != -1).
-     *
-     * La colonna 6 (timing strip verticale) viene saltata interamente: il zigzag
-     * passa direttamente dalla colonna 7 alla colonna 5 senza perdere bit.
+     * Writes codeword bits into the matrix along the standard zigzag path:
+     * starting bottom-right, moving up in 2-column pairs, reversing direction
+     * each pair. Reserved and already-assigned cells are skipped automatically.
      */
     private static function placeData(array &$m, array $r, array $codewords, int $size): void
     {
-        // Converte l'array di codeword in una stringa di bit
         $bits = '';
         foreach ($codewords as $cw) {
             $bits .= str_pad(decbin($cw), 8, '0', STR_PAD_LEFT);
         }
 
         $bitIdx = 0;
-        $upward = true;       // direzione di scorrimento: true=verso l'alto, false=verso il basso
-        $col    = $size - 1;  // partiamo dall'ultima colonna
+        $upward = true;       // current scan direction for this column pair
+        $col    = $size - 1;
 
         while ($col > 0) {
             if ($col === 6) {
-                $col--; // salta la timing strip verticale (colonna 6)
+                $col--; // column 6 is the vertical timing strip — skip it entirely
             }
 
-            // Percorri la colonna corrente nella direzione indicata da $upward.
-            // Per ogni riga, controlliamo le due colonne della coppia ($col e $col-1).
             for ($delta = 0; $delta < $size; $delta++) {
                 $row = $upward ? ($size - 1 - $delta) : $delta;
                 for ($c = 0; $c < 2; $c++) {
                     $cc = $col - $c;
-                    // Scrivi solo nelle celle non riservate e non ancora assegnate.
                     if (!$r[$row][$cc] && $m[$row][$cc] === -1) {
                         $m[$row][$cc] = ($bitIdx < strlen($bits) && $bits[$bitIdx] === '1') ? 1 : 0;
                         $bitIdx++;
@@ -580,25 +432,16 @@ class QrCode
                 }
             }
 
-            $upward = !$upward; // inverti la direzione per la coppia di colonne successiva
-            $col   -= 2;        // passa alla coppia di colonne precedente
+            $upward = !$upward;
+            $col   -= 2;
         }
     }
 
-    // ── Selezione e applicazione della maschera ────────────────────────────────
+    // ── Mask selection and application ─────────────────────────────────────────
 
     /**
-     * Prova tutte le 8 maschere e restituisce quella con penalità minima.
-     *
-     * Cos'è una maschera QR?
-     * Dopo aver scritto i dati, alcuni pattern locali nella matrice possono
-     * assomigliare ai finder pattern o creare lunghe file di moduli identici,
-     * ingannando il decodificatore. La maschera "rompe" questi pattern applicando
-     * XOR ai moduli dati con una funzione matematica.
-     *
-     * Esistono 8 funzioni di maschera (maskCondition). Lo standard impone di
-     * provarle tutte e scegliere quella con il punteggio di penalità più basso,
-     * calcolato da calcPenalty() secondo 4 regole definite in ISO 18004.
+     * Tries all 8 mask patterns and returns the one with the lowest penalty
+     * score (calcPenalty(), per ISO 18004).
      */
     private static function selectMask(array $matrix, array $reserved, int $size): int
     {
@@ -606,7 +449,7 @@ class QrCode
         $bestMask  = 0;
 
         for ($mask = 0; $mask < 8; $mask++) {
-            $m = $matrix; // copia della matrice: applyMask è destructive
+            $m = $matrix; // copy: applyMask() mutates in place
             self::applyMask($m, $reserved, $mask, $size);
             $penalty = self::calcPenalty($m, $size);
             if ($penalty < $best) {
@@ -619,26 +462,27 @@ class QrCode
     }
 
     /**
-     * Applica la maschera $mask alla matrice: per ogni cella dati (non riservata)
-     * dove la funzione di maschera è vera, inverte il valore del modulo (XOR con 1).
+     * Applies $mask to the matrix: XORs every non-reserved data cell where
+     * maskCondition() is true.
      */
     private static function applyMask(array &$m, array $r, int $mask, int $size): void
     {
         for ($i = 0; $i < $size; $i++) {
             for ($j = 0; $j < $size; $j++) {
                 if ($r[$i][$j]) {
-                    continue; // non toccare le aree funzionali
+                    continue; // never mask function-pattern cells
                 }
                 if (self::maskCondition($mask, $i, $j)) {
-                    $m[$i][$j] ^= 1; // inverti il modulo
+                    $m[$i][$j] ^= 1;
                 }
             }
         }
     }
 
     /**
-     * Le 8 funzioni di condizione per le maschere QR (ISO 18004, tabella 10).
-     * $i = riga, $j = colonna. Restituisce true se il modulo deve essere invertito.
+     * The 8 mask condition functions (ISO 18004, table 10).
+     *
+     * @return bool True if the module at ($i, $j) should be inverted
      */
     private static function maskCondition(int $mask, int $i, int $j): bool
     {
@@ -655,30 +499,21 @@ class QrCode
         return false;
     }
 
-    // ── Calcolo della penalità ─────────────────────────────────────────────────
+    // ── Penalty scoring ─────────────────────────────────────────────────────────
 
     /**
-     * Calcola il punteggio di penalità per la matrice (con una certa maschera applicata).
+     * Computes the ISO 18004 penalty score for a masked matrix (lower is better).
      *
-     * Quattro regole ISO 18004 che penalizzano pattern problematici per i decodificatori:
-     *
-     *   Regola 1: sequenze di 5+ moduli uguali consecutivi (+3 + ogni modulo oltre 5).
-     *             Le lunghe file monocromatiche interferiscono con la lettura.
-     *
-     *   Regola 2: blocchi 2×2 di moduli uguali (+3 per ogni blocco).
-     *             Le aree uniformi rendono difficile stabilire i confini dei moduli.
-     *
-     *   Regola 3: pattern che assomigliano al bordo del finder pattern (+40 per occorrenza).
-     *             Pattern [1,0,1,1,1,0,1,0,0,0,0] o il suo speculare [0,0,0,0,1,0,1,1,1,0,1].
-     *
-     *   Regola 4: proporzione di moduli scuri lontana dal 50% (+10 per ogni 5% di scostamento).
-     *             Una buona distribuzione nero/bianco facilita la lettura automatica.
+     * Rule 1: runs of 5+ identical modules (+3, +1 per extra module).
+     * Rule 2: 2x2 blocks of identical modules (+3 each).
+     * Rule 3: finder-like patterns [1,0,1,1,1,0,1,0,0,0,0] or its mirror (+40 each).
+     * Rule 4: dark-module ratio deviation from 50% (+10 per 5% step).
      */
     private static function calcPenalty(array $m, int $size): int
     {
         $score = 0;
 
-        // Regola 1: run di 5+ moduli identici in righe e colonne
+        // Rule 1: runs of 5+ identical modules, rows and columns
         for ($i = 0; $i < $size; $i++) {
             foreach ([true, false] as $isRow) {
                 $run = 1;
@@ -696,7 +531,7 @@ class QrCode
             }
         }
 
-        // Regola 2: blocchi 2×2 di moduli identici
+        // Rule 2: 2x2 blocks of identical modules
         for ($i = 0; $i < $size - 1; $i++) {
             for ($j = 0; $j < $size - 1; $j++) {
                 $v = $m[$i][$j]     < 1 ? 0 : 1;
@@ -709,9 +544,9 @@ class QrCode
             }
         }
 
-        // Regola 3: pattern simili al bordo del finder
+        // Rule 3: finder-like border patterns
         $p1 = [1,0,1,1,1,0,1,0,0,0,0]; // 10111010000
-        $p2 = [0,0,0,0,1,0,1,1,1,0,1]; // 00001011101 (speculare di p1)
+        $p2 = [0,0,0,0,1,0,1,1,1,0,1]; // 00001011101 (mirror of p1)
         for ($i = 0; $i < $size; $i++) {
             for ($j = 0; $j <= $size - 11; $j++) {
                 $matchR1 = $matchR2 = $matchC1 = $matchC2 = true;
@@ -730,7 +565,7 @@ class QrCode
             }
         }
 
-        // Regola 4: proporzione di moduli scuri
+        // Rule 4: dark module ratio
         $dark  = 0;
         $total = $size * $size;
         for ($i = 0; $i < $size; $i++) {
@@ -744,36 +579,28 @@ class QrCode
         return $score;
     }
 
-    // ── Format information ─────────────────────────────────────────────────────
+    // ── Format information ──────────────────────────────────────────────────────
 
     /**
-     * Scrive i 15 bit del format information nelle due copie riservate.
-     *
-     * Il format information codifica: EC level (2 bit) + numero maschera (3 bit)
-     * + 10 bit di correzione errori BCH. Il tutto è XOR con una maschera fissa
-     * (101010000010010) per garantire che il pattern non sia mai tutto zeri.
-     *
-     * La prima copia si trova in un percorso L-shaped attorno al finder in alto a sinistra.
-     * La seconda copia è divisa tra il finder in basso a sinistra (7 bit) e quello
-     * in alto a destra (8 bit), per ridondanza nel caso un angolo del QR code sia danneggiato.
+     * Writes the 15-bit format info into its two reserved copies (redundant,
+     * so the code remains readable if one corner is damaged).
      */
     private static function placeFormatInfo(array &$m, int $mask, int $size): void
     {
         $fmt  = self::$FORMAT_INFO[$mask];
-        // Estrae i 15 bit dal MSB (bit 14) al LSB (bit 0)
         $bits = [];
         for ($i = 14; $i >= 0; $i--) {
-            $bits[] = ($fmt >> $i) & 1;
+            $bits[] = ($fmt >> $i) & 1; // MSB (bit 14) first
         }
 
-        // Prima copia (percorso specifico definito dallo standard, in senso orario)
+        // Primary copy: fixed L-shaped path around the top-left finder (ISO 18004)
         $seqRow = [8,8,8,8,8,8,8,8,7,5,4,3,2,1,0];
         $seqCol = [0,1,2,3,4,5,7,8,8,8,8,8,8,8,8];
         for ($i = 0; $i < 15; $i++) {
             $m[$seqRow[$i]][$seqCol[$i]] = $bits[$i];
         }
 
-        // Seconda copia (finder in basso a sinistra + in alto a destra)
+        // Secondary copy: split across the bottom-left and top-right finders
         for ($i = 0; $i < 7; $i++) {
             $m[$size - 1 - $i][8] = $bits[$i];
         }
@@ -782,27 +609,16 @@ class QrCode
         }
     }
 
-    // ── Reed-Solomon ECC ───────────────────────────────────────────────────────
+    // ── Reed-Solomon ECC ─────────────────────────────────────────────────────────
 
     /**
-     * Inizializza le tabelle di esponenti e logaritmi per GF(256).
-     *
-     * GF(256) è il "Galois Field" (campo finito) di 256 elementi, usato dalla
-     * codifica Reed-Solomon del QR code. In GF(256) l'addizione è XOR e la
-     * moltiplicazione si fa tramite logaritmi (come i numeri reali, ma modulari).
-     *
-     * Per costruire le tabelle si parte da alpha = 2 (elemento primitivo) e si
-     * calcola 2^0, 2^1, ..., 2^254 modulo il polinomio primitivo x^8+x^4+x^3+x^2+1
-     * (= 0x11D in esadecimale). Quando il valore supera 255, si applica XOR con 0x11D
-     * che è l'equivalente del "modulo" in questo campo.
-     *
-     * Perché tabelle EXP e LOG duplicate fino a 511? Per poter calcolare
-     * EXP[(LOG[a] + LOG[b]) % 255] senza dover gestire il modulo in gfMul().
+     * Builds the GF(256) exp/log tables (primitive element alpha=2, primitive
+     * polynomial x^8+x^4+x^3+x^2+1 = 0x11D), idempotent via GF_INIT.
      */
     private static function initGF(): void
     {
         if (self::$GF_INIT) {
-            return; // già inizializzate in una chiamata precedente
+            return;
         }
         self::$EXP = array_fill(0, 512, 0);
         self::$LOG = array_fill(0, 256, 0);
@@ -812,10 +628,11 @@ class QrCode
             self::$LOG[$x] = $i;
             $x <<= 1;
             if ($x & 0x100) {
-                $x ^= 0x11D; // x^8+x^4+x^3+x^2+1: riduci modulo il polinomio primitivo
+                $x ^= 0x11D; // reduce modulo the primitive polynomial
             }
         }
-        // Duplica i valori 0-254 in 255-509 per semplificare l'addizione in gfMul
+        // Duplicate 0-254 into 255-509 so gfMul() can index EXP[(logA+logB) % 255]
+        // without a separate modulo branch.
         for ($i = 255; $i < 512; $i++) {
             self::$EXP[$i] = self::$EXP[$i - 255];
         }
@@ -823,8 +640,7 @@ class QrCode
     }
 
     /**
-     * Moltiplicazione in GF(256): a * b = alpha^(log(a) + log(b)).
-     * Se uno degli operandi è 0, il prodotto è 0 (per definizione).
+     * GF(256) multiplication: a * b = alpha^(log(a) + log(b)); 0 if either operand is 0.
      */
     private static function gfMul(int $a, int $b): int
     {
@@ -835,22 +651,20 @@ class QrCode
     }
 
     /**
-     * Calcola il polinomio generatore di Reed-Solomon di grado $degree.
+     * Computes the Reed-Solomon generator polynomial of the given degree:
+     * (x - alpha^0)(x - alpha^1)...(x - alpha^(degree-1)) in GF(256).
      *
-     * Il polinomio generatore g(x) è il prodotto (x - alpha^0)(x - alpha^1)...(x - alpha^(n-1))
-     * calcolato in GF(256). Viene usato da rsBlock() per la divisione polinomiale.
-     *
-     * Il risultato è un array di coefficienti, dove $poly[0] è il termine di grado massimo.
+     * @return int[] Coefficients, highest degree first
      */
     private static function rsGeneratorPoly(int $degree): array
     {
-        $poly = [1]; // polinomio iniziale: 1
+        $poly = [1];
         for ($i = 0; $i < $degree; $i++) {
-            $alpha = self::$EXP[$i]; // alpha^i
+            $alpha = self::$EXP[$i];
             $new   = array_fill(0, count($poly) + 1, 0);
             foreach ($poly as $j => $coef) {
-                $new[$j]     ^= $coef;                        // addizione in GF = XOR
-                $new[$j + 1] ^= self::gfMul($coef, $alpha);  // moltiplicazione in GF
+                $new[$j]     ^= $coef;                        // GF addition is XOR
+                $new[$j + 1] ^= self::gfMul($coef, $alpha);
             }
             $poly = $new;
         }
@@ -858,29 +672,23 @@ class QrCode
     }
 
     /**
-     * Calcola i codeword di correzione errori Reed-Solomon per un blocco dati.
+     * Computes Reed-Solomon ECC codewords for a data block via synthetic
+     * polynomial division: the message (shifted left by $ecCount, i.e.
+     * padded with zeros) is repeatedly XORed against the generator
+     * polynomial scaled by the current leading coefficient; the remainder
+     * is the ECC.
      *
-     * Reed-Solomon funziona come la divisione polinomiale: il messaggio dati viene
-     * trattato come un polinomio M(x), moltiplicato per x^ecCount (= shift a sinistra),
-     * e diviso per il polinomio generatore g(x). Il resto di questa divisione
-     * (i $ecCount codeword di ECC) viene allegato ai dati.
-     *
-     * In pratica è una divisione sintetica: si itera sui coeﬃcienti del messaggio
-     * e ad ogni passo si sottrae (XOR in GF(256)) il polinomio generatore scalato
-     * per il coeﬃciente corrente.
-     *
-     * @param  int[] $data    Codeword dati del blocco (interi 0-255)
-     * @param  int   $ecCount Numero di codeword ECC da generare
-     * @return int[]          Codeword ECC (interi 0-255)
+     * @param  int[] $data    Data codewords of the block (0-255)
+     * @param  int   $ecCount Number of ECC codewords to generate
+     * @return int[]          ECC codewords (0-255)
      */
     private static function rsBlock(array $data, int $ecCount): array
     {
         $gen = self::rsGeneratorPoly($ecCount);
-        // Messaggio iniziale: dati seguiti da $ecCount zeri (spazio per il resto)
         $msg = array_merge($data, array_fill(0, $ecCount, 0));
 
         for ($i = 0; $i < count($data); $i++) {
-            $coef = $msg[$i]; // coefficiente di testa della divisione
+            $coef = $msg[$i];
             if ($coef !== 0) {
                 for ($j = 1; $j <= $ecCount; $j++) {
                     $msg[$i + $j] ^= self::gfMul($gen[$j], $coef);
@@ -888,33 +696,27 @@ class QrCode
             }
         }
 
-        // Restituisce solo il resto (ultimi $ecCount elementi)
-        return array_slice($msg, count($data));
+        return array_slice($msg, count($data)); // remainder = ECC codewords
     }
 
-    // ── Helper ─────────────────────────────────────────────────────────────────
+    // ── Helper ───────────────────────────────────────────────────────────────────
 
     /**
-     * Converte un intero in stringa binaria di $length bit con zero-padding iniziale.
-     * Es: intToBits(5, 4) → "0101"
+     * Converts an integer to a zero-padded binary string of $length bits.
+     * Example: intToBits(5, 4) -> "0101"
      */
     private static function intToBits(int $value, int $length): string
     {
         return str_pad(decbin($value), $length, '0', STR_PAD_LEFT);
     }
 
-    // ── Rendering PNG con GD ───────────────────────────────────────────────────
+    // ── PNG rendering via GD ───────────────────────────────────────────────────
 
     /**
-     * Converte la matrice QR in un'immagine PNG usando l'estensione GD.
+     * Rasterizes the QR matrix to a PNG image via GD.
      *
-     * Ogni modulo della matrice (valore 1 = nero) viene disegnato come un rettangolo
-     * di $scale × $scale pixel. Il margine bianco ($margin moduli) viene aggiunto
-     * attorno alla griglia per migliorare la leggibilità — lo standard raccomanda
-     * almeno 4 moduli di bordo.
-     *
-     * Il PNG viene catturato dall'output buffer (ob_start/ob_get_clean) perché
-     * imagepng() scrive direttamente sullo stdout, non restituisce una stringa.
+     * Each dark module is drawn as a filled $scale x $scale rectangle; the
+     * quiet zone ($margin modules) surrounds the grid.
      */
     private static function renderPng(array $matrix, int $scale, int $margin): string
     {
@@ -924,12 +726,11 @@ class QrCode
         $white   = imagecolorallocate($img, 255, 255, 255);
         $black   = imagecolorallocate($img, 0, 0, 0);
 
-        imagefill($img, 0, 0, $white); // sfondo bianco
+        imagefill($img, 0, 0, $white);
 
         for ($row = 0; $row < $size; $row++) {
             for ($col = 0; $col < $size; $col++) {
                 if ($matrix[$row][$col] === 1) {
-                    // Calcola le coordinate pixel del modulo (tenendo conto del margine)
                     $x1 = ($col + $margin) * $scale;
                     $y1 = ($row + $margin) * $scale;
                     imagefilledrectangle($img, $x1, $y1, $x1 + $scale - 1, $y1 + $scale - 1, $black);
@@ -937,10 +738,11 @@ class QrCode
             }
         }
 
+        // imagepng() writes to stdout, not a string — capture it via the output buffer.
         ob_start();
         imagepng($img);
         $png = ob_get_clean();
-        imagedestroy($img); // libera la memoria GD
+        imagedestroy($img);
 
         return $png;
     }

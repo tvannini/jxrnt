@@ -49,6 +49,13 @@ $app_main_path = get_app_path();
 
 
 // ============= Start session to store informations needed across requests (for TOTP) ===
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Strict');
+ini_set('session.use_strict_mode', '1');
+if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+    ini_set('session.cookie_secure', '1');
+    }
+
 session_start();
 
 

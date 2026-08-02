@@ -3,67 +3,60 @@ declare(strict_types=1);
 require_once __DIR__ . '/_bootstrap.php';
 
 /**
- * Setup del secondo fattore TOTP — pagina EMBEDDED, stesso contratto di
- * index.php verso jxtotp.php: successo → `return true;` senza output;
- * non risolto → stampa form/errore e termina con die(). Vedi il PHPDoc di
- * index.php per i dettagli completi del contratto di ritorno.
+ * TOTP second-factor setup (embedded page). Same return contract as
+ * index.php toward jxtotp.php: success returns true with no output;
+ * otherwise renders the form/error and calls die(). See index.php PHPDoc
+ * for the full contract.
  *
- * DIFFERENZA rispetto al prototipo standalone originale: questa pagina NON
- * crea un nuovo utente — l'utente esiste già in Janox. Quando questo file
- * viene incluso, jxtotp.php ha già chiamato Auth::startMfaChallenge($user),
- * che a sua volta ha già chiamato ensureTotpUser(): la riga in totp_users
- * esiste quindi già, con un secret generato e pronto per essere mostrato
- * come QR code.
+ * By the time this file is included, jxtotp.php has already called
+ * Auth::startMfaChallenge(), which in turn called ensureTotpUser(), so the
+ * totp_users row and secret already exist.
  */
 
-// getChallengeUser() legge lo username dalla nostra sessione autonoma,
-// indipendentemente dallo stato: qui ci aspettiamo sempre STATE_PENDING_SETUP
-// (è jxtotp.php che decide quando includere questo file invece di index.php).
+// Always expects STATE_PENDING_SETUP; jxtotp.php decides when to include
+// this file instead of index.php.
 $userId = $auth->getChallengeUser();
 if ($userId === null) {
-    // Situazione anomala: questa pagina è stata raggiunta senza che
-    // jxtotp.php avesse impostato correttamente la sessione MFA (es. cookie
-    // di sessione perso a metà flusso). Non proseguiamo alla cieca.
+    // Reached without a valid MFA session (e.g. cookie lost mid-flow) — fail closed.
     http_response_code(400);
     die('Sessione di setup non valida. Ripeti il login.');
 }
 
 $error = '';
 
-// ── POST: l'utente ha scansionato il QR e inserisce il primo codice OTP ─────
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// POST: user scanned the QR and is submitting the first OTP code.
+// jxtotp.php includes this file within the same POST as the Janox login
+// form, so checking REQUEST_METHOD alone would misfire on first hit (no
+// otp_code yet). isset($_POST['otp_code']) reliably distinguishes our own
+// form submission from that inherited request (no collision with Janox's
+// user/password/jxapp/jxotp fields).
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['otp_code'])) {
     if (!$auth->verifyCsrf($_POST['csrf_token'] ?? '')) {
         $error = 'Richiesta non valida.';
     } else {
         $code = trim($_POST['otp_code'] ?? '');
         if ($auth->confirmTotpSetup($userId, $code)) {
 
-            // ── FEATURE: setup = primo accesso ──────────────────────────────
-            // Non chiediamo all'utente di ripetere subito il secondo fattore
-            // appena dopo averlo configurato: la conferma del primo codice
-            // OTP valido È GIÀ, essa stessa, la prova di possesso del
-            // dispositivo authenticator. Nessun "ricordami" qui: l'utente ha
-            // appena configurato l'app, non ha ancora avuto modo di scegliere
-            // se fidarsi di questo browser a lungo termine (quella scelta
-            // sarà disponibile dal prossimo accesso, tramite index.php).
+            // Confirming the first valid OTP is itself proof of device
+            // possession, so no immediate re-challenge. No "remember me"
+            // here — the user hasn't had a chance to opt in yet; that's
+            // offered starting from the next login via index.php.
             return true;
         }
 
-        // Codice errato: nessun limite di tentativi in fase di setup —
-        // l'account non è ancora abilitato al TOTP, quindi non c'è rischio
-        // di lockout da gestire qui (vedi Auth::confirmTotpSetup()).
+        // No attempt limit during setup: TOTP isn't enabled yet, so there's
+        // no lockout risk to manage here (see Auth::confirmTotpSetup()).
         $error = 'Codice OTP non valido. Riprova.';
     }
 }
 
-// ── Prepara il QR code per la vista ──────────────────────────────────────────
-// Generato IN MEMORIA come byte PNG e incorporato nell'HTML come data URI
-// base64: nessuna chiamata esterna, il secret TOTP non lascia mai il server.
+// QR generated in memory as PNG bytes, embedded as a base64 data URI — no
+// external calls, the TOTP secret never leaves the server.
 $setupData = $auth->getTotpSetupData($userId);
 if ($setupData === null) {
-    // Il setup è già stato completato altrove (es. l'utente ha due tab del
-    // browser aperte sullo stesso login): non c'è più nulla da mostrare qui.
-    // Alla prossima richiesta, jxtotp.php troverà lo stato già aggiornato.
+    // Setup already completed elsewhere (e.g. two open tabs on the same
+    // login) — nothing left to show; jxtotp.php will see the updated state
+    // on the next request.
     http_response_code(409);
     die('Setup già completato.');
 }

@@ -5,127 +5,97 @@ require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/Totp.php';
 
 /**
- * Classe principale del modulo JXTOTP — secondo fattore MFA per Janox/ERP.
+ * JXTOTP second-factor (MFA) module for Janox/ERP.
  *
- * DIFFERENZA FONDAMENTALE rispetto al prototipo standalone originale:
- *   Questa classe NON gestisce più utenti, password, reset password né
- *   recupero via email — tutto questo resta interamente responsabilità di
- *   Janox. startMfaChallenge() viene chiamato da jxtotp.php SOLO DOPO che
- *   Janox ha già verificato username e password con il proprio meccanismo:
- *   non è compito di questa classe (né possibile, dato che non abbiamo
- *   accesso alle tabelle ERP) verificare le credenziali.
+ * Unlike the original standalone prototype, this class does not manage
+ * users, passwords, password reset, or account recovery — that remains
+ * Janox's responsibility entirely. startMfaChallenge() is invoked by
+ * jxtotp.php only after Janox has already verified username/password;
+ * this class has no access to ERP credential tables and never checks
+ * them.
  *
- *   Di conseguenza, "STATE_AUTHENTICATED" in questa classe significa
- *   soltanto "il secondo fattore per questa sessione è stato soddisfatto" —
- *   NON che l'utente sia autenticato in un'applicazione. Quell'ultimo passo
- *   (l'accesso vero e proprio all'app ERP) resta sempre a Janox, tramite il
- *   proprio meccanismo di OTP interno (vedi il file jxtotp.php del framework).
+ * STATE_AUTHENTICATED here means only "the second factor for this
+ * session has been satisfied" — not that the user is logged into the
+ * ERP app. That last step remains entirely Janox's own mechanism
+ * (jxtotp.php).
  *
- * Gestisce una sessione PHP interamente AUTONOMA (vedi _bootstrap.php):
- *   jxtotp.php è la pagina di login stessa e gira PRIMA che qualunque
- *   sessione applicativa Janox esista — non c'è quindi nessuna sessione
- *   esterna a cui appoggiarsi. Questo modulo apre e gestisce la propria
- *   sessione esattamente come farebbe un'applicazione standalone.
+ * Session keys are namespaced (SESSION_USER/SESSION_STATE/SESSION_CSRF
+ * below).
  *
- * Flusso completo:
- *
- *   Setup del secondo fattore (prima volta per questo utente):
- *     startMfaChallenge() → STATE_PENDING_SETUP → [mostra QR] → confirmTotpSetup()
- *     → STATE_AUTHENTICATED
- *
- *   Verifica del secondo fattore (già configurato in precedenza):
- *     startMfaChallenge() → STATE_PENDING_TOTP → verifyTotp() → STATE_AUTHENTICATED
- *     [oppure, se il browser è già "attendibile"]
- *     startMfaChallenge() → STATE_PENDING_TOTP → checkTrustedDevice() → STATE_AUTHENTICATED
- *     (il codice OTP non viene nemmeno richiesto)
- *
- * Diagramma stati sessione:
- *
- *   NONE ──[startMfaChallenge() + TOTP non configurato]──→ PENDING_SETUP
- *   NONE ──[startMfaChallenge() + TOTP già configurato]───→ PENDING_TOTP
- *   PENDING_SETUP ──[confirmTotpSetup() OK]────────────────→ AUTHENTICATED
- *   PENDING_TOTP  ──[verifyTotp() OK]───────────────────────→ AUTHENTICATED
- *   PENDING_TOTP  ──[checkTrustedDevice() OK]───────────────→ AUTHENTICATED
- *   Qualsiasi ──[logout()]───────────────────────────────────→ NONE
+ * States: NONE -> PENDING_SETUP (first-time setup) or PENDING_TOTP
+ * (already configured) -> AUTHENTICATED via confirmTotpSetup(),
+ * verifyTotp(), or checkTrustedDevice(); logout() returns to NONE.
  */
 class Auth
 {
-    // ── Costanti di configurazione ─────────────────────────────────────────────
+    // Configuration constants
 
     /**
-     * Numero massimo di codici OTP errati consecutivi per lo stesso account
-     * prima del blocco temporaneo. Si applica solo in fase di verifica
-     * (verifyTotp()): in fase di setup (confirmTotpSetup()) non c'è lockout,
-     * perché l'account non è ancora abilitato al secondo fattore.
+     * Max consecutive failed OTP codes for one account before lockout.
+     * Applies only to verifyTotp() — confirmTotpSetup() has no lockout
+     * since the account isn't yet enabled for the second factor.
      */
     const MAX_ATTEMPTS   = 5;
 
-    /** Durata del blocco account in secondi (900 = 15 minuti). */
+    /** Account lockout duration in seconds (900 = 15 min). */
     const LOCKOUT_SEC    = 900;
 
     /**
-     * Numero massimo di tentativi OTP falliti dallo stesso IP prima del
-     * blocco IP. Più alto del limite per-account (5) perché un IP può avere
-     * molti utenti legittimi dietro un NAT o un proxy aziendale.
+     * Max distinct failed accounts per IP before IP-level lockout (not
+     * raw attempt count — see recordOtpFailedAttempt() for the dedup
+     * logic). Sized for NAT/corporate-IP traffic where many ERP users
+     * share one public IP.
      */
-    const IP_MAX_ATTEMPTS = 20;
+    const IP_MAX_ATTEMPTS = 100;
 
-    /** Durata del blocco IP in secondi (900 = 15 minuti). */
+    /** IP lockout duration in seconds (900 = 15 min). */
     const IP_LOCKOUT_SEC  = 900;
 
     /**
-     * Finestra temporale per il conteggio dei tentativi falliti per IP
-     * (3600 = 1 ora). I tentativi più vecchi di questa finestra vengono
-     * dimenticati: il contatore riparte da 0, non si accumula all'infinito.
+     * Rolling window for counting per-IP failed attempts (3600 = 1h);
+     * the counter resets once the window expires.
      */
     const IP_WINDOW_SEC   = 3600;
 
-    /** Durata della sessione "dispositivo attendibile" in secondi (10 giorni). */
+    /** Trusted-device session duration in seconds (10 days). */
     const TRUSTED_DEVICE_TTL = 864000;
 
-    /** Nome del cookie HTTP usato per il token del dispositivo attendibile. */
+    /** Cookie name for the trusted-device token. */
     const TRUSTED_DEVICE_COOKIE = 'td_token';
 
-    // Chiavi usate nella superglobale $_SESSION della nostra sessione autonoma.
-    // Prefissare con 'auth_' evita collisioni nell'improbabile caso in cui,
-    // in futuro, questa sessione dovesse condividere il processo PHP con
-    // altro codice che usa $_SESSION per scopi propri.
+    // $_SESSION keys for this module. Prefixed with 'auth_' in case this
+    // session is ever shared with other code using $_SESSION directly.
     const SESSION_USER  = 'auth_user_id';
     const SESSION_STATE = 'auth_state';
     const SESSION_CSRF  = 'auth_csrf';
 
-    // Costanti per gli stati della macchina a stati della sessione.
+    // Session state machine constants.
     const STATE_NONE          = 'none';
-    const STATE_PENDING_SETUP = 'pending_setup'; // TOTP non ancora configurato
-    const STATE_PENDING_TOTP  = 'pending_totp';  // TOTP configurato, in attesa del codice
-    const STATE_AUTHENTICATED = 'authenticated'; // secondo fattore soddisfatto
+    const STATE_PENDING_SETUP = 'pending_setup'; // TOTP not yet configured
+    const STATE_PENDING_TOTP  = 'pending_totp';  // TOTP configured, awaiting code
+    const STATE_AUTHENTICATED = 'authenticated'; // second factor satisfied
 
-    private $db; // typed property omessa: compatibilità PHP 7.3 (typed properties → PHP 7.4+)
+    private $db; // untyped: PHP 7.3 compatibility (typed properties require 7.4+)
 
     public function __construct(Database $db)
     {
         $this->db = $db;
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SEZIONE 1: Avvio della sfida MFA (chiamato da jxtotp.php)
-    // ══════════════════════════════════════════════════════════════════════════
+    // SECTION 1: MFA challenge start (called from jxtotp.php)
 
     /**
-     * Avvia il flusso del secondo fattore per un utente la cui password è
-     * GIÀ STATA VERIFICATA da Janox.
+     * Starts the second-factor flow for a user whose password Janox has
+     * ALREADY verified.
      *
-     * Questo è l'unico punto di ingresso al modulo dal lato di jxtotp.php:
-     * viene chiamato una sola volta, al primo hit, quando Janox ha appena
-     * determinato che l'utente ha mfa='T' e la password è corretta.
+     * Single entry point from jxtotp.php: called once, on first hit,
+     * once Janox has determined mfa='T' and the password is correct.
      *
-     * Decide autonomamente (senza che jxtotp.php debba saperlo o deciderlo)
-     * se l'utente deve completare il setup TOTP (mai configurato prima) o
-     * inserire un codice OTP (già configurato in precedenza), e imposta lo
-     * stato di sessione di conseguenza. Questa decisione NON viene mai presa
-     * o forzata da jxtotp.php: vive interamente qui.
+     * Decides internally whether the user needs TOTP setup or code
+     * entry and sets session state accordingly — jxtotp.php never makes
+     * or forces this decision.
      *
-     * @param string $username Username Janox (già in minuscolo, stringa — mai intero)
+     * @param string $username Janox username (lowercase) — string, never cast to int
      */
     public function startMfaChallenge(string $username): void
     {
@@ -138,16 +108,16 @@ class Auth
     }
 
     /**
-     * Crea la riga in totp_users per questo utente, se non esiste già.
+     * Creates the totp_users row for this user if it doesn't already exist.
      *
-     * Non esiste un metodo "createUser()" in questo modulo: gli utenti sono
-     * creati da Janox, non da noi. Questo metodo si limita a garantire che
-     * esista un posto dove conservare il secret TOTP di un utente Janox che
-     * ha mfa='T' — viene chiamato al primo accesso di quell'utente, non alla
-     * sua creazione nell'ERP (di cui questo modulo non è mai a conoscenza).
+     * There is no createUser() in this module: users are created by
+     * Janox. This only ensures a place exists to store a TOTP secret for
+     * a Janox user with mfa='T', called on that user's first access —
+     * not at ERP account creation time.
      *
-     * Se la riga esiste già, non fa nulla: non rigenera mai un secret già
-     * esistente (lo invaliderebbe, obbligando l'utente a rifare il setup).
+     * No-op if the row already exists: never regenerates an existing
+     * secret (that would invalidate it and force the user through setup
+     * again).
      */
     public function ensureTotpUser(string $username): void
     {
@@ -160,8 +130,7 @@ class Auth
             return;
         }
 
-        // Genera un secret TOTP unico per questo utente (160 bit casuali).
-        // Verrà mostrato come QR code al primo setup — e mai più dopo.
+        // Unique 160-bit secret, shown as a QR code once during setup and never again.
         $secret = Totp::generateSecret();
 
         $this->db->query(
@@ -171,11 +140,11 @@ class Auth
     }
 
     /**
-     * Indica se l'utente ha già completato il setup del secondo fattore.
+     * Whether the user has completed second-factor setup.
      *
-     * Restituisce false sia se la riga non esiste (l'utente non ha ancora
-     * generato un secret) sia se esiste ma totp_confirmed=0 (setup avviato
-     * ma non ancora confermato con il primo codice OTP).
+     * False both when the row doesn't exist and when it exists but
+     * totp_confirmed=0 (setup started but not yet confirmed with a
+     * first OTP code).
      */
     public function isTotpConfigured(string $username): bool
     {
@@ -188,36 +157,34 @@ class Auth
     }
 
     /**
-     * Restituisce lo username per cui è in corso (o è appena terminata) una
-     * sfida MFA, leggendolo dalla nostra sessione autonoma — indipendentemente
-     * dallo stato attuale (PENDING_SETUP, PENDING_TOTP o AUTHENTICATED).
+     * Returns the username with an MFA challenge in progress (or just
+     * completed), regardless of state (PENDING_SETUP/PENDING_TOTP/
+     * AUTHENTICATED).
      *
-     * Usato dalla guardia in jxtotp.php per riconoscere se una richiesta in
-     * arrivo sta continuando un flusso MFA già iniziato per LO STESSO utente
-     * (e non, per errore, riprendendo un flusso abbandonato da un login
-     * precedente con un altro username).
+     * Used by the jxtotp.php guard to detect whether an incoming request
+     * continues an MFA flow already started for the SAME user, rather
+     * than resuming one abandoned by a previous login for a different
+     * username.
      */
     public function getChallengeUser(): ?string
     {
         return isset($_SESSION[self::SESSION_USER]) ? (string) $_SESSION[self::SESSION_USER] : null;
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SEZIONE 2: Setup del secondo fattore (prima configurazione)
-    // ══════════════════════════════════════════════════════════════════════════
+    // SECTION 2: second-factor setup (first-time configuration)
 
     /**
-     * Recupera i dati necessari per mostrare il QR code durante il setup TOTP.
+     * Fetches the data needed to render the QR code during TOTP setup.
      *
-     * Restituisce null se:
-     *   - L'utente non esiste ancora in totp_users (non dovrebbe succedere:
-     *     startMfaChallenge() chiama sempre ensureTotpUser() prima).
-     *   - Il setup è già stato completato (totp_confirmed = 1).
+     * Returns null if:
+     *   - the user doesn't yet exist in totp_users (shouldn't happen:
+     *     startMfaChallenge() always calls ensureTotpUser() first);
+     *   - setup is already complete (totp_confirmed = 1).
      *
-     * Nel secondo caso il secret non viene restituito di proposito: dopo il
-     * setup il QR non deve più essere visualizzato (nessun flusso di recupero
-     * autenticatore in questo modulo — fuori ambito per questa fase).
+     * The secret is deliberately withheld once setup is done — this
+     * module has no account-recovery flow that would need to re-display it.
      *
+     * @param string $userId Janox username — string, never cast to int
      * @return array{username: string, secret: string}|null
      */
     public function getTotpSetupData(string $userId): ?array
@@ -238,22 +205,19 @@ class Auth
     }
 
     /**
-     * Conferma il setup TOTP verificando il primo codice OTP inserito dall'utente.
+     * Confirms TOTP setup by verifying the user's first OTP code.
      *
-     * Passo finale della configurazione: solo dopo questa verifica
-     * totp_confirmed viene impostato a 1. In caso di successo, il secondo
-     * fattore per questa sessione è considerato soddisfatto (STATE_AUTHENTICATED):
-     * la conferma del primo codice valido È GIÀ, essa stessa, la prova che
-     * l'utente possiede il dispositivo authenticator — non ha senso chiedere
-     * un secondo codice immediatamente dopo (vedi register.php).
+     * Final setup step: totp_confirmed is set to 1 only on success.
+     * Success also satisfies the second factor for this session
+     * (STATE_AUTHENTICATED) — a valid first code is itself proof of
+     * authenticator possession, so there's no point asking for a second
+     * one immediately after (see register.php).
      *
-     * Include la prevenzione del riutilizzo del codice OTP (Feature: single-use
-     * token): se lo stesso codice viene inviato due volte nello stesso
-     * intervallo di 30 secondi, il secondo invio viene rifiutato.
+     * Includes single-use replay protection (see verifyTotp()). No
+     * lockout here: the account isn't yet TOTP-enabled, so there's no
+     * bruteforce risk with real consequences.
      *
-     * Nessun lockout in questa fase: l'account non è ancora abilitato al TOTP,
-     * quindi non c'è rischio di bruteforce con conseguenze reali — l'utente
-     * può riprovare senza limiti se sbaglia a digitare il codice.
+     * @param string $userId Janox username — string, never cast to int
      */
     public function confirmTotpSetup(string $userId, string $code): bool
     {
@@ -262,85 +226,69 @@ class Auth
             [$userId]
         )->fetch();
 
-        // Non permettere di confermare due volte lo stesso setup.
+        // Don't allow confirming the same setup twice.
         if (!$user || $user['totp_confirmed']) {
             return false;
         }
 
-        // ── FEATURE: Single-use token ──────────────────────────────────────────
-        // Stesso meccanismo di verifyTotp() più sotto: vedi quel PHPDoc per la
-        // spiegazione completa del perché la finestra di confronto è ±1.
+        // Anti-replay: same mechanism as verifyTotp() below — ±1 window
+        // to match Totp::verify()'s own clock-skew tolerance.
         $currentWindow = (int) (time() / self::TOTP_PERIOD);
         if ($user['last_totp_code'] !== null
             && $user['last_totp_code'] === $code
             && abs($currentWindow - (int) $user['last_totp_window']) <= 1) {
-            return false; // Codice già usato in questa finestra temporale
+            return false; // Code already used in this time window
         }
 
         if (!Totp::verify($user['totp_secret'], $code)) {
             return false;
         }
 
-        // Setup completato: segna totp_confirmed=1, registra il codice usato
-        // (anti-replay) e l'orario del primo accesso riuscito.
+        // Setup complete: mark confirmed, record the code used (anti-replay)
+        // and the first successful-login timestamp.
         $this->db->query(
             'UPDATE totp_users SET totp_confirmed = 1, last_totp_code = ?, last_totp_window = ?, last_totp_login = ? WHERE o2user = ?',
             [$code, $currentWindow, time(), $userId]
         );
 
-        // PREVENZIONE SESSION FIXATION: rigenera l'ID di sessione ogni volta
-        // che lo stato passa a "soddisfatto", esattamente come al successo di
-        // verifyTotp()/checkTrustedDevice() più sotto.
+        // Regenerate the session ID whenever state becomes "satisfied" —
+        // same pattern as verifyTotp()/checkTrustedDevice() below.
         session_regenerate_id(true);
         $_SESSION[self::SESSION_STATE] = self::STATE_AUTHENTICATED;
 
         return true;
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SEZIONE 3: Verifica del secondo fattore (già configurato)
-    // ══════════════════════════════════════════════════════════════════════════
+    // SECTION 3: second-factor verification (already configured)
 
     /**
-     * Verifica il codice TOTP inserito dall'utente.
+     * Verifies the OTP code entered by the user.
      *
-     * Può essere chiamato solo quando la sessione è in stato PENDING_TOTP,
-     * cioè dopo che startMfaChallenge() ha determinato che il TOTP è già
-     * configurato per questo utente. Se chiamato in un altro stato,
-     * restituisce false: questo previene bypass del flusso.
+     * Only valid when session state is PENDING_TOTP; returns false
+     * otherwise, which prevents bypassing the flow.
      *
-     * FEATURE: rate limiting a due livelli, invariato nello spirito dal
-     * prototipo standalone (dove proteggeva i tentativi di password),
-     * applicato qui ai tentativi di codice OTP:
-     *   - per-ACCOUNT (failed_otp_attempts/otp_locked_until in totp_users):
-     *     blocca l'account specifico dopo troppi codici errati consecutivi.
-     *   - per-IP (tabella otp_rate_limits, via checkOtpRateLimit()): blocca
-     *     l'indirizzo IP dopo troppi tentativi falliti, anche se distribuiti
-     *     su più account — copre il caso di un attaccante che provi codici
-     *     su utenti diversi dallo stesso IP.
+     * Two-tier rate limiting:
+     *   - per-account (failed_otp_attempts/otp_locked_until in totp_users);
+     *   - per-IP (otp_rate_limits, via checkOtpRateLimit()), covering an
+     *     attacker who tries codes across different accounts from one IP.
      *
-     * FEATURE: Single-use token (anti-replay) — lo stesso codice non può
-     * essere usato due volte nello stesso intervallo di 30 secondi. Protegge
-     * da un attaccante che intercettasse un codice valido e lo riusasse
-     * immediatamente dopo l'utente legittimo.
+     * Also enforces single-use replay protection: the same code cannot
+     * be reused within the same 30s window.
      *
-     * @param string $code     Codice OTP a 6 cifre inserito dall'utente
-     * @param string $clientIp IP del client per il rate limiting per-IP.
-     *                         Stringa vuota '' per disabilitare quel controllo
-     *                         (utile in test automatici).
+     * @param string $code     6-digit OTP code entered by the user
+     * @param string $clientIp Client IP for per-IP rate limiting; pass ''
+     *                         to disable that check (useful in automated tests)
      */
     public function verifyTotp(string $code, string $clientIp = ''): bool
     {
-        // Verifica che siamo nel giusto stato della macchina: impossibile
-        // arrivare qui senza che Janox abbia già verificato la password e
-        // senza che startMfaChallenge() abbia già determinato PENDING_TOTP.
+        // Guards against reaching this state without a prior password
+        // check and a startMfaChallenge() call that set PENDING_TOTP.
         if ($this->getState() !== self::STATE_PENDING_TOTP) {
             return false;
         }
 
-        // ── FEATURE: IP Rate Limiting ──────────────────────────────────────────
-        // Controllato PRIMA di leggere il database utenti, per intercettare
-        // il più presto possibile un IP già bloccato.
+        // IP rate limit, checked before touching the user table so an
+        // already-blocked IP fails fast.
         if ($clientIp && !$this->checkOtpRateLimit($clientIp)) {
             return false;
         }
@@ -360,30 +308,26 @@ class Auth
             return false;
         }
 
-        // Blocco per-account attivo: non procedere nemmeno a verificare il codice.
+        // Account already locked: reject before even checking the code.
         if ((int) $user['otp_locked_until'] > time()) {
             if ($clientIp) {
-                $this->recordOtpFailedAttempt($clientIp);
+                $this->recordOtpFailedAttempt($clientIp, $userId);
             }
             return false;
         }
 
-        // ── FEATURE: Single-use token ──────────────────────────────────────────
-        // Perché ±1 finestra e non solo la finestra corrente?
-        //   Totp::verify() accetta codici con uno scarto di ±30 secondi per
-        //   gestire piccole differenze di orologio tra telefono e server. Se
-        //   un codice era valido per la finestra W, è accettato anche nelle
-        //   finestre W-1 e W+1: il blocco anti-replay deve coprire lo stesso
-        //   intervallo, altrimenti resterebbe un buco nella protezione.
+        // Anti-replay: ±1 window, matching Totp::verify()'s own ±30s
+        // clock-skew tolerance — a code valid for window W is accepted in
+        // W-1..W+1, so the replay guard must cover the same range.
         $currentWindow = (int) (time() / self::TOTP_PERIOD);
         if ($user['last_totp_code'] !== null
             && $user['last_totp_code'] === $code
             && abs($currentWindow - (int) $user['last_totp_window']) <= 1) {
-            return false; // Codice già usato: possibile tentativo di replay
+            return false; // Already used — possible replay attempt
         }
 
         if (!Totp::verify($user['totp_secret'], $code)) {
-            // Incrementa il contatore dei tentativi falliti per questo account.
+            // Increment this account's failed-attempt counter.
             $attempts  = (int) $user['failed_otp_attempts'] + 1;
             $lockUntil = $attempts >= self::MAX_ATTEMPTS ? time() + self::LOCKOUT_SEC : 0;
             $this->db->query(
@@ -391,22 +335,22 @@ class Auth
                 [$attempts, $lockUntil, $userId]
             );
             if ($clientIp) {
-                $this->recordOtpFailedAttempt($clientIp);
+                $this->recordOtpFailedAttempt($clientIp, $userId);
             }
             return false;
         }
 
-        // Codice corretto: azzera i contatori di lockout, registra il codice
-        // usato (anti-replay) e l'orario dell'accesso riuscito.
+        // Correct code: reset lockout counters, record the code used
+        // (anti-replay) and the successful-login timestamp.
         $this->db->query(
             'UPDATE totp_users SET failed_otp_attempts = 0, otp_locked_until = 0,
              last_totp_code = ?, last_totp_window = ?, last_totp_login = ? WHERE o2user = ?',
             [$code, $currentWindow, time(), $userId]
         );
 
-        // PREVENZIONE SESSION FIXATION: rigenera l'ID di sessione ogni volta
-        // che lo stato passa a "soddisfatto". Il parametro true elimina anche
-        // il vecchio file di sessione dal disco, non solo ne cambia l'ID.
+        // Regenerate the session ID on reaching "satisfied" state; the
+        // true argument also removes the old session file from disk, not
+        // just its ID (session fixation).
         session_regenerate_id(true);
         $_SESSION[self::SESSION_STATE] = self::STATE_AUTHENTICATED;
 
@@ -414,8 +358,8 @@ class Auth
     }
 
     /**
-     * Controlla se un indirizzo IP può ancora tentare un codice OTP.
-     * Restituisce true se l'IP non è bloccato (o non ha ancora tentativi registrati).
+     * Whether an IP can still attempt an OTP code.
+     * True if the IP isn't locked (or has no attempts recorded yet).
      */
     private function checkOtpRateLimit(string $ip): bool
     {
@@ -427,31 +371,72 @@ class Auth
         )->fetch();
 
         if (!$row) {
-            return true; // Nessun tentativo registrato per questo IP
+            return true; // No attempts recorded for this IP
         }
 
         if ((int) $row['locked_until'] > $now) {
-            return false; // IP attualmente bloccato
+            return false; // IP currently locked
         }
 
         if (($now - (int) $row['window_start']) >= self::IP_WINDOW_SEC) {
-            return true; // Finestra scaduta: contatore "fresco"
+            return true; // Window expired: counter resets
         }
 
         return (int) $row['attempts'] < self::IP_MAX_ATTEMPTS;
     }
 
     /**
-     * Registra un tentativo di codice OTP fallito per un indirizzo IP.
+     * Records a failed OTP attempt for an IP, deduplicated per account.
      *
-     * Usa INSERT + UPDATE separati (non UPSERT/MERGE) per compatibilità con
-     * SQLite, PostgreSQL e SqlServer senza dover cambiare la sintassi SQL in
-     * caso di futura migrazione del database di questo modulo.
+     * Dedup rationale: many ERP users can sit behind one shared public
+     * IP (NAT/corporate intranet). Without dedup, a single user
+     * repeatedly mistyping their code would burn through the IP-wide
+     * budget and lock out the whole intranet on legitimate noise, not an
+     * attack. otp_rate_limits.attempts therefore counts DISTINCT failed
+     * accounts per IP per window, not raw attempts — only the first
+     * failure of a given (ip, username) pair in a window increments it
+     * (see otp_ip_account_attempts below). Per-account lockout in
+     * totp_users still applies independently of this mechanism.
+     *
+     * Uses separate INSERT/UPDATE rather than UPSERT/MERGE for
+     * SQLite/PostgreSQL/SQL Server portability.
      */
-    private function recordOtpFailedAttempt(string $ip): void
+    private function recordOtpFailedAttempt(string $ip, string $username): void
     {
         $now = time();
 
+        // Has this (ip, username) pair already failed in this window? If
+        // so, today's failure must not double-count against the IP's
+        // shared budget — see rationale above.
+        $pair = $this->db->query(
+            'SELECT window_start FROM otp_ip_account_attempts WHERE ip = ? AND username = ?',
+            [$ip, $username]
+        )->fetch();
+
+        $isNewOffenderThisWindow = true;
+
+        if ($pair && ($now - (int) $pair['window_start']) < self::IP_WINDOW_SEC) {
+            // Same pair, same window: already counted.
+            $isNewOffenderThisWindow = false;
+        } elseif ($pair) {
+            // Known pair but window expired: start a new window, so this
+            // counts as a new offender again.
+            $this->db->query(
+                'UPDATE otp_ip_account_attempts SET window_start = ? WHERE ip = ? AND username = ?',
+                [$now, $ip, $username]
+            );
+        } else {
+            $this->db->query(
+                'INSERT INTO otp_ip_account_attempts (ip, username, window_start) VALUES (?, ?, ?)',
+                [$ip, $username, $now]
+            );
+        }
+
+        if (!$isNewOffenderThisWindow) {
+            return; // Already counted this window: leave otp_rate_limits untouched.
+        }
+
+        // Step 2: increment the global per-IP counter.
         $row = $this->db->query(
             'SELECT attempts, window_start FROM otp_rate_limits WHERE ip = ?',
             [$ip]
@@ -482,42 +467,33 @@ class Auth
         );
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SEZIONE 4: Dispositivi attendibili ("ricordami")
-    // ══════════════════════════════════════════════════════════════════════════
+    // SECTION 4: trusted devices ("remember me")
 
     /**
-     * Controlla se il dispositivo corrente è "attendibile" per l'utente in
-     * PENDING_TOTP: se sì, salta interamente la richiesta del codice OTP.
+     * Checks whether the current device is trusted for a user in
+     * PENDING_TOTP; if so, skips the OTP prompt entirely.
      *
-     * FEATURE: Trusted device — dopo un secondo fattore completato con
-     * "ricordami" attivo, ai login successivi da quel browser il codice OTP
-     * non viene più richiesto (per Auth::TRUSTED_DEVICE_TTL, 10 giorni).
+     * A random 32-byte token is issued on a "remember me" success: the
+     * raw token goes in the browser cookie, its SHA-256 hash in the DB —
+     * a DB leak alone doesn't expose usable cookie tokens. On each
+     * visit, after startMfaChallenge(), this looks up the td_token
+     * cookie, hashes it, and checks it against the DB for the session's
+     * user.
      *
-     * Come funziona tecnicamente:
-     *   1. Al successo con "ricordami", generiamo un token casuale (32 byte).
-     *      Il token grezzo va nel cookie del browser; l'hash SHA-256 va nel DB.
-     *      (Se il DB venisse compromesso, gli hash da soli non basterebbero
-     *      per ricostruire i token originali dei cookie.)
-     *   2. A ogni accesso, dopo startMfaChallenge(), questo metodo cerca un
-     *      cookie td_token, ne calcola l'hash, e lo cerca nel DB per l'utente
-     *      in sessione.
-     *   3. Se trovato e non scaduto, autentica direttamente senza richiedere OTP.
-     *
-     * @return bool true se il dispositivo è attendibile e il secondo fattore
-     *              è stato soddisfatto senza richiedere alcun codice
+     * @return bool true if the device is trusted and the second factor
+     *              was satisfied without requesting a code
      */
     public function checkTrustedDevice(): bool
     {
-        // Ha senso solo in PENDING_TOTP: se il TOTP non è ancora configurato
-        // (PENDING_SETUP) non può ancora esistere un dispositivo attendibile.
+        // Only meaningful in PENDING_TOTP: no trusted device can exist
+        // before TOTP is configured (PENDING_SETUP).
         if ($this->getState() !== self::STATE_PENDING_TOTP) {
             return false;
         }
 
         $token = $_COOKIE[self::TRUSTED_DEVICE_COOKIE] ?? '';
         if (!$token) {
-            return false; // Nessun cookie di dispositivo attendibile presente
+            return false; // No trusted-device cookie present
         }
 
         $userId = $_SESSION[self::SESSION_USER] ?? null;
@@ -525,7 +501,7 @@ class Auth
             return false;
         }
 
-        // hash('sha256', ...) è deterministico: lo stesso token produce sempre lo stesso hash.
+        // hash() is deterministic: the same token always produces the same hash.
         $hash = hash('sha256', $token);
         $now  = time();
 
@@ -535,13 +511,13 @@ class Auth
         )->fetch();
 
         if (!$device) {
-            // Cookie presente ma token non trovato (scaduto, revocato, o
-            // contraffatto). Non fare nulla — l'utente vedrà normalmente il form OTP.
+            // Cookie present but token not found (expired, revoked, or
+            // forged) — fall through to the normal OTP form.
             return false;
         }
 
-        // Dispositivo attendibile valido: registra l'accesso e completa il
-        // secondo fattore senza aver mai richiesto un codice.
+        // Valid trusted device: record the login and satisfy the second
+        // factor without ever requesting a code.
         $this->db->query(
             'UPDATE totp_users SET last_totp_login = ? WHERE o2user = ?',
             [$now, (string) $userId]
@@ -554,32 +530,28 @@ class Auth
     }
 
     /**
-     * Registra il dispositivo corrente come "attendibile" per l'utente che ha
-     * appena completato con successo il secondo fattore.
+     * Marks the current device as trusted for the user who just
+     * completed the second factor.
      *
-     * Va chiamato subito DOPO verifyTotp() (mai dopo confirmTotpSetup(): un
-     * utente che sta configurando il TOTP per la prima volta non ha ancora
-     * scelto se fidarsi di questo browser a lungo termine — vedi register.php),
-     * passando la preferenza dell'utente dal checkbox "ricordami" del form OTP.
-     *
-     * Il token casuale generato qui viene messo nel cookie del browser e il
-     * suo hash SHA-256 viene salvato nel database — vedi checkTrustedDevice()
-     * per la spiegazione completa del perché si salva l'hash e non il token.
+     * Call only after verifyTotp() — never after confirmTotpSetup(): a
+     * user doing first-time setup hasn't yet chosen whether to trust
+     * this browser long-term (see register.php). Pass the "remember me"
+     * checkbox value from the OTP form.
      */
     public function setTrustedDevice(): void
     {
         $userId = $this->getCurrentUserId();
         if ($userId === null) {
-            return; // Chiamabile solo quando il secondo fattore è soddisfatto
+            return; // Only callable once the second factor is satisfied
         }
 
-        // Genera un token casuale crittograficamente sicuro (32 byte = 256 bit).
+        // Cryptographically secure random token (32 bytes = 256 bits).
         $token     = bin2hex(random_bytes(32));
         $tokenHash = hash('sha256', $token);
         $now       = time();
         $expiresAt = $now + self::TRUSTED_DEVICE_TTL;
 
-        // Tronca l'user agent a 255 caratteri (solo per audit, non usato in logica).
+        // Truncate user agent to 255 chars (audit only, not used in logic).
         $userAgent = substr($_SERVER['HTTP_USER_AGENT'] ?? '', 0, 255);
 
         $this->db->query(
@@ -587,8 +559,7 @@ class Auth
             [$userId, $tokenHash, $now, $expiresAt, $userAgent]
         );
 
-        // Imposta il cookie con gli stessi attributi di sicurezza del cookie
-        // di sessione (vedi _bootstrap.php).
+        // Same cookie security attributes as the session cookie (see _bootstrap.php).
         $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
         setcookie(
             self::TRUSTED_DEVICE_COOKIE,
@@ -604,13 +575,12 @@ class Auth
     }
 
     /**
-     * Revoca tutti i dispositivi attendibili per l'utente che ha completato
-     * il secondo fattore. Elimina i record dal DB e cancella il cookie locale.
+     * Revokes all trusted devices for the user who completed the second
+     * factor: deletes the DB records and clears the local cookie.
      *
-     * Non è ancora richiamato da nessuna pagina di questo modulo (non esiste
-     * più un'area "post-login" nel nostro modulo: quel ruolo appartiene ora
-     * all'app ERP). Mantenuto disponibile per un futuro strumento di gestione
-     * o per un'eventuale pagina amministrativa lato ERP.
+     * Not currently called anywhere in this module — there's no
+     * post-login area here any more, that's the ERP app's job now. Kept
+     * available for a future management tool or ERP-side admin page.
      */
     public function revokeAllTrustedDevices(): void
     {
@@ -638,13 +608,10 @@ class Auth
         );
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SEZIONE 5: Lettura stato sessione
-    // ══════════════════════════════════════════════════════════════════════════
+    // SECTION 5: session state reads
 
     /**
-     * Restituisce lo stato corrente della sessione.
-     * Se la chiave non esiste (nessuna sfida MFA in corso), restituisce STATE_NONE.
+     * Current session state, or STATE_NONE if no MFA challenge is in progress.
      */
     public function getState(): string
     {
@@ -652,8 +619,7 @@ class Auth
     }
 
     /**
-     * Shortcut per verificare se il secondo fattore è stato soddisfatto per
-     * questa sessione.
+     * Whether the second factor has been satisfied for this session.
      */
     public function isAuthenticated(): bool
     {
@@ -661,9 +627,8 @@ class Auth
     }
 
     /**
-     * Restituisce lo username per cui il secondo fattore è stato soddisfatto,
-     * o null se non lo è (a differenza di getChallengeUser(), che restituisce
-     * lo username indipendentemente dallo stato).
+     * Username for which the second factor has been satisfied, or null
+     * otherwise (unlike getChallengeUser(), which ignores state).
      */
     public function getCurrentUserId(): ?string
     {
@@ -673,23 +638,22 @@ class Auth
         return isset($_SESSION[self::SESSION_USER]) ? (string) $_SESSION[self::SESSION_USER] : null;
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SEZIONE 6: Logout
-    // ══════════════════════════════════════════════════════════════════════════
+    // SECTION 6: logout
 
     /**
-     * Invalida completamente la sessione autonoma di questo modulo.
+     * Fully invalidates this module's session.
      *
-     * INVARIATO rispetto al prototipo standalone originale: qui è corretto
-     * distruggere l'intera sessione (session_destroy() + cancellazione del
-     * cookie), perché è la NOSTRA sessione autonoma — non è mai condivisa con
-     * Janox (vedi _bootstrap.php). Non c'è quindi il rischio, che ci sarebbe
-     * stato se avessimo condiviso la sessione applicativa di Janox, di
-     * distruggere dati di sessione che non ci appartengono.
+     * Known residual risk: in this deployment the PHP session is shared
+     * with jxtotp.php's $_SESSION['o2_app'] (see class docblock) — if
+     * this method is ever called from a path reached via jxtotp.php, it
+     * would destroy Janox's application session data too, not just
+     * ours. No such call path exists today (totp/logout.php, which used
+     * to expose this, was removed as unreferenced). Review this before
+     * wiring logout() to any route reachable from jxtotp.php.
      *
-     * Nota: il cookie td_token (dispositivo attendibile) NON viene eliminato
-     * al logout — la revoca esplicita dei dispositivi fidati è un'azione
-     * separata (revokeAllTrustedDevices()).
+     * Note: the td_token (trusted device) cookie is NOT cleared here —
+     * revoking trusted devices is a separate action
+     * (revokeAllTrustedDevices()).
      */
     public function logout(): void
     {
@@ -706,51 +670,47 @@ class Auth
         session_destroy();
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SEZIONE 7: CSRF
-    // ══════════════════════════════════════════════════════════════════════════
+    // SECTION 7: CSRF
 
     /**
-     * Restituisce il token CSRF per la sessione corrente (ne genera uno se non esiste).
-     *
-     * CSRF (Cross-Site Request Forgery): un sito malevolo potrebbe indurre il
-     * browser dell'utente a inviare una richiesta autenticata al nostro
-     * endpoint (es. tramite un form nascosto). Il browser include
-     * automaticamente i cookie di sessione, quindi il server non può
-     * distinguere la richiesta legittima da quella forgiata senza un token
-     * segreto noto solo al server e al client legittimo.
+     * Returns the CSRF token for the current session, generating one if
+     * absent.
      */
     public function getCsrfToken(): string
     {
         if (empty($_SESSION[self::SESSION_CSRF])) {
-            // 32 byte casuali → 64 caratteri hex → token praticamente impossibile da indovinare.
+            // 32 random bytes -> 64 hex chars, effectively unguessable.
             $_SESSION[self::SESSION_CSRF] = bin2hex(random_bytes(32));
         }
         return $_SESSION[self::SESSION_CSRF];
     }
 
     /**
-     * Verifica che il token CSRF inviato dal form corrisponda a quello in sessione.
+     * Verifies the submitted CSRF token against the one stored in session.
      *
-     * hash_equals() fa un confronto timing-safe: impiega sempre lo stesso
-     * tempo indipendentemente da quanti caratteri iniziali coincidono. Questo
-     * previene attacchi che tentano di indovinare il token misurando il
-     * tempo di risposta.
+     * hash_equals() is timing-safe. The empty-stored-token case is
+     * checked explicitly before it (see guard below), since
+     * hash_equals('', '') === true in PHP — without that guard, a
+     * request with no token in session and none in POST would
+     * incorrectly pass verification.
      */
     public function verifyCsrf(string $token): bool
     {
         $stored = $_SESSION[self::SESSION_CSRF] ?? '';
+        if ($stored === '') {
+            // No token issued yet this session: hash_equals('', $token)
+            // would return true if $token is also '' (e.g. a form that
+            // omits the csrf_token field entirely). Reject explicitly
+            // instead of letting that coincidence pass as valid.
+            return false;
+        }
         return hash_equals($stored, $token);
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SEZIONE 8: Costanti interne (non configurabili dall'esterno)
-    // ══════════════════════════════════════════════════════════════════════════
+    // SECTION 8: internal constants
 
     /**
-     * Durata di un intervallo temporale TOTP in secondi.
-     * Usata internamente per calcolare il numero di finestra corrente.
-     * Deve corrispondere a Totp::PERIOD.
+     * TOTP time-step length in seconds; must match Totp::PERIOD.
      */
     private const TOTP_PERIOD = 30;
 }

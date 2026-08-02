@@ -3,75 +3,56 @@ declare(strict_types=1);
 require_once __DIR__ . '/_bootstrap.php';
 
 /**
- * Verifica del secondo fattore TOTP — pagina EMBEDDED.
+ * TOTP second-factor verification — embedded page, never reachable via direct URL.
  *
- * Non è mai raggiungibile via URL diretta: questa cartella non è in nessuna
- * document root di alcun web server. Viene raggiunta SOLO tramite
- * include_once da jxtotp.php, dopo che Auth::startMfaChallenge() ha già
- * determinato lo stato STATE_PENDING_TOTP per l'utente in sessione (oppure
- * quando la guardia in jxtotp.php riconosce che questa richiesta prosegue un
- * flusso già iniziato).
+ * Included by jxtotp.php after Auth::startMfaChallenge() has set
+ * STATE_PENDING_TOTP for the session user (or when jxtotp.php's guard
+ * recognizes a continuation of an already-started flow).
  *
- * FEATURE: contratto di ritorno verso jxtotp.php.
- *   Questo file non stampa mai una pagina "autenticato" e non decide da solo
- *   come completare il login verso l'applicazione ERP: quella parte resta
- *   interamente a Janox (tramite il proprio meccanismo di OTP interno). Il
- *   contratto è semplice:
- *
- *     - Secondo fattore NON ancora soddisfatto (nessun codice inviato, o
- *       codice errato): stampa il form/errore e termina con die(). La
- *       risposta HTTP finisce qui — jxtotp.php non riprende il controllo.
- *
- *     - Secondo fattore SODDISFATTO (codice corretto, oppure dispositivo già
- *       "attendibile"): NON stampa nulla e termina con `return true;`. Quel
- *       valore diventa il valore restituito dall'include_once in jxtotp.php,
- *       che a quel punto — e solo a quel punto — decide se e come procedere
- *       con il proprio meccanismo di login (OTP interno di Janox).
- *
- *   Questo file non chiama MAI app_login()/app_generate_otp() direttamente:
- *   lo fa sempre e solo jxtotp.php, dopo aver controllato il valore restituito
- *   qui sotto. Manteniamo così il nostro TOTP e l'OTP interno di Janox come
- *   due concetti concettualmente separati, senza commistioni.
+ * Return contract to jxtotp.php:
+ * - Second factor NOT satisfied: prints the form/error and die()s.
+ * - Second factor satisfied (valid code, or an already-trusted device):
+ *   prints nothing and `return true`.
  */
 
-// ── FEATURE: dispositivo attendibile ("ricordami") ──────────────────────────
-// Primo controllo, prima di mostrare qualunque form: se questo browser ha
-// già un cookie di dispositivo attendibile valido per l'utente in sessione,
-// checkTrustedDevice() porta direttamente lo stato a STATE_AUTHENTICATED e
-// l'utente non deve inserire nessun codice OTP in questo accesso.
+// Trusted device ("remember me"): a valid cookie for the session user
+// short-circuits straight to STATE_AUTHENTICATED, skipping the OTP form.
 if ($auth->checkTrustedDevice()) {
     return true;
 }
 
 $error = '';
 
-// ── POST: l'utente ha inserito un codice OTP ────────────────────────────────
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Real OTP submission, not the inherited Janox login POST: jxtotp.php
+// includes this file within the SAME request as the Janox login form, so
+// REQUEST_METHOD is already 'POST' before any OTP code has been entered.
+// Checking REQUEST_METHOD alone caused a premature "invalid code" error on
+// first hit — keep isset($_POST['otp_code']) here, do not simplify it away.
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['otp_code'])) {
 
-    // Verifica CSRF prima di qualunque elaborazione: previene che un sito
-    // terzo induca il browser a inviare qui una richiesta non voluta.
+    // CSRF check before any processing.
     if (!$auth->verifyCsrf($_POST['csrf_token'] ?? '')) {
         $error = 'Richiesta non valida.';
     } else {
         $code     = trim($_POST['otp_code'] ?? '');
         $clientIp = getClientIp();
 
-        // verifyTotp() include internamente sia il lockout per-account sia il
-        // rate limiting per-IP (vedi Auth::verifyTotp()): un attaccante non
-        // può tentare in modo illimitato di indovinare il codice a 6 cifre.
+        // Enforces per-account lockout and per-IP rate limiting internally.
         if ($auth->verifyTotp($code, $clientIp)) {
 
-            // ── FEATURE: imposta dispositivo attendibile se richiesto ────────
-            // Se l'utente ha spuntato "ricordami", memorizziamo questo browser
-            // come attendibile: ai prossimi accessi (fino a 10 giorni) il
-            // codice OTP non verrà richiesto di nuovo (vedi il controllo in
-            // testa a questo file).
+            // Must run BEFORE setTrustedDevice(): it deletes ALL trusted_devices
+            // rows for this user, so calling it after would silently wipe out
+            // the device just registered below in the same login.
+            if (!empty($_POST['revoke_devices'])) {
+                $auth->revokeAllTrustedDevices();
+            }
+
+            // Marks this browser trusted for TRUSTED_DEVICE_TTL (10 days).
             if (!empty($_POST['remember_device'])) {
                 $auth->setTrustedDevice();
             }
 
-            // Secondo fattore soddisfatto: nessun output, nessun die().
-            // L'esecuzione ritorna a jxtotp.php, che decide come proseguire.
+            // Second factor satisfied: no output, control returns to jxtotp.php.
             return true;
         }
 
@@ -79,15 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ── Nessun secondo fattore soddisfatto: mostra il form OTP ──────────────────
-// Sia al primissimo hit (nessun POST ancora) sia dopo un codice errato.
+// No second factor satisfied yet (first hit, or a failed code): render the form.
 $csrf = $auth->getCsrfToken();
 
-// Campi da riproporre nel form: 'user' e 'jxapp' vengono letti di nuovo da
-// jxtotp.php al prossimo hit e devono restare intatti fino al login finale
-// verso l'app ERP (app_login() li rinvia come campi hidden). La password NON
-// viene mai richiesta di nuovo: è già stata verificata da Janox al primo hit,
-// e non è più presente in $_REQUEST da questo punto in avanti.
+// 'user'/'jxapp' are re-read by jxtotp.php on the next hit and forwarded to
+// app_login() as hidden fields; password is never re-requested (already
+// verified by Janox on the first hit, no longer present in $_REQUEST).
 $preserveUser = h((string) ($_REQUEST['user']  ?? ''));
 $preserveApp  = h((string) ($_REQUEST['jxapp'] ?? ''));
 ?>
@@ -134,10 +112,8 @@ label{display:block;font-size:.82rem;font-weight:600;color:#3A4F6A;margin-bottom
       <?php endif; ?>
       <form method="post" action="" autocomplete="off">
         <input type="hidden" name="csrf_token" value="<?php echo h($csrf); ?>">
-        <!-- 'user' e 'jxapp' vengono rimandati intatti: servono a jxtotp.php
-             sia per riconoscere che questo POST prosegue un flusso MFA già
-             iniziato (vedi la guardia in app_check_user()), sia per il login
-             finale verso l'app ERP (app_login() li rinvia come campi hidden). -->
+        <!-- 'user'/'jxapp' let jxtotp.php recognize a continuing MFA flow
+             (see app_check_user()) and are forwarded to app_login(). -->
         <input type="hidden" name="user" value="<?php echo $preserveUser; ?>">
         <input type="hidden" name="jxapp" value="<?php echo $preserveApp; ?>">
         <div class="form-group">
@@ -147,11 +123,24 @@ label{display:block;font-size:.82rem;font-weight:600;color:#3A4F6A;margin-bottom
                  inputmode="numeric" pattern="\d{6}" maxlength="6"
                  placeholder="000000" required autofocus>
         </div>
-        <div class="form-group" style="display:flex;align-items:center;gap:8px;margin-top:4px">
+        <!-- flex-start + flex-shrink:0 keep both checkboxes visually
+             consistent regardless of label line count. -->
+        <div class="form-group" style="display:flex;align-items:flex-start;gap:8px;margin-top:4px">
           <input type="checkbox" id="remember_device" name="remember_device"
-                 value="1" style="width:16px;height:16px;cursor:pointer">
+                 value="1" style="width:16px;height:16px;flex-shrink:0;margin-top:2px;cursor:pointer">
           <label for="remember_device" style="margin:0;font-size:.86rem;font-weight:400;cursor:pointer;color:#3A4F6A">
             Considera questo dispositivo attendibile (non richiedere OTP per 10 giorni)
+          </label>
+        </div>
+        <!-- Shown only here (post-setup), never in register.php — no trusted
+             devices can exist yet at initial setup. Server-side ordering
+             ensures a newly registered device survives if "remember me" is
+             also checked. -->
+        <div class="form-group" style="display:flex;align-items:flex-start;gap:8px;margin-top:4px">
+          <input type="checkbox" id="revoke_devices" name="revoke_devices"
+                 value="1" style="width:16px;height:16px;flex-shrink:0;margin-top:2px;cursor:pointer">
+          <label for="revoke_devices" style="margin:0;font-size:.86rem;font-weight:400;cursor:pointer;color:#3A4F6A">
+            Elimina eventuali altri dispositivi attendibili già memorizzati
           </label>
         </div>
         <button type="submit" class="btn btn-primary btn-full">Verifica</button>
@@ -162,6 +151,5 @@ label{display:block;font-size:.82rem;font-weight:600;color:#3A4F6A;margin-bottom
 </body>
 </html>
 <?php
-// Risposta HTML già inviata: la richiesta termina qui, jxtotp.php non
-// riprende il controllo (vedi il PHPDoc in testa a questo file).
+// Response already sent; jxtotp.php does not regain control (see file header).
 die();
