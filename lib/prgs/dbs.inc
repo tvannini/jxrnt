@@ -2,7 +2,9 @@
 // ==============  SERVERS ================
 o2def::server("default", "sqlite3", "", "", "", 0);
 o2def::server("jxsess_srv", "sqlite3", ":session:", "", "", 0);
+o2def::server("jxtotp", "sqlite3", "jxtotp.db", "", "", 0);
 // ==============  DATABASES ================
 o2def::db("default", "default", "", "", false, true);
 o2def::db("jxsess_db", "jxsess_srv", "", "", false, true);
+o2def::db("jxtotp", "jxtotp", "", "", false, true);
 ?>
