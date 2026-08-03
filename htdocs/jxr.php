@@ -105,8 +105,9 @@ if (session_start()) {
                 }
             // _______________________________________________ Manage expired sessions ___
             else {
-                header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized", true, 401);
-                print "window.location = '".$app->no_login."';\n";
+                http_response_code(401);
+                // _______________ Function json_encode() is used for security reasons ___
+                print "window.location.href = ".json_encode($app->no_login).";\n";
                 }
             break;
         case "lookup": // _____________________________________________________ Lookup ___

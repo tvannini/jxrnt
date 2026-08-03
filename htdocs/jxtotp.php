@@ -198,13 +198,9 @@ function process_app($app_main_path) {
             if (isset($app_ini['nologin']) && $app_ini['nologin']) {
                 $nologin = $app_ini['nologin'];
                 if (strpos($nologin, 'http') === false) {
-                    $refParts = parse_url($_SERVER['HTTP_REFERER']);
-                    $nologin  = ($refParts['scheme'] ?? 'https').'://'.
-                                ($refParts['host'] ?? '').
-                                rtrim(dirname($refParts['path'] ?? '/'), '/').'/'.
-                                $nologin;
+                    $nologin  = $_SESSION['o2_app']->alias.'/'.$nologin;
                     }
-                $_SESSION['o2_app']->no_login = $nologin ?? '';
+                $_SESSION['o2_app']->no_login = $nologin;
                 }
             // ______________________________________ Load application servers and dbs ___
             require_once $app_dbs;
@@ -487,12 +483,8 @@ function error_send($msg) {
 
     http_response_code(401);
     if (isset($_SESSION['o2_app']) && isset($_SESSION['o2_app']->no_login)) {
-        $nologin = $_SESSION['o2_app']->no_login;
-        if (strpos($nologin, 'http') === false) {
-            $nologin = $_SESSION['o2_app']->alias.$nologin;
-            }
-        $html = '<form name="jxlogout" method="POST" enctype="text/plain" action="'.
-                $nologin.'"></form><script>document.forms["jxlogout"].submit();</script>';
+        $html    = '<script>window.location.href = '.
+                   json_encode($_SESSION['o2_app']->no_login).';</script>';
         }
     else {
         $html = "<!DOCTYPE HTML>\n".

@@ -2134,12 +2134,11 @@ class o2_app {
         if (!isset($list[0])) {
             if ($this->runtime->interface == 'HTML') {
                 // __________________________________________ Send HTTP error code 401 ___
-                header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized", true, 401);
+                http_response_code(401);
                 // _________________________________________ Redirect to no-login page ___
                 if ($this->no_login) {
-                    die('<form name="jxlogout" method="POST" enctype="text/plain" '.
-                        'action="'.$this->no_login.
-                        '"></form><script>document.forms["jxlogout"].submit();</script>');
+                    die('<script>window.location.href = '.json_encode($this->no_login).
+                        ';</script>');
                     }
                 else {
                     die('<br><br><center><h4>Access denied</h4></center>');
