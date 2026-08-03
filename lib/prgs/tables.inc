@@ -332,6 +332,20 @@ o2def::tab("jx_otp", "default", "jx_otp", "code");
 	o2def::nuindex("user", "user","A");
 	o2def::nuindex("time", "create_time","D");
 
+o2def::tab("totp_users", "jxtotp", "totp_users", "user");
+
+	o2def::field("o2user", "o2user", "jxuser");
+	o2def::field("totp_secret", "totp_secret", "o2sys_long_str");
+	o2def::field("totp_confirmed", "totp_confirmed", "_o2logical");
+	o2def::field("last_totp_code", "last_totp_code", "_o2alpha");
+	o2def::field("last_totp_window", "last_totp_window", "_o2number");
+	o2def::field("failed_otp_attempts", "failed_otp_attempts", "_o2number");
+	o2def::field("otp_locked_until", "otp_locked_until", "o2sys_full_number");
+	o2def::field("created_at", "created_at", "o2sys_full_number");
+	o2def::field("last_totp_login", "last_totp_login", "o2sys_full_number");
+
+	o2def::index("user", "o2user","A");
+
 o2def::tab("jx_calendar_events", "default", "jx_calendar_events", "id");
 
 	o2def::field("event_id", "event_id", "jxcal_event_id");
