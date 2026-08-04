@@ -98,13 +98,14 @@ class Database
         $this->pdo->exec("
             CREATE TABLE IF NOT EXISTS trusted_devices (
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id     TEXT    NOT NULL,
-                token_hash  TEXT    NOT NULL UNIQUE,
-                created_at  INTEGER NOT NULL,
+                user_id     VARCHAR(50)  NOT NULL,
+                token_hash  VARCHAR(240) NOT NULL DEFAULT '' UNIQUE,
+                created_at  INTEGER      NOT NULL DEFAULT 0,
                 -- Unix timestamp (Auth::TRUSTED_DEVICE_TTL = 10 days).
-                expires_at  INTEGER NOT NULL,
+                expires_at  INTEGER      NOT NULL DEFAULT 0,
                 -- Audit only, never used in auth logic.
-                user_agent  TEXT    NOT NULL DEFAULT '',
+                user_agent  VARCHAR(240) NOT NULL DEFAULT '',
+
                 FOREIGN KEY (user_id) REFERENCES totp_users(o2user) ON DELETE CASCADE
             )
         ");
