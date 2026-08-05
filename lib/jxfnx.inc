@@ -4972,7 +4972,7 @@ function o2tab_index_seton($table_name, $index_name) {
  * @see     o2tab_index_seton(), o2tab_index_setoff(), o2tab_indexes()
  * @return  boolean
  */
-function o2tab_index_setoff($table_name, $fkey_name) {
+function o2tab_index_setoff($table_name, $index_name) {
 
     $app = $_SESSION['o2_app'];
     if ($table = $app->get_table($table_name)) {
