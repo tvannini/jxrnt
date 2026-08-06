@@ -69,11 +69,40 @@ function jxgranting_user§§model_users_def($task_model_users, $_o2viewalias = "")
 	$task_model_users->usa("role_name","o2_roles_per_user","role_name",null,null,"jxgranting_user_exp_9()",null);
 	$task_model_users->calcola("model_user_desc","o2sys_long_str","jxgranting_user_exp_22()",null,null,null,null);
 }
+
+function jxgranting_user§§totp_users_def($task_totp_users, $_o2viewalias = "") {
+	$task_totp_users->righe_vis = 10;
+
+	$task_totp_users->usa_file("jxtotp_users","jxtotp_users","user",null,null);
+
+	$task_totp_users->usa("o2user","jxtotp_users","o2user","jxgranting_user_exp_10()","jxgranting_user_exp_10()",null,null);
+	$task_totp_users->usa("totp_secret","jxtotp_users","totp_secret",null,null,null,null);
+	$task_totp_users->usa("totp_confirmed","jxtotp_users","totp_confirmed",null,null,null,null);
+	$task_totp_users->usa("last_totp_code","jxtotp_users","last_totp_code",null,null,null,null);
+	$task_totp_users->usa("last_totp_window","jxtotp_users","last_totp_window",null,null,null,null);
+	$task_totp_users->usa("failed_otp_attempts","jxtotp_users","failed_otp_attempts",null,null,null,null);
+	$task_totp_users->usa("otp_locked_until","jxtotp_users","otp_locked_until",null,null,null,null);
+	$task_totp_users->usa("created_at","jxtotp_users","created_at",null,null,null,null);
+	$task_totp_users->usa("last_totp_login","jxtotp_users","last_totp_login",null,null,null,null);
+}
+
+function jxgranting_user§§totp_trusted_devices_def($task_totp_trusted_devices, $_o2viewalias = "") {
+	$task_totp_trusted_devices->righe_vis = 10;
+
+	$task_totp_trusted_devices->usa_file("jxtotp_trusted_devices","jxtotp_trusted_devices","id",null,null);
+
+	$task_totp_trusted_devices->usa("id","jxtotp_trusted_devices","id",null,null,null,null);
+	$task_totp_trusted_devices->usa("user_id","jxtotp_trusted_devices","user_id","jxgranting_user_exp_10()","jxgranting_user_exp_10()",null,null);
+	$task_totp_trusted_devices->usa("expires_at","jxtotp_trusted_devices","expires_at",null,null,null,null);
+	$task_totp_trusted_devices->usa("user_agent","jxtotp_trusted_devices","user_agent",null,null,null,null);
+}
 function jxgranting_user§§user_form_def($form_user) {
-	$form_user->x(0);
+	$form_user->x(410);
 	$form_user->y(300);
-	$form_user->larghezza(460);
+	$form_user->x_exp(jxgranting_user_exp_92());
+	$form_user->larghezza(900);
 	$form_user->altezza(510);
+	$form_user->larghezza_exp(jxgranting_user_exp_91());
 	$form_user->align_v("Middle");
 	$form_user->align_o("Center");
 	$form_user->titolo(jxgranting_user_exp_38());
@@ -100,11 +129,11 @@ function jxgranting_user§§user_form_def($form_user) {
 		$ctrl_o2label17->larghezza(200);
 		$ctrl_o2label17->altezza(20);
 		$ctrl_o2label17->label("Area code (ASPID):");
-	$ctrl_o2separator3 = $form_user->ctrldef("o2separator3", "line", "", "", "");
-		$ctrl_o2separator3->x(20);
-		$ctrl_o2separator3->y(400);
-		$ctrl_o2separator3->larghezza(420);
-		$ctrl_o2separator3->altezza(2);
+	$ctrl_separator = $form_user->ctrldef("separator", "line", "", "", "");
+		$ctrl_separator->x(20);
+		$ctrl_separator->y(400);
+		$ctrl_separator->larghezza(860);
+		$ctrl_separator->altezza(2);
 	$ctrl_o2label3 = $form_user->ctrldef("o2label3", "label", "", "", "");
 		$ctrl_o2label3->x(20);
 		$ctrl_o2label3->y(290);
@@ -280,34 +309,33 @@ function jxgranting_user§§user_form_def($form_user) {
 		$ctrl_o2ListBox3->visibile(jxgranting_user_exp_48());
 		$ctrl_o2ListBox3->valori(o2_view2list("model_users", "o2user", "model_user_desc"));
 		$ctrl_o2ListBox3->righe(1);
-	$ctrl_o2button5 = $form_user->ctrldef("o2button5", "button", "", "", "");
-		$ctrl_o2button5->x(350);
-		$ctrl_o2button5->y(425);
-		$ctrl_o2button5->larghezza(90);
-		$ctrl_o2button5->altezza(30);
-		$ctrl_o2button5->azione("save");
-		$ctrl_o2button5->label(jxgranting_user_exp_44());
-		$ctrl_o2button5->css(jxgranting_user_exp_3());
-	$ctrl_o2button4 = $form_user->ctrldef("o2button4", "button", "", "", "");
-		$ctrl_o2button4->x(250);
-		$ctrl_o2button4->y(425);
-		$ctrl_o2button4->larghezza(90);
-		$ctrl_o2button4->altezza(30);
-		$ctrl_o2button4->azione("cancel");
-		$ctrl_o2button4->label("&Cancel");
-		$ctrl_o2button4->css(jxgranting_user_exp_2());
-	$ctrl_o2multipage2 = $form_user->ctrldef("o2multipage2", "multipage", "", "", "");
-		$ctrl_o2multipage2->x(0);
-		$ctrl_o2multipage2->y(0);
-		$ctrl_o2multipage2->larghezza(460);
-		$ctrl_o2multipage2->altezza(40);
-		$ctrl_o2multipage2->expand("H");
-		$ctrl_o2multipage2->label(array("Page1"));
-		$ctrl_o2multipage2->css_space_out(jxgranting_user_exp_17());
-		$ctrl_o2multipage2->css_space_in(jxgranting_user_exp_15());
-		$ctrl_o2multipage2->css_label_on(jxgranting_user_exp_34());
-		$ctrl_o2multipage2->css_label_off(jxgranting_user_exp_34());
-		$ctrl_o2multipage2->buttons("T");
+	$ctrl_btn_save = $form_user->ctrldef("btn_save", "button", "", "", "");
+		$ctrl_btn_save->x(790);
+		$ctrl_btn_save->y(425);
+		$ctrl_btn_save->larghezza(90);
+		$ctrl_btn_save->altezza(30);
+		$ctrl_btn_save->azione("save");
+		$ctrl_btn_save->label(jxgranting_user_exp_44());
+		$ctrl_btn_save->css(jxgranting_user_exp_3());
+	$ctrl_btn_cancel = $form_user->ctrldef("btn_cancel", "button", "", "", "");
+		$ctrl_btn_cancel->x(690);
+		$ctrl_btn_cancel->y(425);
+		$ctrl_btn_cancel->larghezza(90);
+		$ctrl_btn_cancel->altezza(30);
+		$ctrl_btn_cancel->azione("cancel");
+		$ctrl_btn_cancel->label("&Cancel");
+		$ctrl_btn_cancel->css(jxgranting_user_exp_2());
+	$ctrl_head_bar = $form_user->ctrldef("head_bar", "multipage", "", "", "");
+		$ctrl_head_bar->x(0);
+		$ctrl_head_bar->y(0);
+		$ctrl_head_bar->larghezza(900);
+		$ctrl_head_bar->altezza(40);
+		$ctrl_head_bar->label(array("Page1"));
+		$ctrl_head_bar->css_space_out(jxgranting_user_exp_17());
+		$ctrl_head_bar->css_space_in(jxgranting_user_exp_15());
+		$ctrl_head_bar->css_label_on(jxgranting_user_exp_34());
+		$ctrl_head_bar->css_label_off(jxgranting_user_exp_34());
+		$ctrl_head_bar->buttons("T");
 	$ctrl_o2ListBox2 = $form_user->ctrldef("o2ListBox2", "listcombo", "", "prg§_§var", "asp_area");
 		$ctrl_o2ListBox2->x(220);
 		$ctrl_o2ListBox2->y(90);
@@ -318,14 +346,23 @@ function jxgranting_user§§user_form_def($form_user) {
 		$ctrl_o2ListBox2->on_change(jxgranting_user_exp_8());
 		$ctrl_o2ListBox2->valori(jxgranting_user_exp_24());
 		$ctrl_o2ListBox2->righe(1);
-	$ctrl_o2image27 = $form_user->ctrldef("o2image27", "img", "o2multipage2", "", "");
-		$ctrl_o2image27->x(34);
+	$ctrl_o2multipage2 = $form_user->ctrldef("o2multipage2", "multipage", "", "", "");
+		$ctrl_o2multipage2->x(470);
+		$ctrl_o2multipage2->y(65);
+		$ctrl_o2multipage2->larghezza(410);
+		$ctrl_o2multipage2->altezza(330);
+		$ctrl_o2multipage2->visibile(jxgranting_user_exp_81());
+		$ctrl_o2multipage2->label(array("TOTP"));
+		$ctrl_o2multipage2->buttons("T");
+	$ctrl_o2image27 = $form_user->ctrldef("o2image27", "img", "head_bar", "", "");
+		$ctrl_o2image27->x(85);
 		$ctrl_o2image27->y(11);
 		$ctrl_o2image27->larghezza(3);
 		$ctrl_o2image27->altezza(17);
+		$ctrl_o2image27->visibile(jxgranting_user_exp_89());
 		$ctrl_o2image27->info_padre(array(0));
 		$ctrl_o2image27->imgexp(jxgranting_user_exp_37());
-	$ctrl_o2image4 = $form_user->ctrldef("o2image4", "img", "o2multipage2", "", "");
+	$ctrl_o2image4 = $form_user->ctrldef("o2image4", "img", "head_bar", "", "");
 		$ctrl_o2image4->x(10);
 		$ctrl_o2image4->y(8);
 		$ctrl_o2image4->larghezza(24);
@@ -336,8 +373,8 @@ function jxgranting_user§§user_form_def($form_user) {
 		$ctrl_o2image4->label("Clear passwords history");
 		$ctrl_o2image4->css(jxgranting_user_exp_36());
 		$ctrl_o2image4->imgexp(jxgranting_user_exp_35());
-	$ctrl_plugin_profile = $form_user->ctrldef("plugin_profile", "img", "o2multipage2", "", "");
-		$ctrl_plugin_profile->x(37);
+	$ctrl_plugin_profile = $form_user->ctrldef("plugin_profile", "img", "head_bar", "", "");
+		$ctrl_plugin_profile->x(88);
 		$ctrl_plugin_profile->y(8);
 		$ctrl_plugin_profile->larghezza(24);
 		$ctrl_plugin_profile->altezza(24);
@@ -347,8 +384,8 @@ function jxgranting_user§§user_form_def($form_user) {
 		$ctrl_plugin_profile->label("User profile");
 		$ctrl_plugin_profile->css(jxgranting_user_exp_36());
 		$ctrl_plugin_profile->imgexp(jxgranting_user_exp_65());
-	$ctrl_plugin_area = $form_user->ctrldef("plugin_area", "img", "o2multipage2", "", "");
-		$ctrl_plugin_area->x(61);
+	$ctrl_plugin_area = $form_user->ctrldef("plugin_area", "img", "head_bar", "", "");
+		$ctrl_plugin_area->x(112);
 		$ctrl_plugin_area->y(8);
 		$ctrl_plugin_area->larghezza(24);
 		$ctrl_plugin_area->altezza(24);
@@ -358,6 +395,155 @@ function jxgranting_user§§user_form_def($form_user) {
 		$ctrl_plugin_area->label("Assign ASP areas to user");
 		$ctrl_plugin_area->css(jxgranting_user_exp_36());
 		$ctrl_plugin_area->imgexp(jxgranting_user_exp_66());
+	$ctrl_o2image2 = $form_user->ctrldef("o2image2", "img", "head_bar", "", "");
+		$ctrl_o2image2->x(61);
+		$ctrl_o2image2->y(8);
+		$ctrl_o2image2->larghezza(24);
+		$ctrl_o2image2->altezza(24);
+		$ctrl_o2image2->visibile(jxgranting_user_exp_81());
+		$ctrl_o2image2->azione("totp_unset_trusted_dev");
+		$ctrl_o2image2->info_padre(array(0));
+		$ctrl_o2image2->label("Unset all TOTP trusted devices");
+		$ctrl_o2image2->css(jxgranting_user_exp_36());
+		$ctrl_o2image2->imgexp(jxgranting_user_exp_93());
+		$ctrl_o2image2->confirm_message("Unset all user's TOTP trusted devices?");
+	$ctrl_o2image3 = $form_user->ctrldef("o2image3", "img", "head_bar", "", "");
+		$ctrl_o2image3->x(37);
+		$ctrl_o2image3->y(8);
+		$ctrl_o2image3->larghezza(24);
+		$ctrl_o2image3->altezza(24);
+		$ctrl_o2image3->visibile(jxgranting_user_exp_81());
+		$ctrl_o2image3->azione("totp_unregister");
+		$ctrl_o2image3->info_padre(array(0));
+		$ctrl_o2image3->label("Unregister TOTP");
+		$ctrl_o2image3->css(jxgranting_user_exp_36());
+		$ctrl_o2image3->imgexp(jxgranting_user_exp_90());
+		$ctrl_o2image3->confirm_message("Delete all user's TOTP data?");
+	$ctrl_o2image5 = $form_user->ctrldef("o2image5", "img", "head_bar", "", "");
+		$ctrl_o2image5->x(34);
+		$ctrl_o2image5->y(11);
+		$ctrl_o2image5->larghezza(3);
+		$ctrl_o2image5->altezza(17);
+		$ctrl_o2image5->visibile(jxgranting_user_exp_81());
+		$ctrl_o2image5->info_padre(array(0));
+		$ctrl_o2image5->imgexp(jxgranting_user_exp_37());
+	$ctrl_o2label20 = $form_user->ctrldef("o2label20", "label", "o2multipage2", "", "");
+		$ctrl_o2label20->x(10);
+		$ctrl_o2label20->y(40);
+		$ctrl_o2label20->larghezza(100);
+		$ctrl_o2label20->altezza(20);
+		$ctrl_o2label20->info_padre(array(0));
+		$ctrl_o2label20->label("Confirmed:");
+	$ctrl_o2label21 = $form_user->ctrldef("o2label21", "label", "o2multipage2", "", "");
+		$ctrl_o2label21->x(10);
+		$ctrl_o2label21->y(90);
+		$ctrl_o2label21->larghezza(100);
+		$ctrl_o2label21->altezza(20);
+		$ctrl_o2label21->visibile(jxgranting_user_exp_88());
+		$ctrl_o2label21->info_padre(array(0));
+		$ctrl_o2label21->label("Created:");
+	$ctrl_o2label22 = $form_user->ctrldef("o2label22", "label", "o2multipage2", "", "");
+		$ctrl_o2label22->x(10);
+		$ctrl_o2label22->y(115);
+		$ctrl_o2label22->larghezza(100);
+		$ctrl_o2label22->altezza(20);
+		$ctrl_o2label22->visibile(jxgranting_user_exp_88());
+		$ctrl_o2label22->info_padre(array(0));
+		$ctrl_o2label22->label("Last login:");
+	$ctrl_o2label23 = $form_user->ctrldef("o2label23", "label", "o2multipage2", "", "");
+		$ctrl_o2label23->x(10);
+		$ctrl_o2label23->y(140);
+		$ctrl_o2label23->larghezza(100);
+		$ctrl_o2label23->altezza(20);
+		$ctrl_o2label23->visibile(jxgranting_user_exp_88());
+		$ctrl_o2label23->info_padre(array(0));
+		$ctrl_o2label23->label("Last code:");
+	$ctrl_o2label24 = $form_user->ctrldef("o2label24", "label", "o2multipage2", "", "");
+		$ctrl_o2label24->x(10);
+		$ctrl_o2label24->y(165);
+		$ctrl_o2label24->larghezza(100);
+		$ctrl_o2label24->altezza(20);
+		$ctrl_o2label24->visibile(jxgranting_user_exp_87());
+		$ctrl_o2label24->info_padre(array(0));
+		$ctrl_o2label24->label("Loched until:");
+	$ctrl_o2label25 = $form_user->ctrldef("o2label25", "label", "o2multipage2", "", "");
+		$ctrl_o2label25->x(10);
+		$ctrl_o2label25->y(65);
+		$ctrl_o2label25->larghezza(100);
+		$ctrl_o2label25->altezza(20);
+		$ctrl_o2label25->visibile(jxgranting_user_exp_88());
+		$ctrl_o2label25->info_padre(array(0));
+		$ctrl_o2label25->label("Secret:");
+	$ctrl_o2label26 = $form_user->ctrldef("o2label26", "label", "o2multipage2", "", "");
+		$ctrl_o2label26->x(120);
+		$ctrl_o2label26->y(65);
+		$ctrl_o2label26->larghezza(280);
+		$ctrl_o2label26->altezza(20);
+		$ctrl_o2label26->visibile(jxgranting_user_exp_88());
+		$ctrl_o2label26->info_padre(array(0));
+		$ctrl_o2label26->label(jxgranting_user_exp_82());
+	$ctrl_o2label27 = $form_user->ctrldef("o2label27", "label", "o2multipage2", "", "");
+		$ctrl_o2label27->x(120);
+		$ctrl_o2label27->y(90);
+		$ctrl_o2label27->larghezza(280);
+		$ctrl_o2label27->altezza(20);
+		$ctrl_o2label27->visibile(jxgranting_user_exp_88());
+		$ctrl_o2label27->info_padre(array(0));
+		$ctrl_o2label27->label(jxgranting_user_exp_83());
+	$ctrl_o2label28 = $form_user->ctrldef("o2label28", "label", "o2multipage2", "", "");
+		$ctrl_o2label28->x(120);
+		$ctrl_o2label28->y(115);
+		$ctrl_o2label28->larghezza(280);
+		$ctrl_o2label28->altezza(20);
+		$ctrl_o2label28->visibile(jxgranting_user_exp_88());
+		$ctrl_o2label28->info_padre(array(0));
+		$ctrl_o2label28->label(jxgranting_user_exp_84());
+	$ctrl_o2label29 = $form_user->ctrldef("o2label29", "label", "o2multipage2", "", "");
+		$ctrl_o2label29->x(120);
+		$ctrl_o2label29->y(140);
+		$ctrl_o2label29->larghezza(280);
+		$ctrl_o2label29->altezza(20);
+		$ctrl_o2label29->visibile(jxgranting_user_exp_88());
+		$ctrl_o2label29->info_padre(array(0));
+		$ctrl_o2label29->label(jxgranting_user_exp_85());
+	$ctrl_o2label30 = $form_user->ctrldef("o2label30", "label", "o2multipage2", "", "");
+		$ctrl_o2label30->x(120);
+		$ctrl_o2label30->y(165);
+		$ctrl_o2label30->larghezza(280);
+		$ctrl_o2label30->altezza(20);
+		$ctrl_o2label30->visibile(jxgranting_user_exp_87());
+		$ctrl_o2label30->info_padre(array(0));
+		$ctrl_o2label30->label(jxgranting_user_exp_86());
+	$ctrl_o2checkbox7 = $form_user->ctrldef("o2checkbox7", "check", "o2multipage2", "totp_users", "totp_confirmed");
+		$ctrl_o2checkbox7->x(120);
+		$ctrl_o2checkbox7->y(40);
+		$ctrl_o2checkbox7->larghezza(20);
+		$ctrl_o2checkbox7->altezza(20);
+		$ctrl_o2checkbox7->modificabile(jxgranting_user_exp_1());
+		$ctrl_o2checkbox7->info_padre(array(0));
+	$ctrl_o2multipage3 = $form_user->ctrldef("o2multipage3", "multipage", "o2multipage2", "", "");
+		$ctrl_o2multipage3->x(10);
+		$ctrl_o2multipage3->y(200);
+		$ctrl_o2multipage3->larghezza(390);
+		$ctrl_o2multipage3->altezza(120);
+		$ctrl_o2multipage3->info_padre(array(0));
+		$ctrl_o2multipage3->label(array("Trusted devices"));
+		$ctrl_o2multipage3->buttons("T");
+	$ctrl_o2table2 = $form_user->ctrldef("o2table2", "tab", "o2multipage3", "totp_trusted_devices", "");
+		$ctrl_o2table2->x(0);
+		$ctrl_o2table2->y(24);
+		$ctrl_o2table2->larghezza(390);
+		$ctrl_o2table2->altezza(100);
+		$ctrl_o2table2->modificabile(jxgranting_user_exp_1());
+		$ctrl_o2table2->info_padre(array(0));
+		$ctrl_o2table2->css_testa(jxgranting_user_exp_34());
+		$ctrl_o2table2->hide_indicator(jxgranting_user_exp_8());
+	$ctrl_o2edit4 = $form_user->ctrldef("o2edit4", "edit", "o2table2", "totp_trusted_devices", "user_agent");
+		$ctrl_o2edit4->x(0);
+		$ctrl_o2edit4->y(10);
+		$ctrl_o2edit4->larghezza(370);
+		$ctrl_o2edit4->altezza(20);
+		$ctrl_o2edit4->info_padre(array("01", "01", "01"));
 		}
 
 function jxgranting_user§§area_code_select_act($o2exe) {
@@ -425,6 +611,10 @@ function jxgranting_user§§save_act($o2exe) {
 	$o2exe->s(5) && (jxgranting_user_exp_40() || $o2exe->e()) && o2act::exe("user_write", True, "") && $o2exe->e();
 	} //|o2_fine_act|
 
+function jxgranting_user§§size_ctrls_act($o2exe) {
+	$o2exe->s(1) && True && o2act::script(jxgranting_user_exp_80()) && $o2exe->e();
+	} //|o2_fine_act|
+
 function jxgranting_user§§start_act($o2exe) {
 	$o2exe->s(1) && True && o2act::set("prg§_§var", "user_name", jxgranting_user_exp_39()) && $o2exe->e();
 	$o2exe->s(2) && True && o2act::set("prg§_§var", "asp_area", jxgranting_user_exp_50()) && $o2exe->e();
@@ -440,6 +630,16 @@ function jxgranting_user§§start_act($o2exe) {
 	$o2exe->s(12) && True && o2act::set("prg§_§var", "user_mfa", jxgranting_user_exp_75()) && $o2exe->e();
 	$o2exe->s(13) && True && o2act::set("prg§_§var", "user_email", jxgranting_user_exp_76()) && $o2exe->e();
 	$o2exe->s(14) && (jxgranting_user_exp_48() || $o2exe->e()) && o2act::exe("create_new", True, "") && $o2exe->e();
+	$o2exe->s(15) && (jxgranting_user_exp_79() || $o2exe->e()) && o2act::exe("size_ctrls", True, "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_user§§totp_unregister_act($o2exe) {
+	$o2exe->s(1) && True && o2act::exe("totp_unset_trusted_dev", True, "") && $o2exe->e();
+	$o2exe->s(2) && True && o2act::view("totp_users", "C", "") && $o2exe->e();
+	} //|o2_fine_act|
+
+function jxgranting_user§§totp_unset_trusted_dev_act($o2exe) {
+	$o2exe->s(1) && True && o2act::view("totp_trusted_devices", "D", "") && $o2exe->e();
 	} //|o2_fine_act|
 
 function jxgranting_user§§user_exists_act($o2exe) {
@@ -874,5 +1074,84 @@ return (o2val('prg§_§var','user_mfa'));
 function jxgranting_user_exp_78() {
 	
 return (o2val('prg§_§var','user_email'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_79() {
+	
+return (o2val('users','mfa') !== 'T');
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_80() {
+	o2log('lofo');
+o2ctrl_set_width('user', 'head_bar', 460);
+o2ctrl_set_width('user', 'separator', 420);
+o2ctrl_set_x('user', 'btn_cancel', 250);
+o2ctrl_set_x('user', 'btn_save', 350);
+return (true);
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_81() {
+	
+return (o2val('users','mfa') === 'T');
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_82() {
+	
+return (o2val('totp_users','totp_secret'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_83() {
+	
+return ((o2zero('totp_users','created_at') ? '' : date('d-m-Y H:i:s', o2val('totp_users','created_at'))));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_84() {
+	
+return ((o2zero('totp_users','last_totp_login') ? '' : date('d-m-Y H:i:s', o2val('totp_users','last_totp_login'))));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_85() {
+	
+return (o2val('totp_users','last_totp_code'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_86() {
+	
+return ((o2zero('totp_users','otp_locked_until') ? '' : date('d-m-Y H:i:s', o2val('totp_users','otp_locked_until'))));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_87() {
+	
+return (!o2zero('totp_users','otp_locked_until'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_88() {
+	
+return (o2val('totp_users','totp_confirmed'));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_89() {
+	
+return (o2exp(63) || o2exp(64));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_90() {
+	
+return ('<jx>/img/grant/otp_no'.(o2view_rec("totp_users") ? '' : '_dis').'.png');
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_91() {
+	
+return ((o2val('users','mfa') === 'T' ? 900 : 460));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_92() {
+	
+return ((o2val('users','mfa') === 'T' ? 410 : 0));
+	} //|o2_fine_exp|
+
+function jxgranting_user_exp_93() {
+	
+return ('<jx>/img/grant/unset_trusted_dev'.(o2view_rec("totp_trusted_devices") ? '' : '_dis').'.png');
 	} //|o2_fine_exp|
 ?>
