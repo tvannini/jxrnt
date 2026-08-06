@@ -1237,7 +1237,7 @@ class o2_app {
                                        false,
                                        10000);
         // ______________________________________ Get list of sessions created by jobs ___
-        $job_sess = array();
+        $jobs_sess = array();
         foreach ($recs as $rec) {
             $jobs_sess[] = $rec['SID'];
             }
