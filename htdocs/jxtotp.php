@@ -186,22 +186,23 @@ function process_app($app_main_path) {
                      ($app_ini['tables'] ? $app_ini['tables'] : 'file_repository.inc');
         // ______________________________ Create a pseudo object for Janox application ___
         if (!isset($_SESSION['o2_app'])) {
-            $_SESSION['o2_app']               = new stdClass();
-            $_SESSION['o2_app']->nome         = $app_name;
-            $_SESSION['o2_app']->referer      = $GLOBALS['app_main_url'];
-            $_SESSION['o2_app']->alias        = dirname($_SESSION['o2_app']->referer);
-            $_SESSION['o2_app']->request_ori  = $_REQUEST;
-            $_SESSION['o2_app']->chr_encoding = $app_ini['encoding'] ?? 'UTF-8';
-            $_SESSION['o2_app']->dir_data     = $app_dir.DIRECTORY_SEPARATOR.'data'.
-                                                DIRECTORY_SEPARATOR;
-            $_SESSION['o2_app']->error_mode   = 'EXE';
+            $app               = new stdClass();
+            $app->nome         = $app_name;
+            $app->title        = $app_ini['title'] ?? $app_name;
+            $app->referer      = $GLOBALS['app_main_url'];
+            $app->alias        = dirname($_SESSION['o2_app']->referer);
+            $app->request_ori  = $_REQUEST;
+            $app->chr_encoding = $app_ini['encoding'] ?? 'UTF-8';
+            $app->dir_data     = $app_dir.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+            $app->error_mode   = 'EXE';
             if (isset($app_ini['nologin']) && $app_ini['nologin']) {
                 $nologin = $app_ini['nologin'];
                 if (strpos($nologin, 'http') === false) {
-                    $nologin  = $_SESSION['o2_app']->alias.'/'.$nologin;
+                    $nologin  = $app->alias.'/'.$nologin;
                     }
-                $_SESSION['o2_app']->no_login = $nologin;
+                $app->no_login = $nologin;
                 }
+            $_SESSION['o2_app'] = $app;
             // ______________________________________ Load application servers and dbs ___
             require_once $app_dbs;
             }

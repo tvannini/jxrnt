@@ -61,7 +61,14 @@ if ($setupData === null) {
     die('Setup già completato.');
 }
 
-$totpUri   = Totp::getUri($setupData['secret'], $setupData['username'], 'JXTOTP');
+if (isset($_SESSION['o2_app'])) {
+    $label = h($_SESSION['o2_app']->title ?? 'Janox TOTP');
+    }
+else {
+    $label = 'Janox TOTP';
+    }
+
+$totpUri   = Totp::getUri($setupData['secret'], $setupData['username'], $label);
 $qrPng     = QrCode::generate($totpUri, 6, 4);
 $qrDataUri = 'data:image/png;base64,' . base64_encode($qrPng);
 
