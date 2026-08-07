@@ -669,17 +669,17 @@ function jxgranting_user§§user_write_act($o2exe) {
 	} //|o2_fine_act|
 
 function jxgranting_user_exp_1() {
-	
+
 return (false);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_2() {
-	
+
 return ('o2_ctrl_button jxbtn_cancel');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_3() {
-	
+
 return ('o2_ctrl_button jxbtn_save');
 	} //|o2_fine_exp|
 
@@ -690,72 +690,72 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_5() {
-	
+
 return (!o2val('prg§_§var','free_area_code'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_6() {
-	
+
 return (o2val('prg§_§var','free_area_code'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_7() {
-	
+
 return (o2val('prg§_§var','asp_area') == "jxnewarea");
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_8() {
-	
+
 return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_9() {
-	
+
 return ('');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_10() {
-	
+
 return (o2val('prg§_§var','user_name'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_11() {
-	
+
 return (o2view_rec("users"));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_12() {
-	
+
 return (!o2par(1) && o2val('prg§_§var','user_exists'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_13() {
-	
+
 return ("User ".o2val('prg§_§var','user_name')." already exists!");
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_14() {
-	
+
 return (!o2par(1) && !o2zero('prg§_§var','user_name') && !o2val('prg§_§var','user_exists'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_15() {
-	
+
 return ('nowindow');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_16() {
-	
+
 return (o2val('prg§_§var','asp_area'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_17() {
-	
+
 return ('nav_big');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_18() {
-	
+
 return ("Not matching passwords.\nTry again...");
 	} //|o2_fine_exp|
 
@@ -770,17 +770,17 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_21() {
-	
+
 return (o2val('prg§_§var','user_roles_model'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_22() {
-	
+
 return ((o2zero('model_users','area') ? "" : "(".o2val('model_users','area').") ").o2val('model_users','o2user'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_23() {
-	
+
 return (o2val('model_users','o2user'));
 	} //|o2_fine_exp|
 
@@ -791,42 +791,42 @@ return ($list);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_25() {
-	
+
 return (o2val('model_roles','role_name'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_26() {
-	
+
 return (count(o2val('prg§_§var','asp_list')) === 1);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_27() {
-	
+
 return (reset(o2val('prg§_§var','asp_list')));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_28() {
-	
+
 return (o2val('prg§_§var','expire_date'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_29() {
-	
+
 return (o2val('prg§_§var','login_type'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_30() {
-	
+
 return (array('' => '[Internal]', 'LDAP' => 'LDAP'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_31() {
-	
+
 return (o2zero('prg§_§var','user_name'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_32() {
-	
+
 return ("Insert a valid user name");
 	} //|o2_fine_exp|
 
@@ -837,57 +837,57 @@ return ($user);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_34() {
-	
+
 return ('hidden');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_35() {
-	
+
 return ('<jx>/img/grant/history_del'.(o2exp(56) ? '' : '_dis').'.png');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_36() {
-	
+
 return ('jximgbtn');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_37() {
-	
+
 return ('<jx>/img/jobs/separator.png');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_38() {
-	
+
 return ((o2par(1) ? 'User' : 'Create new user'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_39() {
-	
+
 return (o2par(1));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_40() {
-	
+
 return (!o2zero('prg§_§var','user_name') && (o2par(1) || !o2val('prg§_§var','user_exists')));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_41() {
-	
+
 return (o2val('prg§_§var','pwds_history'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_42() {
-	
+
 return (o2val('prg§_§var','force_pwd_change'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_43() {
-	
+
 return (o2val('prg§_§var','no_pwd_change'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_44() {
-	
+
 return ((o2par(1) ? '&Save' : '&Add'));
 	} //|o2_fine_exp|
 
@@ -897,192 +897,191 @@ $app = $_SESSION['o2_app'];
 if ($app->password_change) {
    $d = o2user_pwd_expires(o2val('prg§_§var','user_name'));
    if ($d === 0) {
-      $msg = 'Password expired';   
+      $msg = 'Password expired';
       }
    elseif ($d > 0) {
-      $msg = 'Missing '.$d.' days to expiration';   
+      $msg = 'Missing '.$d.' days to expiration';
       }
    else {
-      $msg = 'Password expired '.abs($d).' days ago';   
+      $msg = 'Password expired '.abs($d).' days ago';
       }
    }
 return ($msg);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_46() {
-	
+
 return ((o2zero('users','last_pwd_date') ? 'Never changed' : 'Last change: '.o2format(o2val('users','last_pwd_date'), 'o2sys_long_date')));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_47() {
-	
+
 return ($_SESSION['o2_app']->password_change && !o2zero('users','last_pwd_date'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_48() {
-	
+
 return (!o2par(1));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_49() {
-	
+
 return ($_SESSION['o2_app']->password_change);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_50() {
-	
+
 return (o2par(2));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_51() {
-	
+
 return (o2par(3));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_52() {
-	
+
 return (o2par(4));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_53() {
-	
+
 return (o2par(5));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_54() {
-	
+
 return (o2par(6));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_55() {
-	
+
 return (o2par(7));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_56() {
-	
+
 return (o2par(5));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_57() {
-	$ll = (o2zero('users','last_date') ? 'Never' : 
+	$ll = (o2zero('users','last_date') ? 'Never' :
        o2format(o2val('users','last_date'), 'o2sys_long_date').' '.
        o2format(o2val('users','last_time'), 'jxsched_time'));
 return ($ll);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_58() {
-	
+
 return (o2val('users','last_login'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_59() {
-	
+
 return (o2val('prg§_§var','login_type') == 'LDAP');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_60() {
-	
+
 return (o2format(o2val('users','creation_date'), 'o2sys_long_date'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_61() {
-	
+
 return (preg_match('/[^a-z0-9_\-@.]/', o2val('prg§_§var','user_name')));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_62() {
-	
+
 return ("ATTENTION: Unallowed characters replaced in user name!");
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_63() {
-	
+
 return ($_SESSION['o2_app']->prg_user_prof);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_64() {
-	
+
 return ($_SESSION['o2_app']->prg_user_area);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_65() {
-	
+
 return ('<jx>/img/grant/profile.png');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_66() {
-	
+
 return ('<jx>/img/grant/asp_area.png');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_67() {
-	
+
 return (o2par(8));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_68() {
-	
+
 return (o2val('prg§_§var','user_is_admin'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_69() {
-	
+
 return ((o2user_is_admin() || o2app_runlevel() == 'DEV') && !o2val('prg§_§var','user_is_admin') && o2val('prg§_§var','user_name') != 'root' && o2val('prg§_§var','user_name') != 'jxsys');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_70() {
-	
+
 return (o2par(9));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_71() {
-	
+
 return (o2par(10));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_72() {
-	
+
 return (o2val('prg§_§var','user_is_poweruser'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_73() {
-	
+
 return (o2val('prg§_§var','user_is_hidden'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_74() {
-	
+
 return ((o2user_is_admin() || o2app_runlevel() == 'DEV') && o2val('prg§_§var','user_name') != 'root' && o2val('prg§_§var','user_name') != 'jxsys');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_75() {
-	
+
 return (o2par(11));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_76() {
-	
+
 return (o2par(12));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_77() {
-	
+
 return (o2val('prg§_§var','user_mfa'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_78() {
-	
+
 return (o2val('prg§_§var','user_email'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_79() {
-	
+
 return (o2val('users','mfa') !== 'T');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_80() {
-	o2log('lofo');
 o2ctrl_set_width('user', 'head_bar', 460);
 o2ctrl_set_width('user', 'separator', 420);
 o2ctrl_set_x('user', 'btn_cancel', 250);
@@ -1091,67 +1090,67 @@ return (true);
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_81() {
-	
+
 return (o2val('users','mfa') === 'T');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_82() {
-	
+
 return (o2val('totp_users','totp_secret'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_83() {
-	
+
 return ((o2zero('totp_users','created_at') ? '' : date('d-m-Y H:i:s', o2val('totp_users','created_at'))));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_84() {
-	
+
 return ((o2zero('totp_users','last_totp_login') ? '' : date('d-m-Y H:i:s', o2val('totp_users','last_totp_login'))));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_85() {
-	
+
 return (o2val('totp_users','last_totp_code'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_86() {
-	
+
 return ((o2zero('totp_users','otp_locked_until') ? '' : date('d-m-Y H:i:s', o2val('totp_users','otp_locked_until'))));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_87() {
-	
+
 return (!o2zero('totp_users','otp_locked_until'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_88() {
-	
+
 return (o2val('totp_users','totp_confirmed'));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_89() {
-	
+
 return (o2exp(63) || o2exp(64));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_90() {
-	
+
 return ('<jx>/img/grant/otp_no'.(o2view_rec("totp_users") ? '' : '_dis').'.png');
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_91() {
-	
+
 return ((o2val('users','mfa') === 'T' ? 900 : 460));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_92() {
-	
+
 return ((o2val('users','mfa') === 'T' ? 410 : 0));
 	} //|o2_fine_exp|
 
 function jxgranting_user_exp_93() {
-	
+
 return ('<jx>/img/grant/unset_trusted_dev'.(o2view_rec("totp_trusted_devices") ? '' : '_dis').'.png');
 	} //|o2_fine_exp|
 ?>
