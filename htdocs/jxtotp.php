@@ -190,7 +190,7 @@ function process_app($app_main_path) {
             $app->nome         = $app_name;
             $app->title        = $app_ini['title'] ?? $app_name;
             $app->referer      = $GLOBALS['app_main_url'];
-            $app->alias        = dirname($_SESSION['o2_app']->referer);
+            $app->alias        = dirname($app->referer).'/';
             $app->request_ori  = $_REQUEST;
             $app->chr_encoding = $app_ini['encoding'] ?? 'UTF-8';
             $app->dir_data     = $app_dir.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -198,7 +198,7 @@ function process_app($app_main_path) {
             if (isset($app_ini['nologin']) && $app_ini['nologin']) {
                 $nologin = $app_ini['nologin'];
                 if (strpos($nologin, 'http') === false) {
-                    $nologin  = $app->alias.'/'.$nologin;
+                    $nologin  = $app->alias.$nologin;
                     }
                 $app->no_login = $nologin;
                 }
