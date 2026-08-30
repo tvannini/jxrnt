@@ -3751,9 +3751,6 @@ o2jse.tab.orderCol = function(imgTag, mode, colCtrl) {
             imgTag.style.display = 'none';
             tds = tr.previousSibling.getElementsByTagName('td');
             tds[1].firstChild.firstChild.style.display = 'block';
-            o2jse.tab.orderList[colCtrl] = tr.previousSibling.dataset.col;
-            tr.dataset.col = tr.previousSibling.dataset.col;
-
             }
         // __________________________________________________________ Last row goes up ___
         else if (idx == rows) {
@@ -3761,11 +3758,11 @@ o2jse.tab.orderCol = function(imgTag, mode, colCtrl) {
             tds[2].firstChild.firstChild.style.display = 'block';
             tds = tr.previousSibling.getElementsByTagName('td');
             tds[2].firstChild.firstChild.style.display = 'none';
-            o2jse.tab.orderList[colCtrl] = tr.previousSibling.previousSibling.dataset.col;
-            tr.dataset.col = tr.previousSibling.previousSibling.dataset.col;
             }
         tr.previousSibling.dataset.col = colSave;
         tr.parentNode.insertBefore(tr, tr.previousSibling);
+        o2jse.tab.orderList[colCtrl] = colSave;
+        tr.dataset.col = tr.previousSibling.dataset.col;
         }
     // _____________________________________________________________________ Move down ___
     else {
@@ -3782,10 +3779,10 @@ o2jse.tab.orderCol = function(imgTag, mode, colCtrl) {
             tds = tr.nextSibling.getElementsByTagName('td');
             tds[2].firstChild.firstChild.style.display = 'block';
             }
-        tr.parentNode.insertBefore(tr.nextSibling, tr);
-        o2jse.tab.orderList[colCtrl] = tr.nextSibling.dataset.col;
-        tr.dataset.col = tr.nextSibling.dataset.col;
+        o2jse.tab.orderList[colCtrl] = parseInt(tr.nextSibling.dataset.col) + 1;
         tr.nextSibling.dataset.col = colSave;
+        tr.parentNode.insertBefore(tr.nextSibling, tr);
+        tr.dataset.col = tr.nextSibling.dataset.col;
         }
 
     };

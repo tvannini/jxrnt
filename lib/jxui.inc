@@ -5644,9 +5644,12 @@ class o2_ctrl_tab extends o2_ctrl {
         $prg    = $app->istanze_prg[$app->progressivo_istanze];
         $form   = $prg->form[$this->form];
         $save   = $app->option_get("tab_settings_save") === "1";
+        $rm     = ($this->row_marker ? 1 : 0);
         eval("\$order_list=".$order_list.";");
         // _______________________________________ Local persistance and column moving ___
         foreach ($order_list as $ctrl => $pos) {
+            // ______________________________ Correct position if RowMarker is visible ___
+            $pos = $pos - $rm;
             // __________________________________ Get moved column actual column order ___
             $col_index = 0;
             foreach ($form->controlli as $ctrl_obj) {
