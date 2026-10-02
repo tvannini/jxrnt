@@ -312,9 +312,19 @@ function app_check_user($tabs_code) {
         error_send('Sorry, you are not allowed.');
         }
     $res = array_change_key_case($res[0]);
-    // ___________________________________ Check if user is anabled for TOTP-MFA login ___
+    // ___________________________________ Check if user is enabled for TOTP-MFA login ___
     if (!isset($res['mfa']) || $res['mfa'] != 'T') {
-        // __________________________________ A standard login to application is fired ___
+        // ________________________________________________ Redirect to standard login ___
+        app_login();
+        }
+    // __________________________________________________ Manage Force Password Change ___
+    elseif (isset($res['force_pwd_change']) && $res['force_pwd_change']) {
+        // ________________________________________________ Redirect to standard login ___
+        app_login();
+        }
+    // _______________________________________________________ Manage old MD5 Password ___
+    elseif (isset($res['o2password']) && strlen($res['o2password']) == 32) {
+        // ________________________________________________ Redirect to standard login ___
         app_login();
         }
     // ____________________________ Verify user standard credentials (user & password) ___
