@@ -8640,7 +8640,7 @@ class o2act {
         elseif ($media === 3) {
             $app  = $_SESSION['o2_app'];
             $text = str_replace(array("\r\n", "\r", "\n"), '<br>',
-                    htmlentities($text, ENT_QUOTES, $app->chr_encoding));
+                    htmlentities(jx_encode($text), ENT_QUOTES, $app->chr_encoding));
             return $app->istanze_prg[$app->progressivo_istanze]->report_msg[] = $text;
             return true;
             }
