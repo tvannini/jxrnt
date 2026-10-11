@@ -8709,6 +8709,17 @@ class o2_inspector {
                 $field_max    = (strpos($parts[6][$i], '_exp_') !== false);
                 $field_not    = (strpos($parts[7][$i], '_exp_') !== false);
                 $field_like   = (strpos($parts[8][$i], '_exp_') !== false);
+                // ____________________________ Expression numbers (false if not set) ___
+                $exp_nums     = array();
+                foreach (array('min' => 5,
+                               'max' => 6,
+                               'not' => 7,
+                               'like' => 8) as $range => $idx) {
+                    $exp_nums[$range] = (preg_match('/_exp_(\d+)\(\)/',
+                                                    $parts[$idx][$i],
+                                                    $exp_match) ?
+                                                    (int)$exp_match[1] : false);
+                    }
                 if (!isset($ret[$tab_view])) {
                     $ret[$tab_view] = array();
                     }
@@ -8719,7 +8730,11 @@ class o2_inspector {
                                'min'   => $field_min,
                                'max'   => $field_max,
                                'not'   => $field_not,
-                               'like'  => $field_like);
+                               'like'  => $field_like,
+                               'min_exp'  => $exp_nums['min'],
+                               'max_exp'  => $exp_nums['max'],
+                               'not_exp'  => $exp_nums['not'],
+                               'like_exp' => $exp_nums['like']);
                 $ret[$tab_view][$tab_alias][$field_name] = $field;
                 }
             }
@@ -8729,7 +8744,57 @@ class o2_inspector {
 
 
     /**
-     * Reads all aggragates defined in program views and returns a list in the form:
+     * Reads all link criteria in program and returns a list in the form:
+     *
+     * (view =>
+     *    (tab_alias =>
+     *       (field_name =>
+     *          (min:  number of MIN expression, else FALSE,
+     *           max:  number of MAX expression, else FALSE,
+     *           not:  number of NOT expression, else FALSE,
+     *           like: number of LIKE expression, else FALSE))))
+     *
+     * @param  string $prf_code
+     * @return array
+     */
+    static function get_prg_links($prf_code) {
+
+        $parts = array();
+        $res   = preg_match_all('/\$task_(\w*)\-\>unisci\("[^"]*","(\w*)","(\w*)",'.
+                                '([^,]*),([^,]*),([^,]*),([^;]*)\);/',
+                                $prf_code, $parts);
+        $ret   = array();
+        if ($res) {
+            for ($i = 0; $i < $res; $i++) {
+                $tab_view   = $parts[1][$i];
+                $tab_alias  = $parts[2][$i];
+                $field_name = $parts[3][$i];
+                $field      = array();
+                foreach (array('min'  => 4,
+                               'max'  => 5,
+                               'not'  => 6,
+                               'like' => 7) as $key => $idx) {
+                    $field[$key] = (preg_match('/_exp_(\d+)\(\)/',
+                                               $parts[$idx][$i],
+                                               $exp_match) ?
+                                    (int)$exp_match[1] : false);
+                    }
+                if (!isset($ret[$tab_view])) {
+                    $ret[$tab_view] = array();
+                    }
+                if (!isset($ret[$tab_view][$tab_alias])) {
+                    $ret[$tab_view][$tab_alias] = array();
+                    }
+                $ret[$tab_view][$tab_alias][$field_name] = $field;
+                }
+            }
+        return $ret;
+
+        }
+
+
+    /**
+     * Reads all aggregates defined in program views and returns a list in the form:
      *
      * (view =>
      *    (field_name =>
